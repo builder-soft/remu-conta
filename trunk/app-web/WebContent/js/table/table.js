@@ -30,8 +30,8 @@ function deleteRecords(){
 	
 	var elementoString = elements.size() == 1 ? ' elemento' : ' elementos';
 	if(confirm('¿Esta seguro de querer borrar ' + elements.size() + elementoString + '?')){
-		
+		$('#frm').submit();		
 	}
 	
-	$('#frm').submit();
+
 }
