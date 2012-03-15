@@ -23,46 +23,46 @@
 <h1 class="cTitle">
 	<%=table.getTitle()%>
 </h1>
+<form method="post" action="${pageContext.request.contextPath}/admin/DeleteRecords" id='frm'>
+	<table class="cList" cellpadding="0" cellspacing="0">
+		<%
+			BSField[] fields = table.getFields();
+			String name = null;
+			String pkName = null;
 
-<table class="cList" cellpadding="0" cellspacing="0">
-	<%
-		BSField[] fields = table.getFields();
-		String name = null;
-		String pkName = null;
+			Boolean canEdit = table.isCanEdit();
+			Boolean canDelete = table.isCanDelete();
+			int rowCount = 0;
+			Object[] values = null;
+			out.println("<tr>");
 
-		Boolean canEdit = table.isCanEdit();
-		Boolean canDelete = table.isCanDelete();
-		int rowCount = 0;
-		Object[] values = null;
-		out.println("<tr>");
-
-		if (canDelete) {
-			out.print("<td  align='center' class='cHeadTD'><input id='mainCheck' type='CHECKBOX' onclick='javascript:swapCheck(this);'></td>");
-		}
-		for (BSField field : fields) {
-
-			if (field.isVisible()) {
-				out.println("<td class='cHeadTD'>" + field.getLabel()
-						+ "</td>");
+			if (canDelete) {
+				out.print("<td  align='center' class='cHeadTD'><input id='mainCheck' type='CHECKBOX' onclick='javascript:swapCheck(this);'></td>");
 			}
-			if (field.isPk()) {
-				pkName = field.getName();
+			for (BSField field : fields) {
+
+				if (field.isVisible()) {
+					out.println("<td class='cHeadTD'>" + field.getLabel()
+							+ "</td>");
+				}
+				if (field.isPk()) {
+					pkName = field.getName();
+				}
 			}
-		}
-		out.println("</tr>");
+			out.println("</tr>");
 
-		while (rs.next()) {
-			values = values2Array(rs, pkName, fields);
+			while (rs.next()) {
+				values = values2Array(rs, pkName, fields);
 
-			out.print(writeValues(values, fields, rowCount, canEdit,
-					ctxPath, request, canDelete));
-			rowCount++;
-		}
+				out.print(writeValues(values, fields, rowCount, canEdit,
+						ctxPath, request, canDelete));
+				rowCount++;
+			}
 
-		rs.close();
-	%>
-</table>
-
+			rs.close();
+		%>
+	</table>
+</form>
 <%
 	out.print("<br>");
 	if (table.isCanInsert()) {
