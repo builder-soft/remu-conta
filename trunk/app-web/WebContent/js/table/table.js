@@ -24,5 +24,14 @@ function swap(i, o) {
 }
 
 function deleteRecords(){
-	alert(1);
+	var elements = $("input:checked");
+	var mainChecked = $('#mainCheck').prop("checked");
+	var count = elements.size();
+	
+	var elementoString = elements.size() == 1 ? ' elemento' : ' elementos';
+	if(confirm('¿Esta seguro de querer borrar ' + elements.size() + elementoString + '?')){
+		
+	}
+	
+	$('#frm').submit();
 }
