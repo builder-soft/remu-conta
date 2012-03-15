@@ -89,7 +89,7 @@
 		if (canDelete) {
 			out += "<td align='center' class='"
 					+ color
-					+ "'><input type='CHECKBOX' onclick='javascript:verifyDeleteButton();' name='id' value='"
+					+ "'><input type='CHECKBOX' onclick='javascript:verifyDeleteButton();' name='cId' value='"
 					+ values[0] + "'></td>";
 		}
 
