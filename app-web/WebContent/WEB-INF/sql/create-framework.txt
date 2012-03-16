@@ -89,16 +89,16 @@ INSERT INTO tR_UserRol(cUser, cRol) VALUES(@userId, @rolId);
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ADMIN', 'Administracion', NULL, NULL);
 SET @menuId1 = LAST_INSERT_ID();
 
-INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('USER', 'Usuarios', '/admin/UserManager', @menuId1);
+INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('USER', 'Usuarios', '/servlet/admin/UserManager', @menuId1);
 SET @menuId2 = LAST_INSERT_ID();
-INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ROL', 'Roles', '/admin/RolManager', @menuId1);
+INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ROL', 'Roles', '/servlet/admin/RolManager', @menuId1);
 SET @menuId3 = LAST_INSERT_ID();
-INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ACCESS', 'Accesos', '/admin/Access', @menuId1);
+INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ACCESS', 'Accesos', '/servlet/admin/Access', @menuId1);
 SET @menuId4 = LAST_INSERT_ID();
-INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CH_PASS', 'Cambio de clave', '/admin/ChangePassword', @menuId1);
+INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CH_PASS', 'Cambio de clave', '/servlet/admin/ChangePassword', @menuId1);
 SET @menuId5 = LAST_INSERT_ID();
 
-INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PERSON', 'Personas', '/admin/PersonManager', @menuId1);
+INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PERSON', 'Personas', '/servlet/admin/PersonManager', @menuId1);
 SET @menuId6 = LAST_INSERT_ID();
 
 INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, @menuId1);

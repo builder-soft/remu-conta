@@ -16,7 +16,7 @@ import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSWeb;
 
-@WebServlet("/admin/UpdateRecord")
+@WebServlet("/servlet/table/UpdateRecord")
 public class UpdateRecord extends AbstractServletUtil {
 	private static final long serialVersionUID = 1L;
 
@@ -60,7 +60,7 @@ public class UpdateRecord extends AbstractServletUtil {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		request.getRequestDispatcher("/admin/LoadTable").forward(request,
+		request.getRequestDispatcher("/servlet/table/LoadTable").forward(request,
 				response);
 	}
 

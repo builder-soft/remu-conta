@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.BSTableConfig;
 
-@WebServlet("/admin/NewRecord")
+@WebServlet("/servlet/table/NewRecord")
 public class NewRecord extends AbstractServletUtil {
 	private static final long serialVersionUID = 1L;
 

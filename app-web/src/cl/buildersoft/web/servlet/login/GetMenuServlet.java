@@ -19,7 +19,7 @@ import cl.buildersoft.framework.util.BSDataUtils;
 /**
  * Servlet implementation class GetMenu
  */
-@WebServlet(urlPatterns = "/login/GetMenuServlet")
+@WebServlet(urlPatterns = "/servlet/login/GetMenuServlet")
 public class GetMenuServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
