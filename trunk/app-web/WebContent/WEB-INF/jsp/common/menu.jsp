@@ -42,14 +42,12 @@
 			out += "href=\"" + url + "\">";
 			endTag = "</a>";
 		} else {
-//			out += "<span class='cData'>";
-//			endTag = "</span>";
 			out += "<a>";
 			endTag = "</a>";
 		}
 
 		out += label + endTag + "</li>";
-		//		<li><a href="/app-web/admin/UserManagerUsuarios"</a></li>
+	 
 		return out;
 	}%>
 

@@ -8,7 +8,7 @@ import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.web.servlet.BSHttpServlet;
 
  
-@WebServlet("/admin/PersonManager")
+@WebServlet("/servlet/admin/PersonManager")
 public class PersonManager extends BSHttpServlet implements Servlet {
 	private static final long serialVersionUID = 1L;
 

@@ -27,7 +27,7 @@
 	}
 %>
 
-<form action="${pageContext.request.contextPath}/admin/<%=nextServlet%>"
+<form action="${pageContext.request.contextPath}/servlet/table/<%=nextServlet%>"
 	method="post" id="editForm">
 	<table>
 		<%
@@ -45,7 +45,7 @@
 <input type="button" value="Aceptar"
 	onclick="javascript:$('#editForm').submit();">
 &nbsp;&nbsp;&nbsp;
-<a href="${pageContext.request.contextPath}/admin/LoadTable">Cancelar</a>
+<a href="${pageContext.request.contextPath}/servlet/table/LoadTable">Cancelar</a>
 
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

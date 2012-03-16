@@ -1,13 +1,6 @@
 package cl.buildersoft.web.servlet.admin;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.BSTableConfig;
@@ -16,7 +9,7 @@ import cl.buildersoft.web.servlet.BSHttpServlet;
 /**
  * Servlet implementation class UserManager
  */
-@WebServlet("/admin/UserManager")
+@WebServlet("/servlet/admin/UserManager")
 public class UserManager extends BSHttpServlet {
 	private static final long serialVersionUID = 1L;
 

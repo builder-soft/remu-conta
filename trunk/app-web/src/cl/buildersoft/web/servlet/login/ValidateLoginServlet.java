@@ -66,8 +66,7 @@ public class ValidateLoginServlet extends HttpServlet {
 				session.setAttribute("User", user);
 				session.setAttribute("Rol", rol);
 			}
-			// page = "/WEB-INF/jsp/home/index.jsp";
-			page = "/login/GetMenuServlet";
+			page = "/servlet/login/GetMenuServlet";
 		} else {
 			page = "/WEB-INF/jsp/login/not-found.jsp";
 		}

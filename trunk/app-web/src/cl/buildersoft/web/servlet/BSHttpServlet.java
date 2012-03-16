@@ -29,7 +29,7 @@ public abstract class BSHttpServlet extends HttpServlet {
 			session.setAttribute("BSTable", table);
 		}
 
-		request.getRequestDispatcher("/admin/LoadTable").forward(request,
+		request.getRequestDispatcher("/servlet/table/LoadTable").forward(request,
 				response);
 	}
 

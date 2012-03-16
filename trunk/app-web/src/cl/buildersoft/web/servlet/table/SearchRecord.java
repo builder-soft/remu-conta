@@ -17,7 +17,7 @@ import cl.buildersoft.framework.database.BSmySQL;
 /**
  * Servlet implementation class EditRecord
  */
-@WebServlet("/admin/SearchRecord")
+@WebServlet("/servlet/table/SearchRecord")
 public class SearchRecord extends AbstractServletUtil {
 
 	private static final long serialVersionUID = -5785656616097922095L;

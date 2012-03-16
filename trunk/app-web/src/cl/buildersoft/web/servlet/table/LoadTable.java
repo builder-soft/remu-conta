@@ -19,7 +19,7 @@ import cl.buildersoft.framework.util.BSType;
 /**
  * Servlet implementation class LoadTable
  */
-@WebServlet("/admin/LoadTable")
+@WebServlet("/servlet/table/LoadTable")
 public class LoadTable extends AbstractServletUtil {
 	private static final long serialVersionUID = 1L;
 

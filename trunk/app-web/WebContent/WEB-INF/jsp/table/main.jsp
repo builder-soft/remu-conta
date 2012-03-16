@@ -23,7 +23,7 @@
 <h1 class="cTitle">
 	<%=table.getTitle()%>
 </h1>
-<form method="post" action="${pageContext.request.contextPath}/admin/DeleteRecords" id='frm'>
+<form method="post" action="${pageContext.request.contextPath}/servlet/table/DeleteRecords" id='frm'>
 	<table class="cList" cellpadding="0" cellspacing="0">
 		<%
 			BSField[] fields = table.getFields();
@@ -67,7 +67,7 @@
 	out.print("<br>");
 	if (table.isCanInsert()) {
 		out.print("<input type='button' value='Nuevo...' onclick=\"javascript:window.location.href='"
-				+ ctxPath + "/admin/NewRecord'\">");
+				+ ctxPath + "/servlet/table/NewRecord'\">");
 	}
 	if (table.isCanDelete()) {
 		out.print("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id='deleteButton' disabled type='button' value='Borrar' onclick='javascript:deleteRecords();'>");
@@ -100,7 +100,7 @@
 				out += "<td class='" + color + "'>";
 
 				if (canEdit) {
-					out += "<a href='" + ctxPath + "/admin/SearchRecord?cId="
+					out += "<a href='" + ctxPath + "/servlet/table/SearchRecord?cId="
 							+ values[0] + "'>";
 				}
 				if (field.getType().equals(BSType.Boolean)) {
@@ -155,7 +155,6 @@
 				out[i++] = value;
 			}
 
-			//			i++;
 		}
 		return out;
 	}%>

@@ -17,6 +17,7 @@
 
 	}
 </script>
+XXXXXXXXXXXXXXXXXXXXXXXXXX
 <form action="${pageContext.request.contextPath}/admin/InsertRecord"
 	method="post" id="editForm">
 	<table>

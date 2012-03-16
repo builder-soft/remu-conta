@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
 
-@WebServlet("/admin/DeleteRecords")
+@WebServlet("/servlet/table/DeleteRecords")
 public class DeleteRecords extends AbstractServletUtil {
 
 	private static final long serialVersionUID = -2340853411641380529L;
@@ -54,21 +54,8 @@ public class DeleteRecords extends AbstractServletUtil {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
-		//
-		//
-		// ResultSet rs = mySQL.queryResultSet(conn, sql, array2List(id));
-		// resultset2Table(rs, table);
-		//
-		// request.setAttribute("Data", rs);
-		// } catch (Exception e) {
-		// throw new RuntimeException(e);
-		// }
-		// request.setAttribute("Action", "Update");
-
-		// request.getRequestDispatcher("/ShowParameters").forward(request,
-		// response);
-		request.getRequestDispatcher("/admin/LoadTable").forward(request,
+ 
+		request.getRequestDispatcher("/servlet/table/LoadTable").forward(request,
 				response);
 	}
 
