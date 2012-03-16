@@ -8,7 +8,6 @@
 <%@page import="java.sql.ResultSet"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-
 <%
 	ResultSet rs = (ResultSet) request.getAttribute("Data");
 	BSTableConfig table = (BSTableConfig) session
@@ -23,7 +22,9 @@
 <h1 class="cTitle">
 	<%=table.getTitle()%>
 </h1>
-<form method="post" action="${pageContext.request.contextPath}/servlet/table/DeleteRecords" id='frm'>
+<form method="post"
+	action="${pageContext.request.contextPath}/servlet/table/DeleteRecords"
+	id='frm'>
 	<table class="cList" cellpadding="0" cellspacing="0">
 		<%
 			BSField[] fields = table.getFields();
@@ -42,8 +43,21 @@
 			for (BSField field : fields) {
 
 				if (field.isVisible()) {
-					out.println("<td class='cHeadTD'>" + field.getLabel()
-							+ "</td>");
+					out.print("<td class='cHeadTD'");
+
+					if (field.getType().equals(BSType.Date)
+							|| field.getType().equals(BSType.Datetime)
+							|| field.getType().equals(BSType.Boolean)) {
+						out.print(" align='center' ");
+					}
+
+					if (field.getType().equals(BSType.Double)
+							|| field.getType().equals(BSType.Integer)
+							|| field.getType().equals(BSType.Long)) {
+						out.print(" align='right' ");
+					}
+
+					out.print(">" + field.getLabel() + "</td>");
 				}
 				if (field.isPk()) {
 					pkName = field.getName();
@@ -83,7 +97,7 @@
 		String out = "<tr>";
 		Object value = null;
 		int i = 1;
-
+		BSType type = null;
 		String color = rowCount % 2 != 0 ? "cDataTD" : "cDataTD_odd";
 
 		if (canDelete) {
@@ -94,31 +108,43 @@
 		}
 
 		for (BSField field : fields) {
+			type = field.getType();
 			if (field.isVisible()) {
 				value = field.isPk() ? values[0] : values[i++];
 
-				out += "<td class='" + color + "'>";
+				out += "<td class='" + color + "'";
+
+				if (type.equals(BSType.Date) || type.equals(BSType.Datetime)
+						|| type.equals(BSType.Boolean)) {
+					out += " align='center' ";
+				}
+				if (type.equals(BSType.Double) || type.equals(BSType.Integer)
+						|| type.equals(BSType.Long)) {
+					out += " align='right' ";
+				}
+				out += ">";
 
 				if (canEdit) {
-					out += "<a href='" + ctxPath + "/servlet/table/SearchRecord?cId="
-							+ values[0] + "'>";
+					out += "<a href='" + ctxPath
+							+ "/servlet/table/SearchRecord?cId=" + values[0]
+							+ "'>";
 				}
-				if (field.getType().equals(BSType.Boolean)) {
+				if (type.equals(BSType.Boolean)) {
 					Boolean b = (Boolean) value;
 					if (b.booleanValue() == Boolean.TRUE) {
 						out += "Si";
 					} else {
 						out += "No";
 					}
-				} else if (field.getType().equals(BSType.Date)) {
+				} else if (type.equals(BSType.Date)) {
 					String format = BSWeb.getFormatDate(request);
 					Format formatter = new SimpleDateFormat(format);
 					out += formatter.format(value);
-				} else if (field.getType().equals(BSType.Datetime)) {
+				} else if (type.equals(BSType.Datetime)) {
 					String format = BSWeb.getFormatDatetime(request);
 					Format formatter = new SimpleDateFormat(format);
 					out += formatter.format(value);
-				} else if (field.getType().equals(BSType.Double)) {
+				} else if (type.equals(BSType.Double)) {
 					String format = BSWeb.getFormatNumber(request);
 					Format formatter = new DecimalFormat(format);
 					out += formatter.format(value);
