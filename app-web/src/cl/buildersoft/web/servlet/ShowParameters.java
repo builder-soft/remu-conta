@@ -28,15 +28,16 @@ public class ShowParameters extends HttpServlet {
 
 		while (names.hasMoreElements()) {
 			String name = (String) names.nextElement();
-			
+
 			out.println(name + "<br>");
 			String[] values = request.getParameterValues(name);
-			
-			for(String value : values){
+
+			for (String value : values) {
 				out.println(value);
 			}
-			
+
 		}
+		out.flush();
 	}
 
 }

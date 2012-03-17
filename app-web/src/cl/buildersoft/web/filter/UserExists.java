@@ -36,16 +36,17 @@ public class UserExists implements Filter {
 		// String uri = request.getRequestURI();
 		// Boolean homeCalled = ctxPath.equalsIgnoreCase(uri);
 
-		// System.out.println(uri);
+		System.out.println(request.getRequestURI());
 
 		HttpSession session = request.getSession(false);
 
 		if (session == null) {
 			goHome = Boolean.TRUE;
 		} else {
+//			Object menu = session.getAttribute("Menu");
 			Object user = session.getAttribute("User");
 			Object rol = session.getAttribute("Rol");
-			if (user == null || rol == null) {
+			if (user == null || rol == null ) {
 				goHome = Boolean.TRUE;
 			}
 		}
