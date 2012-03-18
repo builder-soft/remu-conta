@@ -53,10 +53,7 @@ public class Upload extends HttpServlet {
 		PrintWriter w = response.getWriter();
 		DatabaseFile file = new DatabaseFile();
 		for (FileItem item : items) {
-			
-			
 			if (item.isFormField()) {
-				
 				String name = item.getFieldName();
 				String value = item.getString();
 				w.println(name + "=" + value);
@@ -68,7 +65,6 @@ public class Upload extends HttpServlet {
 				w.println("name:" + item.getName());
 				w.println("IsInMemory:" + item.isInMemory());
 
-
 				file.setContent(Base64.encode(item.get()));
 				file.setFileName(item.getName());
 				
@@ -76,25 +72,6 @@ public class Upload extends HttpServlet {
 
 				w.print("\n\n");
 
-				// String file = Base64.encode(item.get());
-//				response.flushBuffer();
-
-				/**
-				 * <code>
-				InputStream stream = item.getInputStream();
-				int len = 1024;
-				byte[] b = new byte[len];
-				byte[] file = new byte[len];
-				int index = 0;
-				while (stream.read(b, 0, len) > -1) {
-					System.arraycopy(b, 0, file, index, len);
-					index += len;
-				}
-
-				System.out.println(Base64.encode(b));
-				stream.close();
-				</code>
-				 */
 			}
 
 		}		
