@@ -36,7 +36,7 @@ public class UserExists implements Filter {
 		// String uri = request.getRequestURI();
 		// Boolean homeCalled = ctxPath.equalsIgnoreCase(uri);
 
-		System.out.println(request.getRequestURI());
+//		System.out.println(request.getRequestURI());
 
 		HttpSession session = request.getSession(false);
 
