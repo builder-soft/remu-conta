@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.framework.util.BSType;
+import cl.buildersoft.framework.type.BSFieldType;
 
 /**
  * Servlet implementation class LoadTable
@@ -63,6 +63,7 @@ public class LoadTable extends AbstractServletUtil {
 		BSField[] fields = table.getFields();
 		ResultSetMetaData metaData = rs.getMetaData();
 		String name = null;
+
 		if (fields.length == 0) {
 			Integer n = metaData.getColumnCount();
 
@@ -81,7 +82,6 @@ public class LoadTable extends AbstractServletUtil {
 				name = field.getName();
 
 				configField(metaData, name, i, field);
-				// field.setPk(metaData.isAutoIncrement(i));
 
 				i++;
 			}
@@ -91,19 +91,16 @@ public class LoadTable extends AbstractServletUtil {
 
 	private void configField(ResultSetMetaData metaData, String name,
 			Integer i, BSField field) throws Exception {
-		// BSField field;
-		// field = new BSField(name, metaData.getColumnLabel(i));
-		// field.setPk(metaData.isAutoIncrement(i));
-		field.setLength(metaData.getColumnDisplaySize(i));
 
-		setRealType(metaData, i, field);
-
-		Boolean isPk = field.isPk();
-		if (isPk == null) {
+		if (field.getType() == null) {
+			setRealType(metaData, i, field);
+		}
+		if (field.isPk() == null) {
 			field.setPk(metaData.isAutoIncrement(i));
 		}
-
-		// return field;
+		if (field.getLength() == null) {
+			field.setLength(metaData.getColumnDisplaySize(i));
+		}
 	}
 
 	private void setRealType(ResultSetMetaData metaData, Integer i,
@@ -118,21 +115,19 @@ public class LoadTable extends AbstractServletUtil {
 		cSalary DOUBLE
 		</code>
 		 */
-
 		if (metaData.getColumnTypeName(i).equals("BIGINT")) {
-			field.setType(BSType.Long);
+			field.setType(BSFieldType.Long);
 		} else if (metaData.getColumnTypeName(i).equals("VARCHAR")) {
-			field.setType(BSType.String);
+			field.setType(BSFieldType.String);
 		} else if (metaData.getColumnTypeName(i).equals("DATE")) {
-			field.setType(BSType.Date);
+			field.setType(BSFieldType.Date);
 		} else if (metaData.getColumnTypeName(i).equals("TIMESTAMP")) {
-			field.setType(BSType.Datetime);
+			field.setType(BSFieldType.Datetime);
 		} else if (metaData.getColumnTypeName(i).equals("DOUBLE")) {
-			field.setType(BSType.Double);
+			field.setType(BSFieldType.Double);
 		} else if (metaData.getColumnTypeName(i).equals("BIT")) {
-			field.setType(BSType.Boolean);
+			field.setType(BSFieldType.Boolean);
 		}
-
 	}
 
 	private String getSQL4SelectAll(BSTableConfig table) {
@@ -140,6 +135,19 @@ public class LoadTable extends AbstractServletUtil {
 		String sql = "SELECT " + getFieldsNames(fields);
 		sql += " FROM " + table.getTableName();
 		return sql;
+	}
+
+	protected String getFieldsNames(BSField[] fields) {
+		String out = "";
+		if (fields.length == 0) {
+			out = "*";
+		} else {
+			for (BSField field : fields) {
+				out += field.getName() + ",";
+			}
+			out = out.substring(0, out.length() - 1);
+		}
+		return out;
 	}
 
 }

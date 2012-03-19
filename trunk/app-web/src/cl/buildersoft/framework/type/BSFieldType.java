@@ -1,5 +1,5 @@
-package cl.buildersoft.framework.util;
+package cl.buildersoft.framework.type;
 
-public enum BSType {
+public enum BSFieldType {
 	String, Integer, Double, Long, Text, Boolean, Date, Datetime
 }

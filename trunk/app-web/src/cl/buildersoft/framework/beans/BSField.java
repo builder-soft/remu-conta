@@ -1,15 +1,15 @@
 package cl.buildersoft.framework.beans;
 
-import cl.buildersoft.framework.util.BSType;
+import cl.buildersoft.framework.type.BSFieldType;
 
 public class BSField {
 	private String name = null;
 	private String label = null;
 	private Boolean pk = null;
-	private Boolean visible = Boolean.TRUE;
+	private Boolean unique = Boolean.TRUE;
 	private Boolean readonly = Boolean.FALSE;
 	private Integer length = null;
-	private BSType type = null;
+	private BSFieldType type = null;
 	private Object value = null;
 
 	public BSField(String name, String label) {
@@ -42,14 +42,6 @@ public class BSField {
 		this.pk = pk;
 	}
 
-	public Boolean isVisible() {
-		return visible;
-	}
-
-	public void setVisible(Boolean visible) {
-		this.visible = visible;
-	}
-
 	public Integer getLength() {
 		return length;
 	}
@@ -58,11 +50,11 @@ public class BSField {
 		this.length = length;
 	}
 
-	public BSType getType() {
+	public BSFieldType getType() {
 		return type;
 	}
 
-	public void setType(BSType type) {
+	public void setType(BSFieldType type) {
 		this.type = type;
 	}
 
@@ -80,5 +72,13 @@ public class BSField {
 
 	public void setReadonly(Boolean readonly) {
 		this.readonly = readonly;
+	}
+
+	public Boolean isUnique() {
+		return unique;
+	}
+
+	public void setUnique(Boolean unique) {
+		this.unique = unique;
 	}
 }

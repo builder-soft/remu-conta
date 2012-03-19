@@ -2,8 +2,11 @@ package cl.buildersoft.web.servlet.admin;
 
 import javax.servlet.annotation.WebServlet;
 
+import cl.buildersoft.framework.beans.BSAction;
 import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.BSTableConfig;
+import cl.buildersoft.framework.type.BSActionType;
+import cl.buildersoft.framework.type.BSFieldType;
 import cl.buildersoft.web.servlet.BSHttpServlet;
 
 /**
@@ -24,21 +27,15 @@ public class UserManager extends BSHttpServlet {
 		table.setTitle("Mantenimeito de usuarios");
 
 		BSField field = null;
-				
+		field = new BSField("cId", "ID");
+		table.addField(field);
+
 		field = new BSField("cMail", "Correo electrónico/usuario");
 		table.addField(field);
-		
+
 		field = new BSField("cName", "Nombre");
 		table.addField(field);
-
-		field = new BSField("cId", "ID");
-		field.setVisible(Boolean.FALSE);
-		table.addField(field);
-
-		table.setCanInsert(false);
-		table.setCanEdit(false);
-		table.setCanDelete(false);
+		
 		return table;
 	}
-
 }

@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import cl.buildersoft.framework.beans.BSField;
+import cl.buildersoft.framework.type.BSFieldType;
 
 public class BSWeb {
 	public static Object value2Object(HttpServletRequest request, BSField field)
@@ -16,32 +17,32 @@ public class BSWeb {
 		Object out = null;
 		String name = field.getName();
 		String value = request.getParameter(name);
-		BSType type = field.getType();
+		BSFieldType type = field.getType();
 		
-		if (type.equals(BSType.String)) {
+		if (type.equals(BSFieldType.String)) {
 			out = value;
-		} else if (type.equals(BSType.Boolean)) {
+		} else if (type.equals(BSFieldType.Boolean)) {
 			out = Boolean.parseBoolean(value);
-		} else if (type.equals(BSType.Date)) {
+		} else if (type.equals(BSFieldType.Date)) {
 			String formatDate = getFormatDate(request);
 			DateFormat formatter = new SimpleDateFormat(formatDate);
 			out = (Date) formatter.parse(value);
-		} else if (type.equals(BSType.Datetime)) {
+		} else if (type.equals(BSFieldType.Datetime)) {
 			String formatDate = getFormatDatetime(request);
 			SimpleDateFormat dateFormat = new SimpleDateFormat(formatDate);
 			java.util.Date parsedDate = dateFormat.parse(value);
 			out = new java.sql.Timestamp(parsedDate.getTime());
-		} else if (type.equals(BSType.Text)) {
+		} else if (type.equals(BSFieldType.Text)) {
 			throw new RuntimeException(
 					"No se ha implementado la carga de archivos aun..");
 		} else {
 			value = value.replaceAll("[.]", "");
 //			value = value.replaceAll(",", "");
-			if (type.equals(BSType.Double)) {
+			if (type.equals(BSFieldType.Double)) {
 				out = Double.parseDouble(value);
-			} else if (type.equals(BSType.Integer)) {
+			} else if (type.equals(BSFieldType.Integer)) {
 				out = Integer.parseInt(value);
-			} else if (type.equals(BSType.Long)) {
+			} else if (type.equals(BSFieldType.Long)) {
 				out = Long.parseLong(value);
 			}
 

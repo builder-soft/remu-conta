@@ -2,7 +2,7 @@
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.Format"%>
-<%@page import="cl.buildersoft.framework.util.BSType"%>
+<%@page import="cl.buildersoft.framework.type.BSFieldType"%>
 <%@page import="cl.buildersoft.framework.beans.BSField"%>
 <%@page import="cl.buildersoft.framework.beans.BSTableConfig"%>
 <%@page import="java.sql.ResultSet"%>
@@ -16,9 +16,9 @@
 
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
+<%@ include file="/WEB-INF/jsp/table/functions.jsp"%>
 
-<script
-	src="${pageContext.request.contextPath}/js/table/table.js?r=<%=Math.random()%>"></script>
+<script src="${pageContext.request.contextPath}/js/table/table.js"></script>
 <h1 class="cTitle">
 	<%=table.getTitle()%>
 </h1>
@@ -41,21 +41,10 @@
 				out.print("<td  align='center' class='cHeadTD'><input id='mainCheck' type='CHECKBOX' onclick='javascript:swapCheck(this);'></td>");
 			}
 			for (BSField field : fields) {
-
-				if (field.isVisible()) {
+				if (showColumn(field)) {
 					out.print("<td class='cHeadTD'");
 
-					if (field.getType().equals(BSType.Date)
-							|| field.getType().equals(BSType.Datetime)
-							|| field.getType().equals(BSType.Boolean)) {
-						out.print(" align='center' ");
-					}
-
-					if (field.getType().equals(BSType.Double)
-							|| field.getType().equals(BSType.Integer)
-							|| field.getType().equals(BSType.Long)) {
-						out.print(" align='right' ");
-					}
+					out.print(getAlign(field));
 
 					out.print(">" + field.getLabel() + "</td>");
 				}
@@ -79,9 +68,11 @@
 </form>
 <%
 	out.print("<br>");
-	if (table.isCanInsert()) {
-		out.print("<input type='button' value='Nuevo...' onclick=\"javascript:window.location.href='"
-				+ ctxPath + "/servlet/table/NewRecord'\">");
+	BSAction[] actions = table.getActions(BSActionType.Table);
+	for (BSAction action : actions) {
+		out.print("<input type='button' value='" + action.getLabel()
+				+ "' onclick=\"javascript:window.location.href='"
+				+ ctxPath + action.getUrl() + "'\">");
 	}
 	if (table.isCanDelete()) {
 		out.print("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id='deleteButton' disabled type='button' value='Borrar' onclick='javascript:deleteRecords();'>");
@@ -97,7 +88,7 @@
 		String out = "<tr>";
 		Object value = null;
 		int i = 1;
-		BSType type = null;
+		BSFieldType type = null;
 		String color = rowCount % 2 != 0 ? "cDataTD" : "cDataTD_odd";
 
 		if (canDelete) {
@@ -109,19 +100,15 @@
 
 		for (BSField field : fields) {
 			type = field.getType();
-			if (field.isVisible()) {
+
+			if (showColumn(field)) {
+				//			if (field.isVisible() && !type.equals(BSType .Password)) {
+
 				value = field.isPk() ? values[0] : values[i++];
 
 				out += "<td class='" + color + "'";
+				out += getAlign(field);
 
-				if (type.equals(BSType.Date) || type.equals(BSType.Datetime)
-						|| type.equals(BSType.Boolean)) {
-					out += " align='center' ";
-				}
-				if (type.equals(BSType.Double) || type.equals(BSType.Integer)
-						|| type.equals(BSType.Long)) {
-					out += " align='right' ";
-				}
 				out += ">";
 
 				if (canEdit) {
@@ -129,22 +116,23 @@
 							+ "/servlet/table/SearchRecord?cId=" + values[0]
 							+ "'>";
 				}
-				if (type.equals(BSType.Boolean)) {
+				if (type.equals(BSFieldType.Boolean)) {
 					Boolean b = (Boolean) value;
 					if (b.booleanValue() == Boolean.TRUE) {
 						out += "Si";
 					} else {
 						out += "No";
 					}
-				} else if (type.equals(BSType.Date)) {
+				} else if (type.equals(BSFieldType.Date)) {
 					String format = BSWeb.getFormatDate(request);
 					Format formatter = new SimpleDateFormat(format);
 					out += formatter.format(value);
-				} else if (type.equals(BSType.Datetime)) {
+				} else if (type.equals(BSFieldType.Datetime)) {
 					String format = BSWeb.getFormatDatetime(request);
 					Format formatter = new SimpleDateFormat(format);
 					out += formatter.format(value);
-				} else if (type.equals(BSType.Double)) {
+
+				} else if (type.equals(BSFieldType.Double)) {
 					String format = BSWeb.getFormatNumber(request);
 					Format formatter = new DecimalFormat(format);
 					out += formatter.format(value);

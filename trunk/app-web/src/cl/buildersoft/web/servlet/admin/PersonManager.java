@@ -7,7 +7,6 @@ import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.web.servlet.BSHttpServlet;
 
- 
 @WebServlet("/servlet/admin/PersonManager")
 public class PersonManager extends BSHttpServlet implements Servlet {
 	private static final long serialVersionUID = 1L;
@@ -18,32 +17,29 @@ public class PersonManager extends BSHttpServlet implements Servlet {
 
 	@Override
 	protected BSTableConfig getBSTableConfig() {
-		 BSTableConfig table = new BSTableConfig("tPerson");
-		 BSField field;
-		 
-		 table.setTitle("Personas");
-		 
-		 
-		 field= new BSField("cId", "Código");
-		 field.setPk(Boolean.TRUE);
-		 field.setVisible(Boolean.FALSE);
-		 table.addField(field);
-		 
-		 field= new BSField("cName", "Nombre");
-		 table.addField(field);
+		BSTableConfig table = new BSTableConfig("tPerson");
+		BSField field;
 
-		 field= new BSField("cBorn", "Fecha Nacimiento");
-		 table.addField(field);
-		 
-		 field= new BSField("cLastLogin", "Último Acceso");
-		 table.addField(field);
-		 
-		 field= new BSField("cSalary", "Sueldo");
-		 table.addField(field);
-		 
-		 field= new BSField("cActive", "Activo");
-		 table.addField(field);
-		 
+		table.setTitle("Mantenedor de Personas");
+
+		field = new BSField("cId", "Código");
+		table.addField(field);
+
+		field = new BSField("cName", "Nombre");
+		table.addField(field);
+
+		field = new BSField("cBorn", "Fecha Nacimiento");
+		table.addField(field);
+
+		field = new BSField("cLastLogin", "Último Acceso");
+		table.addField(field);
+
+		field = new BSField("cSalary", "Sueldo");
+		table.addField(field);
+
+		field = new BSField("cActive", "Activo");
+		table.addField(field);
+
 		return table;
 	}
 

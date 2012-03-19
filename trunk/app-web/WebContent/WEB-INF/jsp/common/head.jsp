@@ -23,7 +23,7 @@
 			<td style="width: 15%">&nbsp;</td>
 			<td>&nbsp;</td>
 			<td style="width: 10%"><a
-				href="${pageContext.request.contextPath}"> <img
+				href="${pageContext.request.contextPath}/jsp/login/logout.jsp"> <img
 					src="${pageContext.request.contextPath}/img/common/logout.gif">
 			</a></td>
 		</tr>
