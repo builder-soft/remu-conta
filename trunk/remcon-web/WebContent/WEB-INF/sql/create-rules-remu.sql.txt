@@ -11,4 +11,4 @@ ALTER TABLE remu.tEmployee
 ADD CONSTRAINT MaritalStatus FOREIGN KEY (cMaritalStatus) REFERENCES bscommon.tBoard(cId);
 
 ALTER TABLE remu.tEmployee
-ADD CONSTRAINT Nationality FOREIGN KEY (cNationality) REFERENCES bscommon.tBoard(cId);
+ADD CONSTRAINT withCountry FOREIGN KEY (cCountry) REFERENCES bscommon.tCountry(cId);
