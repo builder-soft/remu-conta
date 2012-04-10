@@ -6,3 +6,9 @@ ADD INDEX `comuna_index` (`cComuna` ASC) ;
 
 ALTER TABLE `remu`.`tPerson` 
 ADD CONSTRAINT `withSexo` FOREIGN KEY (`cSexo` ) REFERENCES `bscommon`.`tBoard` (`cId`); 
+
+ALTER TABLE remu.tEmployee
+ADD CONSTRAINT MaritalStatus FOREIGN KEY (cMaritalStatus) REFERENCES bscommon.tBoard(cId);
+
+ALTER TABLE remu.tEmployee
+ADD CONSTRAINT Nationality FOREIGN KEY (cNationality) REFERENCES bscommon.tBoard(cId);
