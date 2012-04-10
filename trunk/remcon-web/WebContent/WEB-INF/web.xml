@@ -30,7 +30,7 @@
   </context-param>
   <context-param>
     <param-name>bsframework.database.database</param-name>
-    <param-value>BSframework</param-value>
+    <param-value>bsframework</param-value>
   </context-param>
   <context-param>
     <param-name>bsframework.database.username</param-name>
