@@ -1,8 +1,8 @@
 use remu;
 
-ALTER TABLE `remu`.`tperson` 
-ADD CONSTRAINT `withComuna` FOREIGN KEY (`cComuna` ) REFERENCES `bscommon`.`tcomuna` (`cId` ), 
+ALTER TABLE `remu`.`tPerson` 
+ADD CONSTRAINT `withComuna` FOREIGN KEY (`cComuna` ) REFERENCES `bscommon`.`tComuna` (`cId` ), 
 ADD INDEX `comuna_index` (`cComuna` ASC) ;
 
-ALTER TABLE `remu`.`tperson` 
+ALTER TABLE `remu`.`tPerson` 
 ADD CONSTRAINT `withSexo` FOREIGN KEY (`cSexo` ) REFERENCES `bscommon`.`tBoard` (`cId`); 
