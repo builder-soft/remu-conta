@@ -15,3 +15,10 @@ CREATE TABLE `tBoard` (
   cEnable BIT NOT NULL DEFAULT 1
 ) ENGINE=InnoDB;
 
+CREATE TABLE `tCountry` (
+ 	cId	 BIGINT PRIMARY KEY UNIQUE AUTO_INCREMENT,
+ 	`cCode` char(3) NOT NULL DEFAULT '',
+ 	`cName` char(60) NOT NULL DEFAULT ''
+ );
+ 
+ 
