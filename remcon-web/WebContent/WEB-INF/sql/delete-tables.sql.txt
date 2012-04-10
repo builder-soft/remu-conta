@@ -1,9 +1,11 @@
 use remu;
 drop table if exists tPerson;
+drop table if exists tEmployee;
 
 use bscommon;
 drop table if exists tComuna;
 drop table if exists tBoard;
+drop table if exists tCountry;
 
 USE bsframework;
 DROP TABLE IF EXISTS tParameter;
