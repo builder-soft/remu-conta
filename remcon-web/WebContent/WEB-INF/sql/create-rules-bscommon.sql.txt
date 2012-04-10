@@ -19,3 +19,9 @@ DROP VIEW IF EXISTS vTypeOption;
 CREATE VIEW vTypeOption
 AS
 SELECT cId, cValue AS cName FROM tBoard WHERE cType='TYPE_OPTION';
+
+DROP VIEW IF EXISTS vMaritalStatus;
+CREATE VIEW vMaritalStatus
+AS
+SELECT cId, cValue AS cName FROM tBoard WHERE cType='MARITAL_STATUS';
+
