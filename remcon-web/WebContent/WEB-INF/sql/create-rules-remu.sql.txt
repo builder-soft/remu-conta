@@ -5,10 +5,18 @@ ADD CONSTRAINT `withComuna` FOREIGN KEY (`cComuna` ) REFERENCES `bscommon`.`tCom
 ADD INDEX `comuna_index` (`cComuna` ASC) ;
 
 ALTER TABLE `remu`.`tPerson` 
-ADD CONSTRAINT `withSexo` FOREIGN KEY (`cSexo` ) REFERENCES `bscommon`.`tBoard` (`cId`); 
+ADD CONSTRAINT `withSexo` FOREIGN KEY (`cGenere` ) REFERENCES `bscommon`.`tBoard` (`cId`); 
 
 ALTER TABLE remu.tEmployee
-ADD CONSTRAINT MaritalStatus FOREIGN KEY (cMaritalStatus) REFERENCES bscommon.tBoard(cId);
+ADD CONSTRAINT withMaritalStatus FOREIGN KEY (cMaritalStatus) REFERENCES bscommon.tBoard(cId);
 
 ALTER TABLE remu.tEmployee
 ADD CONSTRAINT withCountry FOREIGN KEY (cCountry) REFERENCES bscommon.tCountry(cId);
+
+ALTER TABLE remu.tEmployee
+ADD CONSTRAINT withGenere FOREIGN KEY (cGenere) REFERENCES bscommon.tBoard(cId);
+
+ALTER TABLE remu.tEmployee
+ADD INDEX `comuna_index` (`cComuna` ASC),
+ADD CONSTRAINT withComunaEmployee FOREIGN KEY (cComuna) REFERENCES bscommon.tComuna(cId);
+

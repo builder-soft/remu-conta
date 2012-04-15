@@ -1,9 +1,12 @@
 package cl.buildersoft.web.servlet.remu;
 
-import javax.servlet.annotation.WebServlet;
+import java.sql.Connection;
 
-import cl.buildersoft.framework.beans.BSHeadConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+
 import cl.buildersoft.framework.beans.BSTableConfig;
+import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.web.servlet.BSHttpServlet;
 
 /**
@@ -14,18 +17,30 @@ public class EmployeeManager extends BSHttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected BSTableConfig getBSTableConfig() {
-		BSTableConfig tabla = new BSTableConfig ("remu", "tEmployee");
-		
-		return tabla;
-	}
+	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
+		BSTableConfig table = new BSTableConfig("remu", "tEmployee");
+		BSmySQL mysql = new BSmySQL();
+		Connection conn = mysql.getConnection(request.getServletContext(),
+				"remu");
+		table.configFields(conn, mysql);
+		table.setTitle("Listado de empleados");
 
-	@Override
-	protected BSHeadConfig getBSHeadConfig() {
-		// TODO Auto-generated method stub
-		return null;
+		table.getField("cLastName1").setLabel("A. Paterno");
+		table.getField("cLastName2").setLabel("A. Materno");
+		table.getField("cName").setLabel("Nombre");
+		table.getField("cBirthDate").setLabel("Nacimiento");
+		table.getField("cAddress").setLabel("Dirección");
+		table.getField("cGenere").setLabel("Género");
+		table.getField("cCountry").setLabel("Nacionalidad");
+		table.getField("cMaritalStatus").setLabel("Estado Civil");
+
+		String[] noVisibleFields = { "cEmail", "cMovil", "cPhone", "cComuna",
+				"cAddress", "cBirthDate" };
+		for (String fieldName : noVisibleFields) {
+			table.getField(fieldName).setVisible(false);
+		}
+
+		return table;
 	}
-       
-    
 
 }
