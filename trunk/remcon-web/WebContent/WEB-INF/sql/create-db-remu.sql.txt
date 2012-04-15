@@ -5,7 +5,7 @@ drop table if exists tPerson;
 CREATE TABLE `tPerson` (
   `cId` bigint(20) NOT NULL AUTO_INCREMENT,
   `cRUT` varchar(10) NOT NULL UNIQUE,
-  `cSexo` bigint NOT NULL,
+  `cGenere` bigint NOT NULL,
   `cFechaRegistro` date NOT NULL,
   `cNombre` varchar(50) NOT NULL,
   `cApellidoPaterno` varchar(20) NOT NULL,
@@ -23,19 +23,20 @@ CREATE TABLE `tPerson` (
 ) ENGINE=InnoDB;
 
 /* Crea tabla Empleados */
-create table tEmployee (cId BIGINT(20)  NOT NULL auto_increment, 
+create table tEmployee (
+	cId BIGINT(20)  NOT NULL auto_increment, 
 	cRut VARCHAR(11) NOT NULL unique,
+	cName VARCHAR(20) NOT NULL,
 	cLastName1 VARCHAR(20) NOT NULL,
 	cLastName2 VARCHAR(20) NOT NULL,
-	cName VARCHAR(20) NOT NULL,
 	cBirthDate DATE,
 	cAddress VARCHAR(100),
-	cGenre BIGINT(20) NOT NULL,
+	cGenere BIGINT(20) NOT NULL,
 	cComuna BIGINT(20) NOT NULL,
 	cCountry BIGINT(20) NOT NULL,
 	cPhone VARCHAR(10),
 	cMaritalStatus BIGINT(20) NOT NULL,
 	cMovil VARCHAR(10),
-	cEmail VARCHAR(20), 
+	cEmail VARCHAR(50), 
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;

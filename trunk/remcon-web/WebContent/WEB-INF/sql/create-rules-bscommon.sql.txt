@@ -1,9 +1,11 @@
 use bscommon;
 
+/**
 DROP VIEW IF EXISTS vSexo;
 CREATE VIEW vSexo
 AS
 SELECT cId, cValue AS cName FROM tBoard WHERE cType='SEX';
+*/
 
 DROP VIEW IF EXISTS vSystem;
 CREATE VIEW vSystem
@@ -24,4 +26,9 @@ DROP VIEW IF EXISTS vMaritalStatus;
 CREATE VIEW vMaritalStatus
 AS
 SELECT cId, cValue AS cName FROM tBoard WHERE cType='MARITAL_STATUS';
+
+DROP VIEW IF EXISTS vGenere;
+CREATE VIEW vGenere
+AS
+SELECT cId, cValue AS cName FROM bscommon.tBoard WHERE cType='GENERE';
 
