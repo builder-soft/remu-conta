@@ -5,8 +5,10 @@ import java.sql.Connection;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
+import cl.buildersoft.framework.beans.BSAction;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
+import cl.buildersoft.framework.type.BSActionType;
 import cl.buildersoft.web.servlet.BSHttpServlet;
 
 /**
@@ -40,7 +42,20 @@ public class EmployeeManager extends BSHttpServlet {
 			table.getField(fieldName).setVisible(false);
 		}
 
+		BSAction previtionalInformation = new BSAction("PREVITIONAL",
+				BSActionType.Record);
+		previtionalInformation.setLabel("Información Previsional");
+		table.addAction(previtionalInformation);
+
+		BSAction contractualInformation = new BSAction("CONTRACTUAL",
+				BSActionType.Record);
+		contractualInformation.setLabel("Información Contractual");
+		table.addAction(contractualInformation);
+
+		BSAction payMode = new BSAction("PAY_MODE", BSActionType.Record);
+		payMode.setLabel("Modo de Pago");
+		table.addAction(payMode);
+
 		return table;
 	}
-
 }
