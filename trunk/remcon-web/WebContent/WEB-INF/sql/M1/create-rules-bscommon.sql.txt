@@ -32,3 +32,8 @@ CREATE VIEW vGenere
 AS
 SELECT cId, cValue AS cName FROM bscommon.tBoard WHERE cType='GENERE';
 
+DROP VIEW IF EXISTS vCurrency;
+CREATE VIEW vCurrency
+AS
+SELECT cId, cValue AS cName FROM bscommon.tBoard WHERE cType='CURRENCY';
+
