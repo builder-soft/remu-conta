@@ -17,8 +17,8 @@ CREATE TABLE `tBoard` (
 
 CREATE TABLE `tCountry` (
  	cId	 BIGINT PRIMARY KEY UNIQUE AUTO_INCREMENT,
- 	`cCode` char(3) NOT NULL DEFAULT '',
- 	`cName` char(60) NOT NULL DEFAULT ''
- );
+ 	cCode char(3) NOT NULL DEFAULT '' UNIQUE,
+ 	cName varchar(60) NOT NULL DEFAULT ''
+ ) ENGINE=InnoDB;
  
  

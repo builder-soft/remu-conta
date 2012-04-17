@@ -1,0 +1,43 @@
+use remu;
+
+/**
+ALTER TABLE `remu`.`tPerson` 
+ADD CONSTRAINT `withComuna` FOREIGN KEY (`cComuna` ) REFERENCES `bscommon`.`tComuna` (`cId` ), 
+ADD INDEX `comuna_index` (`cComuna` ASC) ;
+
+ALTER TABLE `remu`.`tPerson` 
+ADD CONSTRAINT `withSexo` FOREIGN KEY (`cGenere` ) REFERENCES `bscommon`.`tBoard` (`cId`); 
+*/
+
+/** EMPLOYEE */
+ALTER TABLE remu.tEmployee
+ADD CONSTRAINT withMaritalStatus FOREIGN KEY (cMaritalStatus) REFERENCES bscommon.tBoard(cId);
+
+ALTER TABLE remu.tEmployee
+ADD CONSTRAINT withCountry       FOREIGN KEY (cCountry) REFERENCES bscommon.tCountry(cId);
+
+ALTER TABLE remu.tEmployee
+ADD CONSTRAINT withGenere FOREIGN KEY (cGenere) REFERENCES bscommon.tBoard(cId);
+
+ALTER TABLE remu.tEmployee
+ADD INDEX `comuna_index` (`cComuna` ASC),
+ADD CONSTRAINT withComunaEmployee FOREIGN KEY (cComuna) REFERENCES bscommon.tComuna(cId);
+
+ALTER TABLE remu.tEmployee
+ADD INDEX `enterprise_index` (`cEnterprise` ASC),
+ADD CONSTRAINT withEnterprise FOREIGN KEY (cEnterprise) REFERENCES remu.tEnterprise(cId);
+
+
+/** ENTERPRISE */
+ALTER TABLE remu.tEnterprise
+ADD INDEX `comuna_index` (`cComuna` ASC),
+ADD CONSTRAINT withComuna FOREIGN KEY (cComuna) REFERENCES bscommon.tComuna(cId);
+
+ALTER TABLE remu.tEnterprise
+ADD INDEX `mutual_index` (`cMutual` ASC),
+ADD CONSTRAINT withMutual FOREIGN KEY (cMutual) REFERENCES remu.tMutual(cId);
+
+ALTER TABLE remu.tEnterprise
+ADD INDEX `compensationFund_index` (`cCompensationFund` ASC),
+ADD CONSTRAINT withCompensationFund FOREIGN KEY (cCompensationFund) REFERENCES remu.tCompensationFund(cId);
+
