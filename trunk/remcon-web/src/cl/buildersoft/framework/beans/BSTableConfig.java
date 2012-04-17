@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -338,22 +339,46 @@ public class BSTableConfig {
 		// Boolean out = Boolean.FALSE;
 		if (this.tablesCommon == null) {
 			this.tablesCommon = new HashSet<String>();
-			try {
-				DatabaseMetaData dbmd = (DatabaseMetaData) conn.getMetaData();
-				ResultSet tables = dbmd.getTables("bscommon", null, null, null);
 
-				while (tables.next()) {
-					// ResultSetMetaData md = tables.getMetaData();
-					this.tablesCommon.add(tables.getString("TABLE_NAME")
-							.toLowerCase());
+			Set<String> databases = databasesList(conn);
+
+			try {
+				Iterator<String> dataBasesIter = databases.iterator();
+
+				while (dataBasesIter.hasNext()) {
+					String database = (String) dataBasesIter.next();
+
+					DatabaseMetaData dbmd = (DatabaseMetaData) conn
+							.getMetaData();
+					ResultSet tables = dbmd.getTables(database, null, null,
+							null);
+
+					while (tables.next()) {
+						// ResultSetMetaData md = tables.getMetaData();
+						this.tablesCommon.add(tables.getString("TABLE_NAME")
+								.toLowerCase());
+					}
+					tables.close();
 				}
-				tables.close();
 			} catch (SQLException e) {
 				throw new BSDataBaseException("", e.getMessage());
 			}
 		}
 
 		return this.tablesCommon.contains(table.toLowerCase());
+	}
+
+	private Set<String> databasesList(Connection conn) {
+		Set<String> databases = new HashSet<String>();
+		Iterator iterator = this.fkInfo.entrySet().iterator();
+		String[] info = null;
+		Map.Entry entry = null;
+		while (iterator.hasNext()) {
+			entry = (Map.Entry) iterator.next();
+			info = (String[]) entry.getValue();
+			databases.add(info[0]);
+		}
+		return databases;
 	}
 
 	private void configField(Connection conn, ResultSetMetaData metaData,
