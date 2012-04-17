@@ -1,9 +1,14 @@
-use remu;
-drop table if exists tPerson;
-drop table if exists tEmployee;
-drop table if exists tEnterprise;
-drop table if exists tMutual;
-drop table if exists tCompensationFund;
+drop table if exists remu.tEmployee;
+
+drop table if exists remu.tCostCenter;
+drop table if exists remu.tEnterprise;
+
+drop table if exists bscommon.tComuna;
+drop table if exists remu.tMutual;
+drop table if exists remu.tCompensationFund;
+
+
+/*drop table if exists tPerson;*/
 
 USE bsframework;
 DROP TABLE IF EXISTS tParameter;
@@ -17,6 +22,5 @@ DROP TABLE IF EXISTS tFileCategory;
 
 
 use bscommon;
-drop table if exists tComuna;
 drop table if exists tCountry;
 drop table if exists tBoard;

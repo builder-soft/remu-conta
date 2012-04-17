@@ -41,3 +41,8 @@ ALTER TABLE remu.tEnterprise
 ADD INDEX `compensationFund_index` (`cCompensationFund` ASC),
 ADD CONSTRAINT withCompensationFund FOREIGN KEY (cCompensationFund) REFERENCES remu.tCompensationFund(cId);
 
+
+/** COST CENTER */
+ALTER TABLE remu.tCostCenter
+ADD INDEX `enterpise_index_costCenter` (`cEnterprise` ASC),
+ADD CONSTRAINT withEnterpriseCC FOREIGN KEY (cEnterprise) REFERENCES remu.tEnterprise(cId);

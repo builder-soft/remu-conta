@@ -73,3 +73,11 @@ create table tCompensationFund (
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 	
+create table tCostCenter(
+	cId BIGINT(20)  NOT NULL auto_increment, 
+	cName VARCHAR(20) NOT NULL,
+	cEnterprise BIGINT(20) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+	
+	
