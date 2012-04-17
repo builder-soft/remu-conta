@@ -1,7 +1,9 @@
 use remu;
 drop table if exists tPerson;
 drop table if exists tEmployee;
-
+drop table if exists tEnterprise;
+drop table if exists tMutual;
+drop table if exists tCompensationFund;
 
 USE bsframework;
 DROP TABLE IF EXISTS tParameter;

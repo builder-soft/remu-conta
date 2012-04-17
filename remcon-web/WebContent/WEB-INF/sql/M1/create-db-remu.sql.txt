@@ -1,7 +1,7 @@
 use remu;
 
+/*
 drop table if exists tPerson;
-
 CREATE TABLE `tPerson` (
   `cId` bigint(20) NOT NULL AUTO_INCREMENT,
   `cRUT` varchar(10) NOT NULL UNIQUE,
@@ -21,7 +21,7 @@ CREATE TABLE `tPerson` (
   `cMail` varchar(50) NOT NULL,
   PRIMARY KEY (`cId`)
 ) ENGINE=InnoDB;
-
+*/
 /* Crea tabla Empleados */
 create table tEmployee (
 	cId BIGINT(20)  NOT NULL auto_increment, 
@@ -37,6 +37,39 @@ create table tEmployee (
 	cPhone VARCHAR(10),
 	cMaritalStatus BIGINT(20) NOT NULL,
 	cMovil VARCHAR(10),
-	cEmail VARCHAR(50), 
+	cEmail VARCHAR(50),
+	cEnterprise BIGINT(20) NOT NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
+
+
+create table tEnterprise (
+	cId BIGINT(20)  NOT NULL auto_increment, 
+	cRut VARCHAR(11) NOT NULL UNIQUE,
+	cName VARCHAR(30) NOT NULL  COMMENT 'Nombre o razon social',
+	cLegalRep	VARCHAR(50) NOT NULL  COMMENT 'Representante legal',
+	cRutLegalRep	VARCHAR(11) NOT NULL  COMMENT 'Rut del representante legal',
+	cCategory	VARCHAR(50)  COMMENT 'Giro o Rubro',
+	cAddress VARCHAR(100),
+	cComuna BIGINT(20) NOT NULL,
+	cPhone VARCHAR(10),
+	cMutual	BIGINT(20) NOT NULL,
+	cMutualFactor	DOUBLE  COMMENT 'Factor Mutual',
+	cCompensationFund BIGINT(20) NOT NULL COMMENT 'Caja de compensacion',
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+	
+	
+create table tMutual (
+	cId BIGINT(20)  NOT NULL auto_increment, 
+	cName VARCHAR(40) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+	
+	
+create table tCompensationFund (
+	cId BIGINT(20)  NOT NULL auto_increment, 
+	cName VARCHAR(20) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+	
