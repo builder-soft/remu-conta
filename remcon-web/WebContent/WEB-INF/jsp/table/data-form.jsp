@@ -76,6 +76,7 @@
 		Integer size = 0;
 		String afterInput = "";
 		Boolean isPk = field.isPK();
+		//Boolean isNew = Boolean.FALSE;
 		Boolean isReadOnly = isPk ? Boolean.TRUE : field.isReadonly();
 		String validationOnBlur = field.getValidationOnBlur() != null ? field
 				.getValidationOnBlur() : "";
@@ -127,6 +128,7 @@
 					format = BSWeb.getFormatNumber(request);
 					if (isPk && value == null) {
 						value = "[Nuevo]";
+						//isNew = Boolean.TRUE;
 					} else {
 						value = value == null ? "" : BSWeb.number2String(value,
 								format);
@@ -135,7 +137,7 @@
 				}
 
 				out += drawInputText("text", name, maxlength, isReadOnly,
-						value, size, afterInput, validationOnBlur);
+						value, size, afterInput, validationOnBlur, isPk);
 			}
 		}
 		return out;
@@ -158,16 +160,22 @@
 
 	private String drawInputText(String type, String name, Integer maxlength,
 			Boolean isReadonly, Object value, Integer size, String afterInput,
-			String validationOnBlur) {
-		String out = "<input type='" + type + "' name='";
-		out += name;
-		out += "' ";
-		out += "maxlength='" + maxlength + "' ";
-		out += isReadonly ? "READONLY " : "";
-		out += "value='" + value + "' ";
-		out += "size='" + size + "px' ";
-		out += "onBlur='javascript:" + validationOnBlur + "(this)'";
-		out += ">&nbsp;" + afterInput;
+			String validationOnBlur, Boolean isPk) {
+		String out = "";
+
+		if (isPk) {
+			out += "<span class='cData'>"+value+"</span>";
+		} else {
+			out += "<input type='" + type + "' name='";
+			out += name;
+			out += "' ";
+			out += "maxlength='" + maxlength + "' ";
+			out += isReadonly ? "READONLY " : "";
+			out += "value='" + value + "' ";
+			out += "size='" + size + "px' ";
+			out += "onBlur='javascript:" + validationOnBlur + "(this)'";
+			out += ">&nbsp;" + afterInput;
+		}
 		return out;
 	}
 
