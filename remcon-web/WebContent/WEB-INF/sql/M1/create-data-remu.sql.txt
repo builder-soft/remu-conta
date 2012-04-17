@@ -16,3 +16,4 @@ INSERT INTO tCompensationFund (cName) VALUES ('La Araucana');
 INSERT INTO tCompensationFund (cName) VALUES ('Los Heroes');
 INSERT INTO tCompensationFund (cName) VALUES ('Gabriela Mistral');
 INSERT INTO tCompensationFund (cName) VALUES ('18 de Septiembre');
+

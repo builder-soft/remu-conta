@@ -12,6 +12,8 @@ INSERT INTO tBoard(cType, cKey, cValue) VALUES('TYPE_OPTION', 'BUTTON', 'Button'
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('MARITAL_STATUS', 'MARRIED', 'Casado');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('MARITAL_STATUS', 'SINGLE', 'Soltero');
 
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('CURRENCY', 'UF', 'Unidad de Fomento');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('CURRENCY', 'CLP', 'Pesos Chilenos');
 
 
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (1,'Alto Hospicio',1,0);

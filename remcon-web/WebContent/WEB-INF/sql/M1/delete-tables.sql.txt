@@ -6,6 +6,14 @@ drop table if exists remu.tEnterprise;
 drop table if exists bscommon.tComuna;
 drop table if exists remu.tMutual;
 drop table if exists remu.tCompensationFund;
+drop table if exists remu.tContractType;
+drop table if exists remu.tProfile;
+drop table if exists remu.tAFP;
+
+drop table if exists remu.tR_EmployeeAccount;
+drop table if exists remu.tAccount;
+
+
 
 
 /*drop table if exists tPerson;*/
