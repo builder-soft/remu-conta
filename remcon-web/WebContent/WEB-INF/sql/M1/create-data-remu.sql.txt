@@ -7,12 +7,12 @@ INSERT INTO `tperson` (`cId`,`cRUT`,`cGenere`,`cFechaRegistro`,`cNombre`,`cApell
 */
 
 
-INSERT INTO tMutual (cName) VALUES ( 'ASOCIACION CHILENA DE SEGURIDAD' );
-INSERT INTO tMutual (cName) VALUES ( 'MUTUAL DE SEGURIDAD' );
-INSERT INTO tMutual (cName) VALUES ( 'INSTITUTO DE SEGURIDAD DEL TRABAJO' );
+INSERT INTO tMutual (cName) VALUES ( 'Asociaci&oacute;n Chilena de Seguridad' );
+INSERT INTO tMutual (cName) VALUES ( 'Mutual de Seguridad' );
+INSERT INTO tMutual (cName) VALUES ( 'Instituto de Seguridad del Trabajo' );
 
-INSERT INTO tCompensationFund (cName) VALUES ('LOS ANDES');
-INSERT INTO tCompensationFund (cName) VALUES ('LA ARAUCANA');
-INSERT INTO tCompensationFund (cName) VALUES ('LOS HEROES');
-INSERT INTO tCompensationFund (cName) VALUES ('GABRIELA MISTRAL');
-INSERT INTO tCompensationFund (cName) VALUES ('18 DE SEPTIEMBRE');
+INSERT INTO tCompensationFund (cName) VALUES ('Los Andes');
+INSERT INTO tCompensationFund (cName) VALUES ('La Araucana');
+INSERT INTO tCompensationFund (cName) VALUES ('Los Heroes');
+INSERT INTO tCompensationFund (cName) VALUES ('Gabriela Mistral');
+INSERT INTO tCompensationFund (cName) VALUES ('18 de Septiembre');

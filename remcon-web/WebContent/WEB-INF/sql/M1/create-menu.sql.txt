@@ -15,6 +15,8 @@ INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, LAST_INSERT_ID());
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CH_PASS', 'Cambio de clave', '/servlet/admin/SearchPassword', @menuIdAdmin);
 INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, LAST_INSERT_ID());
 
+INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ENTERPRISE', 'Empresas', '/servlet/remu/EnterpriseManager', @menuIdAdmin);
+
 /**Opciones de tablas del sistema*/
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('COMMON', 'Tablas', NULL, @menuIdAdmin);
 SET @menuIdTables = LAST_INSERT_ID();
