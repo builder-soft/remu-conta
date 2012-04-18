@@ -7,19 +7,27 @@ create table tEmployee (
 	cName			VARCHAR(20) NOT NULL,
 	cLastName1		VARCHAR(20) NOT NULL,
 	cLastName2		VARCHAR(20) NOT NULL,
-	cBirthDate		DATE,
-	cAddress		VARCHAR(100),
-	cGenere			BIGINT(20) NOT NULL,
+	cBirthDate		DATE COMMENT 'Fecha de nacimiento',
+	cAddress		VARCHAR(100) COMMENT 'Direccion particular',
+	cGenere			BIGINT(20) NOT NULL COMMENT 'Genero Femenino o Masculino',
 	cComuna			BIGINT(20) NOT NULL,
-	cCountry		BIGINT(20) NOT NULL,
+	cCountry		BIGINT(20) NOT NULL COMMENT 'Nacionalidad',
 	cPhone			VARCHAR(10),
-	cMaritalStatus	BIGINT(20) NOT NULL,
+	cMaritalStatus	BIGINT(20) NOT NULL COMMENT 'Estado Civil',
 	cMovil			VARCHAR(10),
 	cEmail			VARCHAR(50),
-	cContractType	BIGINT(20) NOT NULL,
+	cContractType	BIGINT(20) NOT NULL COMMENT 'Tipo de contrato: fijo o indefinido',
+	cStartContract	DATE NOT NULL COMMENT 'Inicio de contrato',
+	cEndContract	DATE NULL COMMENT 'Fin de contrato',
 	cProfile		BIGINT(20) NOT NULL COMMENT 'Cargo de la persona',
 	cAFP			BIGINT(20) NOT NULL,
 	cIsapre			BIGINT(20) NOT NULL,
+	cUnemploymentInsurance	BIT NOT NULL DEFAULT 0 COMMENT 'Seguro de cesantia',
+	cGratificationType	BIGINT(20) NOT NULL COMMENT 'Tipo de gratificacion',
+	cPaymentType	BIGINT(20) NOT NULL COMMENT 'Tipo de pago',
+	cCurrency		BIGINT(20) NOT NULL,
+	cMobilization	DOUBLE COMMENT 'Movilizacion',
+	cFeeding		DOUBLE COMMENT 'Alimentacion',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -89,10 +97,10 @@ create table tIsapre (
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-
 create table tR_EmployeeAccount (
 	cEmployee		BIGINT(20) NOT NULL, 
-	cAccount		BIGINT(20) NOT NULL ,
+	cAccount		BIGINT(20) NOT NULL,
+	
 	PRIMARY KEY (cEmployee, cAccount)
 ) ENGINE=InnoDB;
 
@@ -102,5 +110,17 @@ create table tAccount (
 	cTarget		BIGINT(20) NOT NULL,
 	cNumber		VARCHAR(15) NOT NULL,
 	cCurrency	BIGINT(20) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+create table tGratificationType(
+	cId			BIGINT(20) NOT NULL auto_increment,
+	cName		VARCHAR(50) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+create table tPaymentType(
+	cId			BIGINT(20) NOT NULL auto_increment,
+	cName		VARCHAR(15) NOT NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;

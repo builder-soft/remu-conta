@@ -94,7 +94,6 @@ INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (75,'Valpara
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (76,'Villa Alemana',5,0);
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (77,'Vina del Mar',5,0);
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (78,'Zapallar',5,0);
-INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (79,'Chepica',6,0);
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (80,'Chimbarongo',6,0);
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (81,'Codegua',6,0);
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (82,'Coinco',6,0);

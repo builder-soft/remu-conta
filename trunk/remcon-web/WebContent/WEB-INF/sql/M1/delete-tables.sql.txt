@@ -6,6 +6,8 @@ drop table if exists remu.tContractType;
 drop table if exists remu.tProfile;
 drop table if exists remu.tAFP;
 drop table if exists remu.tIsapre;
+drop table if exists remu.tGratificationType;
+drop table if exists remu.tPaymentType;
 
 drop table if exists remu.tCostCenter;
 drop table if exists remu.tEnterprise;

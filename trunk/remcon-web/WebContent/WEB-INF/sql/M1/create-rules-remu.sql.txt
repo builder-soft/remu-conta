@@ -39,6 +39,15 @@ ALTER TABLE remu.tEmployee
 ADD INDEX `isapre_index` (`cIsapre` ASC),
 ADD CONSTRAINT withIsapre FOREIGN KEY (cIsapre) REFERENCES remu.tIsapre(cId);
 
+ALTER TABLE remu.tEmployee
+ADD INDEX `gratificationType_index` (`cGratificationType` ASC),
+ADD CONSTRAINT withGratificationType FOREIGN KEY (cGratificationType) REFERENCES remu.tGratificationType(cId);
+
+ALTER TABLE remu.tEmployee
+ADD INDEX `paymentType_index` (`cPaymentType` ASC),
+ADD CONSTRAINT withPaymentType FOREIGN KEY (cPaymentType) REFERENCES remu.tPaymentType(cId);
+
+
 /** ENTERPRISE */
 ALTER TABLE remu.tEnterprise
 ADD INDEX `comuna_index` (`cComuna` ASC),
