@@ -1,14 +1,9 @@
 package cl.buildersoft.web.servlet.remu;
 
-import java.sql.Connection;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
-import cl.buildersoft.framework.beans.BSAction;
 import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.framework.type.BSActionType;
 import cl.buildersoft.web.servlet.BSHttpServlet;
 
 /**
@@ -20,13 +15,17 @@ public class EmployeeManager extends BSHttpServlet {
 
 	@Override
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
-		BSTableConfig table = new BSTableConfig("remu", "tEmployee");
-		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request.getServletContext(),
-				"remu");
-		table.configFields(conn, mysql);
+//		BSTableConfig table = new BSTableConfig("remu", "tEmployee");
+//		BSmySQL mysql = new BSmySQL();
+//		Connection conn = mysql.getConnection(request.getServletContext(),
+//				"remu");
+//		table.configFields(conn, mysql);
+		
+		BSTableConfig table = initTable(request, "remu", "tEmployee");
 		table.setTitle("Listado de empleados");
 
+		
+		/**
 		table.getField("cLastName1").setLabel("A. Paterno");
 		table.getField("cLastName2").setLabel("A. Materno");
 		table.getField("cName").setLabel("Nombre");
@@ -55,7 +54,7 @@ public class EmployeeManager extends BSHttpServlet {
 		BSAction payMode = new BSAction("PAY_MODE", BSActionType.Record);
 		payMode.setLabel("Modo de Pago");
 		table.addAction(payMode);
-
+*/
 		return table;
 	}
 }
