@@ -17,3 +17,48 @@ INSERT INTO tCompensationFund (cName) VALUES ('Los Heroes');
 INSERT INTO tCompensationFund (cName) VALUES ('Gabriela Mistral');
 INSERT INTO tCompensationFund (cName) VALUES ('18 de Septiembre');
 
+INSERT INTO tEnterprise(cRut, cName, cLegalRep, cRutLegalRep, cCategory, cAddress, cComuna, cPhone, cMutual, cMutualFactor, cCompensationFund) 
+VALUES('1-9', 'Buildersoft Ltda.', 'Juan Perez', '1-9', 'Servicios profesionales', 'Avenida X, numero 88', 326, '2345678', 1, 0.5, 1);	
+SET @enterpriseId = LAST_INSERT_ID();
+
+INSERT INTO tCostCenter(cName, cEnterprise) VALUES('Oficina', @enterpriseId);
+SET @costCenterId = LAST_INSERT_ID();
+
+INSERT INTO tContractType (cName, cBody) VALUES('Indefinido', '');
+INSERT INTO tContractType (cName, cBody) VALUES('Plazo fijo', '');
+
+INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Administrativo', @costCenterId, 180000);
+
+INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('33', 'Capital', '1.44', '1.49');
+INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('3', 'Cuprum', '1.48', '1.49');
+INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('5', 'Habitat', '1.36', '1.49');
+INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('34', 'Modelo', '1.14', '1.49');
+INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('29', 'Planvital', '2.36', '1.49');
+INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('8', 'Provida', '1.54', '1.49');
+INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('0', 'Sin AFP', '0', '0');
+
+
+INSERT INTO tIsapre(cKey, cName) VALUES('1', 'Banmédica');
+INSERT INTO tIsapre(cKey, cName) VALUES('4', 'Colmena');
+INSERT INTO tIsapre(cKey, cName) VALUES('2', 'Consalud');
+INSERT INTO tIsapre(cKey, cName) VALUES('5', 'Cruz Blanca');
+INSERT INTO tIsapre(cKey, cName) VALUES('10', 'Ferrosalud');
+INSERT INTO tIsapre(cKey, cName) VALUES('7', 'Fonasa');
+INSERT INTO tIsapre(cKey, cName) VALUES('12', 'Fundación');
+INSERT INTO tIsapre(cKey, cName) VALUES('11', 'Fusat');
+INSERT INTO tIsapre(cKey, cName) VALUES('17', 'Mas Vida');
+INSERT INTO tIsapre(cKey, cName) VALUES('18', 'Normédica');
+INSERT INTO tIsapre(cKey, cName) VALUES('22', 'Sfera');
+INSERT INTO tIsapre(cKey, cName) VALUES('3', 'Vida Tres');
+
+INSERT INTO tGratificationType(cName) VALUES('25% Imp. (Tope 4,75imm/12)');
+INSERT INTO tGratificationType(cName) VALUES('Sin Gratificaci&oacute;n');
+INSERT INTO tGratificationType(cName) VALUES('Gratificacion por antiguedad de años trabajados');
+
+INSERT INTO tPaymentType(cName) VALUES('Efectivo');
+INSERT INTO tPaymentType(cName) VALUES('Cheque');
+INSERT INTO tPaymentType(cName) VALUES('Abono Cuenta');
+INSERT INTO tPaymentType(cName) VALUES('Vale Vista');
+INSERT INTO tPaymentType(cName) VALUES('Servipag');
+
+
