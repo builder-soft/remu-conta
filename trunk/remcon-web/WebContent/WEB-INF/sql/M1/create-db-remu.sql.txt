@@ -16,10 +16,10 @@ create table tEmployee (
 	cMaritalStatus	BIGINT(20) NOT NULL,
 	cMovil			VARCHAR(10),
 	cEmail			VARCHAR(50),
-	cCostCenter		BIGINT(20) NOT NULL,
 	cContractType	BIGINT(20) NOT NULL,
 	cProfile		BIGINT(20) NOT NULL COMMENT 'Cargo de la persona',
 	cAFP			BIGINT(20) NOT NULL,
+	cIsapre			BIGINT(20) NOT NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -34,7 +34,7 @@ create table tEnterprise (
 	cComuna				BIGINT(20) NOT NULL,
 	cPhone				VARCHAR(10),
 	cMutual				BIGINT(20) NOT NULL,
-	cMutualFactor		DOUBLE  COMMENT 'Factor Mutual',
+	cMutualFactor		DOUBLE COMMENT 'Factor Mutual',
 	cCompensationFund	BIGINT(20) NOT NULL COMMENT 'Caja de compensacion',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
@@ -66,9 +66,10 @@ create table tContractType(
 ) ENGINE=InnoDB;
 
 create table tProfile (
-	cId				BIGINT(20)  NOT NULL auto_increment, 
+	cId				BIGINT(20) NOT NULL auto_increment, 
 	cName			VARCHAR(20) NOT NULL,
 	cCostCenter		BIGINT(20) NOT NULL,
+	cCompanyCost	DOUBLE NOT NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -81,16 +82,24 @@ create table tAFP (
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+create table tIsapre (
+	cId				BIGINT(20) NOT NULL auto_increment, 
+	cKey			INTEGER	NOT NULL UNIQUE,
+	cName			VARCHAR(20) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+
 create table tR_EmployeeAccount (
-	cEmployee			BIGINT(20) NOT NULL, 
-	cAccount			BIGINT(20) NOT NULL ,
+	cEmployee		BIGINT(20) NOT NULL, 
+	cAccount		BIGINT(20) NOT NULL ,
 	PRIMARY KEY (cEmployee, cAccount)
 ) ENGINE=InnoDB;
 
 create table tAccount (
 	cId			BIGINT(20) NOT NULL auto_increment,
 	cName		VARCHAR(50) NOT NULL,  
-	cBank		BIGINT(20) NOT NULL,
+	cTarget		BIGINT(20) NOT NULL,
 	cNumber		VARCHAR(15) NOT NULL,
 	cCurrency	BIGINT(20) NOT NULL,
 	PRIMARY KEY (cId)

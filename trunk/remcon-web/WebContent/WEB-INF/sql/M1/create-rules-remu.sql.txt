@@ -24,10 +24,6 @@ ADD INDEX `comuna_index` (`cComuna` ASC),
 ADD CONSTRAINT withComunaEmployee FOREIGN KEY (cComuna) REFERENCES bscommon.tComuna(cId);
 
 ALTER TABLE remu.tEmployee
-ADD INDEX `costCenter_index` (`cCostCenter` ASC),
-ADD CONSTRAINT withCostCenter FOREIGN KEY (cCostCenter) REFERENCES remu.tCostCenter(cId);
-
-ALTER TABLE remu.tEmployee
 ADD INDEX `contractType_index` (`cContractType` ASC),
 ADD CONSTRAINT withContractType FOREIGN KEY (cContractType) REFERENCES remu.tContractType(cId);
 
@@ -39,6 +35,9 @@ ALTER TABLE remu.tEmployee
 ADD INDEX `afp_index` (`cAFP` ASC),
 ADD CONSTRAINT withAFP FOREIGN KEY (cAFP) REFERENCES remu.tAFP(cId);
 
+ALTER TABLE remu.tEmployee
+ADD INDEX `isapre_index` (`cIsapre` ASC),
+ADD CONSTRAINT withIsapre FOREIGN KEY (cIsapre) REFERENCES remu.tIsapre(cId);
 
 /** ENTERPRISE */
 ALTER TABLE remu.tEnterprise
@@ -57,3 +56,10 @@ ADD CONSTRAINT withCompensationFund FOREIGN KEY (cCompensationFund) REFERENCES r
 ALTER TABLE remu.tCostCenter
 ADD INDEX `enterpise_index_costCenter` (`cEnterprise` ASC),
 ADD CONSTRAINT withEnterpriseCC FOREIGN KEY (cEnterprise) REFERENCES remu.tEnterprise(cId);
+
+
+/** PROFILE */
+ALTER TABLE remu.tProfile
+ADD INDEX `costCenter_index` (`cCostCenter` ASC),
+ADD CONSTRAINT withCostCenter FOREIGN KEY (cCostCenter) REFERENCES remu.tCostCenter(cId);
+
