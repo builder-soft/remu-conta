@@ -20,7 +20,7 @@ drop table if exists remu.tCompensationFund;
 
 
 
-drop table if exists remu.tR_EmployeeAccount;
+/*drop table if exists remu.tR_EmployeeAccount;*/
 drop table if exists remu.tAccount;
 
 

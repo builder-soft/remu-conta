@@ -22,10 +22,8 @@ create table tEmployee (
 	cProfile		BIGINT(20) NOT NULL COMMENT 'Cargo de la persona',
 	cAFP			BIGINT(20) NOT NULL,
 	cIsapre			BIGINT(20) NOT NULL,
-	cUnemploymentInsurance	BIT NOT NULL DEFAULT 0 COMMENT 'Seguro de cesantia',
 	cGratificationType	BIGINT(20) NOT NULL COMMENT 'Tipo de gratificacion',
 	cPaymentType	BIGINT(20) NOT NULL COMMENT 'Tipo de pago',
-	cCurrency		BIGINT(20) NOT NULL,
 	cMobilization	DOUBLE COMMENT 'Movilizacion',
 	cFeeding		DOUBLE COMMENT 'Alimentacion',
 	PRIMARY KEY (cId)
@@ -97,13 +95,18 @@ create table tIsapre (
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-create table tR_EmployeeAccount (
+create table tAccount (
+	cId				BIGINT(20) NOT NULL auto_increment,
 	cEmployee		BIGINT(20) NOT NULL, 
-	cAccount		BIGINT(20) NOT NULL,
-	
-	PRIMARY KEY (cEmployee, cAccount)
+	cName			VARCHAR(50) NOT NULL,  
+	cTarget			BIGINT(20) NOT NULL,
+	cTargetType		BIGINT(20) NOT NULL,
+	cNumber			VARCHAR(15) NOT NULL,
+	cCurrency		BIGINT(20) NOT NULL,	
+	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+/**
 create table tAccount (
 	cId			BIGINT(20) NOT NULL auto_increment,
 	cName		VARCHAR(50) NOT NULL,  
@@ -112,10 +115,12 @@ create table tAccount (
 	cCurrency	BIGINT(20) NOT NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
+*/
 
 create table tGratificationType(
 	cId			BIGINT(20) NOT NULL auto_increment,
 	cName		VARCHAR(50) NOT NULL,
+	cPolynomial	VARCHAR(200), 
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
