@@ -1,15 +1,14 @@
-use bsframework;
+INSERT INTO bsframework.tDomain(cName, cAlias) VALUES('Default', 'remcon');
+SET @domainId = LAST_INSERT_ID();
 
-INSERT INTO tParameter(cSystem, cKey, cLabel, cValue, cType) VALUES(3, 'FORMAT_DATE', 'Formato de Fecha', 'dd/MM/yyyy', 6);
-INSERT INTO tParameter(cSystem, cKey, cLabel, cValue, cType) VALUES(3, 'FORMAT_DATETIME', 'Formado de fecha/hora', 'dd/MM/yyyy HH:mm', 6);
-INSERT INTO tParameter(cSystem, cKey, cLabel, cValue, cType) VALUES(3, 'FORMAT_NUMBER', 'Formato para montos', '#,###,###,###', 6);
-INSERT INTO tParameter(cSystem, cKey, cLabel, cValue, cType) VALUES(3, 'CSV_SEPARATOR', 'Separador de archivos csv', ';', 6);
-INSERT INTO tParameter(cSystem, cKey, cLabel, cValue, cType) VALUES(3, 'RECORDS_PER_PAGE', 'Registros por p&aacute;gina', '15', 8);
-
-INSERT INTO tUser(cMail, cName, cPassword) VALUES('admin', 'Administrador', md5('admin'));
+INSERT INTO bsframework.tUser(cMail, cName, cPassword, cAdmin) VALUES('admin', 'Administrador', md5('admin'), 1);
 SET @userId = LAST_INSERT_ID();
 
-INSERT INTO tRol(cName) VALUES('Administrador');
-SET @rolId = LAST_INSERT_ID();
+INSERT INTO bsframework.tR_UserDomain(cUser, cDomain) VALUES(@userId, @domainId);
 
-INSERT INTO tR_UserRol(cUser, cRol) VALUES(@userId, @rolId);
+INSERT INTO bsframework.tDomainAttribute(cDomain, cKey, cName, cValue) VALUES(@domainId, 'database.driver', 'Driver', 'org.gjt.mm.mysql.Driver');
+INSERT INTO bsframework.tDomainAttribute(cDomain, cKey, cName, cValue) VALUES(@domainId, 'database.server', 'Server', 'localhost');
+INSERT INTO bsframework.tDomainAttribute(cDomain, cKey, cName, cValue) VALUES(@domainId, 'database.database', 'Database', 'remcon');
+INSERT INTO bsframework.tDomainAttribute(cDomain, cKey, cName, cValue) VALUES(@domainId, 'database.username', 'User', 'root');
+INSERT INTO bsframework.tDomainAttribute(cDomain, cKey, cName, cValue) VALUES(@domainId, 'database.password', 'Password', 'admin');
+

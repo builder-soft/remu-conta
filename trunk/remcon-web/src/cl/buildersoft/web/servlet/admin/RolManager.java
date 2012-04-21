@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.BSTableConfig;
+import cl.buildersoft.framework.beans.Domain;
 import cl.buildersoft.web.servlet.BSHttpServlet;
 
 /**
@@ -21,7 +22,9 @@ public class RolManager extends BSHttpServlet {
 
 	@Override
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
-		BSTableConfig table = new BSTableConfig("bsframework", "tRol");
+		Domain		domain = (Domain)request.getSession().getAttribute("Domain");
+		
+		BSTableConfig table = new BSTableConfig(domain.getAlias(), "tRol");
 		table.setTitle("Mantenimeito de Roles");
 
 		BSField field = new BSField("cId", "Id");

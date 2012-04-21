@@ -43,8 +43,7 @@ public class ConfirmCSV extends AbstractServletUtil {
 		String sqlUpdate = getSQLUpdate(table);
 
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request.getServletContext(),
-				table.getDatabase());
+		Connection conn = mysql.getConnection(request );
 
 		List<Object> prms = null;
 		String sql = null;

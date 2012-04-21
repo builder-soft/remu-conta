@@ -13,7 +13,7 @@ public class BoardManager extends BSHttpServlet {
 
 	@Override
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
-		BSTableConfig table = new BSTableConfig("bscommon", "tBoard");
+		BSTableConfig table =  initTable(request, "tBoard");  // new BSTableConfig("bscommon", "tBoard");
 		table.setTitle("Tablón (tBoard)");
 
 		table.setSortField("cType, cKey");

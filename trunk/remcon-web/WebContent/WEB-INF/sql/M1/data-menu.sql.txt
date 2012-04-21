@@ -1,4 +1,4 @@
-use bsframework;
+use remcon;
 
 SELECT cId INTO @rolId FROM tRol WHERE cName = 'Administrador';
 

@@ -3,7 +3,9 @@ package cl.buildersoft.web.servlet.remu;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
+import cl.buildersoft.framework.beans.BSAction;
 import cl.buildersoft.framework.beans.BSTableConfig;
+import cl.buildersoft.framework.type.BSActionType;
 import cl.buildersoft.web.servlet.BSHttpServlet;
 
 /**
@@ -21,7 +23,7 @@ public class EmployeeManager extends BSHttpServlet {
 //				"remu");
 //		table.configFields(conn, mysql);
 		
-		BSTableConfig table = initTable(request, "remu", "tEmployee");
+		BSTableConfig table = initTable(request, "tEmployee");
 		table.setTitle("Listado de empleados");
 
 		
@@ -41,6 +43,10 @@ public class EmployeeManager extends BSHttpServlet {
 			table.getField(fieldName).setVisible(false);
 		}
 
+*/
+		table.getAction("DELETE").setLabel("Deshabilitar");
+		
+		
 		BSAction previtionalInformation = new BSAction("PREVITIONAL",
 				BSActionType.Record);
 		previtionalInformation.setLabel("Información Previsional");
@@ -54,7 +60,6 @@ public class EmployeeManager extends BSHttpServlet {
 		BSAction payMode = new BSAction("PAY_MODE", BSActionType.Record);
 		payMode.setLabel("Modo de Pago");
 		table.addAction(payMode);
-*/
 		return table;
 	}
 }

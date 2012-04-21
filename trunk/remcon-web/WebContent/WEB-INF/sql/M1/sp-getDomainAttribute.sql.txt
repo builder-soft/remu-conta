@@ -1,0 +1,14 @@
+DROP PROCEDURE if exists bsframework.getDomainAttribute;
+DELIMITER $$
+
+CREATE PROCEDURE bsframework.getDomainAttribute(IN domain BIGINT)
+BEGIN
+	SELECT		da.cId /*, da.cKey, da.cName, da.cValue*/
+	FROM 		bsframework.tDomainAttribute AS da
+	WHERE		da.cDomain = domain;
+END$$
+
+DELIMITER ;
+
+call bsframework.getDomainAttribute(1);
+

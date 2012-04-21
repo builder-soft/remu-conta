@@ -81,7 +81,7 @@ public class Upload extends HttpServlet {
 		BSmySQL mysql = new BSmySQL();
 		Connection conn;
 
-		conn = mysql.getConnection(getServletContext(), "bsframework");
+		conn = mysql.getConnection(request);
 
 		BSBeanUtils bu = new BSBeanUtils();
 		bu.insert(conn, file);

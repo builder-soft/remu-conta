@@ -38,8 +38,7 @@ public abstract class DownloadCSVServlet extends HttpServlet {
 		BSTableConfig table = getBSTableConfig();
 
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request.getServletContext(),
-				table.getDatabase());
+		Connection conn = mysql.getConnection(request );
 
 		table.configFields(conn, mysql);
 		BSField[] fields = table.deleteId();

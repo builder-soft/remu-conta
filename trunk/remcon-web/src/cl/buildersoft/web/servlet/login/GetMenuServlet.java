@@ -35,9 +35,8 @@ public class GetMenuServlet extends HttpServlet {
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		HttpSession session = request.getSession(false);
-		Connection conn = new BSDataUtils().getConnection(getServletContext(),
-				"bsframework");
+		HttpSession session = request.getSession();
+		Connection conn = new BSDataUtils().getConnection(request);
 
 		List<Rol> rols = null;
 		synchronized (session) {
