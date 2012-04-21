@@ -13,7 +13,7 @@ public class ComunaManager extends BSHttpServlet {
 
 	@Override
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
-		BSTableConfig table = new BSTableConfig("bscommon", "tComuna");
+		BSTableConfig table =  initTable(request, "tComuna");
 		table.setTitle("Comunas del país");
 
 		table.setSortField("cName");

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import cl.buildersoft.framework.beans.BSTableConfig;
+import cl.buildersoft.framework.beans.Domain;
 import cl.buildersoft.framework.database.BSmySQL;
 
 public abstract class BSHttpServlet extends HttpServlet {
@@ -43,11 +44,12 @@ public abstract class BSHttpServlet extends HttpServlet {
 	}
 
 	protected BSTableConfig initTable(HttpServletRequest request,
-			String database, String tableName) {
-		BSTableConfig table = new BSTableConfig(database, tableName);
+			String tableName) {
+		Domain domain = (Domain) request.getSession().getAttribute("Domain");
+
+		BSTableConfig table = new BSTableConfig(domain.getAlias(), tableName);
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request.getServletContext(),
-				database);
+		Connection conn = mysql.getConnection(request);
 		table.configFields(conn, mysql);
 		return table;
 	}

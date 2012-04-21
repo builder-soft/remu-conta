@@ -15,8 +15,10 @@ public class EnterpriseManager extends BSHttpServlet {
 
 	@Override
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
-		BSTableConfig table = initTable(request, "remu", "tEnterprise");
+		BSTableConfig table = initTable(request, "tEnterprise");
 
+
+		
 		table.setTitle("Empresas");
 
 		table.getField("cName").setLabel("Nombre/Razón Social");

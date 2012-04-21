@@ -153,8 +153,7 @@ public class BSWeb {
 		Boolean out = Boolean.TRUE;
 
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request.getServletContext(),
-				"bsframework");
+		Connection conn = mysql.getConnection(request);
 
 		BSMenuService menuService = new BSMenuServiceImpl();
 		Option option = menuService.searchResourceByKey(conn, optionKey);

@@ -49,7 +49,7 @@ public class UpdateRecord extends AbstractServletUtil {
 		Connection conn = null;
 		BSmySQL mySQL = new BSmySQL();
 
-		conn = mySQL.getConnection(getServletContext(), "bsframework");
+		conn = mySQL.getConnection(request);
 		params = getParams(conn, request, fieldsWidthoutId, idField);
 
 		mySQL.update(conn, sql, params);

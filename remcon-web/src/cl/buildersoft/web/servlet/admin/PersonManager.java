@@ -22,11 +22,10 @@ public class PersonManager extends BSHttpServlet implements Servlet {
 
 	@Override
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
-		BSTableConfig table = new BSTableConfig("remu", "tPerson");
+		BSTableConfig table =  initTable(request, "tPerson");
 
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request.getServletContext(),
-				"remu");
+		Connection conn = mysql.getConnection(request);
 		table.configFields(conn, mysql);
 
 		table.setSortField("cNombre");

@@ -45,8 +45,7 @@ public class NatTable extends HttpServlet {
 		String sql = getSQL(action, table.getTableName());
 
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request.getServletContext(),
-				"bsframework");
+		Connection conn = mysql.getConnection(request);
 
 		ResultSet relation = getRelation(id, sql, mysql, conn);
 		request.setAttribute("Relation", relation);

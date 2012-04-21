@@ -33,8 +33,7 @@ public class RoleDef extends HttpServlet {
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request.getServletContext(),
-				"bsframework");
+		Connection conn = mysql.getConnection(request);
 
 		String sql = "SELECT cId, cName FROM tRol";
 		ResultSet rolsResultSet = mysql.queryResultSet(conn, sql, null);

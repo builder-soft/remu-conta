@@ -47,10 +47,9 @@ public abstract class BSCSVServlet extends AbstractServletUtil {
 	 */
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-//		Integer rowCount = 0;
+		// Integer rowCount = 0;
 		BSmySQL mySQL = new BSmySQL();
-		Connection conn = mySQL.getConnection(request.getServletContext(),
-				"remu");
+		Connection conn = mySQL.getConnection(request);
 
 		BSTableConfig table = getBSTableConfig();
 		table.configFields(conn, mySQL);
@@ -79,7 +78,7 @@ public abstract class BSCSVServlet extends AbstractServletUtil {
 									+ separator + "'");
 				}
 				List<Map<String, BSData>> allData = new ArrayList<Map<String, BSData>>();
-				
+
 				while (fileContent.readRecord()) {
 					Map<String, BSData> dataRow = new LinkedHashMap<String, BSData>();
 
@@ -92,7 +91,7 @@ public abstract class BSCSVServlet extends AbstractServletUtil {
 					}
 					dataRow.put("result", new BSData(""));
 					allData.add(dataRow);
-					
+
 				}
 				fileContent.close();
 
@@ -190,6 +189,5 @@ public abstract class BSCSVServlet extends AbstractServletUtil {
 
 		return out;
 	}
-
 
 }

@@ -43,7 +43,7 @@ public class SearchRecord extends AbstractServletUtil {
 		Connection conn = null;
 		BSmySQL mySQL = new BSmySQL();
 
-		conn = mySQL.getConnection(getServletContext(), "bsframework");
+		conn = mySQL.getConnection(request);
 		ResultSet rs = mySQL.queryResultSet(conn, sql, array2List(id));
 		resultset2Table(rs, table);
 

@@ -27,8 +27,7 @@ public class PersonFK extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		BSmySQL mysql = new BSmySQL();
 
-		Connection conn = mysql.getConnection(request.getServletContext(),
-				"remu");
+		Connection conn = mysql.getConnection(request);
 
 		List<Object> prms = new ArrayList<Object>();
 		prms.add("hola po");

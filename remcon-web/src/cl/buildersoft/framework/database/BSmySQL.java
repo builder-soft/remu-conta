@@ -112,6 +112,13 @@ public class BSmySQL extends BSDataUtils {
 	}
 
 	public ResultSet callSingleSP(Connection conn, String name,
+			Object oneParameter) {
+		List<Object> prms = new ArrayList<Object>();
+		prms.add(oneParameter);
+		return callSingleSP(conn, name, prms);
+	}
+
+	public ResultSet callSingleSP(Connection conn, String name,
 			List<Object> parameter) {
 		String sqlStatement = getSQL4SP(name, parameter);
 

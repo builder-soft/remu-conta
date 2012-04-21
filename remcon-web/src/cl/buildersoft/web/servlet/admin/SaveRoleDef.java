@@ -29,8 +29,7 @@ public class SaveRoleDef extends HttpServlet {
 		Long rol = Long.parseLong(request.getParameter("Rol"));
 
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request.getServletContext(),
-				"bsframework");
+		Connection conn = mysql.getConnection(request);
 		try {
 			mysql.setAutoCommit(conn, false);
 

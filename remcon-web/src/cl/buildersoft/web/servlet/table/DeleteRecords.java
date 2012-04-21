@@ -44,7 +44,7 @@ public class DeleteRecords extends AbstractServletUtil {
 		Connection conn = null;
 		BSmySQL mySQL = new BSmySQL();
 
-		conn = mySQL.getConnection(getServletContext(), "bsframework");
+		conn = mySQL.getConnection(request);
 		for (String value : values) {
 			Long id = Long.parseLong(value);
 

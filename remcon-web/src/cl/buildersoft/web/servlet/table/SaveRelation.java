@@ -49,8 +49,7 @@ public class SaveRelation extends HttpServlet {
 		}
 
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request.getServletContext(),
-				"bsframework");
+		Connection conn = mysql.getConnection(request);
 
 		BSAction action = table.getAction("ROL_RELATION");
 

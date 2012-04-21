@@ -20,6 +20,7 @@
     <param-name>bsframework.recordPerPage</param-name>
     <param-value>15</param-value>
   </context-param>
+  
   <context-param>
     <param-name>bsframework.database.driver</param-name>
     <param-value>org.gjt.mm.mysql.Driver</param-value>
@@ -40,6 +41,8 @@
     <param-name>bsframework.database.password</param-name>
     <param-value>admin</param-value>
   </context-param>
+  
+  <!-- 
   <context-param>
     <param-name>bscommon.database.driver</param-name>
     <param-value>org.gjt.mm.mysql.Driver</param-value>
@@ -80,6 +83,7 @@
     <param-name>remu.database.password</param-name>
     <param-value>admin</param-value>
   </context-param>
+   -->
   <error-page>
     <exception-type>java.lang.BSException</exception-type>
     <location>/jsp/error/error.jsp</location>
