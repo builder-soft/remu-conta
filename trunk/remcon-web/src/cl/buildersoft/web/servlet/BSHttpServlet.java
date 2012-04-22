@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import cl.buildersoft.framework.beans.Domain;
 
 import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.framework.beans.Domain;
 import cl.buildersoft.framework.database.BSmySQL;
 
 public abstract class BSHttpServlet extends HttpServlet {
