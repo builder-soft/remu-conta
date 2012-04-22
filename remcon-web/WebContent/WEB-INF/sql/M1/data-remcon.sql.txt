@@ -675,3 +675,12 @@ INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Administrativo', 
 
 INSERT INTO tEmployee(cRut,cName,cLastName1,cLastName2,cBirthDate,cAddress,cGenere,cComuna,cCountry,cMaritalStatus,cContractType,cStartContract,cEndContract,cProfile,cAFP,cIsapre,cGratificationType,cPaymentType,cMobilization,cFeeding, cPhone, cMovil, cEmail) 
 VALUES('10809246-7','Pato','Aranguiz','Torres','1966-08-28','Fray Camilo Henriquez 2063',2,315,41,5,2,'2009-12-01','2013-01-01',1,3,6,1,3,580,395,'', '','');
+
+INSERT INTO tapvinstitution (cId,cName) VALUES(null,'ABN seguros de vida');
+INSERT INTO tapvinstitution (cId,cName) VALUES(null,'BANCHILE corredores de bolsa');
+INSERT INTO tapvinstitution (cId,cName) VALUES(null,'Administradora general de fondos security S.A');
+
+INSERT INTO tunidadcuenta(cId,cUnidad) VALUES(null,'Peso');
+INSERT INTO tunidadcuenta(cId,cUnidad) VALUES(null,'UF');
+
+INSERT INTO temployeeapv(cId,cIdemployee,cIdunidad,cIdapvInstitution) VALUES(null,1,1,1);

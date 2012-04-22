@@ -200,4 +200,44 @@ create table tPaymentType(
 	cName		VARCHAR(15) NOT NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
+
+create table tapvinstitution(
+	cId			BIGINT(20) NOT NULL auto_increment,
+	cName		VARCHAR(15) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+create table tunidadcuenta(
+	cId			BIGINT(20) NOT NULL auto_increment,
+	cName		VARCHAR(15) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB; 
+
+
+/** crea la relacion del empleado con las APV's
+CREATE  TABLE temployeeApv (
+  cId BIGINT NOT NULL AUTO_INCREMENT ,
+  cIdemployee BIGINT NOT NULL ,
+  cIdunidad BIGINT NOT NULL ,
+  cIdapvInstitution BIGINT NOT NULL ,
+  PRIMARY KEY (cId) ,
+  INDEX idEmployee (cIdemployee ASC) ,
+  INDEX idUnidad (cIdunidad ASC) ,
+  INDEX idApvInstitution (cIdapvInstitution ASC) ,
+  CONSTRAINT idEmployee
+    FOREIGN KEY (cIdemployee )
+    REFERENCES temployee (cId )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT idUnidad
+    FOREIGN KEY (cIdunidad )
+    REFERENCES tunidadcuenta (cId )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT idApvInstitution
+    FOREIGN KEY (cIdapvInstitution )
+    REFERENCES tapvinstitution (cId )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION) ENGINE=InnoDB;
+
  

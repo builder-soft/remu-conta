@@ -26,8 +26,6 @@ public class EmployeeManager extends BSHttpServlet {
 		BSTableConfig table = initTable(request, "tEmployee");
 		table.setTitle("Listado de empleados");
 
-		
-		/**
 		table.getField("cLastName1").setLabel("A. Paterno");
 		table.getField("cLastName2").setLabel("A. Materno");
 		table.getField("cName").setLabel("Nombre");
@@ -36,20 +34,28 @@ public class EmployeeManager extends BSHttpServlet {
 		table.getField("cGenere").setLabel("Género");
 		table.getField("cCountry").setLabel("Nacionalidad");
 		table.getField("cMaritalStatus").setLabel("Estado Civil");
+		table.getField("cContractType").setLabel("Tipo de contrato");
+		table.getField("cStartContract").setLabel("Fecha ingreso");
+		table.getField("cEndContract").setLabel("Fecha fin");
+		table.getField("cProfile").setLabel("Perfil");
+		table.getField("cAFP").setLabel("AFP");
+		table.getField("cIsapre").setLabel("Isapre");
+		table.getField("cGratificationType").setLabel("Tipo de gratificacion");
+		table.getField("cPaymentType").setLabel("Tipo de pago");
+		table.getField("cMobilization").setLabel("Movilizacion");
 
-		String[] noVisibleFields = { "cEmail", "cMovil", "cPhone", "cComuna",
-				"cAddress", "cBirthDate" };
+		String[] noVisibleFields = { "cCountry", "cMaritalStatus", "cProfile", "cEmail", "cMovil", "cPhone", "cComuna",
+				"cAddress", "cBirthDate", "cGratificationType", "cFeeding", "cMobilization"};
 		for (String fieldName : noVisibleFields) {
 			table.getField(fieldName).setVisible(false);
 		}
-
-*/
 		table.getAction("DELETE").setLabel("Deshabilitar");
 		
 		
 		BSAction previtionalInformation = new BSAction("PREVITIONAL",
 				BSActionType.Record);
 		previtionalInformation.setLabel("Información Previsional");
+		previtionalInformation.setUrl("/servlet/table/EmployeeInformation");
 		table.addAction(previtionalInformation);
 
 		BSAction contractualInformation = new BSAction("CONTRACTUAL",
