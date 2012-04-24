@@ -39,7 +39,7 @@ public class EmployeeManager extends BSHttpServlet {
 		table.getField("cEndContract").setLabel("Fecha fin");
 		table.getField("cProfile").setLabel("Perfil");
 		table.getField("cAFP").setLabel("AFP");
-		table.getField("cIsapre").setLabel("Isapre");
+		table.getField("cHealth").setLabel("Isapre");
 		table.getField("cGratificationType").setLabel("Tipo de gratificacion");
 		table.getField("cPaymentType").setLabel("Tipo de pago");
 		table.getField("cMobilization").setLabel("Movilizacion");

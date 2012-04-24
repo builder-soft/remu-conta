@@ -164,18 +164,19 @@
 		String out = "";
 
 		if (isPk) {
-			out += "<span class='cData'>"+value+"</span>";
-		} else {
-			out += "<input type='" + type + "' name='";
-			out += name;
-			out += "' ";
-			out += "maxlength='" + maxlength + "' ";
-			out += isReadonly ? "READONLY " : "";
-			out += "value='" + value + "' ";
-			out += "size='" + size + "px' ";
-			out += "onBlur='javascript:" + validationOnBlur + "(this)'";
-			out += ">&nbsp;" + afterInput;
+			out += "<span class='cData'>" + value + "</span>";
+			type = isPk ? "hidden" : type;
 		}
+		out += "<input type='" + type + "' name='";
+		out += name;
+		out += "' ";
+		out += "maxlength='" + maxlength + "' ";
+		out += isReadonly ? "READONLY " : "";
+		out += "value='" + value + "' ";
+		out += "size='" + size + "px' ";
+		out += "onBlur='javascript:" + validationOnBlur + "(this)'";
+		out += ">&nbsp;" + afterInput;
+
 		return out;
 	}
 

@@ -7,7 +7,7 @@ drop table if exists remcon.tBoard;
 drop table if exists remcon.tContractType;
 drop table if exists remcon.tProfile;
 drop table if exists remcon.tAFP;
-drop table if exists remcon.tIsapre;
+drop table if exists remcon.tHealth;
 drop table if exists remcon.tGratificationType;
 drop table if exists remcon.tPaymentType;
 

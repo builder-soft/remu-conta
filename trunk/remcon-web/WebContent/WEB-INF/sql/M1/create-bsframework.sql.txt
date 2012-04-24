@@ -19,10 +19,10 @@ USE bsframework;
 
 CREATE TABLE IF NOT EXISTS tUser (
 	cId			BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	cMail 		VARCHAR(50) NOT NULL UNIQUE,
-	cName		VARCHAR(100) NOT NULL,
-	cPassword	VARCHAR(64) NOT NULL,
-	cAdmin		BIT			NOT NULL DEFAULT 0	
+	cMail 		VARCHAR(50) NOT NULL UNIQUE COMMENT 'Campo con el cual el usuario hace login, ideal es que sea el mail para que no se le olvide',
+	cName		VARCHAR(100) NOT NULL COMMENT 'El nombre real del usuario',
+	cPassword	VARCHAR(64) COMMENT 'Codificada en md5',
+	cAdmin		BIT			NOT NULL DEFAULT 0	COMMENT 'Este campo indica si tiene accedo de administrador, de manera de poder modificar usuarios de todos los dominios'
 ) ENGINE=innoDB;
 
 CREATE TABLE IF NOT EXISTS tDomain (

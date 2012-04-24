@@ -1,0 +1,36 @@
+DROP PROCEDURE if exists bsframework.getUserList;
+DELIMITER $$
+
+CREATE PROCEDURE bsframework.getUserList(IN pUser BIGINT, IN pSearch VARCHAR(255), IN pRecord INT, IN pRXP INT)
+BEGIN
+	SET @isAdmin = (SELECT cAdmin FROM tUser WHERE cId = pUser);
+	
+	IF @isAdmin THEN
+		SELECT		cId, cMail, cName, cAdmin 
+		FROM 		bsframework.tUser
+		WHERE		CONCAT(cMail, cName) LIKE pSearch
+		LIMIT		pRecord,pRXP;
+	ELSE
+		SELECT		cId, cMail, cName 
+		FROM 		bsframework.tUser
+		WHERE		CONCAT(cMail, cName) LIKE pSearch AND !cAdmin
+		LIMIT		pRecord,pRXP;
+	END IF;
+END$$
+
+DELIMITER ;
+/*
+call bsframework.getUserList(1, '%%', 2, 3);
+select '----';
+*/
+call bsframework.getUserList(1, '%%', 0, 10);
+
+call bsframework.getUserList(1, '%%', 0, 3);
+call bsframework.getUserList(1, '%b%', 0, 3);
+
+call bsframework.getUserList(2, '%%', 0, 10);
+call bsframework.getUserList(2, '%b%', 0, 3);
+
+
+
+

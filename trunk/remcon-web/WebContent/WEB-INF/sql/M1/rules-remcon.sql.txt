@@ -64,8 +64,8 @@ ADD INDEX `afp_index` (`cAFP` ASC),
 ADD CONSTRAINT withAFP FOREIGN KEY (cAFP) REFERENCES remcon.tAFP(cId);
 
 ALTER TABLE remcon.tEmployee
-ADD INDEX `isapre_index` (`cIsapre` ASC),
-ADD CONSTRAINT withIsapre FOREIGN KEY (cIsapre) REFERENCES remcon.tIsapre(cId);
+ADD INDEX `Health_index` (`cHealth` ASC),
+ADD CONSTRAINT withHealth FOREIGN KEY (cHealth) REFERENCES remcon.tHealth(cId);
 
 ALTER TABLE remcon.tEmployee
 ADD INDEX `gratificationType_index` (`cGratificationType` ASC),
