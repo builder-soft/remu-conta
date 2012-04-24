@@ -11,5 +11,7 @@ END$$
 
 DELIMITER ;
 
+/*
 call bsframework.getDomainsForUser(1);
+*/
 

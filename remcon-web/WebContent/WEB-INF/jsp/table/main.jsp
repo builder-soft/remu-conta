@@ -172,7 +172,6 @@
 	%>
 </form>
 
-
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 
 <%!private String writeValues(Object[] values, BSField[] fields,

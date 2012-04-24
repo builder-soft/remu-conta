@@ -61,6 +61,10 @@ public class ValidateLoginServlet extends HttpServlet {
 		Map<String, DomainAttribute> domainAttribute = null;
 		if (user != null) {
 			domains = getDomains(connBSframework, user);
+			if (domains.size() == 0) {
+				throw new BSUserException("", "El usuario '" + user.getMail()
+						+ "' no esta completamente configurado");
+			}
 			defaultDomain = domains.get(0);
 			domainAttribute = getDomainAttribute(connBSframework, defaultDomain);
 			connDomain = dau.getConnection(domainAttribute);

@@ -1,0 +1,25 @@
+DROP PROCEDURE if exists bsframework.setUserSave;
+DELIMITER $$
+
+CREATE PROCEDURE bsframework.setUserSave(IN pId BIGINT, IN pMail VARCHAR(50), IN pName VARCHAR(100), IN pPassword VARCHAR(64), IN pAdmin BIT)
+BEGIN
+	DECLARE countUsers INT DEFAULT 0;
+	SELECT COUNT(cId) INTO countUsers FROM bsframework.tUser WHERE cId = pId;
+
+	IF countUsers > 0 THEN
+		UPDATE bsframework.tUser 
+			SET cMail=pMail, cName=pName, cPassword=pPassword, cAdmin=pAdmin 
+			WHERE cId=pId;
+	ELSE
+		INSERT INTO bsframework.tUser(cMail, cName, cPassword, cAdmin)
+			VALUES(pMail, pName, pPassword, pAdmin);
+	END IF;
+
+END$$
+
+DELIMITER ;
+
+call bsframework.setUserSave(3, 'a','b','c', 0);
+
+/*call bsframework.setUserSave(20, '','','', 1);*/
+

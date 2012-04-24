@@ -34,6 +34,10 @@ public class BSTableConfig {
 	private String pk = null;
 	private String key = null;
 
+	public BSTableConfig(String database) {
+		this.database = database;
+	}
+
 	public BSTableConfig(String database, String tableName) {
 		this.database = database;
 		this.fields = new String[0];
@@ -45,7 +49,6 @@ public class BSTableConfig {
 		createInsert();
 		createEdit();
 		createDelete();
-
 	}
 
 	public String getDatabase() {
@@ -119,6 +122,10 @@ public class BSTableConfig {
 	private void configBasic(Connection conn, BSmySQL mysql) {
 		String sql = getSQL();
 		ResultSet resultSet = mysql.queryResultSet(conn, sql, null);
+		configBasic(conn, mysql, resultSet);
+	}
+
+	protected void configBasic(Connection conn, BSmySQL mysql, ResultSet resultSet) {
 		BSField[] fields = getFields();
 
 		ResultSetMetaData metaData;
@@ -381,7 +388,7 @@ public class BSTableConfig {
 		return databases;
 	}
 
-	private void configField(Connection conn, ResultSetMetaData metaData,
+	protected void configField(Connection conn, ResultSetMetaData metaData,
 			String name, Integer i, BSField field) {
 		try {
 			if (field.getType() == null) {

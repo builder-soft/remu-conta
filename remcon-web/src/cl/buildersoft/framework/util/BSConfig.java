@@ -21,4 +21,7 @@ public class BSConfig extends BSDataUtils {
 		return seperator.toCharArray()[0];
 	}
 
+	public Integer getRecordsPerPage(Connection conn) {
+		return getInteger(conn, "RECORDS_PER_PAGE");
+	}
 }

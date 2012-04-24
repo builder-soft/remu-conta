@@ -10,5 +10,6 @@ END$$
 
 DELIMITER ;
 
+/*
 call bsframework.getDomainAttribute(1);
-
+*/
