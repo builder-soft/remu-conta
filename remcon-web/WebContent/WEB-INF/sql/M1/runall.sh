@@ -1,16 +1,16 @@
 clear
 echo 'borrando...'
-mysql -u root -padmin < delete-tables.sql.txt
+mysql -u root -padmin < erase-tables.sql.txt
 echo 'creando tablas...'
 mysql -u root -padmin < create-bsframework.sql.txt
-mysql -u root -padmin < create-bscommon.sql.txt
-mysql -u root -padmin < create-remu.sql.txt
+mysql -u root -padmin < create-remcon.sql.txt
 echo 'creando indices...'
-mysql -u root -padmin < rules-bscommon.sql.txt
 mysql -u root -padmin < rules-bsframework.sql.txt
-mysql -u root -padmin < rules-remu.sql.txt
+mysql -u root -padmin < rules-remcon.sql.txt
 echo 'creando sp....'
 for i in $(ls sp*.sql.txt); do mysql -u root -padmin < $i; done 
 echo 'creando datos basicos'
-for i in $(ls data*.sql.txt); do mysql -u root -padmin < $i; done
+mysql -u root -padmin < data-bsframework.sql.txt
+mysql -u root -padmin < data-remcon.sql.txt
+mysql -u root -padmin < data-menu.sql.txt
 echo 'fin'
