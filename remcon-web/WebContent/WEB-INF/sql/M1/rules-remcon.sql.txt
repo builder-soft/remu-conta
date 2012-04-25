@@ -1,38 +1,13 @@
 use remcon;
 
+
 ALTER TABLE tR_RolOption ADD PRIMARY KEY(cRol, cOption);
 
 ALTER TABLE tR_UserRol ADD PRIMARY KEY(cUser,cRol);
 
-DROP VIEW IF EXISTS vSystem;
-CREATE VIEW vSystem
-AS
-SELECT cId, cValue AS cName FROM tBoard WHERE cType='SYSTEM';
 
-DROP VIEW IF EXISTS vType;
-CREATE VIEW vType
-AS
-SELECT cId, cValue AS cName FROM tBoard WHERE cType='TYPE';
 
-DROP VIEW IF EXISTS vTypeOption;
-CREATE VIEW vTypeOption
-AS
-SELECT cId, cValue AS cName FROM tBoard WHERE cType='TYPE_OPTION';
-
-DROP VIEW IF EXISTS vMaritalStatus;
-CREATE VIEW vMaritalStatus
-AS
-SELECT cId, cValue AS cName FROM tBoard WHERE cType='MARITAL_STATUS';
-
-DROP VIEW IF EXISTS vGenere;
-CREATE VIEW vGenere
-AS
-SELECT cId, cValue AS cName FROM remcon.tBoard WHERE cType='GENERE';
-
-DROP VIEW IF EXISTS vCurrency;
-CREATE VIEW vCurrency
-AS
-SELECT cId, cValue AS cName FROM remcon.tBoard WHERE cType='CURRENCY';
+/** L L A V E S   F O R A N E A S **/
 
 /** EMPLOYEE */
 ALTER TABLE remcon.tEmployee
@@ -60,12 +35,12 @@ ADD INDEX `profile_index` (`cProfile` ASC),
 ADD CONSTRAINT withProfile FOREIGN KEY (cProfile) REFERENCES remcon.tProfile(cId);
 
 ALTER TABLE remcon.tEmployee
-ADD INDEX `afp_index` (`cAFP` ASC),
-ADD CONSTRAINT withAFP FOREIGN KEY (cAFP) REFERENCES remcon.tAFP(cId);
+ADD INDEX `pfm_index` (`cPFM` ASC),
+ADD CONSTRAINT withPFM FOREIGN KEY (cPFM) REFERENCES remcon.tBoard(cId);
 
 ALTER TABLE remcon.tEmployee
 ADD INDEX `Health_index` (`cHealth` ASC),
-ADD CONSTRAINT withHealth FOREIGN KEY (cHealth) REFERENCES remcon.tHealth(cId);
+ADD CONSTRAINT withHealth FOREIGN KEY (cHealth) REFERENCES remcon.tBoard(cId);
 
 ALTER TABLE remcon.tEmployee
 ADD INDEX `gratificationType_index` (`cGratificationType` ASC),
@@ -73,26 +48,27 @@ ADD CONSTRAINT withGratificationType FOREIGN KEY (cGratificationType) REFERENCES
 
 ALTER TABLE remcon.tEmployee
 ADD INDEX `paymentType_index` (`cPaymentType` ASC),
-ADD CONSTRAINT withPaymentType FOREIGN KEY (cPaymentType) REFERENCES remcon.tPaymentType(cId);
+ADD CONSTRAINT withPaymentType FOREIGN KEY (cPaymentType) REFERENCES remcon.tBoard(cId);
 
 /** ENTERPRISE */
 ALTER TABLE remcon.tEnterprise
 ADD INDEX `comuna_index` (`cComuna` ASC),
 ADD CONSTRAINT withComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(cId);
 
+/*
 ALTER TABLE remcon.tEnterprise
 ADD INDEX `mutual_index` (`cMutual` ASC),
 ADD CONSTRAINT withMutual FOREIGN KEY (cMutual) REFERENCES remcon.tMutual(cId);
+*/
 
-ALTER TABLE remcon.tEnterprise
-ADD INDEX `compensationFund_index` (`cCompensationFund` ASC),
-ADD CONSTRAINT withCompensationFund FOREIGN KEY (cCompensationFund) REFERENCES remcon.tCompensationFund(cId);
+ALTER TABLE remcon.tParameter
+ADD INDEX `Parameter_index` (`cType` ASC),
+ADD CONSTRAINT ParameterToBoard FOREIGN KEY (cType) REFERENCES remcon.tBoard(cId);
 
 /** COST CENTER */
 ALTER TABLE remcon.tCostCenter
 ADD INDEX `enterpise_index_costCenter` (`cEnterprise` ASC),
 ADD CONSTRAINT withEnterpriseCC FOREIGN KEY (cEnterprise) REFERENCES remcon.tEnterprise(cId);
-
 
 /** PROFILE */
 ALTER TABLE remcon.tProfile
@@ -115,3 +91,10 @@ ADD INDEX `index_rol` (`cRol` ASC),
 ADD INDEX `index_user` (`cUser` ASC),
 ADD CONSTRAINT r_UserRolToRol FOREIGN KEY (cRol) REFERENCES remcon.tRol(cId);/*,
 ADD CONSTRAINT r_RolOptionToOption FOREIGN KEY (cOption) REFERENCES remcon.tOption(cId);*/
+
+/* PFM */
+ALTER TABLE remcon.tPFMAttribute
+ADD INDEX `PFMAttribute_index_Board` (`cPFM` ASC),
+ADD CONSTRAINT PFMAttributeToBoard FOREIGN KEY (cPFM) REFERENCES remcon.tBoard(cId);
+
+

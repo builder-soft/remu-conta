@@ -23,3 +23,7 @@ call bsframework.setUserSave(3, 'a','b','c', 0);
 
 /*call bsframework.setUserSave(20, '','','', 1);*/
 
+/**
+select * from bsframework.tUser;
+*/
+
