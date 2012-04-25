@@ -25,7 +25,6 @@ INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('BOARD', 'Tablon', '/ser
 /**INSERT INTO tR_RolOption(cRol, cOption) VALUES(1, LAST_INSERT_ID());*/
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PARAMS', 'Par&aacute;metros del Sistema', '/servlet/common/ParameterManager', @menuIdTables);
 SET @menuIdSysparam = LAST_INSERT_ID();
-/*INSERT INTO tR_RolOption(cRol, cOption) VALUES(1, @menuId);*/
 
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cType) VALUES('ADD_PARAMS', 'Bot&oacute;n Nuevo', null, @menuIdSysparam, 2);
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cType) VALUES('MOD_PARAMS', 'Bot&oacute;n Modificar', null, @menuIdSysparam, 2);

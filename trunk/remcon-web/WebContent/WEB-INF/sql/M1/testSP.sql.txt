@@ -1,0 +1,2 @@
+select * from remcon.vPFM;
+select * from remcon.tBoard;

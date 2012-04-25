@@ -6,11 +6,25 @@ INSERT INTO `tperson` (`cId`,`cRUT`,`cGenere`,`cFechaRegistro`,`cNombre`,`cApell
 INSERT INTO `tperson` (`cId`,`cRUT`,`cGenere`,`cFechaRegistro`,`cNombre`,`cApellidoPaterno`,`cApellidoMaterno`,`cDireccion`,`cNumero`,`cVilla`,`cBlock`,`cDepartamento`,`cComuna`,`cTelefono`,`cCelular`,`cMail`) VALUES (4,'15348723-5',1,'2007-05-23','MARIA EUGENIA','DURAN','RAMIREZ','LIRQUEN','7888','0','','',294,'5252740','8-8218417','quenitahermosa_22@hotmail.com');
 */
 
-INSERT INTO tParameter(cSystem, cKey, cLabel, cValue, cType) VALUES(3, 'FORMAT_DATE', 'Formato de Fecha', 'dd/MM/yyyy', 6);
-INSERT INTO tParameter(cSystem, cKey, cLabel, cValue, cType) VALUES(3, 'FORMAT_DATETIME', 'Formado de fecha/hora', 'dd/MM/yyyy HH:mm', 6);
-INSERT INTO tParameter(cSystem, cKey, cLabel, cValue, cType) VALUES(3, 'FORMAT_NUMBER', 'Formato para montos', '#,###,###,###', 6);
-INSERT INTO tParameter(cSystem, cKey, cLabel, cValue, cType) VALUES(3, 'CSV_SEPARATOR', 'Separador de archivos csv', ';', 6);
-INSERT INTO tParameter(cSystem, cKey, cLabel, cValue, cType) VALUES(3, 'RECORDS_PER_PAGE', 'Registros por p&aacute;gina', '15', 8);
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('DATA_TYPE', 'STRING', 'String');
+SET @stringId = LAST_INSERT_ID();
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('DATA_TYPE', 'DOUBLE', 'Double');
+SET @doubleId = LAST_INSERT_ID();
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('DATA_TYPE', 'INTEGER', 'Integer');
+SET @integerId = LAST_INSERT_ID();
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('DATA_TYPE', 'TIMESTAMP', 'Timestamp');
+SET @timestampId = LAST_INSERT_ID();
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('DATA_TYPE', 'BOOLEAN', 'Boolean');
+SET @booleanId = LAST_INSERT_ID();
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('DATA_TYPE', 'LONG', 'Long');
+SET @longId = LAST_INSERT_ID();
+
+INSERT INTO tParameter(cKey, cLabel, cValue, cType) VALUES('FORMAT_DATE', 'Formato de Fecha', 'dd/MM/yyyy', @stringId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cType) VALUES('FORMAT_DATETIME', 'Formado de fecha/hora', 'dd/MM/yyyy HH:mm', @stringId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cType) VALUES('FORMAT_NUMBER', 'Formato para montos', '#,###,###,###', @stringId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cType) VALUES('CSV_SEPARATOR', 'Separador de archivos csv', ';', @stringId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cType) VALUES('RECORDS_PER_PAGE', 'Registros por p&aacute;gina', '15', @integerId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cType) VALUES('BASE_SALARY', 'Sueldo Base', '185000', @doubleId);
 
 INSERT INTO tRol(cName) VALUES('Administrador');
 SET @rolId = LAST_INSERT_ID();
@@ -19,50 +33,40 @@ SELECT cId INTO @userId FROM bsframework.tUser WHERE cMail = 'admin';
 
 INSERT INTO tR_UserRol(cUser, cRol) VALUES(@userId, @rolId);
 
-INSERT INTO tMutual (cName) VALUES ( 'Asociaci&oacute;n Chilena de Seguridad' );
-INSERT INTO tMutual (cName) VALUES ( 'Mutual de Seguridad' );
-INSERT INTO tMutual (cName) VALUES ( 'Instituto de Seguridad del Trabajo' );
-
-INSERT INTO tCompensationFund (cName) VALUES ('Los Andes');
-INSERT INTO tCompensationFund (cName) VALUES ('La Araucana');
-INSERT INTO tCompensationFund (cName) VALUES ('Los Heroes');
-INSERT INTO tCompensationFund (cName) VALUES ('Gabriela Mistral');
-INSERT INTO tCompensationFund (cName) VALUES ('18 de Septiembre');
-
 INSERT INTO tContractType (cName, cBody) VALUES('Indefinido', '');
 INSERT INTO tContractType (cName, cBody) VALUES('Plazo fijo', '');
-
-INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('33', 'Capital', '1.44', '1.49');
-INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('3', 'Cuprum', '1.48', '1.49');
-INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('5', 'Habitat', '1.36', '1.49');
-INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('34', 'Modelo', '1.14', '1.49');
-INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('29', 'Planvital', '2.36', '1.49');
-INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('8', 'Provida', '1.54', '1.49');
-INSERT INTO tAFP(cKey, cName, cFactor, cSIS) VALUES('0', 'Sin AFP', '0', '0');
-
-
-INSERT INTO tHealth(cKey, cName) VALUES('1', 'Banmédica');
-INSERT INTO tHealth(cKey, cName) VALUES('4', 'Colmena');
-INSERT INTO tHealth(cKey, cName) VALUES('2', 'Consalud');
-INSERT INTO tHealth(cKey, cName) VALUES('5', 'Cruz Blanca');
-INSERT INTO tHealth(cKey, cName) VALUES('10', 'Ferrosalud');
-INSERT INTO tHealth(cKey, cName) VALUES('7', 'Fonasa');
-INSERT INTO tHealth(cKey, cName) VALUES('12', 'Fundación');
-INSERT INTO tHealth(cKey, cName) VALUES('11', 'Fusat');
-INSERT INTO tHealth(cKey, cName) VALUES('17', 'Mas Vida');
-INSERT INTO tHealth(cKey, cName) VALUES('18', 'Normédica');
-INSERT INTO tHealth(cKey, cName) VALUES('22', 'Sfera');
-INSERT INTO tHealth(cKey, cName) VALUES('3', 'Vida Tres');
 
 INSERT INTO tGratificationType(cName) VALUES('25% Imp. (Tope 4,75imm/12)');
 INSERT INTO tGratificationType(cName) VALUES('Sin Gratificaci&oacute;n');
 INSERT INTO tGratificationType(cName) VALUES('Gratificacion por antiguedad de años trabajados');
 
-INSERT INTO tPaymentType(cName) VALUES('Efectivo');
-INSERT INTO tPaymentType(cName) VALUES('Cheque');
-INSERT INTO tPaymentType(cName) VALUES('Abono Cuenta');
-INSERT INTO tPaymentType(cName) VALUES('Vale Vista');
-INSERT INTO tPaymentType(cName) VALUES('Servipag');
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'EFECTIVO', 'Efectivo');
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'CHEQUE', 'Cheque');
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'ABONO_CUENTA', 'Abono Cuenta');
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'VALE_VISTA', 'Vale Vista');
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'SERVIPAG', 'Servipag'); 
+
+/* Caja de compensaciones */
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('COMPENSATION', 'ANDES','Los Andes');
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('COMPENSATION', 'ARAUCANA','La Araucana');
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('COMPENSATION', 'HEROES', 'Los Heroes');
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('COMPENSATION', 'GABRIELA','Gabriela Mistral');
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('COMPENSATION', '18S','18 de Septiembre');
+
+
+
+/*
+INSERT INTO tCompensationFund (cName) VALUES ('Los Andes');
+INSERT INTO tCompensationFund (cName) VALUES ('La Araucana');
+INSERT INTO tCompensationFund (cName) VALUES ('Los Heroes');
+INSERT INTO tCompensationFund (cName) VALUES ('Gabriela Mistral');
+INSERT INTO tCompensationFund (cName) VALUES ('18 de Septiembre');
+*/
+
+/* Mutual */
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('MUTUAL', 'ACHS','Asociaci&oacute;n Chilena de Seguridad' );
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('MUTUAL', 'MS', 'Mutual de Seguridad' );
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('MUTUAL', 'IST', 'Instituto de Seguridad del Trabajo' );
 
 /* SEXO */
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('GENERE', 'F', 'Femenino');
@@ -79,12 +83,43 @@ INSERT INTO tBoard(cType, cKey, cValue) VALUES('MARITAL_STATUS', 'SINGLE', 'Solt
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('CURRENCY', 'UF', 'Unidad de Fomento');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('CURRENCY', 'CLP', 'Pesos Chilenos');
 
+/* PFM */
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '33', 'Capital');
+INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '1.44', '1.49');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '3', 'Cuprum');
+INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '1.48', '1.49');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '5', 'Habitat');
+INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '1.36', '1.49');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '34', 'Modelo');
+INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '1.14', '1.49');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '29', 'Planvital');
+INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '2.36', '1.49');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '8', 'Provida');
+INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '1.54', '1.49');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '0', 'Sin AFP');
+INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '0', '0');
 
-INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (1,'Alto Hospicio',1,0);
-INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (2,'Camina',1,0);
-INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (3,'Colchane',1,0);
-INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (4,'Huara',1,0);
-INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (5,'Iquique',1,0);
+/* Isapres */
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '1', 'Banmédica');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '4', 'Colmena');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '2', 'Consalud');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '5', 'Cruz Blanca');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '10', 'Ferrosalud');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '7', 'Fonasa');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '12', 'Fundación');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '11', 'Fusat');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '17', 'Mas Vida');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '18', 'Normédica');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '22', 'Sfera');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '3', 'Vida Tres');
+
+INSERT INTO `tComuna` (`cName`,`cRegion`,`cPrioridad`) VALUES ('Alto Hospicio',1,0);
+INSERT INTO `tComuna` (`cName`,`cRegion`,`cPrioridad`) VALUES ('Camina',1,0);
+INSERT INTO `tComuna` (`cName`,`cRegion`,`cPrioridad`) VALUES ('Colchane',1,0);
+INSERT INTO `tComuna` (`cName`,`cRegion`,`cPrioridad`) VALUES ('Huara',1,0);
+INSERT INTO `tComuna` (`cName`,`cRegion`,`cPrioridad`) VALUES ('Iquique',1,0);
+
+/*
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (6,'Pica',1,0);
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (7,'Pozo Almonte',1,0);
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (8,'Antofagasta',2,0);
@@ -423,7 +458,9 @@ INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (341,'Pangui
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (342,'Rio Bueno',13,0);
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (343,'San Jose de la Mariquina',13,0);
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (344,'Valdivia',13,0);
+*/
 
+/*
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ABW','Aruba');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('AFG','Afghanistan');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('AGO','Angola');
@@ -464,7 +501,9 @@ INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CAF','Central African Republic')
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CAN','Canada');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CCK','Cocos (Keeling) Islands');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CHE','Switzerland');
+*/
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CHL','Chile');
+/*
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CHN','China');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CIV','CÃƒÂ´te dÃ‚â€™Ivoire');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CMR','Cameroon');
@@ -663,9 +702,10 @@ INSERT INTO tCountry (`cCode`,`cName`) VALUES ('YUG','Yugoslavia');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ZAF','South Africa');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ZMB','Zambia');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ZWE','Zimbabwe');
+*/
 
 INSERT INTO tEnterprise(cRut, cName, cLegalRep, cRutLegalRep, cCategory, cAddress, cComuna, cPhone, cMutual, cMutualFactor, cCompensationFund) 
-VALUES('1-9', 'Buildersoft Ltda.', 'Juan Perez', '1-9', 'Servicios profesionales', 'Avenida X, numero 88', 326, '2345678', 1, 0.5, 1);	
+VALUES('1-9', 'Buildersoft Ltda.', 'Juan Perez', '1-9', 'Servicios profesionales', 'Avenida X, numero 88', 3, '2345678', 1, 0.5, 1);	
 SET @enterpriseId = LAST_INSERT_ID();
 
 INSERT INTO tCostCenter(cName, cEnterprise) VALUES('Oficina', @enterpriseId);
@@ -673,6 +713,6 @@ SET @costCenterId = LAST_INSERT_ID();
 
 INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Administrativo', @costCenterId, 180000);
 
-INSERT INTO tEmployee(cRut,cName,cLastName1,cLastName2,cBirthDate,cAddress,cGenere,cComuna,cCountry,cMaritalStatus,cContractType,cStartContract,cEndContract,cProfile,cAFP,cHealth,cGratificationType,cPaymentType,cMobilization,cFeeding, cPhone, cMovil, cEmail) 
-VALUES('10809246-7','Pato','Aranguiz','Torres','1966-08-28','Fray Camilo Henriquez 2063',2,315,41,5,2,'2009-12-01','2013-01-01',1,3,6,1,3,580,395,'', '','');
+INSERT INTO tEmployee(cRut,cName,cLastName1,cLastName2,cBirthDate,cAddress,cGenere,cComuna,cCountry,cMaritalStatus,cContractType,cStartContract,cEndContract,cProfile,cPFM,cHealth,cGratificationType,cPaymentType,cMobilization,cFeeding, cPhone, cMovil, cEmail) 
+VALUES('10809246-7','Pato','Aranguiz','Torres','1966-08-28','Fray Camilo Henriquez 2063',2,3,1,5,2,'2009-12-01','2013-01-01',1,3,6,1,3,580,395,'', '','');
 

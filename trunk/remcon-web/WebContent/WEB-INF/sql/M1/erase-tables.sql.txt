@@ -3,26 +3,30 @@ drop table if exists remcon.tAccount;
 drop table if exists remcon.tEmployee;
 
 drop table if exists remcon.tCountry;
-drop table if exists remcon.tBoard;
+drop table if exists remcon.tPFMAttribute;
+
 drop table if exists remcon.tContractType;
 drop table if exists remcon.tProfile;
-drop table if exists remcon.tAFP;
-drop table if exists remcon.tHealth;
+/*drop table if exists remcon.tAFP;
+drop table if exists remcon.tHealth;*/
 drop table if exists remcon.tGratificationType;
-drop table if exists remcon.tPaymentType;
+/*drop table if exists remcon.tPaymentType;*/
 
 drop table if exists remcon.tCostCenter;
 drop table if exists remcon.tEnterprise;
 drop table if exists remcon.tComuna;
 
-/************/
+/***********
 drop table if exists remcon.tMutual;
 drop table if exists remcon.tCompensationFund;
+*/
 
 /*drop table if exists remcon.tR_EmployeeAccount;*/
 drop table if exists remcon.tAccount;
 
 DROP TABLE IF EXISTS remcon.tParameter;
+
+drop table if exists remcon.tBoard;
 
 DROP TABLE IF EXISTS remcon.tR_UserRol;
 DROP TABLE IF EXISTS remcon.tR_RolOption;
