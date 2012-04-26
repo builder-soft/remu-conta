@@ -31,43 +31,49 @@ CREATE TABLE IF NOT EXISTS tRol (
 
 CREATE TABLE IF NOT EXISTS tR_UserRol (
 	cUser 		BIGINT NOT NULL,
-	cRol		BIGINT NOT NULL
+	cRol		BIGINT NOT NULL,
+	PRIMARY KEY(cUser,cRol)
 ) ENGINE=innoDB;
 
 CREATE TABLE IF NOT EXISTS tOption (
-	cId			BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cId			BIGINT  NOT NULL AUTO_INCREMENT,
 	cKey		VARCHAR(20) NOT NULL UNIQUE,
 	cLabel 		VARCHAR(50) NOT NULL,
 	cUrl		VARCHAR(100) NULL,
 	cParent		BIGINT NULL,
-	cType		BIGINT NOT NULL DEFAULT '1'
+	cType		BIGINT NOT NULL DEFAULT '1',
+	PRIMARY KEY(cId)
 ) ENGINE=innoDB;
 
 CREATE TABLE IF NOT EXISTS tR_RolOption (
 	cRol		BIGINT NOT NULL,
-	cOption		BIGINT NOT NULL
+	cOption		BIGINT NOT NULL,
+	PRIMARY KEY(cRol, cOption)
 ) ENGINE=innoDB;
 
 CREATE TABLE tComuna (
-  `cId` BIGINT PRIMARY KEY UNIQUE AUTO_INCREMENT,
+  `cId` BIGINT UNIQUE AUTO_INCREMENT,
   `cName` varchar(50) NOT NULL,
   `cRegion` Integer NOT NULL,
-  `cPrioridad` Integer NOT NULL DEFAULT '0'
+  `cPrioridad` Integer NOT NULL DEFAULT '0',
+	PRIMARY KEY(cId)  
 ) ENGINE=InnoDB;
 
 CREATE TABLE `tBoard` (
-  `cId` BIGINT PRIMARY KEY UNIQUE AUTO_INCREMENT,
+  `cId` BIGINT UNIQUE AUTO_INCREMENT,
   `cType` varchar(15) NOT NULL,
   `cKey` varchar(15) DEFAULT '',
   `cValue` Varchar(200) NOT NULL,
-  cEnable BIT NOT NULL DEFAULT 1
+  cEnable BIT NOT NULL DEFAULT 1,
+	PRIMARY KEY(cId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `tCountry` (
- 	cId	 BIGINT PRIMARY KEY UNIQUE AUTO_INCREMENT,
+ 	cId	 BIGINT UNIQUE AUTO_INCREMENT,
  	cCode char(3) NOT NULL DEFAULT '' UNIQUE,
- 	cName varchar(60) NOT NULL DEFAULT ''
- ) ENGINE=InnoDB;
+ 	cName varchar(60) NOT NULL DEFAULT '',
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
  
  /* Crea tabla Empleados */
 create table tEmployee (
@@ -200,8 +206,8 @@ create table tPaymentType(
 
  /** V I S T A S **/
 
-DROP VIEW IF EXISTS vType;
-CREATE VIEW vType
+DROP VIEW IF EXISTS vDataType;
+CREATE VIEW vDataType
 AS
 	SELECT cId, cValue AS cName 
 	FROM tBoard 
@@ -211,33 +217,43 @@ AS
 DROP VIEW IF EXISTS vTypeOption;
 CREATE VIEW vTypeOption
 AS
-SELECT cId, cValue AS cName FROM tBoard WHERE cType='TYPE_OPTION';
+	SELECT cId, cValue AS cName 
+	FROM tBoard 
+	WHERE cType='TYPE_OPTION';
 
 DROP VIEW IF EXISTS vMaritalStatus;
 CREATE VIEW vMaritalStatus
 AS
-SELECT cId, cValue AS cName FROM tBoard WHERE cType='MARITAL_STATUS';
+	SELECT cId, cValue AS cName 
+	FROM tBoard 
+	WHERE cType='MARITAL_STATUS';
 
 DROP VIEW IF EXISTS vGenere;
 CREATE VIEW vGenere
 AS
-SELECT cId, cValue AS cName FROM remcon.tBoard WHERE cType='GENERE';
+	SELECT cId, cValue AS cName 
+	FROM remcon.tBoard 
+	WHERE cType='GENERE';
 
 DROP VIEW IF EXISTS vCurrency;
 CREATE VIEW vCurrency
 AS
-SELECT cId, cValue AS cName FROM remcon.tBoard WHERE cType='CURRENCY';
+	SELECT cId, cValue AS cName 
+	FROM remcon.tBoard 
+	WHERE cType='CURRENCY';
 
 DROP VIEW IF EXISTS vMutual;
 CREATE VIEW vMutual
 AS
-SELECT cId, cValue AS cName FROM remcon.tBoard WHERE cType='MUTUAL';
+	SELECT cId, cValue AS cName 
+	FROM remcon.tBoard 
+	WHERE cType='MUTUAL';
 
 DROP VIEW IF EXISTS vPFM;
 CREATE VIEW vPFM
 AS
-SELECT	a.cId, a.cType, a.cKey, a.cValue, a.cEnable, b.cFactor, b.cSIS 
-FROM remcon.tBoard AS a
-LEFT JOIN remcon.tPFMAttribute AS b ON a.cId = b.cPFM
-WHERE a.cType='PFM';
+	SELECT	a.cId, a.cType, a.cKey, a.cValue, a.cEnable, b.cFactor, b.cSIS 
+	FROM remcon.tBoard AS a
+	LEFT JOIN remcon.tPFMAttribute AS b ON a.cId = b.cPFM
+	WHERE a.cType='PFM';
  

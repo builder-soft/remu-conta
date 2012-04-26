@@ -1,11 +1,9 @@
 use remcon;
 
-
+/**
 ALTER TABLE tR_RolOption ADD PRIMARY KEY(cRol, cOption);
-
 ALTER TABLE tR_UserRol ADD PRIMARY KEY(cUser,cRol);
-
-
+*/
 
 /** L L A V E S   F O R A N E A S **/
 
@@ -55,12 +53,7 @@ ALTER TABLE remcon.tEnterprise
 ADD INDEX `comuna_index` (`cComuna` ASC),
 ADD CONSTRAINT withComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(cId);
 
-/*
-ALTER TABLE remcon.tEnterprise
-ADD INDEX `mutual_index` (`cMutual` ASC),
-ADD CONSTRAINT withMutual FOREIGN KEY (cMutual) REFERENCES remcon.tMutual(cId);
-*/
-
+/** ENTERPRISE */
 ALTER TABLE remcon.tParameter
 ADD INDEX `Parameter_index` (`cType` ASC),
 ADD CONSTRAINT ParameterToBoard FOREIGN KEY (cType) REFERENCES remcon.tBoard(cId);
@@ -80,12 +73,14 @@ ALTER TABLE remcon.tAccount
 ADD INDEX `account_index_employee` (`cEmployee` ASC),
 ADD CONSTRAINT AccountToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId);
 
+/** ROL-OPTION */
 ALTER TABLE remcon.tR_RolOption
 ADD INDEX `index_rol` (`cRol` ASC),
 ADD INDEX `index_option` (`cOption` ASC),
 ADD CONSTRAINT r_RolOptionToRol FOREIGN KEY (cRol) REFERENCES remcon.tRol(cId),
 ADD CONSTRAINT r_RolOptionToOption FOREIGN KEY (cOption) REFERENCES remcon.tOption(cId);
 
+/** USER-ROL */
 ALTER TABLE remcon.tR_UserRol
 ADD INDEX `index_rol` (`cRol` ASC),
 ADD INDEX `index_user` (`cUser` ASC),
@@ -97,4 +92,7 @@ ALTER TABLE remcon.tPFMAttribute
 ADD INDEX `PFMAttribute_index_Board` (`cPFM` ASC),
 ADD CONSTRAINT PFMAttributeToBoard FOREIGN KEY (cPFM) REFERENCES remcon.tBoard(cId);
 
+ALTER TABLE remcon.tFile
+ADD INDEX `fileCategory_index` (`cCategory` ASC),
+ADD CONSTRAINT withCategory FOREIGN KEY (cCategory) REFERENCES remcon.tFileCategory(cId);
 

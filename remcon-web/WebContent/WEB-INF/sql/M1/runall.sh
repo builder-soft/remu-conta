@@ -13,4 +13,6 @@ echo 'creando datos basicos'
 mysql -u root -padmin < data-bsframework.sql.txt
 mysql -u root -padmin < data-remcon.sql.txt
 mysql -u root -padmin < data-menu.sql.txt
+echo 'Pruebas'
+mysql -u root -t -padmin < testSP.sql.txt
 echo 'fin'
