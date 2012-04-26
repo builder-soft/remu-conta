@@ -1,2 +1,4 @@
-select * from remcon.vPFM;
+/*select * from remcon.vPFM;
 select * from remcon.tBoard;
+*/
+select * from remcon.vType;
