@@ -101,17 +101,29 @@ INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '0', '0'
 
 /* Isapres */
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '1', 'Banmédica');
+INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '4', 'Colmena');
+INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '2', 'Consalud');
+INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '5', 'Cruz Blanca');
+INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '10', 'Ferrosalud');
+INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '7', 'Fonasa');
+INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '12', 'Fundación');
+INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '11', 'Fusat');
+INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '17', 'Mas Vida');
+INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '18', 'Normédica');
+INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '22', 'Sfera');
+INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '3', 'Vida Tres');
+INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 
 INSERT INTO `tComuna` (`cName`,`cRegion`,`cPrioridad`) VALUES ('Alto Hospicio',1,0);
 INSERT INTO `tComuna` (`cName`,`cRegion`,`cPrioridad`) VALUES ('Camina',1,0);

@@ -7,8 +7,8 @@ drop table if exists remcon.tPFMAttribute;
 
 drop table if exists remcon.tContractType;
 drop table if exists remcon.tProfile;
-/*drop table if exists remcon.tAFP;
-drop table if exists remcon.tHealth;*/
+/*drop table if exists remcon.tAFP;*/
+drop table if exists remcon.tHealthAttribute;
 drop table if exists remcon.tGratificationType;
 /*drop table if exists remcon.tPaymentType;*/
 

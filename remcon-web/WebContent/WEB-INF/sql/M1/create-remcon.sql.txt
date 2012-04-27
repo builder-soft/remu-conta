@@ -1,5 +1,9 @@
 use remcon;
 
+/**
+hay que agregar la sucursal, y que dependa de la empresa, a su vez, los Centros de costo, dependen de la sucursal.
+*/
+
 CREATE TABLE IF NOT EXISTS tFile (
 	cId				BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	cDesc			VARCHAR(100),
@@ -169,14 +173,14 @@ create table tPFMAttribute(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-/*
-create table tHealth (
+
+create table tHealthAttribute (
 	cId				BIGINT(20) NOT NULL auto_increment, 
-	cKey			INTEGER	NOT NULL UNIQUE,
-	cName			VARCHAR(20) NOT NULL,
+	cHealth			BIGINT(20) NOT NULL,
+	cFactor			DOUBLE NOT NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
-*/
+
 
 create table tAccount (
 	cId				BIGINT(20) NOT NULL auto_increment,
@@ -252,8 +256,16 @@ AS
 DROP VIEW IF EXISTS vPFM;
 CREATE VIEW vPFM
 AS
-	SELECT	a.cId, a.cType, a.cKey, a.cValue, a.cEnable, b.cFactor, b.cSIS 
+	SELECT	a.cId, a.cKey, a.cValue, a.cEnable, b.cFactor, b.cSIS 
 	FROM remcon.tBoard AS a
 	LEFT JOIN remcon.tPFMAttribute AS b ON a.cId = b.cPFM
 	WHERE a.cType='PFM';
+ 
+DROP VIEW IF EXISTS vHealth;
+CREATE VIEW vHealth
+AS
+	SELECT	a.cId, a.cKey, a.cValue, a.cEnable, b.cFactor
+	FROM remcon.tBoard AS a
+	LEFT JOIN remcon.tHealthAttribute AS b ON a.cId = b.cHealth
+	WHERE a.cType='HEALTH';
  
