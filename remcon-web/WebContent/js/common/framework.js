@@ -109,7 +109,7 @@
 	}
 	
 	function replaceAll(strCadena, strSearch, strReplace) {
-		var strRetorno = new String(strCadena)
+		var strRetorno = new String(strCadena);
 		
 		while(strRetorno.indexOf(strSearch) > 0) {
 			strRetorno = strRetorno.replace(strSearch, strReplace);
@@ -122,7 +122,7 @@
 		var out;
 		
 		if(valorString.length == 0) {
-			dblRetorno = 0;
+			out = 0;
 		} else {
 			valorString = replaceAll(valorString, '.', '');
 			valorString = valorString.replace(',',signoDecimal());
@@ -138,9 +138,6 @@
 		if(valorString.length > 0) {
 			valorString = replaceAll(valorString, '.', '');
 			valorString = valorString.replace(',',signoDecimal());
-			
-			// alert(valorString + '  ' + parseFloat(valorString));
-			
 			
 			out =  !isNaN(parseFloat(valorString)); // (valorNumber == parseFloat(valorString) ? parseFloat(valorNumber) : parseFloat(valorString));
 		}
@@ -167,7 +164,7 @@
 			dblDecimal = subtraction(dblValor, integer(dblValor));
 		
 			strRetorno = '';
-			J=1
+			J=1;
 			for(I = strValor.length-1 ; I >= 0 ; I--) {
 				strRetorno = strValor.substr(I,1) + strRetorno;
 				if(J / 3 == integer(J / 3) && !nextIsNegative(strValor, I)) {
@@ -260,7 +257,7 @@ function validaFecha2(a, c) {
 		out = "- La fecha introducida debe estar formada sólo por números\n";
 		return out;
 	}
-	febrero = anyoBisiesto(anyo) ? 29 : 28
+	febrero = anyoBisiesto(anyo) ? 29 : 28;
 
 	if ((mes<1) || (mes>12)) {
 		return "- El mes introducido no es valido. Por favor, introduzca un mes correcto\n";
