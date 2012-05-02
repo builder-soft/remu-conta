@@ -11,55 +11,62 @@
 	User user = (User) session.getAttribute("User");
 %>
 
+<script
+	src="${pageContext.request.contextPath}/js/table/table.js?<%=Math.random()%>"></script>
 <h1 class="cTitle">Listado de Usuarios</h1>
 
-<table class="cList" cellpadding="0" cellspacing="0">
-	<tr>
-		<td align='center' class='cHeadTD'><input id='mainCheck'
-			type='CHECKBOX' onclick='javascript:swapAllCheck(this);'></td>
-		<td class='cHeadTD'>Mail</td>
-		<td class='cHeadTD'>Nombre</td>
+ 
+<form id="frm" action="${pageContext.request.contextPath}/servlet/admin/user/DeleteUser" method="post">
+<!-- 
+<form id="frm" action="${pageContext.request.contextPath}/servlet/ShowParameters" method="post">
+ -->
+	<table class="cList" cellpadding="0" cellspacing="0">
+		<tr>
+			<td align='center' class='cHeadTD'><input id='mainCheck'
+				type='CHECKBOX' onclick='javascript:swapAllCheck(this);'></td>
+			<td class='cHeadTD'>Mail</td>
+			<td class='cHeadTD'>Nombre</td>
+			<%
+				if (user.getAdmin()) {
+			%>
+			<td class='cHeadTD'>Administrador</td>
+			<%
+				}
+			%>
+		</tr>
 		<%
-			if (user.getAdmin()) {
+			String color = null;
+			Integer i = 0;
+			while (rs.next()) {
+				color = i % 2 == 0 ? "cDataTD_odd" : "cDataTD";
 		%>
-		<td class='cHeadTD'>Administrador</td>
+		<tr>
+			<td align='center' class='<%=color%>'><input type='CHECKBOX'
+				name='cId' value='<%=rs.getString("cId")%>'
+				onclick='javascript:swapCheck(this);'></td>
+			<td class='<%=color%>'><%=rs.getString("cMail")%></td>
+			<td class='<%=color%>'><%=rs.getString("cName")%></td>
+			<%
+				if (user.getAdmin()) {
+			%>
+			<td class='<%=color%>' align="center"><%=rs.getBoolean("cAdmin") ? "Si" : "No"%></td>
+			<%
+				i++;
+					}
+			%>
+		</tr>
 		<%
 			}
 		%>
-	</tr>
-	<%
-		String color = null;
-		Integer i = 0;
-		while (rs.next()) {
-			color = i % 2 == 0 ? "cDataTD_odd" : "cDataTD";
-	%>
-	<tr>
-		<td align='center' class='<%=color%>'><input type='CHECKBOX'
-			name='cId' value='<%=rs.getString("cId")%>'
-			onclick='javascript:swapCheck(this);'></td>
-		<td class='<%=color%>'><%=rs.getString("cMail")%></td>
-		<td class='<%=color%>'><%=rs.getString("cName")%></td>
-		<%
-			if (user.getAdmin()) {
-		%>
-		<td class='<%=color%>' align="center"><%=rs.getBoolean("cAdmin") ? "Si" : "No"%></td>
-		<%
-			i++;
-				}
-		%>
-	</tr>
-	<%
-		}
-	%>
-</table>
+	</table>
+</form>
 
 <input type='button' value='Nuevo...'
 	onclick='javascript:window.location.href="${pageContext.request.contextPath}/servlet/admin/user/UserNew"'>
 
-<div id='MultirecordActions' style='float: left; display: none;'>
+<div id='MultirecordActions' style='float:left;display:none;'>
 	<input type='button' value='Borrar' id='oDelete'
 		onclick='javascript:fDelete();'>
 </div>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
-
