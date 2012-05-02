@@ -1,7 +1,8 @@
 DROP PROCEDURE if exists bsframework.getDomainsForUser;
+DROP PROCEDURE if exists bsframework.pGetDomainsForUser;
 DELIMITER $$
 
-CREATE PROCEDURE bsframework.getDomainsForUser(IN user BIGINT)
+CREATE PROCEDURE bsframework.pGetDomainsForUser(IN user BIGINT)
 BEGIN
 	SELECT		d.cId 
 	FROM 		bsframework.tDomain AS d
