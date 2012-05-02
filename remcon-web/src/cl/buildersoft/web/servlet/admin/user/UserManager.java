@@ -39,7 +39,7 @@ public class UserManager extends HttpServlet {
 
 		List<Object> prms = getParams(mysql, request);
 
-		ResultSet rs = mysql.callSingleSP(conn, "getUserList", prms);
+		ResultSet rs = mysql.callSingleSP(conn, "pGetUserList", prms);
 
 		request.setAttribute("Data", rs);
 

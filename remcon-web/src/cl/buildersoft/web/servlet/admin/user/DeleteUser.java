@@ -2,8 +2,6 @@ package cl.buildersoft.web.servlet.admin.user;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,40 +11,29 @@ import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.framework.database.BSmySQL;
 
-/**
- * Servlet implementation class UserSave
- */
-@WebServlet("/servlet/admin/user/UserSave")
-public class UserSave extends HttpServlet {
-	private static final long serialVersionUID = 2626535852650186256L;
+@WebServlet("/servlet/admin/user/DeleteUser")
+public class DeleteUser extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
-	public UserSave() {
+	public DeleteUser() {
 		super();
+
 	}
 
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		String[] ids = request.getParameterValues("cId");
+
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request.getServletContext(),
 				"bsframework");
 
-		List<Object> prms = new ArrayList<Object>();
-
-		String mail = request.getParameter("cMail");
-		String name = request.getParameter("cName");
-		Boolean admin = request.getParameter("cAdmin") != null;
-
-		prms.add(-1);
-		prms.add(mail);
-		prms.add(name);
-		prms.add(null);
-		prms.add(admin);
-
-		mysql.callSingleSP(conn, "pSetUserSave", prms);
-
+		for (String id : ids) {
+			mysql.callSingleSP(conn, "pDelUser", id);
+		}
+		mysql.closeSQL();
 		request.getRequestDispatcher("/servlet/admin/user/UserManager")
 				.forward(request, response);
-
 	}
 
 }
