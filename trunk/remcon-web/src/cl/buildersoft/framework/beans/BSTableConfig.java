@@ -125,7 +125,8 @@ public class BSTableConfig {
 		configBasic(conn, mysql, resultSet);
 	}
 
-	protected void configBasic(Connection conn, BSmySQL mysql, ResultSet resultSet) {
+	protected void configBasic(Connection conn, BSmySQL mysql,
+			ResultSet resultSet) {
 		BSField[] fields = getFields();
 
 		ResultSetMetaData metaData;
@@ -519,6 +520,26 @@ public class BSTableConfig {
 		System.arraycopy(this.actions, 0, target, 0, this.actions.length);
 		target[target.length - 1] = action;
 		this.actions = target;
+	}
+
+	public void removeField(String code) {
+		String[] target = new String[this.fields.length - 1];
+		Integer i = 0;
+		for (String field : this.fields) {
+			if (!code.equals(field)) {
+				target[i++] = field;
+			}else{
+				this.fieldsMap.remove(code);
+			}
+			
+			
+//			BSField field = getField(code);
+
+			/**
+			 * if (!action.getCode().equals(code)) { target[i++] = action; }
+			 */
+		}
+		this.fields= target;
 	}
 
 	public void removeAction(String code) {

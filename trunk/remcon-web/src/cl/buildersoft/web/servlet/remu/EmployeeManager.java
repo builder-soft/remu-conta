@@ -38,23 +38,31 @@ public class EmployeeManager extends BSHttpServlet {
 		table.getField("cStartContract").setLabel("Fecha ingreso");
 		table.getField("cEndContract").setLabel("Fecha fin");
 		table.getField("cProfile").setLabel("Perfil");
-		table.getField("cAFP").setLabel("AFP");
+//		table.getField("cPFM").setLabel("AFP");
 		table.getField("cHealth").setLabel("Isapre");
 		table.getField("cGratificationType").setLabel("Tipo de gratificacion");
 		table.getField("cPaymentType").setLabel("Tipo de pago");
 		table.getField("cMobilization").setLabel("Movilizacion");
 
+		table.removeField("cPFM");
+		
+		
 		String[] noVisibleFields = { "cCountry", "cMaritalStatus", "cProfile", "cEmail", "cMovil", "cPhone", "cComuna",
 				"cAddress", "cBirthDate", "cGratificationType", "cFeeding", "cMobilization"};
+		/**
 		for (String fieldName : noVisibleFields) {
 			table.getField(fieldName).setVisible(false);
 		}
+		*/
+		super.hideFields(table, noVisibleFields);
+		
 		table.getAction("DELETE").setLabel("Deshabilitar");
 		
 		
 		BSAction previtionalInformation = new BSAction("PREVITIONAL",
 				BSActionType.Record);
 		previtionalInformation.setLabel("Información Previsional");
+//		previtionalInformation.setUrl("/servlet/ShowParameters");
 		previtionalInformation.setUrl("/servlet/table/EmployeeInformation");
 		table.addAction(previtionalInformation);
 

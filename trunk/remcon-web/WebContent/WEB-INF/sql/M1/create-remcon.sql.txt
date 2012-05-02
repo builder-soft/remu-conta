@@ -256,7 +256,7 @@ AS
 DROP VIEW IF EXISTS vPFM;
 CREATE VIEW vPFM
 AS
-	SELECT	a.cId, a.cKey, a.cValue, a.cEnable, b.cFactor, b.cSIS 
+	SELECT	a.cId, a.cKey, a.cValue AS cName, a.cEnable, b.cFactor, b.cSIS 
 	FROM remcon.tBoard AS a
 	LEFT JOIN remcon.tPFMAttribute AS b ON a.cId = b.cPFM
 	WHERE a.cType='PFM';
@@ -264,8 +264,15 @@ AS
 DROP VIEW IF EXISTS vHealth;
 CREATE VIEW vHealth
 AS
-	SELECT	a.cId, a.cKey, a.cValue, a.cEnable, b.cFactor
+	SELECT	a.cId, a.cKey, a.cValue AS cName, a.cEnable, b.cFactor
 	FROM remcon.tBoard AS a
 	LEFT JOIN remcon.tHealthAttribute AS b ON a.cId = b.cHealth
 	WHERE a.cType='HEALTH';
+ 
+DROP VIEW IF EXISTS vPaymentType;
+CREATE VIEW vPaymentType
+AS
+	SELECT cId, cValue AS cName 
+	FROM remcon.tBoard 
+	WHERE cType='PAYMENT_TYPE';
  
