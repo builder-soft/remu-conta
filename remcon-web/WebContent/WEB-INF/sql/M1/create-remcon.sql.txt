@@ -202,7 +202,7 @@ create table tAccount (
 	cId				BIGINT(20) NOT NULL auto_increment,
 	cEmployee		BIGINT(20) NOT NULL, 
 	cName			VARCHAR(50) NOT NULL,  
-	cInstitiution	BIGINT(20) NOT NULL,
+	cInstitution	BIGINT(20) NOT NULL,
 	cAccountType	BIGINT(20) NOT NULL,
 	cNumber			VARCHAR(15) NOT NULL,
 	cCurrency		BIGINT(20) NOT NULL,	

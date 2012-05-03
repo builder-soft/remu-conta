@@ -82,6 +82,7 @@ INSERT INTO tBoard(cType, cKey, cValue) VALUES('MARITAL_STATUS', 'SINGLE', 'Solt
 
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('CURRENCY', 'UF', 'Unidad de Fomento');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('CURRENCY', 'CLP', 'Pesos Chilenos');
+SET @clp = LAST_INSERT_ID();
 
 /* PFM */
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '33', 'Capital');
@@ -128,12 +129,12 @@ INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 
 /* Tipos de cuentas donde van a dar los fondos */
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'APV', 'APV');
+SET @accountType = LAST_INSERT_ID();
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'ACCT2', 'Cuenta 2');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'COMPL_HEALTH', 'Complementario de Salud');
 
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '100', 'ABN AMRO (CHILE) SEGUROS DE VIDA S.A.');
-
-
+SET @APV = LAST_INSERT_ID();
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '136', 'ACE SEGUROS S.A. ');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '218', 'ADMINISTRADORA GENERAL DE FONDOS SECURITY S.A. ');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '33', 'AFP Capital ');
@@ -800,13 +801,14 @@ VALUES('1-9', 'Buildersoft Ltda.', 'Juan Perez', '1-9', 'Servicios profesionales
 
 INSERT INTO tBranch(cName, cEnterprise, cAddress, cComuna, cPhone) 
 VALUES('Matriz', LAST_INSERT_ID(), 'Avenida X, numero 88', 3, '2345678');	
-SET @branchId = LAST_INSERT_ID();
 
-INSERT INTO tCostCenter(cName, cBranch) VALUES('Oficina', @branchId);
-SET @costCenterId = LAST_INSERT_ID();
+INSERT INTO tCostCenter(cName, cBranch) VALUES('Oficina', LAST_INSERT_ID());
 
-INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Administrativo', @costCenterId, 180000);
+INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Administrativo', LAST_INSERT_ID(), 180000);
 
 INSERT INTO tEmployee(cRut,cName,cLastName1,cLastName2,cBirthDate,cAddress,cGenere,cComuna,cCountry,cMaritalStatus,cContractType,cStartContract,cEndContract,cProfile,cPFM,cHealth,cGratificationType,cPaymentType,cMobilization,cFeeding, cPhone, cMovil, cEmail, cTimeType) 
 VALUES('10809246-7','Pato','Aranguiz','Torres','1966-08-28','Fray Camilo Henriquez 2063',2,3,1,5,2,'2009-12-01','2013-01-01',1,3,6,1,3,580,395,'', '','',1);
+
+INSERT INTO tAccount(cEmployee, cName, cInstitution, cAccountType, cNumber, cCurrency)
+VALUES(LAST_INSERT_ID(), 'Cuenta APV 1', @APV, @accountType, '', @clp);
 
