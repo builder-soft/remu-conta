@@ -101,6 +101,12 @@ ALTER TABLE remcon.tPFMAttribute
 ADD INDEX `PFMAttribute_index_Board` (`cPFM` ASC),
 ADD CONSTRAINT PFMAttributeToBoard FOREIGN KEY (cPFM) REFERENCES remcon.tBoard(cId);
 
+/* HEALTH */
+ALTER TABLE remcon.tHealthAttribute
+ADD INDEX HealthAttribute_index_Board (cHealth ASC),
+ADD CONSTRAINT HealthAttributeToBoard FOREIGN KEY (cHealth) REFERENCES remcon.tBoard(cId);
+
+/* FILE */
 ALTER TABLE remcon.tFile
 ADD INDEX `fileCategory_index` (`cCategory` ASC),
 ADD CONSTRAINT withCategory FOREIGN KEY (cCategory) REFERENCES remcon.tFileCategory(cId);
