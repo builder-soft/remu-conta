@@ -215,7 +215,7 @@ create table tBookEmployee(
 	cId			BIGINT(20) NOT NULL auto_increment,
 	cBook		BIGINT(20) NOT NULL,
 	cEmployee	BIGINT(20) NOT NULL,
-	cTimeType	
+	cTimeType	BIGINT(20) NOT NULL,
 	cWorkDays	Integer,
 	cSualdoBase		BIGINT(20) NOT NULL,
 	*SueldoGanado	
