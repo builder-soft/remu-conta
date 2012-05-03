@@ -1,8 +1,18 @@
 use remcon;
 
 /**
-hay que agregar la sucursal, y que dependa de la empresa, a su vez, los Centros de costo, dependen de la sucursal.
+Hay que agregar la sucursal, y que dependa de la empresa, a su vez, los Centros de costo, dependen de la sucursal.
 */
+
+CREATE TABLE IF NOT EXISTS tBranch(
+	cId					BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cName				VARCHAR(50),
+	cEnterprise			BIGINT,
+	cAddress			VARCHAR(100),
+	cComuna				BIGINT,
+	cPhone				VARCHAR(15)
+) ENGINE=innoDB;
+
 
 CREATE TABLE IF NOT EXISTS tFile (
 	cId				BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -142,7 +152,7 @@ create table tCompensationFund (
 create table tCostCenter(
 	cId 				BIGINT(20) NOT NULL auto_increment, 
 	cName				VARCHAR(20) NOT NULL,
-	cEnterprise			BIGINT(20) NOT NULL,
+	cBranch				BIGINT(20) NOT NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 

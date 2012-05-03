@@ -53,15 +53,20 @@ ALTER TABLE remcon.tEnterprise
 ADD INDEX `comuna_index` (`cComuna` ASC),
 ADD CONSTRAINT withComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(cId);
 
-/** ENTERPRISE */
+/** BRANCH */
+ALTER TABLE remcon.tBranch
+ADD INDEX `enterprise_index` (`cEnterprise` ASC),
+ADD CONSTRAINT BranchToEnterprise FOREIGN KEY (cEnterprise) REFERENCES remcon.tEnterprise(cId);
+
+/** PARAMETER */
 ALTER TABLE remcon.tParameter
 ADD INDEX `Parameter_index` (`cDataType` ASC),
 ADD CONSTRAINT ParameterToBoard FOREIGN KEY (cDataType) REFERENCES remcon.tBoard(cId);
 
 /** COST CENTER */
 ALTER TABLE remcon.tCostCenter
-ADD INDEX `enterpise_index_costCenter` (`cEnterprise` ASC),
-ADD CONSTRAINT withEnterpriseCC FOREIGN KEY (cEnterprise) REFERENCES remcon.tEnterprise(cId);
+ADD INDEX `branch_index_costCenter` (`cBranch` ASC),
+ADD CONSTRAINT CostCenterToBranch FOREIGN KEY (cBranch) REFERENCES remcon.tBranch(cId);
 
 /** PROFILE */
 ALTER TABLE remcon.tProfile
@@ -76,7 +81,6 @@ ADD CONSTRAINT AccountToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmpl
 ALTER TABLE remcon.tAccount
 ADD INDEX account_index_currency (cCurrency ASC),
 ADD CONSTRAINT AccountToCurrency FOREIGN KEY (cCurrency) REFERENCES remcon.tBoard(cId);
-
 
 /** ROL-OPTION */
 ALTER TABLE remcon.tR_RolOption
