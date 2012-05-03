@@ -38,13 +38,13 @@ public class EmployeeManager extends BSHttpServlet {
 		table.getField("cStartContract").setLabel("Fecha ingreso");
 		table.getField("cEndContract").setLabel("Fecha fin");
 		table.getField("cProfile").setLabel("Perfil");
-//		table.getField("cPFM").setLabel("AFP");
+		table.getField("cPFM").setLabel("AFP");
 		table.getField("cHealth").setLabel("Isapre");
 		table.getField("cGratificationType").setLabel("Tipo de gratificacion");
 		table.getField("cPaymentType").setLabel("Tipo de pago");
 		table.getField("cMobilization").setLabel("Movilizacion");
 
-		table.removeField("cPFM");
+		//table.removeField("cPFM");
 		
 		
 		String[] noVisibleFields = { "cCountry", "cMaritalStatus", "cProfile", "cEmail", "cMovil", "cPhone", "cComuna",
