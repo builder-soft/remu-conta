@@ -174,7 +174,6 @@ create table tPFMAttribute(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-
 create table tHealthAttribute (
 	cId				BIGINT(20) NOT NULL auto_increment, 
 	cHealth			BIGINT(20) NOT NULL,
@@ -182,13 +181,19 @@ create table tHealthAttribute (
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-
+/*
+En esta tabla se graban para cada Employee:
+	- Los APV
+	- La cuenta2
+	- El adicional de salud.
+	
+*/
 create table tAccount (
 	cId				BIGINT(20) NOT NULL auto_increment,
 	cEmployee		BIGINT(20) NOT NULL, 
 	cName			VARCHAR(50) NOT NULL,  
-	cTarget			BIGINT(20) NOT NULL,
-	cTargetType		BIGINT(20) NOT NULL,
+	cInstitiution	BIGINT(20) NOT NULL,
+	cAccountType	BIGINT(20) NOT NULL,
 	cNumber			VARCHAR(15) NOT NULL,
 	cCurrency		BIGINT(20) NOT NULL,	
 	PRIMARY KEY (cId)
@@ -215,7 +220,7 @@ create table tBookEmployee(
 	cId			BIGINT(20) NOT NULL auto_increment,
 	cBook		BIGINT(20) NOT NULL,
 	cEmployee	BIGINT(20) NOT NULL,
-	cTimeType	BIGINT(20) NOT NULL,
+	cTimeType	
 	cWorkDays	Integer,
 	cSualdoBase		BIGINT(20) NOT NULL,
 	*SueldoGanado	
@@ -354,3 +359,11 @@ AS
 	FROM remcon.tBoard 
 	WHERE cType='PAYMENT_TYPE';
  
+ 
+DROP VIEW IF EXISTS vAccountType;
+CREATE VIEW vAccountType
+AS
+	SELECT cId, cValue AS cName 
+	FROM remcon.tBoard 
+	WHERE cType='ACCOUNT_TYPE';
+  
