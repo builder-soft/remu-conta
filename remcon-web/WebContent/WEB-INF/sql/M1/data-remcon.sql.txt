@@ -796,9 +796,13 @@ INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ZWE','Zimbabwe');
 
 INSERT INTO tEnterprise(cRut, cName, cLegalRep, cRutLegalRep, cCategory, cAddress, cComuna, cPhone, cMutual, cMutualFactor, cCompensationFund) 
 VALUES('1-9', 'Buildersoft Ltda.', 'Juan Perez', '1-9', 'Servicios profesionales', 'Avenida X, numero 88', 3, '2345678', 1, 0.5, 1);	
-SET @enterpriseId = LAST_INSERT_ID();
+/*SET @enterpriseId = LAST_INSERT_ID();*/
 
-INSERT INTO tCostCenter(cName, cEnterprise) VALUES('Oficina', @enterpriseId);
+INSERT INTO tBranch(cName, cEnterprise, cAddress, cComuna, cPhone) 
+VALUES('Matriz', LAST_INSERT_ID(), 'Avenida X, numero 88', 3, '2345678');	
+SET @branchId = LAST_INSERT_ID();
+
+INSERT INTO tCostCenter(cName, cBranch) VALUES('Oficina', @branchId);
 SET @costCenterId = LAST_INSERT_ID();
 
 INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Administrativo', @costCenterId, 180000);

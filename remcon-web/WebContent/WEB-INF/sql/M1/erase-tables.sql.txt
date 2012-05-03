@@ -13,6 +13,7 @@ drop table if exists remcon.tGratificationType;
 /*drop table if exists remcon.tPaymentType;*/
 
 drop table if exists remcon.tCostCenter;
+drop table if exists remcon.tBranch;
 drop table if exists remcon.tEnterprise;
 drop table if exists remcon.tComuna;
 
