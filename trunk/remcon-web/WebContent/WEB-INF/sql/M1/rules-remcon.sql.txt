@@ -73,6 +73,11 @@ ALTER TABLE remcon.tAccount
 ADD INDEX `account_index_employee` (`cEmployee` ASC),
 ADD CONSTRAINT AccountToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId);
 
+ALTER TABLE remcon.tAccount
+ADD INDEX account_index_currency (cCurrency ASC),
+ADD CONSTRAINT AccountToCurrency FOREIGN KEY (cCurrency) REFERENCES remcon.tBoard(cId);
+
+
 /** ROL-OPTION */
 ALTER TABLE remcon.tR_RolOption
 ADD INDEX `index_rol` (`cRol` ASC),
