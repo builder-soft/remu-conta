@@ -1,3 +1,8 @@
+/*
 select * from bsframework.tUser;
 call bsframework.pDelUser(3);
 select * from bsframework.tUser;
+*/
+
+call bsframework.pGetUser(2);
+

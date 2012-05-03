@@ -15,9 +15,11 @@
 	src="${pageContext.request.contextPath}/js/table/table.js?<%=Math.random()%>"></script>
 <h1 class="cTitle">Listado de Usuarios</h1>
 
- 
-<form id="frm" action="${pageContext.request.contextPath}/servlet/admin/user/DeleteUser" method="post">
-<!-- 
+
+<form id="frm"
+	action="${pageContext.request.contextPath}/servlet/admin/user/DeleteUser"
+	method="post">
+	<!-- 
 <form id="frm" action="${pageContext.request.contextPath}/servlet/ShowParameters" method="post">
  -->
 	<table class="cList" cellpadding="0" cellspacing="0">
@@ -60,13 +62,19 @@
 		%>
 	</table>
 </form>
-
-<input type='button' value='Nuevo...'
-	onclick='javascript:window.location.href="${pageContext.request.contextPath}/servlet/admin/user/UserNew"'>
-
-<div id='MultirecordActions' style='float:left;display:none;'>
+<br>
+<div style='float: left;'>
+	<input type='button' value='Nuevo...'
+		onclick="javascript:window.location.href='${pageContext.request.contextPath}/servlet/admin/user/UserNew'">
+</div>
+<div id='MultirecordActions' style='float: left; display: none;'>
 	<input type='button' value='Borrar' id='oDelete'
 		onclick='javascript:fDelete();'>
+</div>
+
+<div id='RecordActions' style='float: left; display: none;'>
+	<input type='button' value='Modificar' id='oEdit'
+		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/admin/user/UserEdit", "EDIT");'>
 </div>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

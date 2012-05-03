@@ -103,6 +103,7 @@ create table tEmployee (
 	cHealth			BIGINT(20) NOT NULL,
 	cGratificationType	BIGINT(20) NOT NULL COMMENT 'Tipo de gratificacion',
 	cPaymentType	BIGINT(20) NOT NULL COMMENT 'Tipo de pago',
+	cTimeType		BIGINT(20) NOT NULL COMMENT 'Tipo de jornada, full-time o part-time'
 	cMobilization	DOUBLE COMMENT 'Movilizacion',
 	cFeeding		DOUBLE COMMENT 'Alimentacion',
 	PRIMARY KEY (cId)
@@ -200,10 +201,86 @@ create table tGratificationType(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-/*
-create table tPaymentType(
+/**
+create table tBook(
 	cId			BIGINT(20) NOT NULL auto_increment,
-	cName		VARCHAR(15) NOT NULL,
+	cPeriod		DATE NOT NULL,
+	cUF
+	cFactorHorasExtra
+	
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+create table tBookEmployee(
+	cId			BIGINT(20) NOT NULL auto_increment,
+	cBook		BIGINT(20) NOT NULL,
+	cEmployee	BIGINT(20) NOT NULL,
+	cTimeType	
+	cWorkDays	Integer,
+	cSualdoBase		BIGINT(20) NOT NULL,
+	*SueldoGanado	
+	cTipoGratification	BIGINT(20) NOT NULL,
+	cMontoGratificacion
+	cCantidadHorasExtras
+	cMontoHorasExtras
+	cParticipation
+	cB01
+	cB02
+	cB03
+	cB04
+	cB05
+	cB06
+	cB07
+	cB08
+	cB09
+	cB10
+	cOtrosHaberes
+	cAguinaldo
+	cOtrosHaberesImponibles
+	*TotalHaberesImponibles
+	cTopeImponiblePrevisional
+	cTopeImponibleSeguroCesantia
+	*RentaAfecta
+	cTramoAsignacionFamiliar
+	cCargas						Integer
+	cValorPorCargas
+	cFamiliarRetroactivo
+	cFood
+	cMovilizacion
+	cViaticos
+	cOtrosNoImponibles
+	cMesDeAviso
+	cIAS 					COMMENT 'Indemnisacion años de servicio'
+	cFeriadoProporcional
+	cIndemnisacionVoluntaira
+	*TotalHaberesNoImponibles
+	*TotalHaberes
+	cAFPCodigo
+	cAFPSeguroObligatorio
+	cAVP					COMMENT 'Monto APV'
+	cCuenta2				COMMENT 'Cuenta 2, Ahorro AFP'
+	cHealthCode				COMMENT 'Codigo de sistema de salud'
+	cTipoPlanHealth			COMMENT 'UF, %'
+	cPlanPactadoHealth		COMMENT 'Monto pactado, puedes ser en uf's o %'
+	cPlanPactadoHealthPS	COMMENT 'Plan en pesos'
+	cCotizacionLegal
+	*CotizacionAdicional
+	cCotisacionSaludRebaja	COMMENT 'Preguntar que es'
+	cTipoSeguroCesantia		
+	cMontoSeguroCesantia
+	cImpuestoUnico
+	*SubtotalDescuentosLegales
+	cAnticipoViatico
+	cPrestamoEmpresa
+	cPrestamoCajaCompenzacion
+	cAhorroCajaCompenzacion
+	cRetencionesJudiciales
+	*SubTotalOtrosDescuentos
+	*TotalDescuentos
+	*AlcanceLiquido
+	cAnticipoSueldo
+	*LiquidoPagar
+	
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 */
