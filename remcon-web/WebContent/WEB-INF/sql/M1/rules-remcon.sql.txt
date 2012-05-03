@@ -55,8 +55,8 @@ ADD CONSTRAINT withComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(cId);
 
 /** ENTERPRISE */
 ALTER TABLE remcon.tParameter
-ADD INDEX `Parameter_index` (`cType` ASC),
-ADD CONSTRAINT ParameterToBoard FOREIGN KEY (cType) REFERENCES remcon.tBoard(cId);
+ADD INDEX `Parameter_index` (`cDataType` ASC),
+ADD CONSTRAINT ParameterToBoard FOREIGN KEY (cDataType) REFERENCES remcon.tBoard(cId);
 
 /** COST CENTER */
 ALTER TABLE remcon.tCostCenter

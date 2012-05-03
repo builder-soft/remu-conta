@@ -24,7 +24,7 @@ CREATE TABLE `tParameter` (
   `cKey` 	varchar(20) NOT NULL,
   cLabel	varchar(100) NOT NULL,
   `cValue`	Varchar(100) NOT NULL,
-  `cType`	BIGINT NOT NULL
+  cDataType		BIGINT NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS tRol (
@@ -103,7 +103,7 @@ create table tEmployee (
 	cHealth			BIGINT(20) NOT NULL,
 	cGratificationType	BIGINT(20) NOT NULL COMMENT 'Tipo de gratificacion',
 	cPaymentType	BIGINT(20) NOT NULL COMMENT 'Tipo de pago',
-	cTimeType		BIGINT(20) NOT NULL COMMENT 'Tipo de jornada, full-time o part-time'
+	cTimeType		BIGINT(20) NOT NULL COMMENT 'Tipo de jornada, full-time o part-time',
 	cMobilization	DOUBLE COMMENT 'Movilizacion',
 	cFeeding		DOUBLE COMMENT 'Alimentacion',
 	PRIMARY KEY (cId)
