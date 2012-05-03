@@ -47,7 +47,7 @@ public class EmployeeInformation extends AbstractServletUtil {
 		ResultSet rs = mySQL.queryResultSet(conn, sql, array2List(id));
 		resultset2Table(rs, table);
 
-		String[] groupPrevisionalInformation = { "cAFP", "cIsapre"};
+		String[] groupPrevisionalInformation = { "cPFM", "cHealth"};
 		request.setAttribute("DataShow", groupPrevisionalInformation);
 		request.setAttribute("Data", rs);
 
