@@ -119,6 +119,14 @@ create table tEmployee (
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+/*
+create table tAgreement(
+	
+	
+)ENGINE=InnoDB;
+*/
+
+
 create table tEnterprise (
 	cId					BIGINT(20)  NOT NULL auto_increment, 
 	cRut				VARCHAR(11) NOT NULL UNIQUE,
@@ -195,8 +203,7 @@ create table tHealthAttribute (
 En esta tabla se graban para cada Employee:
 	- Los APV
 	- La cuenta2
-	- El adicional de salud.
-	
+	- El adicional de salud (son 3: CLP, UF y/o %).
 */
 create table tAccount (
 	cId				BIGINT(20) NOT NULL auto_increment,
@@ -205,7 +212,8 @@ create table tAccount (
 	cInstitution	BIGINT(20) NOT NULL,
 	cAccountType	BIGINT(20) NOT NULL,
 	cNumber			VARCHAR(15) NOT NULL,
-	cCurrency		BIGINT(20) NOT NULL,	
+	cCurrency		BIGINT(20) NOT NULL,
+	cAmount			DOUBLE,	
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
