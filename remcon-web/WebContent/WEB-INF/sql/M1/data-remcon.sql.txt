@@ -806,9 +806,13 @@ INSERT INTO tCostCenter(cName, cBranch) VALUES('Oficina', LAST_INSERT_ID());
 
 INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Administrativo', LAST_INSERT_ID(), 180000);
 
-INSERT INTO tEmployee(cRut,cName,cLastName1,cLastName2,cBirthDate,cAddress,cGenere,cComuna,cCountry,cMaritalStatus,cContractType,cStartContract,cEndContract,cProfile,cPFM,cHealth,cGratificationType,cPaymentType,cMobilization,cFeeding, cPhone, cMovil, cEmail, cTimeType) 
-VALUES('10809246-7','Pato','Aranguiz','Torres','1966-08-28','Fray Camilo Henriquez 2063',2,3,1,5,2,'2009-12-01','2013-01-01',1,3,6,1,3,580,395,'', '','',1);
+INSERT INTO tEmployee(cRut,				cName,	cLastName1,	cLastName2,	cBirthDate,		cAddress,						cGenere,	cComuna,	cCountry,	cMaritalStatus,	cPhone, cMovil, cEmail) 
+VALUES(					'10809246-7',	'Pato',	'Aranguiz',	'Torres',	'1966-08-28',	'Fray Camilo Henriquez 2063',	2,			3,			1,			5,				'', 	'',		'');
+SET @employeeId = LAST_INSERT_ID();
+
+INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cTimeType)
+VALUES(					@employeeId,	2,				'2009-12-01',	'2013-01-01',	1,			3,		6,			1,					3,				580,			395,		1);
 
 INSERT INTO tAccount(cEmployee, cName, cInstitution, cAccountType, cNumber, cCurrency)
-VALUES(LAST_INSERT_ID(), 'Cuenta APV 1', @APV, @accountType, '', @clp);
+VALUES(@employeeId, 'Cuenta APV 1', @APV, @accountType, '', @clp);
 

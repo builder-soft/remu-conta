@@ -24,29 +24,35 @@ ALTER TABLE remcon.tEmployee
 ADD INDEX `comuna_index` (`cComuna` ASC),
 ADD CONSTRAINT employeeToComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(cId);
 
-ALTER TABLE remcon.tEmployee
+/** AGREEMENT */
+ALTER TABLE remcon.tAgreement
+ADD INDEX Employee_index (`cEmployee` ASC),
+ADD CONSTRAINT AgreementToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId);
+
+ALTER TABLE remcon.tAgreement
 ADD INDEX `contractType_index` (`cContractType` ASC),
-ADD CONSTRAINT withContractType FOREIGN KEY (cContractType) REFERENCES remcon.tContractType(cId);
+ADD CONSTRAINT AgreementToContractType FOREIGN KEY (cContractType) REFERENCES remcon.tContractType(cId);
 
-ALTER TABLE remcon.tEmployee
+ALTER TABLE remcon.tAgreement
 ADD INDEX `profile_index` (`cProfile` ASC),
-ADD CONSTRAINT withProfile FOREIGN KEY (cProfile) REFERENCES remcon.tProfile(cId);
+ADD CONSTRAINT EmployeeToProfile FOREIGN KEY (cProfile) REFERENCES remcon.tProfile(cId);
 
-ALTER TABLE remcon.tEmployee
+ALTER TABLE remcon.tAgreement
 ADD INDEX `pfm_index` (`cPFM` ASC),
-ADD CONSTRAINT withPFM FOREIGN KEY (cPFM) REFERENCES remcon.tBoard(cId);
+ADD CONSTRAINT AgreementToPFM FOREIGN KEY (cPFM) REFERENCES remcon.tBoard(cId);
 
-ALTER TABLE remcon.tEmployee
+ALTER TABLE remcon.tAgreement
 ADD INDEX `Health_index` (`cHealth` ASC),
-ADD CONSTRAINT withHealth FOREIGN KEY (cHealth) REFERENCES remcon.tBoard(cId);
+ADD CONSTRAINT AgreementToHealth FOREIGN KEY (cHealth) REFERENCES remcon.tBoard(cId);
 
-ALTER TABLE remcon.tEmployee
+ALTER TABLE remcon.tAgreement
 ADD INDEX `gratificationType_index` (`cGratificationType` ASC),
-ADD CONSTRAINT withGratificationType FOREIGN KEY (cGratificationType) REFERENCES remcon.tGratificationType(cId);
+ADD CONSTRAINT AgreementToGratificationType FOREIGN KEY (cGratificationType) REFERENCES remcon.tGratificationType(cId);
 
-ALTER TABLE remcon.tEmployee
+ALTER TABLE remcon.tAgreement
 ADD INDEX `paymentType_index` (`cPaymentType` ASC),
-ADD CONSTRAINT withPaymentType FOREIGN KEY (cPaymentType) REFERENCES remcon.tBoard(cId);
+ADD CONSTRAINT AgreementToPaymentType FOREIGN KEY (cPaymentType) REFERENCES remcon.tBoard(cId);
+
 
 /** ENTERPRISE */
 ALTER TABLE remcon.tEnterprise
