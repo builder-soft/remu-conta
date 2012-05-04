@@ -1,9 +1,5 @@
 use remcon;
 
-/**
-Hay que agregar la sucursal, y que dependa de la empresa, a su vez, los Centros de costo, dependen de la sucursal.
-*/
-
 CREATE TABLE IF NOT EXISTS tBranch(
 	cId					BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	cName				VARCHAR(50),
@@ -12,7 +8,6 @@ CREATE TABLE IF NOT EXISTS tBranch(
 	cComuna				BIGINT,
 	cPhone				VARCHAR(15)
 ) ENGINE=innoDB;
-
 
 CREATE TABLE IF NOT EXISTS tFile (
 	cId				BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -108,10 +103,9 @@ create table tEmployee (
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-
 create table tAgreement(
 	cId					BIGINT(20) NOT NULL auto_increment, 
-	cEmployee			BIGINT(20) UNIQUE,
+	cEmployee			BIGINT(20) NOT NULL UNIQUE	COMMENT 'Id del empleado',
 	cContractType		BIGINT(20) NOT NULL 	COMMENT 'Tipo de contrato: fijo o indefinido',
 	cStartContract		DATE NOT NULL 			COMMENT 'Inicio de contrato',
 	cEndContract		DATE NULL 				COMMENT 'Fin de contrato',
@@ -124,7 +118,7 @@ create table tAgreement(
 	cMobilization		DOUBLE DEFAULT '0'		COMMENT 'Movilizacion',
 	cFeeding			DOUBLE DEFAULT '0'		COMMENT 'Alimentacion',
 	cExBoxSystem		BIGINT(20) NULL			COMMENT 'Caja Ex-Regimen',
-	cExBoxSystemPRC		DOUBLE NULL				COMMENT 'Porcentaje de Caja Ex-Regimen',
+	cExBoxSystemPRC		DOUBLE NULL				COMMENT 'Porcentaje de Caja Ex-Regimen (esto debiera ir a otra tabla al parecer)',
 	cAdditionalHealthUF	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Adicional sistema de salud, en UF',
 	cAdditionalHealthCLP	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Adicional sistema de salud, en Pesos chilenos',
 	cAdditionalHealthPRC	DOUBLE NOT NULL	DEFAULT '0'	COMMENT 'Adicional sistema de salud, en Porcentaje',
@@ -133,8 +127,6 @@ create table tAgreement(
 	cMaternalLoads		INTEGER	NOT NULL DEFAULT '0' 	COMMENT 'Cargas Maternales',
 	PRIMARY KEY (cId)
 )ENGINE=InnoDB;
-
-
 
 create table tEnterprise (
 	cId					BIGINT(20)  NOT NULL auto_increment, 
@@ -147,7 +139,7 @@ create table tEnterprise (
 	cComuna				BIGINT(20) NOT NULL,
 	cPhone				VARCHAR(10),
 	cMutual				BIGINT(20) NOT NULL,
-	cMutualFactor		DOUBLE COMMENT 'Factor Mutual',
+	cMutualFactor		DOUBLE COMMENT 'Factor de Mutual, varía de empresa en empresa',
 	cCompensationFund	BIGINT(20) NOT NULL COMMENT 'Caja de compensacion',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
@@ -217,9 +209,11 @@ En esta tabla se graban para cada Employee:
 create table tAccount (
 	cId				BIGINT(20) NOT NULL auto_increment,
 	cEmployee		BIGINT(20) NOT NULL, 
-/*	cName			VARCHAR(50), No es necesario este campo, para ver una 
+/*
+	cName			VARCHAR(50), No es necesario este campo, para ver una 
 								descripción, hay usar el campo cIntitution 
-								para llegar a otra tabla*/  
+								para llegar a otra tabla
+*/  
 	cInstitution	BIGINT(20) NOT NULL,
 	cAccountType	BIGINT(20) NOT NULL,
 	cNumber			VARCHAR(15),
@@ -235,7 +229,7 @@ create table tGratificationType(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-/**
+/*************************************
 create table tPeriod(
 	cId			BIGINT(20) NOT NULL auto_increment,
 	cDate		DATE NOT NULL,
@@ -330,7 +324,7 @@ EN LA VISTA:
 	*SueldoGanado
 	*LiquidoPagar
 
-*/
+**************************************/
 
  /** V I S T A S **/
 
@@ -408,4 +402,16 @@ AS
 	SELECT cId, cValue AS cName 
 	FROM remcon.tBoard 
 	WHERE cType='ACCOUNT_TYPE';
+
+DROP VIEW IF EXISTS vCompensationFund;
+CREATE VIEW vCompensationFund
+AS
+	SELECT cId, cValue AS cName 
+	FROM remcon.tBoard 
+	WHERE cType='COMPENSATION';
+
+
+
+
+
   
