@@ -265,8 +265,6 @@ create table tBookAssets(
 	cOtrosHaberes
 	cAguinaldo
 	cOtrosHaberesImponibles
-	cTopeImponiblePrevisional
-	cTopeImponibleSeguroCesantia
 	cCargas						Integer
 	cValorPorCargas
 	cFamiliarRetroactivo
@@ -275,7 +273,7 @@ create table tBookAssets(
 	cViaticos
 	cOtrosNoImponibles
 	cMesDeAviso
-	cIAS 					COMMENT 'Indemnisacion años de servicio'
+	cIAS 					COMMENT 'Indemnisacion aï¿½os de servicio'
 	cFeriadoProporcional
 	cIndemnisacionVoluntaira
 	PRIMARY KEY (cId)
@@ -288,6 +286,8 @@ create table tBookDiscounts(
 	cAFPSeguroObligatorio
 	cAVP					COMMENT 'Monto APV'
 	cCuenta2				COMMENT 'Cuenta 2, Ahorro AFP'
+	cTopeImponiblePrevisional
+	cTopeImponibleSeguroCesantia
 	cHealthCode				COMMENT 'Codigo de sistema de salud'
 	cTipoPlanHealth			COMMENT 'UF, %'
 	cPlanPactadoHealth		COMMENT 'Monto pactado, puedes ser en uf's o %'
