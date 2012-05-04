@@ -217,10 +217,12 @@ En esta tabla se graban para cada Employee:
 create table tAccount (
 	cId				BIGINT(20) NOT NULL auto_increment,
 	cEmployee		BIGINT(20) NOT NULL, 
-	cName			VARCHAR(50) NOT NULL,  
+/*	cName			VARCHAR(50), No es necesario este campo, para ver una 
+								descripción, hay usar el campo cIntitution 
+								para llegar a otra tabla*/  
 	cInstitution	BIGINT(20) NOT NULL,
 	cAccountType	BIGINT(20) NOT NULL,
-	cNumber			VARCHAR(15) NOT NULL,
+	cNumber			VARCHAR(15),
 	cCurrency		BIGINT(20) NOT NULL,
 	cAmount			DOUBLE,	
 	PRIMARY KEY (cId)
