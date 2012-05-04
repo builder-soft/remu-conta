@@ -1,3 +1,4 @@
+/**
 - Obtiene lista de monedas(null)
 - Obtiene lista de apv's(null)
 - Graba una APV(o adicional) a la vez en la tabla tAccount con los parametros validando que exista empleado+institucion, 
@@ -19,3 +20,4 @@ entonces actualiza, si no, inserta.(idEmployee, Intitucion, Nombre = '', TipoCue
 
 
 
+*/
