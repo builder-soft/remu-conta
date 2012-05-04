@@ -1,5 +1,6 @@
 drop table if exists remcon.tAccount;
 
+drop table if exists remcon.tAgreement;
 drop table if exists remcon.tEmployee;
 
 drop table if exists remcon.tCountry;

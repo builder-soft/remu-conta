@@ -105,26 +105,35 @@ create table tEmployee (
 	cMaritalStatus		BIGINT(20) NOT NULL COMMENT 'Estado Civil',
 	cMovil				VARCHAR(10),
 	cEmail				VARCHAR(50),
-	cContractType		BIGINT(20) NOT NULL COMMENT 'Tipo de contrato: fijo o indefinido',
-	cStartContract		DATE NOT NULL COMMENT 'Inicio de contrato',
-	cEndContract		DATE NULL COMMENT 'Fin de contrato',
-	cProfile			BIGINT(20) NOT NULL COMMENT 'Cargo de la persona',
-	cPFM				BIGINT(20) NOT NULL,
-	cHealth				BIGINT(20) NOT NULL,
-	cGratificationType	BIGINT(20) NOT NULL COMMENT 'Tipo de gratificacion',
-	cPaymentType		BIGINT(20) NOT NULL COMMENT 'Tipo de pago',
-	cTimeType			BIGINT(20) NOT NULL COMMENT 'Tipo de jornada, full-time o part-time',
-	cMobilization		DOUBLE COMMENT 'Movilizacion',
-	cFeeding			DOUBLE COMMENT 'Alimentacion',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-/*
+
 create table tAgreement(
-	
-	
+	cId					BIGINT(20) NOT NULL auto_increment, 
+	cEmployee			BIGINT(20) UNIQUE,
+	cContractType		BIGINT(20) NOT NULL 	COMMENT 'Tipo de contrato: fijo o indefinido',
+	cStartContract		DATE NOT NULL 			COMMENT 'Inicio de contrato',
+	cEndContract		DATE NULL 				COMMENT 'Fin de contrato',
+	cProfile			BIGINT(20) NOT NULL 	COMMENT 'Cargo de la persona',
+	cPFM				BIGINT(20) NOT NULL		COMMENT 'AFP',
+	cHealth				BIGINT(20) NOT NULL		COMMENT 'Sistema de salud, isapre o fonasa',
+	cGratificationType	BIGINT(20) NOT NULL 	COMMENT 'Tipo de gratificacion',
+	cPaymentType		BIGINT(20) NOT NULL 	COMMENT 'Tipo de pago',
+	cTimeType			BIGINT(20) NOT NULL 	COMMENT 'Tipo de jornada, full-time o part-time',
+	cMobilization		DOUBLE DEFAULT '0'		COMMENT 'Movilizacion',
+	cFeeding			DOUBLE DEFAULT '0'		COMMENT 'Alimentacion',
+	cExBoxSystem		BIGINT(20) NULL			COMMENT 'Caja Ex-Regimen',
+	cExBoxSystemPRC		DOUBLE NULL				COMMENT 'Porcentaje de Caja Ex-Regimen',
+	cAdditionalHealthUF	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Adicional sistema de salud, en UF',
+	cAdditionalHealthCLP	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Adicional sistema de salud, en Pesos chilenos',
+	cAdditionalHealthPRC	DOUBLE NOT NULL	DEFAULT '0'	COMMENT 'Adicional sistema de salud, en Porcentaje',
+	cSimpleLoads		INTEGER	NOT NULL DEFAULT '0' 	COMMENT 'Cargas Simples',
+	cDisabilityBurdens	INTEGER	NOT NULL DEFAULT '0' 	COMMENT 'Cargas Invalidez',
+	cMaternalLoads		INTEGER	NOT NULL DEFAULT '0' 	COMMENT 'Cargas Maternales',
+	PRIMARY KEY (cId)
 )ENGINE=InnoDB;
-*/
+
 
 
 create table tEnterprise (
