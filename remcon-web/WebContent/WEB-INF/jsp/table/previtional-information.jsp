@@ -8,12 +8,27 @@
 <%@page import="java.sql.ResultSet"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+
 <%
 	BSTableConfig table = (BSTableConfig) session.getAttribute("BSTable");
 	BSField[] fields = table.getFields();
 	String[] groupPrevisionalInformation = (String[])request.getAttribute("DataShow");
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
+<script>
+function addApv()
+{
+	var clon = $('#apv0').clone();
+	var rowCount = $("#apvs tr").length;
+	clon.attr('id','apv'+rowCount);
+	
+	if(rowCount==1)
+		$('#apv0').after(clon);
+	else
+		$('#apv'+(rowCount-1)).after(clon);
+	
+}
+</script>
 <%
 	BSHeadConfig head = (BSHeadConfig) session.getAttribute("BSHead");
 	if (head != null) {
@@ -59,13 +74,26 @@
 			<%
 		}
 		%>
+			<tr>
+				<td colspan="4">
+					<table id="apvs">
+						<tr id="apv0">
+								<td class="cLabel" valign='top'>APV:</td>
+								<td class="cData"><select><option value="1">Pesos</option></select></td>
+								<td class="cData"><input id="" value="valor"></td>
+								<td class="cLabel" valign='top'>Institucion:</td>
+								<td class="cData"><select><option value="1">APV 1</option></select></td>	
+						</tr>
+					</table>
+				<td>
+			</tr>
 	</table>
 </form>
 <input type="button" value="Aceptar"
 	onclick="javascript:$('#editForm').submit();">
 &nbsp;&nbsp;&nbsp;
-<a href="${pageContext.request.contextPath}/servlet/table/LoadTable">Cancelar</a>
-
+<a href="${pageContext.request.contextPath}/servlet/table/LoadTable">Cancelar</a>&nbsp;&nbsp;&nbsp;
+<a href="javascript:addApv()">Agregar APV</a>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 
