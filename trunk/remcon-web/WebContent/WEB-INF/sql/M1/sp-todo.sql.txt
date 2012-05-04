@@ -16,6 +16,6 @@ entonces actualiza, si no, inserta.(idEmployee, Intitucion, Nombre = '', TipoCue
 	- Cargar en tBoard "Ex-Regimen"
 	- Preguntar por el Tramo de Fonasa
 	- Averiguar sobre complementario de salud
-	
-	
-	
+
+
+

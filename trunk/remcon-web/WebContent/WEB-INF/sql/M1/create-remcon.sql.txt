@@ -31,9 +31,9 @@ CREATE TABLE IF NOT EXISTS tFileCategory (
 
 CREATE TABLE `tParameter` (
   `cId` BIGINT PRIMARY KEY UNIQUE AUTO_INCREMENT,
-  `cKey` 	varchar(20) NOT NULL,
-  cLabel	varchar(100) NOT NULL,
-  `cValue`	Varchar(100) NOT NULL,
+  `cKey` 		varchar(20) NOT NULL,
+  cLabel		varchar(100) NOT NULL,
+  `cValue`		Varchar(100) NOT NULL,
   cDataType		BIGINT NOT NULL
 ) ENGINE=InnoDB;
 
@@ -91,31 +91,31 @@ CREATE TABLE `tCountry` (
  
  /* Crea tabla Empleados */
 create table tEmployee (
-	cId				BIGINT(20)  NOT NULL auto_increment, 
-	cRut			VARCHAR(11) NOT NULL unique,
-	cName			VARCHAR(20) NOT NULL,
-	cLastName1		VARCHAR(20) NOT NULL,
-	cLastName2		VARCHAR(20) NOT NULL,
-	cBirthDate		DATE COMMENT 'Fecha de nacimiento',
-	cAddress		VARCHAR(100) COMMENT 'Direccion particular',
-	cGenere			BIGINT(20) NOT NULL COMMENT 'Genero Femenino o Masculino',
-	cComuna			BIGINT(20) NOT NULL,
-	cCountry		BIGINT(20) NOT NULL COMMENT 'Nacionalidad',
-	cPhone			VARCHAR(10),
-	cMaritalStatus	BIGINT(20) NOT NULL COMMENT 'Estado Civil',
-	cMovil			VARCHAR(10),
-	cEmail			VARCHAR(50),
-	cContractType	BIGINT(20) NOT NULL COMMENT 'Tipo de contrato: fijo o indefinido',
-	cStartContract	DATE NOT NULL COMMENT 'Inicio de contrato',
-	cEndContract	DATE NULL COMMENT 'Fin de contrato',
-	cProfile		BIGINT(20) NOT NULL COMMENT 'Cargo de la persona',
-	cPFM			BIGINT(20) NOT NULL,
-	cHealth			BIGINT(20) NOT NULL,
+	cId					BIGINT(20)  NOT NULL auto_increment, 
+	cRut				VARCHAR(11) NOT NULL unique,
+	cName				VARCHAR(20) NOT NULL,
+	cLastName1			VARCHAR(20) NOT NULL,
+	cLastName2			VARCHAR(20) NOT NULL,
+	cBirthDate			DATE COMMENT 'Fecha de nacimiento',
+	cAddress			VARCHAR(100) COMMENT 'Direccion particular',
+	cGenere				BIGINT(20) NOT NULL COMMENT 'Genero Femenino o Masculino',
+	cComuna				BIGINT(20) NOT NULL,
+	cCountry			BIGINT(20) NOT NULL COMMENT 'Nacionalidad',
+	cPhone				VARCHAR(10),
+	cMaritalStatus		BIGINT(20) NOT NULL COMMENT 'Estado Civil',
+	cMovil				VARCHAR(10),
+	cEmail				VARCHAR(50),
+	cContractType		BIGINT(20) NOT NULL COMMENT 'Tipo de contrato: fijo o indefinido',
+	cStartContract		DATE NOT NULL COMMENT 'Inicio de contrato',
+	cEndContract		DATE NULL COMMENT 'Fin de contrato',
+	cProfile			BIGINT(20) NOT NULL COMMENT 'Cargo de la persona',
+	cPFM				BIGINT(20) NOT NULL,
+	cHealth				BIGINT(20) NOT NULL,
 	cGratificationType	BIGINT(20) NOT NULL COMMENT 'Tipo de gratificacion',
-	cPaymentType	BIGINT(20) NOT NULL COMMENT 'Tipo de pago',
-	cTimeType		BIGINT(20) NOT NULL COMMENT 'Tipo de jornada, full-time o part-time',
-	cMobilization	DOUBLE COMMENT 'Movilizacion',
-	cFeeding		DOUBLE COMMENT 'Alimentacion',
+	cPaymentType		BIGINT(20) NOT NULL COMMENT 'Tipo de pago',
+	cTimeType			BIGINT(20) NOT NULL COMMENT 'Tipo de jornada, full-time o part-time',
+	cMobilization		DOUBLE COMMENT 'Movilizacion',
+	cFeeding			DOUBLE COMMENT 'Alimentacion',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -172,10 +172,10 @@ create table tContractType(
 ) ENGINE=InnoDB;
 
 create table tProfile (
-	cId				BIGINT(20) NOT NULL auto_increment, 
-	cName			VARCHAR(20) NOT NULL,
-	cCostCenter		BIGINT(20) NOT NULL,
-	cCompanyCost	DOUBLE NOT NULL,
+	cId					BIGINT(20) NOT NULL auto_increment, 
+	cName				VARCHAR(20) NOT NULL,
+	cCostCenter			BIGINT(20) NOT NULL,
+	cCompanyCost		DOUBLE NOT NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -225,26 +225,31 @@ create table tGratificationType(
 ) ENGINE=InnoDB;
 
 /**
-create table tBook(
+create table tPeriod(
 	cId			BIGINT(20) NOT NULL auto_increment,
-	cPeriod		DATE NOT NULL,
+	cDate		DATE NOT NULL,
 	cUF
-	cFactorHorasExtra
-	
+	cFactorHorasExtra COMMENT 'Para calcular las horas extras, puede ser 0.07777 o 0.0333';
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-create table tBookEmployee(
-	cId			BIGINT(20) NOT NULL auto_increment,
-	cBook		BIGINT(20) NOT NULL,
-	cEmployee	BIGINT(20) NOT NULL,
-	cTimeType	
-	cWorkDays	Integer,
-	cSualdoBase		BIGINT(20) NOT NULL,
-	*SueldoGanado	
-	cTipoGratification	BIGINT(20) NOT NULL,
-	cMontoGratificacion
+create table tBook(
+	cId					BIGINT(20) NOT NULL auto_increment,
+	cPeriod				BIGINT(20) NOT NULL,
+	cEmployee			BIGINT(20) NOT NULL,
+	cTimeType			BIGINT(20) NOT NULL COMMENT 'Tipo de jornada: part-time / full-time',
+	cWorkDays			INTEGER,
+	cSualdoBase			BIGINT(20) NOT NULL,
 	cCantidadHorasExtras
+) ENGINE=InnoDB;
+
+Tabla del libro con los Haberes
+create table tBookAssets(
+	cId					BIGINT(20) NOT NULL auto_increment,
+	cBook				BIGINT(20) NOT NULL,
+	cTipoGratification	BIGINT(20) NOT NULL,
+	cTramoAsignacionFamiliar
+	cMontoGratificacion
 	cMontoHorasExtras
 	cParticipation
 	cB01
@@ -260,11 +265,8 @@ create table tBookEmployee(
 	cOtrosHaberes
 	cAguinaldo
 	cOtrosHaberesImponibles
-	*TotalHaberesImponibles
 	cTopeImponiblePrevisional
 	cTopeImponibleSeguroCesantia
-	*RentaAfecta
-	cTramoAsignacionFamiliar
 	cCargas						Integer
 	cValorPorCargas
 	cFamiliarRetroactivo
@@ -276,8 +278,12 @@ create table tBookEmployee(
 	cIAS 					COMMENT 'Indemnisacion años de servicio'
 	cFeriadoProporcional
 	cIndemnisacionVoluntaira
-	*TotalHaberesNoImponibles
-	*TotalHaberes
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+create table tBookDiscounts(
+	cId					BIGINT(20) NOT NULL auto_increment,
+	cBook				BIGINT(20) NOT NULL,
 	cAFPCodigo
 	cAFPSeguroObligatorio
 	cAVP					COMMENT 'Monto APV'
@@ -287,25 +293,32 @@ create table tBookEmployee(
 	cPlanPactadoHealth		COMMENT 'Monto pactado, puedes ser en uf's o %'
 	cPlanPactadoHealthPS	COMMENT 'Plan en pesos'
 	cCotizacionLegal
-	*CotizacionAdicional
 	cCotisacionSaludRebaja	COMMENT 'Preguntar que es'
 	cTipoSeguroCesantia		
 	cMontoSeguroCesantia
 	cImpuestoUnico
-	*SubtotalDescuentosLegales
+	cAnticipoSueldo
 	cAnticipoViatico
 	cPrestamoEmpresa
 	cPrestamoCajaCompenzacion
 	cAhorroCajaCompenzacion
 	cRetencionesJudiciales
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+EN LA VISTA:
+	*TotalHaberesImponibles
+	*RentaAfecta
+	*TotalHaberesNoImponibles
+	*TotalHaberes
+	*CotizacionAdicional
+	*SubtotalDescuentosLegales
 	*SubTotalOtrosDescuentos
 	*TotalDescuentos
 	*AlcanceLiquido
-	cAnticipoSueldo
+	*SueldoGanado
 	*LiquidoPagar
-	
-	PRIMARY KEY (cId)
-) ENGINE=InnoDB;
+
 */
 
  /** V I S T A S **/
