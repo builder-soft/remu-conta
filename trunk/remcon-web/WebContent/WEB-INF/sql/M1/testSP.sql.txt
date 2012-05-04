@@ -1,8 +1,5 @@
 /*
-select * from bsframework.tUser;
-call bsframework.pDelUser(3);
-select * from bsframework.tUser;
+select * from remcon.tAccount;
+call remcon.pDelAccount(1, 47);
+select * from remcon.tAccount;
 */
-
-call bsframework.pGetUser(2);
-

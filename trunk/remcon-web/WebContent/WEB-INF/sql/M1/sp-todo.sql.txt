@@ -9,7 +9,7 @@ entonces actualiza, si no, inserta.(idEmployee, Intitucion, Nombre = '', TipoCue
 - Consulta Contrato Previsional(Employee)
 - Grabar datos contrato Previsional(Employee, caja ex-regimen, cotizacion en %, ¿Isapre?, ¿AFP?, ¿Tramo de Fonasa?, 
 Cargas Simples, Cargas Invalidez, Cargas Maternales, Jubilado, Seguro Cesantia)
-- Borre todas las APV asociadas al employee(Employee)
+OK - Borre todas las Account asociadas al employee(Employee, tipo=APV)
 
 
 - Pendientes:
