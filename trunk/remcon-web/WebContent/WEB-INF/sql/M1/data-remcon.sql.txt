@@ -124,8 +124,9 @@ INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'COMPL_HEALTH', '
 
 /* APV */
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '100', 'ABN AMRO (CHILE) SEGUROS DE VIDA S.A.');
-SET @APV = LAST_INSERT_ID();
+SET @APV1 = LAST_INSERT_ID();
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '136', 'ACE SEGUROS S.A. ');
+SET @APV2 = LAST_INSERT_ID();
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '218', 'ADMINISTRADORA GENERAL DE FONDOS SECURITY S.A. ');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '33', 'AFP Capital ');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '3', 'AFP Cuprum ');
@@ -940,6 +941,12 @@ SET @employeeId = LAST_INSERT_ID();
 INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cTimeType)
 VALUES(					@employeeId,	2,				'2009-12-01',	'2013-01-01',	1,			3,		6,			1,					3,				580,			395,		1);
 
+INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)
+VALUES(@employeeId, @APV1, @accountType, @clp);
+INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)
+VALUES(@employeeId, @APV2, @accountType, @clp);
+
+/**Cuenta 2*/
 INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)
 VALUES(@employeeId, @APV, @accountType, @clp);
 

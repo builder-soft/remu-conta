@@ -1,0 +1,15 @@
+DROP PROCEDURE if exists remcon.pSetAccountSave;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pSetAccountSave(IN pEmployee BIGINT, IN pInstitution BIGINT, 
+	IN pAccountType BIGINT, IN pNumber VARCHAR(15), IN pCurrency BIGINT, IN pAmount DOUBLE)
+BEGIN
+	
+	
+	 
+	
+	
+END$$
+
+DELIMITER ;
+
