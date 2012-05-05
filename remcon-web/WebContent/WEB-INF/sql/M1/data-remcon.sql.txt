@@ -71,6 +71,7 @@ INSERT INTO tBoard(cType, cKey, cValue) VALUES('MARITAL_STATUS', 'MARRIED', 'Cas
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('MARITAL_STATUS', 'SINGLE', 'Soltero');
 
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('CURRENCY', 'UF', 'Unidad de Fomento');
+SET @uf = LAST_INSERT_ID();
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('CURRENCY', 'CLP', 'Pesos Chilenos');
 SET @clp = LAST_INSERT_ID();
 
@@ -120,6 +121,7 @@ INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'APV', 'APV');
 SET @accountType = LAST_INSERT_ID();
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'ACCT2', 'Cuenta 2');
+SET @acct2 = LAST_INSERT_ID();
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'COMPL_HEALTH', 'Complementario de Salud');
 
 /* APV */
@@ -945,8 +947,10 @@ INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)
 VALUES(@employeeId, @APV1, @accountType, @clp);
 INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)
 VALUES(@employeeId, @APV2, @accountType, @clp);
+INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)
+VALUES(@employeeId, @APV1, @accountType, @uf);
 
 /**Cuenta 2*/
 INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)
-VALUES(@employeeId, @APV, @accountType, @clp);
+VALUES(@employeeId, 30, @acct2, @clp);
 

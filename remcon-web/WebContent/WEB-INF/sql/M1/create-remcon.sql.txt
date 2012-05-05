@@ -399,7 +399,7 @@ AS
 DROP VIEW IF EXISTS vAccountType;
 CREATE VIEW vAccountType
 AS
-	SELECT cId, cValue AS cName 
+	SELECT cId, cKey, cValue AS cName 
 	FROM remcon.tBoard 
 	WHERE cType='ACCOUNT_TYPE';
 
