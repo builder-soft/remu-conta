@@ -63,6 +63,9 @@ ALTER TABLE remcon.tEnterprise
 ADD INDEX `CompensationFound_index` (`cCompensationFund` ASC),
 ADD CONSTRAINT EnterpriseToCompensationFund FOREIGN KEY (cCompensationFund) REFERENCES remcon.tBoard(cId);
 
+ALTER TABLE remcon.tEnterprise
+ADD INDEX `Mutual_index` (`cMutual` ASC),
+ADD CONSTRAINT EnterpriseToMutual FOREIGN KEY (cMutual) REFERENCES remcon.tBoard(cId);
 
 /** BRANCH */
 ALTER TABLE remcon.tBranch
