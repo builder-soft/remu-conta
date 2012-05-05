@@ -14,15 +14,6 @@ call remcon.pGetAccountsForEmployee(1, 48);
 
 */
 
-call remcon.pSetAccountSave(1, 50, 47, '24500-03', 27, 12500);
-select * from remcon.tAccount;
-
-call remcon.pSetAccountSave(1, 50, 47, '24500-02', 27, 12502);
-select * from remcon.tAccount;
-
-call remcon.pSetAccountSave(1, 51, 47, '24500-XX', 26, 12502);
-select * from remcon.tAccount;
-
-
+call remcon.pGetCurrencyList();
  
 

@@ -60,7 +60,7 @@ ADD INDEX `comuna_index` (`cComuna` ASC),
 ADD CONSTRAINT withComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(cId);
 
 ALTER TABLE remcon.tEnterprise
-ADD INDEX `CompensationFound_index` (`cCompensationFund` ASC),
+ADD INDEX `CompensationFund_index` (`cCompensationFund` ASC),
 ADD CONSTRAINT EnterpriseToCompensationFund FOREIGN KEY (cCompensationFund) REFERENCES remcon.tBoard(cId);
 
 ALTER TABLE remcon.tEnterprise
