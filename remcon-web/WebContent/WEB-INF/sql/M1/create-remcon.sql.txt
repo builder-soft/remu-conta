@@ -410,8 +410,19 @@ AS
 	FROM remcon.tBoard 
 	WHERE cType='COMPENSATION';
 
+DROP VIEW IF EXISTS vMutual;
+CREATE VIEW vMutual
+AS
+	SELECT cId, cValue AS cName 
+	FROM remcon.tBoard 
+	WHERE cType='MUTUAL';
 
-
+DROP VIEW IF EXISTS vAPV;
+CREATE VIEW vAPV
+AS
+	SELECT cId, cValue AS cName 
+	FROM remcon.tBoard 
+	WHERE cType='APV';
 
 
   
