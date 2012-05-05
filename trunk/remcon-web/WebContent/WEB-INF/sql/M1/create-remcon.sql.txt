@@ -403,6 +403,7 @@ AS
 	FROM remcon.tBoard 
 	WHERE cType='ACCOUNT_TYPE';
 
+DROP VIEW IF EXISTS vCompensationFound;
 DROP VIEW IF EXISTS vCompensationFund;
 CREATE VIEW vCompensationFund
 AS

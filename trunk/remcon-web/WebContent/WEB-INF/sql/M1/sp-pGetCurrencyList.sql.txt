@@ -1,11 +1,11 @@
-DROP PROCEDURE if exists remcon.pGetAPVList;
+DROP PROCEDURE if exists remcon.pGetCurrencyList;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pGetAPVList()
+CREATE PROCEDURE remcon.pGetCurrencyList()
 BEGIN
 	SELECT		 cId, cKey, cValue AS cName, cEnable 
 	FROM 		remcon.tBoard
-	WHERE		cType = 'APV';
+	WHERE		cType = 'CURRENCY';
 END$$
 
 DELIMITER ;
