@@ -3,16 +3,17 @@ DELIMITER $$
 
 CREATE PROCEDURE remcon.pGetAccountsForEmployee(IN pEmployee BIGINT, IN pAccountType BIGINT)
 BEGIN
-	SELECT		a.cId, a.cEmployee, a.cInstitution, a.cAccountType, 
-				a.cNumber, a.cCurrency, a.cAmount, b.cKey AS cKeyAccountType, 
-				b.cValue as cNameAccountType, c.cKey AS cKeyInstitution, 
-				c.cValue as cNameInstitution
+	SELECT		a.cId, a.cInstitution, a.cNumber, a.cCurrency, a.cAmount, 
+				b.cKey AS cKeyInstitution, b.cValue as cNameInstitution,
+				c.cKey AS cKeyCurrency, c.cValue as cNameCurrency
 	FROM 		remcon.tAccount	AS a
-	LEFT JOIN	remcon.tBoard	AS b ON a.cAccountType = b.cId AND b.cType = 'ACCOUNT_TYPE'
-	LEFT JOIN	remcon.tBoard	AS c ON a.cInstitution = c.cId AND c.cType = 'APV'
-	WHERE		cEmployee = pEmployee
-	ORDER BY	cAccountType, cCurrency;
+	LEFT JOIN	remcon.tBoard	AS b ON a.cInstitution = b.cId
+	LEFT JOIN	remcon.tBoard	AS c ON a.cCurrency = c.cId
+	WHERE		cEmployee = pEmployee AND a.cAccountType = pAccountType
+	ORDER BY	cCurrency;
 END$$
 
 DELIMITER ;
 
+call remcon.pGetAccountsForEmployee(1, 47);
+call remcon.pGetAccountsForEmployee(1, 48);
