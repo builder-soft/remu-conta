@@ -2,13 +2,27 @@ DROP PROCEDURE if exists remcon.pSetAccountSave;
 DELIMITER $$
 
 CREATE PROCEDURE remcon.pSetAccountSave(IN pEmployee BIGINT, IN pInstitution BIGINT, 
-	IN pAccountType BIGINT, IN pNumber VARCHAR(15), IN pCurrency BIGINT, IN pAmount DOUBLE)
+	IN pAccountType BIGINT, IN pNumber VARCHAR(15), 
+	IN pCurrency BIGINT, IN pAmount DOUBLE)
 BEGIN
 	
-	
-	 
-	
-	
+	IF EXISTS(	SELECT	cId 
+				FROM	tAccount 
+				WHERE	cEmployee = pEmployee AND 
+						cInstitution = pInstitution AND
+						cCurrency = pCurrency) THEN
+		UPDATE	remcon.tAccount 
+		SET		cAccountType = pAccountType,
+				cNumber = pNumber,
+				cCurrency = pCurrency,
+				cAmount = pAmount
+		WHERE	cEmployee = pEmployee AND 
+				cInstitution = pInstitution AND 
+				cCurrency = pCurrency;
+	ELSE
+		INSERT INTO remcon.tAccount(cEmployee, cInstitution, cAccountType, cNumber, cCurrency, cAmount)
+		VALUES(pEmployee, pInstitution, pAccountType, pNumber, pCurrency, pAmount);
+	END IF;
 END$$
 
 DELIMITER ;
