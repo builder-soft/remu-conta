@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.beans.BSAccount"%>
 <%@page import="cl.buildersoft.framework.beans.BSCss"%>
 <%@page import="cl.buildersoft.framework.beans.BSScript"%>
 <%@page import="cl.buildersoft.framework.beans.BSHeadConfig"%>
@@ -13,6 +14,8 @@
 	BSTableConfig table = (BSTableConfig) session.getAttribute("BSTable");
 	BSField[] fields = table.getFields();
 	String[] groupPrevisionalInformation = (String[])request.getAttribute("DataShow");
+	List<BSAccount> listadoApv = (List<BSAccount>)request.getAttribute("listadoApv");
+	List<BSAccount> listadoCurrency = (List<BSAccount>)request.getAttribute("listadoCurrency");
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <script>
@@ -21,12 +24,33 @@ function addApv()
 	var clon = $('#apv0').clone();
 	var rowCount = $("#apvs tr").length;
 	clon.attr('id','apv'+rowCount);
+	var newTD = "<td><a href='javascript:delApv("+rowCount+")'>Eliminar</a></td>";
+	clon.append(newTD);
 	
 	if(rowCount==1)
 		$('#apv0').after(clon);
 	else
 		$('#apv'+(rowCount-1)).after(clon);
 	
+}
+
+function delApv(idApv)
+{
+	$('#apv'+idApv).remove();
+}
+
+function getApvSelected(){
+	apvs = $("#apvs");
+	currencies = [];
+	amounts = [];
+	institutions = [];
+	apvs.find('#apvCurrency').each(function(){currencies.push($(this).val());});
+	apvs.find('#apvAmount').each(function(){amounts.push($(this).val());});
+	apvs.find('#apvInstitution').each(function(){institutions.push($(this).val());});
+	
+	alert("currencies seleccionadas= " + currencies);
+	alert("amounts seleccionadas= " + amounts);
+	alert("institutions seleccionadas= " + institutions);
 }
 </script>
 <%
@@ -61,28 +85,37 @@ function addApv()
 	action="${pageContext.request.contextPath}/servlet/table/<%=nextServlet%>"
 	method="post" id="editForm">
 	<table>
-		<%
-			
-		for(String name : groupPrevisionalInformation)
-		{			
-			BSField field = table.getField(name);
-			%>
-			<tr>
-				<td class="cLabel" valign='top'><%=field.getLabel()%>:</td>
-				<td class="cData"><%=writeHTMLField(field, request)%></td>
-			</tr>
-			<%
-		}
-		%>
 			<tr>
 				<td colspan="4">
 					<table id="apvs">
 						<tr id="apv0">
 								<td class="cLabel" valign='top'>APV:</td>
-								<td class="cData"><select><option value="1">Pesos</option></select></td>
-								<td class="cData"><input id="" value="valor"></td>
+								<td class="cData">
+								<select id="apvCurrency">
+										<%			
+										for(BSAccount bsCurrency : listadoCurrency)
+										{
+										%>
+											<OPTION value="<%=bsCurrency.getId()%>"><%=bsCurrency.getKey()%></OPTION>
+										<%
+										}
+										%>	
+								</select>
+								</td>
+								<td class="cData"><input id="apvAmount" value="0"></td>
 								<td class="cLabel" valign='top'>Institucion:</td>
-								<td class="cData"><select><option value="1">APV 1</option></select></td>	
+								<td class="cData">
+								<select id="apvInstitution">
+										<%			
+										for(BSAccount bsApv : listadoApv)
+										{
+										%>
+											<OPTION value="<%=bsApv.getId()%>"><%=bsApv.getValue()%></OPTION>
+										<%
+										}
+										%>	
+								</select>
+								</td>
 						</tr>
 					</table>
 				<td>

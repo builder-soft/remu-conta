@@ -34,27 +34,27 @@ public class EmployeeManager extends BSHttpServlet {
 		table.getField("cGenere").setLabel("Género");
 		table.getField("cCountry").setLabel("Nacionalidad");
 		table.getField("cMaritalStatus").setLabel("Estado Civil");
-		table.getField("cContractType").setLabel("Tipo de contrato");
-		table.getField("cStartContract").setLabel("Fecha ingreso");
-		table.getField("cEndContract").setLabel("Fecha fin");
-		table.getField("cProfile").setLabel("Perfil");
-		table.getField("cPFM").setLabel("AFP");
-		table.getField("cHealth").setLabel("Isapre");
-		table.getField("cGratificationType").setLabel("Tipo de gratificacion");
-		table.getField("cPaymentType").setLabel("Tipo de pago");
-		table.getField("cMobilization").setLabel("Movilizacion");
+		//table.getField("cContractType").setLabel("Tipo de contrato");
+		//table.getField("cStartContract").setLabel("Fecha ingreso");
+		//table.getField("cEndContract").setLabel("Fecha fin");
+		//table.getField("cProfile").setLabel("Perfil");
+		//table.getField("cPFM").setLabel("AFP");
+		//table.getField("cHealth").setLabel("Isapre");
+		//table.getField("cGratificationType").setLabel("Tipo de gratificacion");
+		//table.getField("cPaymentType").setLabel("Tipo de pago");
+		//table.getField("cMobilization").setLabel("Movilizacion");
 
 		//table.removeField("cPFM");
 		
 		
-		String[] noVisibleFields = { "cCountry", "cMaritalStatus", "cProfile", "cEmail", "cMovil", "cPhone", "cComuna",
-				"cAddress", "cBirthDate", "cGratificationType", "cFeeding", "cMobilization"};
+//		String[] noVisibleFields = { "cCountry", "cMaritalStatus", "cProfile", "cEmail", "cMovil", "cPhone", "cComuna",
+//				"cAddress", "cBirthDate", "cGratificationType", "cFeeding", "cMobilization"};
 		/**
 		for (String fieldName : noVisibleFields) {
 			table.getField(fieldName).setVisible(false);
 		}
 		*/
-		super.hideFields(table, noVisibleFields);
+//		super.hideFields(table, noVisibleFields);
 		
 		table.getAction("DELETE").setLabel("Deshabilitar");
 		
