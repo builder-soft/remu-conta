@@ -6,7 +6,6 @@ SELECT cId INTO @rolId FROM tRol WHERE cName = 'Administrador';
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('SYSTEM', 'Sistema', NULL, NULL);
 SET @menuIdSystem = LAST_INSERT_ID();
 INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, @menuIdSystem);
-
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('USER', 'Usuarios', '/servlet/admin/user/UserManager', @menuIdSystem);
 	INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, LAST_INSERT_ID());
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ALLOW', 'Permisos de roles', '/servlet/admin/RoleDef', @menuIdSystem);
@@ -16,10 +15,8 @@ INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, @menuIdSystem);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ROL', 'Definicion de Roles', '/servlet/admin/RolManager', @menuIdSystem);
 	INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, LAST_INSERT_ID());
 
-
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CONFIG', 'Configuracion', NULL, NULL);
 SET @menuIdConfig = LAST_INSERT_ID();
-
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PARAMS', 'Par&aacute;metros del Sistema', '/servlet/common/ParameterManager', @menuIdConfig);
 	SET @menuId = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cType) VALUES('ADD_PARAMS', 'Bot&oacute;n Nuevo', null, @menuId, 2);
@@ -38,7 +35,6 @@ SET @menuIdConfig = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('LOG', 'Log', NULL, LAST_INSERT_ID());
 	
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CC', 'Centros de Costo', NULL, @menuIdConfig);
-
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('HyD_CRUD', 'Haberes y descuentos', NULL, @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CHARGES', 'Cargos de Empleados', NULL, @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CONTRACT_TYPES', 'Tipos de contratos', NULL, @menuIdConfig);
@@ -49,14 +45,13 @@ SET @menuIdConfig = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PERIODS', 'Períodos', NULL, @menuIdIndicators);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('FACTORS', 'Factores (UF, UTM, IPC, etc)', NULL, @menuIdIndicators);
 
-	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('AFP_COMMISSIONS', 'Comisiones AFP', NULL, @menuIdConfig);
-
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('HEALTH', 'Isapres', '/servlet/config/health/HealthManager', @menuIdConfig);
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PFM', 'AFP', '/servlet/config/pfm/PFMManager', @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('INSURANCE', 'Seguro Cesantía', NULL, @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('SINGLE_TAX', 'Impuesto único', NULL, @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ALLOWANCES', 'Asignaciones Familiar y Maternal', NULL, @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('SUPPORT', 'Soporte', NULL, @menuIdConfig);
 	
-		
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('REMU', 'Remuneraciones', NULL, NULL);
 SET @menuIdRemu = LAST_INSERT_ID();
 

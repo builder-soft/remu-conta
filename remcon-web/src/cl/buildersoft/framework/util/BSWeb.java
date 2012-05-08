@@ -20,7 +20,9 @@ import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.framework.services.BSMenuService;
 import cl.buildersoft.framework.services.impl.BSMenuServiceImpl;
+import cl.buildersoft.framework.type.BSFieldDataType;
 import cl.buildersoft.framework.type.BSFieldType;
+import cl.buildersoft.framework.type.BSTypeFactory;
 
 public class BSWeb {
 	public static Object value2Object(Connection conn,
@@ -29,18 +31,28 @@ public class BSWeb {
 		String name = field.getName();
 		String value = fromWebPage ? request.getParameter(name)
 				: (String) field.getValue();
-		BSFieldType type = field.getType();
+//		BSFieldType type = field.getType();
 
 		// System.out.println("name : " + field.getName() + " Valor : " +
 		// field.getValue());
 
-		out = evaluateType(conn, request, out, value, type);
+		// out = evaluateType(conn, request, out, value, type, field);
+		out = evaluateType(conn, value, field);
+		return out;
+	}
+
+	private static Object evaluateType(Connection conn, String value,
+			BSField field) {
+		BSFieldDataType fieldDataType = BSTypeFactory.create(field);
+		Object out = fieldDataType.parse(conn, value);
+
 		return out;
 	}
 
 	private static Object evaluateType(Connection conn,
 			HttpServletRequest request, Object out, String value,
-			BSFieldType type) {
+			BSFieldType type, BSField field) {
+
 		if (type.equals(BSFieldType.String)) {
 			out = value;
 		} else if (type.equals(BSFieldType.Boolean)) {
@@ -91,14 +103,16 @@ public class BSWeb {
 		return config.getString(conn, "FORMAT_DATETIME");
 	}
 
-	@Deprecated
 	public static String getFormatDatetime(HttpServletRequest request) {
-		String out = request.getServletContext().getInitParameter(
-				"bsframework.datetimeFormat");
-		if (out == null) {
-			out = "dd/MM/yyyy HH:mm:ss";
-		}
-		return out;
+		BSmySQL mysql = new BSmySQL();
+
+		Connection conn = mysql.getConnection(request);
+		return getFormatDatetime(conn);
+		/*
+		 * String out = request.getServletContext().getInitParameter(
+		 * "bsframework.datetimeFormat"); if (out == null) { out =
+		 * "dd/MM/yyyy HH:mm:ss"; } return out;
+		 */
 	}
 
 	public static String getFormatDate(Connection conn) {
@@ -106,29 +120,45 @@ public class BSWeb {
 		return config.getString(conn, "FORMAT_DATE");
 	}
 
-	@Deprecated
 	public static String getFormatDate(HttpServletRequest request) {
-		String out = request.getServletContext().getInitParameter(
-				"bsframework.dateFormat");
-		if (out == null) {
-			out = "dd/MM/yyyy";
-		}
-		return out;
+		BSmySQL mysql = new BSmySQL();
+
+		Connection conn = mysql.getConnection(request);
+		return getFormatDate(conn);
 	}
 
+	public static String getFormatDecimal(Connection conn) {
+		BSConfig config = new BSConfig();
+		return config.getString(conn, "FORMAT_DECIMAL");
+	}
+
+	public static String getFormatDecimal(HttpServletRequest request) {
+		BSmySQL mysql = new BSmySQL();
+		Connection conn = mysql.getConnection(request);
+		return getFormatDecimal(conn);
+	}
+
+	public static String getFormatInteger(Connection conn) {
+		BSConfig config = new BSConfig();
+		return config.getString(conn, "FORMAT_INTEGER");
+	}
+
+	public static String getFormatInteger(HttpServletRequest request) {
+		BSmySQL mysql = new BSmySQL();
+		Connection conn = mysql.getConnection(request);
+		return getFormatInteger(conn);
+	}
+
+	/** @deprecated */
 	public static String getFormatNumber(Connection conn) {
 		BSConfig config = new BSConfig();
-		return config.getString(conn, "FORMAT_NUMBER");
+		return config.getString(conn, "FORMAT_INTEGER");
 	}
 
-	@Deprecated
 	public static String getFormatNumber(HttpServletRequest request) {
-		String out = request.getServletContext().getInitParameter(
-				"bsframework.numberFormat");
-		if (out == null) {
-			out = "#,###,###,###";
-		}
-		return out;
+		BSmySQL mysql = new BSmySQL();
+		Connection conn = mysql.getConnection(request);
+		return getFormatNumber(conn);
 	}
 
 	public static String date2String(Object value, String format) {

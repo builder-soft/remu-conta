@@ -44,7 +44,7 @@ public class SearchPassword extends HttpServlet {
 
 		request.setAttribute("PASS_IS_NULL", user.getPassword() == null);
 
-		request.getRequestDispatcher("/WEB-INF/jsp/admin/change-password.jsp")
+		request.getRequestDispatcher("/WEB-INF/jsp/admin/change-password/change-password.jsp")
 				.forward(request, response);
 	}
 }

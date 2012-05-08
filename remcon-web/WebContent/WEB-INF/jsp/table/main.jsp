@@ -1,3 +1,8 @@
+<%@page import="java.sql.Connection"%>
+<%@page import="com.mysql.jdbc.MySQLConnection"%>
+<%@page import="cl.buildersoft.framework.database.BSmySQL"%>
+<%@page import="cl.buildersoft.framework.type.BSFieldDataType"%>
+<%@page import="cl.buildersoft.framework.type.BSTypeFactory"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -13,7 +18,7 @@
 	BSTableConfig table = (BSTableConfig) session
 			.getAttribute("BSTable");
 	String ctxPath = request.getContextPath();
-	
+
 	BSAction[] tableActions = table.getActions(BSActionType.Table);
 	BSAction[] recordActions = table.getActions(BSActionType.Record);
 	BSAction[] multirecordActions = table
@@ -56,7 +61,7 @@
 
 		selectorType += haveRecordActions ? 1 : 0;
 		selectorType += haveMultirecordActions ? 2 : 0;
-		
+
 		return selectorType;
 	}%>
 
@@ -219,23 +224,44 @@
 						} else {
 							out += "No";
 						}
-					} else if (type.equals(BSFieldType.Date)) {
-						String format = BSWeb.getFormatDate(request);
-						Format formatter = new SimpleDateFormat(format);
-						out += formatter.format(value);
-					} else if (type.equals(BSFieldType.Timestamp)) {
-						String format = BSWeb.getFormatDatetime(request);
-						Format formatter = new SimpleDateFormat(format);
-						out += formatter.format(value);
 
-					} else if (type.equals(BSFieldType.Double)) {
-						String format = BSWeb.getFormatNumber(request);
-						Format formatter = new DecimalFormat(format);
-						out += formatter.format(value);
+					} else if (type.equals(BSFieldType.Date)
+							|| type.equals(BSFieldType.Timestamp)
+							|| type.equals(BSFieldType.Double)) {
+						BSFieldDataType dataType = BSTypeFactory.create(field);
+						BSmySQL mysql = new BSmySQL();
+						Connection conn = mysql.getConnection(request);
+
+						out += dataType.format(conn, value);
 
 					} else {
 						out += value;
 					}
+
+					/**<code>
+					} else if (type.equals(BSFieldType.Date)) {
+					
+					String format = BSWeb.getFormatDate(request);
+					Format formatter = new SimpleDateFormat(format);
+					out += formatter.format(value);
+					} else if (type.equals(BSFieldType.Timestamp)) {
+					
+					String format = BSWeb.getFormatDatetime(request);
+					Format formatter = new SimpleDateFormat(format);
+					out += formatter.format(value);
+
+					} else if (type.equals(BSFieldType.Double)) {
+					
+					BSFieldDataType	dataType = BSTypeFactory.create(field);
+					BSmySQL mysql = new BSmySQL();
+					Connection conn = mysql.getConnection(request);
+					
+					out +=						dataType.format(conn, value);
+					/ * *				
+					String format = BSWeb.getFormatNumber(request);
+					Format formatter = new DecimalFormat(format);
+					out += formatter.format(value);
+					 */
 				}
 				/**
 				if (selectorType > 0) {
@@ -274,7 +300,7 @@
 			throws Exception {
 		String name = null;
 		Object value = null;
-		int i = 1;
+		int i = pkName == null ? 0 : 1;
 		Object[] out = new Object[fields.length];
 
 		for (BSField field : fields) {

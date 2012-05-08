@@ -1,0 +1,36 @@
+DROP PROCEDURE if exists remcon.pSetPFMSave;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pSetPFMSave(IN pId BIGINT, IN pKey VARCHAR(15), 
+	IN pName VARCHAR(200), IN pEnable BIT, IN pFactor DOUBLE, IN pSIS DOUBLE)
+BEGIN
+
+	IF EXISTS(	SELECT	cId 
+				FROM	remcon.tBoard
+				WHERE	cId = pId) THEN
+
+		SELECT	cId INTO @attributeId
+		FROM	remcon.tPFMAttribute
+		WHERE	cPFM = pId;
+		
+		UPDATE	remcon.tBoard
+		SET		cKey = pKey,
+				cValue = pName,
+				cEnable = pEnable
+		WHERE	cId = pId;
+
+		UPDATE	remcon.tPFMAttribute
+		SET		cFactor = pFactor,
+				cSIS = pSIS
+		WHERE	cId = @attributeId;
+		
+	ELSE
+		INSERT INTO remcon.tBoard(cType, cKey, cValue, cEnable) 
+		VALUES('PFM', pKey, pName, pEnable);
+
+		INSERT INTO remcon.tPFMAttribute(cPFM, cFactor, cSIS)
+		VALUES(LAST_INSERT_ID(), pFactor, pSIS);
+	END IF;
+END$$
+
+DELIMITER ;
