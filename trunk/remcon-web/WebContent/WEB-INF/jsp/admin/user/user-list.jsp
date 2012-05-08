@@ -75,6 +75,15 @@
 <div id='RecordActions' style='float: left; display: none;'>
 	<input type='button' value='Modificar' id='oEdit'
 		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/admin/user/UserEdit", "EDIT");'>
+		
+	<input type='button' value='Cambiar Clave' id='oCh_pass'
+		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/admin/SearchPassword", "CH_PASS");'>
+
+	<input type='button' value='Roles de Usuario' id='oRoldef'
+		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/admin/RoleDef", "ROL_DEF");'>
+		
 </div>
+
+
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

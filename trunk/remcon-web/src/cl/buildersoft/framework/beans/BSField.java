@@ -25,6 +25,10 @@ public class BSField {
 		this.label = label;
 	}
 
+	/**
+	 * @deprecated
+	 * Use isPK()
+	 * */
 	public Boolean isId() {
 		return "id".equalsIgnoreCase(this.name)
 				|| "cid".equalsIgnoreCase(this.name);

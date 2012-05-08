@@ -30,7 +30,7 @@
 	<table>
 		<tr>
 			<td class="cLabel">Id:</td>
-			<td class="cData"><%=id != null ? id : "Nuevo"%></td>
+			<td class="cData"><%=id != null ? id : "Nuevo"%><input type="hidden" name="cId" value="<%=id != null ? id : ""%>"></td>
 		</tr>
 		<tr>
 			<td class="cLabel">Mail:</td>

@@ -35,7 +35,7 @@
 <h1 class="cTitle">Detalle de información</h1>
 <%
 	String nextServlet = (String) request.getAttribute("Action");
-	if ("insert".equalsIgnoreCase(nextServlet)) {
+	if ("insert".equalsIgnoreCase(nextServlet) || table.usingView()) {
 		nextServlet = "InsertRecord";
 	} else {
 		nextServlet = "UpdateRecord";
@@ -66,7 +66,9 @@
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 
-<%!private String writeHTMLField(BSField field, HttpServletRequest request) {
+<%!private static String NEW = "[Nuevo]";
+
+	private String writeHTMLField(BSField field, HttpServletRequest request) {
 		String out = "";
 		BSFieldType type = field.getType();
 		Object value = field.getValue();
@@ -115,19 +117,19 @@
 					afterInput = "(formato: " + format + ")";
 				} else if (type.equals(BSFieldType.Double)) {
 					maxlength = 15;
-					format = BSWeb.getFormatNumber(request);
+					format = BSWeb.getFormatDecimal(request);
 					value = BSWeb.number2String(value, format);
 					size = maxlength;
 				} else if (type.equals(BSFieldType.Integer)) {
 					maxlength = 8;
-					format = BSWeb.getFormatNumber(request);
+					format = BSWeb.getFormatInteger(request);
 					value = BSWeb.number2String(value, format);
 					size = maxlength;
 				} else if (type.equals(BSFieldType.Long)) {
 					maxlength = 10;
-					format = BSWeb.getFormatNumber(request);
+					format = BSWeb.getFormatInteger(request);
 					if (isPk && value == null) {
-						value = "[Nuevo]";
+						value = NEW;
 						//isNew = Boolean.TRUE;
 					} else {
 						value = value == null ? "" : BSWeb.number2String(value,
@@ -166,13 +168,17 @@
 		if (isPk) {
 			out += "<span class='cData'>" + value + "</span>";
 			type = isPk ? "hidden" : type;
+			//			value = value.equals(NEW) ? "" : value;
 		}
+
+		// isPk && value == null
+
 		out += "<input type='" + type + "' name='";
 		out += name;
 		out += "' ";
 		out += "maxlength='" + maxlength + "' ";
 		out += isReadonly ? "READONLY " : "";
-		out += "value='" + value + "' ";
+		out += "value='" + (value.equals(NEW) ? "0" : value) + "' ";
 		out += "size='" + size + "px' ";
 		out += "onBlur='javascript:" + validationOnBlur + "(this)'";
 		out += ">&nbsp;" + afterInput;

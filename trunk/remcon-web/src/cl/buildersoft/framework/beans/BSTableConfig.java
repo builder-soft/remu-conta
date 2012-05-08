@@ -19,6 +19,7 @@ import cl.buildersoft.framework.type.BSActionType;
 import cl.buildersoft.framework.type.BSFieldType;
 
 import com.mysql.jdbc.DatabaseMetaData;
+import com.sun.xml.internal.ws.developer.UsesJAXBContext;
 
 public class BSTableConfig {
 	private String database = null;
@@ -34,16 +35,25 @@ public class BSTableConfig {
 	private String pk = null;
 	private String key = null;
 
+	private String viewName = null;
+	private String saveSP = null;
+	private String deleteSP = null;
+
 	public BSTableConfig(String database) {
 		this.database = database;
 	}
 
 	public BSTableConfig(String database, String tableName) {
+		this(database, tableName, null);
+	}
+
+	public BSTableConfig(String database, String tableName, String viewName) {
 		this.database = database;
 		this.fields = new String[0];
 		this.fieldsMap = new HashMap<String, BSField>();
 		this.actions = new BSAction[0];
 		this.tableName = tableName;
+		this.viewName = viewName;
 		this.title = tableName;
 
 		createInsert();
@@ -187,7 +197,7 @@ public class BSTableConfig {
 			out += unSplitFieldNames(",");
 		}
 
-		out += " FROM " + getDatabase() + "." + getTableName();
+		out += " FROM " + getDatabase() + "." + getTableOrViewName();
 		out += " LIMIT 0,1";
 		return out;
 	}
@@ -397,7 +407,11 @@ public class BSTableConfig {
 			}
 			if (field.isPK() == null) {
 				BSField pk = getPKField(conn);
-				field.setPK(pk.getName().equals(name));
+				if (pk != null) {
+					field.setPK(pk.getName().equals(name));
+				} else {
+					field.setPK(Boolean.FALSE);
+				}
 			}
 			if (field.getLength() == null) {
 				field.setLength(metaData.getColumnDisplaySize(i));
@@ -446,6 +460,16 @@ public class BSTableConfig {
 					"No está catalogado el tipo " + typeName
 							+ ", verifique método BSTableConfig.setRealType()");
 		}
+	}
+
+	public String getTableOrViewName() {
+		String out = null;
+		if (this.viewName != null) {
+			out = this.viewName;
+		} else {
+			out = this.tableName;
+		}
+		return out;
 	}
 
 	public String getTableName() {
@@ -528,18 +552,15 @@ public class BSTableConfig {
 		for (String field : this.fields) {
 			if (!code.equals(field)) {
 				target[i++] = field;
-			}else{
+			} else {
 				this.fieldsMap.remove(code);
 			}
-			
-			
-//			BSField field = getField(code);
 
 			/**
 			 * if (!action.getCode().equals(code)) { target[i++] = action; }
 			 */
 		}
-		this.fields= target;
+		this.fields = target;
 	}
 
 	public void removeAction(String code) {
@@ -597,13 +618,14 @@ public class BSTableConfig {
 
 	public BSField getPKField(Connection conn) {
 		String fieldName = null;
-		if (this.pk == null) {
+		BSField out = null;
+		if (this.pk == null && this.viewName == null) {
 			DatabaseMetaData dbmd;
 			try {
 				dbmd = (DatabaseMetaData) conn.getMetaData();
 
 				ResultSet rs = dbmd.getPrimaryKeys(getDatabase(), null,
-						getTableName());
+						getTableOrViewName());
 				while (rs.next()) {
 					fieldName = rs.getString("COLUMN_NAME");
 				}
@@ -612,15 +634,18 @@ public class BSTableConfig {
 				throw new BSDataBaseException("", e.getMessage());
 			}
 			this.pk = fieldName;
+			out = getField(this.pk);
 		}
-		return getField(this.pk);
+		return out;
 	}
 
 	public BSField getField(String name) {
 		return this.fieldsMap.get(name);
 	}
 
-	@Deprecated
+	/**
+	 * @deprecated Use getPKField()
+	 */
 	public BSField getIdField() {
 		BSField[] fields = getFields();
 		BSField out = null;
@@ -640,7 +665,9 @@ public class BSTableConfig {
 		return out;
 	}
 
-	@Deprecated
+	/**
+	 * @deprecated Use deleteIdMap
+	 */
 	public BSField[] deleteId() {
 		BSField[] out = new BSField[this.fields.length - 1];
 		int i = 0;
@@ -662,4 +689,25 @@ public class BSTableConfig {
 		}
 		return mapField;
 	}
+
+	public Boolean usingView() {
+		return viewName != null;
+	}
+
+	public String getSaveSP() {
+		return saveSP;
+	}
+
+	public void setSaveSP(String saveSP) {
+		this.saveSP = saveSP;
+	}
+
+	public String getDeleteSP() {
+		return deleteSP;
+	}
+
+	public void setDeleteSP(String deleteSP) {
+		this.deleteSP = deleteSP;
+	}
+
 }

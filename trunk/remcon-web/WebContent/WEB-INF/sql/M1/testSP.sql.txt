@@ -10,10 +10,18 @@ select * from remcon.vAccountType;
 call remcon.pGetAccountsForEmployee(1, 47);
 call remcon.pGetAccountsForEmployee(1, 48);
 
+call remcon.pGetCurrencyList();
 
+call remcon.pSetPFMSave(28, '33', 'Capital', 1, 1.44, 1.50);
+call remcon.pSetPFMSave(-1, '1', 'Xxxx', 0, 1, 1);
+
+select * from remcon.vPFM;
+call remcon.pDelPFM(235);
+select * from remcon.vPFM;
 
 */
 
-call remcon.pGetCurrencyList();
- 
+
+call remcon.pSetPFMSave(0, 1, 'uno', true, 1.0, 1.01);
+select * from remcon.vPFM;
 

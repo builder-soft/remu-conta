@@ -111,6 +111,7 @@ public class ValidateLoginServlet extends HttpServlet {
 			while (rs.next()) {
 				domainAttribute = new DomainAttribute();
 				domainAttribute.setId(rs.getLong("cId"));
+
 				bu.search(conn, domainAttribute);
 
 				out.put(domainAttribute.getKey(), domainAttribute);
