@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import cl.buildersoft.framework.beans.Agreement;
 import cl.buildersoft.framework.beans.BSBean;
 import cl.buildersoft.framework.beans.Employee;
+import cl.buildersoft.framework.beans.Profile;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 
@@ -26,22 +27,40 @@ public class ContractualInfo extends HttpServlet {
 		Long id = Long.parseLong(request.getParameter("cId"));
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
-
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
-		Employee emp = new Employee();
-		emp.setId(id);
-		bu.search(conn, emp);
-
-		List<Object> prms = new ArrayList<Object>();
-		prms.add(id);
-		List<BSBean> agreements = bu.list(conn, new Agreement(),
-				"pGetAgreementByEmployee", prms);
+		
+		Employee emp = getEmployee(conn, bu, id);
+		Agreement agreement = getAgreement(conn, bu, id);
+		List<Profile> profiles = getProfiles(conn, bu);
+		
 
 		request.setAttribute("Employee", emp);
-		request.setAttribute("Agreement", (Agreement) agreements.get(0));
+		request.setAttribute("Agreement", agreement);
+		request.setAttribute("Profiles", profiles);
 		request.getRequestDispatcher(
 				"/WEB-INF/jsp/config/employee/contractual-info.jsp").forward(
 				request, response);
-
 	}
+
+	private List<Profile> getProfiles(Connection conn, BSBeanUtilsSP bu) {
+		List<Profile> out = (List<Profile>) bu.list(conn, new Profile(),
+				"pGetProfileList", null);
+		return out;
+	}
+
+	private Agreement getAgreement(Connection conn, BSBeanUtilsSP bu, Long id) {
+		List<Object> prms = new ArrayList<Object>();
+		prms.add(id);
+		List<BSBean> agreements = (List<BSBean>) bu.list(conn, new Agreement(),
+				"pGetAgreementByEmployee", prms);
+		return (Agreement) agreements.get(0);
+	}
+
+	private Employee getEmployee(Connection conn, BSBeanUtilsSP bu, Long id) {
+		Employee out = new Employee();
+		out.setId(id);
+		bu.search(conn, out);
+		return out;
+	}
+
 }
