@@ -14,6 +14,7 @@ BEGIN
 END$$
 
 DELIMITER ;
-
+/*
 call remcon.pGetAccountsForEmployee(1, 47);
 call remcon.pGetAccountsForEmployee(1, 48);
+*/

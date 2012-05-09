@@ -15,9 +15,12 @@ import cl.buildersoft.framework.beans.Agreement;
 import cl.buildersoft.framework.beans.BSBean;
 import cl.buildersoft.framework.beans.ContractType;
 import cl.buildersoft.framework.beans.Employee;
+import cl.buildersoft.framework.beans.GratificationType;
+import cl.buildersoft.framework.beans.Horary;
 import cl.buildersoft.framework.beans.Profile;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
+import cl.buildersoft.framework.util.BSWeb;
 
 @WebServlet("/servlet/config/employee/ContractualInfo")
 public class ContractualInfo extends HttpServlet {
@@ -35,7 +38,16 @@ public class ContractualInfo extends HttpServlet {
 		List<Profile> profiles = getProfiles(conn, bu);
 		List<BSBean> contractTypes = getList(conn, bu, new ContractType(),
 				"pGetContractTypeList");
+		List<BSBean> gratificationType = getList(conn, bu,
+				new GratificationType(), "pGetGratificationTypeList");
+		List<BSBean> horary = getList(conn, bu,
+				new Horary(), "pGetHoraryList");
 
+		
+		
+		request.setAttribute("Horary", horary);
+		request.setAttribute("GratificationType", gratificationType);
+		request.setAttribute("DateFormat", BSWeb.getFormatDate(conn));
 		request.setAttribute("Employee", emp);
 		request.setAttribute("Agreement", agreement);
 		request.setAttribute("Profiles", profiles);

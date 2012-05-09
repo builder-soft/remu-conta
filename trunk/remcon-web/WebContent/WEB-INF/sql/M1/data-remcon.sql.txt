@@ -41,6 +41,8 @@ INSERT INTO tGratificationType(cName) VALUES('25% Imp. (Tope 4,75imm/12)');
 INSERT INTO tGratificationType(cName) VALUES('Sin Gratificaci&oacute;n');
 INSERT INTO tGratificationType(cName) VALUES('Gratificacion por antiguedad de años trabajados');
 
+INSERT INTO tHorary(cName) VALUES('Lun-Vie 9:00-19:00 (Almuerzo 60 min.)');
+
 INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'EFECTIVO', 'Efectivo');
 INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'CHEQUE', 'Cheque');
 INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'ABONO_CUENTA', 'Abono Cuenta');
@@ -941,7 +943,7 @@ INSERT INTO tEmployee(cRut,				cName,	cLastName1,	cLastName2,	cBirthDate,		cAddr
 VALUES(					'10809246-7',	'Pato',	'Aranguiz',	'Torres',	'1966-08-28',	'Fray Camilo Henriquez 2063',	2,			3,			1,			5,				'', 	'',		'');
 SET @employeeId = LAST_INSERT_ID();
 
-INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cTimeType)
+INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary)
 VALUES(					@employeeId,	2,				'2009-12-01',	'2013-01-01',	1,			3,		6,			1,					3,				580,			395,		1);
 
 INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency, cAmount)

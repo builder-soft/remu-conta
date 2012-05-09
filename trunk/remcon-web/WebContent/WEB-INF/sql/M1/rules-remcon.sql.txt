@@ -53,6 +53,10 @@ ALTER TABLE remcon.tAgreement
 ADD INDEX `paymentType_index` (`cPaymentType` ASC),
 ADD CONSTRAINT AgreementToPaymentType FOREIGN KEY (cPaymentType) REFERENCES remcon.tBoard(cId);
 
+ALTER TABLE remcon.tAgreement
+ADD INDEX Horary_index (cHorary ASC),
+ADD CONSTRAINT AgreementToHorary FOREIGN KEY (cHorary) REFERENCES remcon.tHorary(cId);
+
 
 /** ENTERPRISE */
 ALTER TABLE remcon.tEnterprise
