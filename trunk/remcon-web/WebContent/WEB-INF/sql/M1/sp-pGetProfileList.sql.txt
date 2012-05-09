@@ -4,7 +4,7 @@ DELIMITER $$
 
 CREATE PROCEDURE remcon.pGetProfileList()
 BEGIN
-	SELECT		 cId 
+	SELECT		cId 
 	FROM 		remcon.tProfile;
 END$$
 

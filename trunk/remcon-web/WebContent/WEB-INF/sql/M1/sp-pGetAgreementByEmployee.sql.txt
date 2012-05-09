@@ -8,17 +8,6 @@ BEGIN
 	FROM 		remcon.tAgreement
 	WHERE		cEmployee = pEmployee;
 
-/*
-	SELECT		cId, cEmployee, cContractType, cStartContract, 
-				cEndContract, cProfile, cPFM, cHealth, 
-				cGratificationType, cPaymentType, cTimeType, 
-				cMobilization, cFeeding, cExBoxSystem, 
-				cExBoxSystemPRC, cAdditionalHealthUF, 
-				cAdditionalHealthCLP, 
-				cSimpleLoads, cDisabilityBurdens, cMaternalLoads 
-	FROM 		remcon.tAgreement
-	WHERE		cEmployee = pEmployee;
-*/
 END$$
 
 DELIMITER ;
