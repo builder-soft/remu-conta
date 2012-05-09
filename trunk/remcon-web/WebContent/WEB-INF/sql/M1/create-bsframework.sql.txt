@@ -52,3 +52,23 @@ CREATE TABLE IF NOT EXISTS tDomainAttribute (
 	cValue		VARCHAR(50) NULL
 ) ENGINE=innoDB;
 
+ /** V I S T A S **/
+
+ 
+ 
+DROP VIEW IF EXISTS vUserAdmin;
+CREATE VIEW vUserAdmin
+AS
+ 		SELECT		cId, cMail, cName, cAdmin 
+		FROM 		bsframework.tUser;
+
+
+DROP VIEW IF EXISTS vUser;
+CREATE VIEW vUser
+AS
+		SELECT		cId, cMail, cName 
+		FROM 		bsframework.tUser
+		WHERE		!cAdmin;
+ 
+ 
+ 
