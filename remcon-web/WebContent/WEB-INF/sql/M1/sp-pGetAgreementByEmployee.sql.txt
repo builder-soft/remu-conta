@@ -1,17 +1,24 @@
 DROP PROCEDURE if exists remcon.pGetAgreement;
+DROP PROCEDURE if exists remcon.pGetAgreementByEmployee;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pGetAgreement(IN pEmployee BIGINT)
+CREATE PROCEDURE remcon.pGetAgreementByEmployee(IN pEmployee BIGINT)
 BEGIN
+	SELECT		cId 
+	FROM 		remcon.tAgreement
+	WHERE		cEmployee = pEmployee;
+
+/*
 	SELECT		cId, cEmployee, cContractType, cStartContract, 
 				cEndContract, cProfile, cPFM, cHealth, 
 				cGratificationType, cPaymentType, cTimeType, 
 				cMobilization, cFeeding, cExBoxSystem, 
 				cExBoxSystemPRC, cAdditionalHealthUF, 
-				cAdditionalHealthCLP, cAdditionalHealthPRC, 
+				cAdditionalHealthCLP, 
 				cSimpleLoads, cDisabilityBurdens, cMaternalLoads 
 	FROM 		remcon.tAgreement
 	WHERE		cEmployee = pEmployee;
+*/
 END$$
 
 DELIMITER ;

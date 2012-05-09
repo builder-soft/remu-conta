@@ -1,5 +1,7 @@
 DROP PROCEDURE if exists bsframework.getUserList;
 DROP PROCEDURE if exists bsframework.pGetUserList;
+
+/*
 DELIMITER $$
 
 CREATE PROCEDURE bsframework.pGetUserList(IN pUser BIGINT, IN pSearch VARCHAR(255), IN pRecord INT, IN pRXP INT)
@@ -20,7 +22,7 @@ BEGIN
 END$$
 
 DELIMITER ;
-/*
+
 call bsframework.getUserList(1, '%%', 2, 3);
 select '----';
 

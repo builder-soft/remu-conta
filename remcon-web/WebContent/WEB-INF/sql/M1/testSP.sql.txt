@@ -19,9 +19,14 @@ select * from remcon.vPFM;
 call remcon.pDelPFM(235);
 select * from remcon.vPFM;
 
-*/
-
-
 call remcon.pSetPFMSave(0, 1, 'uno', true, 1.0, 1.01);
 select * from remcon.vPFM;
+
+select * from bsframework.vUser;
+select * from bsframework.vUserAdmin;
+
+*/
+
+call remcon.pGetAgreementByEmployee(1);
+
 
