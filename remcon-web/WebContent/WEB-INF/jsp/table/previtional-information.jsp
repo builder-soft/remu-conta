@@ -16,22 +16,24 @@
 	String[] groupPrevisionalInformation = (String[])request.getAttribute("DataShow");
 	List<BSAccount> listadoApv = (List<BSAccount>)request.getAttribute("listadoApv");
 	List<BSAccount> listadoCurrency = (List<BSAccount>)request.getAttribute("listadoCurrency");
+	List<BSAccount> listadoApvEmp = (List<BSAccount>)request.getAttribute("listadoApvEmp");
+	
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <script>
-function addApv()
+function addApv(idCurrency,idApv)
 {
 	var clon = $('#apv0').clone();
 	var rowCount = $("#apvs tr").length;
 	clon.attr('id','apv'+rowCount);
 	var newTD = "<td><a href='javascript:delApv("+rowCount+")'>Eliminar</a></td>";
 	clon.append(newTD);
+	apvId = rowCount == 1 ? "#apv0" : '#apv'+(rowCount-1);	
+	$(apvId).after(clon);
 	
-	if(rowCount==1)
-		$('#apv0').after(clon);
-	else
-		$('#apv'+(rowCount-1)).after(clon);
-	
+		$('#apv'+rowCount).find("select[id='apvCurrency']").val(idCurrency);
+		$('#apv'+rowCount).find("select[id='apvInstitution']").val(idApv);	
+		
 }
 
 function delApv(idApv)
@@ -88,10 +90,17 @@ function getApvSelected(){
 			<tr>
 				<td colspan="4">
 					<table id="apvs">
-						<tr id="apv0">
+					<%	
+					int contador = 0;
+					int cantApvs = listadoApvEmp.size();
+					for(BSAccount bsApvEmp : listadoApvEmp)
+					{
+						if(contador == 0){
+					%>
+					<tr id="apv0">
 								<td class="cLabel" valign='top'>APV:</td>
 								<td class="cData">
-								<select id="apvCurrency">
+								<select id="apvCurrency" name="apvCurrency<%=bsApvEmp.getId()%>">
 										<%			
 										for(BSAccount bsCurrency : listadoCurrency)
 										{
@@ -105,7 +114,7 @@ function getApvSelected(){
 								<td class="cData"><input id="apvAmount" value="0"></td>
 								<td class="cLabel" valign='top'>Institucion:</td>
 								<td class="cData">
-								<select id="apvInstitution">
+								<select id="apvInstitution" name="apvInstitution<%=bsApvEmp.getId()%>">
 										<%			
 										for(BSAccount bsApv : listadoApv)
 										{
@@ -117,6 +126,15 @@ function getApvSelected(){
 								</select>
 								</td>
 						</tr>
+					<%
+						contador++;
+						}
+						else{
+							out.print("<script>addApv('"+bsApvEmp.getcIdCurrency()+"','"+bsApvEmp.getKey()+"');</script>");
+						}
+						
+					}
+					%>						
 					</table>
 				<td>
 			</tr>
