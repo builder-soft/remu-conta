@@ -944,14 +944,15 @@ SET @employeeId = LAST_INSERT_ID();
 INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cTimeType)
 VALUES(					@employeeId,	2,				'2009-12-01',	'2013-01-01',	1,			3,		6,			1,					3,				580,			395,		1);
 
-INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)
-VALUES(@employeeId, @APV1, @accountType, @clp);
-INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)
-VALUES(@employeeId, @APV1, @accountType, @uf);
-INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)
-VALUES(@employeeId, @APV2, @accountType, @clp);
+INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency, cAmount)
+VALUES(@employeeId, @APV1, @accountType, @clp, 10000);
+INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency, cAmount)
+VALUES(@employeeId, @APV1, @accountType, @uf, 3);
+INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency, cAmount)
+VALUES(@employeeId, @APV2, @accountType, @clp, 12000);
 
 /**Cuenta 2*/
 INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)
 VALUES(@employeeId, 30, @acct2, @clp);
+
 
