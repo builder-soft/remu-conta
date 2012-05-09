@@ -1,0 +1,11 @@
+
+DROP PROCEDURE if exists remcon.pGetProfileList;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pGetProfileList()
+BEGIN
+	SELECT		 cId 
+	FROM 		remcon.tProfile;
+END$$
+
+DELIMITER ;

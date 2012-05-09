@@ -13,7 +13,7 @@ import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.exception.BSProgrammerException;
 
 public class BSBeanUtilsSP extends BSBeanUtils {
-	public List<BSBean> list(Connection conn, BSBean bean, String spName,
+	public List<? extends BSBean> list(Connection conn, BSBean bean, String spName,
 			List<Object> params) {
 
 		BSmySQL mysql = new BSmySQL();

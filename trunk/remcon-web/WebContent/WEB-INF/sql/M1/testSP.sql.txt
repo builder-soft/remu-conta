@@ -27,6 +27,6 @@ select * from bsframework.vUserAdmin;
 
 */
 
-call remcon.pGetAgreementByEmployee(1);
+call remcon.pGetProfileList();
 
 
