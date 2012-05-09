@@ -70,6 +70,33 @@ public class EmployeeInformation extends AbstractServletUtil {
 			throw new BSDataBaseException("1000", e.getMessage());
 		}
 		
+		List<Object> parameter = new ArrayList<Object>();
+		Object param1 = "1";
+		Object param2 = "47";
+		parameter.add(param1);
+		parameter.add(param2);
+		ResultSet rsApvForEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployee",parameter);
+		
+		BSAccount bsApvEmp =  null;
+		List<BSAccount> listadoApvEmp = new ArrayList<BSAccount>();
+		try {
+			while (rsApvForEmp.next()) {
+				bsApvEmp = new BSAccount();
+				bsApvEmp.setId(rsApvForEmp.getLong("cId"));
+				bsApvEmp.setKey(rsApvForEmp.getString("cKeyInstitution"));
+				bsApvEmp.setValue(rsApvForEmp.getString("cNameInstitution"));
+				bsApvEmp.setcKeyCurrency(rsApvForEmp.getString("cKeyCurrency"));
+				bsApvEmp.setcIdCurrency(rsApvForEmp.getString("cCurrency"));
+				listadoApvEmp.add(bsApvEmp);
+				//bu.search(conn, domainAttribute);
+
+				//out.put(domainAttribute.getKey(), domainAttribute);
+			}
+			mysql.closeSQL(rsApvForEmp);
+		} catch (SQLException e) {
+			throw new BSDataBaseException("1000", e.getMessage());
+		}		
+		
 		ResultSet rsCurrency = mysql.callSingleSP(conn, "pGetCurrencyList",null);
 		BSAccount bsCurrency =  null;
 		List<BSAccount> listadoCurrency = new ArrayList<BSAccount>();
@@ -91,6 +118,7 @@ public class EmployeeInformation extends AbstractServletUtil {
 		
 		request.setAttribute("listadoApv", listadoApv);
 		request.setAttribute("listadoCurrency", listadoCurrency);
+		request.setAttribute("listadoApvEmp", listadoApvEmp);
 		request.setAttribute("Data", rs);
 
 		request.setAttribute("Action", "Update");
