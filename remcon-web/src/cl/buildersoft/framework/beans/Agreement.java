@@ -15,7 +15,7 @@ public class Agreement extends BSBean {
 	private Long health = null;
 	private Long gratificationType = null;
 	private Long paymentType = null;
-	private Long timeType = null;
+	private Long horary = null;
 	private Double mobilization = null;
 	private Double feeding = null;
 	private Long exBoxSystem = null;
@@ -106,12 +106,12 @@ public class Agreement extends BSBean {
 		this.paymentType = paymentType;
 	}
 
-	public Long getTimeType() {
-		return timeType;
+	public Long getHorary() {
+		return horary;
 	}
 
-	public void setTimeType(Long timeType) {
-		this.timeType = timeType;
+	public void setHorary(Long horary) {
+		this.horary = horary;
 	}
 
 	public Double getMobilization() {
@@ -193,7 +193,7 @@ public class Agreement extends BSBean {
 				+ ", endContract=" + endContract + ", profile=" + profile
 				+ ", salaryRoot=" + salaryRoot + ", pfm=" + pfm + ", health="
 				+ health + ", gratificationType=" + gratificationType
-				+ ", paymentType=" + paymentType + ", timeType=" + timeType
+				+ ", paymentType=" + paymentType + ", horary=" + horary
 				+ ", mobilization=" + mobilization + ", feeding=" + feeding
 				+ ", exBoxSystem=" + exBoxSystem + ", exBoxSystemPRC="
 				+ exBoxSystemPRC + ", additionalHealthUF=" + additionalHealthUF

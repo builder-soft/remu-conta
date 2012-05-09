@@ -27,6 +27,6 @@ select * from bsframework.vUserAdmin;
 
 */
 
-call remcon.pGetContractTypeList();
+call remcon.pGetGratificationTypeList();
 
 

@@ -115,7 +115,7 @@ create table tAgreement(
 	cHealth				BIGINT(20) NOT NULL		COMMENT 'Sistema de salud, isapre o fonasa',
 	cGratificationType	BIGINT(20) NOT NULL 	COMMENT 'Tipo de gratificacion',
 	cPaymentType		BIGINT(20) NOT NULL 	COMMENT 'Tipo de pago',
-	cTimeType			BIGINT(20) NOT NULL 	COMMENT 'Tipo de jornada, full-time o part-time',
+	cHorary				BIGINT(20) NOT NULL 	COMMENT 'Tipo de jornada, full-time o part-time (tHorary)',
 	cMobilization		DOUBLE DEFAULT '0'		COMMENT 'Movilizacion',
 	cFeeding			DOUBLE DEFAULT '0'		COMMENT 'Alimentacion',
 	cExBoxSystem		BIGINT(20) NULL			COMMENT 'Caja Ex-Regimen',
@@ -143,20 +143,6 @@ create table tEnterprise (
 	cCompensationFund	BIGINT(20) NOT NULL COMMENT 'Caja de compensacion',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
-
-/*
-create table tMutual (
-	cId					BIGINT(20) NOT NULL auto_increment, 
-	cName				VARCHAR(40) NOT NULL,
-	PRIMARY KEY (cId)
-) ENGINE=InnoDB;
-
-create table tCompensationFund (
-	cId					BIGINT(20) NOT NULL auto_increment, 
-	cName				VARCHAR(20) NOT NULL,
-	PRIMARY KEY (cId)
-) ENGINE=InnoDB;
-*/
 
 create table tCostCenter(
 	cId 				BIGINT(20) NOT NULL auto_increment, 
@@ -225,9 +211,17 @@ create table tAccount (
 create table tGratificationType(
 	cId			BIGINT(20) NOT NULL auto_increment,
 	cName		VARCHAR(50) NOT NULL,
-	cPolynomial	VARCHAR(200), 
+	cPolynomial	VARCHAR(200) NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
+
+create table tHorary(
+	cId			BIGINT(20) NOT NULL auto_increment,
+	cName		VARCHAR(50) NOT NULL,
+	cDetail		VARCHAR(500) NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
 
 /*************************************
 create table tPeriod(
@@ -242,7 +236,7 @@ create table tBook(
 	cId					BIGINT(20) NOT NULL auto_increment,
 	cPeriod				BIGINT(20) NOT NULL,
 	cEmployee			BIGINT(20) NOT NULL,
-	cTimeType			BIGINT(20) NOT NULL COMMENT 'Tipo de jornada: part-time / full-time',
+	cHorary				BIGINT(20) NOT NULL COMMENT 'Tipo de jornada: part-time / full-time',
 	cWorkDays			INTEGER,
 	cSualdoBase			BIGINT(20) NOT NULL,
 	cCantidadHorasExtras
