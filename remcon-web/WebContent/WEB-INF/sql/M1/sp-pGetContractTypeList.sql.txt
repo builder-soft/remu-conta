@@ -1,0 +1,9 @@
+DROP PROCEDURE if exists remcon.pGetContractTypeList;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pGetContractTypeList()
+BEGIN
+	SELECT		cId 
+	FROM 		remcon.tContractType;
+
+END$$

@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.beans.ContractType"%>
 <%@page import="cl.buildersoft.framework.beans.Profile"%>
 <%@page import="cl.buildersoft.framework.beans.Employee"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -9,6 +10,8 @@
 	Employee empl = (Employee) request.getAttribute("Employee");
 	List<Profile> profiles = (List<Profile>) request
 			.getAttribute("Profiles");
+	List<ContractType> contractTypes = (List<ContractType>) request
+			.getAttribute("ContractTypes");
 %>
 
 <h1 class="cTitle">Infrmación Contractual</h1>
@@ -38,7 +41,15 @@
 				%>
 		</select></td>
 		<td class="cLabel">Tipo Contrato:</td>
-		<td>&nbsp;</td>
+		<td><select name="cContractType">
+				<%
+					for (ContractType contractType : contractTypes) {
+				%>
+				<option value="<%=contractType.getId()%>"><%=contractType.getName()%></option>
+				<%
+					}
+				%>
+		</select></td>
 	</tr>
 	<tr>
 		<td class="cLabel">Inicio Contrato:</td>

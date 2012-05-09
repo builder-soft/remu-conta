@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.framework.beans.Agreement;
 import cl.buildersoft.framework.beans.BSBean;
+import cl.buildersoft.framework.beans.ContractType;
 import cl.buildersoft.framework.beans.Employee;
 import cl.buildersoft.framework.beans.Profile;
 import cl.buildersoft.framework.database.BSmySQL;
@@ -28,18 +29,26 @@ public class ContractualInfo extends HttpServlet {
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
-		
+
 		Employee emp = getEmployee(conn, bu, id);
 		Agreement agreement = getAgreement(conn, bu, id);
 		List<Profile> profiles = getProfiles(conn, bu);
-		
+		List<BSBean> contractTypes = getList(conn, bu, new ContractType(),
+				"pGetContractTypeList");
 
 		request.setAttribute("Employee", emp);
 		request.setAttribute("Agreement", agreement);
 		request.setAttribute("Profiles", profiles);
+		request.setAttribute("ContractTypes", contractTypes);
 		request.getRequestDispatcher(
 				"/WEB-INF/jsp/config/employee/contractual-info.jsp").forward(
 				request, response);
+	}
+
+	private List<BSBean> getList(Connection conn, BSBeanUtilsSP bu,
+			BSBean object, String spName) {
+		List<BSBean> out = (List<BSBean>) bu.list(conn, object, spName, null);
+		return out;
 	}
 
 	private List<Profile> getProfiles(Connection conn, BSBeanUtilsSP bu) {
