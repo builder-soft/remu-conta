@@ -14,10 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import cl.buildersoft.framework.beans.Account;
-import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.BSTableConfig;
+import cl.buildersoft.framework.beans.Employee;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
+import cl.buildersoft.framework.util.BSBeanUtilsSP;
 
 /**
  * Servlet implementation class EditRecord
@@ -35,27 +36,19 @@ public class EmployeeInformation extends AbstractServletUtil {
 			HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		BSTableConfig table = null;
+		Long id = Long.parseLong(request.getParameter("cId"));
 		synchronized (session) {
 			table = (BSTableConfig) session.getAttribute("BSTable");
 		}
-
-		String idField = table.getIdField().getName();
-		String sql = getSQL4Search(table, idField);
-		Long id = Long.parseLong(request.getParameter(idField));
 
 		Connection conn = null;
 		BSmySQL mySQL = new BSmySQL();
 
 		conn = mySQL.getConnection(request);
-		ResultSet rs = mySQL.queryResultSet(conn, sql, array2List(id));
-		resultset2Table(rs, table);
-		
-		List<Object> parameterApv = new ArrayList<Object>();
-		Object paramApv = "APV";
-		parameterApv.add(paramApv);	
-		
+		Employee employee = getEmployee(conn, new BSBeanUtilsSP(), id);
+				
 		BSmySQL mysql = new BSmySQL();
-		ResultSet rsApv = mysql.callSingleSP(conn, "pGetTboardListByType",parameterApv);
+		ResultSet rsApv = mysql.callSingleSP(conn, "pGetTboardListByType","APV");
 		Account bsApv =  null;
 		List<Account> listadoApv = new ArrayList<Account>();
 		try {
@@ -69,15 +62,12 @@ public class EmployeeInformation extends AbstractServletUtil {
 
 				//out.put(domainAttribute.getKey(), domainAttribute);
 			}
-			mysql.closeSQL(rs);
+			mysql.closeSQL(rsApv);
 		} catch (SQLException e) {
 			throw new BSDataBaseException("1000", e.getMessage());
 		}
-
-		List<Object> parameterAfp = new ArrayList<Object>();
-		Object paramAfp = "PFM";
-		parameterAfp.add(paramAfp);		
-		ResultSet rsAfp = mysql.callSingleSP(conn, "pGetTboardListByType",parameterAfp);
+		
+		ResultSet rsAfp = mysql.callSingleSP(conn, "pGetTboardListByType","PFM");
 		Account bsAfp =  null;
 		List<Account> listadoAfp = new ArrayList<Account>();
 		try {
@@ -98,10 +88,8 @@ public class EmployeeInformation extends AbstractServletUtil {
 		
 		
 		List<Object> parameter = new ArrayList<Object>();
-		Object param1 = "1";
-		Object param2 = "APV";
-		parameter.add(param1);
-		parameter.add(param2);
+		parameter.add(id);
+		parameter.add("APV");
 		ResultSet rsApvForEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployeeAndTypeBoard",parameter);
 		
 		Account bsApvEmp =  null;
@@ -126,10 +114,8 @@ public class EmployeeInformation extends AbstractServletUtil {
 		}	
 
 		List<Object> parameterEmp = new ArrayList<Object>();
-		Object paramEmp = "1";
-		Object paramAfpEmp = "PFM";
-		parameterEmp.add(paramEmp);
-		parameterEmp.add(paramAfpEmp);
+		parameterEmp.add(id);
+		parameterEmp.add("PFM");
 		ResultSet rsAfpForEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployeeAndTypeBoard",parameterEmp);
 		
 		Account bsAfpEmp =  null;
@@ -150,7 +136,7 @@ public class EmployeeInformation extends AbstractServletUtil {
 		
 		
 		
-		ResultSet rsCurrency = mysql.callSingleSP(conn, "pGetCurrencyList",null);
+		ResultSet rsCurrency = mysql.callSingleSP(conn, "pGetTboardListByType","CURRENCY");
 		Account bsCurrency =  null;
 		List<Account> listadoCurrency = new ArrayList<Account>();
 		try {
@@ -168,11 +154,8 @@ public class EmployeeInformation extends AbstractServletUtil {
 		} catch (SQLException e) {
 			throw new BSDataBaseException("1000", e.getMessage());
 		}			
-
-		List<Object> parameterExbox = new ArrayList<Object>();
-		Object paramExbox = "EX_BOX";
-		parameterExbox.add(paramExbox);		
-		ResultSet rsExBox = mysql.callSingleSP(conn, "pGetTboardListByType",parameterExbox);
+	
+		ResultSet rsExBox = mysql.callSingleSP(conn, "pGetTboardListByType","EX_BOX");
 		Account bsExBox =  null;
 		List<Account> listadoExBox = new ArrayList<Account>();
 		try {
@@ -189,9 +172,9 @@ public class EmployeeInformation extends AbstractServletUtil {
 		}		
 
 		List<Object> parameterExboxEmp = new ArrayList<Object>();
-		Object paramExboxEmp = "EX_BOX";
-		parameterExboxEmp.add(paramExboxEmp);		
-		ResultSet rsExBoxEmp = mysql.callSingleSP(conn, "pGetTboardListByType",parameterExboxEmp);
+		parameterExboxEmp.add(id);
+		parameterExboxEmp.add("EX_BOX");		
+		ResultSet rsExBoxEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployeeAndTypeBoard",parameterExboxEmp);
 		Account exBoxEmp = new Account();
 		try {
 			while (rsExBoxEmp.next()) {
@@ -205,38 +188,58 @@ public class EmployeeInformation extends AbstractServletUtil {
 			throw new BSDataBaseException("1000", e.getMessage());
 		}
 		
+		ResultSet rsHealth = mysql.callSingleSP(conn, "pGetTboardListByType","HEALTH");
+		Account bsHealth =  null;
+		List<Account> listadoHealth = new ArrayList<Account>();
+		try {
+			while (rsHealth.next()) {
+				bsHealth = new Account();
+				bsHealth.setId(rsHealth.getLong("cId"));
+				bsHealth.setKey(rsHealth.getString("cKey"));
+				bsHealth.setValue(rsHealth.getString("cName"));
+				listadoHealth.add(bsHealth);
+			}
+			mysql.closeSQL(rsHealth);
+		} catch (SQLException e) {
+			throw new BSDataBaseException("1000", e.getMessage());
+		}		
+
+		List<Object> parameterHealthEmp = new ArrayList<Object>();
+		parameterHealthEmp.add(id);
+		parameterHealthEmp.add("HEALTH");		
+		ResultSet rsHealthEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployeeAndTypeBoard",parameterHealthEmp);
+		Account healthEmp = new Account();
+		try {
+			while (rsHealthEmp.next()) {
+				healthEmp = new Account();
+				healthEmp.setId(rsHealthEmp.getLong("cId"));
+				healthEmp.setKey(rsHealthEmp.getString("cKey"));
+				healthEmp.setValue(rsHealthEmp.getString("cName"));
+			}
+			mysql.closeSQL(rsHealthEmp);
+		} catch (SQLException e) {
+			throw new BSDataBaseException("1000", e.getMessage());
+		}		
+		
 		request.setAttribute("listadoAfp", listadoAfp);
 		request.setAttribute("listadoApv", listadoApv);
 		request.setAttribute("listadoCurrency", listadoCurrency);
 		request.setAttribute("listadoApvEmp", listadoApvEmp);
-		request.setAttribute("listadoExBox", listadoExBox);		
+		request.setAttribute("listadoExBox", listadoExBox);	
+		request.setAttribute("listadoHealth", listadoHealth);
 		request.setAttribute("afpEmp", bsAfpEmp);
-		request.setAttribute("exBoxEmp", exBoxEmp);
-		request.setAttribute("Data", rs);
+		request.setAttribute("healthEmp", healthEmp);
 
 		request.setAttribute("Action", "Update");
 		request.getRequestDispatcher("/WEB-INF/jsp/table/previtional-information.jsp")
 				.forward(request, response);
 	}
 
-	private void resultset2Table(ResultSet rs, BSTableConfig table) {
-		BSField[] fields = table.getFields();
-		try {
-			if (rs.next()) {
-				for (BSField f : fields) {
-					f.setValue(rs.getObject(f.getName()));
-				}
-			}
-		} catch (SQLException e) {
-			throw new BSDataBaseException("0300", e.getMessage());
-		}
-	}
 
-	private String getSQL4Search(BSTableConfig table, String idField) {
-		BSField[] fields = table.getFields();
-		String sql = "SELECT " + getFieldsNamesWithCommas(fields);
-		sql += " FROM " + table.getDatabase() + "." + table.getTableName();
-		sql += " WHERE " + idField + "=?";
-		return sql;
+	private Employee getEmployee(Connection conn, BSBeanUtilsSP bu, Long id) {
+		Employee out = new Employee();
+		out.setId(id);
+		bu.search(conn, out);
+		return out;
 	}
 }
