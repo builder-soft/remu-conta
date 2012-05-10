@@ -17,11 +17,16 @@
 	List<BSAccount> listadoApv = (List<BSAccount>)request.getAttribute("listadoApv");
 	List<BSAccount> listadoCurrency = (List<BSAccount>)request.getAttribute("listadoCurrency");
 	List<BSAccount> listadoApvEmp = (List<BSAccount>)request.getAttribute("listadoApvEmp");
+	List<BSAccount> listadoAfp = (List<BSAccount>)request.getAttribute("listadoAfp");
+	List<BSAccount> listadoExBox = (List<BSAccount>)request.getAttribute("listadoExBox");	
+	BSAccount afpEmp = (BSAccount)request.getAttribute("afpEmp");
+	BSAccount exBoxEmp = (BSAccount)request.getAttribute("exBoxEmp");
+	
 	
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <script>
-function addApv(idCurrency,idApv)
+function addApv(idCurrency,idApv,monto)
 {
 	var clon = $('#apv0').clone();
 	var rowCount = $("#apvs tr").length;
@@ -32,7 +37,8 @@ function addApv(idCurrency,idApv)
 	$(apvId).after(clon);
 	
 		$('#apv'+rowCount).find("select[id='apvCurrency']").val(idCurrency);
-		$('#apv'+rowCount).find("select[id='apvInstitution']").val(idApv);	
+		$('#apv'+rowCount).find("select[id='apvInstitution']").val(idApv);
+		$('#apv'+rowCount).find("input[id='apvAmount']").val(monto);
 		
 }
 
@@ -90,6 +96,21 @@ function getApvSelected(){
 			<tr>
 				<td colspan="4">
 					<table id="apvs">
+					<tr>
+							<td class="cLabel" valign='top'>AFP:</td>
+							<td class="cData">
+							<select id="afpEmp" name="afpEmp">
+									<%			
+									for(BSAccount bsAfp : listadoAfp)
+									{											
+									%>
+										<OPTION value="<%=bsAfp.getKey()%>"<%=bsAfp.getKey().equals(afpEmp.getKey()) ? "selected" : "" %>><%=bsAfp.getValue()%></OPTION>
+									<%
+									}
+									%>
+							</select>						
+						</td>
+					</tr>
 					<%	
 					int contador = 0;
 					int cantApvs = listadoApvEmp.size();
@@ -103,15 +124,15 @@ function getApvSelected(){
 								<select id="apvCurrency" name="apvCurrency<%=bsApvEmp.getId()%>">
 										<%			
 										for(BSAccount bsCurrency : listadoCurrency)
-										{
+										{											
 										%>
-											<OPTION value="<%=bsCurrency.getId()%>"><%=bsCurrency.getKey()%></OPTION>
+											<OPTION value="<%=bsCurrency.getId()%>"<%=bsCurrency.getId() == bsApvEmp.getcIdCurrency()? "selected" : "" %>><%=bsCurrency.getKey()%></OPTION>
 										<%
 										}
-										%>	
+										%>
 								</select>
 								</td>
-								<td class="cData"><input id="apvAmount" value="0"></td>
+								<td class="cData"><input id="apvAmount" value="<%=bsApvEmp.getcAmount()%>"></td>
 								<td class="cLabel" valign='top'>Institucion:</td>
 								<td class="cData">
 								<select id="apvInstitution" name="apvInstitution<%=bsApvEmp.getId()%>">
@@ -119,8 +140,8 @@ function getApvSelected(){
 										for(BSAccount bsApv : listadoApv)
 										{
 										%>
-											<OPTION value="<%=bsApv.getId()%>"><%=bsApv.getValue()%></OPTION>
-										<%
+											<OPTION value="<%=bsApv.getKey()%>" <%=bsApv.getKey().equals(bsApvEmp.getKey()) ? "selected" : "" %>><%=bsApv.getValue()%></OPTION>
+										<% 
 										}
 										%>	
 								</select>
@@ -130,11 +151,25 @@ function getApvSelected(){
 						contador++;
 						}
 						else{
-							out.print("<script>addApv('"+bsApvEmp.getcIdCurrency()+"','"+bsApvEmp.getKey()+"');</script>");
+							out.print("<script>addApv('"+bsApvEmp.getcIdCurrency()+"','"+bsApvEmp.getKey()+"','"+bsApvEmp.getcAmount()+"');</script>");
 						}
 						
 					}
-					%>						
+					%>
+					<tr>
+						<td class="cLabel" valign='top'>Caja Ex-Régimen:</td>
+						<td class="cData" colspan="3">
+						<select id="exBox" name="exBox">
+								<%			
+								for(BSAccount bsExbox : listadoExBox)
+								{											
+								%>
+									<OPTION value="<%=bsExbox.getKey()%>"<%=bsExbox.getKey().equals(exBoxEmp.getKey()) ? "selected" : "" %>><%=bsExbox.getValue()%></OPTION>
+								<%
+								}
+								%>
+						</select>
+					</tr>						
 					</table>
 				<td>
 			</tr>

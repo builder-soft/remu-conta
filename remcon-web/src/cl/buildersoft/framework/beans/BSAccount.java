@@ -6,7 +6,9 @@ public class BSAccount extends BSBean{
 	private String value = null;
 	private String cKeyInstitution = null;
 	private String cKeyCurrency = null;
-	private String cIdCurrency = null;
+	private Long cIdCurrency = null;
+	private Long cAmount = null;
+	
 	private String TABLE = "tAccount";
 	public String getKey() {
 		return key;
@@ -38,11 +40,16 @@ public class BSAccount extends BSBean{
 	public void setcKeyCurrency(String cKeyCurrency) {
 		this.cKeyCurrency = cKeyCurrency;
 	}
-	public String getcIdCurrency() {
+	public Long getcIdCurrency() {
 		return cIdCurrency;
 	}
-	public void setcIdCurrency(String cIdCurrency) {
+	public void setcIdCurrency(Long cIdCurrency) {
 		this.cIdCurrency = cIdCurrency;
 	}
-	
+	public Long getcAmount() {
+		return cAmount;
+	}
+	public void setcAmount(Long cAmount) {
+		this.cAmount = cAmount;
+	}
 }

@@ -1,0 +1,16 @@
+DROP PROCEDURE if exists remcon.pGetTboardListByType;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pGetTboardListByType(IN pAccountType VARCHAR(15))
+BEGIN
+	SELECT		 cId, cKey, cValue as cName, cEnable 
+	FROM 		remcon.tBoard
+	WHERE		cType = pAccountType;
+END$$
+
+DELIMITER ;
+/*
+call remcon.pGetTboardListByType();
+*/
+
+

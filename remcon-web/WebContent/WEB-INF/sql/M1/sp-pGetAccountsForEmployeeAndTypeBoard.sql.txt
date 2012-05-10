@@ -1,0 +1,19 @@
+DROP PROCEDURE if exists remcon.pGetAccountsForEmployeeAndTypeBoard;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pGetAccountsForEmployeeAndTypeBoard(IN pEmployee BIGINT, IN pAccountType VARCHAR(15))
+BEGIN
+	SELECT		a.cId, a.cInstitution, a.cNumber, a.cCurrency, a.cAmount, 
+				b.cKey AS cKeyInstitution, b.cValue as cNameInstitution,
+				c.cKey AS cKeyCurrency, c.cValue as cNameCurrency
+	FROM 		remcon.tAccount	AS a
+	LEFT JOIN	remcon.tBoard	AS b ON a.cInstitution = b.cId
+	LEFT JOIN	remcon.tBoard	AS c ON a.cCurrency = c.cId
+	WHERE		cEmployee = pEmployee AND b.cType = pAccountType
+	ORDER BY	cCurrency;
+END$$
+
+DELIMITER ;
+
+call remcon.pGetAccountsForEmployeeAndTypeBoard(1, 'APV');
+call remcon.pGetAccountsForEmployeeAndTypeBoard(1, 'PFM');
