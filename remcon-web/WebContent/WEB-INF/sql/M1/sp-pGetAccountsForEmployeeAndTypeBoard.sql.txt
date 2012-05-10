@@ -1,3 +1,4 @@
+DROP PROCEDURE if exists remcon.pGetAccountsForEmployee;
 DROP PROCEDURE if exists remcon.pGetAccountsForEmployeeAndTypeBoard;
 DELIMITER $$
 
@@ -15,5 +16,3 @@ END$$
 
 DELIMITER ;
 
-call remcon.pGetAccountsForEmployeeAndTypeBoard(1, 'APV');
-call remcon.pGetAccountsForEmployeeAndTypeBoard(1, 'PFM');
