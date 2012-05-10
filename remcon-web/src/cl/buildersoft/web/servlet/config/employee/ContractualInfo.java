@@ -37,9 +37,9 @@ public class ContractualInfo extends HttpServlet {
 		Agreement agreement = getAgreement(conn, bu, id);
 
 		List<BSBean> profiles = getList(conn, bu, new Profile(),
-				"pGetProfileList");
+				"pListProfile");
 		List<BSBean> contractTypes = getList(conn, bu, new ContractType(),
-				"pGetContractTypeList");
+				"pListContractType");
 		List<BSBean> gratificationType = getList(conn, bu,
 				new GratificationType(), "pGetGratificationTypeList");
 		List<BSBean> horary = getList(conn, bu, new Horary(), "pGetHoraryList");
@@ -62,11 +62,6 @@ public class ContractualInfo extends HttpServlet {
 		return out;
 	}
 
-	/*
-	 * private List<Profile> getProfiles(Connection conn, BSBeanUtilsSP bu) {
-	 * List<Profile> out = (List<Profile>) bu.list(conn, new Profile(),
-	 * "pGetProfileList", null); return out; }
-	 */
 	public Agreement getAgreement(Connection conn, BSBeanUtilsSP bu,
 			Long idEmployee) {
 		AgreementService agreementService = new AgreementServiceImpl();

@@ -48,7 +48,7 @@ public class EmployeeInformation extends AbstractServletUtil {
 		Employee employee = getEmployee(conn, new BSBeanUtilsSP(), id);
 				
 		BSmySQL mysql = new BSmySQL();
-		ResultSet rsApv = mysql.callSingleSP(conn, "pGetTboardListByType","APV");
+		ResultSet rsApv = mysql.callSingleSP(conn, "pListBoardByType","APV");
 		Account bsApv =  null;
 		List<Account> listadoApv = new ArrayList<Account>();
 		try {
@@ -67,7 +67,7 @@ public class EmployeeInformation extends AbstractServletUtil {
 			throw new BSDataBaseException("1000", e.getMessage());
 		}
 		
-		ResultSet rsAfp = mysql.callSingleSP(conn, "pGetTboardListByType","PFM");
+		ResultSet rsAfp = mysql.callSingleSP(conn, "pListBoardByType","PFM");
 		Account bsAfp =  null;
 		List<Account> listadoAfp = new ArrayList<Account>();
 		try {
@@ -136,7 +136,7 @@ public class EmployeeInformation extends AbstractServletUtil {
 		
 		
 		
-		ResultSet rsCurrency = mysql.callSingleSP(conn, "pGetTboardListByType","CURRENCY");
+		ResultSet rsCurrency = mysql.callSingleSP(conn, "pListBoardByType","CURRENCY");
 		Account bsCurrency =  null;
 		List<Account> listadoCurrency = new ArrayList<Account>();
 		try {
@@ -155,7 +155,7 @@ public class EmployeeInformation extends AbstractServletUtil {
 			throw new BSDataBaseException("1000", e.getMessage());
 		}			
 	
-		ResultSet rsExBox = mysql.callSingleSP(conn, "pGetTboardListByType","EX_BOX");
+		ResultSet rsExBox = mysql.callSingleSP(conn, "pListBoardByType","EX_BOX");
 		Account bsExBox =  null;
 		List<Account> listadoExBox = new ArrayList<Account>();
 		try {
@@ -188,7 +188,7 @@ public class EmployeeInformation extends AbstractServletUtil {
 			throw new BSDataBaseException("1000", e.getMessage());
 		}
 		
-		ResultSet rsHealth = mysql.callSingleSP(conn, "pGetTboardListByType","HEALTH");
+		ResultSet rsHealth = mysql.callSingleSP(conn, "pListBoardByType","HEALTH");
 		Account bsHealth =  null;
 		List<Account> listadoHealth = new ArrayList<Account>();
 		try {

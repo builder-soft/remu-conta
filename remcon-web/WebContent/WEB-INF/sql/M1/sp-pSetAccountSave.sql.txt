@@ -36,5 +36,4 @@ select * from remcon.tAccount;
 
 call remcon.pSetAccountSave(1, 51, 47, '24500-XX', 26, 12502);
 select * from remcon.tAccount;
-
 */

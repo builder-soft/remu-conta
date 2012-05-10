@@ -392,12 +392,13 @@ AS
  
  
 DROP VIEW IF EXISTS vAccountType;
+/*
 CREATE VIEW vAccountType
 AS
 	SELECT cId, cKey, cValue AS cName 
 	FROM remcon.tBoard 
 	WHERE cType='ACCOUNT_TYPE';
-
+*/
 DROP VIEW IF EXISTS vCompensationFound;
 DROP VIEW IF EXISTS vCompensationFund;
 CREATE VIEW vCompensationFund

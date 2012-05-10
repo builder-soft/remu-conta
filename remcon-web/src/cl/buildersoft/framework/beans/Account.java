@@ -52,4 +52,11 @@ public class Account extends BSBean{
 	public void setcAmount(Long cAmount) {
 		this.cAmount = cAmount;
 	}
+	@Override
+	public String toString() {
+		return "Account [key=" + key + ", name=" + name + ", value=" + value
+				+ ", cKeyInstitution=" + cKeyInstitution + ", cKeyCurrency="
+				+ cKeyCurrency + ", cIdCurrency=" + cIdCurrency + ", cAmount="
+				+ cAmount + "]";
+	}
 }

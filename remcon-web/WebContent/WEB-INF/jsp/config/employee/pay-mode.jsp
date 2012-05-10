@@ -1,19 +1,19 @@
+<%@page import="cl.buildersoft.framework.beans.Agreement"%>
+<%@page import="cl.buildersoft.framework.beans.Account"%>
 <%@page import="cl.buildersoft.framework.beans.Board"%>
 <%@page import="cl.buildersoft.framework.beans.Employee"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%
 	Employee empl = (Employee) request.getAttribute("Employee");
-
+	Agreement agreement = (Agreement) request.getAttribute("Agreement");
 
 	List<Board> banks = (List<Board>) request.getAttribute("Banks");
 	List<Board> accountTypes = (List<Board>) request
 			.getAttribute("AccountTypes");
 	List<Board> paymentTypes = (List<Board>) request
 			.getAttribute("PaymentTypes");
-	/**
-	request.setAttribute("Employee", getEmployee(conn, bu, employeeId));
-	 */
+	Account account = (Account) request.getAttribute("Account");
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
@@ -32,7 +32,10 @@
 	</tr>
 </table>
 <br>
+ 
+<span class="cLabel"> <%=agreement.toString()%>
 
+</span>
 <form>
 	<table>
 		<tr>
@@ -41,11 +44,16 @@
 					<%
 						for (Board paymentType : paymentTypes) {
 					%>
-					<option value="<%=paymentType.getId()%>"><%=paymentType.getValue()%></option>
+					<option value="<%=paymentType.getId()%>"
+						<%=paymentType.getId()
+						.equals(agreement.getPaymentType()) ? "selected" : ""%>><%=paymentType.getValue()%></option>
 					<%
 						}
 					%>
 			</select></td>
+		</tr>
+		<tr>
+
 			<td class="cLabel">Banco:</td>
 			<td><select name="cBank">
 					<%
@@ -57,10 +65,12 @@
 					%>
 			</select></td>
 		</tr>
-
 		<tr>
 			<td class="cLabel">Número de Cuenta:</td>
 			<td><input></td>
+		</tr>
+		<tr>
+
 			<td class="cLabel">Tipo de cuenta:</td>
 			<td><select name="cBank">
 					<%
