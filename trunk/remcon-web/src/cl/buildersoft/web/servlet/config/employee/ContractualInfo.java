@@ -35,7 +35,9 @@ public class ContractualInfo extends HttpServlet {
 
 		Employee emp = getEmployee(conn, bu, id);
 		Agreement agreement = getAgreement(conn, bu, id);
-		List<Profile> profiles = getProfiles(conn, bu);
+
+		List<BSBean> profiles = getList(conn, bu, new Profile(),
+				"pGetProfileList");
 		List<BSBean> contractTypes = getList(conn, bu, new ContractType(),
 				"pGetContractTypeList");
 		List<BSBean> gratificationType = getList(conn, bu,
@@ -60,28 +62,16 @@ public class ContractualInfo extends HttpServlet {
 		return out;
 	}
 
-	private List<Profile> getProfiles(Connection conn, BSBeanUtilsSP bu) {
-		List<Profile> out = (List<Profile>) bu.list(conn, new Profile(),
-				"pGetProfileList", null);
-		return out;
-	}
-
+	/*
+	 * private List<Profile> getProfiles(Connection conn, BSBeanUtilsSP bu) {
+	 * List<Profile> out = (List<Profile>) bu.list(conn, new Profile(),
+	 * "pGetProfileList", null); return out; }
+	 */
 	public Agreement getAgreement(Connection conn, BSBeanUtilsSP bu,
 			Long idEmployee) {
 		AgreementService agreementService = new AgreementServiceImpl();
 		Agreement out = agreementService.getAgreementByEmployee(conn,
 				idEmployee);
-		/**
-		 * <code>
-		List<Object> prms = new ArrayList<Object>();
-		prms.add(idEmployee);
-		List<BSBean> agreements = (List<BSBean>) bu.list(conn, new Agreement(),
-				"pGetAgreementByEmployee", prms);
-
-		Agreement out = agreements.size() == 0 ? null : (Agreement) agreements
-				.get(0);
-				</code>
-		 */
 		return out;
 	}
 
@@ -91,5 +81,4 @@ public class ContractualInfo extends HttpServlet {
 		bu.search(conn, out);
 		return out;
 	}
-
 }

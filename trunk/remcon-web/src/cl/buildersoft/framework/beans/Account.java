@@ -1,6 +1,6 @@
 package cl.buildersoft.framework.beans;
 
-public class BSAccount extends BSBean{
+public class Account extends BSBean{
 	private String key = null;
 	private String name = null;
 	private String value = null;

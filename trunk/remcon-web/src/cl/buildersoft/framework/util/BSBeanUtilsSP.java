@@ -13,8 +13,15 @@ import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.exception.BSProgrammerException;
 
 public class BSBeanUtilsSP extends BSBeanUtils {
-	public List<? extends BSBean> list(Connection conn, BSBean bean, String spName,
-			List<Object> params) {
+	public List<? extends BSBean> list(Connection conn, BSBean bean,
+			String spName, Object oneParam) {
+		List<Object> params = new ArrayList<Object>();
+		params.add(oneParam);
+		return list(conn, bean, spName, params);
+	}
+
+	public List<? extends BSBean> list(Connection conn, BSBean bean,
+			String spName, List<Object> params) {
 
 		BSmySQL mysql = new BSmySQL();
 		ResultSet rs = mysql.callSingleSP(conn, spName, params);

@@ -1,4 +1,4 @@
-<%@page import="cl.buildersoft.framework.beans.BSAccount"%>
+<%@page import="cl.buildersoft.framework.beans.Account"%>
 <%@page import="cl.buildersoft.framework.beans.BSCss"%>
 <%@page import="cl.buildersoft.framework.beans.BSScript"%>
 <%@page import="cl.buildersoft.framework.beans.BSHeadConfig"%>
@@ -14,15 +14,11 @@
 	BSTableConfig table = (BSTableConfig) session.getAttribute("BSTable");
 	BSField[] fields = table.getFields();
 	String[] groupPrevisionalInformation = (String[])request.getAttribute("DataShow");
-	List<BSAccount> listadoApv = (List<BSAccount>)request.getAttribute("listadoApv");
-	List<BSAccount> listadoCurrency = (List<BSAccount>)request.getAttribute("listadoCurrency");
-	List<BSAccount> listadoApvEmp = (List<BSAccount>)request.getAttribute("listadoApvEmp");
-	List<BSAccount> listadoAfp = (List<BSAccount>)request.getAttribute("listadoAfp");
-	List<BSAccount> listadoExBox = (List<BSAccount>)request.getAttribute("listadoExBox");	
-	BSAccount afpEmp = (BSAccount)request.getAttribute("afpEmp");
-	BSAccount exBoxEmp = (BSAccount)request.getAttribute("exBoxEmp");
-	
-	
+	LisAccountnt> listadoApv = (LisAccountnt>)request.getAttribute("listadoApv");
+	LisAccountnt> listadoCurrency = (LisAccountnt>)request.getAttribute("listadoCurrency");
+	LisAccountnt> listadoApvEmp = (LisAccountnt>)request.getAttribute("listadoApvEmp");
+	LisAccountnt> listadoAfp = (LisAccountnt>)request.getAttribute("listadoAfp");
+	LisAccountnt> listadoExBox = (LisAccountnt>)request.getAttribute("listadoExBox");	Accountnt afpEmp =Accountnt)request.getAttribute("afpEmp");Accountnt exBoxEmp =Accountnt)request.getAttribute("exBoxEmp");
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <script>
@@ -67,14 +63,14 @@ function getApvSelected(){
 		BSScript script = head.getScript();
 		BSCss css = head.getCss();
 		for (String oneScript : script.getListScriptNames()) {
-			out.print("<script src='" + request.getContextPath()
-					+ script.getPath() + oneScript + ".js'></script>");
+	out.print("<script src='" + request.getContextPath()
+			+ script.getPath() + oneScript + ".js'></script>");
 		}
 
 		for (String oneCss : css.getListCssNames()) {
-			out.print("<LINK rel='stylesheet' type='text/css' src='"
-					+ request.getContextPath() + css.getPath() + oneCss
-					+ ".css'/>");
+	out.print("<LINK rel='stylesheet' type='text/css' src='"
+			+ request.getContextPath() + css.getPath() + oneCss
+			+ ".css'/>");
 		}
 	}
 %>
@@ -100,35 +96,35 @@ function getApvSelected(){
 							<td class="cLabel" valign='top'>AFP:</td>
 							<td class="cData">
 							<select id="afpEmp" name="afpEmp">
-									<%			
-									for(BSAccount bsAfp : listadoAfp)
-									{											
-									%>
-										<OPTION value="<%=bsAfp.getKey()%>"<%=bsAfp.getKey().equals(afpEmp.getKey()) ? "selected" : "" %>><%=bsAfp.getValue()%></OPTION>
 									<%
-									}
+										foAccountnt bsAfp : listadoAfp)
+																{
+									%>
+										<OPTION value="<%=bsAfp.getKey()%>"<%=bsAfp.getKey().equals(afpEmp.getKey()) ? "selected" : ""%>><%=bsAfp.getValue()%></OPTION>
+									<%
+										}
 									%>
 							</select>						
 						</td>
 					</tr>
-					<%	
-					int contador = 0;
-					int cantApvs = listadoApvEmp.size();
-					for(BSAccount bsApvEmp : listadoApvEmp)
-					{
-						if(contador == 0){
+					<%
+						int contador = 0;
+								int cantApvs = listadoApvEmp.size();
+								foAccountnt bsApvEmp : listadoApvEmp)
+								{
+									if(contador == 0){
 					%>
 					<tr id="apv0">
 								<td class="cLabel" valign='top'>APV:</td>
 								<td class="cData">
 								<select id="apvCurrency" name="apvCurrency<%=bsApvEmp.getId()%>">
-										<%			
-										for(BSAccount bsCurrency : listadoCurrency)
-										{											
-										%>
-											<OPTION value="<%=bsCurrency.getId()%>"<%=bsCurrency.getId() == bsApvEmp.getcIdCurrency()? "selected" : "" %>><%=bsCurrency.getKey()%></OPTION>
 										<%
-										}
+											foAccountnt bsCurrency : listadoCurrency)
+																		{
+										%>
+											<OPTION value="<%=bsCurrency.getId()%>"<%=bsCurrency.getId() == bsApvEmp.getcIdCurrency()? "selected" : ""%>><%=bsCurrency.getKey()%></OPTION>
+										<%
+											}
 										%>
 								</select>
 								</td>
@@ -136,33 +132,33 @@ function getApvSelected(){
 								<td class="cLabel" valign='top'>Institucion:</td>
 								<td class="cData">
 								<select id="apvInstitution" name="apvInstitution<%=bsApvEmp.getId()%>">
-										<%			
-										for(BSAccount bsApv : listadoApv)
-										{
+										<%
+											foAccountnt bsApv : listadoApv)
+																		{
 										%>
-											<OPTION value="<%=bsApv.getKey()%>" <%=bsApv.getKey().equals(bsApvEmp.getKey()) ? "selected" : "" %>><%=bsApv.getValue()%></OPTION>
-										<% 
-										}
+											<OPTION value="<%=bsApv.getKey()%>" <%=bsApv.getKey().equals(bsApvEmp.getKey()) ? "selected" : ""%>><%=bsApv.getValue()%></OPTION>
+										<%
+											}
 										%>	
 								</select>
 								</td>
 						</tr>
 					<%
 						contador++;
-						}
-						else{
-							out.print("<script>addApv('"+bsApvEmp.getcIdCurrency()+"','"+bsApvEmp.getKey()+"','"+bsApvEmp.getcAmount()+"');</script>");
-						}
-						
-					}
+									}
+									else{
+										out.print("<script>addApv('"+bsApvEmp.getcIdCurrency()+"','"+bsApvEmp.getKey()+"','"+bsApvEmp.getcAmount()+"');</script>");
+									}
+									
+								}
 					%>
 					<tr>
 						<td class="cLabel" valign='top'>Caja Ex-Régimen:</td>
 						<td class="cData" colspan="3">
 						<select id="exBox" name="exBox">
-								<%			
-								for(BSAccount bsExbox : listadoExBox)
-								{											
+								<%
+									foAccountnt bsExbox : listadoExBox)
+														{
 								%>
 									<OPTION value="<%=bsExbox.getKey()%>"<%=bsExbox.getKey().equals(exBoxEmp.getKey()) ? "selected" : "" %>><%=bsExbox.getValue()%></OPTION>
 								<%

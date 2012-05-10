@@ -191,6 +191,7 @@ En esta tabla se graban para cada Employee:
 	- Los APV
 	- La cuenta2
 	- El adicional de salud (son 3: CLP, UF y/o %).
+	- Metodo de pago
 */
 create table tAccount (
 	cId				BIGINT(20) NOT NULL auto_increment,
