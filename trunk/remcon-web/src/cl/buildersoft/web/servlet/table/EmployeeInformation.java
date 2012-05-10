@@ -50,8 +50,12 @@ public class EmployeeInformation extends AbstractServletUtil {
 		ResultSet rs = mySQL.queryResultSet(conn, sql, array2List(id));
 		resultset2Table(rs, table);
 		
+		List<Object> parameterApv = new ArrayList<Object>();
+		Object paramApv = "APV";
+		parameterApv.add(paramApv);	
+		
 		BSmySQL mysql = new BSmySQL();
-		ResultSet rsApv = mysql.callSingleSP(conn, "pGetAPVList",null);
+		ResultSet rsApv = mysql.callSingleSP(conn, "pGetTboardListByType",parameterApv);
 		BSAccount bsApv =  null;
 		List<BSAccount> listadoApv = new ArrayList<BSAccount>();
 		try {
@@ -69,13 +73,36 @@ public class EmployeeInformation extends AbstractServletUtil {
 		} catch (SQLException e) {
 			throw new BSDataBaseException("1000", e.getMessage());
 		}
+
+		List<Object> parameterAfp = new ArrayList<Object>();
+		Object paramAfp = "PFM";
+		parameterAfp.add(paramAfp);		
+		ResultSet rsAfp = mysql.callSingleSP(conn, "pGetTboardListByType",parameterAfp);
+		BSAccount bsAfp =  null;
+		List<BSAccount> listadoAfp = new ArrayList<BSAccount>();
+		try {
+			while (rsAfp.next()) {
+				bsAfp = new BSAccount();
+				bsAfp.setId(rsAfp.getLong("cId"));
+				bsAfp.setKey(rsAfp.getString("cKey"));
+				bsAfp.setValue(rsAfp.getString("cName"));
+				listadoAfp.add(bsAfp);
+				//bu.search(conn, domainAttribute);
+
+				//out.put(domainAttribute.getKey(), domainAttribute);
+			}
+			mysql.closeSQL(rsAfp);
+		} catch (SQLException e) {
+			throw new BSDataBaseException("1000", e.getMessage());
+		}
+		
 		
 		List<Object> parameter = new ArrayList<Object>();
 		Object param1 = "1";
-		Object param2 = "47";
+		Object param2 = "APV";
 		parameter.add(param1);
 		parameter.add(param2);
-		ResultSet rsApvForEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployee",parameter);
+		ResultSet rsApvForEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployeeAndTypeBoard",parameter);
 		
 		BSAccount bsApvEmp =  null;
 		List<BSAccount> listadoApvEmp = new ArrayList<BSAccount>();
@@ -86,7 +113,8 @@ public class EmployeeInformation extends AbstractServletUtil {
 				bsApvEmp.setKey(rsApvForEmp.getString("cKeyInstitution"));
 				bsApvEmp.setValue(rsApvForEmp.getString("cNameInstitution"));
 				bsApvEmp.setcKeyCurrency(rsApvForEmp.getString("cKeyCurrency"));
-				bsApvEmp.setcIdCurrency(rsApvForEmp.getString("cCurrency"));
+				bsApvEmp.setcIdCurrency(rsApvForEmp.getLong("cCurrency"));
+				bsApvEmp.setcAmount(rsApvForEmp.getLong("cAmount"));
 				listadoApvEmp.add(bsApvEmp);
 				//bu.search(conn, domainAttribute);
 
@@ -95,7 +123,32 @@ public class EmployeeInformation extends AbstractServletUtil {
 			mysql.closeSQL(rsApvForEmp);
 		} catch (SQLException e) {
 			throw new BSDataBaseException("1000", e.getMessage());
-		}		
+		}	
+
+		List<Object> parameterEmp = new ArrayList<Object>();
+		Object paramEmp = "1";
+		Object paramAfpEmp = "PFM";
+		parameterEmp.add(paramEmp);
+		parameterEmp.add(paramAfpEmp);
+		ResultSet rsAfpForEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployeeAndTypeBoard",parameterEmp);
+		
+		BSAccount bsAfpEmp =  null;
+		try {
+			while (rsAfpForEmp.next()) {
+				bsAfpEmp = new BSAccount();
+				bsAfpEmp.setId(rsAfpForEmp.getLong("cId"));
+				bsAfpEmp.setKey(rsAfpForEmp.getString("cKeyInstitution"));
+				bsAfpEmp.setValue(rsAfpForEmp.getString("cNameInstitution"));
+				bsAfpEmp.setcKeyCurrency(rsAfpForEmp.getString("cKeyCurrency"));
+				bsAfpEmp.setcIdCurrency(rsAfpForEmp.getLong("cCurrency"));
+				bsAfpEmp.setcAmount(rsAfpForEmp.getLong("cAmount"));
+			}
+			mysql.closeSQL(rsApvForEmp);
+		} catch (SQLException e) {
+			throw new BSDataBaseException("1000", e.getMessage());
+		}
+		
+		
 		
 		ResultSet rsCurrency = mysql.callSingleSP(conn, "pGetCurrencyList",null);
 		BSAccount bsCurrency =  null;
@@ -111,14 +164,54 @@ public class EmployeeInformation extends AbstractServletUtil {
 
 				//out.put(domainAttribute.getKey(), domainAttribute);
 			}
-			mysql.closeSQL(rs);
+			mysql.closeSQL(rsCurrency);
 		} catch (SQLException e) {
 			throw new BSDataBaseException("1000", e.getMessage());
 		}			
+
+		List<Object> parameterExbox = new ArrayList<Object>();
+		Object paramExbox = "EX_BOX";
+		parameterExbox.add(paramExbox);		
+		ResultSet rsExBox = mysql.callSingleSP(conn, "pGetTboardListByType",parameterExbox);
+		BSAccount bsExBox =  null;
+		List<BSAccount> listadoExBox = new ArrayList<BSAccount>();
+		try {
+			while (rsExBox.next()) {
+				bsExBox = new BSAccount();
+				bsExBox.setId(rsExBox.getLong("cId"));
+				bsExBox.setKey(rsExBox.getString("cKey"));
+				bsExBox.setValue(rsExBox.getString("cName"));
+				listadoExBox.add(bsExBox);
+			}
+			mysql.closeSQL(rsCurrency);
+		} catch (SQLException e) {
+			throw new BSDataBaseException("1000", e.getMessage());
+		}		
+
+		List<Object> parameterExboxEmp = new ArrayList<Object>();
+		Object paramExboxEmp = "EX_BOX";
+		parameterExboxEmp.add(paramExboxEmp);		
+		ResultSet rsExBoxEmp = mysql.callSingleSP(conn, "pGetTboardListByType",parameterExboxEmp);
+		BSAccount exBoxEmp = new BSAccount();
+		try {
+			while (rsExBoxEmp.next()) {
+				exBoxEmp = new BSAccount();
+				exBoxEmp.setId(rsExBoxEmp.getLong("cId"));
+				exBoxEmp.setKey(rsExBoxEmp.getString("cKey"));
+				exBoxEmp.setValue(rsExBoxEmp.getString("cName"));
+			}
+			mysql.closeSQL(rsExBoxEmp);
+		} catch (SQLException e) {
+			throw new BSDataBaseException("1000", e.getMessage());
+		}
 		
+		request.setAttribute("listadoAfp", listadoAfp);
 		request.setAttribute("listadoApv", listadoApv);
 		request.setAttribute("listadoCurrency", listadoCurrency);
 		request.setAttribute("listadoApvEmp", listadoApvEmp);
+		request.setAttribute("listadoExBox", listadoExBox);		
+		request.setAttribute("afpEmp", bsAfpEmp);
+		request.setAttribute("exBoxEmp", exBoxEmp);
 		request.setAttribute("Data", rs);
 
 		request.setAttribute("Action", "Update");
