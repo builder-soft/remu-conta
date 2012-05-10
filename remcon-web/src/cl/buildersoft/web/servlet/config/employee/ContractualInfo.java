@@ -40,11 +40,8 @@ public class ContractualInfo extends HttpServlet {
 				"pGetContractTypeList");
 		List<BSBean> gratificationType = getList(conn, bu,
 				new GratificationType(), "pGetGratificationTypeList");
-		List<BSBean> horary = getList(conn, bu,
-				new Horary(), "pGetHoraryList");
+		List<BSBean> horary = getList(conn, bu, new Horary(), "pGetHoraryList");
 
-		
-		
 		request.setAttribute("Horary", horary);
 		request.setAttribute("GratificationType", gratificationType);
 		request.setAttribute("DateFormat", BSWeb.getFormatDate(conn));
@@ -69,12 +66,23 @@ public class ContractualInfo extends HttpServlet {
 		return out;
 	}
 
-	private Agreement getAgreement(Connection conn, BSBeanUtilsSP bu, Long id) {
+	public Agreement getAgreement(Connection conn, BSBeanUtilsSP bu,
+			Long idEmployee) {
+		AgreementService agreementService = new AgreementServiceImpl();
+		Agreement out = agreementService.getAgreementByEmployee(conn,
+				idEmployee);
+		/**
+		 * <code>
 		List<Object> prms = new ArrayList<Object>();
-		prms.add(id);
+		prms.add(idEmployee);
 		List<BSBean> agreements = (List<BSBean>) bu.list(conn, new Agreement(),
 				"pGetAgreementByEmployee", prms);
-		return (Agreement) agreements.get(0);
+
+		Agreement out = agreements.size() == 0 ? null : (Agreement) agreements
+				.get(0);
+				</code>
+		 */
+		return out;
 	}
 
 	private Employee getEmployee(Connection conn, BSBeanUtilsSP bu, Long id) {

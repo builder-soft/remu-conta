@@ -10,6 +10,9 @@ public class BSConfig extends BSDataUtils {
 	public Integer getInteger(Connection conn, String key) {
 		return Integer.parseInt(getValue(conn, key));
 	}
+	public Double getDouble(Connection conn, String key) {
+		return Double.parseDouble(getValue(conn, key));
+	}
 
 	private String getValue(Connection conn, String key) {
 		String sql = "SELECT cValue FROM tParameter WHERE cKey=?";

@@ -31,7 +31,7 @@ public class BSWeb {
 		String name = field.getName();
 		String value = fromWebPage ? request.getParameter(name)
 				: (String) field.getValue();
-//		BSFieldType type = field.getType();
+		// BSFieldType type = field.getType();
 
 		// System.out.println("name : " + field.getName() + " Valor : " +
 		// field.getValue());
@@ -164,6 +164,16 @@ public class BSWeb {
 	public static String date2String(Object value, String format) {
 		String out = "";
 		if (value != null) {
+			DateFormat formatter = new SimpleDateFormat(format);
+			out = formatter.format((Date) value);
+		}
+		return out;
+	}
+
+	public static String date2String(HttpServletRequest request, Object value) {
+		String out = "";
+		if (value != null) {
+			String format = getFormatDate(request);
 			DateFormat formatter = new SimpleDateFormat(format);
 			out = formatter.format((Date) value);
 		}
