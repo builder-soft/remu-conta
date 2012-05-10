@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cl.buildersoft.framework.beans.BSAccount;
+import cl.buildersoft.framework.beans.Account;
 import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
@@ -56,11 +56,11 @@ public class EmployeeInformation extends AbstractServletUtil {
 		
 		BSmySQL mysql = new BSmySQL();
 		ResultSet rsApv = mysql.callSingleSP(conn, "pGetTboardListByType",parameterApv);
-		BSAccount bsApv =  null;
-		List<BSAccount> listadoApv = new ArrayList<BSAccount>();
+		Account bsApv =  null;
+		List<Account> listadoApv = new ArrayList<Account>();
 		try {
 			while (rsApv.next()) {
-				bsApv = new BSAccount();
+				bsApv = new Account();
 				bsApv.setId(rsApv.getLong("cId"));
 				bsApv.setKey(rsApv.getString("cKey"));
 				bsApv.setValue(rsApv.getString("cName"));
@@ -78,11 +78,11 @@ public class EmployeeInformation extends AbstractServletUtil {
 		Object paramAfp = "PFM";
 		parameterAfp.add(paramAfp);		
 		ResultSet rsAfp = mysql.callSingleSP(conn, "pGetTboardListByType",parameterAfp);
-		BSAccount bsAfp =  null;
-		List<BSAccount> listadoAfp = new ArrayList<BSAccount>();
+		Account bsAfp =  null;
+		List<Account> listadoAfp = new ArrayList<Account>();
 		try {
 			while (rsAfp.next()) {
-				bsAfp = new BSAccount();
+				bsAfp = new Account();
 				bsAfp.setId(rsAfp.getLong("cId"));
 				bsAfp.setKey(rsAfp.getString("cKey"));
 				bsAfp.setValue(rsAfp.getString("cName"));
@@ -104,11 +104,11 @@ public class EmployeeInformation extends AbstractServletUtil {
 		parameter.add(param2);
 		ResultSet rsApvForEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployeeAndTypeBoard",parameter);
 		
-		BSAccount bsApvEmp =  null;
-		List<BSAccount> listadoApvEmp = new ArrayList<BSAccount>();
+		Account bsApvEmp =  null;
+		List<Account> listadoApvEmp = new ArrayList<Account>();
 		try {
 			while (rsApvForEmp.next()) {
-				bsApvEmp = new BSAccount();
+				bsApvEmp = new Account();
 				bsApvEmp.setId(rsApvForEmp.getLong("cId"));
 				bsApvEmp.setKey(rsApvForEmp.getString("cKeyInstitution"));
 				bsApvEmp.setValue(rsApvForEmp.getString("cNameInstitution"));
@@ -132,10 +132,10 @@ public class EmployeeInformation extends AbstractServletUtil {
 		parameterEmp.add(paramAfpEmp);
 		ResultSet rsAfpForEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployeeAndTypeBoard",parameterEmp);
 		
-		BSAccount bsAfpEmp =  null;
+		Account bsAfpEmp =  null;
 		try {
 			while (rsAfpForEmp.next()) {
-				bsAfpEmp = new BSAccount();
+				bsAfpEmp = new Account();
 				bsAfpEmp.setId(rsAfpForEmp.getLong("cId"));
 				bsAfpEmp.setKey(rsAfpForEmp.getString("cKeyInstitution"));
 				bsAfpEmp.setValue(rsAfpForEmp.getString("cNameInstitution"));
@@ -151,11 +151,11 @@ public class EmployeeInformation extends AbstractServletUtil {
 		
 		
 		ResultSet rsCurrency = mysql.callSingleSP(conn, "pGetCurrencyList",null);
-		BSAccount bsCurrency =  null;
-		List<BSAccount> listadoCurrency = new ArrayList<BSAccount>();
+		Account bsCurrency =  null;
+		List<Account> listadoCurrency = new ArrayList<Account>();
 		try {
 			while (rsCurrency.next()) {
-				bsCurrency = new BSAccount();
+				bsCurrency = new Account();
 				bsCurrency.setId(rsCurrency.getLong("cId"));
 				bsCurrency.setKey(rsCurrency.getString("cKey"));
 				bsCurrency.setValue(rsCurrency.getString("cName"));
@@ -173,11 +173,11 @@ public class EmployeeInformation extends AbstractServletUtil {
 		Object paramExbox = "EX_BOX";
 		parameterExbox.add(paramExbox);		
 		ResultSet rsExBox = mysql.callSingleSP(conn, "pGetTboardListByType",parameterExbox);
-		BSAccount bsExBox =  null;
-		List<BSAccount> listadoExBox = new ArrayList<BSAccount>();
+		Account bsExBox =  null;
+		List<Account> listadoExBox = new ArrayList<Account>();
 		try {
 			while (rsExBox.next()) {
-				bsExBox = new BSAccount();
+				bsExBox = new Account();
 				bsExBox.setId(rsExBox.getLong("cId"));
 				bsExBox.setKey(rsExBox.getString("cKey"));
 				bsExBox.setValue(rsExBox.getString("cName"));
@@ -192,10 +192,10 @@ public class EmployeeInformation extends AbstractServletUtil {
 		Object paramExboxEmp = "EX_BOX";
 		parameterExboxEmp.add(paramExboxEmp);		
 		ResultSet rsExBoxEmp = mysql.callSingleSP(conn, "pGetTboardListByType",parameterExboxEmp);
-		BSAccount exBoxEmp = new BSAccount();
+		Account exBoxEmp = new Account();
 		try {
 			while (rsExBoxEmp.next()) {
-				exBoxEmp = new BSAccount();
+				exBoxEmp = new Account();
 				exBoxEmp.setId(rsExBoxEmp.getLong("cId"));
 				exBoxEmp.setKey(rsExBoxEmp.getString("cKey"));
 				exBoxEmp.setValue(rsExBoxEmp.getString("cName"));

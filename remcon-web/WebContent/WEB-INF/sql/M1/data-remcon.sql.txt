@@ -127,6 +127,7 @@ SET @accountType = LAST_INSERT_ID();
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'ACCT2', 'Cuenta 2');
 SET @acct2 = LAST_INSERT_ID();
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'COMPL_HEALTH', 'Complementario de Salud');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'BANK_ACCOUNT', 'Cuenta Bancaria');
 
 /* APV */
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '100', 'ABN AMRO (CHILE) SEGUROS DE VIDA S.A.');
@@ -198,6 +199,7 @@ INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '217', 'SCOTIA SUD AMERICA
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '231', 'SCOTIA SUD AMERICANO CORREDORES DE BOLSA S.A. ');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '131', 'SEGUROS DE VIDA SECURITY PREVISION S.A. ');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '224', 'ZURICH ADMINISTRADORA GENERAL DE FONDOS S.A. ');
+
 
 /* Caja Ex-Régimen
 11:14:38  -  mira
@@ -335,6 +337,37 @@ INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2301', '2301 - Maurici
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2302', '2302 - Mauricio, Hochschild - Régimen 2');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2401', '2401 - Secgasco - Régimen 1');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2402', '2402 - Secgasco - Régimen 2');
+
+
+/** Bancos */
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','46','ABNAMRO');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','504','BBVA');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','16','BCI');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','28','BICE');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','1','CHILE');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','33','CITIBANK,N.A.');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','734','CONOSUR');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','27','CORPBANCA');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','43','DELANACIONARGENTINA');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','507','DESARROLLO');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','52','DEUTSCHEBANK');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','17','DOBRASIL');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','29','EDWARDS');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','12','ESTADO');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','51','FALABELLA');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','54','HNS');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','31','HSBCBANKCHILE');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','9','INTERNACIONAL');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','39','ITAU');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','41','JPMORGANCHASEBANK');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','55','MONEX');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','57','PARIS');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','56','PENTA');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','53','RIPLEY');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','37','SANTANDER-CHILE');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','14','SCOTIABANKSUDAMERICANO');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','49','SECURITY');
+INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','45','THEBANKOFTOKYO-MITSUBISHIUFJ,LTD.');
 
 
 
