@@ -7,6 +7,8 @@ import java.util.List;
 
 import cl.buildersoft.framework.beans.Agreement;
 import cl.buildersoft.framework.beans.BSBean;
+import cl.buildersoft.framework.beans.ContractType;
+import cl.buildersoft.framework.beans.Profile;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.framework.util.BSConfig;
 
@@ -14,6 +16,8 @@ public class AgreementServiceImpl implements AgreementService {
 
 	@Override
 	public Agreement getDefaultAgreement(Connection conn, Long employee) {
+		BSBeanUtilsSP bu = new BSBeanUtilsSP();
+
 		Agreement agreement = new Agreement();
 		agreement.setEmployee(employee);
 		agreement.setEndContract(new Date());
@@ -21,9 +25,9 @@ public class AgreementServiceImpl implements AgreementService {
 		agreement.setMobilization(0D);
 		agreement.setSalaryRoot(getSalaryRoot(conn));
 		agreement.setStartContract(new Date());
-		agreement.setContractType(1L);
-		agreement.setProfile(1L);
-		agreement.setPfm(34L);
+		agreement.setContractType(getContractType(conn, bu));
+		agreement.setProfile(getProfile(conn, bu));
+		agreement.setPfm(getPFM(conn, bu));
 		agreement.setHealth(40L);
 		agreement.setGratificationType(2L);
 		agreement.setPaymentType(7L);
@@ -34,10 +38,27 @@ public class AgreementServiceImpl implements AgreementService {
 		agreement.setDisabilityBurdens(0);
 		agreement.setMaternalLoads(0);
 
-		BSBeanUtilsSP bu = new BSBeanUtilsSP();
 		bu.save(conn, agreement);
 
 		return agreement;
+	}
+
+	private Long getPFM(Connection conn, BSBeanUtilsSP bu) {
+		List<Profile> profiles = (List<Profile>) bu.list(conn,
+				new Profile(), "pListProfile", null);
+		return profiles.get(0).getId();
+	}
+
+	private Long getProfile(Connection conn, BSBeanUtilsSP bu) {
+		List<Profile> profiles = (List<Profile>) bu.list(conn,
+				new Profile(), "pListProfile", null);
+		return profiles.get(0).getId();
+	}
+
+	private Long getContractType(Connection conn, BSBeanUtilsSP bu) {
+		List<ContractType> contractTypes = (List<ContractType>) bu.list(conn,
+				new ContractType(), "pListContractType", null);
+		return contractTypes.get(0).getId();
 	}
 
 	private Double getSalaryRoot(Connection conn) {
@@ -53,8 +74,8 @@ public class AgreementServiceImpl implements AgreementService {
 		List<BSBean> agreements = (List<BSBean>) bu.list(conn, new Agreement(),
 				"pGetAgreementByEmployee", prms);
 
-		Agreement out = agreements.size() == 0 ? null : (Agreement) agreements
-				.get(0);
+		Agreement out = agreements.size() == 0 ? getDefaultAgreement(conn,
+				idEmployee) : (Agreement) agreements.get(0);
 		return out;
 	}
 

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.framework.beans.Account;
+import cl.buildersoft.framework.beans.Agreement;
 import cl.buildersoft.framework.beans.BSBean;
 import cl.buildersoft.framework.beans.Board;
 import cl.buildersoft.framework.beans.Employee;
@@ -30,27 +31,32 @@ public class PayMode extends AbstractServletUtil {
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
 
 		List<BSBean> banks = (List<BSBean>) bu.list(conn, new Board(),
-				"pGetTboardListByType", "BANK");
+				"pListBoardByType", "BANK");
 		List<BSBean> accountTypes = (List<BSBean>) bu.list(conn, new Board(),
-				"pGetTboardListByType", "ACCOUNT_TYPE");
+				"pListBoardByType", "ACCOUNT_TYPE");
 		List<BSBean> paymentTypes = (List<BSBean>) bu.list(conn, new Board(),
-				"pGetTboardListByType", "PAYMENT_TYPE");
+				"pListBoardByType", "PAYMENT_TYPE");
 
-		Account account = getAccount(conn);
-		
+		Account account = getAccount(conn, bu, employeeId);
+
 		request.setAttribute("Banks", banks);
 		request.setAttribute("AccountTypes", accountTypes);
 		request.setAttribute("PaymentTypes", paymentTypes);
 		request.setAttribute("Employee", getEmployee(conn, bu, employeeId));
+		request.setAttribute("Account", account);
+		request.setAttribute("Agreement", getAgreement(conn, bu, employeeId));
 
 		request.getRequestDispatcher(
 				"/WEB-INF/jsp/config/employee/pay-mode.jsp").forward(request,
 				response);
 	}
 
-	private Account getAccount(Connection conn) {
-		 
-		return null;
+	private Account getAccount(Connection conn, BSBeanUtilsSP bu,
+			Long employeeId) {
+		List<Account> account = (List<Account>) bu.list(conn, new Account(),
+				"pGetAccountsForEmployeeAndTypeBoard",
+				array2List(employeeId, "BANK_ACCOUNT"));
+		return account.size() == 0? new Account() : account.get(0);
 	}
 
 	private Employee getEmployee(Connection conn, BSBeanUtilsSP bu, Long id) {
@@ -59,4 +65,13 @@ public class PayMode extends AbstractServletUtil {
 		bu.search(conn, out);
 		return out;
 	}
+	
+	public Agreement getAgreement(Connection conn, BSBeanUtilsSP bu,
+			Long idEmployee) {
+		AgreementService agreementService = new AgreementServiceImpl();
+		Agreement out = agreementService.getAgreementByEmployee(conn,
+				idEmployee);
+		return out;
+	}
+
 }

@@ -42,7 +42,7 @@ INSERT INTO tGratificationType(cName) VALUES('25% Imp. (Tope 4,75imm/12)');
 INSERT INTO tGratificationType(cName) VALUES('Sin Gratificaci&oacute;n');
 INSERT INTO tGratificationType(cName) VALUES('Gratificacion por antiguedad de años trabajados');
 
-INSERT INTO tHorary(cName) VALUES('Lun-Vie 9:00-19:00 (Almuerzo 60 min.)');
+INSERT INTO tHorary(cName) VALUES('Lun-Vie 9:00-19:00, colación 60 min.');
 
 INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'EFECTIVO', 'Efectivo');
 INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'CHEQUE', 'Cheque');
@@ -121,13 +121,16 @@ INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '3', 'Vida Tres');
 INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 
-/* Tipos de cuentas donde van a dar los fondos */
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'APV', 'APV');
+/* Tipos de cuentas donde van a dar los fondos
+APV 
+ACCT2
+COMPL_HEALTH
+*/
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'CTA_CTE', 'Cuenta Corriente');
 SET @accountType = LAST_INSERT_ID();
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'ACCT2', 'Cuenta 2');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'SAVING', 'Cuenta Ahorro');
 SET @acct2 = LAST_INSERT_ID();
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'COMPL_HEALTH', 'Complementario de Salud');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'BANK_ACCOUNT', 'Cuenta Bancaria');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'SIGHT', 'Cuenta Vista');
 
 /* APV */
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '100', 'ABN AMRO (CHILE) SEGUROS DE VIDA S.A.');
