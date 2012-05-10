@@ -7,13 +7,27 @@ public class BSTypeFactory {
 	private static final String BS = ".BS";
 
 	public static BSFieldDataType create(BSField field) {
+		/**<code>
 		BSFieldType type = field.getType();
 		
 		String classInstance = BSTypeFactory.class.getPackage().getName() + BS
 				+ type.toString();
-		
-		
-		
+		BSFieldDataType out = null;
+		try {
+			Class newClass = Class.forName(classInstance);
+			out = (BSFieldDataType) newClass.newInstance();
+		} catch (Exception e) {
+			throw new BSProgrammerException("", e.getMessage());
+		}
+		return out;
+		</code>*/
+		return create(field.getType());
+	}
+
+	public static BSFieldDataType create(BSFieldType type) {
+//		BSFieldType type = field.getType();		
+		String classInstance = BSTypeFactory.class.getPackage().getName() + BS
+				+ type.toString();
 		BSFieldDataType out = null;
 		try {
 			Class newClass = Class.forName(classInstance);
@@ -23,7 +37,7 @@ public class BSTypeFactory {
 		}
 		return out;
 	}
-
+	
 	@SuppressWarnings("rawtypes")
 	@Deprecated
 	public boolean evaluate(String evaluateData, BSField field) {

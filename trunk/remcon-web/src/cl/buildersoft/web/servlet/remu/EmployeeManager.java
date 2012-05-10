@@ -25,6 +25,7 @@ public class EmployeeManager extends BSHttpServlet {
 		
 		BSTableConfig table = initTable(request, "tEmployee");
 		table.setTitle("Listado de empleados");
+		table.setDeleteSP("pDelEmployee");
 
 		table.getField("cLastName1").setLabel("A. Paterno");
 		table.getField("cLastName2").setLabel("A. Materno");
@@ -55,9 +56,7 @@ public class EmployeeManager extends BSHttpServlet {
 		}
 		*/
 //		super.hideFields(table, noVisibleFields);
-		
-		table.getAction("DELETE").setLabel("Deshabilitar");
-		
+				
 		
 		BSAction previtionalInformation = new BSAction("PREVITIONAL",
 				BSActionType.Record);

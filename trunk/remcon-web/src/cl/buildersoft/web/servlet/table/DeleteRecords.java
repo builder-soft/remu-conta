@@ -35,23 +35,28 @@ public class DeleteRecords extends AbstractServletUtil {
 		synchronized (session) {
 			table = (BSTableConfig) session.getAttribute("BSTable");
 		}
-
-		String idField = table.getIdField().getName();
-		String sql = getSQL4Search(table, idField);
-
-		String[] values = request.getParameterValues(idField);
-
-		Connection conn = null;
 		BSmySQL mySQL = new BSmySQL();
+		Connection  conn = mySQL.getConnection(request);
+		
+		String idField = table.getIdField().getName();
+		String[] values = request.getParameterValues(idField);
+		
+		
+		if (table.getDeleteSP() != null) {
+			for (String value : values) {
+				Long id = Long.parseLong(value);
+				mySQL.callSingleSP(conn, "pDelEmployee", id);
+			}
 
-		conn = mySQL.getConnection(request);
-		for (String value : values) {
-			Long id = Long.parseLong(value);
+		} else {
+			String sql = getSQL4Search(table, idField);
 
-			mySQL.update(conn, sql, array2List(id));
+			for (String value : values) {
+				Long id = Long.parseLong(value);
+				mySQL.update(conn, sql, array2List(id));
 
+			}
 		}
-
 		request.getRequestDispatcher("/servlet/table/LoadTable").forward(
 				request, response);
 	}

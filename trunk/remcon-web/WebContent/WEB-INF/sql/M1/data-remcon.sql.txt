@@ -26,6 +26,7 @@ INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_DECIMAL',
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CSV_SEPARATOR', 'Separador de archivos csv', ';', @stringId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('RECORDS_PER_PAGE', 'Registros por p&aacute;gina', '15', @integerId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('BASE_SALARY', 'Sueldo Base', '185000', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('OVERTIME_FACTOR', 'Factor para cálculo de horas extras', '0.0777', @doubleId);
 
 INSERT INTO tRol(cName) VALUES('Administrador');
 SET @rolId = LAST_INSERT_ID();
@@ -936,8 +937,10 @@ INSERT INTO tBranch(cName, cEnterprise, cAddress, cComuna, cPhone)
 VALUES('Matriz', LAST_INSERT_ID(), 'Avenida X, numero 88', 3, '2345678');	
 
 INSERT INTO tCostCenter(cName, cBranch) VALUES('Oficina', LAST_INSERT_ID());
+SET @cc = LAST_INSERT_ID();
 
-INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Administrativo', LAST_INSERT_ID(), 180000);
+INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Administrativo', @cc, 180000);
+INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Informatico', @cc, 185000);
 
 INSERT INTO tEmployee(cRut,				cName,	cLastName1,	cLastName2,	cBirthDate,		cAddress,						cGenere,	cComuna,	cCountry,	cMaritalStatus,	cPhone, cMovil, cEmail) 
 VALUES(					'10809246-7',	'Pato',	'Aranguiz',	'Torres',	'1966-08-28',	'Fray Camilo Henriquez 2063',	2,			3,			1,			5,				'', 	'',		'');

@@ -1,0 +1,20 @@
+DROP PROCEDURE if exists remcon.pDelEmployee;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pDelEmployee(IN pEmployee BIGINT)
+BEGIN
+	DELETE
+	FROM 		remcon.tAccount
+	WHERE		cEmployee = pEmployee;
+	
+	DELETE
+	FROM 		remcon.tAgreement
+	WHERE		cEmployee = pEmployee;
+
+	DELETE
+	FROM 		remcon.tEmployee
+	WHERE		cId = pEmployee;
+END$$
+
+DELIMITER ;
+ 

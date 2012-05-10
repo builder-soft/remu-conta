@@ -1,3 +1,12 @@
+<%@page import="cl.buildersoft.framework.util.BSBeanUtilsSP"%>
+<%@page
+	import="cl.buildersoft.web.servlet.config.employee.AgreementServiceImpl"%>
+<%@page
+	import="cl.buildersoft.web.servlet.config.employee.AgreementService"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="cl.buildersoft.framework.database.BSmySQL"%>
+<%@page import="cl.buildersoft.framework.util.BSWeb"%>
+<%@page import="cl.buildersoft.framework.beans.Agreement"%>
 <%@page import="cl.buildersoft.framework.beans.Horary"%>
 <%@page import="cl.buildersoft.framework.beans.GratificationType"%>
 <%@page import="cl.buildersoft.framework.beans.ContractType"%>
@@ -10,6 +19,15 @@
 
 <%
 	Employee empl = (Employee) request.getAttribute("Employee");
+	Agreement agreement = (Agreement) request.getAttribute("Agreement");
+	if (agreement == null) {
+		BSmySQL mysql = new BSmySQL();
+		Connection conn = mysql.getConnection(request);
+
+		AgreementService agreementService = new AgreementServiceImpl();
+		agreement = agreementService.getDefaultAgreement(conn, empl.getId());
+	}
+
 	List<Profile> profiles = (List<Profile>) request
 			.getAttribute("Profiles");
 	List<ContractType> contractTypes = (List<ContractType>) request
@@ -36,17 +54,20 @@
 	</tr>
 </table>
 <br>
-<form action="">
+<form
+	action="${pageContext.request.contextPath}/servlet/config/employee/SaveContractualInfo">
 	<input type="hidden" name="cId" value="<%=empl.getId()%>">
 
-	<table border="1">
+	<table border="0">
 		<tr>
 			<td class="cLabel">Cargo:</td>
 			<td><select name="cProfile">
 					<%
 						for (Profile profile : profiles) {
 					%>
-					<option value="<%=profile.getId()%>"><%=profile.getName()%></option>
+					<option value="<%=profile.getId()%>"
+						<%=profile.getId().equals(agreement.getProfile()) ? "selected"
+						: ""%>><%=profile.getName()%></option>
 					<%
 						}
 					%>
@@ -56,7 +77,9 @@
 					<%
 						for (ContractType contractType : contractTypes) {
 					%>
-					<option value="<%=contractType.getId()%>"><%=contractType.getName()%></option>
+					<option value="<%=contractType.getId()%>"
+						<%=contractType.getId().equals(
+						agreement.getContractType()) ? "selected" : ""%>><%=contractType.getName()%></option>
 					<%
 						}
 					%>
@@ -64,9 +87,11 @@
 		</tr>
 		<tr>
 			<td class="cLabel">Inicio Contrato:</td>
-			<td class="cData"><input type="text" name="cStartContract">(<%=dateFormat%>)</td>
+			<td class="cData"><input type="text" name="cStartContract"
+				value="<%=BSWeb.date2String(request, agreement.getStartContract())%>">(<%=dateFormat%>)</td>
 			<td class="cLabel">Término Contrato:</td>
-			<td class="cData"><input type="text" name="cEndContract">(<%=dateFormat%>)</td>
+			<td class="cData"><input type="text" name="cEndContract"
+				value="<%=BSWeb.date2String(request, agreement.getEndContract())%>">(<%=dateFormat%>)</td>
 		</tr>
 		<tr>
 			<td class="cLabel">Gratificación:</td>
@@ -74,7 +99,9 @@
 					<%
 						for (GratificationType gratificationType : gratificationTypes) {
 					%>
-					<option value="<%=gratificationType.getId()%>"><%=gratificationType.getName()%></option>
+					<option value="<%=gratificationType.getId()%>"
+						<%=gratificationType.getId().equals(
+						agreement.getGratificationType()) ? "selected" : ""%>><%=gratificationType.getName()%></option>
 					<%
 						}
 					%>
@@ -85,32 +112,31 @@
 					<%
 						for (Horary horary : horaries) {
 					%>
-					<option value="<%=horary.getId()%>"><%=horary.getName()%></option>
+					<option value="<%=horary.getId()%>"
+						<%=horary.getId().equals(agreement.getHorary()) ? "selected"
+						: ""%>><%=horary.getName()%></option>
 					<%
 						}
 					%>
 			</select></td>
 		</tr>
 		<tr>
-			<td class="cLabel">Factor H.E.:</td>
-			<td>&nbsp;</td>
-			<td class="cLabel">Sueldo Base:</td>
-			<td><input type="text" name="cSalaryRoot"></td>
-		</tr>
-		<tr>
 			<td class="cLabel">Colación:</td>
-			<td><input type="text" name="cFeeding"></td>
+			<td><input type="text" name="cFeeding"
+				value="<%=agreement.getFeeding()%>"></td>
 			<td class="cLabel">Movilización:</td>
-			<td><input type="text" name="cMobilization"></td>
+			<td><input type="text" name="cMobilization"
+				value="<%=agreement.getMobilization()%>"></td>
 		</tr>
 		<tr>
-			<td class="cLabel">Meses cotizados:</td>
-			<td colspan="3"><input type="text" name="XXXXXXXXX"></td>
+			<td class="cLabel">Sueldo Base:</td>
+			<td colspan="3"><input type="text" name="cSalaryRoot"
+				value="<%=agreement.getSalaryRoot()%>"></td>
 		</tr>
 
 	</table>
-<br>
-	<input type="submit" value="Aceptar" disabled>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/servlet/remu/EmployeeManager">Cancelar</a>
+	<br> <input type="submit" value="Aceptar">&nbsp;&nbsp;<a
+		href="${pageContext.request.contextPath}/servlet/remu/EmployeeManager">Cancelar</a>
 </form>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
