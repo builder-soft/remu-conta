@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS tUser (
 	cAdmin		BIT			NOT NULL DEFAULT 0	COMMENT 'Este campo indica si tiene accedo de administrador, de manera de poder modificar usuarios de todos los dominios'
 ) ENGINE=innoDB;
 
-/* Tabla con el listado de dominios posibles, cabe señanar que por cada dominio que sea 
+/* Tabla con el listado de dominios posibles, cabe seÃ±anar que por cada dominio que sea 
 creado, debe existir una base de datos. El nombre de la base de datos, debe coincidir con 
 el valor puesto en la columna cAlias de esta tabla.
 */
@@ -36,14 +36,14 @@ CREATE TABLE IF NOT EXISTS tDomain (
 	cAlias		VARCHAR(15) NULL	
 ) ENGINE=innoDB;
 
-/* En esta tabla, se guarda la relación para determinar a que dominios puede acceder un usuario */
+/* En esta tabla, se guarda la relaciï¿½n para determinar a que dominios puede acceder un usuario */
 CREATE TABLE IF NOT EXISTS tR_UserDomain (
 	cUser		BIGINT  NOT NULL,
 	cDomain		BIGINT  NOT NULL	
 ) ENGINE=innoDB;
 
 /* Aqui se guardan atributos adicionales para cada dominio, en un inicio, se guardan los datos 
-de conección a la base de datos para cada uno de ellos*/
+de conecciÃ³n a la base de datos para cada uno de ellos*/
 CREATE TABLE IF NOT EXISTS tDomainAttribute (
 	cId			BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	cDomain		BIGINT  NOT NULL,

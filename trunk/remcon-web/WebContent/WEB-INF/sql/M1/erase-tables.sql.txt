@@ -38,7 +38,11 @@ DROP TABLE IF EXISTS remcon.tRol;
 DROP TABLE IF EXISTS remcon.tFile;
 DROP TABLE IF EXISTS remcon.tFileCategory;
 
+DROP TABLE IF EXISTS remcon.tBook;
+DROP TABLE IF EXISTS remcon.tPeriod;
+
 DROP TABLE IF EXISTS bsframework.tR_UserDomain;
 DROP TABLE IF EXISTS bsframework.tDomainAttribute;
 DROP TABLE IF EXISTS bsframework.tUser;
 DROP TABLE IF EXISTS bsframework.tDomain;
+

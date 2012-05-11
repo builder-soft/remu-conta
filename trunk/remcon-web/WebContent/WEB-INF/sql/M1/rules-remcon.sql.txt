@@ -129,3 +129,9 @@ ALTER TABLE remcon.tFile
 ADD INDEX `fileCategory_index` (`cCategory` ASC),
 ADD CONSTRAINT withCategory FOREIGN KEY (cCategory) REFERENCES remcon.tFileCategory(cId);
 
+
+/* BOOK */
+ALTER TABLE remcon.tBook
+ADD INDEX Book_index_Period (cPeriod ASC),
+ADD CONSTRAINT BookToPeriod FOREIGN KEY (cPeriod) REFERENCES remcon.tPeriod(cId);
+

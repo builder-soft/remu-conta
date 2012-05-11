@@ -457,8 +457,8 @@ public class BSTableConfig {
 			field.setType(BSFieldType.Integer);
 		} else {
 			throw new BSProgrammerException("0110",
-					"No est· catalogado el tipo " + typeName
-							+ ", verifique mÈtodo BSTableConfig.setRealType()");
+					"No est√° catalogado el tipo " + typeName
+							+ ", verifique m√©todo BSTableConfig.setRealType()");
 		}
 	}
 

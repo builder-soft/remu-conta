@@ -74,7 +74,7 @@ public abstract class BSCSVServlet extends AbstractServletUtil {
 				if (headers.length == 1) {
 					throw new BSUserException(
 							"",
-							"Aparentemente el archivo no está correctamente definido, puede verificar el caracter de separación cvs, debe ser '"
+							"Aparentemente el archivo no estÃ¡ correctamente definido, puede verificar el caracter de separaciï¿½n cvs, debe ser '"
 									+ separator + "'");
 				}
 				List<Map<String, BSData>> allData = new ArrayList<Map<String, BSData>>();

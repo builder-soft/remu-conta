@@ -7,7 +7,7 @@ OK(usar clase BSBeanUtils)- **Graba AFP e Isapre, hace update en la tabla tAgree
 OK (Se usa el SP pGetAgreement)- Consulta isapre y afp del employee(employee)
 OK (el SP es pGetAccountsForEmployee)- Consulta tAccount del employee. ordenado por tipo + moneda(employee, tipoCuenta)
 OK (el SP se llama pGetAgreement)- Consulta Contrato Previsional, que son algunos campos de tAgreement(Employee)
-OK(usar clase BSBeanUtils)- Grabar datos contrato Previsional(Employee, caja ex-regimen, cotizacion en %, ¿Isapre?, ¿AFP?, ¿Tramo de Fonasa?, 
+OK(usar clase BSBeanUtils)- Grabar datos contrato Previsional(Employee, caja ex-regimen, cotizacion en %, Â¿Isapre?, Â¿AFP?, Â¿Tramo de Fonasa?, 
 Cargas Simples, Cargas Invalidez, Cargas Maternales, Jubilado, Seguro Cesantia)
 OK (el SP es pDelAccount)- Borre todas las Account asociadas al employee(Employee, tipo=APV)
 

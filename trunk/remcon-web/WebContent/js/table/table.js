@@ -44,7 +44,7 @@ function fDelete() {
 	var count = elements.size();
 
 	var elementoString = elements.size() == 1 ? ' elemento' : ' elementos';
-	if (confirm('¿Esta seguro de querer borrar ' + elements.size()
+	if (confirm('Â¿Esta seguro de querer borrar ' + elements.size()
 			+ elementoString + '?')) {
 		$('#frm').submit();
 	}

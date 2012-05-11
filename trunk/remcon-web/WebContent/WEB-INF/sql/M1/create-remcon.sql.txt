@@ -139,7 +139,7 @@ create table tEnterprise (
 	cComuna				BIGINT(20) NOT NULL,
 	cPhone				VARCHAR(10),
 	cMutual				BIGINT(20) NOT NULL,
-	cMutualFactor		DOUBLE COMMENT 'Factor de Mutual, var�a de empresa en empresa',
+	cMutualFactor		DOUBLE COMMENT 'Factor de Mutual, varía de empresa en empresa',
 	cCompensationFund	BIGINT(20) NOT NULL COMMENT 'Caja de compensacion',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
@@ -196,11 +196,6 @@ En esta tabla se graban para cada Employee:
 create table tAccount (
 	cId				BIGINT(20) NOT NULL auto_increment,
 	cEmployee		BIGINT(20) NOT NULL, 
-/*
-	cName			VARCHAR(50), No es necesario este campo, para ver una 
-								descripci�n, hay usar el campo cIntitution 
-								para llegar a otra tabla
-*/  
 	cInstitution	BIGINT(20) NOT NULL,
 	cAccountType	BIGINT(20) NOT NULL,
 	cNumber			VARCHAR(15),
@@ -223,35 +218,43 @@ create table tHorary(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-
-/*************************************
+/**
+La tabla tPeriod sirve para identificar los períodos para los cuales existe cálculo, y 
+los parámetros que aplican en forma general.
+*/
 create table tPeriod(
-	cId			BIGINT(20) NOT NULL auto_increment,
-	cDate		DATE NOT NULL,
-	cUF
-	cFactorHorasExtra COMMENT 'Para calcular las horas extras, puede ser 0.07777 o 0.0333';
+	cId					BIGINT(20) NOT NULL auto_increment,
+	cDate				DATE 	NOT NULL,
+	cUF					DOUBLE	NOT NULL,
+	cOvertimeFactor		DOUBLE COMMENT 'Para calcular las horas extras, puede ser 0.07777 o 0.0333',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+/*
+Esta tabla tiene todos los empleados agrupados por período.
+*/
 create table tBook(
 	cId					BIGINT(20) NOT NULL auto_increment,
-	cPeriod				BIGINT(20) NOT NULL,
-	cEmployee			BIGINT(20) NOT NULL,
+	cPeriod				BIGINT(20) NOT NULL COMMENT 'Enlace con la tabla tPeriod',
+	cEmployee			BIGINT(20) NOT NULL COMMENT 'Empleado',
 	cHorary				BIGINT(20) NOT NULL COMMENT 'Tipo de jornada: part-time / full-time',
-	cWorkDays			INTEGER,
-	cSualdoBase			BIGINT(20) NOT NULL,
-	cCantidadHorasExtras
+	cWorkDays			INTEGER NOT NULL DEFAULT '30' COMMENT 'Días trabajados',
+	cSalaryRoot			BIGINT(20) NOT NULL COMMENT 'Sueldo Base',
+	cOvertime			INTEGER	NOT NULL DEFAULT '0' COMMENT 'Cantidad Horas Extras',
+	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+/*************************************
 Tabla del libro con los Haberes
+
 create table tBookAssets(
-	cId					BIGINT(20) NOT NULL auto_increment,
-	cBook				BIGINT(20) NOT NULL,
-	cTipoGratification	BIGINT(20) NOT NULL,
-	cTramoAsignacionFamiliar
-	cMontoGratificacion
-	cMontoHorasExtras
-	cParticipation
+	cId							BIGINT(20) NOT NULL auto_increment,
+	cBook						BIGINT(20) NOT NULL,
+	cGratificationType			BIGINT(20) NOT NULL COMMENT 'Tipo de Gratificación',
+	cFamilyAssignmentStretch	COMMENT 'Tramo Asignacion Familiar',
+	cRewardAmount				COMMENT 'Monto Gratificacion',
+	cOvertimeAmount				COMMENT 'Monto Horas Extras',
+	cParticipation				DOUBLE COMMENT 'Esta es un valor que aplica cuando el empleado tiene participacion en una empresa'
 	cB01
 	cB02
 	cB03
@@ -262,20 +265,20 @@ create table tBookAssets(
 	cB08
 	cB09
 	cB10
-	cOtrosHaberes
-	cAguinaldo
-	cOtrosHaberesImponibles
-	cCargas						Integer
-	cValorPorCargas
+	cOtherIncome				COMMENT 'Otros Haberes',
+	cExtraPay					COMMENT 'Aguinaldo',
+	cOtherIncomeTaxable			COMMENT 'Otros Haberes Imponibles',
+	cFamilyAssignment			INTEGER COMMENT 'Cargas Familiares',
+	cFamilyAssignmentAmount 		COMMENT 'Monto Por Cargas',
 	cFamiliarRetroactivo
-	cFood
-	cMovilizacion
-	cViaticos
-	cOtrosNoImponibles
-	cMesDeAviso
-	cIAS 					COMMENT 'Indemnisacion a�os de servicio'
-	cFeriadoProporcional
-	cIndemnisacionVoluntaira
+	cFeeding						COMMENT 'Colación',
+	cMobilization					COMMENT 'Movilización',
+	cBounty               			COMMENT 'Viaticos',
+	cOtherNoTaxable     			COMMENT 'Otros No Imponibles',
+	cMonthNotification				COMMENT 'Mes'De'Aviso',
+	cIAS 							COMMENT 'Indemnisacion años de servicio'
+	cProportionalHoliday			COMMENT 'Feriado Proporcional',
+	cVoluntaryindenmization			COMMENT 'Indemnisacion Voluntaira'
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -284,12 +287,12 @@ create table tBookDiscounts(
 	cBook				BIGINT(20) NOT NULL,
 	cAFPCodigo
 	cAFPSeguroObligatorio
-	cAVP					COMMENT 'Monto APV'
-	cCuenta2				COMMENT 'Cuenta 2, Ahorro AFP'
-	cTopeImponiblePrevisional
-	cTopeImponibleSeguroCesantia
-	cHealthCode				COMMENT 'Codigo de sistema de salud'
-	cTipoPlanHealth			COMMENT 'UF, %'
+	cAVPAmount					COMMENT 'Monto APV',
+	cCuenta2				COMMENT 'Cuenta 2, Ahorro AFP',
+	cCeillingTaxableForecast	COMMENT 'Tope Imponible Previsional',
+	cCeilingTaxableDismissEnsurance	COMMENT 'Tope Imponible Seguro Cesantia',
+	cHealth					COMMENT 'Codigo de sistema de salud',
+	cTipoPlanHealth			COMMENT 'UF o %'
 	cPlanPactadoHealth		COMMENT 'Monto pactado, puedes ser en uf's o %'
 	cPlanPactadoHealthPS	COMMENT 'Plan en pesos'
 	cCotizacionLegal
@@ -307,17 +310,25 @@ create table tBookDiscounts(
 ) ENGINE=InnoDB;
 
 EN LA VISTA:
-	*TotalHaberesImponibles
-	*RentaAfecta
-	*TotalHaberesNoImponibles
-	*TotalHaberes
-	*CotizacionAdicional
-	*SubtotalDescuentosLegales
-	*SubTotalOtrosDescuentos
-	*TotalDescuentos
-	*AlcanceLiquido
-	*SueldoGanado
-	*LiquidoPagar
+DROP VIEW IF EXISTS vBook;
+CREATE VIEW vBook
+AS
+SELECT a.*, b.*, c.*,
+	cTotalIncomeNoTaxable,		/* Total Haberes Imponibles * /
+	cIncome                            /* Renta Afecta * /,
+	cTotalIncomeNoTaxable			/* Total Haberes No Imponibles * /,
+	cTotalIncome					/* Total Haberes * /,
+	*CotizacionAdicional			/*  * /,
+	*SubtotalDescuentosLegales,
+	*SubTotalOtrosDescuentos,
+	*TotalDescuentos,
+	*AlcanceLiquido,
+	*SueldoGanado,
+	*LiquidoPagar,
+FROM	remcon.tBook AS a
+LEFT JOIN remcon.tBookAssets AS b ON b.cBook = a.cId
+LEFT JOIN remcon.tBookDiscounts AS c ON ON c.cBook = a.cId;
+
 
 **************************************/
 

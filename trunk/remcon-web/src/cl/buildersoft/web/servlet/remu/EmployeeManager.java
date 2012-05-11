@@ -16,13 +16,7 @@ public class EmployeeManager extends BSHttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
-//		BSTableConfig table = new BSTableConfig("remu", "tEmployee");
-//		BSmySQL mysql = new BSmySQL();
-//		Connection conn = mysql.getConnection(request.getServletContext(),
-//				"remu");
-//		table.configFields(conn, mysql);
-		
+	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {		
 		BSTableConfig table = initTable(request, "tEmployee");
 		table.setTitle("Listado de empleados");
 		table.setDeleteSP("pDelEmployee");
@@ -31,43 +25,21 @@ public class EmployeeManager extends BSHttpServlet {
 		table.getField("cLastName2").setLabel("A. Materno");
 		table.getField("cName").setLabel("Nombre");
 		table.getField("cBirthDate").setLabel("Nacimiento");
-		table.getField("cAddress").setLabel("Dirección");
-		table.getField("cGenere").setLabel("Género");
+		table.getField("cAddress").setLabel("DirecciÃ³n");
+		table.getField("cGenere").setLabel("GÃ©nero");
 		table.getField("cCountry").setLabel("Nacionalidad");
 		table.getField("cMaritalStatus").setLabel("Estado Civil");
-		//table.getField("cContractType").setLabel("Tipo de contrato");
-		//table.getField("cStartContract").setLabel("Fecha ingreso");
-		//table.getField("cEndContract").setLabel("Fecha fin");
-		//table.getField("cProfile").setLabel("Perfil");
-		//table.getField("cPFM").setLabel("AFP");
-		//table.getField("cHealth").setLabel("Isapre");
-		//table.getField("cGratificationType").setLabel("Tipo de gratificacion");
-		//table.getField("cPaymentType").setLabel("Tipo de pago");
-		//table.getField("cMobilization").setLabel("Movilizacion");
-
-		//table.removeField("cPFM");
-		
-		
-//		String[] noVisibleFields = { "cCountry", "cMaritalStatus", "cProfile", "cEmail", "cMovil", "cPhone", "cComuna",
-//				"cAddress", "cBirthDate", "cGratificationType", "cFeeding", "cMobilization"};
-		/**
-		for (String fieldName : noVisibleFields) {
-			table.getField(fieldName).setVisible(false);
-		}
-		*/
-//		super.hideFields(table, noVisibleFields);
-				
 		
 		BSAction previtionalInformation = new BSAction("PREVITIONAL",
 				BSActionType.Record);
-		previtionalInformation.setLabel("Información Previsional");
+		previtionalInformation.setLabel("InformaciÃ³n Previsional");
 //		previtionalInformation.setUrl("/servlet/ShowParameters");
 		previtionalInformation.setUrl("/servlet/table/EmployeeInformation");
 		table.addAction(previtionalInformation);
 
 		BSAction contractualInfo = new BSAction("CONTRACTUAL",
 				BSActionType.Record);
-		contractualInfo.setLabel("Información Contractual");
+		contractualInfo.setLabel("InformaciÃ³n Contractual");
 		contractualInfo.setUrl("/servlet/config/employee/ContractualInfo");
 		table.addAction(contractualInfo);
 

@@ -55,7 +55,7 @@ public class UserManager extends HttpServlet {
 		BSField field = null; field = new BSField("cId", "ID");
 		table.addField(field);
 		 
-		field = new BSField("cMail", "Correo electrónico/usuario");
+		field = new BSField("cMail", "Correo electrÃ³nico/usuario");
 		field.setValidationOnBlur("validationUser"); table.addField(field);
 		  
 		field = new BSField("cName", "Nombre"); table.addField(field);
