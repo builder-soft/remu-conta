@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.admin.user;
+package cl.buildersoft.web.servlet.system.user;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,7 +16,7 @@ import cl.buildersoft.framework.database.BSmySQL;
 /**
  * Servlet implementation class UserEdit
  */
-@WebServlet("/servlet/admin/user/UserEdit")
+@WebServlet("/servlet/system/user/UserEdit")
 public class UserEdit extends HttpServlet {
 
 	private static final long serialVersionUID = -6306199091852899234L;
@@ -41,7 +41,7 @@ public class UserEdit extends HttpServlet {
 
 		request.setAttribute("User", user);
 
-		request.getRequestDispatcher("/WEB-INF/jsp/admin/user/user-form.jsp")
+		request.getRequestDispatcher("/WEB-INF/jsp/system/user/user-form.jsp")
 				.forward(request, response);
 
 	}

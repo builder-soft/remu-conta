@@ -21,7 +21,7 @@
 <h1 class="cTitle">Datos de usuario</h1>
 
 <form
-	action="${pageContext.request.contextPath}/servlet/admin/user/UserSave"
+	action="${pageContext.request.contextPath}/servlet/system/user/UserSave"
 	method="post">
 
 	<!-- 
@@ -55,7 +55,7 @@
 
 	</table>
 	<input type="submit" value="Aceptar">
-	<a href="${pageContext.request.contextPath}/servlet/admin/user/UserManager">Cancelar..</a>
+	<a href="${pageContext.request.contextPath}/servlet/system/user/UserManager">Cancelar..</a>
 </form>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

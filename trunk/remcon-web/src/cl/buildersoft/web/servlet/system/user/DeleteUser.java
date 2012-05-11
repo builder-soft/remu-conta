@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.admin.user;
+package cl.buildersoft.web.servlet.system.user;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.framework.database.BSmySQL;
 
-@WebServlet("/servlet/admin/user/DeleteUser")
+@WebServlet("/servlet/system/user/DeleteUser")
 public class DeleteUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,7 @@ public class DeleteUser extends HttpServlet {
 			mysql.callSingleSP(conn, "pDelUser", id);
 		}
 		mysql.closeSQL();
-		request.getRequestDispatcher("/servlet/admin/user/UserManager")
+		request.getRequestDispatcher("/servlet/system/user/UserManager")
 				.forward(request, response);
 	}
 

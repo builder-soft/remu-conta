@@ -17,7 +17,7 @@
 
 
 <form id="frm"
-	action="${pageContext.request.contextPath}/servlet/admin/user/DeleteUser"
+	action="${pageContext.request.contextPath}/servlet/system/user/DeleteUser"
 	method="post">
 	<!-- 
 <form id="frm" action="${pageContext.request.contextPath}/servlet/ShowParameters" method="post">
@@ -74,7 +74,7 @@
 
 <div id='RecordActions' style='float: left; display: none;'>
 	<input type='button' value='Modificar' id='oEdit'
-		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/admin/user/UserEdit", "EDIT");'>
+		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/user/UserEdit", "EDIT");'>
 		
 	<input type='button' value='Cambiar Clave' id='oCh_pass'
 		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/admin/SearchPassword", "CH_PASS");'>
