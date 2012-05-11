@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.admin.user;
+package cl.buildersoft.web.servlet.system.user;
 
 import java.io.IOException;
 
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/servlet/admin/user/UserNew")
+@WebServlet("/servlet/system/user/UserNew")
 public class UserNew extends HttpServlet {
 	private static final long serialVersionUID = 1073693533198008317L;
 
@@ -16,7 +16,7 @@ public class UserNew extends HttpServlet {
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		request.getRequestDispatcher("/WEB-INF/jsp/admin/user/user-form.jsp")
+		request.getRequestDispatcher("/WEB-INF/jsp/system/user/user-form.jsp")
 				.forward(request, response);
 	}
 }

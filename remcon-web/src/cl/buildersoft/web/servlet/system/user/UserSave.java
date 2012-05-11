@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.admin.user;
+package cl.buildersoft.web.servlet.system.user;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -19,7 +19,7 @@ import cl.buildersoft.framework.database.BSmySQL;
 /**
  * Servlet implementation class UserSave
  */
-@WebServlet("/servlet/admin/user/UserSave")
+@WebServlet("/servlet/system/user/UserSave")
 public class UserSave extends HttpServlet {
 	private static final long serialVersionUID = 2626535852650186256L;
 
@@ -65,7 +65,7 @@ public class UserSave extends HttpServlet {
 		mysql.callSingleSP(conn, "pSetUserSave", prms);
 </code>
 		 */
-		request.getRequestDispatcher("/servlet/admin/user/UserManager")
+		request.getRequestDispatcher("/servlet/system/user/UserManager")
 				.forward(request, response);
 
 	}

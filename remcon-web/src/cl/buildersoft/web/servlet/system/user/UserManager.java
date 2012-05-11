@@ -1,11 +1,16 @@
-package cl.buildersoft.web.servlet.admin.user;
+package cl.buildersoft.web.servlet.system.user;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import cl.buildersoft.framework.beans.User;
@@ -15,7 +20,7 @@ import cl.buildersoft.framework.util.BSConfig;
 /**
  * Servlet implementation class UserManager
  */
-@WebServlet("/servlet/admin/user/UserManager")
+@WebServlet("/servlet/system/user/UserManager")
 public class UserManager extends HttpServlet {
 	private static final long serialVersionUID = -3497399350893131897L;
 
@@ -24,7 +29,7 @@ public class UserManager extends HttpServlet {
 
 	}
 
-/**<code>
+
 	@Override
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -39,11 +44,11 @@ public class UserManager extends HttpServlet {
 
 		request.setAttribute("Data", rs);
 
-		request.getRequestDispatcher("/WEB-INF/jsp/admin/user/user-list.jsp")
+		request.getRequestDispatcher("/WEB-INF/jsp/system/user/user-list.jsp")
 				.forward(request, response);
 	}
-
-	/**
+	/**<code>
+	/ * *
 	 * <code>
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
 		BSTableConfigSP table = new BSTableConfigSP("bsframework",

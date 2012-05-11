@@ -5,7 +5,7 @@
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 <%
 	String nextAction = "/servlet/admin/ChangePassword";
-	String cancelAction = "/servlet/admin/UserManager";
+	String cancelAction = "/servlet/system/UserManager";
 	Boolean passwordIsNull = (Boolean) request
 			.getAttribute("PASS_IS_NULL");
 
