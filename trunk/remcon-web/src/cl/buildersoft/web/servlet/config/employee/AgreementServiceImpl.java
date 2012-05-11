@@ -7,7 +7,10 @@ import java.util.List;
 
 import cl.buildersoft.framework.beans.Agreement;
 import cl.buildersoft.framework.beans.BSBean;
+import cl.buildersoft.framework.beans.Board;
 import cl.buildersoft.framework.beans.ContractType;
+import cl.buildersoft.framework.beans.GratificationType;
+import cl.buildersoft.framework.beans.Horary;
 import cl.buildersoft.framework.beans.Profile;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.framework.util.BSConfig;
@@ -28,10 +31,10 @@ public class AgreementServiceImpl implements AgreementService {
 		agreement.setContractType(getContractType(conn, bu));
 		agreement.setProfile(getProfile(conn, bu));
 		agreement.setPfm(getPFM(conn, bu));
-		agreement.setHealth(40L);
-		agreement.setGratificationType(2L);
-		agreement.setPaymentType(7L);
-		agreement.setHorary(1L);
+		agreement.setHealth(getHealth(conn, bu));
+		agreement.setGratificationType(getGratificationType(conn, bu));
+		agreement.setPaymentType(getPaymentType(conn, bu));
+		agreement.setHorary(getHorary(conn, bu));
 		agreement.setAdditionalHealthCLP(0D);
 		agreement.setAdditionalHealthUF(0D);
 		agreement.setSimpleLoads(0);
@@ -41,6 +44,31 @@ public class AgreementServiceImpl implements AgreementService {
 		bu.save(conn, agreement);
 
 		return agreement;
+	}
+
+	private Long getHorary(Connection conn, BSBeanUtilsSP bu) {
+		List<Horary> horary= (List<Horary>) bu.list(conn,
+				new Horary(), "pListHorary", null);
+		return horary.get(0).getId();
+	}
+
+	private Long getPaymentType(Connection conn, BSBeanUtilsSP bu) {
+		List<Board> paymentType = (List<Board>) bu.list(conn,
+				new Board(), "pListBoardByType", "PAYMENT_TYPE");
+		return paymentType.get(0).getId();
+		
+	}
+
+	private Long getGratificationType(Connection conn, BSBeanUtilsSP bu) {
+		List<GratificationType> gratificationType = (List<GratificationType>) bu.list(conn,
+				new GratificationType(), "pListGratificationType", null);
+		return gratificationType.get(0).getId();
+	}
+
+	private Long getHealth(Connection conn, BSBeanUtilsSP bu) {
+		List<Board> health = (List<Board>) bu.list(conn,
+				new Board(), "pListBoardByType", "HEALTH");
+		return health.get(0).getId();
 	}
 
 	private Long getPFM(Connection conn, BSBeanUtilsSP bu) {

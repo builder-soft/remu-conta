@@ -7,8 +7,6 @@ public class Board extends BSBean {
 	private String key = null;
 	private String value = null;
 	private Boolean enable = null;
-	private Integer order = null;
-	private Boolean byDefault = null;
 
 	public String getType() {
 		return type;
@@ -46,22 +44,6 @@ public class Board extends BSBean {
 	public String toString() {
 		return "Board [type=" + type + ", key=" + key + ", value=" + value
 				+ ", enable=" + enable + "]";
-	}
-
-	public Integer getOrder() {
-		return order;
-	}
-
-	public void setOrder(Integer order) {
-		this.order = order;
-	}
-
-	public Boolean getByDefault() {
-		return byDefault;
-	}
-
-	public void setByDefault(Boolean byDefault) {
-		this.byDefault = byDefault;
 	}
 
 }

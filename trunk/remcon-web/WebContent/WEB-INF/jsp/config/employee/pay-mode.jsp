@@ -1,5 +1,5 @@
+<%@page import="cl.buildersoft.framework.beans.Account2"%>
 <%@page import="cl.buildersoft.framework.beans.Agreement"%>
-<%@page import="cl.buildersoft.framework.beans.Account"%>
 <%@page import="cl.buildersoft.framework.beans.Board"%>
 <%@page import="cl.buildersoft.framework.beans.Employee"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -13,34 +13,45 @@
 			.getAttribute("AccountTypes");
 	List<Board> paymentTypes = (List<Board>) request
 			.getAttribute("PaymentTypes");
-	Account account = (Account) request.getAttribute("Account");
+	Account2 account = (Account2) request.getAttribute("Account");
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 
 <h1 class="cTitle">Forma de Pago</h1>
 
-<table>
-	<tr>
-		<td class="cLabel">RUT:</td>
-		<td class="cData"><%=empl.getRut()%></td>
-	</tr>
-	<tr>
-		<td class="cLabel">Empleado:</td>
-		<td class="cData"><%=empl.getName() + " " + empl.getLastName1() + " "
-					+ empl.getLastName2()%></td>
-	</tr>
-</table>
-<br>
- 
-<span class="cLabel"> <%=agreement.toString()%>
-
+<!-- 
+<span class="cData"> <%=account.toString()%>
 </span>
-<form>
-	<table>
+<hr>
+<span class="cData"> <%=agreement.toString()%>
+</span>
+ -->
+ 
+<form
+	action="${pageContext.request.contextPath}/servlet/config/employee/SavePayMode">
+	<!-- 
+	action="${pageContext.request.contextPath}/servlet/ShowParameters">
+	 -->
+
+	<input type="hidden" name="cId" value="<%=empl.getId()%>">
+
+	<table border=0>
+		<tr>
+			<td class="cLabel">RUT:</td>
+			<td class="cData"><%=empl.getRut()%></td>
+		</tr>
+		<tr>
+			<td class="cLabel">Empleado:</td>
+			<td class="cData"><%=empl.getName() + " " + empl.getLastName1() + " "
+					+ empl.getLastName2()%></td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+		</tr>
 		<tr>
 			<td class="cLabel">Modo de pago:</td>
-			<td><select name="cPaymentTypes">
+			<td><select name="cPaymentType">
 					<%
 						for (Board paymentType : paymentTypes) {
 					%>
@@ -53,13 +64,14 @@
 			</select></td>
 		</tr>
 		<tr>
-
 			<td class="cLabel">Banco:</td>
 			<td><select name="cBank">
 					<%
 						for (Board bank : banks) {
 					%>
-					<option value="<%=bank.getId()%>"><%=bank.getValue()%></option>
+					<option value="<%=bank.getId()%>"
+						<%=bank.getId().equals(account.getInstitution()) ? "selected"
+						: ""%>><%=bank.getValue()%></option>
 					<%
 						}
 					%>
@@ -67,21 +79,26 @@
 		</tr>
 		<tr>
 			<td class="cLabel">Número de Cuenta:</td>
-			<td><input></td>
+			<td class="cData"><input name="cNumber"
+				value="<%=account.getNumber()%>"></td>
 		</tr>
 		<tr>
-
 			<td class="cLabel">Tipo de cuenta:</td>
-			<td><select name="cBank">
+
+			<td class="cData"><select name="cAccountType">
 					<%
 						for (Board accountType : accountTypes) {
 					%>
-					<option value="<%=accountType.getId()%>"><%=accountType.getValue()%></option>
+					<option value="<%=accountType.getId()%>" <%=accountType.getId()
+						.equals(account.getAccountType()) ? "selected" : ""%>><%=accountType.getValue()%></option>
 					<%
 						}
 					%>
-			</select></td>
+			</select>(Pesos Chilenos)</td>
 		</tr>
+	</table>
+	<br> <input type="submit" value="Aceptar">&nbsp;&nbsp; <a
+		href="${pageContext.request.contextPath}/servlet/remu/EmployeeManager">Cancelar</a>
 
-		</form>
-		<%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
+</form>
+<%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

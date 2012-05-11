@@ -38,8 +38,8 @@ INSERT INTO tR_UserRol(cUser, cRol) VALUES(@userId, @rolId);
 INSERT INTO tContractType (cName, cBody) VALUES('Indefinido', '');
 INSERT INTO tContractType (cName, cBody) VALUES('Plazo fijo', '');
 
-INSERT INTO tGratificationType(cName) VALUES('25% Imp. (Tope 4,75imm/12)');
 INSERT INTO tGratificationType(cName) VALUES('Sin Gratificaci&oacute;n');
+INSERT INTO tGratificationType(cName) VALUES('25% Imp. (Tope 4,75imm/12)');
 INSERT INTO tGratificationType(cName) VALUES('Gratificacion por antiguedad de años trabajados');
 
 INSERT INTO tHorary(cName) VALUES('Lun-Vie 9:00-19:00, colación 60 min.');
@@ -96,6 +96,8 @@ INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '0', 'Sin AFP');
 INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '0', '0');
 
 /* Isapres */
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '7', 'Fonasa');
+INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '1', 'Banmédica');
 INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '4', 'Colmena');
@@ -105,8 +107,6 @@ INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '5', 'Cruz Blanca');
 INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '10', 'Ferrosalud');
-INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '7', 'Fonasa');
 INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '12', 'Fundación');
 INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
@@ -371,8 +371,6 @@ INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','37','SANTANDER-CHILE');
 INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','14','SCOTIABANKSUDAMERICANO');
 INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','49','SECURITY');
 INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','45','THEBANKOFTOKYO-MITSUBISHIUFJ,LTD.');
-
-
 
 INSERT INTO `tComuna` (`cName`,`cRegion`,`cPrioridad`) VALUES ('Alto Hospicio',1,0);
 INSERT INTO `tComuna` (`cName`,`cRegion`,`cPrioridad`) VALUES ('Camina',1,0);

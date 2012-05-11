@@ -90,7 +90,7 @@ public class EmployeeInformation extends AbstractServletUtil {
 		List<Object> parameter = new ArrayList<Object>();
 		parameter.add(id);
 		parameter.add("APV");
-		ResultSet rsApvForEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployeeAndTypeBoard",parameter);
+		ResultSet rsApvForEmp = mysql.callSingleSP(conn, "pListAccountsForEmployeeAndType",parameter);
 		
 		Account bsApvEmp =  null;
 		List<Account> listadoApvEmp = new ArrayList<Account>();
@@ -116,7 +116,7 @@ public class EmployeeInformation extends AbstractServletUtil {
 		List<Object> parameterEmp = new ArrayList<Object>();
 		parameterEmp.add(id);
 		parameterEmp.add("PFM");
-		ResultSet rsAfpForEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployeeAndTypeBoard",parameterEmp);
+		ResultSet rsAfpForEmp = mysql.callSingleSP(conn, "pListAccountsForEmployeeAndType",parameterEmp);
 		
 		Account bsAfpEmp =  null;
 		try {
@@ -174,7 +174,7 @@ public class EmployeeInformation extends AbstractServletUtil {
 		List<Object> parameterExboxEmp = new ArrayList<Object>();
 		parameterExboxEmp.add(id);
 		parameterExboxEmp.add("EX_BOX");		
-		ResultSet rsExBoxEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployeeAndTypeBoard",parameterExboxEmp);
+		ResultSet rsExBoxEmp = mysql.callSingleSP(conn, "pListAccountsForEmployeeAndType",parameterExboxEmp);
 		Account exBoxEmp = new Account();
 		try {
 			while (rsExBoxEmp.next()) {
@@ -207,7 +207,7 @@ public class EmployeeInformation extends AbstractServletUtil {
 		List<Object> parameterHealthEmp = new ArrayList<Object>();
 		parameterHealthEmp.add(id);
 		parameterHealthEmp.add("HEALTH");		
-		ResultSet rsHealthEmp = mysql.callSingleSP(conn, "pGetAccountsForEmployeeAndTypeBoard",parameterHealthEmp);
+		ResultSet rsHealthEmp = mysql.callSingleSP(conn, "pListAccountsForEmployeeAndType",parameterHealthEmp);
 		Account healthEmp = new Account();
 		try {
 			while (rsHealthEmp.next()) {
