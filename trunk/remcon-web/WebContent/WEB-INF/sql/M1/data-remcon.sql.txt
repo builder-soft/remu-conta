@@ -58,7 +58,7 @@ INSERT INTO tBoard (cType, cKey, cValue) VALUES ('COMPENSATION', 'GABRIELA','Gab
 INSERT INTO tBoard (cType, cKey, cValue) VALUES ('COMPENSATION', '18S','18 de Septiembre');
 
 /* Mutual */
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('MUTUAL', 'ACHS','Asociaci&oacute;n Chilena de Seguridad' );
+INSERT INTO tBoard (cType, cKey, cValue) VALUES ('MUTUAL', 'ACHS','Asociación Chilena de Seguridad' );
 INSERT INTO tBoard (cType, cKey, cValue) VALUES ('MUTUAL', 'MS', 'Mutual de Seguridad' );
 INSERT INTO tBoard (cType, cKey, cValue) VALUES ('MUTUAL', 'IST', 'Instituto de Seguridad del Trabajo' );
 

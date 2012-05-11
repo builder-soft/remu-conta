@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.admin;
+package cl.buildersoft.web.servlet.system.roledef;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.framework.database.BSmySQL;
 
-@WebServlet("/servlet/admin/SaveRoleDef")
+@WebServlet("/servlet/system/roledef/SaveRoleDef")
 public class SaveRoleDef extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class SaveRoleDef extends HttpServlet {
 			mysql.closeSQL();
 		}
 
-		request.getRequestDispatcher("/servlet/admin/RoleDef").forward(request,
+		request.getRequestDispatcher("/servlet/system/roleDef/RoleDef").forward(request,
 				response);
 
 	}

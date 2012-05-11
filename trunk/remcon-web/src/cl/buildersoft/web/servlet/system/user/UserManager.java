@@ -24,12 +24,6 @@ import cl.buildersoft.framework.util.BSConfig;
 public class UserManager extends HttpServlet {
 	private static final long serialVersionUID = -3497399350893131897L;
 
-	public UserManager() {
-		super();
-
-	}
-
-
 	@Override
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -67,7 +61,7 @@ public class UserManager extends HttpServlet {
 		field = new BSField("cName", "Nombre"); table.addField(field);
 		BSAction changePassword = new BSAction("CH_PASS", BSActionType.Record);
 		changePassword.setLabel("Cambio de clave");
-		changePassword.setUrl("/servlet/admin/SearchPassword");
+		changePassword.setUrl("/servlet/system/changePassword/SearchPassword");
 		table.addAction(changePassword);
 
 		BSAction rolRelation = new BSAction("ROL_RELATION", null);

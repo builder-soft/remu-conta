@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.admin;
+package cl.buildersoft.web.servlet.system.role;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +11,7 @@ import cl.buildersoft.web.servlet.BSHttpServlet;
 /**
  * Servlet implementation class RolManager
  */
-@WebServlet("/servlet/admin/RolManager")
+@WebServlet("/servlet/system/role/RolManager")
 public class RolManager extends BSHttpServlet {
 	private static final long serialVersionUID = 1L;
 

@@ -1,7 +1,9 @@
 use remcon;
 
+/*
 SELECT cId INTO @rolId FROM tRol WHERE cName = 'Administrador';
-
+*/
+SET @rolId = 1;
 /** Opciones para perfilar y crear usuarios */
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('SYSTEM', 'Sistema', NULL, NULL);
 SET @menuIdSystem = LAST_INSERT_ID(); 
