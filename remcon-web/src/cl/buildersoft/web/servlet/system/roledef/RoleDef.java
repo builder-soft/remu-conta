@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.admin;
+package cl.buildersoft.web.servlet.system.roledef;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,7 +22,7 @@ import cl.buildersoft.framework.services.impl.BSMenuServiceImpl;
 /**
  * Servlet implementation class RoleDef
  */
-@WebServlet("/servlet/admin/RoleDef")
+@WebServlet("/servlet/system/roleDef/RoleDef")
 public class RoleDef extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -54,7 +54,7 @@ public class RoleDef extends HttpServlet {
 		request.setAttribute("RolMenu", rolMenu);
 		request.setAttribute("cId", idRolLong);
 
-		request.getRequestDispatcher("/WEB-INF/jsp/admin/role-def.jsp")
+		request.getRequestDispatcher("/WEB-INF/jsp/system/role-def/role-def.jsp")
 				.forward(request, response);
 
 	}

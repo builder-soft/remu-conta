@@ -14,7 +14,7 @@
 	List<Submenu> rolMenu = menuAux.list();
 %>
 
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/admin/role-def.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/system/role-def/role-def.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/jquery-1.4.4.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/jquery-ui-1.8.12.custom.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/jquery.checkboxtree.js"></script>
@@ -29,7 +29,7 @@
 
 <h1 class="cTitle">Definición de Roles</h1>
  
-<form action="${pageContext.request.contextPath}/servlet/admin/SaveRoleDef" id="frm" method="post">
+<form action="${pageContext.request.contextPath}/servlet/system/roledef/SaveRoleDef" id="frm" method="post">
 <!--  
 <form action="${pageContext.request.contextPath}/servlet/ShowParameters" method="post">
  -->

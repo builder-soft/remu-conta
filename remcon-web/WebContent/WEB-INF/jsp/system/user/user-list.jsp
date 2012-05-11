@@ -65,7 +65,7 @@
 <br>
 <div style='float: left;'>
 	<input type='button' value='Nuevo...'
-		onclick="javascript:window.location.href='${pageContext.request.contextPath}/servlet/admin/user/UserNew'">
+		onclick="javascript:window.location.href='${pageContext.request.contextPath}/servlet/system/user/UserNew'">
 </div>
 <div id='MultirecordActions' style='float: left; display: none;'>
 	<input type='button' value='Borrar' id='oDelete'
@@ -77,10 +77,10 @@
 		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/user/UserEdit", "EDIT");'>
 		
 	<input type='button' value='Cambiar Clave' id='oCh_pass'
-		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/admin/SearchPassword", "CH_PASS");'>
+		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/changePassword/SearchPassword", "CH_PASS");'>
 
 	<input type='button' value='Roles de Usuario' id='oRoldef'
-		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/admin/RoleDef", "ROL_DEF");'>
+		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/roleDef/RoleDef", "ROL_DEF");'>
 		
 </div>
 

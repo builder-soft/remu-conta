@@ -4,7 +4,7 @@
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 <%
-	String nextAction = "/servlet/admin/ChangePassword";
+	String nextAction = "/servlet/system/ChangePassword";
 	String cancelAction = "/servlet/system/UserManager";
 	Boolean passwordIsNull = (Boolean) request
 			.getAttribute("PASS_IS_NULL");
@@ -19,7 +19,7 @@
 
 <h1 class="cTitle">Cambio de clave</h1>
 <!-- 
-action="${pageContext.request.contextPath}/servlet/admin/ChangePassword"
+action="${pageContext.request.contextPath}/servlet/system/ChangePassword"
 action="${pageContext.request.contextPath}/servlet/ShowParameters"
  -->
 <form action="${pageContext.request.contextPath}<%=nextAction%>"

@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.admin;
+package cl.buildersoft.web.servlet.system.changepassword;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -13,7 +13,7 @@ import cl.buildersoft.framework.beans.User;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 
-@WebServlet("/servlet/admin/SearchPassword")
+@WebServlet("/servlet/system/changePassword/SearchPassword")
 public class SearchPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class SearchPassword extends HttpServlet {
 
 		request.setAttribute("PASS_IS_NULL", user.getPassword() == null);
 
-		request.getRequestDispatcher("/WEB-INF/jsp/admin/change-password/change-password.jsp")
+		request.getRequestDispatcher("/WEB-INF/jsp/system/change-password/change-password.jsp")
 				.forward(request, response);
 	}
 }
