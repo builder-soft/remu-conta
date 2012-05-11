@@ -1,0 +1,13 @@
+DROP PROCEDURE if exists remcon.pDelAccount;
+DROP PROCEDURE if exists remcon.pDelAccountsByEmployeeAndType;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pDelAccountsByEmployeeAndType(IN pEmployee BIGINT, IN pAccountType BIGINT)
+BEGIN
+	DELETE
+	FROM remcon.tAccount
+	WHERE cEmployee = pEmployee AND cAccountType = pAccountType;
+END$$
+
+DELIMITER ;
+
