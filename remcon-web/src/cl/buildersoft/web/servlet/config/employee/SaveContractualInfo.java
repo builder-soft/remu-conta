@@ -50,6 +50,8 @@ public class SaveContractualInfo extends HttpServlet {
 				request.getParameter("cMobilization"));
 		Double feeding = (Double) doubleType.parse(conn,
 				request.getParameter("cFeeding"));
+		Double salaryRoot = (Double) doubleType.parse(conn,
+				request.getParameter("cSalaryRoot"));
 
 		agreement.setProfile(profile);
 		agreement.setContractType(contractType);
@@ -59,6 +61,7 @@ public class SaveContractualInfo extends HttpServlet {
 		agreement.setHorary(horary);
 		agreement.setMobilization(mobilization);
 		agreement.setFeeding(feeding);
+		agreement.setSalaryRoot(salaryRoot);
 
 		bu.save(conn, agreement);
 

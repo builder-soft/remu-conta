@@ -1,8 +1,9 @@
 DROP PROCEDURE if exists remcon.pGetAccountsForEmployee;
 DROP PROCEDURE if exists remcon.pGetAccountsForEmployeeAndTypeBoard;
+DROP PROCEDURE if exists remcon.pListAccountsForEmployeeAndType;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pGetAccountsForEmployeeAndTypeBoard(IN pEmployee BIGINT, IN pAccountType VARCHAR(15))
+CREATE PROCEDURE remcon.pListAccountsForEmployeeAndType(IN pEmployee BIGINT, IN pType VARCHAR(15))
 /*
 Obtiene las cuentas asociadas al empleado por el tipo, APV, CCT2, etc.
 */
@@ -13,7 +14,7 @@ BEGIN
 	FROM 		remcon.tAccount	AS a
 	LEFT JOIN	remcon.tBoard	AS b ON a.cInstitution = b.cId
 	LEFT JOIN	remcon.tBoard	AS c ON a.cCurrency = c.cId
-	WHERE		cEmployee = pEmployee AND b.cType = pAccountType
+	WHERE		cEmployee = pEmployee AND b.cType = pType
 	ORDER BY	cCurrency;
 END$$
 

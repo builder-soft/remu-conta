@@ -41,8 +41,8 @@ public class ContractualInfo extends HttpServlet {
 		List<BSBean> contractTypes = getList(conn, bu, new ContractType(),
 				"pListContractType");
 		List<BSBean> gratificationType = getList(conn, bu,
-				new GratificationType(), "pGetGratificationTypeList");
-		List<BSBean> horary = getList(conn, bu, new Horary(), "pGetHoraryList");
+				new GratificationType(), "pListGratificationType");
+		List<BSBean> horary = getList(conn, bu, new Horary(), "pListHorary");
 
 		request.setAttribute("Horary", horary);
 		request.setAttribute("GratificationType", gratificationType);

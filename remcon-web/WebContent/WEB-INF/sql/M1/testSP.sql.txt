@@ -1,2 +1,6 @@
-call remcon.pGetAccountsForEmployeeAndTypeBoard(1, 'APV');
-call remcon.pGetAccountsForEmployeeAndTypeBoard(1, 'PFM');
+/*
+call remcon.pListAccountsForEmployeeAndType(1, 'APV');
+call remcon.pListAccountsForEmployeeAndType(1, 'PFM');
+*/
+
+call remcon.pListAccountsForEmployeeAndType2(2, 'BANK');

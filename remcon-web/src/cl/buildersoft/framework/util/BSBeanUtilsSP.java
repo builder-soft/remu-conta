@@ -44,4 +44,35 @@ public class BSBeanUtilsSP extends BSBeanUtils {
 
 		return out;
 	}
+
+	public BSBean get(Connection conn, BSBean bean, String spName,
+			Object oneParam) {
+		List<Object> params = new ArrayList<Object>();
+		params.add(oneParam);
+		return get(conn, bean, spName, params);
+	}
+
+	public BSBean get(Connection conn, BSBean bean, String spName,
+			List<Object> params) {
+
+		BSmySQL mysql = new BSmySQL();
+		ResultSet rs = mysql.callSingleSP(conn, spName, params);
+
+		BSBean out = null;
+		Long id = null;
+		try {
+			if (rs.next()) {
+				id = rs.getLong(1);
+				out = bean.getClass().newInstance();
+				out.setId(id);
+				super.search(conn, out);
+			}
+		} catch (SQLException e) {
+			throw new BSDataBaseException("", e.getMessage());
+		} catch (Exception e) {
+			throw new BSProgrammerException("", e.getMessage());
+		}
+
+		return out;
+	}
 }
