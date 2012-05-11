@@ -14,11 +14,11 @@ public class BSSecurity {
 	 * String out = x.compute(); x = null; return out; }
 	 */
 	public String encript3des(String key, String s) {
-		throw new BSProgrammerException("0101", "No se ha implementado el método encript3des()");
+		throw new BSProgrammerException("0101", "No se ha implementado el mÃ©todo encript3des()");
 	}
 
 	public String decript3des(String key, String s) {
-		throw new BSProgrammerException("0102", "No se ha implementado el método decript3des()");
+		throw new BSProgrammerException("0102", "No se ha implementado el mÃ©todo decript3des()");
 	}
 
 	public String md5(String str) {

@@ -33,7 +33,7 @@ public class PersonManager extends BSHttpServlet implements Servlet {
 
 		// BSField field;
 
-		table.getField("cFechaRegistro").setLabel("Incorporación");
+		table.getField("cFechaRegistro").setLabel("IncorporaciÃ³n");
 		table.getField("cApellidoPaterno").setLabel("A. Paterno");
 		table.getField("cApellidoMaterno").setLabel("A. Materno");
 

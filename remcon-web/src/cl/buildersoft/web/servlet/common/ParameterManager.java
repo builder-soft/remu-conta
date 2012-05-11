@@ -19,7 +19,7 @@ public class ParameterManager extends BSHttpServlet implements Servlet {
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
 		BSTableConfig table =  initTable(request, "tParameter");
 
-		table.setTitle("Par·metros del sistema");
+		table.setTitle("Par√°metros del sistema");
 		
 		table.renameAction("INSERT", "ADD_PARAMS");
 		table.renameAction("EDIT", "MOD_PARAMS");

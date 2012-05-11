@@ -26,7 +26,7 @@ public class PFMManager extends BSHttpServlet {
 		field.setPK(Boolean.TRUE);
 		table.addField(field);
 
-		field = new BSField("cKey", "Código");
+		field = new BSField("cKey", "CÃ³digo");
 		table.addField(field);
 
 		field = new BSField("cName", "Nombre");

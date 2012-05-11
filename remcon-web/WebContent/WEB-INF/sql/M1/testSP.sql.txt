@@ -2,6 +2,6 @@
 call remcon.pListAccountsForEmployeeAndType(1, 'APV');
 call remcon.pListAccountsForEmployeeAndType(1, 'PFM');
 */
-select '2';
+
 call remcon.pListAccountsForEmployeeAndType(1, 'APV');
-select '3';
+
