@@ -9,8 +9,8 @@ BEGIN
 	SELECT		a.cId, a.cEmployee, a.cInstitution, a.cAccountType, 
 				a.cNumber, a.cCurrency, a.cAmount
 	FROM 		remcon.tAccount AS a
-	LEFT JOIN	remcon.tBoard	AS b ON a.cInstitution = b.cId AND b.cType = pType
-	WHERE		cEmployee = pEmployee 
+	LEFT JOIN	remcon.tBoard	AS b ON a.cInstitution = b.cId 
+	WHERE		cEmployee = pEmployee AND b.cType = pType
 	ORDER BY	cCurrency;
 END$$
 

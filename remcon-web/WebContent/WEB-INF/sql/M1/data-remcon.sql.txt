@@ -126,6 +126,11 @@ APV
 ACCT2
 COMPL_HEALTH
 */
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('INSTITUTION', 'APV', 'Ahorro Previsional Voluntario');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('INSTITUTION', 'ACCT2', 'Cuenta 2');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('INSTITUTION', 'COMPL_HEALTH', 'Seguro complementario');
+
+/**Tipos de cuenta bancaria */
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'CTA_CTE', 'Cuenta Corriente');
 SET @accountType = LAST_INSERT_ID();
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'SAVING', 'Cuenta Ahorro');

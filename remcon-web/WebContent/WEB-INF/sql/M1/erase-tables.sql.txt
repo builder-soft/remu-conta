@@ -38,6 +38,7 @@ DROP TABLE IF EXISTS remcon.tRol;
 DROP TABLE IF EXISTS remcon.tFile;
 DROP TABLE IF EXISTS remcon.tFileCategory;
 
+DROP TABLE IF EXISTS remcon.tBookAssets;
 DROP TABLE IF EXISTS remcon.tBook;
 DROP TABLE IF EXISTS remcon.tPeriod;
 
