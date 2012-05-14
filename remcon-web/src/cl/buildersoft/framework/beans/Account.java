@@ -1,5 +1,6 @@
 package cl.buildersoft.framework.beans;
 
+@Deprecated
 public class Account extends BSBean {
 	private String key = null;
 	private String name = null;
