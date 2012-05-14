@@ -21,65 +21,71 @@ public class AgreementServiceImpl implements AgreementService {
 	public Agreement getDefaultAgreement(Connection conn, Long employee) {
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
 
-		Agreement agreement = new Agreement();
-		agreement.setEmployee(employee);
-		agreement.setEndContract(new Date());
-		agreement.setFeeding(0D);
-		agreement.setMobilization(0D);
-		agreement.setSalaryRoot(getSalaryRoot(conn));
-		agreement.setStartContract(new Date());
-		agreement.setContractType(getContractType(conn, bu));
-		agreement.setProfile(getProfile(conn, bu));
-		agreement.setPfm(getPFM(conn, bu));
-		agreement.setHealth(getHealth(conn, bu));
-		agreement.setGratificationType(getGratificationType(conn, bu));
-		agreement.setPaymentType(getPaymentType(conn, bu));
-		agreement.setHorary(getHorary(conn, bu));
-		agreement.setAdditionalHealthCLP(0D);
-		agreement.setAdditionalHealthUF(0D);
-		agreement.setSimpleLoads(0);
-		agreement.setDisabilityBurdens(0);
-		agreement.setMaternalLoads(0);
+		Agreement agreement = (Agreement) bu.get(conn, new Agreement(),
+				"pGetAgreementByEmployee", employee);
 
-		bu.save(conn, agreement);
+		if (agreement == null) {
+			agreement = new Agreement();
+			agreement.setEmployee(employee);
+			agreement.setEndContract(new Date());
+			agreement.setFeeding(0D);
+			agreement.setMobilization(0D);
+			agreement.setSalaryRoot(getSalaryRoot(conn));
+			agreement.setStartContract(new Date());
+			agreement.setContractType(getContractType(conn, bu));
+			agreement.setProfile(getProfile(conn, bu));
+			agreement.setPfm(getPFM(conn, bu));
+			agreement.setHealth(getHealth(conn, bu));
+			agreement.setGratificationType(getGratificationType(conn, bu));
+			agreement.setPaymentType(getPaymentType(conn, bu));
+			agreement.setHorary(getHorary(conn, bu));
+			agreement.setAdditionalHealthCLP(0D);
+			agreement.setAdditionalHealthUF(0D);
+			agreement.setSimpleLoads(0);
+			agreement.setDisabilityBurdens(0);
+			agreement.setMaternalLoads(0);
+
+			bu.save(conn, agreement);
+		}
 
 		return agreement;
 	}
 
 	private Long getHorary(Connection conn, BSBeanUtilsSP bu) {
-		List<Horary> horary= (List<Horary>) bu.list(conn,
-				new Horary(), "pListHorary", null);
+		List<Horary> horary = (List<Horary>) bu.list(conn, new Horary(),
+				"pListHorary", null);
 		return horary.get(0).getId();
 	}
 
 	private Long getPaymentType(Connection conn, BSBeanUtilsSP bu) {
-		List<Board> paymentType = (List<Board>) bu.list(conn,
-				new Board(), "pListBoardByType", "PAYMENT_TYPE");
+		List<Board> paymentType = (List<Board>) bu.list(conn, new Board(),
+				"pListBoardByType", "PAYMENT_TYPE");
 		return paymentType.get(0).getId();
-		
+
 	}
 
 	private Long getGratificationType(Connection conn, BSBeanUtilsSP bu) {
-		List<GratificationType> gratificationType = (List<GratificationType>) bu.list(conn,
-				new GratificationType(), "pListGratificationType", null);
+		List<GratificationType> gratificationType = (List<GratificationType>) bu
+				.list(conn, new GratificationType(), "pListGratificationType",
+						null);
 		return gratificationType.get(0).getId();
 	}
 
 	private Long getHealth(Connection conn, BSBeanUtilsSP bu) {
-		List<Board> health = (List<Board>) bu.list(conn,
-				new Board(), "pListBoardByType", "HEALTH");
+		List<Board> health = (List<Board>) bu.list(conn, new Board(),
+				"pListBoardByType", "HEALTH");
 		return health.get(0).getId();
 	}
 
 	private Long getPFM(Connection conn, BSBeanUtilsSP bu) {
-		List<Profile> profiles = (List<Profile>) bu.list(conn,
-				new Profile(), "pListProfile", null);
+		List<Profile> profiles = (List<Profile>) bu.list(conn, new Profile(),
+				"pListProfile", null);
 		return profiles.get(0).getId();
 	}
 
 	private Long getProfile(Connection conn, BSBeanUtilsSP bu) {
-		List<Profile> profiles = (List<Profile>) bu.list(conn,
-				new Profile(), "pListProfile", null);
+		List<Profile> profiles = (List<Profile>) bu.list(conn, new Profile(),
+				"pListProfile", null);
 		return profiles.get(0).getId();
 	}
 

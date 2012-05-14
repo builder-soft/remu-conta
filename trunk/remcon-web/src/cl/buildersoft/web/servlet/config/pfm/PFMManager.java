@@ -18,7 +18,7 @@ public class PFMManager extends BSHttpServlet {
 		BSTableConfig table = new BSTableConfig(domain.getAlias(), "tBoard",
 				"vPFM");
 		table.setTitle("Listado de AFP");
-		table.setSaveSP("pSetPFMSave");
+		table.setSaveSP("pSavePFM");
 		table.setDeleteSP("pDelPFM");
 
 		BSField field = null;

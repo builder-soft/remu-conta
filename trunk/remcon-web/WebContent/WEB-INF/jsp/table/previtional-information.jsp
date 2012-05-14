@@ -1,6 +1,6 @@
+<%@page import="cl.buildersoft.framework.beans.Account2"%>
 <%@page import="cl.buildersoft.framework.beans.Board"%>
 <%@page import="cl.buildersoft.framework.beans.Agreement"%>
-<%@page import="cl.buildersoft.framework.beans.Account"%>
 <%@page import="cl.buildersoft.framework.beans.BSCss"%>
 <%@page import="cl.buildersoft.framework.beans.BSScript"%>
 <%@page import="cl.buildersoft.framework.beans.BSHeadConfig"%>
@@ -18,7 +18,7 @@
 	String[] groupPrevisionalInformation = (String[])request.getAttribute("DataShow");
 	List<Board> listadoApv = (List<Board>)request.getAttribute("listadoApv");
 	List<Board> listadoCurrency = (List<Board>)request.getAttribute("listadoCurrency");
-	List<Account> listadoApvEmp = (List<Account>)request.getAttribute("listadoApvEmp");
+	List<Account2> listadoApvEmp = (List<Account2>)request.getAttribute("listadoApvEmp");
 	List<Board> listadoAfp = (List<Board>)request.getAttribute("listadoAfp");
 	List<Board> listadoExBox = (List<Board>)request.getAttribute("listadoExBox");	
 	List<Board> listadoHealth = (List<Board>)request.getAttribute("listadoHealth");	
@@ -122,7 +122,7 @@ function getApvSelected(){
 					<%	
 					int contador = 0;
 					int cantApvs = listadoApvEmp.size();
-					for(Account bsApvEmp : listadoApvEmp)
+					for(Account2 bsApvEmp : listadoApvEmp)
 					{
 						if(contador == 0){
 					%>
@@ -134,13 +134,13 @@ function getApvSelected(){
 										for(Board bsCurrency : listadoCurrency)
 										{											
 										%>
-											<OPTION value="<%=bsCurrency.getId()%>"<%=bsApvEmp!=null&&bsCurrency.getId() == bsApvEmp.getcIdCurrency()? "selected" : "" %>><%=bsCurrency.getKey()%></OPTION>
+											<OPTION value="<%=bsCurrency.getId()%>"<%=bsApvEmp!=null&&bsCurrency.getId() == bsApvEmp.getCurrency()? "selected" : "" %>><%=bsCurrency.getKey()%></OPTION>
 										<%
 										}
 										%>
 								</select>
 								</td>
-								<td class="cData"><input id="apvAmount" name="apvAmount" value="<%=bsApvEmp.getcAmount()%>"></td>
+								<td class="cData"><input id="apvAmount" name="apvAmount" value="<%=bsApvEmp.getAmount()%>"></td>
 								<td class="cLabel" valign='top'>Institucion:</td>
 								<td class="cData">
 								<select id="apvInstitution" name="apvInstitution">
@@ -148,7 +148,7 @@ function getApvSelected(){
 										for(Board bsApv : listadoApv)
 										{
 										%>
-											<OPTION value="<%=bsApv.getKey()%>" <%=bsApvEmp!=null&&bsApv.getKey().equals(bsApvEmp.getKey()) ? "selected" : "" %>><%=bsApv.getValue()%></OPTION>
+											<OPTION value="<%=bsApv.getId()%>" <%=bsApvEmp!=null&&bsApv.getId().equals(bsApvEmp.getInstitution() ) ? "selected" : "" %>><%=bsApv.getValue()%></OPTION>
 										<% 
 										}
 										%>	
@@ -159,7 +159,7 @@ function getApvSelected(){
 						contador++;
 						}
 						else{
-							out.print("<script>addApv('"+bsApvEmp.getcIdCurrency()+"','"+bsApvEmp.getKey()+"','"+bsApvEmp.getcAmount()+"');</script>");
+							out.print("<script>addApv('"+bsApvEmp.getCurrency()+"','"+bsApvEmp.getInstitution() +"','"+bsApvEmp.getAmount()+"');</script>");
 						}
 						
 					}
