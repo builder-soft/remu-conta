@@ -3,7 +3,6 @@ package cl.buildersoft.web.servlet.config.employee;
 import java.sql.Connection;
 
 import cl.buildersoft.framework.beans.Account;
-import cl.buildersoft.framework.beans.Agreement;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 
 public class AccountServiceImpl implements AccountService {
