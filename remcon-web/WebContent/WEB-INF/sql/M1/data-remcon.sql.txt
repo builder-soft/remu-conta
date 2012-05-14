@@ -127,6 +127,7 @@ ACCT2
 COMPL_HEALTH
 */
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('INSTITUTION', 'APV', 'Ahorro Previsional Voluntario');
+SET @apvType = LAST_INSERT_ID();
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('INSTITUTION', 'ACCT2', 'Cuenta 2');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('INSTITUTION', 'COMPL_HEALTH', 'Seguro complementario');
 
@@ -989,11 +990,11 @@ INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract
 VALUES(					@employeeId,	2,				'2009-12-01',	'2013-01-01',	1,			3,		6,			1,					3,				580,			395,		1);
 
 INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency, cAmount)
-VALUES(@employeeId, @APV1, @accountType, @clp, 10000);
+VALUES(@employeeId, @APV1, @apvType, @clp, 10000);
 INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency, cAmount)
-VALUES(@employeeId, @APV1, @accountType, @uf, 3);
+VALUES(@employeeId, @APV1, @apvType, @uf, 3);
 INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency, cAmount)
-VALUES(@employeeId, @APV2, @accountType, @clp, 12000);
+VALUES(@employeeId, @APV2, @apvType, @clp, 12000);
 
 /**Cuenta 2*/
 INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)

@@ -47,9 +47,10 @@ public class InsertRecord extends AbstractServletUtil {
 			BSmySQL mySQL = new BSmySQL();
 			Connection conn = mySQL.getConnection(request);
 			List<Object> params = getValues4Insert(conn, request, fields);
-			mySQL.insert(conn, sql, params);
+			Long id = mySQL.insert(conn, sql, params);
+			request.setAttribute("cId", id);
 		} else {
-//			String sql = getSQLsp(saveSP, table);
+			// String sql = getSQLsp(saveSP, table);
 			BSmySQL mySQL = new BSmySQL();
 			Connection conn = mySQL.getConnection(request);
 			List<Object> params = getValues4Insert(conn, request,
