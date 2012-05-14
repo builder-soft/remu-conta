@@ -100,7 +100,7 @@ public class ValidateLoginServlet extends HttpServlet {
 			Domain defaultDomain) {
 
 		BSmySQL mysql = new BSmySQL();
-		ResultSet rs = mysql.callSingleSP(conn, "pGetDomainAttribute",
+		ResultSet rs = mysql.callSingleSP(conn, "pListDomainAttributes",
 				defaultDomain.getId());
 
 		BSBeanUtils bu = new BSBeanUtils();
@@ -127,7 +127,7 @@ public class ValidateLoginServlet extends HttpServlet {
 	private List<Domain> getDomains(Connection conn, User user) {
 		BSmySQL mysql = new BSmySQL();
 
-		ResultSet rs = mysql.callSingleSP(conn, "pGetDomainsForUser",
+		ResultSet rs = mysql.callSingleSP(conn, "pListDomainsForUser",
 				user.getId());
 
 		BSBeanUtils bu = new BSBeanUtils();

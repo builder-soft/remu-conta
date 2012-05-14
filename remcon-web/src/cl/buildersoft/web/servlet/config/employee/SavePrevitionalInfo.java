@@ -2,17 +2,15 @@ package cl.buildersoft.web.servlet.config.employee;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.Date;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.framework.beans.Account2;
 import cl.buildersoft.framework.beans.Agreement;
+import cl.buildersoft.framework.beans.Board;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.type.BSFieldDataType;
 import cl.buildersoft.framework.type.BSFieldType;
@@ -33,9 +31,11 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		Connection conn = mysql.getConnection(request);
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
 
+		Board apvType = (Board)bu.get(conn, new Board(), "pGetBoardByTypeAndKey", array2List("INSTITUTION", "APV"));
+																							  
 		Agreement agreement = getAgreement(conn, bu, id);
-		mysql.callSingleSP(conn, "pDelAccountsByEmployeeAndType", array2List(id, 47));
-
+		mysql.callSingleSP(conn, "pDelAccountsByEmployeeAndType", array2List(id, apvType.getId()));
+				
 		BSFieldDataType dateType = BSTypeFactory.create(BSFieldType.Date);
 		BSFieldDataType doubleType = BSTypeFactory.create(BSFieldType.Double);
 
@@ -43,13 +43,13 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		String[] apvCurrency = (String[]) request.getParameterValues("apvCurrency");
 		String[] apvAmount = (String[]) request.getParameterValues("apvAmount");
 		for (int i = 0; i < apvInstitution.length; i++) {
-			Account2 account2 = new Account2();
-			account2.setAccountType(47L);
-			account2.setCurrency(new Long(apvCurrency[i]));
-			account2.setAmount(new Double(apvAmount[i]));
-			account2.setEmployee(id);
-			account2.setInstitution(new Long(apvInstitution[i]));
-			bu.save(conn, account2);
+			Account2 account = new Account2();
+			account.setAccountType(apvType.getId());
+			account.setCurrency(new Long(apvCurrency[i]));
+			account.setAmount(new Double(apvAmount[i]));
+			account.setEmployee(id);
+			account.setInstitution(new Long(apvInstitution[i]));
+			bu.save(conn, account);
 		}
 		
 		Long exBox = Long.valueOf(request.getParameter("exBox"));

@@ -1,6 +1,7 @@
 DROP PROCEDURE if exists remcon.pGetCurrencyList;
 DELIMITER $$
 
+/*
 CREATE PROCEDURE remcon.pGetCurrencyList()
 BEGIN
 	SELECT		 cId, cKey, cValue AS cName, cEnable 
@@ -9,7 +10,7 @@ BEGIN
 END$$
 
 DELIMITER ;
-/*
+
 call remcon.pGetAPVList();
 */
 
