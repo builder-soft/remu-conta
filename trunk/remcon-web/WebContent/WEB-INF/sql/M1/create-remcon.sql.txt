@@ -74,7 +74,8 @@ CREATE TABLE `tBoard` (
   `cKey` varchar(15) DEFAULT '',
   `cValue` Varchar(200) NOT NULL,
   cEnable BIT NOT NULL DEFAULT 1,
-	PRIMARY KEY(cId)
+	PRIMARY KEY(cId),
+	UNIQUE TypeAndKey (cType, cKey)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `tCountry` (
@@ -244,59 +245,61 @@ create table tBook(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-/*************************************
+/*
 Tabla del libro con los Haberes
-
+*/
 create table tBookAssets(
 	cId							BIGINT(20) NOT NULL auto_increment,
 	cBook						BIGINT(20) NOT NULL,
 	cGratificationType			BIGINT(20) NOT NULL COMMENT 'Tipo de Gratificación',
-	cFamilyAssignmentStretch	COMMENT 'Tramo Asignacion Familiar',
-	cRewardAmount				COMMENT 'Monto Gratificacion',
-	cOvertimeAmount				COMMENT 'Monto Horas Extras',
-	cParticipation				DOUBLE COMMENT 'Esta es un valor que aplica cuando el empleado tiene participacion en una empresa'
-	cB01
-	cB02
-	cB03
-	cB04
-	cB05
-	cB06
-	cB07
-	cB08
-	cB09
-	cB10
-	cOtherIncome				COMMENT 'Otros Haberes',
-	cExtraPay					COMMENT 'Aguinaldo',
-	cOtherIncomeTaxable			COMMENT 'Otros Haberes Imponibles',
+	cFamilyAssignmentStretch	CHAR(1)	NOT NULL DEFAULT ' ' COMMENT 'Tramo Asignacion Familiar',
+	cRewardAmount				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Gratificacion',
+	cOvertimeAmount				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Horas Extras',
+	cParticipation				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Aplica cuando tiene participacion en empresa',
+	cB01						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Bono 1',
+	cB02						DOUBLE NOT NULL DEFAULT '0',
+	cB03						DOUBLE NOT NULL DEFAULT '0',
+	cB04						DOUBLE NOT NULL DEFAULT '0',
+	cB05						DOUBLE NOT NULL DEFAULT '0',
+	cB06						DOUBLE NOT NULL DEFAULT '0',
+	cB07						DOUBLE NOT NULL DEFAULT '0',
+	cB08						DOUBLE NOT NULL DEFAULT '0',
+	cB09						DOUBLE NOT NULL DEFAULT '0',
+	cB10						DOUBLE NOT NULL DEFAULT '0',
+	cOtherIncome				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Otros Haberes',
+	cExtraPay					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Aguinaldo',
+	cOtherIncomeTaxable			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Otros Haberes Imponibles',
 	cFamilyAssignment			INTEGER COMMENT 'Cargas Familiares',
-	cFamilyAssignmentAmount 		COMMENT 'Monto Por Cargas',
-	cFamiliarRetroactivo
-	cFeeding						COMMENT 'Colación',
-	cMobilization					COMMENT 'Movilización',
-	cBounty               			COMMENT 'Viaticos',
-	cOtherNoTaxable     			COMMENT 'Otros No Imponibles',
-	cMonthNotification				COMMENT 'Mes'De'Aviso',
-	cIAS 							COMMENT 'Indemnisacion años de servicio'
-	cProportionalHoliday			COMMENT 'Feriado Proporcional',
-	cVoluntaryindenmization			COMMENT 'Indemnisacion Voluntaira'
+	cFamilyAssignmentAmount 	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Por Cargas',
+	cRetroactiveFamily			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Familiar Retroactivo',
+	cFeeding					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Colación',
+	cMobilization				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Movilización',
+	cBounty               		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Viaticos',
+	cOtherNoTaxable     		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Otros No Imponibles',
+	cMonthNotification			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Mes De Aviso',
+	cIAS 						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Indemnisacion años de servicio',
+	cProportionalHoliday		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Feriado Proporcional',
+	cVoluntaryindenmization		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Indemnisacion Voluntaira',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+
+/*************************************
 create table tBookDiscounts(
-	cId					BIGINT(20) NOT NULL auto_increment,
-	cBook				BIGINT(20) NOT NULL,
-	cAFPCodigo
-	cAFPSeguroObligatorio
-	cAVPAmount					COMMENT 'Monto APV',
-	cCuenta2				COMMENT 'Cuenta 2, Ahorro AFP',
-	cCeillingTaxableForecast	COMMENT 'Tope Imponible Previsional',
+	cId								BIGINT(20) NOT NULL auto_increment,
+	cBook							BIGINT(20) NOT NULL,
+	cAFP							BIGINT(20) NOT NULL COMMENT 'Código de AFP',
+	cAFPSeguroObligatorio	
+	cAVPAmount						COMMENT 'Monto APV',
+	cCuenta2						COMMENT 'Cuenta 2, Ahorro AFP',
+	cCeillingTaxableForecast		COMMENT 'Tope Imponible Previsional',
 	cCeilingTaxableDismissEnsurance	COMMENT 'Tope Imponible Seguro Cesantia',
-	cHealth					COMMENT 'Codigo de sistema de salud',
-	cTipoPlanHealth			COMMENT 'UF o %'
-	cPlanPactadoHealth		COMMENT 'Monto pactado, puedes ser en uf's o %'
-	cPlanPactadoHealthPS	COMMENT 'Plan en pesos'
+	cHealth							COMMENT 'Codigo de sistema de salud',
+	cTipoPlanHealth					COMMENT 'UF o %'
+	cPlanPactadoHealth				COMMENT 'Monto pactado, puedes ser en uf's o %'
+	cPlanPactadoHealthPS			COMMENT 'Plan en pesos'
 	cCotizacionLegal
-	cCotisacionSaludRebaja	COMMENT 'Preguntar que es'
+	cCotisacionSaludRebaja			COMMENT 'Preguntar que es'
 	cTipoSeguroCesantia		
 	cMontoSeguroCesantia
 	cImpuestoUnico
