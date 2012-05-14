@@ -1,3 +1,5 @@
+<%@page import="cl.buildersoft.framework.beans.Board"%>
+<%@page import="cl.buildersoft.framework.beans.Agreement"%>
 <%@page import="cl.buildersoft.framework.beans.Account"%>
 <%@page import="cl.buildersoft.framework.beans.BSCss"%>
 <%@page import="cl.buildersoft.framework.beans.BSScript"%>
@@ -14,20 +16,19 @@
 	BSTableConfig table = (BSTableConfig) session.getAttribute("BSTable");
 	BSField[] fields = table.getFields();
 	String[] groupPrevisionalInformation = (String[])request.getAttribute("DataShow");
-	List<Account> listadoApv = (List<Account>)request.getAttribute("listadoApv");
-	List<Account> listadoCurrency = (List<Account>)request.getAttribute("listadoCurrency");
+	List<Board> listadoApv = (List<Board>)request.getAttribute("listadoApv");
+	List<Board> listadoCurrency = (List<Board>)request.getAttribute("listadoCurrency");
 	List<Account> listadoApvEmp = (List<Account>)request.getAttribute("listadoApvEmp");
-	List<Account> listadoAfp = (List<Account>)request.getAttribute("listadoAfp");
-	List<Account> listadoExBox = (List<Account>)request.getAttribute("listadoExBox");	
-	Account afpEmp = (Account)request.getAttribute("afpEmp");
-	Account exBoxEmp = (Account)request.getAttribute("exBoxEmp");
-	
-	
+	List<Board> listadoAfp = (List<Board>)request.getAttribute("listadoAfp");
+	List<Board> listadoExBox = (List<Board>)request.getAttribute("listadoExBox");	
+	List<Board> listadoHealth = (List<Board>)request.getAttribute("listadoHealth");	
+	Agreement agreementEmp = (Agreement)request.getAttribute("agreementEmp");	
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <script>
 function addApv(idCurrency,idApv,monto)
 {
+
 	var clon = $('#apv0').clone();
 	var rowCount = $("#apvs tr").length;
 	clon.attr('id','apv'+rowCount);
@@ -35,6 +36,13 @@ function addApv(idCurrency,idApv,monto)
 	clon.append(newTD);
 	apvId = rowCount == 1 ? "#apv0" : '#apv'+(rowCount-1);	
 	$(apvId).after(clon);
+	
+		$('#apv'+rowCount).find("select[id='apvCurrency']").val(idCurrency);
+		$('#apv'+rowCount).find("select[id='apvInstitution']").val(idApv);
+		$('#apv'+rowCount).find("input[id='apvAmount']").val(monto);
+	
+	
+	
 	
 		$('#apv'+rowCount).find("select[id='apvCurrency']").val(idCurrency);
 		$('#apv'+rowCount).find("select[id='apvInstitution']").val(idApv);
@@ -82,35 +90,35 @@ function getApvSelected(){
 <h1 class="cTitle">Informacion previsional</h1>
 <%
 	String nextServlet = (String) request.getAttribute("Action");
+	
 	if ("insert".equalsIgnoreCase(nextServlet)) {
 		nextServlet = "InsertRecord";
 	} else {
 		nextServlet = "UpdateRecord";
 	}
 %>
-
-<form
-	action="${pageContext.request.contextPath}/servlet/table/<%=nextServlet%>"
-	method="post" id="editForm">
+<!--config/employee/SavePrevitionalInfo-->
+<form action="${pageContext.request.contextPath}/servlet/config/employee/SavePrevitionalInfo" method="post" id="editForm">
+	<input type="hidden" name="cId" value="<%=request.getParameter("cId")%>">
 	<table>
+			<tr>
+					<td class="cLabel" valign='top'>AFP:</td>
+					<td class="cData">
+					<select id="afpEmp" name="afpEmp">
+							<%			
+							for(Board bsAfp : listadoAfp)
+							{											
+							%>
+								<OPTION value="<%=bsAfp.getKey()%>"<%=agreementEmp.getPfm()!=null && bsAfp.getKey().equals(agreementEmp.getPfm()) ? "selected" : "" %>><%=bsAfp.getValue()%></OPTION>
+							<%
+							}
+							%>
+					</select>						
+				</td>
+			</tr>	
 			<tr>
 				<td colspan="4">
 					<table id="apvs">
-					<tr>
-							<td class="cLabel" valign='top'>AFP:</td>
-							<td class="cData">
-							<select id="afpEmp" name="afpEmp">
-									<%			
-									for(Account bsAfp : listadoAfp)
-									{											
-									%>
-										<OPTION value="<%=bsAfp.getKey()%>"<%=bsAfp.getKey().equals(afpEmp.getKey()) ? "selected" : "" %>><%=bsAfp.getValue()%></OPTION>
-									<%
-									}
-									%>
-							</select>						
-						</td>
-					</tr>
 					<%	
 					int contador = 0;
 					int cantApvs = listadoApvEmp.size();
@@ -121,26 +129,26 @@ function getApvSelected(){
 					<tr id="apv0">
 								<td class="cLabel" valign='top'>APV:</td>
 								<td class="cData">
-								<select id="apvCurrency" name="apvCurrency<%=bsApvEmp.getId()%>">
+								<select id="apvCurrency" name="apvCurrency">
 										<%			
-										for(Account bsCurrency : listadoCurrency)
+										for(Board bsCurrency : listadoCurrency)
 										{											
 										%>
-											<OPTION value="<%=bsCurrency.getId()%>"<%=bsCurrency.getId() == bsApvEmp.getcIdCurrency()? "selected" : "" %>><%=bsCurrency.getKey()%></OPTION>
+											<OPTION value="<%=bsCurrency.getId()%>"<%=bsApvEmp!=null&&bsCurrency.getId() == bsApvEmp.getcIdCurrency()? "selected" : "" %>><%=bsCurrency.getKey()%></OPTION>
 										<%
 										}
 										%>
 								</select>
 								</td>
-								<td class="cData"><input id="apvAmount" value="<%=bsApvEmp.getcAmount()%>"></td>
+								<td class="cData"><input id="apvAmount" name="apvAmount" value="<%=bsApvEmp.getcAmount()%>"></td>
 								<td class="cLabel" valign='top'>Institucion:</td>
 								<td class="cData">
-								<select id="apvInstitution" name="apvInstitution<%=bsApvEmp.getId()%>">
+								<select id="apvInstitution" name="apvInstitution">
 										<%			
-										for(Account bsApv : listadoApv)
+										for(Board bsApv : listadoApv)
 										{
 										%>
-											<OPTION value="<%=bsApv.getKey()%>" <%=bsApv.getKey().equals(bsApvEmp.getKey()) ? "selected" : "" %>><%=bsApv.getValue()%></OPTION>
+											<OPTION value="<%=bsApv.getKey()%>" <%=bsApvEmp!=null&&bsApv.getKey().equals(bsApvEmp.getKey()) ? "selected" : "" %>><%=bsApv.getValue()%></OPTION>
 										<% 
 										}
 										%>	
@@ -156,23 +164,70 @@ function getApvSelected(){
 						
 					}
 					%>
-					<tr>
-						<td class="cLabel" valign='top'>Caja Ex-Régimen:</td>
-						<td class="cData" colspan="3">
-						<select id="exBox" name="exBox">
-								<%			
-								for(Account bsExbox : listadoExBox)
-								{											
-								%>
-									<OPTION value="<%=bsExbox.getKey()%>"<%=bsExbox.getKey().equals(exBoxEmp.getKey()) ? "selected" : "" %>><%=bsExbox.getValue()%></OPTION>
-								<%
-								}
-								%>
-						</select>
-					</tr>						
 					</table>
 				<td>
 			</tr>
+			<tr>
+				<td class="cLabel" valign='top'>Caja Ex-Régimen:</td>
+				<td class="cData" colspan="3">
+				<select id="exBox" name="exBox">
+						<%			
+						for(Board bsExbox : listadoExBox)
+						{											
+						%>
+							<OPTION value="<%=bsExbox.getKey()%>"<%=agreementEmp.getExBoxSystem() != null && bsExbox.getKey().equals(agreementEmp.getExBoxSystem()) ? "selected" : "" %>><%=bsExbox.getValue()%></OPTION>
+						<%
+						}
+						%>
+				</select>
+			</tr>
+			<tr>
+				<td class="cLabel" valign='top'>Isapre:</td>
+				<td class="cData">
+				<select id="health" name="health">
+						<%			
+						for(Board bsHealth : listadoHealth)
+						{											
+						%>
+							<OPTION value="<%=bsHealth.getKey()%>"<%=agreementEmp.getHealth()!= null && bsHealth.getKey().equals(agreementEmp.getHealth()) ? "selected" : "" %>><%=bsHealth.getValue()%></OPTION>
+						<%
+						}
+						%>
+				</select>
+				</td>
+				<td class="cLabel" valign='top'>Plan UF:</td>
+				<td class="cData">
+				<input id="additionalHealthUF" name="additionalHealthUF" value="<%=agreementEmp.getAdditionalHealthUF()%>">
+				</td>				
+				
+			</tr>
+			<tr>
+				<td class="cLabel" valign='top'>Plan $:</td>
+				<td class="cData">
+				<input id="additionalHealthCLP" name="additionalHealthCLP" value="<%=agreementEmp.getAdditionalHealthCLP()%>">
+				</td>
+				<td class="cLabel" valign='top'>Plan %:</td>
+				<td class="cData">
+				<input id="additionalHealthPorc" name="additionalHealthPorc" value="<%=agreementEmp.getAdditionalHealthCLP()%>">
+				</td>				
+			</tr>
+			<tr>
+				<td class="cLabel" valign='top'>Cargas simples:</td>
+				<td class="cData">
+				<input id="simpleLoad" id="simpleLoad" value="<%=agreementEmp.getSimpleLoads()%>">
+				</td>
+				<td class="cLabel" valign='top'>Cargas maternales:</td>
+				<td class="cData">
+					<input id="maternalLoad" name="maternalLoad" value="<%=agreementEmp.getMaternalLoads()%>">
+				</td>				
+			</tr>
+			<tr>
+				<td class="cLabel" valign='top'>Cargas invalidez:</td>
+				<td class="cData" colspan="3">
+					<input id="disabilityBurdens" name="disabilityBurdens" value="<%=agreementEmp.getDisabilityBurdens()%>">
+				</td>
+			</tr>														
+			
 	</table>
 </form>
 <input type="button" value="Aceptar"
