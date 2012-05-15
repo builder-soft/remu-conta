@@ -29,25 +29,27 @@
 function addApv(idCurrency,idApv,monto)
 {
 
-	var clon = $('#apv0').clone();
 	var rowCount = $("#apvs tr").length;
+	if(rowCount == 0)
+		{
+		cloneApv = $('#apvHide').clone();
+		cloneApv.attr('id','apv'+rowCount);
+		$('#apvs').append(cloneApv);
+		return;
+		}
+		
+	
+	var clon = $('#apvHide').clone();
 	clon.attr('id','apv'+rowCount);
-	var newTD = "<td><a href='javascript:delApv("+rowCount+")'>Eliminar</a></td>";
+	clon.find('#eliminarHide').remove();
+	newTD = "<td><a href='javascript:delApv("+rowCount+")'>Eliminar</a></td>";
 	clon.append(newTD);
-	apvId = rowCount == 1 ? "#apv0" : '#apv'+(rowCount-1);	
+	apvId = rowCount == 1 ? "#"+$('#apvs tr:first').attr('id') : '#apv'+(rowCount-1);	
 	$(apvId).after(clon);
 	
 		$('#apv'+rowCount).find("select[id='apvCurrency']").val(idCurrency);
 		$('#apv'+rowCount).find("select[id='apvInstitution']").val(idApv);
 		$('#apv'+rowCount).find("input[id='apvAmount']").val(monto);
-	
-	
-	
-	
-		$('#apv'+rowCount).find("select[id='apvCurrency']").val(idCurrency);
-		$('#apv'+rowCount).find("select[id='apvInstitution']").val(idApv);
-		$('#apv'+rowCount).find("input[id='apvAmount']").val(monto);
-		
 }
 
 function delApv(idApv)
@@ -98,6 +100,42 @@ function getApvSelected(){
 	}
 %>
 <!--config/employee/SavePrevitionalInfo-->
+<div style="display: none" id="divHide">
+<table id="tableHide">
+					<tr id="apvHide">
+								<td class="cLabel" valign='top'>APV:</td>
+								<td class="cData">
+								<select id="apvCurrency" name="apvCurrency">
+										<%			
+										for(Board bsCurrency : listadoCurrency)
+										{											
+										%>
+											<OPTION value="<%=bsCurrency.getId()%>"><%=bsCurrency.getKey()%></OPTION>
+										<%
+										}
+										%>
+								</select>
+								</td>
+								<td class="cData"><input id="apvAmount" name="apvAmount" value="0"></td>
+								<td class="cLabel" valign='top'>Institucion:</td>
+								<td class="cData">
+								<select id="apvInstitution" name="apvInstitution">
+										<%			
+										for(Board bsApv : listadoApv)
+										{
+										%>
+											<OPTION value="<%=bsApv.getId()%>"><%=bsApv.getValue()%></OPTION>
+										<% 
+										}
+										%>	
+								</select>
+								</td>
+								<td id="eliminarHide">
+								<a href="javascript:delApv(0)">Eliminar</a>
+								</td>
+						</tr>
+</table>						
+</div>
 <form action="${pageContext.request.contextPath}/servlet/config/employee/SavePrevitionalInfo" method="post" id="editForm">
 	<input type="hidden" name="cId" value="<%=request.getParameter("cId")%>">
 	<table>
@@ -122,45 +160,9 @@ function getApvSelected(){
 					<%	
 					int contador = 0;
 					int cantApvs = listadoApvEmp.size();
-					for(Account2 bsApvEmp : listadoApvEmp)
-					{
-						if(contador == 0){
-					%>
-					<tr id="apv0">
-								<td class="cLabel" valign='top'>APV:</td>
-								<td class="cData">
-								<select id="apvCurrency" name="apvCurrency">
-										<%			
-										for(Board bsCurrency : listadoCurrency)
-										{											
-										%>
-											<OPTION value="<%=bsCurrency.getId()%>"<%=bsApvEmp!=null&&bsCurrency.getId() == bsApvEmp.getCurrency()? "selected" : "" %>><%=bsCurrency.getKey()%></OPTION>
-										<%
-										}
-										%>
-								</select>
-								</td>
-								<td class="cData"><input id="apvAmount" name="apvAmount" value="<%=bsApvEmp.getAmount()%>"></td>
-								<td class="cLabel" valign='top'>Institucion:</td>
-								<td class="cData">
-								<select id="apvInstitution" name="apvInstitution">
-										<%			
-										for(Board bsApv : listadoApv)
-										{
-										%>
-											<OPTION value="<%=bsApv.getId()%>" <%=bsApvEmp!=null&&bsApv.getId().equals(bsApvEmp.getInstitution() ) ? "selected" : "" %>><%=bsApv.getValue()%></OPTION>
-										<% 
-										}
-										%>	
-								</select>
-								</td>
-						</tr>
-					<%
-						contador++;
-						}
-						else{
+					for(Account2 bsApvEmp : listadoApvEmp){
+
 							out.print("<script>addApv('"+bsApvEmp.getCurrency()+"','"+bsApvEmp.getInstitution() +"','"+bsApvEmp.getAmount()+"');</script>");
-						}
 						
 					}
 					%>
