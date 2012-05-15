@@ -45,21 +45,18 @@ public class SaveRelation extends HttpServlet {
 		BSTableConfig table = null;
 		synchronized (session) {
 			table = (BSTableConfig) session.getAttribute("BSTable");
-
 		}
 
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 
-		BSAction action = table.getAction("ROL_RELATION");
+		BSAction action = table.getAction(request.getParameter("CodeAction"));
 
 		try {
 			mysql.setAutoCommit(conn, false);
 
 			removeRelation(conn, mysql, id, table, action);
-
-			setRelation(conn, mysql, id, relations);
-
+			setRelation(conn, mysql, id, relations, action);
 			mysql.commit(conn);
 
 		} catch (Exception e) {
@@ -74,9 +71,11 @@ public class SaveRelation extends HttpServlet {
 	}
 
 	private void setRelation(Connection conn, BSmySQL mysql, Long id,
-			String[] relations) {
+			String[] relations, BSAction action) {
+		String[] natInfo = action.getNatTable();
 		List<Object> prms = new ArrayList<Object>();
-		String sql = "INSERT INTO tR_UserRol VALUES(?,?)";
+		String sql = "INSERT INTO " + natInfo[0] + "." + natInfo[1]
+				+ " VALUES(?,?)";
 
 		prms.add(id);
 
@@ -91,7 +90,8 @@ public class SaveRelation extends HttpServlet {
 
 	private void removeRelation(Connection conn, BSmySQL mysql, Long id,
 			BSTableConfig table, BSAction action) {
-		String tableName = action.getNatTable()[0];
+		String[] natInfo = action.getNatTable();
+		String tableName = natInfo[0] + "." + natInfo[1];
 
 		List<Object> prms = new ArrayList<Object>();
 		String sql = "DELETE FROM " + tableName + " WHERE "

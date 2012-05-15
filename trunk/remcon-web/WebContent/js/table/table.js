@@ -14,19 +14,19 @@ function verifyButtons() {
 
 	if (elementsSelected.size() == 1
 			&& 'mainCheck' == elementsSelected.get(0).id) {
-		$("#MultirecordActions").hide(speed);
-		$("#RecordActions").hide(speed);
+		$("#MultirecordActions").fadeOut(speed);
+		$("#RecordActions").fadeOut(speed);
 	} else {
 		if (elementsSelected.size() == 0) {
-			$("#RecordActions").hide(speed);
-			$("#MultirecordActions").hide(speed);
+			$("#RecordActions").fadeOut(speed);
+			$("#MultirecordActions").fadeOut(speed);
 		} else {
 			if (elementsSelected.size() == 1) {
-				$("#RecordActions").show(speed);
+				$("#RecordActions").fadeIn(speed);
 			} else {
-				$("#RecordActions").hide(speed);
+				$("#RecordActions").fadeOut(speed);
 			}
-			$("#MultirecordActions").show(speed);
+			$("#MultirecordActions").fadeIn(speed);
 		}
 	}
 }

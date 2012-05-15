@@ -42,7 +42,7 @@ public class NatTable extends HttpServlet {
 		BSTableConfig table = (BSTableConfig) session.getAttribute("BSTable");
 		BSAction action = table.getAction(code);
 
-		String sql = getSQL(action, table.getTableName());
+		String sql = getSQL(action, table);
 
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
@@ -60,7 +60,8 @@ public class NatTable extends HttpServlet {
 
 	private ResultSet getList(BSAction action, BSmySQL mysql, Connection conn) {
 		String sql;
-		sql = "SELECT * FROM " + action.getNatTable()[1];
+String []		natInfo = action.getNatTable();
+		sql = "SELECT * FROM " +   natInfo[2]+"."+natInfo[3]; // action.getNatTable()[1];
 		ResultSet list = mysql.queryResultSet(conn, sql, null);
 		return list;
 	}
@@ -73,7 +74,7 @@ public class NatTable extends HttpServlet {
 		return relation;
 	}
 
-	private String getSQL(BSAction action, String tableName) {
+	private String getSQL(BSAction action, BSTableConfig table) {
 		/**
 		 * <code>
 SELECT * FROM tUser AS a
@@ -81,14 +82,15 @@ LEFT JOIN tR_UserRol AS b ON a.cId = b.cUser
 LEFT JOIN tRol AS c ON b.cRol = c.cId; 
 		  </code>
 		 */
-		String tables[] = action.getNatTable();
-		String sql = "SELECT c.* FROM " + tableName + " AS a ";
-		sql += "LEFT JOIN " + tables[0] + " AS b ON a.cId = b."
-				+ table2Field(tableName) + " ";
-		sql += "LEFT JOIN " + tables[1] + " AS c ON b."
-				+ table2Field(tables[1]) + " = c.cId ";
+		String natInfo[] = action.getNatTable();
+		String sql = "SELECT c.* FROM " + table.getDatabase() + "."
+				+ table.getTableName() + " AS a ";
+		sql += "LEFT JOIN " + natInfo[0] + "." + natInfo[1]
+				+ " AS b ON a.cId = b." + table2Field(table.getTableName()) + " ";
+		sql += "LEFT JOIN " + natInfo[2] + "." + natInfo[3] + " AS c ON b."
+				+ table2Field(natInfo[3]) + " = c.cId ";
 		sql += "WHERE a.cId=? AND c.cId IS NOT NULL";
-		// System.out.println(sql);
+	//	 System.out.println(sql);
 		return sql;
 	}
 

@@ -42,13 +42,16 @@
 </table>
  -->
 <!--
-<form action="${pageContext.request.contextPath}/servlet/ShowParameters">
+action="${pageContext.request.contextPath}/servlet/ShowParameters"
+action="${pageContext.request.contextPath}/servlet/table/SaveRelation"
   -->
-<form
+<form 
 	action="${pageContext.request.contextPath}/servlet/table/SaveRelation"
 	id="frm" method="post">
 	<input type="hidden" name="cId"
 		value="<%=request.getParameter("cId")%>">
+		<input type="hidden" name="CodeAction" value="<%=request.getParameter("CodeAction")%>">
+		
 	<table border="0"  width="50%">
 		<tr>
 			<td style="width: 30%" align="center"><span class="cLabel">Disponibles</span><br>

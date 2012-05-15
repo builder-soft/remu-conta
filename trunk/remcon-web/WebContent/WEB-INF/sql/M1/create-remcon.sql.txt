@@ -9,19 +9,32 @@ CREATE TABLE IF NOT EXISTS tBranch(
 	cPhone				VARCHAR(15)
 ) ENGINE=innoDB;
 
+/**
+Ejemplo de archivo a cargar
+RUT       FechaHora como Long
+128706682-12345678901234567890.docx
+
+C:\archivos\	-> Configuracion
+           \1	-> (id de categoria) Categoria Curriculums
+           \2	-> Fotos
+           	 \128706682-12345678901234567890.png -> Foto carnet del empleado 12870668-2
+
+*/
 CREATE TABLE IF NOT EXISTS tFile (
 	cId				BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	cDesc			VARCHAR(100),
-	cContent		LONGTEXT,
-    cFileName		VARCHAR(100) NOT NULL,
-    cSize			BIGINT,
-    cCategory		BIGINT
+	cDesc			VARCHAR(100) COMMENT 'Descripcion que ingresa el usuario',
+    cFileName		VARCHAR(40) NOT NULL COMMENT 'Nombre del archivo que se subio, ej. foto-01.jpg',
+    cFileRealName	VARCHAR(50) NOT NULL COMMENT 'Archivo en el disco 128706682-12345678901234567890.png',
+    cSize			BIGINT NOT NULL COMMENT 'Tamaño del archivo',
+    cFileCategory	BIGINT
 ) ENGINE=innoDB;
 
+/*
+Categoria de archivo.
+*/
 CREATE TABLE IF NOT EXISTS tFileCategory (
 	cId				BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	cName			VARCHAR(100) NOT NULL,
-    cContentType	VARCHAR(100) NOT NULL
+	cName			VARCHAR(100) NOT NULL
 ) ENGINE=innoDB;
 
 CREATE TABLE `tParameter` (

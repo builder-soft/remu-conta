@@ -77,7 +77,7 @@
 		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/user/UserEdit", "EDIT");'>
 		
 	<input type='button' value='Cambiar Clave' id='oCh_pass'
-		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/changePassword/SearchPassword", "CH_PASS");'>
+		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/changepassword/SearchPassword", "CH_PASS");'>
 
 	<input type='button' value='Roles de Usuario' id='oRoldef'
 		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/roleDef/RoleDef", "ROL_DEF");'>

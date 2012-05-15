@@ -13,7 +13,7 @@ import cl.buildersoft.framework.beans.User;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 
-@WebServlet("/servlet/system/changePassword/SearchPassword")
+@WebServlet("/servlet/system/changepassword/SearchPassword")
 public class SearchPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
