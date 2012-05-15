@@ -37,14 +37,8 @@ public class AccountServiceImpl extends AbstractServletUtil implements
 	}
 
 	private Long getDefaultType(Connection conn, BSBeanUtilsSP bu, String type) {
-		List<Board> boardList = (List<Board>) bu.get(conn, new Board(),
-				"pListBoardByType", array2List(type));
-
-		Board out = null;
-		if (boardList.size() > 0) {
-			out = boardList.get(0);
-		}
-
-		return out.getId();
+		Board board = (Board) bu.get(conn, new Board(), "pListBoardByType",
+				array2List(type));
+		return board.getId();
 	}
 }

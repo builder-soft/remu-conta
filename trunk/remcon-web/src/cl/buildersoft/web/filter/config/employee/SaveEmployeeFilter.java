@@ -54,9 +54,6 @@ public class SaveEmployeeFilter implements Filter {
 			AgreementService agreementService = new AgreementServiceImpl();
 			agreementService.getDefaultAgreement(conn, employeeId);
 			
-			AccountService accountService = new AccountServiceImpl();
-			accountService.getDefaultAccount(conn, employeeId, "ACCOUNT_TYPE", null);
-			
 		}
 	}
 
