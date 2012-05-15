@@ -1,2 +1,0 @@
-DROP PROCEDURE if exists bsframework.setUserSave;
-DROP PROCEDURE if exists bsframework.pSetUserSave;

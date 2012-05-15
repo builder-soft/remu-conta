@@ -20,6 +20,7 @@ import cl.buildersoft.framework.util.BSPaging;
 @WebServlet("/servlet/table/LoadTable")
 public class LoadTable extends AbstractServletUtil {
 	private static final long serialVersionUID = 1L;
+	private static final String BSFRAMEWORK = "bsframework";
 
 	public LoadTable() {
 		super();
@@ -36,7 +37,14 @@ public class LoadTable extends AbstractServletUtil {
 
 		Connection conn = null;
 		BSmySQL mySQL = new BSmySQL();
-
+/**
+		if (table.getDatabase().toLowerCase().equals(BSFRAMEWORK)) {
+			conn = mySQL
+					.getConnection(request.getServletContext(), BSFRAMEWORK);
+		} else {
+			conn = mySQL.getConnection(request);
+		}
+		*/
 		conn = mySQL.getConnection(request);
 
 		table.configFields(conn, mySQL);

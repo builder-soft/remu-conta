@@ -126,7 +126,10 @@ public class BSTableConfig {
 
 	public void configFields(Connection conn, BSmySQL mysql) {
 		configBasic(conn, mysql);
-		configFKFields(conn, mysql);
+		if (this.viewName == null) {
+			configFKFields(conn, mysql);
+		}
+
 	}
 
 	private void configBasic(Connection conn, BSmySQL mysql) {

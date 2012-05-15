@@ -10,23 +10,22 @@
 </ul>
 
 </td>
-<td valign="top" width="5%" colspan="2">
-
-
-<%!private String write_menu_in_menu_jsp(HttpSession session,
+<td valign="top" width="5%" colspan="2"><%!private String write_menu_in_menu_jsp(HttpSession session,
 			HttpServletRequest request) {
 		Menu menuUser = (Menu) session.getAttribute("Menu");
 		String out = "";
-		String ctxPath = request.getContextPath();
-		List<Submenu> main = menuUser.list();
-		Option opt = null;
-		String url = null;
-		String label = null;
-		for (Submenu submenu : main) {
-			opt = submenu.getOption();
+		if (menuUser != null) {
+			String ctxPath = request.getContextPath();
+			List<Submenu> main = menuUser.list();
+			Option opt = null;
+			String url = null;
+			String label = null;
+			for (Submenu submenu : main) {
+				opt = submenu.getOption();
 
-			out += option2String(opt, ctxPath);
-			out += writeSubMenu(submenu, ctxPath);
+				out += option2String(opt, ctxPath);
+				out += writeSubMenu(submenu, ctxPath);
+			}
 		}
 		return out;
 	}

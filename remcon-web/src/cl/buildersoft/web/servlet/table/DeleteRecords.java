@@ -45,7 +45,7 @@ public class DeleteRecords extends AbstractServletUtil {
 		if (table.getDeleteSP() != null) {
 			for (String value : values) {
 				Long id = Long.parseLong(value);
-				mySQL.callSingleSP(conn, "pDelEmployee", id);
+				mySQL.callSingleSP(conn, table.getDeleteSP() , id);
 			}
 
 		} else {

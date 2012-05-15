@@ -64,10 +64,13 @@ public class BSAction {
 		return natTable;
 	}
 
-	public void setNatTable(String directTable, String otherTable) {
-		this.natTable = new String[2];
-		this.natTable[0] = directTable;
-		this.natTable[1] = otherTable;
+	public void setNatTable(String directDatabase, String directTable,
+			String otherDatabase, String otherTable) {
+		this.natTable = new String[4];
+		this.natTable[0] = directDatabase;
+		this.natTable[1] = directTable;
+		this.natTable[2] = otherDatabase;
+		this.natTable[3] = otherTable;
 		this.setActionType(BSActionType.Record);
 		this.setUrl("/servlet/table/NatTable");
 	}

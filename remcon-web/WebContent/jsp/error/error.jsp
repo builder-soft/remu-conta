@@ -69,9 +69,11 @@
 	}
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
-
+<%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
+<!-- 
 </td>
 <td>
+ -->
 	<h1 class="cTitle" style="color: red"><%=title%></h1> <pre>
   <%=desc%>
   </pre> <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

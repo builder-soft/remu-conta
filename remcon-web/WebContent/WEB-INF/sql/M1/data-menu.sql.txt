@@ -10,7 +10,7 @@ INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, @menuIdSystem);
 	INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, LAST_INSERT_ID());
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ALLOW', 'Permisos de roles', '/servlet/system/roleDef/RoleDef', @menuIdSystem);
 	INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, LAST_INSERT_ID());
-	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CH_PASS', 'Cambio de clave', '/servlet/system/changePassword/SearchPassword', @menuIdSystem);
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CH_PASS', 'Cambio de clave', '/servlet/system/changepassword/SearchPassword', @menuIdSystem);
 	INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, LAST_INSERT_ID());
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ROL', 'Definición de Roles', '/servlet/system/role/RolManager', @menuIdSystem);
 	INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, LAST_INSERT_ID());

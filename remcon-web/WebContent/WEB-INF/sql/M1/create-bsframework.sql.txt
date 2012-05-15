@@ -53,8 +53,6 @@ CREATE TABLE IF NOT EXISTS tDomainAttribute (
 ) ENGINE=innoDB;
 
  /** V I S T A S **/
-
- 
  
 DROP VIEW IF EXISTS vUserAdmin;
 CREATE VIEW vUserAdmin
