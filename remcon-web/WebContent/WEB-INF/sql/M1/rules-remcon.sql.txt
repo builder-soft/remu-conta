@@ -126,8 +126,8 @@ ADD CONSTRAINT HealthAttributeToBoard FOREIGN KEY (cHealth) REFERENCES remcon.tB
 
 /* FILE */
 ALTER TABLE remcon.tFile
-ADD INDEX `fileCategory_index` (`cCategory` ASC),
-ADD CONSTRAINT withCategory FOREIGN KEY (cCategory) REFERENCES remcon.tFileCategory(cId);
+ADD INDEX `File_index_FileCategory` (cFileCategory ASC),
+ADD CONSTRAINT FileToFileCategory FOREIGN KEY (cFileCategory) REFERENCES remcon.tFileCategory(cId);
 
 
 /* BOOK */
