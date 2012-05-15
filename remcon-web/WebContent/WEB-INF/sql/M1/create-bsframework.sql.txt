@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS tDomain (
 	cAlias		VARCHAR(15) NULL	
 ) ENGINE=innoDB;
 
-/* En esta tabla, se guarda la relaci�n para determinar a que dominios puede acceder un usuario */
+/* En esta tabla, se guarda la relación para determinar a que dominios puede acceder un usuario */
 CREATE TABLE IF NOT EXISTS tR_UserDomain (
 	cUser		BIGINT  NOT NULL,
 	cDomain		BIGINT  NOT NULL	
