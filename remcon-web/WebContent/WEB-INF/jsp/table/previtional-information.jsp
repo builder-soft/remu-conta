@@ -150,7 +150,7 @@ function getApvSelected(){
 							for(Board bsAfp : listadoAfp)
 							{											
 							%>
-								<OPTION value="<%=bsAfp.getKey()%>"<%=agreementEmp.getPfm()!=null && bsAfp.getKey().equals(agreementEmp.getPfm()) ? "selected" : "" %>><%=bsAfp.getValue()%></OPTION>
+								<OPTION value="<%=bsAfp.getId()%>"<%=agreementEmp.getPfm()!=null && bsAfp.getId().equals(agreementEmp.getPfm()) ? "selected" : "" %>><%=bsAfp.getValue()%></OPTION>
 							<%
 							}
 							%>
@@ -180,7 +180,7 @@ function getApvSelected(){
 						for(Board bsExbox : listadoExBox)
 						{											
 						%>
-							<OPTION value="<%=bsExbox.getKey()%>"<%=agreementEmp.getExBoxSystem() != null && bsExbox.getKey().equals(agreementEmp.getExBoxSystem()) ? "selected" : "" %>><%=bsExbox.getValue()%></OPTION>
+							<OPTION value="<%=bsExbox.getId()%>"<%=agreementEmp.getExBoxSystem() != null && bsExbox.getId().equals(agreementEmp.getExBoxSystem()) ? "selected" : "" %>><%=bsExbox.getValue()%></OPTION>
 						<%
 						}
 						%>
@@ -194,7 +194,7 @@ function getApvSelected(){
 						for(Board bsHealth : listadoHealth)
 						{											
 						%>
-							<OPTION value="<%=bsHealth.getKey()%>"<%=agreementEmp.getHealth()!= null && bsHealth.getKey().equals(agreementEmp.getHealth()) ? "selected" : "" %>><%=bsHealth.getValue()%></OPTION>
+							<OPTION value="<%=bsHealth.getId()%>"<%=agreementEmp.getHealth()!= null && bsHealth.getId().equals(agreementEmp.getHealth()) ? "selected" : "" %>><%=bsHealth.getValue()%></OPTION>
 						<%
 						}
 						%>
@@ -210,16 +210,12 @@ function getApvSelected(){
 				<td class="cLabel" valign='top'>Plan $:</td>
 				<td class="cData">
 				<input id="additionalHealthCLP" name="additionalHealthCLP" value="<%=agreementEmp.getAdditionalHealthCLP()%>">
-				</td>
-				<td class="cLabel" valign='top'>Plan %:</td>
-				<td class="cData">
-				<input id="additionalHealthPorc" name="additionalHealthPorc" value="<%=agreementEmp.getAdditionalHealthCLP()%>">
-				</td>				
+				</td>			
 			</tr>
 			<tr>
 				<td class="cLabel" valign='top'>Cargas simples:</td>
 				<td class="cData">
-				<input id="simpleLoad" id="simpleLoad" value="<%=agreementEmp.getSimpleLoads()%>">
+				<input id="simpleLoad" name="simpleLoad" value="<%=agreementEmp.getSimpleLoads()%>">
 				</td>
 				<td class="cLabel" valign='top'>Cargas maternales:</td>
 				<td class="cData">

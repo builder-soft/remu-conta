@@ -36,7 +36,7 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		String[] apvInstitution = (String[]) request.getParameterValues("apvInstitution");
 		String[] apvCurrency = (String[]) request.getParameterValues("apvCurrency");
 		String[] apvAmount = (String[]) request.getParameterValues("apvAmount");
-		for (int i = 0; i < apvInstitution.length; i++) {
+		for (int i = 0; apvInstitution != null && i < apvInstitution.length; i++) {
 			Account2 account = new Account2();
 			account.setAccountType(apvType.getId());
 			account.setCurrency(new Long(apvCurrency[i]));
@@ -58,6 +58,8 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		Long health = Long.valueOf(request.getParameter("health"));
 		Double additionalHealthCLP = Double.valueOf(request
 				.getParameter("additionalHealthCLP"));
+		Integer simpleLoads = Integer.valueOf(request.getParameter("simpleLoad"));
+		
 
 		agreement.setExBoxSystem(exBox);
 		agreement.setDisabilityBurdens(disabilityBurdens);
@@ -66,6 +68,7 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		agreement.setAdditionalHealthUF(additionalHealthUF);
 		agreement.setHealth(health);
 		agreement.setAdditionalHealthCLP(additionalHealthCLP);
+		agreement.setSimpleLoads(simpleLoads);
 
 		bu.save(conn, agreement);
 

@@ -5,12 +5,17 @@ call remcon.pListAccountsForEmployeeAndType(1, 'PFM');
 call remcon.pListAccountsForEmployeeAndType2(1, 'APV');
 */
 
-
+/*
 	SELECT		*
 	FROM 		remcon.tAccount AS a
 	LEFT JOIN	remcon.tBoard	AS b ON a.cInstitution = b.cId 
 	WHERE		cEmployee = 1 
 	ORDER BY	cCurrency;
+*/	
+	
+	SELECT		cId,cEmployee,cPFM
+	FROM 		remcon.tAgreement 
+	WHERE		cEmployee = 1;
 	
 
 
