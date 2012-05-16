@@ -12,9 +12,6 @@ import cl.buildersoft.framework.beans.Account2;
 import cl.buildersoft.framework.beans.Agreement;
 import cl.buildersoft.framework.beans.Board;
 import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.framework.type.BSFieldDataType;
-import cl.buildersoft.framework.type.BSFieldType;
-import cl.buildersoft.framework.type.BSTypeFactory;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.web.servlet.table.AbstractServletUtil;
 
@@ -36,9 +33,6 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		Agreement agreement = getAgreement(conn, bu, id);
 		mysql.callSingleSP(conn, "pDelAccountsByEmployeeAndType", array2List(id, apvType.getId()));
 				
-		BSFieldDataType dateType = BSTypeFactory.create(BSFieldType.Date);
-		BSFieldDataType doubleType = BSTypeFactory.create(BSFieldType.Double);
-
 		String[] apvInstitution = (String[]) request.getParameterValues("apvInstitution");
 		String[] apvCurrency = (String[]) request.getParameterValues("apvCurrency");
 		String[] apvAmount = (String[]) request.getParameterValues("apvAmount");

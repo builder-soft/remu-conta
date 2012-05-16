@@ -15,7 +15,6 @@
 <%
 	BSTableConfig table = (BSTableConfig) session.getAttribute("BSTable");
 	BSField[] fields = table.getFields();
-	String[] groupPrevisionalInformation = (String[])request.getAttribute("DataShow");
 	List<Board> listadoApv = (List<Board>)request.getAttribute("listadoApv");
 	List<Board> listadoCurrency = (List<Board>)request.getAttribute("listadoCurrency");
 	List<Account2> listadoApvEmp = (List<Account2>)request.getAttribute("listadoApvEmp");
@@ -32,10 +31,14 @@ function addApv(idCurrency,idApv,monto)
 	var rowCount = $("#apvs tr").length;
 	if(rowCount == 0)
 		{
-		cloneApv = $('#apvHide').clone();
-		cloneApv.attr('id','apv'+rowCount);
-		$('#apvs').append(cloneApv);
-		return;
+			cloneApv = $('#apvHide').clone();
+			cloneApv.attr('id','apv'+rowCount);
+			$('#apvs').append(cloneApv);
+			
+			$('#apv'+rowCount).find("select[id='apvCurrency']").val(idCurrency);
+			$('#apv'+rowCount).find("select[id='apvInstitution']").val(idApv);
+			$('#apv'+rowCount).find("input[id='apvAmount']").val(monto);			
+			return;
 		}
 		
 	

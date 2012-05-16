@@ -11,6 +11,7 @@ call remcon.pListAccountsForEmployeeAndType2(1, 'APV');
 	LEFT JOIN	remcon.tBoard	AS b ON a.cInstitution = b.cId 
 	WHERE		cEmployee = 1 
 	ORDER BY	cCurrency;
+	
 
 
 
