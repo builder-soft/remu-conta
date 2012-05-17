@@ -140,3 +140,7 @@ ALTER TABLE remcon.tBookAssets
 ADD INDEX BookAssets_index_Book (cBook ASC),
 ADD CONSTRAINT tBookAssetsToBook FOREIGN KEY (cBook) REFERENCES remcon.tBook(cId);
 
+/* tBookDiscounts */
+ALTER TABLE remcon.tBookDiscounts
+ADD INDEX tBookDiscounts_index_Book (cBook ASC),
+ADD CONSTRAINT tBookDiscountsToBook FOREIGN KEY (cBook) REFERENCES remcon.tBook(cId);

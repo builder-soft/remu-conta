@@ -306,12 +306,12 @@ se contabilizará en una cuenta contable
 
 /*************************************
 Tabla de libro con descuentos.
-/ *
+============================== 
 hay 2 seguros
 S.I.S. = es un % (1.87) lo entrega el previred es de costo del trabajador, se paga a la AFP (parametro del mes)
 Seguro de Invalidez de la Mutual
 Es un % que fija la mutual en base al indice de siniestralidad, lo paga el empleador a la mutual, (parametro mensual x cada mutual), nota este parametro no cambia todos los meses. No se imprime en la liquidacion pero se contabiliza como parte del costo empresa
-* /
+*/
 create table tBookDiscounts(
 	cId								BIGINT(20) NOT NULL auto_increment,
 	cBook							BIGINT(20) NOT NULL,
@@ -319,56 +319,60 @@ create table tBookDiscounts(
 	cObligatoryInsurance			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Seguro Obligatorio - Es un % ',
 	cAVPAmount						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto APV - Suma de todos los montos en APV, algunos traducir a pesos desde UF',
 	cAccount2						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cuenta 2, Ahorro AFP - Se saca de la tabla tAccount',
-	cLimitTaxableForecast		COMMENT 'Tope Imponible Previsional - Parámetro del mes, hay que buscar el valor por tramos',
-	cLimitTaxableDismissInsurance	COMMENT 'Tope Imponible Seguro Cesantia - Parámetro del mes, es un valor fijo',
-	cHealth							COMMENT 'Codigo de sistema de salud - Es la Isapre',
+	cLimitTaxableForecast			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Previsional - Parámetro del mes, hay que buscar el valor por tramos',
+	cLimitTaxableDismissInsurance	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Seguro Cesantia - Parámetro del mes, es un valor fijo',
+	cHealth							BIGINT(20) NOT NULL COMMENT 'Codigo de sistema de salud - Es la Isapre o fonasa',
 	
-	cCotizacionLegal				COMMENT ' - Es el 7% del imponible, el valor es calculado',
+	cLawfulQuote					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotización Legar - Es el 7% del imponible, el valor es calculado',
 	
-	cMonedaPlanHealth				COMMENT 'UF o CLP - tAgreement.cAdditionalHealthCLP/UF',
-	cPlanPactadoHealth				COMMENT 'Monto pactado de salud - Relacionado con campo cMonedaPlanHealth',
+	cCurrencyPlanHealth				BIGINT(20) NOT NULL COMMENT 'Moneda del plan complementario de salud - UF o CLP - tAgreement.cAdditionalHealthCLP/UF',
+	cPlanHealth						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto pactado de salud - Relacionado con campo cMonedaPlanHealth',
 	
-	cCotizacionAdicional			COMMENT 'Diferencia entre el plan de salud y la legal - cCotizacionLegal - PlanPactado',
-/ *
+	cExtraHealth					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Adicional de salud - Diferencia entre el plan de salud y la legal, cCotizacionLegal - PlanPactado',
+	cLimitExtraHealth				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope de la cotización de salud',
+/*
 Cotizacion Salud Rebaja
 Tope 4.2 UF (parametro puede variar)
-"Sí, la cotización adicional de salud, superior al 7%, aplicada a una renta imponible de 67,4 UF a contar de enero 2012, es tributable para los efectos del Impuesto Único, pues permite rebajar por concepto de cotización de salud hasta 4,72 UF (67,4 UF por 7%)."
+Sí, la cotización adicional de salud, superior al 7%, aplicada a una renta imponible de 67,4 UF a contar de enero 2012, es tributable para los efectos del 
+Impuesto Único, pues permite rebajar por concepto de cotización de salud hasta 4,72 UF (67,4 UF por 7%).
 Si alguien tiene un plan muy caro de salud debe tributar como impuesto unico a la renta el excedente
-* /	
+*/	
+/*
 	cCotisacionSaludRebaja			COMMENT 'Preguntar que es',
-	cTipoSeguroCesantia				COMMENT 'Sin seguro, contrato indefinido o a plazo',
-/ *
+*/
+	cUnemploymentInsurance			BIGINT(20) NOT NULL COMMENT 'Código de seguro de sesantia - Sin seguro, contrato indefinido o a plazo',
+/*
 Seguro Sesantia
 Hay 3 tipos:
  1.Sin seguro
- 2.Contrato a Plazo = el empleador cancela el 3% del imponible como
-seguro de sesantia
- 3.Contrato indefinido = el empleador cubre un 2.4% y el 0.6% lo
-cancela el trabajador (descuento)
-La columna en el libro de remuneraciones se llama Aporte Patronal se
-contabiliza y no se imprime en la liquidacion, salvo el 0.6% cuando
-corresponde (es costo empresa).
+ 2.Contrato a Plazo = el empleador cancela el 3% del imponible como seguro de sesantia
+ 3.Contrato indefinido = el empleador cubre un 2.4% y el 0.6% lo cancela el trabajador (descuento)
+La columna en el libro de remuneraciones se llama Aporte Patronal se contabiliza y no se imprime en la liquidacion, salvo el 0.6% cuando corresponde (es costo empresa).
+
  Ojo tiene tope en UF ese tope lo da el previred y puede cambiar en el año
 el 3% (2.4 + 0.6) es ley y tambien podria cambiar por tanto dejar como
 parametro del mes (obvio)
-* /
-	cMontoSeguroCesantia
-	cImpuestoUnico
-	cAnticipoSueldo
+*/
+	cUnemploymentInsuranceAmount	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Seguro Cesantia en pesos',
+	cUniqueTax						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Impuesto Unico - es un valor que se calcula', 
+	cAdvance						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Anticipo de Sueldo',
+/*	
 	cAnticipoViatico
-	cPrestamoEmpresa
-	cPrestamoCajaCompenzacion
-	cAhorroCajaCompenzacion
-	cRetencionesJudiciales
+*/				
+	cLoanEnterprise					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Prestamo de la Empresa', 
+	cLoanCompensationFund			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Prestamo Caja Compenzacion', 
+	cSavingCompensationFund			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Ahorro Caja Compenzacion', 
+	cJudicialRetention				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Retenciones Judiciales',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+/****************
 EN LA VISTA:
 DROP VIEW IF EXISTS vBook;
 CREATE VIEW vBook
 AS
 SELECT a.*, b.*, c.*,
-	cTotalIncomeNoTaxable,		/* Total Haberes Imponibles * /
+	cTotalIncomeTaxable,		/* Total Haberes Imponibles * /
 	cIncome                            /* Renta Afecta * /,
 	cTotalIncomeNoTaxable			/* Total Haberes No Imponibles * /,
 	cTotalIncome					/* Total Haberes * /,
