@@ -18,15 +18,17 @@
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 
 <%
-	Employee empl = (Employee) request.getAttribute("Employee");
+Employee employee = (Employee) request.getAttribute("Employee");
 	Agreement agreement = (Agreement) request.getAttribute("Agreement");
 	if (agreement == null) {
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 
 		AgreementService agreementService = new AgreementServiceImpl();
-		agreement = agreementService.getDefaultAgreement(conn, empl.getId());
+		agreement = agreementService.getDefaultAgreement(conn,
+				employee.getId());
 	}
+
 
 	List<Profile> profiles = (List<Profile>) request
 			.getAttribute("Profiles");
@@ -45,18 +47,18 @@
 <table>
 	<tr>
 		<td class="cLabel">RUT:</td>
-		<td class="cData"><%=empl.getRut()%></td>
+		<td class="cData"><%=employee.getRut()%></td>
 	</tr>
 	<tr>
 		<td class="cLabel">Empleado:</td>
-		<td class="cData"><%=empl.getName() + " " + empl.getLastName1() + " "
-					+ empl.getLastName2()%></td>
+		<td class="cData"><%=employee.getName() + " " + employee.getLastName1() + " "
+					+ employee.getLastName2()%></td>
 	</tr>
 </table>
 <br>
 <form
 	action="${pageContext.request.contextPath}/servlet/config/employee/SaveContractualInfo">
-	<input type="hidden" name="cId" value="<%=empl.getId()%>">
+	<input type="hidden" name="cId" value="<%=employee.getId()%>">
 
 	<table border="0">
 		<tr>

@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.beans.Employee"%>
 <%@page import="cl.buildersoft.framework.beans.Account2"%>
 <%@page import="cl.buildersoft.framework.beans.Board"%>
 <%@page import="cl.buildersoft.framework.beans.Agreement"%>
@@ -21,7 +22,9 @@
 	List<Board> listadoAfp = (List<Board>)request.getAttribute("listadoAfp");
 	List<Board> listadoExBox = (List<Board>)request.getAttribute("listadoExBox");	
 	List<Board> listadoHealth = (List<Board>)request.getAttribute("listadoHealth");	
-	Agreement agreementEmp = (Agreement)request.getAttribute("agreementEmp");	
+	Agreement agreementEmp = (Agreement)request.getAttribute("agreementEmp");
+	Employee employee = (Employee) request.getAttribute("Employee");
+
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <script>
@@ -103,6 +106,19 @@ function getApvSelected(){
 	}
 %>
 <!--config/employee/SavePrevitionalInfo-->
+<table>
+	<tr>
+		<td class="cLabel">RUT:</td>
+		<td class="cData"><%=employee.getRut()%></td>
+	</tr>
+	<tr>
+		<td class="cLabel">Empleado:</td>
+		<td class="cData"><%=employee.getName() + " " + employee.getLastName1() + " "
+					+ employee.getLastName2()%></td>
+	</tr>
+</table>
+<br>
+
 <div style="display: none" id="divHide">
 <table id="tableHide">
 					<tr id="apvHide">
@@ -141,10 +157,10 @@ function getApvSelected(){
 </div>
 <form action="${pageContext.request.contextPath}/servlet/config/employee/SavePrevitionalInfo" method="post" id="editForm">
 	<input type="hidden" name="cId" value="<%=request.getParameter("cId")%>">
-	<table>
+	<table border="0">
 			<tr>
 					<td class="cLabel" valign='top'>AFP:</td>
-					<td class="cData">
+					<td class="cData" colspan="3">
 					<select id="afpEmp" name="afpEmp">
 							<%			
 							for(Board bsAfp : listadoAfp)
@@ -157,21 +173,6 @@ function getApvSelected(){
 					</select>						
 				</td>
 			</tr>	
-			<tr>
-				<td colspan="4">
-					<table id="apvs">
-					<%	
-					int contador = 0;
-					int cantApvs = listadoApvEmp.size();
-					for(Account2 bsApvEmp : listadoApvEmp){
-
-							out.print("<script>addApv('"+bsApvEmp.getCurrency()+"','"+bsApvEmp.getInstitution() +"','"+bsApvEmp.getAmount()+"');</script>");
-						
-					}
-					%>
-					</table>
-				<td>
-			</tr>
 			<tr>
 				<td class="cLabel" valign='top'>Caja Ex-Régimen:</td>
 				<td class="cData" colspan="3">
@@ -187,8 +188,8 @@ function getApvSelected(){
 				</select>
 			</tr>
 			<tr>
-				<td class="cLabel" valign='top'>Isapre:</td>
-				<td class="cData">
+				<td class="cLabel" valign='top'>Sistema de salud:</td>
+				<td class="cData" colspan="3">
 				<select id="health" name="health">
 						<%			
 						for(Board bsHealth : listadoHealth)
@@ -200,13 +201,16 @@ function getApvSelected(){
 						%>
 				</select>
 				</td>
+				
+			</tr>
+			<tr>
+				
+				
 				<td class="cLabel" valign='top'>Plan UF:</td>
 				<td class="cData">
 				<input id="additionalHealthUF" name="additionalHealthUF" value="<%=agreementEmp.getAdditionalHealthUF()%>">
 				</td>				
 				
-			</tr>
-			<tr>
 				<td class="cLabel" valign='top'>Plan $:</td>
 				<td class="cData">
 				<input id="additionalHealthCLP" name="additionalHealthCLP" value="<%=agreementEmp.getAdditionalHealthCLP()%>">
@@ -228,14 +232,33 @@ function getApvSelected(){
 					<input id="disabilityBurdens" name="disabilityBurdens" value="<%=agreementEmp.getDisabilityBurdens()%>">
 				</td>
 			</tr>														
+
+			<tr>
+				<td colspan="4">
+					<table id="apvs">
+					<%	
+					int contador = 0;
+					int cantApvs = listadoApvEmp.size();
+					for(Account2 bsApvEmp : listadoApvEmp){
+
+							out.print("<script>addApv('"+bsApvEmp.getCurrency()+"','"+bsApvEmp.getInstitution() +"','"+bsApvEmp.getAmount()+"');</script>");
+						
+					}
+					%>
+					</table>
+				</td>
+			</tr>
+
 			
 	</table>
 </form>
+<br>
 <input type="button" value="Aceptar"
 	onclick="javascript:$('#editForm').submit();">
 &nbsp;&nbsp;&nbsp;
+<input type="button" value="Agregar APV" onclick="javascript:addApv()">
+&nbsp;&nbsp;&nbsp;
 <a href="${pageContext.request.contextPath}/servlet/table/LoadTable">Cancelar</a>&nbsp;&nbsp;&nbsp;
-<a href="javascript:addApv()">Agregar APV</a>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 
