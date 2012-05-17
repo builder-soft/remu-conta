@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.beans.PaymentType"%>
 <%@page import="cl.buildersoft.framework.beans.Account2"%>
 <%@page import="cl.buildersoft.framework.beans.Agreement"%>
 <%@page import="cl.buildersoft.framework.beans.Board"%>
@@ -11,7 +12,7 @@
 	List<Board> banks = (List<Board>) request.getAttribute("Banks");
 	List<Board> accountTypes = (List<Board>) request
 			.getAttribute("AccountTypes");
-	List<Board> paymentTypes = (List<Board>) request
+	List<PaymentType> paymentTypes = (List<PaymentType>) request
 			.getAttribute("PaymentTypes");
 	Account2 account = (Account2) request.getAttribute("Account");
 %>
@@ -53,11 +54,11 @@
 			<td class="cLabel">Modo de pago:</td>
 			<td><select name="cPaymentType">
 					<%
-						for (Board paymentType : paymentTypes) {
+						for (PaymentType paymentType : paymentTypes) {
 					%>
 					<option value="<%=paymentType.getId()%>"
 						<%=paymentType.getId()
-						.equals(agreement.getPaymentType()) ? "selected" : ""%>><%=paymentType.getValue()%></option>
+						.equals(agreement.getPaymentType()) ? "selected" : ""%>><%=paymentType.getName()%></option>
 					<%
 						}
 					%>

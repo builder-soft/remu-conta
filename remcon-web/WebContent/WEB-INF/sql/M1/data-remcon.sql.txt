@@ -44,11 +44,12 @@ INSERT INTO tGratificationType(cName) VALUES('Gratificacion por antiguedad de a√
 
 INSERT INTO tHorary(cName) VALUES('Lun-Vie 9:00-19:00, colaci√≥n 60 min.');
 
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'EFECTIVO', 'Efectivo');
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'CHEQUE', 'Cheque');
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'ABONO_CUENTA', 'Abono Cuenta');
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'VALE_VISTA', 'Vale Vista');
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('PAYMENT_TYPE', 'SERVIPAG', 'Servipag'); 
+
+INSERT INTO tPaymentType (cKey, cName) VALUES ('EFECTIVO', 'Efectivo');
+INSERT INTO tPaymentType (cKey, cName) VALUES ('CHEQUE', 'Cheque');
+INSERT INTO tPaymentType (cKey, cName) VALUES ('ABONO_CUENTA', 'Abono Cuenta');
+INSERT INTO tPaymentType (cKey, cName) VALUES ('VALE_VISTA', 'Vale Vista');
+INSERT INTO tPaymentType (cKey, cName) VALUES ('SERVIPAG', 'Servipag'); 
 
 /* Caja de compensaciones */
 INSERT INTO tBoard (cType, cKey, cValue) VALUES ('COMPENSATION', 'ANDES','Los Andes');

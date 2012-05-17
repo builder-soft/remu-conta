@@ -180,6 +180,14 @@ create table tContractType(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+create table tPaymentType(
+	cId 				BIGINT(20) NOT NULL auto_increment,
+	cKey				VARCHAR(15) NOT NULL,
+	cName				VARCHAR(20) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+
 create table tProfile (
 	cId					BIGINT(20) NOT NULL auto_increment, 
 	cName				VARCHAR(20) NOT NULL,
@@ -427,11 +435,13 @@ AS
 	WHERE cType='MARITAL_STATUS';
 
 DROP VIEW IF EXISTS vGenere;
+/*
 CREATE VIEW vGenere
 AS
 	SELECT cId, cValue AS cName 
 	FROM remcon.tBoard 
 	WHERE cType='GENERE';
+*/
 
 DROP VIEW IF EXISTS vCurrency;
 CREATE VIEW vCurrency
@@ -464,12 +474,13 @@ AS
 	WHERE a.cType='HEALTH';
  
 DROP VIEW IF EXISTS vPaymentType;
+/*
 CREATE VIEW vPaymentType
 AS
 	SELECT cId, cValue AS cName 
 	FROM remcon.tBoard 
 	WHERE cType='PAYMENT_TYPE';
- 
+*/
  
 DROP VIEW IF EXISTS vAccountType;
 /*
