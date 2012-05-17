@@ -29,12 +29,10 @@ public class GetMenuServlet extends HttpServlet {
 	 */
 	public GetMenuServlet() {
 		super();
-
 	}
 
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
 		HttpSession session = request.getSession();
 		Connection conn = new BSDataUtils().getConnection(request);
 

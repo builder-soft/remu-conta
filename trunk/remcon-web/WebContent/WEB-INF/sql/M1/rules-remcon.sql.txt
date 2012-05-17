@@ -18,7 +18,7 @@ ADD CONSTRAINT withCountry       FOREIGN KEY (cCountry) REFERENCES remcon.tCount
 
 ALTER TABLE remcon.tEmployee
 ADD INDEX `Employee_index_Genere` (`cGenere` ASC),
-ADD CONSTRAINT withGenere FOREIGN KEY (cGenere) REFERENCES remcon.tBoard(cId);
+ADD CONSTRAINT EmployeeToGenere FOREIGN KEY (cGenere) REFERENCES remcon.tGenere(cId);
 
 ALTER TABLE remcon.tEmployee
 ADD INDEX `comuna_index` (`cComuna` ASC),

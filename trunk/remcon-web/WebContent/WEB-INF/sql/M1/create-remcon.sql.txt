@@ -22,6 +22,7 @@ C:\archivos\	-> Configuracion
 */
 CREATE TABLE IF NOT EXISTS tFile (
 	cId				BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cEmployee		BIGINT  NOT NULL,
 	cDesc			VARCHAR(100) COMMENT 'Descripcion que ingresa el usuario',
     cFileName		VARCHAR(40) NOT NULL COMMENT 'Nombre del archivo que se subio, ej. foto-01.jpg',
     cFileRealName	VARCHAR(50) NOT NULL COMMENT 'Archivo en el disco 128706682-12345678901234567890.png',
@@ -116,6 +117,13 @@ create table tEmployee (
 	cEmail				VARCHAR(50),
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
+
+create table tGenere(
+	cId 				BIGINT(20) NOT NULL auto_increment, 
+	cName				VARCHAR(20) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
 
 create table tAgreement(
 	cId					BIGINT(20) NOT NULL auto_increment, 
@@ -368,10 +376,15 @@ parametro del mes (obvio)
 
 /****************
 EN LA VISTA:
+*/
 DROP VIEW IF EXISTS vBook;
 CREATE VIEW vBook
 AS
-SELECT a.*, b.*, c.*,
+SELECT a.cId,a.cPeriod,a.cEmployee,a.cHorary,a.cWorkDays,a.cSalaryRoot,a.cOvertime
+
+/*,
+a.*, b.*, c.* 
+
 	cTotalIncomeTaxable,		/* Total Haberes Imponibles * /
 	cIncome                            /* Renta Afecta * /,
 	cTotalIncomeNoTaxable			/* Total Haberes No Imponibles * /,
@@ -382,11 +395,11 @@ SELECT a.*, b.*, c.*,
 	*TotalDescuentos,
 	*AlcanceLiquido,
 	*SueldoGanado,
-	*LiquidoPagar,
+	*LiquidoPagar,*/
 FROM	remcon.tBook AS a
-LEFT JOIN remcon.tBookAssets AS b ON b.cBook = a.cId
-LEFT JOIN remcon.tBookDiscounts AS c ON ON c.cBook = a.cId;
-**************************************/
+LEFT JOIN remcon.tBookAssets	AS b ON b.cBook = a.cId
+LEFT JOIN remcon.tBookDiscounts	AS c ON c.cBook = a.cId;
+/***************************************/
 
  /** V I S T A S **/
 
