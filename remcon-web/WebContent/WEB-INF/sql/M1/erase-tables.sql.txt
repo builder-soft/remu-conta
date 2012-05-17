@@ -3,6 +3,7 @@ drop table if exists remcon.tAccount;
 drop table if exists remcon.tAgreement;
 drop table if exists remcon.tEmployee;
 
+drop table if exists remcon.tGenere;
 drop table if exists remcon.tHorary;
 drop table if exists remcon.tCountry;
 drop table if exists remcon.tPFMAttribute;

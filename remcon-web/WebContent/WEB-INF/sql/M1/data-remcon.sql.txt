@@ -62,9 +62,9 @@ INSERT INTO tBoard (cType, cKey, cValue) VALUES ('MUTUAL', 'ACHS','Asociación C
 INSERT INTO tBoard (cType, cKey, cValue) VALUES ('MUTUAL', 'MS', 'Mutual de Seguridad' );
 INSERT INTO tBoard (cType, cKey, cValue) VALUES ('MUTUAL', 'IST', 'Instituto de Seguridad del Trabajo' );
 
-/* SEXO */
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('GENERE', 'F', 'Femenino');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('GENERE', 'M', 'Masculino');
+/* Genero */
+INSERT INTO tGenere(cName) VALUES('Femenino');
+INSERT INTO tGenere(cName) VALUES('Masculino');
 
 /* Tipos de opciones */
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('TYPE_OPTION', 'MENU', 'Menu');

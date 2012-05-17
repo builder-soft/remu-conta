@@ -37,6 +37,8 @@ public class EmployeeManager extends BSHttpServlet {
 		previtionalInformation.setUrl("/servlet/table/EmployeeInformation");
 		table.addAction(previtionalInformation);
 
+		table.getAction("EDIT").setLabel("Informacion Personal");
+		
 		BSAction contractualInfo = new BSAction("CONTRACTUAL",
 				BSActionType.Record);
 		contractualInfo.setLabel("Información Contractual");
@@ -44,7 +46,7 @@ public class EmployeeManager extends BSHttpServlet {
 		table.addAction(contractualInfo);
 
 		BSAction payMode = new BSAction("PAY_MODE", BSActionType.Record);
-		payMode.setLabel("Modo de Pago");
+		payMode.setLabel("Forma de Pago");
 		payMode.setUrl("/servlet/config/employee/PayMode");
 		table.addAction(payMode);
 		return table;
