@@ -1,0 +1,20 @@
+DROP PROCEDURE if exists remcon.pDelPFM;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pDelPFM(IN pId BIGINT)
+BEGIN
+
+	SELECT	cId INTO @attributeId
+	FROM	remcon.tPFMAttribute
+	WHERE	cPFM = pId;
+
+	DELETE
+	FROM	remcon.tPFMAttribute
+	WHERE	cId = @attributeId;
+	
+	DELETE
+	FROM	remcon.tBoard
+	WHERE	cId = pId;
+END$$
+
+DELIMITER ;

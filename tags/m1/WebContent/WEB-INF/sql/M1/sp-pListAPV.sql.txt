@@ -1,0 +1,13 @@
+DROP PROCEDURE if exists remcon.pListAPV;
+DROP PROCEDURE if exists remcon.pGetAPVList;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pListAPV()
+BEGIN
+	SELECT		cId, cKey, cValue AS cName, cEnable 
+	FROM 		remcon.tBoard
+	WHERE		cType = 'APV';
+END$$
+
+DELIMITER ;
+ 

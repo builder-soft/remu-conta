@@ -1,0 +1,142 @@
+use remcon;
+
+/**
+ALTER TABLE tR_RolOption ADD PRIMARY KEY(cRol, cOption);
+ALTER TABLE tR_UserRol ADD PRIMARY KEY(cUser,cRol);
+*/
+
+/** L L A V E S   F O R A N E A S **/
+
+/** EMPLOYEE */
+ALTER TABLE remcon.tEmployee
+ADD INDEX `Employee_index_MaritalStatus` (`cMaritalStatus` ASC),
+ADD CONSTRAINT withMaritalStatus FOREIGN KEY (cMaritalStatus) REFERENCES remcon.tBoard(cId);
+
+ALTER TABLE remcon.tEmployee
+ADD INDEX `Employee_index_Country` (`cCountry` ASC),
+ADD CONSTRAINT withCountry       FOREIGN KEY (cCountry) REFERENCES remcon.tCountry(cId);
+
+ALTER TABLE remcon.tEmployee
+ADD INDEX `Employee_index_Genere` (`cGenere` ASC),
+ADD CONSTRAINT withGenere FOREIGN KEY (cGenere) REFERENCES remcon.tBoard(cId);
+
+ALTER TABLE remcon.tEmployee
+ADD INDEX `comuna_index` (`cComuna` ASC),
+ADD CONSTRAINT employeeToComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(cId);
+
+/** AGREEMENT */
+ALTER TABLE remcon.tAgreement
+ADD INDEX Employee_index (`cEmployee` ASC),
+ADD CONSTRAINT AgreementToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId);
+
+ALTER TABLE remcon.tAgreement
+ADD INDEX `contractType_index` (`cContractType` ASC),
+ADD CONSTRAINT AgreementToContractType FOREIGN KEY (cContractType) REFERENCES remcon.tContractType(cId);
+
+ALTER TABLE remcon.tAgreement
+ADD INDEX `profile_index` (`cProfile` ASC),
+ADD CONSTRAINT EmployeeToProfile FOREIGN KEY (cProfile) REFERENCES remcon.tProfile(cId);
+
+ALTER TABLE remcon.tAgreement
+ADD INDEX `pfm_index` (`cPFM` ASC),
+ADD CONSTRAINT AgreementToPFM FOREIGN KEY (cPFM) REFERENCES remcon.tBoard(cId);
+
+ALTER TABLE remcon.tAgreement
+ADD INDEX `Health_index` (`cHealth` ASC),
+ADD CONSTRAINT AgreementToHealth FOREIGN KEY (cHealth) REFERENCES remcon.tBoard(cId);
+
+ALTER TABLE remcon.tAgreement
+ADD INDEX `gratificationType_index` (`cGratificationType` ASC),
+ADD CONSTRAINT AgreementToGratificationType FOREIGN KEY (cGratificationType) REFERENCES remcon.tGratificationType(cId);
+
+ALTER TABLE remcon.tAgreement
+ADD INDEX `paymentType_index` (`cPaymentType` ASC),
+ADD CONSTRAINT AgreementToPaymentType FOREIGN KEY (cPaymentType) REFERENCES remcon.tBoard(cId);
+
+ALTER TABLE remcon.tAgreement
+ADD INDEX Horary_index (cHorary ASC),
+ADD CONSTRAINT AgreementToHorary FOREIGN KEY (cHorary) REFERENCES remcon.tHorary(cId);
+
+
+/** ENTERPRISE */
+ALTER TABLE remcon.tEnterprise
+ADD INDEX `comuna_index` (`cComuna` ASC),
+ADD CONSTRAINT withComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(cId);
+
+ALTER TABLE remcon.tEnterprise
+ADD INDEX `CompensationFund_index` (`cCompensationFund` ASC),
+ADD CONSTRAINT EnterpriseToCompensationFund FOREIGN KEY (cCompensationFund) REFERENCES remcon.tBoard(cId);
+
+ALTER TABLE remcon.tEnterprise
+ADD INDEX `Mutual_index` (`cMutual` ASC),
+ADD CONSTRAINT EnterpriseToMutual FOREIGN KEY (cMutual) REFERENCES remcon.tBoard(cId);
+
+/** BRANCH */
+ALTER TABLE remcon.tBranch
+ADD INDEX `enterprise_index` (`cEnterprise` ASC),
+ADD CONSTRAINT BranchToEnterprise FOREIGN KEY (cEnterprise) REFERENCES remcon.tEnterprise(cId);
+
+/** PARAMETER */
+ALTER TABLE remcon.tParameter
+ADD INDEX `Parameter_index` (`cDataType` ASC),
+ADD CONSTRAINT ParameterToBoard FOREIGN KEY (cDataType) REFERENCES remcon.tBoard(cId);
+
+/** COST CENTER */
+ALTER TABLE remcon.tCostCenter
+ADD INDEX `branch_index_costCenter` (`cBranch` ASC),
+ADD CONSTRAINT CostCenterToBranch FOREIGN KEY (cBranch) REFERENCES remcon.tBranch(cId);
+
+/** PROFILE */
+ALTER TABLE remcon.tProfile
+ADD INDEX `costCenter_index` (`cCostCenter` ASC),
+ADD CONSTRAINT withCostCenter FOREIGN KEY (cCostCenter) REFERENCES remcon.tCostCenter(cId);
+
+/** ACCOUNT */
+ALTER TABLE remcon.tAccount
+ADD INDEX `account_index_employee` (`cEmployee` ASC),
+ADD CONSTRAINT AccountToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId);
+
+ALTER TABLE remcon.tAccount
+ADD INDEX account_index_currency (cCurrency ASC),
+ADD CONSTRAINT AccountToCurrency FOREIGN KEY (cCurrency) REFERENCES remcon.tBoard(cId);
+
+/** ROL-OPTION */
+ALTER TABLE remcon.tR_RolOption
+ADD INDEX `index_rol` (`cRol` ASC),
+ADD INDEX `index_option` (`cOption` ASC),
+ADD CONSTRAINT r_RolOptionToRol FOREIGN KEY (cRol) REFERENCES remcon.tRol(cId),
+ADD CONSTRAINT r_RolOptionToOption FOREIGN KEY (cOption) REFERENCES remcon.tOption(cId);
+
+/** USER-ROL */
+ALTER TABLE remcon.tR_UserRol
+ADD INDEX `index_rol` (`cRol` ASC),
+ADD INDEX `index_user` (`cUser` ASC),
+ADD CONSTRAINT r_UserRolToRol FOREIGN KEY (cRol) REFERENCES remcon.tRol(cId);/*,
+ADD CONSTRAINT r_RolOptionToOption FOREIGN KEY (cOption) REFERENCES remcon.tOption(cId);*/
+
+/* PFM */
+ALTER TABLE remcon.tPFMAttribute
+ADD INDEX `PFMAttribute_index_Board` (`cPFM` ASC),
+ADD CONSTRAINT PFMAttributeToBoard FOREIGN KEY (cPFM) REFERENCES remcon.tBoard(cId);
+
+/* HEALTH */
+ALTER TABLE remcon.tHealthAttribute
+ADD INDEX HealthAttribute_index_Board (cHealth ASC),
+ADD CONSTRAINT HealthAttributeToBoard FOREIGN KEY (cHealth) REFERENCES remcon.tBoard(cId);
+
+/* FILE */
+ALTER TABLE remcon.tFile
+ADD INDEX `File_index_FileCategory` (cFileCategory ASC),
+ADD CONSTRAINT FileToFileCategory FOREIGN KEY (cFileCategory) REFERENCES remcon.tFileCategory(cId);
+
+
+/* BOOK */
+ALTER TABLE remcon.tBook
+ADD INDEX Book_index_Period (cPeriod ASC),
+ADD CONSTRAINT BookToPeriod FOREIGN KEY (cPeriod) REFERENCES remcon.tPeriod(cId);
+
+/* tBookAssets */
+ALTER TABLE remcon.tBookAssets
+ADD INDEX BookAssets_index_Book (cBook ASC),
+ADD CONSTRAINT tBookAssetsToBook FOREIGN KEY (cBook) REFERENCES remcon.tBook(cId);
+

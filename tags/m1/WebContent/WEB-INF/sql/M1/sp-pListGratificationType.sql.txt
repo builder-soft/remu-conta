@@ -1,0 +1,13 @@
+DROP PROCEDURE if exists remcon.pGetGratificationTypeList;
+DROP PROCEDURE if exists remcon.pListGratificationType;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pListGratificationType()
+BEGIN
+	SELECT		cId 
+	FROM 		remcon.tGratificationType
+	ORDER BY	cId;
+END$$
+
+DELIMITER ;
+ 

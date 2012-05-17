@@ -1,0 +1,18 @@
+DROP PROCEDURE if exists remcon.pListBoardByType;
+DROP PROCEDURE if exists remcon.pGetTboardListByType;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pListBoardByType(IN pType VARCHAR(15))
+BEGIN
+	SELECT		 cId, cKey, cValue as cName, cEnable 
+	FROM 		remcon.tBoard
+	WHERE		cType = pType
+	ORDER BY	cId;
+END$$
+
+DELIMITER ;
+/*
+call remcon.pGetTboardListByType();
+*/
+
+

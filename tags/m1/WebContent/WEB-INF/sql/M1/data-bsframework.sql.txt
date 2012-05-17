@@ -1,0 +1,18 @@
+INSERT INTO bsframework.tDomain(cName, cAlias) VALUES('Default', 'remcon');
+SET @domainId = LAST_INSERT_ID();
+
+/*
+INSERT INTO bsframework.tUser(cMail, cName, cPassword) VALUES('demo', 'Usuario demo', md5('demo'));
+INSERT INTO bsframework.tR_UserDomain(cUser, cDomain) VALUES(LAST_INSERT_ID(), @domainId);
+*/
+INSERT INTO bsframework.tUser(cMail, cName, cPassword, cAdmin) VALUES('admin', 'Administrador', md5('admin'), 1);
+SET @userId = LAST_INSERT_ID();
+
+INSERT INTO bsframework.tR_UserDomain(cUser, cDomain) VALUES(@userId, @domainId);
+
+INSERT INTO bsframework.tDomainAttribute(cDomain, cKey, cName, cValue) VALUES(@domainId, 'database.driver', 'Driver', 'org.gjt.mm.mysql.Driver');
+INSERT INTO bsframework.tDomainAttribute(cDomain, cKey, cName, cValue) VALUES(@domainId, 'database.server', 'Server', 'localhost');
+INSERT INTO bsframework.tDomainAttribute(cDomain, cKey, cName, cValue) VALUES(@domainId, 'database.database', 'Database', 'remcon');
+INSERT INTO bsframework.tDomainAttribute(cDomain, cKey, cName, cValue) VALUES(@domainId, 'database.username', 'User', 'root');
+INSERT INTO bsframework.tDomainAttribute(cDomain, cKey, cName, cValue) VALUES(@domainId, 'database.password', 'Password', 'admin');
+

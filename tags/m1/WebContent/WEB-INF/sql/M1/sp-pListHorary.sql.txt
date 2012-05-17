@@ -1,0 +1,13 @@
+DROP PROCEDURE if exists remcon.pGetHoraryList;
+DROP PROCEDURE if exists remcon.pListHorary;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pListHorary()
+BEGIN
+	SELECT		cId, cName, cDetail
+	FROM 		remcon.tHorary
+	ORDER BY	cId;
+END$$
+
+DELIMITER ;
+ 
