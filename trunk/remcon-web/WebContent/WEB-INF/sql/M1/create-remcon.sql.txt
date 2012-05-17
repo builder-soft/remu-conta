@@ -249,12 +249,12 @@ Esta tabla tiene todos los empleados agrupados por período.
 */
 create table tBook(
 	cId					BIGINT(20) NOT NULL auto_increment,
-	cPeriod				BIGINT(20) NOT NULL COMMENT 'Enlace con la tabla tPeriod',
-	cEmployee			BIGINT(20) NOT NULL COMMENT 'Empleado',
-	cHorary				BIGINT(20) NOT NULL COMMENT 'Tipo de jornada: part-time / full-time',
-	cWorkDays			INTEGER NOT NULL DEFAULT '30' COMMENT 'Días trabajados',
-	cSalaryRoot			BIGINT(20) NOT NULL COMMENT 'Sueldo Base',
-	cOvertime			INTEGER	NOT NULL DEFAULT '0' COMMENT 'Cantidad Horas Extras',
+	cPeriod				BIGINT(20) NOT NULL COMMENT 'Enlace con la tabla tPeriod - 01/Mes/Año',
+	cEmployee			BIGINT(20) NOT NULL COMMENT 'Empleado - tEmployee.cId',
+	cHorary				BIGINT(20) NOT NULL COMMENT 'Tipo de jornada: part-time / full-time - tAgreement.cHoray',
+	cWorkDays			INTEGER NOT NULL DEFAULT '30' COMMENT 'Días trabajados - Ingresa por el período',
+	cSalaryRoot			BIGINT(20) NOT NULL COMMENT 'Sueldo Base - tAgreement.cSalaryRoot',
+	cOvertime			INTEGER	NOT NULL DEFAULT '0' COMMENT 'Cantidad Horas Extras - Sumar tabla tOvertime',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -264,12 +264,12 @@ Tabla del libro con los Haberes
 create table tBookAssets(
 	cId							BIGINT(20) NOT NULL auto_increment,
 	cBook						BIGINT(20) NOT NULL,
-	cGratificationType			BIGINT(20) NOT NULL COMMENT 'Tipo de Gratificación',
-	cFamilyAssignmentStretch	CHAR(1)	NOT NULL DEFAULT ' ' COMMENT 'Tramo Asignacion Familiar',
-	cRewardAmount				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Gratificacion',
-	cOvertimeAmount				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Horas Extras',
-	cParticipation				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Aplica cuando tiene participacion en empresa',
-	cB01						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Bono 1',
+	cGratificationType			BIGINT(20) NOT NULL COMMENT 'Tipo de Gratificación - tAgreement.cGratificationType',
+	cRewardAmount				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Gratificacion - Basado en cGratificationType, buscar el que le corresponde(%, monto o 0)',
+	cFamilyAssignmentStretch	CHAR(1)	NOT NULL DEFAULT 'A' COMMENT 'Tramo Asignacion Familiar - Se ingresa por empleado, [A/B/C/D]',
+	cOvertimeAmount				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Horas Extras - Calculo en base a tBook.cOvertime',
+	cParticipation				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Aplica cuando tiene participacion en empresa - Ingreso por período',
+	cB01						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Bono 1 - Se ingresa por período, o copiar del mes anterior',
 	cB02						DOUBLE NOT NULL DEFAULT '0',
 	cB03						DOUBLE NOT NULL DEFAULT '0',
 	cB04						DOUBLE NOT NULL DEFAULT '0',
@@ -279,41 +279,44 @@ create table tBookAssets(
 	cB08						DOUBLE NOT NULL DEFAULT '0',
 	cB09						DOUBLE NOT NULL DEFAULT '0',
 	cB10						DOUBLE NOT NULL DEFAULT '0',
-	cOtherIncome				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Otros Haberes',
-	cExtraPay					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Aguinaldo',
-	cOtherIncomeTaxable			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Otros Haberes Imponibles',
-	cFamilyAssignment			INTEGER COMMENT 'Cargas Familiares',
-	cFamilyAssignmentAmount 	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Por Cargas',
-	cRetroactiveFamily			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Familiar Retroactivo',
-	cFeeding					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Colación',
-	cMobilization				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Movilización',
-	cBounty               		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Viaticos',
-	cOtherNoTaxable     		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Otros No Imponibles',
-	cMonthNotification			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Mes De Aviso',
-	cIAS 						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Indemnisacion años de servicio',
-	cProportionalHoliday		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Feriado Proporcional',
-	cVoluntaryindenmization		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Indemnisacion Voluntaira',
+	cExtraPay					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Aguinaldo - Se ingresa por período',
+	cFamilyAssignment			INTEGER NOT NULL DEFAULT '0' COMMENT 'Cargas Familiares - tAgreement.CAMPO_NUEVO',
+	cFamilyAssignmentAmount 	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Por Cargas - Calcular',
+	cRetroactiveFamily			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Familiar Retroactivo - Se ingresa por período',
+	cFeeding					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Colación - Se ingresa por período',
+	cMobilization				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Movilización - Se ingresa por período',
+	cBounty               		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Viaticos - Se ingresa por período',
+	cMonthNotification			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Mes De Aviso - Se ingresa por período',
+	cIAS 						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Indemnisacion años de servicio - Se ingresa por período',
+	cProportionalHoliday		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Feriado Proporcional - Hay que calcularlo?',
+	cVoluntaryindenmization		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Indemnisacion Voluntaira - Se ingresa por período',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
 
 /*************************************
+Tabla de libro con descuentos.
+
 create table tBookDiscounts(
 	cId								BIGINT(20) NOT NULL auto_increment,
 	cBook							BIGINT(20) NOT NULL,
 	cAFP							BIGINT(20) NOT NULL COMMENT 'Código de AFP',
-	cAFPSeguroObligatorio	
-	cAVPAmount						COMMENT 'Monto APV',
-	cCuenta2						COMMENT 'Cuenta 2, Ahorro AFP',
-	cCeillingTaxableForecast		COMMENT 'Tope Imponible Previsional',
-	cCeilingTaxableDismissEnsurance	COMMENT 'Tope Imponible Seguro Cesantia',
-	cHealth							COMMENT 'Codigo de sistema de salud',
-	cTipoPlanHealth					COMMENT 'UF o %'
-	cPlanPactadoHealth				COMMENT 'Monto pactado, puedes ser en uf's o %'
-	cPlanPactadoHealthPS			COMMENT 'Plan en pesos'
-	cCotizacionLegal
-	cCotisacionSaludRebaja			COMMENT 'Preguntar que es'
-	cTipoSeguroCesantia		
+	cAFPSeguroObligatorio			COMMENT 'Es un % ',
+	cAVPAmount						COMMENT 'Monto APV - Suma de todos los montos en APV, algunos traducir a pesos desde UF',
+	cAccount2						COMMENT 'Cuenta 2, Ahorro AFP - Se saca de la tabla tAccount',
+	cCeillingTaxableForecast		COMMENT 'Tope Imponible Previsional - Parámetro del mes, hay que buscar el valor por tramos',
+	cCeilingTaxableDismissEnsurance	COMMENT 'Tope Imponible Seguro Cesantia - Parámetro del mes, es un valor fijo',
+	cHealth							COMMENT 'Codigo de sistema de salud - Es la Isapre',
+	
+	cCotizacionLegal				COMMENT ' - Es el 7% del imponible, el valor es calculado',
+	
+	cMonedaPlanHealth			COMMENT 'UF o CLP - tAgreement.cAdditionalHealthCLP/UF',
+	cPlanPactadoHealth			COMMENT 'Monto pactado de salud - Relacionado con campo cMonedaPlanHealth',
+	
+	cCotizacionAdicional			COMMENT 'Diferencia entre el plan de salud y la legal - cCotizacionLegal - PkanPactado',
+	
+	cCotisacionSaludRebaja			COMMENT 'Preguntar que es',
+	cTipoSeguroCesantia				COMMENT 'Sin seguro, contrato indefinido, a plazo',
 	cMontoSeguroCesantia
 	cImpuestoUnico
 	cAnticipoSueldo

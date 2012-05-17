@@ -61,6 +61,7 @@ public class PayMode extends AbstractServletUtil {
 //		Account2 out = null;
 		if (account == null) {
 			account = new Account2();
+			account.setNumber("");
 //			out.setEmployee(employeeId);
 		}
 
