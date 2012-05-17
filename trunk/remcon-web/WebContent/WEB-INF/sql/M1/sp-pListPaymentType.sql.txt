@@ -1,0 +1,11 @@
+DROP PROCEDURE if exists remcon.pListPaymentType;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pListPaymentType()
+BEGIN
+	SELECT		 cId, cKey, cName 
+	FROM 		remcon.tPaymentType
+	ORDER BY	cId;
+END$$
+
+DELIMITER ;

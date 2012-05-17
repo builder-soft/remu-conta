@@ -11,6 +11,7 @@ import cl.buildersoft.framework.beans.Board;
 import cl.buildersoft.framework.beans.ContractType;
 import cl.buildersoft.framework.beans.GratificationType;
 import cl.buildersoft.framework.beans.Horary;
+import cl.buildersoft.framework.beans.PaymentType;
 import cl.buildersoft.framework.beans.Profile;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.framework.util.BSConfig;
@@ -58,8 +59,8 @@ public class AgreementServiceImpl implements AgreementService {
 	}
 
 	private Long getPaymentType(Connection conn, BSBeanUtilsSP bu) {
-		List<Board> paymentType = (List<Board>) bu.list(conn, new Board(),
-				"pListBoardByType", "PAYMENT_TYPE");
+		List<PaymentType> paymentType = (List<PaymentType>) bu.list(conn,
+				new PaymentType(), "pListPaymentType", null);
 		return paymentType.get(0).getId();
 
 	}

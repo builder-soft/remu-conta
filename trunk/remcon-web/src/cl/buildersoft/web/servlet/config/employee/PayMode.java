@@ -14,6 +14,7 @@ import cl.buildersoft.framework.beans.Agreement;
 import cl.buildersoft.framework.beans.BSBean;
 import cl.buildersoft.framework.beans.Board;
 import cl.buildersoft.framework.beans.Employee;
+import cl.buildersoft.framework.beans.PaymentType;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.web.servlet.table.AbstractServletUtil;
@@ -34,8 +35,8 @@ public class PayMode extends AbstractServletUtil {
 				"pListBoardByType", "BANK");
 		List<BSBean> accountTypes = (List<BSBean>) bu.list(conn, new Board(),
 				"pListBoardByType", "ACCOUNT_TYPE");
-		List<BSBean> paymentTypes = (List<BSBean>) bu.list(conn, new Board(),
-				"pListBoardByType", "PAYMENT_TYPE");
+		List<PaymentType> paymentTypes = (List<PaymentType>) bu.list(conn, new PaymentType(),
+				"pListPaymentType", null);
 
 		Account2 account = getAccount(conn, bu, employeeId);
 

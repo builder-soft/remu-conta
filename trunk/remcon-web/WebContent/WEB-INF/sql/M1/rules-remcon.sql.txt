@@ -50,8 +50,8 @@ ADD INDEX `gratificationType_index` (`cGratificationType` ASC),
 ADD CONSTRAINT AgreementToGratificationType FOREIGN KEY (cGratificationType) REFERENCES remcon.tGratificationType(cId);
 
 ALTER TABLE remcon.tAgreement
-ADD INDEX `paymentType_index` (`cPaymentType` ASC),
-ADD CONSTRAINT AgreementToPaymentType FOREIGN KEY (cPaymentType) REFERENCES remcon.tBoard(cId);
+ADD INDEX `Agreement_index_PaymentType` (`cPaymentType` ASC),
+ADD CONSTRAINT AgreementToPaymentType FOREIGN KEY (cPaymentType) REFERENCES remcon.tPaymentType(cId);
 
 ALTER TABLE remcon.tAgreement
 ADD INDEX Horary_index (cHorary ASC),
