@@ -16,8 +16,6 @@ import javax.servlet.http.HttpSession;
 
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.web.servlet.config.employee.AccountService;
-import cl.buildersoft.web.servlet.config.employee.AccountServiceImpl;
 import cl.buildersoft.web.servlet.config.employee.AgreementService;
 import cl.buildersoft.web.servlet.config.employee.AgreementServiceImpl;
 

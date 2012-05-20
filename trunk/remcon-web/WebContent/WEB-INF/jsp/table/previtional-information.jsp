@@ -1,6 +1,10 @@
+<%@page import="cl.buildersoft.framework.beans.Health"%>
+<%@page import="cl.buildersoft.framework.beans.ExBoxSystem"%>
+<%@page import="cl.buildersoft.framework.beans.PFM"%>
+<%@page import="cl.buildersoft.framework.beans.RagreementAPV"%>
+<%@page import="cl.buildersoft.framework.beans.Currency"%>
+<%@page import="cl.buildersoft.framework.beans.APV"%>
 <%@page import="cl.buildersoft.framework.beans.Employee"%>
-<%@page import="cl.buildersoft.framework.beans.Account2"%>
-<%@page import="cl.buildersoft.framework.beans.Board"%>
 <%@page import="cl.buildersoft.framework.beans.Agreement"%>
 <%@page import="cl.buildersoft.framework.beans.BSCss"%>
 <%@page import="cl.buildersoft.framework.beans.BSScript"%>
@@ -16,12 +20,14 @@
 <%
 	BSTableConfig table = (BSTableConfig) session.getAttribute("BSTable");
 	BSField[] fields = table.getFields();
-	List<Board> listadoApv = (List<Board>)request.getAttribute("listadoApv");
-	List<Board> listadoCurrency = (List<Board>)request.getAttribute("listadoCurrency");
-	List<Account2> listadoApvEmp = (List<Account2>)request.getAttribute("listadoApvEmp");
-	List<Board> listadoAfp = (List<Board>)request.getAttribute("listadoAfp");
-	List<Board> listadoExBox = (List<Board>)request.getAttribute("listadoExBox");	
-	List<Board> listadoHealth = (List<Board>)request.getAttribute("listadoHealth");	
+	
+	List<APV> listadoApv = (List<APV>)request.getAttribute("listadoApv");
+	List<Currency> listadoCurrency = (List<Currency>)request.getAttribute("listadoCurrency");
+	List<RagreementAPV> listadoApvEmp = (List<RagreementAPV>)request.getAttribute("listadoApvEmp");
+	List<PFM> listadoAfp = (List<PFM>)request.getAttribute("listadoAfp");
+	List<ExBoxSystem> listadoExBox = (List<ExBoxSystem>)request.getAttribute("listadoExBox");	
+	List<Health> listadoHealth = (List<Health>)request.getAttribute("listadoHealth");
+	
 	Agreement agreementEmp = (Agreement)request.getAttribute("agreementEmp");
 	Employee employee = (Employee) request.getAttribute("Employee");
 
@@ -126,7 +132,7 @@ function getApvSelected(){
 								<td class="cData">
 								<select id="apvCurrency" name="apvCurrency">
 										<%			
-										for(Board bsCurrency : listadoCurrency)
+										for(Currency bsCurrency : listadoCurrency)
 										{											
 										%>
 											<OPTION value="<%=bsCurrency.getId()%>"><%=bsCurrency.getKey()%></OPTION>
@@ -140,10 +146,10 @@ function getApvSelected(){
 								<td class="cData">
 								<select id="apvInstitution" name="apvInstitution">
 										<%			
-										for(Board bsApv : listadoApv)
+										for(APV bsApv : listadoApv)
 										{
 										%>
-											<OPTION value="<%=bsApv.getId()%>"><%=bsApv.getValue()%></OPTION>
+											<OPTION value="<%=bsApv.getId()%>"><%=bsApv.getName()%></OPTION>
 										<% 
 										}
 										%>	
@@ -163,10 +169,10 @@ function getApvSelected(){
 					<td class="cData" colspan="3">
 					<select id="afpEmp" name="afpEmp">
 							<%			
-							for(Board bsAfp : listadoAfp)
+							for(PFM bsAfp : listadoAfp)
 							{											
 							%>
-								<OPTION value="<%=bsAfp.getId()%>"<%=agreementEmp.getPfm()!=null && bsAfp.getId().equals(agreementEmp.getPfm()) ? "selected" : "" %>><%=bsAfp.getValue()%></OPTION>
+								<OPTION value="<%=bsAfp.getId()%>"<%=agreementEmp.getPfm()!=null && bsAfp.getId().equals(agreementEmp.getPfm()) ? "selected" : "" %>><%=bsAfp.getName()%></OPTION>
 							<%
 							}
 							%>
@@ -178,10 +184,10 @@ function getApvSelected(){
 				<td class="cData" colspan="3">
 				<select id="exBox" name="exBox">
 						<%			
-						for(Board bsExbox : listadoExBox)
+						for(ExBoxSystem bsExbox : listadoExBox)
 						{											
 						%>
-							<OPTION value="<%=bsExbox.getId()%>"<%=agreementEmp.getExBoxSystem() != null && bsExbox.getId().equals(agreementEmp.getExBoxSystem()) ? "selected" : "" %>><%=bsExbox.getValue()%></OPTION>
+							<OPTION value="<%=bsExbox.getId()%>"<%=agreementEmp.getExBoxSystem() != null && bsExbox.getId().equals(agreementEmp.getExBoxSystem()) ? "selected" : "" %>><%=bsExbox.getName()%></OPTION>
 						<%
 						}
 						%>
@@ -192,10 +198,10 @@ function getApvSelected(){
 				<td class="cData" colspan="3">
 				<select id="health" name="health">
 						<%			
-						for(Board bsHealth : listadoHealth)
+						for(Health bsHealth : listadoHealth)
 						{											
 						%>
-							<OPTION value="<%=bsHealth.getId()%>"<%=agreementEmp.getHealth()!= null && bsHealth.getId().equals(agreementEmp.getHealth()) ? "selected" : "" %>><%=bsHealth.getValue()%></OPTION>
+							<OPTION value="<%=bsHealth.getId()%>"<%=agreementEmp.getHealth()!= null && bsHealth.getId().equals(agreementEmp.getHealth()) ? "selected" : "" %>><%=bsHealth.getName()%></OPTION>
 						<%
 						}
 						%>
@@ -239,9 +245,9 @@ function getApvSelected(){
 					<%	
 					int contador = 0;
 					int cantApvs = listadoApvEmp.size();
-					for(Account2 bsApvEmp : listadoApvEmp){
+					for(RagreementAPV bsApvEmp : listadoApvEmp){
 
-							out.print("<script>addApv('"+bsApvEmp.getCurrency()+"','"+bsApvEmp.getInstitution() +"','"+bsApvEmp.getAmount()+"');</script>");
+							out.print("<script>addApv('"+bsApvEmp.getCurrency()+"','"+bsApvEmp.getApv() +"','"+bsApvEmp.getAmount()+"');</script>");
 						
 					}
 					%>

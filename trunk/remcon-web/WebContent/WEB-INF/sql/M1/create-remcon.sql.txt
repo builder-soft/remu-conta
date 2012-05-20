@@ -38,11 +38,11 @@ CREATE TABLE IF NOT EXISTS tFileCategory (
 	cName			VARCHAR(100) NOT NULL
 ) ENGINE=innoDB;
 
-CREATE TABLE `tParameter` (
-  `cId` BIGINT PRIMARY KEY UNIQUE AUTO_INCREMENT,
-  `cKey` 		varchar(20) NOT NULL,
-  cLabel		varchar(100) NOT NULL,
-  `cValue`		Varchar(100) NOT NULL,
+CREATE TABLE tParameter (
+  cId			BIGINT PRIMARY KEY UNIQUE AUTO_INCREMENT,
+  cKey 			VARCHAR(20) NOT NULL,
+  cLabel		VARCHAR(100) NOT NULL,
+  cValue		Varchar(100) NOT NULL,
   cDataType		BIGINT NOT NULL
 ) ENGINE=InnoDB;
 
@@ -75,27 +75,85 @@ CREATE TABLE IF NOT EXISTS tR_RolOption (
 ) ENGINE=innoDB;
 
 CREATE TABLE tComuna (
-  `cId` BIGINT UNIQUE AUTO_INCREMENT,
-  `cName` varchar(50) NOT NULL,
-  `cRegion` Integer NOT NULL,
-  `cPrioridad` Integer NOT NULL DEFAULT '0',
+	cId			BIGINT UNIQUE AUTO_INCREMENT,
+	cName		VARCHAR(50) NOT NULL,
+	cRegion		INTEGER NOT NULL,
+	cPrioridad	INTEGER NOT NULL DEFAULT '0',
 	PRIMARY KEY(cId)  
 ) ENGINE=InnoDB;
 
-CREATE TABLE `tBoard` (
-  `cId` BIGINT UNIQUE AUTO_INCREMENT,
-  `cType` varchar(15) NOT NULL,
-  `cKey` varchar(15) DEFAULT '',
-  `cValue` Varchar(200) NOT NULL,
-  cEnable BIT NOT NULL DEFAULT 1,
+/*
+CREATE TABLE tBoard (
+	cId BIGINT UNIQUE AUTO_INCREMENT,
+	cType VARCHAR(15) NOT NULL,
+	cKey VARCHAR(15)  NOT NULL DEFAULT '',
+	cValue Varchar(200) NOT NULL,
+	cEnable BIT NOT NULL DEFAULT 1,
 	PRIMARY KEY(cId),
 	UNIQUE TypeAndKey (cType, cKey)
 ) ENGINE=InnoDB;
+*/
 
-CREATE TABLE `tCountry` (
- 	cId	 BIGINT UNIQUE AUTO_INCREMENT,
- 	cCode char(3) NOT NULL DEFAULT '' UNIQUE,
- 	cName varchar(60) NOT NULL DEFAULT '',
+CREATE TABLE tBank (
+	cId BIGINT UNIQUE AUTO_INCREMENT,
+	cKey	VARCHAR(5) NOT NULL, 
+	cName	VARCHAR(35) NOT NULL,
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
+
+CREATE TABLE tCurrency (
+	cId BIGINT UNIQUE AUTO_INCREMENT,
+	cKey	VARCHAR(3) NOT NULL, 
+	cName	VARCHAR(20) NOT NULL,
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
+
+CREATE TABLE tDataType (
+	cId		BIGINT UNIQUE AUTO_INCREMENT,
+	cKey	VARCHAR(10) NOT NULL, 
+	cName	VARCHAR(20) NOT NULL,
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
+
+CREATE TABLE tAPV (
+	cId		BIGINT UNIQUE AUTO_INCREMENT,
+	cKey	VARCHAR(3) NOT NULL,
+	cName	VARCHAR(80) NOT NULL,
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
+
+CREATE TABLE tExBoxSystem (
+	cId		BIGINT UNIQUE AUTO_INCREMENT,
+	cKey	VARCHAR(4) NOT NULL,
+	cName	VARCHAR(50) NOT NULL,
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
+
+CREATE TABLE tMaritalStatus (
+	cId BIGINT UNIQUE AUTO_INCREMENT,
+	cKey	VARCHAR(10) NOT NULL,
+	cName	VARCHAR(15) NOT NULL,
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
+
+CREATE TABLE tMutual (
+	cId		BIGINT UNIQUE AUTO_INCREMENT,
+	cKey	VARCHAR(2) NOT NULL,
+	cName	VARCHAR(70) NOT NULL,
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
+
+CREATE TABLE tAccountType (
+	cId		BIGINT UNIQUE AUTO_INCREMENT,
+	cKey	VARCHAR(10)  NOT NULL, 
+	cName	VARCHAR(20) NOT NULL,
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
+
+CREATE TABLE tCountry (
+ 	cId			BIGINT UNIQUE AUTO_INCREMENT,
+ 	cCode		CHAR(3) NOT NULL DEFAULT '' UNIQUE,
+ 	cName		VARCHAR(60) NOT NULL DEFAULT '',
 	PRIMARY KEY(cId)
 ) ENGINE=InnoDB;
  
@@ -137,6 +195,14 @@ create table tAgreement(
 	cHealth				BIGINT(20) NOT NULL		COMMENT 'Sistema de salud, isapre o fonasa',
 	cGratificationType	BIGINT(20) NOT NULL 	COMMENT 'Tipo de gratificacion',
 	cPaymentType		BIGINT(20) NOT NULL 	COMMENT 'Tipo de pago',
+	
+	cBank				BIGINT(20) NULL 		COMMENT 'Banco para efectos de pago de sueldo',
+	cAccountType		BIGINT(20) NULL 		COMMENT 'Tipo de cuenta a la cual se hará el deposito',
+	cAccountNumber		NVARCHAR(20) NULL		COMMENT 'Número de la cuenta a la cual se le hará el deposito',
+	
+	cCurrencyAccount2	BIGINT(20) NULL 		COMMENT 'Moneda de la cuenta 2',
+	cAmountAccount2		DOUBLE NULL DEFAULT '0' COMMENT 'Monto de la cuenta 2',
+	
 	cHorary				BIGINT(20) NOT NULL 	COMMENT 'Tipo de jornada, full-time o part-time (tHorary)',
 	cMobilization		DOUBLE DEFAULT '0'		COMMENT 'Movilizacion',
 	cFeeding			DOUBLE DEFAULT '0'		COMMENT 'Alimentacion',
@@ -166,6 +232,12 @@ create table tEnterprise (
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+create table tCompensationFund(
+	cId 				BIGINT(20) NOT NULL auto_increment, 
+	cName				VARCHAR(20) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
 create table tCostCenter(
 	cId 				BIGINT(20) NOT NULL auto_increment, 
 	cName				VARCHAR(20) NOT NULL,
@@ -187,6 +259,14 @@ create table tPaymentType(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS tR_AgreementAPV (
+	cAgreement 		BIGINT NOT NULL COMMENT 'Id del contrato',
+	cAPV			BIGINT NOT NULL COMMENT 'Id del apv',
+	cCurrency		BIGINT NOT NULL COMMENT 'Moneda en la que se deposita el apv',
+	cAmount			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto a ahorrar en apv',
+	PRIMARY KEY(cAgreement,cAPV,cCurrency)
+) ENGINE=innoDB;
+
 
 create table tProfile (
 	cId					BIGINT(20) NOT NULL auto_increment, 
@@ -198,20 +278,21 @@ create table tProfile (
 
 /*
 Administadora de fondos de pension, en ingles se escribe como "Pension Fund Manager" (PFM), 
-de aqui el nombre de la tabla.
-En esta tabla se van a registrar los atributos especiales, los nombres de las AFP, estan en la tabla tBoard 
+de aqui el nombre de la tabla. 
 */
-create table tPFMAttribute(
+create table tPFM(
 	cId				BIGINT(20) NOT NULL auto_increment, 
-	cPFM			BIGINT(20) NOT NULL,
+	cKey			VARCHAR(2) NOT NULL,
+	cName			VARCHAR(50) NOT NULL,
 	cFactor			DOUBLE NOT NULL,
 	cSIS			DOUBLE NOT NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-create table tHealthAttribute (
-	cId				BIGINT(20) NOT NULL auto_increment, 
-	cHealth			BIGINT(20) NOT NULL,
+create table tHealth (
+	cId				BIGINT(20) NOT NULL auto_increment,
+	cKey			VARCHAR(2) NOT NULL,	
+	cName			VARCHAR(50) NOT NULL,
 	cFactor			DOUBLE NOT NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
@@ -221,8 +302,6 @@ En esta tabla se graban para cada Employee:
 	- Los APV
 	- La cuenta2
 	- El adicional de salud (son 3: CLP, UF y/o %).
-	- Metodo de pago
-*/
 create table tAccount (
 	cId				BIGINT(20) NOT NULL auto_increment,
 	cEmployee		BIGINT(20) NOT NULL, 
@@ -233,6 +312,7 @@ create table tAccount (
 	cAmount			DOUBLE,	
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
+*/
 
 create table tGratificationType(
 	cId			BIGINT(20) NOT NULL auto_increment,
@@ -269,7 +349,7 @@ create table tBook(
 	cEmployee			BIGINT(20) NOT NULL COMMENT 'Empleado - tEmployee.cId',
 	cHorary				BIGINT(20) NOT NULL COMMENT 'Tipo de jornada: part-time / full-time - tAgreement.cHoray',
 	cWorkDays			INTEGER NOT NULL DEFAULT '30' COMMENT 'Días trabajados - Ingresa por el período',
-	cSalaryRoot			BIGINT(20) NOT NULL COMMENT 'Sueldo Base - tAgreement.cSalaryRoot',
+	cSalaryRoot			DOUBLE NOT NULL COMMENT 'Sueldo Base - cp from tAgreement.cSalaryRoot',
 	cOvertime			INTEGER	NOT NULL DEFAULT '0' COMMENT 'Cantidad Horas Extras - Sumar tabla tOvertime',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
@@ -280,7 +360,7 @@ Tabla del libro con los Haberes
 create table tBookAssets(
 	cId							BIGINT(20) NOT NULL auto_increment,
 	cBook						BIGINT(20) NOT NULL,
-	cGratificationType			BIGINT(20) NOT NULL COMMENT 'Tipo de Gratificación - tAgreement.cGratificationType',
+	cGratificationType			BIGINT(20) NOT NULL COMMENT 'Tipo de Gratificación - cp from tAgreement.cGratificationType',
 	cRewardAmount				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Gratificacion - Basado en cGratificationType, buscar el que le corresponde(%, monto o 0)',
 	cFamilyAssignmentStretch	CHAR(1)	NOT NULL DEFAULT 'A' COMMENT 'Tramo Asignacion Familiar - Se ingresa por empleado, [A/B/C/D]',
 /*
@@ -358,7 +438,7 @@ Si alguien tiene un plan muy caro de salud debe tributar como impuesto unico a l
 */
 	cUnemploymentInsurance			BIGINT(20) NOT NULL COMMENT 'Código de seguro de sesantia - Sin seguro, contrato indefinido o a plazo',
 /*
-Seguro Sesantia
+Seguro Cesantia
 Hay 3 tipos:
  1.Sin seguro
  2.Contrato a Plazo = el empleador cancela el 3% del imponible como seguro de sesantia
@@ -412,28 +492,31 @@ LEFT JOIN remcon.tBookDiscounts	AS c ON c.cBook = a.cId;
  /** V I S T A S **/
 
 DROP VIEW IF EXISTS vDataType;
+/*
 CREATE VIEW vDataType
 AS
 	SELECT cId, cValue AS cName 
 	FROM tBoard 
 	WHERE cType='DATA_TYPE';
-
+*/
 
 DROP VIEW IF EXISTS vType;
 DROP VIEW IF EXISTS vTypeOption;
+/*
 CREATE VIEW vTypeOption
 AS
 	SELECT cId, cValue AS cName 
 	FROM tBoard 
 	WHERE cType='TYPE_OPTION';
-
+*/
 DROP VIEW IF EXISTS vMaritalStatus;
+/*
 CREATE VIEW vMaritalStatus
 AS
 	SELECT cId, cValue AS cName 
 	FROM tBoard 
 	WHERE cType='MARITAL_STATUS';
-
+*/
 DROP VIEW IF EXISTS vGenere;
 /*
 CREATE VIEW vGenere
@@ -444,35 +527,42 @@ AS
 */
 
 DROP VIEW IF EXISTS vCurrency;
+/*
 CREATE VIEW vCurrency
 AS
 	SELECT cId, cValue AS cName 
 	FROM remcon.tBoard 
 	WHERE cType='CURRENCY';
-
+*/
 DROP VIEW IF EXISTS vMutual;
+/*
 CREATE VIEW vMutual
 AS
 	SELECT cId, cValue AS cName 
 	FROM remcon.tBoard 
 	WHERE cType='MUTUAL';
+*/
 
 DROP VIEW IF EXISTS vPFM;
+/*
 CREATE VIEW vPFM
 AS
 	SELECT	a.cId, a.cKey, a.cValue AS cName, a.cEnable, b.cFactor, b.cSIS 
 	FROM remcon.tBoard AS a
 	LEFT JOIN remcon.tPFMAttribute AS b ON a.cId = b.cPFM
 	WHERE a.cType='PFM';
+*/
  
 DROP VIEW IF EXISTS vHealth;
+/*
 CREATE VIEW vHealth
 AS
 	SELECT	a.cId, a.cKey, a.cValue AS cName, a.cEnable, b.cFactor
 	FROM remcon.tBoard AS a
 	LEFT JOIN remcon.tHealthAttribute AS b ON a.cId = b.cHealth
 	WHERE a.cType='HEALTH';
- 
+*/
+
 DROP VIEW IF EXISTS vPaymentType;
 /*
 CREATE VIEW vPaymentType
@@ -492,25 +582,21 @@ AS
 */
 DROP VIEW IF EXISTS vCompensationFound;
 DROP VIEW IF EXISTS vCompensationFund;
+/*
 CREATE VIEW vCompensationFund
 AS
 	SELECT cId, cValue AS cName 
 	FROM remcon.tBoard 
 	WHERE cType='COMPENSATION';
-
-DROP VIEW IF EXISTS vMutual;
-CREATE VIEW vMutual
-AS
-	SELECT cId, cValue AS cName 
-	FROM remcon.tBoard 
-	WHERE cType='MUTUAL';
+*/
 
 DROP VIEW IF EXISTS vAPV;
+/*
 CREATE VIEW vAPV
 AS
 	SELECT cId, cValue AS cName 
 	FROM remcon.tBoard 
 	WHERE cType='APV';
-
+*/
 
   

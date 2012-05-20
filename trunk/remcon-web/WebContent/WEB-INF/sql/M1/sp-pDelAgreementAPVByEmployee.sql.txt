@@ -1,0 +1,18 @@
+DROP PROCEDURE if exists remcon.pDelAccount;
+DROP PROCEDURE if exists remcon.pDelAccountsByEmployeeAndType;
+DROP PROCEDURE if exists remcon.pDelAgreementAPVByEmployee;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pDelAgreementAPVByEmployee(IN pEmployee BIGINT)
+BEGIN
+	SELECT	cId INTO @agreement 
+	FROM	tAgreement 
+	WHERE	cEmployee = pEmployee;
+
+	DELETE
+	FROM remcon.tR_AgreementAPV
+	WHERE cAgreement = @agreement;
+END$$
+
+DELIMITER ;
+

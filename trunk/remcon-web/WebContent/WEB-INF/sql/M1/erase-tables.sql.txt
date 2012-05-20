@@ -1,49 +1,65 @@
 drop table if exists remcon.tAccount;
 
+DROP TABLE IF EXISTS remcon.tFile;
+DROP TABLE IF EXISTS remcon.tFileCategory;
+drop table if exists remcon.tR_AgreementAPV;
 drop table if exists remcon.tAgreement;
+
+DROP TABLE IF EXISTS remcon.tBookDiscounts;
+DROP TABLE IF EXISTS remcon.tBookAssets;
+DROP TABLE IF EXISTS remcon.tBook;
+DROP TABLE IF EXISTS remcon.tPeriod;
+
 drop table if exists remcon.tEmployee;
 
 drop table if exists remcon.tGenere;
+drop table if exists remcon.tMaritalStatus;
 drop table if exists remcon.tPaymentType;
+drop table if exists remcon.tBank;
+drop table if exists remcon.tAccountType;
 drop table if exists remcon.tHorary;
 drop table if exists remcon.tCountry;
 drop table if exists remcon.tPFMAttribute;
 
 drop table if exists remcon.tContractType;
 drop table if exists remcon.tProfile;
-/*drop table if exists remcon.tAFP;*/
+drop table if exists remcon.tPFM;
+drop table if exists remcon.tPFMAttribute;
 drop table if exists remcon.tHealthAttribute;
+drop table if exists remcon.tHealth;
 drop table if exists remcon.tGratificationType;
 /*drop table if exists remcon.tPaymentType;*/
 
+drop table if exists remcon.tExBoxSystem;
 drop table if exists remcon.tCostCenter;
 drop table if exists remcon.tBranch;
 drop table if exists remcon.tEnterprise;
 drop table if exists remcon.tComuna;
+drop table if exists remcon.tCompensationFund;
 
-/*********** */
+/************** */
+drop table if exists remcon.tMutual;
+drop table if exists remcon.tAPV;
+drop table if exists remcon.tCurrency;
+
 drop table if exists remcon.tMutual;
 drop table if exists remcon.tCompensationFund;
 
 
-/*drop table if exists remcon.tR_EmployeeAccount;
-drop table if exists remcon.tAccount;*/
+/*
+drop table if exists remcon.tR_EmployeeAccount;
+drop table if exists remcon.tAccount;
+*/
 
 DROP TABLE IF EXISTS remcon.tParameter;
 
 drop table if exists remcon.tBoard;
+drop table if exists remcon.tDataType;
 
 DROP TABLE IF EXISTS remcon.tR_UserRol;
 DROP TABLE IF EXISTS remcon.tR_RolOption;
 DROP TABLE IF EXISTS remcon.tOption;
 DROP TABLE IF EXISTS remcon.tRol;
-DROP TABLE IF EXISTS remcon.tFile;
-DROP TABLE IF EXISTS remcon.tFileCategory;
-
-DROP TABLE IF EXISTS remcon.tBookDiscounts;
-DROP TABLE IF EXISTS remcon.tBookAssets;
-DROP TABLE IF EXISTS remcon.tBook;
-DROP TABLE IF EXISTS remcon.tPeriod;
 
 DROP TABLE IF EXISTS bsframework.tR_UserDomain;
 DROP TABLE IF EXISTS bsframework.tDomainAttribute;

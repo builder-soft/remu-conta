@@ -1,0 +1,11 @@
+DROP PROCEDURE if exists remcon.pListPFM;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pListPFM()
+BEGIN
+	SELECT		cId, cKey, cName, cFactor, cSIS 
+	FROM 		remcon.tPFM;
+END$$
+
+DELIMITER ;
+ 

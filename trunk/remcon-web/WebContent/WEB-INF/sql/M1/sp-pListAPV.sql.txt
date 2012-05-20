@@ -4,9 +4,8 @@ DELIMITER $$
 
 CREATE PROCEDURE remcon.pListAPV()
 BEGIN
-	SELECT		cId, cKey, cValue AS cName, cEnable 
-	FROM 		remcon.tBoard
-	WHERE		cType = 'APV';
+	SELECT		cId, cKey, cName 
+	FROM 		remcon.tAPV;
 END$$
 
 DELIMITER ;

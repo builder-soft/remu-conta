@@ -6,17 +6,17 @@ INSERT INTO `tperson` (`cId`,`cRUT`,`cGenere`,`cFechaRegistro`,`cNombre`,`cApell
 INSERT INTO `tperson` (`cId`,`cRUT`,`cGenere`,`cFechaRegistro`,`cNombre`,`cApellidoPaterno`,`cApellidoMaterno`,`cDireccion`,`cNumero`,`cVilla`,`cBlock`,`cDepartamento`,`cComuna`,`cTelefono`,`cCelular`,`cMail`) VALUES (4,'15348723-5',1,'2007-05-23','MARIA EUGENIA','DURAN','RAMIREZ','LIRQUEN','7888','0','','',294,'5252740','8-8218417','quenitahermosa_22@hotmail.com');
 */
 
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('DATA_TYPE', 'STRING', 'String');
+INSERT INTO tDataType(cKey, cName) VALUES('STRING', 'String');
 SET @stringId = LAST_INSERT_ID();
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('DATA_TYPE', 'DOUBLE', 'Double');
+INSERT INTO tDataType(cKey, cName) VALUES('DOUBLE', 'Double');
 SET @doubleId = LAST_INSERT_ID();
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('DATA_TYPE', 'INTEGER', 'Integer');
+INSERT INTO tDataType(cKey, cName) VALUES('INTEGER', 'Integer');
 SET @integerId = LAST_INSERT_ID();
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('DATA_TYPE', 'TIMESTAMP', 'Timestamp');
+INSERT INTO tDataType(cKey, cName) VALUES('TIMESTAMP', 'Timestamp');
 SET @timestampId = LAST_INSERT_ID();
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('DATA_TYPE', 'BOOLEAN', 'Boolean');
+INSERT INTO tDataType(cKey, cName) VALUES('BOOLEAN', 'Boolean');
 SET @booleanId = LAST_INSERT_ID();
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('DATA_TYPE', 'LONG', 'Long');
+INSERT INTO tDataType(cKey, cName) VALUES('LONG', 'Long');
 SET @longId = LAST_INSERT_ID();
 
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_DATE', 'Formato de Fecha', 'dd/MM/yyyy', @stringId);
@@ -52,332 +52,294 @@ INSERT INTO tPaymentType (cKey, cName) VALUES ('VALE_VISTA', 'Vale Vista');
 INSERT INTO tPaymentType (cKey, cName) VALUES ('SERVIPAG', 'Servipag'); 
 
 /* Caja de compensaciones */
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('COMPENSATION', 'ANDES','Los Andes');
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('COMPENSATION', 'ARAUCANA','La Araucana');
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('COMPENSATION', 'HEROES', 'Los Heroes');
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('COMPENSATION', 'GABRIELA','Gabriela Mistral');
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('COMPENSATION', '18S','18 de Septiembre');
+INSERT INTO tCompensationFund (cName) VALUES ('Los Andes');
+INSERT INTO tCompensationFund (cName) VALUES ('La Araucana');
+INSERT INTO tCompensationFund (cName) VALUES ('Los Heroes');
+INSERT INTO tCompensationFund (cName) VALUES ('Gabriela Mistral');
+INSERT INTO tCompensationFund (cName) VALUES ('18 de Septiembre');
 
 /* Mutual */
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('MUTUAL', 'ACHS','Asociación Chilena de Seguridad' );
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('MUTUAL', 'MS', 'Mutual de Seguridad' );
-INSERT INTO tBoard (cType, cKey, cValue) VALUES ('MUTUAL', 'IST', 'Instituto de Seguridad del Trabajo' );
+INSERT INTO tMutual(cKey, cName) VALUES ('00','Sin Mutual - Empresa entrega aporte Accidentes del Trabajo al ISL' );
+INSERT INTO tMutual(cKey, cName) VALUES ('01','Asociación Chilena de Seguridad (ACHS)' );
+INSERT INTO tMutual(cKey, cName) VALUES ('02','Mutual de Seguridad CCHC' );
+INSERT INTO tMutual(cKey, cName) VALUES ('03','Instituto de Seguridad del Trabajo I.S.T.' );
 
 /* Genero */
 INSERT INTO tGenere(cName) VALUES('Femenino');
 INSERT INTO tGenere(cName) VALUES('Masculino');
 
-/* Tipos de opciones */
+/* Tipos de opciones 
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('TYPE_OPTION', 'MENU', 'Menu');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('TYPE_OPTION', 'BUTTON', 'Button');
+*/
 
 /* Estado civil */
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('MARITAL_STATUS', 'MARRIED', 'Casado');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('MARITAL_STATUS', 'SINGLE', 'Soltero');
+INSERT INTO tMaritalStatus(cKey, cName) VALUES('MARRIED', 'Casado');
+INSERT INTO tMaritalStatus(cKey, cName) VALUES('SINGLE', 'Soltero');
+SET @single = LAST_INSERT_ID();
 
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('CURRENCY', 'UF', 'Unidad de Fomento');
+INSERT INTO tCurrency(cKey, cName) VALUES('UF', 'Unidad de Fomento');
 SET @uf = LAST_INSERT_ID();
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('CURRENCY', 'CLP', 'Pesos Chilenos');
+INSERT INTO tCurrency(cKey, cName) VALUES('CLP', 'Pesos Chilenos');
 SET @clp = LAST_INSERT_ID();
 
 /* PFM */
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '33', 'Capital');
-INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '1.44', '1.49');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '3', 'Cuprum');
-INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '1.48', '1.49');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '5', 'Habitat');
-INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '1.36', '1.49');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '34', 'Modelo');
-INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '1.14', '1.49');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '29', 'Planvital');
-INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '2.36', '1.49');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '8', 'Provida');
-INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '1.54', '1.49');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('PFM', '0', 'Sin AFP');
-INSERT INTO tPFMAttribute(cPFM, cFactor, cSIS) VALUES(LAST_INSERT_ID(), '0', '0');
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('33', 'Capital', '1.44', '1.49');
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('3', 'Cuprum', '1.48', '1.49');
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('5', 'Habitat', '1.36', '1.49');
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('34', 'Modelo', '1.14', '1.49');
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('29', 'Planvital', '2.36', '1.49');
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('8', 'Provida', '1.54', '1.49');
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('0', 'Sin AFP', '0', '0');
 
 /* Isapres */
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '7', 'Fonasa');
-INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '1', 'Banmédica');
-INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '4', 'Colmena');
-INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '2', 'Consalud');
-INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '5', 'Cruz Blanca');
-INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '10', 'Ferrosalud');
-INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '12', 'Fundación');
-INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '11', 'Fusat');
-INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '17', 'Mas Vida');
-INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '18', 'Normédica');
-INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '22', 'Sfera');
-INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('HEALTH', '3', 'Vida Tres');
-INSERT INTO tHealthAttribute(cHealth, cFactor) VALUES(LAST_INSERT_ID(), 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('7', 'Fonasa', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('1', 'Banmédica', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('4', 'Colmena', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('2', 'Consalud', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('5', 'Cruz Blanca', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('10', 'Ferrosalud', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('12', 'Fundación', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('11', 'Fusat', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('17', 'Mas Vida', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('18', 'Normédica', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('22', 'Sfera', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('3', 'Vida Tres', 7);
 
-/* Tipos de cuentas donde van a dar los fondos
+/*
+Tipos de cuentas donde van a dar los fondos.
 APV 
 ACCT2
 COMPL_HEALTH
-*/
+
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('INSTITUTION', 'APV', 'Ahorro Previsional Voluntario');
 SET @apvType = LAST_INSERT_ID();
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('INSTITUTION', 'ACCT2', 'Cuenta 2');
 INSERT INTO tBoard(cType, cKey, cValue) VALUES('INSTITUTION', 'COMPL_HEALTH', 'Seguro complementario');
+*/
 
-/**Tipos de cuenta bancaria */
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'CTA_CTE', 'Cuenta Corriente');
+/** Tipos de cuenta bancaria */
+INSERT INTO tAccountType(cKey, cName) VALUES('CTA_CTE', 'Cuenta Corriente');
 SET @accountType = LAST_INSERT_ID();
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'SAVING', 'Cuenta Ahorro');
+INSERT INTO tAccountType(cKey, cName) VALUES('SAVING', 'Cuenta Ahorro');
 SET @acct2 = LAST_INSERT_ID();
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('ACCOUNT_TYPE', 'SIGHT', 'Cuenta Vista');
+INSERT INTO tAccountType(cKey, cName) VALUES('SIGHT', 'Cuenta Vista');
 
 /* APV */
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '100', 'ABN AMRO (CHILE) SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('100', 'ABN AMRO (CHILE) SEGUROS DE VIDA S.A.');
 SET @APV1 = LAST_INSERT_ID();
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '136', 'ACE SEGUROS S.A. ');
+INSERT INTO tAPV(cKey, cName) VALUES('136', 'ACE SEGUROS S.A.');
 SET @APV2 = LAST_INSERT_ID();
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '218', 'ADMINISTRADORA GENERAL DE FONDOS SECURITY S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '33', 'AFP Capital ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '3', 'AFP Cuprum ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '5', 'AFP Habitat ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '34', 'AFP Modelo ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '29', 'AFP Planvital ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '8', 'AFP Provida ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '101', 'AGF ALLIANZ CHILE COMPAÑIA DE SEGUROS VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '222', 'BANCHILE CORREDORES DE BOLSA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '104', 'BANCHILE SEGUROS DE VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '319', 'BANCO RIPLEY ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '321', 'BANCO SANTANDER SANTIAGO ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '320', 'BANCO SCOTIABANK ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '229', 'BANCOESTADO S.A. ADMINISTRADORA GENERAL DE FONDOS ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '201', 'BANDESARROLLO ADMINISTRADORA GENERAL DE FONDOS S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '203', 'BBVA ASSET MANAGEMENT ADMINISTRADORA GENERAL DE FONDOS S.A.');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '303', 'BBVA BANCO BHIF ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '105', 'BBVA SEGUROS DE VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '204', 'BCI ASSET MANAGEMENT ADMINISTRADORA GENERAL DE FONDOS S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '103', 'BCI SEGUROS VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '205', 'BICE INVERSIONES ADMINISTRADORA GENERAL DE FONDOS S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '232', 'BICE INVERSIONES CORREDORES DE BOLSA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '106', 'BICE VIDA COMPAÑIA DE SEGUROS S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '400', 'CAJA DE COMPENSACION LOS ANDES ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '208', 'CELFIN CAPITAL S.A. ADMINISTRADORA GRAL. DE FONDOS ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '228', 'CELFIN CAPITAL S.A. CORREDORES DE BOLSA ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '107', 'CHILENA CONSOLIDADA SEGUROS DE VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '111', 'CIA DE SEG. DE VIDA CONSORCIO NACIONAL DE SEG S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '108', 'CIGNA COMPAÑIA DE SEGUROS DE VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '109', 'CN LIFE, COMPAÑIA DE SEGUROS DE VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '116', 'COMPAÑIA DE SEGUROS CORPVIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '110', 'COMPAÑIA DE SEGUROS DE VIDA CARDIF S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '112', 'COMPAÑIA DE SEGUROS DE VIDA CRUZ DEL SUR S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '113', 'COMPAÑIA DE SEGUROS DE VIDA HUELEN S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '114', 'COMPAÑIA DE SEGUROS DE VIDA LA CONSTRUCCION S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '115', 'COMPAÑIA DE SEGUROS DE VIDA VITALIS S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '134', 'COMPAÑIA DE SEGUROS GENERALES PENTA-SECURITY S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '210', 'CORPBANCA ADMINISTRADORA GENERAL DE FONDOS S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '404', 'CRUZ DEL SUR ADMINISTRADORA GENERAL DE FONDOS S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '219', 'CRUZ DEL SUR CORREDORA DE BOLSA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '600', 'EUROAMERICA ADMINISTRADORA GENERAL DE FONDOS S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '117', 'EUROAMERICA SEGUROS DE VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '227', 'ING AGENCIA DE VALORES S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '118', 'ING SEGUROS DE VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '225', 'ITAU CHILE ADMINISTRADORA GENERAL DE FONDOS S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '121', 'LA INTERAMERICANA COMPAÑIA DE SEG. DE VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '601', 'LARRAIN VIAL ADMINISTRADORA GENERAL DE FONDOS S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '213', 'LARRAIN VIAL S.A. CORREDORA DE BOLSA ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '123', 'MAPFRE COMPAÑIA DE SEGUROS DE VIDA DE CHILE S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '124', 'METLIFE CHILE SEGUROS DE VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '125', 'MUTUAL DE SEGUROS DE CHILE ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '126', 'MUTUALIDAD DE CARABINEROS ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '127', 'MUTUALIDAD DEL EJERCITO Y AVIACION ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '128', 'OHIO NATIONAL SEGUROS DE VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '226', 'PENTA ADMINISTRADORA GENERAL DE FONDOS S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '135', 'PENTA VIDA COMPAÑIA DE SEGUROS DE VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '214', 'PRINCIPAL ADMINISTRADORA GENERAL DE FONDOS S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '129', 'PRINCIPAL COMPAÑIA DE SEGUROS DE VIDA CHILE S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '130', 'RENTA NACIONAL COMPAÑIA DE SEGUROS DE VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '215', 'SANTANDER ASSET MANAGEMENT S.A. ADM. GENERAL DE FONDOS ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '102', 'SANTANDER SEGUROS DE VIDA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '217', 'SCOTIA SUD AMERICANO ADMINISTRADORA DE FONDOS MUTUOS S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '231', 'SCOTIA SUD AMERICANO CORREDORES DE BOLSA S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '131', 'SEGUROS DE VIDA SECURITY PREVISION S.A. ');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('APV', '224', 'ZURICH ADMINISTRADORA GENERAL DE FONDOS S.A. ');
+INSERT INTO tAPV(cKey, cName) VALUES('218', 'ADMINISTRADORA GENERAL DE FONDOS SECURITY S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('33', 'AFP Capital');
+INSERT INTO tAPV(cKey, cName) VALUES('3', 'AFP Cuprum');
+INSERT INTO tAPV(cKey, cName) VALUES('5', 'AFP Habitat');
+INSERT INTO tAPV(cKey, cName) VALUES('34', 'AFP Modelo');
+INSERT INTO tAPV(cKey, cName) VALUES('29', 'AFP Planvital');
+INSERT INTO tAPV(cKey, cName) VALUES('8', 'AFP Provida');
+INSERT INTO tAPV(cKey, cName) VALUES('101', 'AGF ALLIANZ CHILE COMPAÑIA DE SEGUROS VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('222', 'BANCHILE CORREDORES DE BOLSA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('104', 'BANCHILE SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('319', 'BANCO RIPLEY');
+INSERT INTO tAPV(cKey, cName) VALUES('321', 'BANCO SANTANDER SANTIAGO');
+INSERT INTO tAPV(cKey, cName) VALUES('320', 'BANCO SCOTIABANK');
+INSERT INTO tAPV(cKey, cName) VALUES('229', 'BANCOESTADO S.A. ADMINISTRADORA GENERAL DE FONDOS');
+INSERT INTO tAPV(cKey, cName) VALUES('201', 'BANDESARROLLO ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('203', 'BBVA ASSET MANAGEMENT ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('303', 'BBVA BANCO BHIF');
+INSERT INTO tAPV(cKey, cName) VALUES('105', 'BBVA SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('204', 'BCI ASSET MANAGEMENT ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('103', 'BCI SEGUROS VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('205', 'BICE INVERSIONES ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('232', 'BICE INVERSIONES CORREDORES DE BOLSA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('106', 'BICE VIDA COMPAÑIA DE SEGUROS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('400', 'CAJA DE COMPENSACION LOS ANDES');
+INSERT INTO tAPV(cKey, cName) VALUES('208', 'CELFIN CAPITAL S.A. ADMINISTRADORA GRAL. DE FONDOS');
+INSERT INTO tAPV(cKey, cName) VALUES('228', 'CELFIN CAPITAL S.A. CORREDORES DE BOLSA');
+INSERT INTO tAPV(cKey, cName) VALUES('107', 'CHILENA CONSOLIDADA SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('111', 'CIA DE SEG. DE VIDA CONSORCIO NACIONAL DE SEG S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('108', 'CIGNA COMPAÑIA DE SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('109', 'CN LIFE, COMPAÑIA DE SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('116', 'COMPAÑIA DE SEGUROS CORPVIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('110', 'COMPAÑIA DE SEGUROS DE VIDA CARDIF S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('112', 'COMPAÑIA DE SEGUROS DE VIDA CRUZ DEL SUR S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('113', 'COMPAÑIA DE SEGUROS DE VIDA HUELEN S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('114', 'COMPAÑIA DE SEGUROS DE VIDA LA CONSTRUCCION S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('115', 'COMPAÑIA DE SEGUROS DE VIDA VITALIS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('134', 'COMPAÑIA DE SEGUROS GENERALES PENTA-SECURITY S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('210', 'CORPBANCA ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('404', 'CRUZ DEL SUR ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('219', 'CRUZ DEL SUR CORREDORA DE BOLSA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('600', 'EUROAMERICA ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('117', 'EUROAMERICA SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('227', 'ING AGENCIA DE VALORES S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('118', 'ING SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('225', 'ITAU CHILE ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('121', 'LA INTERAMERICANA COMPAÑIA DE SEG. DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('601', 'LARRAIN VIAL ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('213', 'LARRAIN VIAL S.A. CORREDORA DE BOLSA');
+INSERT INTO tAPV(cKey, cName) VALUES('123', 'MAPFRE COMPAÑIA DE SEGUROS DE VIDA DE CHILE S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('124', 'METLIFE CHILE SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('125', 'MUTUAL DE SEGUROS DE CHILE');
+INSERT INTO tAPV(cKey, cName) VALUES('126', 'MUTUALIDAD DE CARABINEROS');
+INSERT INTO tAPV(cKey, cName) VALUES('127', 'MUTUALIDAD DEL EJERCITO Y AVIACION');
+INSERT INTO tAPV(cKey, cName) VALUES('128', 'OHIO NATIONAL SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('226', 'PENTA ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('135', 'PENTA VIDA COMPAÑIA DE SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('214', 'PRINCIPAL ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('129', 'PRINCIPAL COMPAÑIA DE SEGUROS DE VIDA CHILE S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('130', 'RENTA NACIONAL COMPAÑIA DE SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('215', 'SANTANDER ASSET MANAGEMENT S.A. ADM. GENERAL DE FONDOS');
+INSERT INTO tAPV(cKey, cName) VALUES('102', 'SANTANDER SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('217', 'SCOTIA SUD AMERICANO ADMINISTRADORA DE FONDOS MUTUOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('231', 'SCOTIA SUD AMERICANO CORREDORES DE BOLSA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('131', 'SEGUROS DE VIDA SECURITY PREVISION S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('224', 'ZURICH ADMINISTRADORA GENERAL DE FONDOS S.A.');
 
-
-/* Caja Ex-Régimen
-11:14:38  -  mira
-11:14:43  -  metelas como AFP
-11:14:47  -  en la tabla de afp
-11:15:00  -  el codigo es el codigo de hologacion del previred
-11:15:16  -  el nombre es el del previred
-11:15:26  -  y el factor se pone a mano
-11:15:31  -  ya que no sa sabe
-11:15:49  -  y se conocerá si es que alguien pertenece a una de esas mierdas
-11:15:58  -  vale?
-11:16:00  -  son afp
-11:16:13  -  son prevision
-11:16:24  -  eso
-11:16:37  -  ya tienes los nombres y los cosigos
-11:16:46  -  solo faltan los %
-11:16:59  -  osea te sirve el mantenedor de afp
-11:17:05  -  o de entidades de prevision
-11:32:23  - pero llevan mantenedor solo para el efecto de clolocar el porcentaje
-
-*/
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '0', '0 - No pertenece al IPS');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '3', '3 - Caja Prev. y Est. de los Empl. del Bco. de Chile');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '4', '4 - Sección Prev. del Bco. Central de Chile');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '25', '25 - Caja Prev. de la Defensa Nacional.');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '26', '26 - Dirección de Prev. de Carabineros de Chile.');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '101', '101 - Empart - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '102', '102 - Empart - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '103', '103 - Empart - Régimen 3');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '104', '104 - Empart - Régimen 4');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '106', '106 - Empart - Régimen 6');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '201', '201 - Bancaria - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '202', '202 - Bancaria - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '203', '203 - Bancaria - Régimen 3');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '214', '214 - Bancaria - Régimen 14');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '221', '221 - Bancaria - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '234', '234 - Bancaria - Régimen 34');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '501', '501 - Caprebech - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '502', '502 - Caprebech - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '503', '503 - Caprebech - Régimen 3');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '514', '514 - Caprebech - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '521', '521 - Caprebech - Régimen 21');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '534', '534 - Caprebech - Régimen 34');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '601', '601 - Capremer - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '602', '602 - Capremer - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '603', '603 - Capremer - Régimen 3');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '604', '604 - Capremer - Régimen 4');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '605', '605 - Capremer - Régimen 5');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '606', '606 - Capremer - Régimen 6');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '608', '608 - Capremer - Régimen 8');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '701', '701 - Triomar - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '702', '702 - Triomar - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '703', '703 - Triomar - Régimen 3');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '704', '704 - Triomar - Régimen 4');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '801', '801 - Hipica Nacional - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '802', '802 - Hipica Nacional - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '803', '803 - Hipica Nacional - Régimen 3');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '804', '804 - Hipica Nacional - Régimen 4');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '901', '901 - Servicios de Seguro Social - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '902', '902 - Servicios de Seguro Social - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1001', '1001 - Empleados de Emos - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1101', '1101 - Obreros de Emos - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1202', '1202 - Caja Ferro - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1203', '1203 - Caja Ferro - Régimen 3');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1204', '1204 - Caja Ferro - Régimen 4');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1205', '1205 - Caja Ferro - Régimen 5');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1207', '1207 - Caja Ferro - Régimen 7');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1301', '1301 - Canaempu: Publicos - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1302', '1302 - Canaempu: Publicos - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1303', '1303 - Canaempu: Publicos - Régimen 3');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1305', '1305 - Canaempu: Publicos - Régimen 5');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1306', '1306 - Canaempu: Publicos - Régimen 6');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1308', '1308 - Canaempu: Publicos - Régimen 8');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1309', '1309 - Canaempu: Publicos - Régimen 9');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1310', '1310 - Canaempu: Publicos - Régimen 10');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1311', '1311 - Canaempu: Publicos - Régimen 11');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1312', '1312 - Canaempu: Publicos - Régimen 12');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1321', '1321 - Canaempu: Publicos - Régimen 21');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1322', '1322 - Canaempu: Publicos - Régimen 22');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1323', '1323 - Canaempu: Publicos - Régimen 23');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1325', '1325 - Canaempu: Publicos - Régimen 25');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1326', '1326 - Canaempu: Publicos - Régimen 26');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1328', '1328 - Canaempu: Publicos - Régimen 28');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1329', '1329 - Canaempu: Publicos - Régimen 29');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1330', '1330 - Canaempu: Publicos - Régimen 30');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1331', '1331 - Canaempu: Publicos - Régimen 31');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1332', '1332 - Canaempu: Publicos - Régimen 32');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1338', '1338 - Canaempu: Publicos - Régimen 38');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1401', '1401 - Canaempu: Periodistas - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1402', '1402 - Canaempu: Periodistas - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1403', '1403 - Canaempu: Periodistas - Régimen 3');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1404', '1404 - Canaempu: Periodistas - Régimen 4');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1405', '1405 - Canaempu: Periodistas - Régimen 5');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1406', '1406 - Canaempu: Periodistas - Régimen 6');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1407', '1407 - Canaempu: Periodistas - Régimen 7');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1408', '1408 - Canaempu: Periodistas - Régimen 8');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1411', '1411 - Canaempu: Periodistas - Régimen 11');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1412', '1412 - Canaempu: Periodistas - Régimen 12');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1413', '1413 - Canaempu: Periodistas - Régimen 13');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1414', '1414 - Canaempu: Periodistas - Régimen 14');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1415', '1415 - Canaempu: Periodistas - Régimen 15');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1416', '1416 - Canaempu: Periodistas - Régimen 16');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1417', '1417 - Canaempu: Periodistas - Régimen 17');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1418', '1418 - Canaempu: Periodistas - Régimen 18');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1421', '1421 - Canaempu: Periodistas - Régimen 21');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1422', '1422 - Canaempu: Periodistas - Régimen 22');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1423', '1423 - Canaempu: Periodistas - Régimen 23');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1424', '1424 - Canaempu: Periodistas - Régimen 24');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1425', '1425 - Canaempu: Periodistas - Régimen 25');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1426', '1426 - Canaempu: Periodistas - Régimen 26');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1431', '1431 - Canaempu: Periodistas - Régimen 31');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1432', '1432 - Canaempu: Periodistas - Régimen 32');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1433', '1433 - Canaempu: Periodistas - Régimen 33');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1434', '1434 - Canaempu: Periodistas - Régimen 34');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1501', '1501 - Copremusa EE - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1502', '1502 - Copremusa EE - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1503', '1503 - Copremusa EE - Régimen 3');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1601', '1601 - Caja de Previsión Social de los EE - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1602', '1602 - Caja de Previsión Social de los EE - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1701', '1701 - EE Municipales de la Republica - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1702', '1702 - EE Municipales de la Republica - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1703', '1703 - EE Municipales de la Republica - Régimen 3');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1704', '1704 - EE Municipales de la Republica - Régimen 4');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1801', '1801 - OO Municipales de la Republica - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1802', '1802 - OO Municipales de la Republica - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1803', '1803 - OO Municipales de la Republica - Régimen 3');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '1901', '1901 - Diomp - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2001', '2001 - EE Salitre - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2002', '2002 - EE Salitre - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2101', '2101 - Sección Especial Previsión Empleados - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2102', '2102 - Sección Especial Previsión Empleados - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2201', '2201 - Caja de Previsión de Gildemeister - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2202', '2202 - Caja de Previsión de Gildemeister - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2301', '2301 - Mauricio, Hochschild - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2302', '2302 - Mauricio, Hochschild - Régimen 2');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2401', '2401 - Secgasco - Régimen 1');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('EX_BOX', '2402', '2402 - Secgasco - Régimen 2');
-
+/** Caja Ex-Régimen */
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0000','No pertenece al IPS');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0201','Bancaria - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0202','Bancaria - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0203','Bancaria - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0214','Bancaria - Régimen 14');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0221','Bancaria - Régimen 21');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0234','Bancaria - Régimen 34');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2201','Caja de Previsión de Gildemeister - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2202','Caja de Previsión de Gildemeister - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1601','Caja de Previsión Social de los EE - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1602','Caja de Previsión Social de los EE - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1202','Caja Ferro - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1203','Caja Ferro - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1204','Caja Ferro - Régimen 4');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1205','Caja Ferro - Régimen 5');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1207','Caja Ferro - Régimen 7');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('03','Caja Prev. y Est. de los Empl. del Bco. de Chile');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1401','Canaempu: Periodistas - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1402','Canaempu: Periodistas - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1403','Canaempu: Periodistas - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1404','Canaempu: Periodistas - Régimen 4');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1405','Canaempu: Periodistas - Régimen 5');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1406','Canaempu: Periodistas - Régimen 6');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1407','Canaempu: Periodistas - Régimen 7');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1408','Canaempu: Periodistas - Régimen 8');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1411','Canaempu: Periodistas - Régimen 11');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1412','Canaempu: Periodistas - Régimen 12');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1413','Canaempu: Periodistas - Régimen 13');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1414','Canaempu: Periodistas - Régimen 14');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1415','Canaempu: Periodistas - Régimen 15');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1416','Canaempu: Periodistas - Régimen 16');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1417','Canaempu: Periodistas - Régimen 17');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1418','Canaempu: Periodistas - Régimen 18');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1421','Canaempu: Periodistas - Régimen 21');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1422','Canaempu: Periodistas - Régimen 22');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1423','Canaempu: Periodistas - Régimen 23');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1424','Canaempu: Periodistas - Régimen 24');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1425','Canaempu: Periodistas - Régimen 25');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1426','Canaempu: Periodistas - Régimen 26');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1431','Canaempu: Periodistas - Régimen 31');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1432','Canaempu: Periodistas - Régimen 32');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1433','Canaempu: Periodistas - Régimen 33');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1434','Canaempu: Periodistas - Régimen 34');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1301','Canaempu: Públicos - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1302','Canaempu: Públicos - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1303','Canaempu: Públicos - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1305','Canaempu: Públicos - Régimen 5');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1306','Canaempu: Públicos - Régimen 6');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1308','Canaempu: Públicos - Régimen 8');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1309','Canaempu: Públicos - Régimen 9');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1310','Canaempu: Públicos - Régimen 10');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1311','Canaempu: Públicos - Régimen 11');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1312','Canaempu: Públicos - Régimen 12');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1321','Canaempu: Públicos - Régimen 21');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1322','Canaempu: Públicos - Régimen 22');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1323','Canaempu: Públicos - Régimen 23');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1325','Canaempu: Públicos - Régimen 25');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1326','Canaempu: Públicos - Régimen 26');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1328','Canaempu: Públicos - Régimen 28');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1329','Canaempu: Públicos - Régimen 29');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1330','Canaempu: Públicos - Régimen 30');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1331','Canaempu: Públicos - Régimen 31');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1332','Canaempu: Públicos - Régimen 32');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1338','Canaempu: Públicos - Régimen 38');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0501','Caprebech - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0503','Caprebech - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0514','Caprebech - Régimen 14');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0521','Caprebech - Régimen 21');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0534','Caprebech - Régimen 34');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0601','Capremer - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0602','Capremer - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0603','Capremer - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0604','Capremer - Régimen 4');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0605','Capremer - Régimen 5');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0606','Capremer - Régimen 6');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0608','Capremer - Régimen 8');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1501','Copremusa EE - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1502','Copremusa EE - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1503','Copremusa EE - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1901','Diomp - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1701','EE Municipales de la Republica - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1702','EE Municipales de la Republica - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1703','EE Municipales de la Republica - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1704','EE Municipales de la Republica - Régimen 4');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2001','EE Salitre - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2002','EE Salitre - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0101','Empart - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0102','Empart - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0103','Empart - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0104','Empart - Régimen 4');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0106','Empart - Régimen 6');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1001','Empleados de Emos - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0801','Hípica Nacional - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0802','Hípica Nacional - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0803','Hípica Nacional - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0804','Hípica Nacional - Régimen 4');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2301','Mauricio, Hochschild - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2302','Mauricio, Hochschild - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1101','Obreros de Emos - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1801','OO Municipales de la Republica - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1802','OO Municipales de la Republica - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1803','OO Municipales de la Republica - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2101','Sección Esp.Previsión Empleados - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2102','Sección Esp.Previsión Empleados - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('04','Sección Prev. del Bco. Central de Chile');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2401','Secgasco - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2402','Secgasco - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0901','Servicios de Seguro Social - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0902','Servicios de Seguro Social - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0701','Triomar - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0702','Triomar - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0703','Triomar - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0704','Triomar - Régimen 4');
 
 /** Bancos */
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','46','ABNAMRO');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','504','BBVA');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','16','BCI');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','28','BICE');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','1','CHILE');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','33','CITIBANK,N.A.');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','734','CONOSUR');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','27','CORPBANCA');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','43','DELANACIONARGENTINA');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','507','DESARROLLO');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','52','DEUTSCHEBANK');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','17','DOBRASIL');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','29','EDWARDS');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','12','ESTADO');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','51','FALABELLA');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','54','HNS');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','31','HSBCBANKCHILE');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','9','INTERNACIONAL');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','39','ITAU');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','41','JPMORGANCHASEBANK');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','55','MONEX');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','57','PARIS');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','56','PENTA');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','53','RIPLEY');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','37','SANTANDER-CHILE');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','14','SCOTIABANKSUDAMERICANO');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','49','SECURITY');
-INSERT INTO tBoard(cType,cKey,cValue)VALUES('BANK','45','THEBANKOFTOKYO-MITSUBISHIUFJ,LTD.');
+INSERT INTO tBank(cKey,cName)VALUES('46','ABNAMRO');
+INSERT INTO tBank(cKey,cName)VALUES('504','BBVA');
+INSERT INTO tBank(cKey,cName)VALUES('16','BCI');
+INSERT INTO tBank(cKey,cName)VALUES('28','BICE');
+INSERT INTO tBank(cKey,cName)VALUES('1','CHILE');
+INSERT INTO tBank(cKey,cName)VALUES('33','CITIBANK,N.A.');
+INSERT INTO tBank(cKey,cName)VALUES('734','CONOSUR');
+INSERT INTO tBank(cKey,cName)VALUES('27','CORPBANCA');
+INSERT INTO tBank(cKey,cName)VALUES('43','DELANACIONARGENTINA');
+INSERT INTO tBank(cKey,cName)VALUES('507','DESARROLLO');
+INSERT INTO tBank(cKey,cName)VALUES('52','DEUTSCHEBANK');
+INSERT INTO tBank(cKey,cName)VALUES('17','DOBRASIL');
+INSERT INTO tBank(cKey,cName)VALUES('29','EDWARDS');
+INSERT INTO tBank(cKey,cName)VALUES('12','ESTADO');
+INSERT INTO tBank(cKey,cName)VALUES('51','FALABELLA');
+INSERT INTO tBank(cKey,cName)VALUES('54','HNS');
+INSERT INTO tBank(cKey,cName)VALUES('31','HSBCBANKCHILE');
+INSERT INTO tBank(cKey,cName)VALUES('9','INTERNACIONAL');
+INSERT INTO tBank(cKey,cName)VALUES('39','ITAU');
+INSERT INTO tBank(cKey,cName)VALUES('41','JPMORGANCHASEBANK');
+INSERT INTO tBank(cKey,cName)VALUES('55','MONEX');
+INSERT INTO tBank(cKey,cName)VALUES('57','PARIS');
+INSERT INTO tBank(cKey,cName)VALUES('56','PENTA');
+INSERT INTO tBank(cKey,cName)VALUES('53','RIPLEY');
+INSERT INTO tBank(cKey,cName)VALUES('37','SANTANDER-CHILE');
+INSERT INTO tBank(cKey,cName)VALUES('14','SCOTIABANKSUDAMERICANO');
+INSERT INTO tBank(cKey,cName)VALUES('49','SECURITY');
+INSERT INTO tBank(cKey,cName)VALUES('45','THEBANKOFTOKYO-MITSUBISHIUFJ,LTD.');
 
 INSERT INTO `tComuna` (`cName`,`cRegion`,`cPrioridad`) VALUES ('Alto Hospicio',1,0);
 INSERT INTO `tComuna` (`cName`,`cRegion`,`cPrioridad`) VALUES ('Camina',1,0);
@@ -984,12 +946,14 @@ INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Administrativo', 
 INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Informatico', @cc, 185000);
 
 INSERT INTO tEmployee(cRut,				cName,	cLastName1,	cLastName2,	cBirthDate,		cAddress,						cGenere,	cComuna,	cCountry,	cMaritalStatus,	cPhone, cMovil, cEmail) 
-VALUES(					'10809246-7',	'Pato',	'Aranguiz',	'Torres',	'1966-08-28',	'Fray Camilo Henriquez 2063',	2,			3,			1,			5,				'', 	'',		'');
+VALUES(					'10809246-7',	'Pato',	'Aranguiz',	'Torres',	'1966-08-28',	'Fray Camilo Henriquez 2063',	2,			3,			1,			@single,				'', 	'',		'');
 SET @employeeId = LAST_INSERT_ID();
 
 INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary)
-VALUES(					@employeeId,	2,				'2009-12-01',	'2013-01-01',	1,			3,		6,			1,					3,				580,			395,		1);
+VALUES(					@employeeId,	2,				'2009-12-01',	'2013-01-01',	1,			3,		1,			1,					3,				580,			395,		1);
+SET @agreementId = LAST_INSERT_ID();
 
+/*
 INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency, cAmount)
 VALUES(@employeeId, @APV1, @apvType, @clp, 10000);
 INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency, cAmount)
@@ -997,8 +961,11 @@ VALUES(@employeeId, @APV1, @apvType, @uf, 3);
 INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency, cAmount)
 VALUES(@employeeId, @APV2, @apvType, @clp, 12000);
 
-/**Cuenta 2*/
+/ * *Cuenta 2* /
 INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)
 VALUES(@employeeId, 30, @acct2, @clp);
+*/
 
 
+INSERT INTO tR_AgreementAPV(cAgreement, cAPV, cCurrency, cAmount)
+VALUES(@agreementId, @APV1, @clp, 12000);

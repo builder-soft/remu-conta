@@ -1,0 +1,11 @@
+DROP PROCEDURE if exists remcon.pListAccountType;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pListAccountType()
+BEGIN
+	SELECT		cId, cKey, cName 
+	FROM 		remcon.tAccountType;
+END$$
+
+DELIMITER ;
+ 

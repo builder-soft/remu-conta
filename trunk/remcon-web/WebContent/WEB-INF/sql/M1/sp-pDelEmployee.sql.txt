@@ -3,9 +3,13 @@ DELIMITER $$
 
 CREATE PROCEDURE remcon.pDelEmployee(IN pEmployee BIGINT)
 BEGIN
+	SELECT	cId INTO @agreement 
+	FROM	tAgreement 
+	WHERE	cEmployee = pEmployee;
+
 	DELETE
-	FROM 		remcon.tAccount
-	WHERE		cEmployee = pEmployee;
+	FROM 		remcon.tR_AgreementAPV
+	WHERE		cAgreement = @agreement;
 	
 	DELETE
 	FROM 		remcon.tAgreement
