@@ -1,0 +1,16 @@
+DROP PROCEDURE if exists remcon.pListAPVForEmployee;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pListAPVForEmployee(IN pEmployee BIGINT)
+BEGIN
+	SELECT	cId INTO @agreement 
+	FROM	tAgreement 
+	WHERE	cEmployee = pEmployee;
+
+	SELECT		cAgreement, cAPV, cCurrency, cAmount
+	FROM 		remcon.tR_AgreementAPV
+	WHERE		cAgreement = @agreement
+	ORDER BY	cCurrency, cAPV;
+END$$
+
+DELIMITER ;

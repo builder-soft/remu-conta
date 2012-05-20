@@ -1,0 +1,10 @@
+DROP PROCEDURE if exists remcon.pListBank;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pListBank()
+BEGIN
+	SELECT		cId 
+	FROM 		remcon.tBank
+	ORDER BY	cId;
+
+END$$

@@ -8,9 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cl.buildersoft.framework.beans.Account2;
 import cl.buildersoft.framework.beans.Agreement;
-import cl.buildersoft.framework.beans.Board;
+import cl.buildersoft.framework.beans.Currency;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.web.servlet.table.AbstractServletUtil;
@@ -27,28 +26,19 @@ public class SavePayMode extends AbstractServletUtil {
 		Connection conn = mysql.getConnection(request);
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
 
-		Account2 account = getAccount(conn, bu, employeeId);
 		Agreement agreement = getAgreement(conn, employeeId);
 
-		/**
-		 * BSFieldDataType dateType = BSTypeFactory.create(BSFieldType.Date);
-		 * BSFieldDataType doubleType =
-		 * BSTypeFactory.create(BSFieldType.Double);
-		 */
 		Long accountType = Long.parseLong(request.getParameter("cAccountType"));
 		Long paymentType = Long.parseLong(request.getParameter("cPaymentType"));
 		Long bank = Long.parseLong(request.getParameter("cBank"));
 		String number = request.getParameter("cNumber");
 
 		agreement.setPaymentType(paymentType);
+		agreement.setAccountType(accountType);
+		agreement.setBank(bank);
+		agreement.setAccountNumber(number);
+		agreement.setCurrencyAccount2(getCurrencyCLP(conn, bu));
 
-		account.setAccountType(accountType);
-		account.setInstitution(bank);
-		account.setNumber(number);
-		account.setCurrency(getCurrencyCLP(conn, bu));
-		account.setEmployee(employeeId);
-
-		bu.save(conn, account);
 		bu.save(conn, agreement);
 
 		request.getRequestDispatcher("/servlet/remu/EmployeeManager").forward(
@@ -56,12 +46,13 @@ public class SavePayMode extends AbstractServletUtil {
 	}
 
 	private Long getCurrencyCLP(Connection conn, BSBeanUtilsSP bu) {
-		Board currency = (Board) bu.get(conn, new Board(),
-				"pGetBoardByTypeAndKey", array2List("CURRENCY", "CLP"));
+		Currency currency = (Currency) bu.get(conn, new Currency(),
+				"pGetCurrencyByKey", "CLP");
 		return currency.getId();
 
 	}
 
+	/**<code>
 	private Account2 getAccount(Connection conn, BSBeanUtilsSP bu,
 			Long employeeId) {
 		Account2 account = (Account2) bu.get(conn, new Account2(),
@@ -78,6 +69,7 @@ public class SavePayMode extends AbstractServletUtil {
 
 		return out;
 	}
+	</code>*/
 
 	private Agreement getAgreement(Connection conn, Long idEmployee) {
 		AgreementService agreementService = new AgreementServiceImpl();

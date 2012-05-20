@@ -14,6 +14,11 @@ import cl.buildersoft.framework.exception.BSProgrammerException;
 
 public class BSBeanUtilsSP extends BSBeanUtils {
 	public List<? extends BSBean> list(Connection conn, BSBean bean,
+			String spName) {
+		return list(conn, bean, spName, null);
+	}
+
+	public List<? extends BSBean> list(Connection conn, BSBean bean,
 			String spName, Object oneParam) {
 		List<Object> params = new ArrayList<Object>();
 		params.add(oneParam);

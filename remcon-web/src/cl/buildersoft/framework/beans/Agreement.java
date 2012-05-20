@@ -15,6 +15,13 @@ public class Agreement extends BSBean {
 	private Long health = null;
 	private Long gratificationType = null;
 	private Long paymentType = null;
+	
+	private Long bank = null;
+	private Long accountType = null;
+	private String accountNumber = null;
+	private Long currencyAccount2 = null;
+	private Double amountAccount2 = null;
+	
 	private Long horary = null;
 	private Double mobilization = null;
 	private Double feeding = null;
@@ -200,6 +207,46 @@ public class Agreement extends BSBean {
 				+ ", additionalHealthCLP=" + additionalHealthCLP
 				+ ", simpleLoads=" + simpleLoads + ", disabilityBurdens="
 				+ disabilityBurdens + ", maternalLoads=" + maternalLoads + "]";
+	}
+
+	public Long getBank() {
+		return bank;
+	}
+
+	public void setBank(Long bank) {
+		this.bank = bank;
+	}
+
+	public Long getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(Long accountType) {
+		this.accountType = accountType;
+	}
+
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public Long getCurrencyAccount2() {
+		return currencyAccount2;
+	}
+
+	public void setCurrencyAccount2(Long currencyAccount2) {
+		this.currencyAccount2 = currencyAccount2;
+	}
+
+	public Double getAmountAccount2() {
+		return amountAccount2;
+	}
+
+	public void setAmountAccount2(Double amountAccount2) {
+		this.amountAccount2 = amountAccount2;
 	}
 
 }

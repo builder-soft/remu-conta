@@ -1,7 +1,7 @@
+<%@page import="cl.buildersoft.framework.beans.AccountType"%>
+<%@page import="cl.buildersoft.framework.beans.Bank"%>
 <%@page import="cl.buildersoft.framework.beans.PaymentType"%>
-<%@page import="cl.buildersoft.framework.beans.Account2"%>
 <%@page import="cl.buildersoft.framework.beans.Agreement"%>
-<%@page import="cl.buildersoft.framework.beans.Board"%>
 <%@page import="cl.buildersoft.framework.beans.Employee"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -9,12 +9,12 @@
 	Employee empl = (Employee) request.getAttribute("Employee");
 	Agreement agreement = (Agreement) request.getAttribute("Agreement");
 
-	List<Board> banks = (List<Board>) request.getAttribute("Banks");
-	List<Board> accountTypes = (List<Board>) request
+	List<Bank> banks = (List<Bank>) request.getAttribute("Banks");
+	List<AccountType> accountTypes = (List<AccountType>) request
 			.getAttribute("AccountTypes");
 	List<PaymentType> paymentTypes = (List<PaymentType>) request
 			.getAttribute("PaymentTypes");
-	Account2 account = (Account2) request.getAttribute("Account");
+	//	Account2 account = (Account2) request.getAttribute("Account");
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
@@ -22,13 +22,10 @@
 <h1 class="cTitle">Forma de Pago</h1>
 
 <!-- 
-<span class="cData"> <%=account.toString()%>
-</span>
-<hr>
 <span class="cData"> <%=agreement.toString()%>
 </span>
  -->
- 
+
 <form
 	action="${pageContext.request.contextPath}/servlet/config/employee/SavePayMode">
 	<!-- 
@@ -68,11 +65,11 @@
 			<td class="cLabel">Banco:</td>
 			<td><select name="cBank">
 					<%
-						for (Board bank : banks) {
+						for (Bank bank : banks) {
 					%>
 					<option value="<%=bank.getId()%>"
-						<%=bank.getId().equals(account.getInstitution()) ? "selected"
-						: ""%>><%=bank.getValue()%></option>
+						<%=bank.getId().equals(agreement.getBank()) ? "selected"
+						: ""%>><%=bank.getName()%></option>
 					<%
 						}
 					%>
@@ -81,17 +78,18 @@
 		<tr>
 			<td class="cLabel">Número de Cuenta:</td>
 			<td class="cData"><input name="cNumber"
-				value="<%=account.getNumber()%>"></td>
+				value="<%=agreement.getAccountNumber()%>"></td>
 		</tr>
 		<tr>
 			<td class="cLabel">Tipo de cuenta:</td>
 
 			<td class="cData"><select name="cAccountType">
 					<%
-						for (Board accountType : accountTypes) {
+						for (AccountType accountType : accountTypes) {
 					%>
-					<option value="<%=accountType.getId()%>" <%=accountType.getId()
-						.equals(account.getAccountType()) ? "selected" : ""%>><%=accountType.getValue()%></option>
+					<option value="<%=accountType.getId()%>"
+						<%=accountType.getId()
+						.equals(agreement.getAccountType()) ? "selected" : ""%>><%=accountType.getName()%></option>
 					<%
 						}
 					%>

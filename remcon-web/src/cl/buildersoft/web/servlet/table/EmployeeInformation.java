@@ -12,15 +12,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cl.buildersoft.framework.beans.Account;
-import cl.buildersoft.framework.beans.Account2;
+import cl.buildersoft.framework.beans.APV;
 import cl.buildersoft.framework.beans.Agreement;
-import cl.buildersoft.framework.beans.BSBean;
-import cl.buildersoft.framework.beans.Board;
+import cl.buildersoft.framework.beans.Currency;
 import cl.buildersoft.framework.beans.Employee;
+import cl.buildersoft.framework.beans.ExBoxSystem;
+import cl.buildersoft.framework.beans.Health;
+import cl.buildersoft.framework.beans.PFM;
+import cl.buildersoft.framework.beans.RagreementAPV;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
-import cl.buildersoft.framework.type.BSBoolean;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.web.servlet.config.employee.AgreementService;
 import cl.buildersoft.web.servlet.config.employee.AgreementServiceImpl;
@@ -49,25 +50,18 @@ public class EmployeeInformation extends AbstractServletUtil {
 
 		Employee employee = getEmployee(conn, bu, employeeId);
 
-		List<Board> listadoApv = (List<Board>) bu.list(conn, new Board(),
-				"pListBoardByType", "APV");
-		List<Board> listadoAfp = (List<Board>) bu.list(conn, new Board(),
-				"pListBoardByType", "PFM");
+		List<APV> listadoApv = (List<APV>) bu.list(conn, new APV(), "pListAPV");
+		List<PFM> listadoAfp = (List<PFM>) bu.list(conn, new PFM(), "pListPFM");
+		List<Currency> listadoCurrency = (List<Currency>) bu.list(conn,
+				new Currency(), "pListCurrency");
+		List<Health> listadoHealth = (List<Health>) bu.list(conn, new Health(),
+				"pListHealth");
+		List<ExBoxSystem> listadoExBox = (List<ExBoxSystem>) bu.list(conn,
+				new ExBoxSystem(), "pListExBoxSystem");
 
-		List<Board> listadoCurrency = (List<Board>) bu.list(conn, new Board(),
-				"pListBoardByType", "CURRENCY");
+		List<RagreementAPV> listadoApvEmp = listAPVForEmployee(conn, mysql,
+				employeeId);
 
-		List<Board> listadoHealth = (List<Board>) bu.list(conn, new Board(),
-				"pListBoardByType", "HEALTH");
-
-		List<Board> listadoExBox = (List<Board>) bu.list(conn, new Board(),
-				"pListBoardByType", "EX_BOX");
-
-		List<Object> parameter = new ArrayList<Object>();
-		parameter.add(employeeId);
-		parameter.add("APV");
-		List<Account2> listadoApvEmp = (List<Account2>) bu.list(conn,
-				new Account2(), "pListAccountsForEmployeeAndType2", parameter);
 		Agreement agreementEmp = getAgreement(conn, new BSBeanUtilsSP(),
 				employeeId);
 
@@ -84,6 +78,31 @@ public class EmployeeInformation extends AbstractServletUtil {
 		request.getRequestDispatcher(
 				"/WEB-INF/jsp/table/previtional-information.jsp").forward(
 				request, response);
+	}
+
+	private List<RagreementAPV> listAPVForEmployee(Connection conn,
+			BSmySQL mysql, Long employeeId) {
+		ResultSet rs = mysql.callSingleSP(conn, "pListAPVForEmployee",
+				array2List(employeeId));
+
+		// List<RagreementAPV> listadoApvEmp = (List<RagreementAPV>)
+		// bu.list(conn,
+		// new RagreementAPV(), "pListAPVForEmployee", parameter);
+		List<RagreementAPV> out = new ArrayList<RagreementAPV>();
+		try {
+			while (rs.next()) {
+				RagreementAPV agreementAPV = new RagreementAPV();
+				agreementAPV.setAgreement(rs.getLong("cAgreement"));
+				agreementAPV.setApv(rs.getLong("cAPV"));
+				agreementAPV.setCurrency(rs.getLong("cCurrency"));
+				agreementAPV.setAmount(rs.getDouble("cAmount"));
+				out.add(agreementAPV);
+			}
+		} catch (SQLException e) {
+			throw new BSDataBaseException("", e.getMessage());
+		}
+
+		return out;
 	}
 
 	public Agreement getAgreement(Connection conn, BSBeanUtilsSP bu,

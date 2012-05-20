@@ -8,9 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cl.buildersoft.framework.beans.Account2;
 import cl.buildersoft.framework.beans.Agreement;
-import cl.buildersoft.framework.beans.Board;
+import cl.buildersoft.framework.beans.RagreementAPV;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.web.servlet.table.AbstractServletUtil;
@@ -22,30 +21,41 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		Long id = Long.parseLong(request.getParameter("cId"));
+		Long employeeId = Long.parseLong(request.getParameter("cId"));
 
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
 
-		Board apvType = (Board)bu.get(conn, new Board(), "pGetBoardByTypeAndKey", array2List("INSTITUTION", "APV"));
-																							  
-		Agreement agreement = getAgreement(conn, bu, id);
-		mysql.callSingleSP(conn, "pDelAccountsByEmployeeAndType", array2List(id, apvType.getId()));
-				
-		String[] apvInstitution = (String[]) request.getParameterValues("apvInstitution");
-		String[] apvCurrency = (String[]) request.getParameterValues("apvCurrency");
+		// Board apvType = (Board)bu.get(conn, new Board(),
+		// "pGetBoardByTypeAndKey", array2List("INSTITUTION", "APV"));
+
+		Agreement agreement = getAgreement(conn, bu, employeeId);
+		mysql.callSingleSP(conn, "pDelAgreementAPVByEmployee", employeeId);
+
+		String[] apvInstitution = (String[]) request
+				.getParameterValues("apvInstitution");
+		String[] apvCurrency = (String[]) request
+				.getParameterValues("apvCurrency");
 		String[] apvAmount = (String[]) request.getParameterValues("apvAmount");
+
 		for (int i = 0; apvInstitution != null && i < apvInstitution.length; i++) {
-			Account2 account = new Account2();
-			account.setAccountType(apvType.getId());
-			account.setCurrency(new Long(apvCurrency[i]));
-			account.setAmount(new Double(apvAmount[i]));
-			account.setEmployee(id);
-			account.setInstitution(new Long(apvInstitution[i]));
-			bu.save(conn, account);
+			RagreementAPV agreementAPV = new RagreementAPV();
+
+			agreementAPV.setAgreement(agreement.getId());
+			agreementAPV.setAmount(new Double(apvAmount[i]));
+			agreementAPV.setApv(new Long(apvInstitution[i]));
+			agreementAPV.setCurrency(new Long(apvCurrency[i]));
+
+			mysql.callSingleSP(
+					conn,
+					"pSaveAPVForAgreement",
+					array2List(agreementAPV.getAgreement(),
+							agreementAPV.getApv(), agreementAPV.getCurrency(),
+							agreementAPV.getAmount()));
+
 		}
-		
+
 		Long exBox = Long.valueOf(request.getParameter("exBox"));
 		Integer disabilityBurdens = Integer.valueOf(request
 				.getParameter("disabilityBurdens"));
@@ -58,8 +68,8 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		Long health = Long.valueOf(request.getParameter("health"));
 		Double additionalHealthCLP = Double.valueOf(request
 				.getParameter("additionalHealthCLP"));
-		Integer simpleLoads = Integer.valueOf(request.getParameter("simpleLoad"));
-		
+		Integer simpleLoads = Integer.valueOf(request
+				.getParameter("simpleLoad"));
 
 		agreement.setExBoxSystem(exBox);
 		agreement.setDisabilityBurdens(disabilityBurdens);
@@ -81,10 +91,10 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		ContractualInfo ci = new ContractualInfo();
 		return ci.getAgreement(conn, bu, idEmployee);
 	}
-
+/**<code>
 	private Account2 getAccountByEmployee(Connection conn, BSBeanUtilsSP bu,
 			Long idEmployee) {
 		return null;
 	}
-
+</code>*/
 }

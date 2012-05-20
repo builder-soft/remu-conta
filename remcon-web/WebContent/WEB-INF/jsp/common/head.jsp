@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <LINK rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/default.css?<%=Math.random() %>>" />
+	href="${pageContext.request.contextPath}/css/default.css?<%=Math.random() %>" />
 <title>Buildersoft &radic;</title>
 <script>
 	var contextPath = "${pageContext.request.contextPath}";
@@ -15,7 +15,6 @@
 <script src="${pageContext.request.contextPath}/js/common/menu.js"></script>
 <script
 	src="${pageContext.request.contextPath}/js/common/jquery-1.7.1.js"></script>
-
 </head>
 <body marginwidth="25" marginheight="25" bgcolor="#EDEDED"
 	onload="javaScript:loadFormat();try{onLoadPage();}catch(e){}">

@@ -6,10 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import cl.buildersoft.framework.beans.Agreement;
-import cl.buildersoft.framework.beans.BSBean;
-import cl.buildersoft.framework.beans.Board;
 import cl.buildersoft.framework.beans.ContractType;
 import cl.buildersoft.framework.beans.GratificationType;
+import cl.buildersoft.framework.beans.Health;
 import cl.buildersoft.framework.beans.Horary;
 import cl.buildersoft.framework.beans.PaymentType;
 import cl.buildersoft.framework.beans.Profile;
@@ -39,6 +38,8 @@ public class AgreementServiceImpl implements AgreementService {
 			agreement.setHealth(getHealth(conn, bu));
 			agreement.setGratificationType(getGratificationType(conn, bu));
 			agreement.setPaymentType(getPaymentType(conn, bu));
+			agreement.setAccountNumber("");
+						
 			agreement.setHorary(getHorary(conn, bu));
 			agreement.setAdditionalHealthCLP(0D);
 			agreement.setAdditionalHealthUF(0D);
@@ -73,8 +74,8 @@ public class AgreementServiceImpl implements AgreementService {
 	}
 
 	private Long getHealth(Connection conn, BSBeanUtilsSP bu) {
-		List<Board> health = (List<Board>) bu.list(conn, new Board(),
-				"pListBoardByType", "HEALTH");
+		List<Health> health = (List<Health>) bu.list(conn, new Health(),
+				"pListHealth");
 		return health.get(0).getId();
 	}
 
@@ -106,7 +107,7 @@ public class AgreementServiceImpl implements AgreementService {
 		List<Object> prms = new ArrayList<Object>();
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
 		prms.add(idEmployee);
-		List<BSBean> agreements = (List<BSBean>) bu.list(conn, new Agreement(),
+		List<Agreement> agreements = (List<Agreement>) bu.list(conn, new Agreement(),
 				"pGetAgreementByEmployee", prms);
 
 		Agreement out = agreements.size() == 0 ? getDefaultAgreement(conn,
