@@ -351,6 +351,7 @@ create table tBook(
 	cWorkDays			INTEGER NOT NULL DEFAULT '30' COMMENT 'Días trabajados - Ingresa por el período',
 	cSalaryRoot			DOUBLE NOT NULL COMMENT 'Sueldo Base - cp from tAgreement.cSalaryRoot',
 	cOvertime			INTEGER	NOT NULL DEFAULT '0' COMMENT 'Cantidad Horas Extras - Sumar tabla tOvertime',
+	cOvertimeAmount		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto de calculado para las horas hextras',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -361,6 +362,7 @@ create table tBookAssets(
 	cId							BIGINT(20) NOT NULL auto_increment,
 	cBook						BIGINT(20) NOT NULL,
 	cGratificationType			BIGINT(20) NOT NULL COMMENT 'Tipo de Gratificación - cp from tAgreement.cGratificationType',
+	cGratificationAmount		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto de la gratificación',
 	cRewardAmount				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Gratificacion - Basado en cGratificationType, buscar el que le corresponde(%, monto o 0)',
 	cFamilyAssignmentStretch	CHAR(1)	NOT NULL DEFAULT 'A' COMMENT 'Tramo Asignacion Familiar - Se ingresa por empleado, [A/B/C/D]',
 /*
@@ -432,7 +434,7 @@ Tope 4.2 UF (parametro puede variar)
 Sí, la cotización adicional de salud, superior al 7%, aplicada a una renta imponible de 67,4 UF a contar de enero 2012, es tributable para los efectos del 
 Impuesto Único, pues permite rebajar por concepto de cotización de salud hasta 4,72 UF (67,4 UF por 7%).
 Si alguien tiene un plan muy caro de salud debe tributar como impuesto unico a la renta el excedente
-*/	
+*/
 /*
 	cCotisacionSaludRebaja			COMMENT 'Preguntar que es',
 */
@@ -465,138 +467,26 @@ parametro del mes (obvio)
 /****************
 EN LA VISTA:
 */
-DROP VIEW IF EXISTS vBook;
-CREATE VIEW vBook
-AS
-SELECT a.cId,a.cPeriod,a.cEmployee,a.cHorary,a.cWorkDays,a.cSalaryRoot,a.cOvertime
 
-/*,
-a.*, b.*, c.* 
 
-	cTotalIncomeTaxable,		/* Total Haberes Imponibles * /
-	cIncome                            /* Renta Afecta * /,
-	cTotalIncomeNoTaxable			/* Total Haberes No Imponibles * /,
-	cTotalIncome					/* Total Haberes * /,
-	*CotizacionAdicional			/*  * /,
-	*SubtotalDescuentosLegales,
-	*SubTotalOtrosDescuentos,
-	*TotalDescuentos,
-	*AlcanceLiquido,
-	*SueldoGanado,
-	*LiquidoPagar,*/
-FROM	remcon.tBook AS a
-LEFT JOIN remcon.tBookAssets	AS b ON b.cBook = a.cId
-LEFT JOIN remcon.tBookDiscounts	AS c ON c.cBook = a.cId;
+
 /***************************************/
 
  /** V I S T A S **/
 
 DROP VIEW IF EXISTS vDataType;
-/*
-CREATE VIEW vDataType
-AS
-	SELECT cId, cValue AS cName 
-	FROM tBoard 
-	WHERE cType='DATA_TYPE';
-*/
-
 DROP VIEW IF EXISTS vType;
 DROP VIEW IF EXISTS vTypeOption;
-/*
-CREATE VIEW vTypeOption
-AS
-	SELECT cId, cValue AS cName 
-	FROM tBoard 
-	WHERE cType='TYPE_OPTION';
-*/
 DROP VIEW IF EXISTS vMaritalStatus;
-/*
-CREATE VIEW vMaritalStatus
-AS
-	SELECT cId, cValue AS cName 
-	FROM tBoard 
-	WHERE cType='MARITAL_STATUS';
-*/
 DROP VIEW IF EXISTS vGenere;
-/*
-CREATE VIEW vGenere
-AS
-	SELECT cId, cValue AS cName 
-	FROM remcon.tBoard 
-	WHERE cType='GENERE';
-*/
-
 DROP VIEW IF EXISTS vCurrency;
-/*
-CREATE VIEW vCurrency
-AS
-	SELECT cId, cValue AS cName 
-	FROM remcon.tBoard 
-	WHERE cType='CURRENCY';
-*/
 DROP VIEW IF EXISTS vMutual;
-/*
-CREATE VIEW vMutual
-AS
-	SELECT cId, cValue AS cName 
-	FROM remcon.tBoard 
-	WHERE cType='MUTUAL';
-*/
-
 DROP VIEW IF EXISTS vPFM;
-/*
-CREATE VIEW vPFM
-AS
-	SELECT	a.cId, a.cKey, a.cValue AS cName, a.cEnable, b.cFactor, b.cSIS 
-	FROM remcon.tBoard AS a
-	LEFT JOIN remcon.tPFMAttribute AS b ON a.cId = b.cPFM
-	WHERE a.cType='PFM';
-*/
- 
 DROP VIEW IF EXISTS vHealth;
-/*
-CREATE VIEW vHealth
-AS
-	SELECT	a.cId, a.cKey, a.cValue AS cName, a.cEnable, b.cFactor
-	FROM remcon.tBoard AS a
-	LEFT JOIN remcon.tHealthAttribute AS b ON a.cId = b.cHealth
-	WHERE a.cType='HEALTH';
-*/
-
-DROP VIEW IF EXISTS vPaymentType;
-/*
-CREATE VIEW vPaymentType
-AS
-	SELECT cId, cValue AS cName 
-	FROM remcon.tBoard 
-	WHERE cType='PAYMENT_TYPE';
-*/
- 
+DROP VIEW IF EXISTS vPaymentType; 
 DROP VIEW IF EXISTS vAccountType;
-/*
-CREATE VIEW vAccountType
-AS
-	SELECT cId, cKey, cValue AS cName 
-	FROM remcon.tBoard 
-	WHERE cType='ACCOUNT_TYPE';
-*/
 DROP VIEW IF EXISTS vCompensationFound;
 DROP VIEW IF EXISTS vCompensationFund;
-/*
-CREATE VIEW vCompensationFund
-AS
-	SELECT cId, cValue AS cName 
-	FROM remcon.tBoard 
-	WHERE cType='COMPENSATION';
-*/
-
 DROP VIEW IF EXISTS vAPV;
-/*
-CREATE VIEW vAPV
-AS
-	SELECT cId, cValue AS cName 
-	FROM remcon.tBoard 
-	WHERE cType='APV';
-*/
 
   

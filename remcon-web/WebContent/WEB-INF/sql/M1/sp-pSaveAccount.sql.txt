@@ -1,5 +1,6 @@
 DROP PROCEDURE if exists remcon.pSetAccountSave;
 DROP PROCEDURE if exists remcon.pSaveAccount;
+/*
 DELIMITER $$
 
 CREATE PROCEDURE remcon.pSaveAccount(IN pEmployee BIGINT, IN pInstitution BIGINT, 
@@ -27,6 +28,7 @@ BEGIN
 END$$
 
 DELIMITER ;
+*/
 
 /*
 call remcon.pSetAccountSave(1, 50, 47, '24500-03', 27, 12500);

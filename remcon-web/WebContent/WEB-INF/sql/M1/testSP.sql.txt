@@ -1,12 +1,113 @@
+DROP VIEW IF EXISTS remcon.vBook;
+
+CREATE VIEW remcon.vBook
+AS
+SELECT	a.cId AS cBookId,
+		a.cPeriod,
+		d.cDate,
+		a.cEmployee,
+		e.cLastName1,
+		a.cWorkDays,
+		a.cSalaryRoot,
+		(cSalaryRoot / 30 * cWorkDays) AS cSalaryReceived, /** Sueldo Ganado */
+		b.cGratificationType,
+		b.cGratificationAmount,
+		
+		a.cOvertime,
+		b.cOvertimeAmount,
+		
+		b.cParticipation,
+		b.cB01,
+		b.cB02,
+		b.cB03,
+		b.cB04,
+		b.cB05,
+		b.cB06,
+		b.cB07,
+		b.cB08,
+		b.cB09,
+		b.cB10,
+		b.cExtraPay,
+		0 AS cTotalIncomeTaxable,			/* Total Haberes Imponibles * /
+		
+		c.cLimitTaxableForecast,
+		c.cLimitTaxableDismissInsurance,
+		0 AS cIncome,						/* Renta Afecta */
+		b.cFamilyAssignmentStretch,			/* Tramo asignacion familiar */
+		
+		
+		
+		
+/*********************/
+		a.cHorary,
+		
+		
+		b.cId AS cAssetsId,
+		b.cRewardAmount,
+
+		b.cFamilyAssignment,
+		b.cFamilyAssignmentAmount,
+		b.cRetroactiveFamily,
+		b.cFeeding,
+		b.cMobilization,
+		b.cBounty,
+		b.cMonthNotification,
+		b.cIAS,
+		b.cProportionalHoliday,
+		b.cVoluntaryindenmization,
+		
+		c.cId AS cDiscountsId,
+		c.cPFM,
+		c.cObligatoryInsurance,
+		c.cAVPAmount,
+		c.cAccount2,
+		c.cHealth,
+		c.cLawfulQuote,
+		c.cCurrencyPlanHealth,
+		c.cPlanHealth,
+		c.cExtraHealth,
+		c.cLimitExtraHealth,
+		c.cUnemploymentInsurance,
+		c.cUnemploymentInsuranceAmount,
+		c.cUniqueTax,
+		c.cAdvance,
+		c.cLoanEnterprise,
+		c.cLoanCompensationFund,
+		c.cSavingCompensationFund,
+		c.cJudicialRetention
+		
+
+/*,
+a.*, b.*, c.* 
+
+	cTotalIncomeNoTaxable			/ * Total Haberes No Imponibles * /,
+	cTotalIncome					/ * Total Haberes * /,
+	*CotizacionAdicional			/ *  * /,
+	*SubtotalDescuentosLegales,
+	*SubTotalOtrosDescuentos,
+	*TotalDescuentos,
+	*AlcanceLiquido,
+	*LiquidoPagar,*/
+FROM	remcon.tBook AS a
+LEFT JOIN remcon.tBookAssets	AS b ON b.cBook = a.cId
+LEFT JOIN remcon.tBookDiscounts	AS c ON c.cBook = a.cId
+LEFT JOIN remcon.tPeriod		AS d ON a.cPeriod = d.cId
+LEFT JOIN remcon.tEmployee		AS e ON a.cEmployee = e.cId
+ORDER BY a.cId;
+
+/**
+select * from remcon.vBook;	
+*/
+
+call remcon.pSaveEmployeeBook(1,'2012-05-01');
+
 /*
-	call remcon.pDelAgreementAPVByEmployee(1);
-	
-*/	
-	
-	
-call remcon.pListAPVForEmployee(1);
+call remcon.pSaveEmployeeBook(2,'2012-05-01');
 
-	
+SELECT * FROM remcon.tPeriod;
+SELECT * FROM remcon.tBook;
+*/
 
+select * from remcon.vBook;
 
 
