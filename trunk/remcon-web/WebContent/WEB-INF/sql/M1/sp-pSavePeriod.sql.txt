@@ -1,0 +1,28 @@
+DROP PROCEDURE if exists remcon.pSavePeriod;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pSavePeriod(IN pDate DATE, OUT pPeriod BIGINT)
+BEGIN
+	SET @currentUF = (SELECT cValue FROM tParameter WHERE cKey = 'CURRENT_UF');
+	SET @overtimeFactor = (SELECT cValue FROM tParameter WHERE cKey = 'OVERTIME_FACTOR');
+
+	IF EXISTS(	SELECT	cId 
+				FROM	remcon.tPeriod
+				WHERE	cDate = pDate) THEN
+
+		UPDATE	remcon.tPeriod
+		SET		cUF = @currentUF,
+				cOvertimeFactor = @overtimeFactor
+		WHERE	cDate = pDate;
+		
+		SELECT	cId INTO pPeriod 
+		FROM	remcon.tPeriod 
+		WHERE	cDate = pDate; 
+	ELSE
+		INSERT INTO remcon.tPeriod(cDate, cUF, cOvertimeFactor) 
+		VALUES(pDate, @currentUF, @overtimeFactor);
+		SET pPeriod = LAST_INSERT_ID();
+	END IF;
+END$$
+
+DELIMITER ;
