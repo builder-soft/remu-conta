@@ -328,6 +328,26 @@ create table tHorary(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+create table tMonthlyParameter(
+	cId					BIGINT(20) NOT NULL auto_increment,
+	cDate				DATE 	NOT NULL,
+	cUF					DOUBLE	NOT NULL,
+	cOvertimeFactor		DOUBLE COMMENT 'Para calcular las horas extras, puede ser 0.07777 o 0.0333',
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+/*
+Tabla para registrar las horas extras del empleado.
+*/
+create table tOvertime(
+	cId					BIGINT(20) NOT NULL auto_increment,
+	cEmployee			BIGINT(20) NOT NULL COMMENT 'Identificador del empleado quien tiene las horas extras',
+	cPeriod				BIGINT(20) NOT NULL COMMENT 'Id del período para el cual se registran las horas',
+	cDate				DATE NOT NULL COMMENT 'Fecha en la cual se registran las horas',
+	cHours				INTEGER NOT NULL DEFAULT '1' COMMENT 'Cantidad de horas extras trabajadas',
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
 /**
 La tabla tPeriod sirve para identificar los períodos para los cuales existe cálculo, y 
 los parámetros que aplican en forma general.
@@ -351,7 +371,6 @@ create table tBook(
 	cWorkDays			INTEGER NOT NULL DEFAULT '30' COMMENT 'Días trabajados - Ingresa por el período',
 	cSalaryRoot			DOUBLE NOT NULL COMMENT 'Sueldo Base - cp from tAgreement.cSalaryRoot',
 	cOvertime			INTEGER	NOT NULL DEFAULT '0' COMMENT 'Cantidad Horas Extras - Sumar tabla tOvertime',
-	cOvertimeAmount		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto de calculado para las horas hextras',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -370,7 +389,6 @@ Tramo SE INGRESA A MANO LA LETRA "A,B,C,D" ya que es la caja de
 compensacion la que determina el tramo al que pertenece el trabajor
 No se calcula
 */
-	cOvertimeAmount				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Horas Extras - Calculo en base a tBook.cOvertime',
 	cParticipation				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Aplica cuando tiene participacion en empresa - Ingreso por período',
 	cB01						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Bono 1 - Se ingresa por período, o copiar del mes anterior',
 	cB02						DOUBLE NOT NULL DEFAULT '0',

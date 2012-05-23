@@ -1,17 +1,28 @@
 DROP PROCEDURE if exists remcon.pSavePeriod;
 DELIMITER $$
-
+/*
 CREATE PROCEDURE remcon.pSavePeriod(IN pDate DATE, OUT pPeriod BIGINT)
 BEGIN
-	SET @currentUF = (SELECT cValue FROM tParameter WHERE cKey = 'CURRENT_UF');
-	SET @overtimeFactor = (SELECT cValue FROM tParameter WHERE cKey = 'OVERTIME_FACTOR');
+/ * * 
+TODO: Hay que sacar el valor de la UF y Factor desde una tabla histórica 
+por si hay que recalcular para atras
+* /
+	
+/ *
+	SET @currentUF = (SELECT cUF FROM tParameter WHERE cKey = 'CURRENT_UF');
+	SET @overtimeFactor = (SELECT cOvertimeFactor FROM tParameter WHERE cKey = 'OVERTIME_FACTOR');
+* /
+
+	SELECT	cUF, cOvertimeFactor 
+	INTO	@uf, @overtimeFactor
+	FROM	remcon.tMonthlyParameter
+	WHERE	cDate = pDate;
 
 	IF EXISTS(	SELECT	cId 
 				FROM	remcon.tPeriod
 				WHERE	cDate = pDate) THEN
-
 		UPDATE	remcon.tPeriod
-		SET		cUF = @currentUF,
+		SET		cUF = @uf,
 				cOvertimeFactor = @overtimeFactor
 		WHERE	cDate = pDate;
 		
@@ -20,9 +31,9 @@ BEGIN
 		WHERE	cDate = pDate; 
 	ELSE
 		INSERT INTO remcon.tPeriod(cDate, cUF, cOvertimeFactor) 
-		VALUES(pDate, @currentUF, @overtimeFactor);
+		VALUES(pDate, @uf, @overtimeFactor);
 		SET pPeriod = LAST_INSERT_ID();
 	END IF;
 END$$
-
+*/
 DELIMITER ;
