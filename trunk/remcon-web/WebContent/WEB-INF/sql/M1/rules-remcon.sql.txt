@@ -208,3 +208,9 @@ ALTER TABLE remcon.tBookDiscounts
 ADD INDEX BookDiscounts_index_cCurrencyPlanHealth (cCurrencyPlanHealth ASC),
 ADD CONSTRAINT BookDiscountsTocCurrencyPlanHealth FOREIGN KEY (cCurrencyPlanHealth) REFERENCES remcon.tCurrency(cId);
 
+/* tOvertime */
+ALTER TABLE remcon.tOvertime
+ADD INDEX Overtime_index_Employee (cEmployee ASC),
+ADD INDEX Overtime_index_Period (cPeriod ASC),
+ADD CONSTRAINT OvertimeToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId),
+ADD CONSTRAINT OvertimeToPeriod FOREIGN KEY (cPeriod) REFERENCES remcon.tPeriod(cId);

@@ -2,19 +2,20 @@ DROP VIEW IF EXISTS remcon.vBook;
 
 CREATE VIEW remcon.vBook
 AS
-SELECT	a.cId AS cBookId,
+SELECT	a.cId AS cId,
 		a.cPeriod,
 		d.cDate,
 		a.cEmployee,
 		e.cLastName1,
 		a.cWorkDays,
 		a.cSalaryRoot,
-		(cSalaryRoot / 30 * cWorkDays) AS cSalaryReceived, /** Sueldo Ganado */
+		(cSalaryRoot / 30 * cWorkDays) AS cSalaryReceived,	/* Sueldo Ganado */
 		b.cGratificationType,
 		b.cGratificationAmount,
-		
+		0 AS cLimitGratification,							/* 4.75 Ingresos mínimos */
 		a.cOvertime,
-		b.cOvertimeAmount,
+		(a.cSalaryRoot*d.cOvertimeFactor)*a.cOvertime AS cOvertimeAmount,								/* Se calcula (SalaryRoot * 0.0777) * cOvertime */
+		
 		
 		b.cParticipation,
 		b.cB01,
@@ -33,14 +34,13 @@ SELECT	a.cId AS cBookId,
 		c.cLimitTaxableForecast,
 		c.cLimitTaxableDismissInsurance,
 		0 AS cIncome,						/* Renta Afecta */
-		b.cFamilyAssignmentStretch,			/* Tramo asignacion familiar */
+		b.cFamilyAssignmentStretch			/* Tramo asignacion familiar */
 		
 		
 		
 		
-/*********************/
+/********************
 		a.cHorary,
-		
 		
 		b.cId AS cAssetsId,
 		b.cRewardAmount,
@@ -75,7 +75,7 @@ SELECT	a.cId AS cBookId,
 		c.cLoanCompensationFund,
 		c.cSavingCompensationFund,
 		c.cJudicialRetention
-		
+*/
 
 /*,
 a.*, b.*, c.* 
@@ -99,10 +99,10 @@ ORDER BY a.cId;
 select * from remcon.vBook;	
 */
 
-call remcon.pSaveEmployeeBook(1,'2012-05-01');
+call remcon.pSaveEmployeeBook(1,'2012-05-01', 25);
 
 /*
-call remcon.pSaveEmployeeBook(2,'2012-05-01');
+call remcon.pSaveEmployeeBook(2,'2012-05-01', 25);
 
 SELECT * FROM remcon.tPeriod;
 SELECT * FROM remcon.tBook;
