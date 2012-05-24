@@ -8,14 +8,16 @@ SELECT	a.cId AS cId,
 		a.cEmployee,
 		e.cLastName1,
 		a.cWorkDays,
+		d.cMinSalary,
 		a.cSalaryRoot,
-		(cSalaryRoot / 30 * cWorkDays) AS cSalaryReceived,	/* Sueldo Ganado */
+				(cSalaryRoot / 30 * cWorkDays) AS 
+				cSalaryReceived,							/* Sueldo Ganado */
 		b.cGratificationType,
 		b.cGratificationAmount,
 		0 AS cLimitGratification,							/* 4.75 Ingresos mínimos */
 		a.cOvertime,
-		(a.cSalaryRoot*d.cOvertimeFactor)*a.cOvertime AS cOvertimeAmount,								/* Se calcula (SalaryRoot * 0.0777) * cOvertime */
-		
+		(a.cSalaryRoot*d.cOvertimeFactor)*a.cOvertime 
+			AS cOvertimeAmount,								/* Se calcula (SalaryRoot * 0.0777) * cOvertime */
 		
 		b.cParticipation,
 		b.cB01,

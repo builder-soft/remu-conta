@@ -357,6 +357,7 @@ create table tPeriod(
 	cDate				DATE 	NOT NULL,
 	cUF					DOUBLE	NOT NULL,
 	cOvertimeFactor		DOUBLE COMMENT 'Para calcular las horas extras, puede ser 0.07777 o 0.0333',
+	cMinSalary			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Ingresos Mínimos Mensuales', 
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
