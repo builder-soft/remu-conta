@@ -2,7 +2,7 @@ DROP PROCEDURE if exists remcon.pSaveEmployeeBook;
 DROP FUNCTION if exists remcon.fGetGratificationAmount;
 DROP FUNCTION if exists remcon.fSavePeriod;
 DROP FUNCTION if exists remcon.fSaveBookForEmployee;
-DROP FUNCTION if exists remcon.fGetOvertimeAmount;
+DROP PROCEDURE if exists remcon.pSaveOvertime;
 
 DELIMITER $$
 
@@ -12,19 +12,25 @@ BEGIN
 	DECLARE pPeriod BIGINT DEFAULT 0; 
 	DECLARE pBook BIGINT DEFAULT 0; 
 	DECLARE pGratificationAmount DOUBLE DEFAULT 0;
-	DECLARE pOvertimeAmount DOUBLE DEFAULT 0;
+	/*DECLARE pOvertimeAmount DOUBLE DEFAULT 0;*/
 
 	SET pPeriod = remcon.fSavePeriod(pDate);
 	SET pBook = remcon.fSaveBookForEmployee(pPeriod, pEmployee, pDate, pWorkDays);
 	
-	SET pOvertimeAmount = remcon.fGetOvertimeAmount(pEmployee, pDate);
+	/*SET pOvertime = 
+	*/ 
+	CALL remcon.pSaveOvertime(pBook, pEmployee, pPeriod);
 	
 	SET pGratificationAmount = fGetGratificationAmount(pBook);
 	
 	select pGratificationAmount;
+	
+	UPDATE	remcon.tBookAssets 
+	SET		cGratificationAmount = pGratificationAmount 
+	WHERE	cBook = pBook;
+	
+	select pGratificationAmount;
 END$$
-
-
 
 /***********************
 Crea o actualiza la tabla tPeriod si no existe.
@@ -41,6 +47,10 @@ por si hay que recalcular para atras
 	INTO	@uf, @overtimeFactor
 	FROM	remcon.tMonthlyParameter
 	WHERE	cDate = pDate;
+	
+	SELECT	cValue INTO @MinSalary
+	FROM	remcon.tParameter
+	WHERE	cKey = 'BASE_SALARY';
 
 	IF EXISTS(	SELECT	cId 
 				FROM	remcon.tPeriod
@@ -48,15 +58,16 @@ por si hay que recalcular para atras
 				
 		UPDATE	remcon.tPeriod
 		SET		cUF = @uf,
-				cOvertimeFactor = @overtimeFactor
+				cOvertimeFactor = @overtimeFactor,
+				cMinSalary = @minSalary
 		WHERE	cDate = pDate;
 		
 		SELECT	cId INTO pOut 
 		FROM	remcon.tPeriod 
 		WHERE	cDate = pDate; 
 	ELSE
-		INSERT INTO remcon.tPeriod(cDate, cUF, cOvertimeFactor) 
-		VALUES(pDate, @uf, @overtimeFactor);
+		INSERT INTO remcon.tPeriod(cDate, cUF, cOvertimeFactor, cMinSalary) 
+		VALUES(pDate, @uf, @overtimeFactor, @minSalary);
 		SET pOut = LAST_INSERT_ID();
 	END IF;
 	RETURN pOut;
@@ -103,33 +114,59 @@ BEGIN
 END$$
 
 /************************/
-CREATE FUNCTION remcon.fGetOvertimeAmount(pEmployee BIGINT, pDate DATE) RETURNS DOUBLE
+CREATE PROCEDURE remcon.pSaveOvertime(IN pBook BIGINT, IN pEmployee BIGINT, IN pPeriod BIGINT)
 BEGIN
-	RETURN 1240;
+	DECLARE pHours INTEGER DEFAULT 0;
+
+	SELECT	SUM(cHours) INTO pHours 
+	FROM	remcon.tOvertime
+	WHERE	cEmployee = pEmployee AND 
+			cPeriod = pPeriod;
+	
+	IF(pHours IS NULL) THEN
+		SET pHours = 0;
+	END IF;
+	
+	UPDATE	remcon.tBook 
+	SET		cOvertime = pHours
+	WHERE	cPeriod = pPeriod;
+	
 END$$
 
 /************************/
 CREATE FUNCTION remcon.fGetGratificationAmount(pBook BIGINT) RETURNS DOUBLE
 BEGIN
-	DECLARE pGratificationAmount DOUBLE DEFAULT 0;
+	DECLARE pOut DOUBLE DEFAULT 0;
 	
-	SELECT	cGratificationType, cSalaryReceived
-	INTO	@GratificationType, @SalaryReceived
+	SELECT	cGratificationType, cSalaryReceived, cMinSalary, cOvertimeAmount, cParticipation,
+			cB01, cB02, cB03, cB04, cB05, cB06, cB07, cB08, cB09, cB10
+	INTO	@GratificationType, @SalaryReceived, @minSalary, @overtimeAmount, @participation,
+			@B01, @B02, @B03, @B04, @B05, @B06, @B07, @B08, @B09, @B10
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
 	 
 	IF(@GratificationType = 1) THEN /* Sin Gratificacion */
-		SET pGratificationAmount = 0;
-	ELSEIF (@GratificationType = 2) THEN /* Gratificacion : 25% Impo. (Tope 4,75imm/12)*/
-		SET @sumGratificaion = @SalaryReceived + 1;
-
-		SET pGratificationAmount = @sumGratificaion;
+		SET pOut = 0;
 		
-	ELSEIF (@GratificationType = 3) THEN /* Por antiguedad */
-		SET pGratificationAmount = 0;
+	ELSEIF (@GratificationType = 2) THEN /* Gratificacion : 25% Impo. (Tope 4,75imm/12)*/
+		SET @limit =  4.75 * @minSalary;
+		
+		SET @sumGratificaion =	@SalaryReceived + @overtimeAmount + @participation + 
+								@B01 + @B02 + @B03 + @B04 + @B05 + 
+								@B06 + @B07 + @B08 + @B09 + @B10;
+								
+		IF(@sumGratification * 0.25 > @limit) THEN
+			SET pOut = @sumGratification * 0.25;
+		ELSE
+			SET pOut = @sumGratificaion;
+		END IF;
+	ELSE /*IF (@GratificationType = 3) THEN / * Por antiguedad */
+		SET pOut = @SalaryReceived * 0.25;
+		
 	END IF;
 	
-	RETURN pGratificationAmount;
+	
+	RETURN pOut;
 END$$
 
 DELIMITER ;
