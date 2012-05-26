@@ -10,7 +10,7 @@ SELECT	a.cId AS cId,
 		a.cWorkDays,
 		d.cMinSalary,
 		a.cSalaryRoot,
-				(cSalaryRoot / 30 * cWorkDays) AS 
+		(cSalaryRoot / 30 * cWorkDays) AS 
 				cSalaryReceived,							/* Sueldo Ganado */
 		b.cGratificationType,
 		b.cGratificationAmount,
@@ -31,7 +31,10 @@ SELECT	a.cId AS cId,
 		b.cB09,
 		b.cB10,
 		b.cExtraPay,
-		0 AS cTotalIncomeTaxable,			/* Total Haberes Imponibles * /
+		cB01 + cB02 + cB03 + cB04 + cB05 + 
+		cB06 + cB07 + cB08 + cB09 + cB10 +
+		cGratificationAmount + (cSalaryRoot / 30 * cWorkDays)
+		AS cTotalIncomeTaxable,				/* Total Haberes Imponibles * /
 		
 		c.cLimitTaxableForecast,
 		c.cLimitTaxableDismissInsurance,
