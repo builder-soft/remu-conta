@@ -336,6 +336,7 @@ create table tMonthlyParameter(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+
 /*
 Tabla para registrar las horas extras del empleado.
 */
