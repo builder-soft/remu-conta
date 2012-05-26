@@ -3,6 +3,7 @@ DROP FUNCTION if exists remcon.fGetGratificationAmount;
 DROP FUNCTION if exists remcon.fSavePeriod;
 DROP FUNCTION if exists remcon.fSaveBookForEmployee;
 DROP PROCEDURE if exists remcon.pSaveOvertime;
+DROP PROCEDURE IF EXISTS remcon.getGratificationAmount;
 
 DELIMITER $$
 
@@ -23,13 +24,10 @@ BEGIN
 	
 	SET pGratificationAmount = fGetGratificationAmount(pBook);
 	
-	select pGratificationAmount;
-	
 	UPDATE	remcon.tBookAssets 
 	SET		cGratificationAmount = pGratificationAmount 
 	WHERE	cBook = pBook;
 	
-	select pGratificationAmount;
 END$$
 
 /***********************
@@ -77,10 +75,10 @@ END$$
 CREATE FUNCTION remcon.fSaveBookForEmployee(pPeriod BIGINT, pEmployee BIGINT, pDate DATE, pWorkDays INTEGER) RETURNS BIGINT
 BEGIN
 	SELECT		b.cId INTO @bookId
-				FROM		remcon.tPeriod AS a
-				LEFT JOIN	remcon.tBook AS b ON b.cPeriod = a.cId
-				WHERE		b.cEmployee = pEmployee AND
-							a.cDate = pDate;
+	FROM		remcon.tPeriod AS a
+	LEFT JOIN	remcon.tBook AS b ON b.cPeriod = a.cId
+	WHERE		b.cEmployee = pEmployee AND
+				a.cDate = pDate;
 	
 	SELECT	cHorary, cSalaryRoot, 0,			cGratificationType 
 	INTO	@horary, @salaryRoot, @overtime,	@gratificationType
@@ -99,7 +97,7 @@ BEGIN
 		
 		UPDATE	remcon.tBookAssets
 		SET		cGratificationType = @gratificationType		
-		WHERE	cId = @bookId;
+		WHERE	cBook = @bookId;
 	ELSE
 		INSERT INTO tBook(cPeriod, cEmployee, cHorary, cWorkDays, cSalaryRoot, cOvertime)
 		VALUES(pPeriod, pEmployee, @horary, pWorkDays, @salaryRoot, @overtime);
@@ -129,7 +127,7 @@ BEGIN
 	
 	UPDATE	remcon.tBook 
 	SET		cOvertime = pHours
-	WHERE	cPeriod = pPeriod;
+	WHERE	cId = pBook;
 	
 END$$
 
@@ -156,15 +154,15 @@ BEGIN
 								@B06 + @B07 + @B08 + @B09 + @B10;
 								
 		IF(@sumGratification * 0.25 > @limit) THEN
-			SET pOut = @sumGratification * 0.25;
+			SET pOut = @limit;
 		ELSE
-			SET pOut = @sumGratificaion;
+			SET pOut = @sumGratificaion * 0.25;
+
 		END IF;
+				
 	ELSE /*IF (@GratificationType = 3) THEN / * Por antiguedad */
 		SET pOut = @SalaryReceived * 0.25;
-		
 	END IF;
-	
 	
 	RETURN pOut;
 END$$
