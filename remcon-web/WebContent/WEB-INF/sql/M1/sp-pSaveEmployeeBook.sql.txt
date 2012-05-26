@@ -13,13 +13,10 @@ BEGIN
 	DECLARE pPeriod BIGINT DEFAULT 0; 
 	DECLARE pBook BIGINT DEFAULT 0; 
 	DECLARE pGratificationAmount DOUBLE DEFAULT 0;
-	/*DECLARE pOvertimeAmount DOUBLE DEFAULT 0;*/
 
 	SET pPeriod = remcon.fSavePeriod(pDate);
 	SET pBook = remcon.fSaveBookForEmployee(pPeriod, pEmployee, pDate, pWorkDays);
 	
-	/*SET pOvertime = 
-	*/ 
 	CALL remcon.pSaveOvertime(pBook, pEmployee, pPeriod);
 	
 	SET pGratificationAmount = fGetGratificationAmount(pBook);
@@ -160,7 +157,7 @@ BEGIN
 
 		END IF;
 				
-	ELSE /*IF (@GratificationType = 3) THEN / * Por antiguedad */
+	ELSE /* Por antiguedad */
 		SET pOut = @SalaryReceived * 0.25;
 	END IF;
 	
