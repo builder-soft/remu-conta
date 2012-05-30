@@ -72,10 +72,6 @@ INSERT INTO tMutual(cKey, cName) VALUES ('03','Instituto de Seguridad del Trabaj
 INSERT INTO tGenere(cName) VALUES('Femenino');
 INSERT INTO tGenere(cName) VALUES('Masculino');
 
-/* Tipos de opciones 
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('TYPE_OPTION', 'MENU', 'Menu');
-INSERT INTO tBoard(cType, cKey, cValue) VALUES('TYPE_OPTION', 'BUTTON', 'Button');
-*/
 
 /* Estado civil */
 INSERT INTO tMaritalStatus(cKey, cName) VALUES('MARRIED', 'Casado');
@@ -956,19 +952,6 @@ SET @employeeId = LAST_INSERT_ID();
 INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot)
 VALUES(					@employeeId,	2,				'2009-12-01',	'2013-01-01',	1,			3,		1,			2,					3,				580,			395,		1,			185000);
 SET @agreementId = LAST_INSERT_ID();
-
-/*
-INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency, cAmount)
-VALUES(@employeeId, @APV1, @apvType, @clp, 10000);
-INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency, cAmount)
-VALUES(@employeeId, @APV1, @apvType, @uf, 3);
-INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency, cAmount)
-VALUES(@employeeId, @APV2, @apvType, @clp, 12000);
-
-/ * *Cuenta 2* /
-INSERT INTO tAccount(cEmployee, cInstitution, cAccountType, cCurrency)
-VALUES(@employeeId, 30, @acct2, @clp);
-*/
 
 
 INSERT INTO tR_AgreementAPV(cAgreement, cAPV, cCurrency, cAmount)

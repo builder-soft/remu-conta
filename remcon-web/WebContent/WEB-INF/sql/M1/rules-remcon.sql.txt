@@ -89,13 +89,9 @@ ADD CONSTRAINT r_AgreementAPVToCurrency FOREIGN KEY (cCurrency) REFERENCES remco
 /** ENTERPRISE */
 ALTER TABLE remcon.tEnterprise
 ADD INDEX comuna_index (cComuna ASC),
-ADD CONSTRAINT withComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(cId);
-
-ALTER TABLE remcon.tEnterprise
+ADD CONSTRAINT withComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(cId),
 ADD INDEX Mutual_index (cMutual ASC),
-ADD CONSTRAINT EnterpriseToMutual FOREIGN KEY (cMutual) REFERENCES remcon.tMutual(cId);
-
-ALTER TABLE remcon.tEnterprise
+ADD CONSTRAINT EnterpriseToMutual FOREIGN KEY (cMutual) REFERENCES remcon.tMutual(cId),
 ADD INDEX CompensationFund_index (cCompensationFund ASC),
 ADD CONSTRAINT EnterpriseToCompensationFund FOREIGN KEY (cCompensationFund) REFERENCES remcon.tCompensationFund(cId);
 
