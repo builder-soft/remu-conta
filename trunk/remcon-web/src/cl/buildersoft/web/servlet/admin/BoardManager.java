@@ -7,6 +7,7 @@ import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.web.servlet.BSHttpServlet;
 
 @WebServlet("/servlet/admin/BoardManager")
+@Deprecated
 public class BoardManager extends BSHttpServlet {
 
 	private static final long serialVersionUID = -3771211715459399925L;

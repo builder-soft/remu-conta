@@ -138,8 +138,7 @@ public class BSTableConfig {
 		configBasic(conn, mysql, resultSet);
 	}
 
-	protected void configBasic(Connection conn, BSmySQL mysql,
-			ResultSet resultSet) {
+	protected void configBasic(Connection conn, BSmySQL mysql, ResultSet resultSet) {
 		BSField[] fields = getFields();
 
 		ResultSetMetaData metaData;
@@ -284,8 +283,7 @@ public class BSTableConfig {
 					sql += field2Table(conn, field.getName());
 					sql += " ORDER BY cName";
 
-					field.setFkData(mySQL.resultSet2Matrix(mySQL
-							.queryResultSet(conn, sql, null)));
+					field.setFkData(mySQL.resultSet2Matrix(mySQL.queryResultSet(conn, sql, null)));
 				}
 			}
 		}
@@ -306,8 +304,7 @@ public class BSTableConfig {
 			out = table;
 		}
 		if (!isExist) {
-			throw new BSProgrammerException("", "No existe la tabla '" + table
-					+ "' o vista '" + view + "'");
+			throw new BSProgrammerException("", "No existe la tabla '" + table + "' o vista '" + view + "'");
 		}
 
 		return out;
@@ -369,15 +366,12 @@ public class BSTableConfig {
 				while (dataBasesIter.hasNext()) {
 					String database = (String) dataBasesIter.next();
 
-					DatabaseMetaData dbmd = (DatabaseMetaData) conn
-							.getMetaData();
-					ResultSet tables = dbmd.getTables(database, null, null,
-							null);
+					DatabaseMetaData dbmd = (DatabaseMetaData) conn.getMetaData();
+					ResultSet tables = dbmd.getTables(database, null, null, null);
 
 					while (tables.next()) {
 						// ResultSetMetaData md = tables.getMetaData();
-						this.tablesCommon.add(tables.getString("TABLE_NAME")
-								.toLowerCase());
+						this.tablesCommon.add(tables.getString("TABLE_NAME").toLowerCase());
 					}
 					tables.close();
 				}
@@ -402,8 +396,7 @@ public class BSTableConfig {
 		return databases;
 	}
 
-	protected void configField(Connection conn, ResultSetMetaData metaData,
-			String name, Integer i, BSField field) {
+	protected void configField(Connection conn, ResultSetMetaData metaData, String name, Integer i, BSField field) {
 		try {
 			if (field.getType() == null) {
 				setRealType(metaData, i, field);
@@ -425,8 +418,7 @@ public class BSTableConfig {
 
 	}
 
-	private void setRealType(ResultSetMetaData metaData, Integer i,
-			BSField field) {
+	private void setRealType(ResultSetMetaData metaData, Integer i, BSField field) {
 		/**
 		 * <code>
 		System.out.println( name + " "+ metaData.getColumnTypeName(i));
@@ -459,9 +451,8 @@ public class BSTableConfig {
 		} else if (typeName.equals("INT")) {
 			field.setType(BSFieldType.Integer);
 		} else {
-			throw new BSProgrammerException("0110",
-					"No está catalogado el tipo " + typeName
-							+ ", verifique método BSTableConfig.setRealType()");
+			throw new BSProgrammerException("0110", "No está catalogado el tipo " + typeName
+					+ ", verifique método BSTableConfig.setRealType()");
 		}
 	}
 
@@ -515,9 +506,7 @@ public class BSTableConfig {
 	public void renameAction(String source, String target) {
 		BSAction action = getAction(source);
 		if (action == null) {
-			throw new BSProgrammerException("0105",
-					"Accion no encontrada, posibles: ["
-							+ unSplitActionCodes(",") + "]");
+			throw new BSProgrammerException("0105", "Accion no encontrada, posibles: [" + unSplitActionCodes(",") + "]");
 		}
 		action.setCode(target);
 	}
@@ -602,8 +591,7 @@ public class BSTableConfig {
 			try {
 				dbmd = (DatabaseMetaData) conn.getMetaData();
 
-				ResultSet rs = dbmd.getIndexInfo(getDatabase(), null,
-						getTableName(), true, false);
+				ResultSet rs = dbmd.getIndexInfo(getDatabase(), null, getTableName(), true, false);
 				while (rs.next()) {
 					fieldName = rs.getString("COLUMN_NAME");
 					if (!pk.equals(fieldName)) {
@@ -627,8 +615,7 @@ public class BSTableConfig {
 			try {
 				dbmd = (DatabaseMetaData) conn.getMetaData();
 
-				ResultSet rs = dbmd.getPrimaryKeys(getDatabase(), null,
-						getTableOrViewName());
+				ResultSet rs = dbmd.getPrimaryKeys(getDatabase(), null, getTableOrViewName());
 				while (rs.next()) {
 					fieldName = rs.getString("COLUMN_NAME");
 				}
@@ -654,9 +641,7 @@ public class BSTableConfig {
 		BSField out = null;
 
 		if (fields.length == 0) {
-			throw new BSProgrammerException("",
-					"No se ha definido BSFields[] para la tabla "
-							+ getTableName());
+			throw new BSProgrammerException("", "No se ha definido BSFields[] para la tabla " + getTableName());
 		} else {
 			for (BSField s : fields) {
 				if (s.isId()) {

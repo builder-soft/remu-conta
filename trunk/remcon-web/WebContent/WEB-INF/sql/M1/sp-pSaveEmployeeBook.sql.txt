@@ -4,6 +4,8 @@ DROP FUNCTION if exists remcon.fSavePeriod;
 DROP FUNCTION if exists remcon.fSaveBookForEmployee;
 DROP PROCEDURE if exists remcon.pSaveOvertime;
 DROP PROCEDURE IF EXISTS remcon.getGratificationAmount;
+DROP FUNCTION IF EXISTS remcon.fSalaryReceived;
+DROP FUNCTION IF EXISTS remcon.fTotalIncomeTaxable;
 
 DELIMITER $$
 
@@ -12,29 +14,71 @@ CREATE PROCEDURE remcon.pSaveEmployeeBook(IN pEmployee BIGINT, IN pDate DATE, IN
 BEGIN
 	DECLARE pPeriod BIGINT DEFAULT 0; 
 	DECLARE pBook BIGINT DEFAULT 0; 
+	DECLARE pSalaryReceived DOUBLE DEFAULT 0; 
 	DECLARE pGratificationAmount DOUBLE DEFAULT 0;
+	DECLARE pTotalIncomeTaxable DOUBLE DEFAULT 0;
 
-	SET pPeriod = remcon.fSavePeriod(pDate);
-	SET pBook = remcon.fSaveBookForEmployee(pPeriod, pEmployee, pDate, pWorkDays);
+	SELECT	cId
+	INTO	pPeriod
+	FROM	remcon.tPeriod
+	WHERE	cDate = pDate;
+
+	SET pBook = remcon.fSaveBookForEmployee(pPeriod, pEmployee, pWorkDays);
 	
 	CALL remcon.pSaveOvertime(pBook, pEmployee, pPeriod);
 	
+	SET pSalaryReceived = fSalaryReceived(pBook);
 	SET pGratificationAmount = fGetGratificationAmount(pBook);
+	SET pTotalIncomeTaxable = fTotalIncomeTaxable(pBook);
+	
+	select pTotalIncomeTaxable;
 	
 	UPDATE	remcon.tBookAssets 
-	SET		cGratificationAmount = pGratificationAmount 
+	SET		cGratificationAmount = pGratificationAmount,
+			cTotalIncomeTaxable = pTotalIncomeTaxable
 	WHERE	cBook = pBook;
+
+	UPDATE	remcon.tBook 
+	SET		cSalaryReceived = pSalaryReceived 
+	WHERE	cId = pBook;
 	
 END$$
 
+
+CREATE FUNCTION remcon.fTotalIncomeTaxable(pBook BIGINT) RETURNS DOUBLE
+BEGIN
+	DECLARE pOut DOUBLE DEFAULT 0;
+
+	SELECT	cB01 + cB02 + cB03 + cB04 + cB05 + 
+			cB06 + cB07 + cB08 + cB09 + cB10 +
+			cGratificationAmount + cSalaryReceived 
+	INTO	pOut
+	FROM	remcon.vBook
+	WHERE	cId = pBook;
+
+	RETURN pOut;
+END$$
+
+
+CREATE FUNCTION remcon.fSalaryReceived(pBook BIGINT) RETURNS DOUBLE
+BEGIN
+	DECLARE pOut DOUBLE DEFAULT 0;
+	
+	SELECT	(cSalaryRoot / 30) * cWorkDays INTO pOut
+	FROM	remcon.vBook
+	WHERE	cId = pBook;
+	
+	RETURN pOut;
+END$$
+
 /***********************
-Crea o actualiza la tabla tPeriod si no existe.
+Crea o actualiza la tabla tPeriod si no existe el registro.
 */
 CREATE FUNCTION remcon.fSavePeriod(pDate DATE) RETURNS BIGINT 
 BEGIN
 /** 
 TODO: Hay que sacar el valor de la UF y Factor desde una tabla histórica 
-por si hay que recalcular para atras
+por si hay que recalcular para atras...
 */
 	DECLARE pOut BIGINT DEFAULT 0;
 
@@ -69,13 +113,13 @@ por si hay que recalcular para atras
 END$$
 
 /************************/
-CREATE FUNCTION remcon.fSaveBookForEmployee(pPeriod BIGINT, pEmployee BIGINT, pDate DATE, pWorkDays INTEGER) RETURNS BIGINT
+CREATE FUNCTION remcon.fSaveBookForEmployee(pPeriod BIGINT, pEmployee BIGINT, pWorkDays INTEGER) RETURNS BIGINT
 BEGIN
 	SELECT		b.cId INTO @bookId
 	FROM		remcon.tPeriod AS a
 	LEFT JOIN	remcon.tBook AS b ON b.cPeriod = a.cId
 	WHERE		b.cEmployee = pEmployee AND
-				a.cDate = pDate;
+				a.cId = pPeriod;
 	
 	SELECT	cHorary, cSalaryRoot, 0,			cGratificationType 
 	INTO	@horary, @salaryRoot, @overtime,	@gratificationType

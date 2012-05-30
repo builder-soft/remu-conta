@@ -23,7 +23,7 @@ SET @menuIdConfig = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cType) VALUES('MOD_PARAMS', 'Bot&oacute;n Modificar', null, @menuId, 2);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cType) VALUES('DEL_PARAMS', 'Bot&oacute;n Borrar', null, @menuId, 2);
 	
-	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('BOARD', 'Tablas (Tablón)', '/servlet/admin/BoardManager', @menuIdConfig);
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('BOARD', 'Períodos', '/servlet/admin/period/PeriodManager', @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('COMUNA', 'Comunas', '/servlet/admin/ComunaManager', @menuIdConfig);
 
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ENTERPRISE', 'Empresas', '/servlet/remu/EnterpriseManager', @menuIdConfig);

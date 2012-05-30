@@ -10,8 +10,11 @@ SELECT	a.cId AS cId,
 		a.cWorkDays,
 		d.cMinSalary,
 		a.cSalaryRoot,
+/*		
 		(cSalaryRoot / 30 * cWorkDays) AS 
-				cSalaryReceived,							/* Sueldo Ganado */
+				cSalaryReceived,							/ * Sueldo Ganado  * /
+*/
+		a.cSalaryReceived,
 		b.cGratificationType,
 		b.cGratificationAmount,
 		0 AS cLimitGratification,							/* 4.75 Ingresos mínimos */
@@ -31,18 +34,12 @@ SELECT	a.cId AS cId,
 		b.cB09,
 		b.cB10,
 		b.cExtraPay,
-		cB01 + cB02 + cB03 + cB04 + cB05 + 
-		cB06 + cB07 + cB08 + cB09 + cB10 +
-		cGratificationAmount + (cSalaryRoot / 30 * cWorkDays)
-		AS cTotalIncomeTaxable,				/* Total Haberes Imponibles * /
+		b.cTotalIncomeTaxable,	/* Total Haberes Imponibles * /
 		
 		c.cLimitTaxableForecast,
 		c.cLimitTaxableDismissInsurance,
 		0 AS cIncome,						/* Renta Afecta */
 		b.cFamilyAssignmentStretch			/* Tramo asignacion familiar */
-		
-		
-		
 		
 /********************
 		a.cHorary,
@@ -102,10 +99,10 @@ ORDER BY a.cId;
 
 /**
 select * from remcon.vBook;	
-*/
+
 
 call remcon.pSaveEmployeeBook(1,'2012-05-01', 25);
-
+*/
 /*
 call remcon.pSaveEmployeeBook(2,'2012-05-01', 25);
 
