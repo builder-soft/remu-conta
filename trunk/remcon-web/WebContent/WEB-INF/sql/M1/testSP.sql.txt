@@ -112,4 +112,6 @@ SELECT * FROM remcon.tBook;
 
 select * from remcon.vBook;
 
+call remcon.pGetEnterpriseConfig(1);
+
 

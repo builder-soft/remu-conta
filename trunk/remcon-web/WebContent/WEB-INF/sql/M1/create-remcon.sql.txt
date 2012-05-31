@@ -238,6 +238,20 @@ create table tCompensationFund(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+CREATE  TABLE IF NOT EXISTS `remcon`.`tEnterpriseConfig` (
+   `cId` INT NOT NULL AUTO_INCREMENT ,
+   `cEnterprise` BIGINT(20) NOT NULL DEFAULT 1 COMMENT 'Referencia a la tabla tEnterprise' ,
+   `cShowDateUfUtm` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Fecha, UF y UTM' ,
+   `cShowProfile` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Cargo' ,
+   `cShowCostCenter` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Centro de Costos' ,
+   `cShowDataAgreement` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Datos del Contrato' ,
+   `cShowSalaryRoot` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Renta Base' ,
+   `cShowEmployerBonus` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Aportes del Empleador' ,
+   `cShowWorkDay` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Días Trabajados' ,
+   `cShowNetPaymentScope` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Alcance Líquido' ,  
+   PRIMARY KEY (`cId`)
+)ENGINE = InnoDB;
+
 create table tCostCenter(
 	cId 				BIGINT(20) NOT NULL auto_increment, 
 	cName				VARCHAR(20) NOT NULL,
