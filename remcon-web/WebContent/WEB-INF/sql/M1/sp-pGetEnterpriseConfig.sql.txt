@@ -1,0 +1,12 @@
+DROP PROCEDURE if exists remcon.pGetEnterpriseConfig;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pGetEnterpriseConfig(IN pId BIGINT)
+BEGIN
+	SELECT		* 
+	FROM 		remcon.tEnterpriseConfig
+	WHERE		cEnterprise = pId;
+END$$
+
+DELIMITER ;
+
