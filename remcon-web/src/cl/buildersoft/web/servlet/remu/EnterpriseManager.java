@@ -3,7 +3,9 @@ package cl.buildersoft.web.servlet.remu;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
+import cl.buildersoft.framework.beans.BSAction;
 import cl.buildersoft.framework.beans.BSTableConfig;
+import cl.buildersoft.framework.type.BSActionType;
 import cl.buildersoft.web.servlet.BSHttpServlet;
 
 /**
@@ -30,6 +32,11 @@ public class EnterpriseManager extends BSHttpServlet {
 
 		hideFields(table, "cRutLegalRep", "cMutual", "cMutualFactor",
 				"cCompensationFund");
+		
+		BSAction enterpriseConfig = new BSAction("Configuration",BSActionType.Record);
+		enterpriseConfig.setLabel("Configuracion de empresa");
+		enterpriseConfig.setUrl("/servlet/table/EnterpriseConfig");
+		table.addAction(enterpriseConfig);
 		return table;
 	}
 }

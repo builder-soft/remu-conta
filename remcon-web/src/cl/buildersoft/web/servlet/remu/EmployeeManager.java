@@ -49,6 +49,7 @@ public class EmployeeManager extends BSHttpServlet {
 		payMode.setLabel("Forma de Pago");
 		payMode.setUrl("/servlet/config/employee/PayMode");
 		table.addAction(payMode);
+			
 		return table;
 	}
 }
