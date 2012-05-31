@@ -210,3 +210,17 @@ ADD INDEX Overtime_index_Employee (cEmployee ASC),
 ADD INDEX Overtime_index_Period (cPeriod ASC),
 ADD CONSTRAINT OvertimeToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId),
 ADD CONSTRAINT OvertimeToPeriod FOREIGN KEY (cPeriod) REFERENCES remcon.tPeriod(cId);
+
+/*tEnterpriseConfig*/
+ALTER TABLE remcon.tEnterpriseConfig
+ADD INDEX fk_tEnterpriseConfig_tenterprise (cEnterprise ASC),
+ADD CONSTRAINT tEnterpriseConfigToEnterprise FOREIGN KEY (cEnterprise) REFERENCES remcon.tEnterprise(cId);
+
+/* TRIGERS */
+DELIMITER $$
+CREATE TRIGGER create_record AFTER INSERT ON tEnterprise
+FOR EACH ROW
+BEGIN
+INSERT INTO tEnterpriseConfig (cEnterprise) VALUES (NEW.cId);
+END$$
+DELIMITER ;
