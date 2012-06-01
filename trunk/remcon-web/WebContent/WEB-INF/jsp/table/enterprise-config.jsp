@@ -42,53 +42,69 @@
 <!--config/employee/SavePrevitionalInfo-->
 
 
-<form action="${pageContext.request.contextPath}/servlet/config/employee/SavePrevitionalInfo" method="post" id="editForm">
+<form action="${pageContext.request.contextPath}/servlet/config/employee/SaveEnterpriseConfig" method="post" id="editForm">
 	<input type="hidden" name="cId" value="<%=request.getParameter("cId")%>">
+	<input type="hidden" name="enterprise" value="<%=enterConf.getEnterprise()%>">
 	<table border="0">
 			<tr>
 				<td  class="cData">Mostrar Fecha, UF y UTM</td>
-				<td class="cLabel" valign='top'><%=paintCheck("1",enterConf.getShowDateUfUtm())%></td>				
+				<td class="cLabel" valign='top'><%=paintCheck("showDateUfUtm",enterConf.getShowDateUfUtm())%></td>				
 			</tr>
 			<tr>
 				<td  class="cData">Mostrar Cargo</td>
-				<td class="cLabel" valign='top'><%=paintCheck("2",enterConf.getShowProfile())%></td>				
+				<td class="cLabel" valign='top'><%=paintCheck("showProfile",enterConf.getShowProfile())%></td>				
 			</tr>
 			<tr>
 				<td  class="cData">Mostrar Centro de Costos</td>
-				<td class="cLabel" valign='top'><%=paintCheck("3",enterConf.getShowCostCenter())%></td>				
+				<td class="cLabel" valign='top'><%=paintCheck("showCostCenter",enterConf.getShowCostCenter())%></td>				
 			</tr>	
 			<tr>
 				<td  class="cData">Mostrar Datos del Contrato</td>
-				<td class="cLabel" valign='top'><%=paintCheck("4",enterConf.getShowDataAgreement())%></td>				
+				<td class="cLabel" valign='top'><%=paintCheck("showDataAgreement",enterConf.getShowDataAgreement())%></td>				
 			</tr>							
 			<tr>
 				<td  class="cData">Mostrar Renta Base</td>
-				<td class="cLabel" valign='top'><%=paintCheck("5",enterConf.getShowSalaryRoot())%></td>				
+				<td class="cLabel" valign='top'><%=paintCheck("showSalary",enterConf.getShowSalaryRoot())%></td>				
 			</tr>
 			<tr>
 				<td  class="cData">Mostrar Aportes del Empleador</td>
-				<td class="cLabel" valign='top'><%=paintCheck("6",enterConf.getShowEmployerBonus())%></td>				
+				<td class="cLabel" valign='top'><%=paintCheck("showEmployerBonus",enterConf.getShowEmployerBonus())%></td>				
 			</tr>
 			<tr>
 				<td  class="cData">Mostrar Días Trabajados</td>
-				<td class="cLabel" valign='top'><%=paintCheck("7",enterConf.getShowWorkDay())%></td>				
+				<td class="cLabel" valign='top'><%=paintCheck("showWorkDay",enterConf.getShowWorkDay())%></td>				
 			</tr>
 			<tr>
 				<td  class="cData">Mostrar Alcance Líquido</td>
-				<td class="cLabel" valign='top'><%=paintCheck("8",enterConf.getShowNetPaymentScope())%></td>				
-			</tr>			
-			
+				<td class="cLabel" valign='top'><%=paintCheck("showNetPaymentScope",enterConf.getShowNetPaymentScope())%></td>				
+			</tr>
+			<tr>
+				<td class="cData" colspan="2">
+				<td class="cData">Texto al Pié de la Liquidación<br><textarea name="textFootSalary" id="textFootSalary" cols="80" rows="4"><%=enterConf.getTextFootSalary()%></textarea></td>
+				<td></td>
+			</tr>	
+			<tr>
+				<td colspan="2"></td>
+				<td class="cData">Avisar todos los dias lunes a este correo, los contratos que vencen dentro de los proximos 15 días.</td>			
+			</tr>		
+			<tr>
+				<td colspan="2"></td>
+				<td class="cData">Email: <input id="email" name="email" value="<%= enterConf.getEmail() !=null ? enterConf.getEmail():""%>"></td>
+			</tr>
 	</table>
+	
+<input type="button" value="Aceptar" onclick="javascript:$('#editForm').submit();">	
+<a href="${pageContext.request.contextPath}/servlet/table/LoadTable">Cancelar</a>&nbsp;&nbsp;&nbsp;
 </form>
 <br>
-<a href="${pageContext.request.contextPath}/servlet/table/LoadTable">Cancelar</a>&nbsp;&nbsp;&nbsp;
+
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 
 <%!
 	private String paintCheck(String id,boolean check){	
 	String isChecked = check ? "checked" : "";
-	String sCheck = "<input type='checkbox' id='chb_"+id+"' name='chb_"+id+"' "+isChecked+">";
+	String sCheck = "<input type='checkbox' id='"+id+"' name='"+id+"' "+isChecked+">";
 	return sCheck;
 	}
 %>
