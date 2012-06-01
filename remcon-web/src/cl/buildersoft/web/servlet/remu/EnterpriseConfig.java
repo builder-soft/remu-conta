@@ -20,6 +20,7 @@ import cl.buildersoft.framework.beans.ExBoxSystem;
 import cl.buildersoft.framework.beans.Health;
 import cl.buildersoft.framework.beans.PFM;
 import cl.buildersoft.framework.beans.RagreementAPV;
+import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
@@ -47,10 +48,11 @@ public class EnterpriseConfig extends AbstractServletUtil {
 
 		BSmySQL mysql = new BSmySQL();
 		conn = mysql.getConnection(request);
-		BSBeanUtilsSP bu = new BSBeanUtilsSP();
-
-		cl.buildersoft.framework.beans.EnterpriseConfig EnterpriseConfig = (cl.buildersoft.framework.beans.EnterpriseConfig) bu.get(conn, new cl.buildersoft.framework.beans.EnterpriseConfig(), "pGetEnterpriseConfig",enterpriseId);
-		request.setAttribute("enterpriseConfig", EnterpriseConfig);
+		BSBeanUtils bu = new BSBeanUtils();
+		cl.buildersoft.framework.beans.EnterpriseConfig enterpriseCong =  new cl.buildersoft.framework.beans.EnterpriseConfig();
+		enterpriseCong.setId(enterpriseId);
+		bu.search(conn, enterpriseCong);
+		request.setAttribute("enterpriseConfig", enterpriseCong);
 
 		request.setAttribute("Action", "Update");
 		request.getRequestDispatcher(
@@ -58,10 +60,7 @@ public class EnterpriseConfig extends AbstractServletUtil {
 				request, response);
 	}
 	
-	private Employee getEmployee(Connection conn, BSBeanUtilsSP bu, Long id) {
-		Employee out = new Employee();
-		out.setId(id);
-		bu.search(conn, out);
-		return out;
-	}	
+	protected void update(HttpServletRequest request, HttpServletResponse response) {
+		
+	}
 }

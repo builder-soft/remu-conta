@@ -4,6 +4,7 @@ public class EnterpriseConfig extends BSBean {
 
 	private static final long serialVersionUID = -7998293980754094636L;
 	private String TABLE = "tEnterpriseConfig";
+	private Long enterprise;
 	private Boolean showDateUfUtm;
 	private Boolean showProfile;
 	private Boolean showCostCenter;
@@ -12,7 +13,15 @@ public class EnterpriseConfig extends BSBean {
 	private Boolean showEmployerBonus;
 	private Boolean showWorkDay;
 	private Boolean showNetPaymentScope;
+	private String textFootSalary;
+	private String email = "" ;
 
+	public Long getEnterprise() {
+		return enterprise;
+	}
+	public void setEnterprise(Long enterprise) {
+		this.enterprise = enterprise;
+	}
 	public Boolean getShowDateUfUtm() {
 		return showDateUfUtm;
 	}
@@ -60,5 +69,17 @@ public class EnterpriseConfig extends BSBean {
 	}
 	public void setShowNetPaymentScope(Boolean showNetPaymentScope) {
 		this.showNetPaymentScope = showNetPaymentScope;
-	}	
+	}
+	public String getTextFootSalary() {
+		return textFootSalary;
+	}
+	public void setTextFootSalary(String textFootSalary) {
+		this.textFootSalary = textFootSalary;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }
