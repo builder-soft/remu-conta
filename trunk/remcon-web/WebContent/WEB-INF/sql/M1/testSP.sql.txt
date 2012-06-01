@@ -10,18 +10,12 @@ SELECT	a.cId AS cId,
 		a.cWorkDays,
 		d.cMinSalary,
 		a.cSalaryRoot,
-/*		
-		(cSalaryRoot / 30 * cWorkDays) AS 
-				cSalaryReceived,							/ * Sueldo Ganado  * /
-*/
 		a.cSalaryReceived,
 		b.cGratificationType,
 		b.cGratificationAmount,
-		0 AS cLimitGratification,							/* 4.75 Ingresos mínimos */
+		0 AS cLimitGratification,			/* 4.75 Ingresos mínimos */
 		a.cOvertime,
-		(a.cSalaryRoot*d.cOvertimeFactor)*a.cOvertime 
-			AS cOvertimeAmount,								/* Se calcula (SalaryRoot * 0.0777) * cOvertime */
-		
+		b.cOvertimeAmount,					/* Se calcula (SalaryRoot * 0.0777) * cOvertime */
 		b.cParticipation,
 		b.cB01,
 		b.cB02,
@@ -34,7 +28,7 @@ SELECT	a.cId AS cId,
 		b.cB09,
 		b.cB10,
 		b.cExtraPay,
-		b.cTotalIncomeTaxable,	/* Total Haberes Imponibles * /
+		b.cTotalIncomeTaxable,				/* Total Haberes Imponibles * /
 		
 		c.cLimitTaxableForecast,
 		c.cLimitTaxableDismissInsurance,
@@ -97,21 +91,16 @@ LEFT JOIN remcon.tPeriod		AS d ON a.cPeriod = d.cId
 LEFT JOIN remcon.tEmployee		AS e ON a.cEmployee = e.cId
 ORDER BY a.cId;
 
-/**
-select * from remcon.vBook;	
+select remcon.fSavePeriod('2012-05-01');
 
+insert into remcon.tOvertime(cEmployee, cPeriod, cDate, cHours)
+VALUES(1,1, '2012-05-15', 4);
 
 call remcon.pSaveEmployeeBook(1,'2012-05-01', 25);
-*/
-/*
-call remcon.pSaveEmployeeBook(2,'2012-05-01', 25);
-
-SELECT * FROM remcon.tPeriod;
-SELECT * FROM remcon.tBook;
-*/
+call remcon.pSaveEmployeeBook(2,'2012-05-01', 30);
 
 select * from remcon.vBook;
 
-call remcon.pGetEnterpriseConfig(1);
+/*call remcon.pGetEnterpriseConfig(1);*/
 
 

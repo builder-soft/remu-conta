@@ -1,50 +1,51 @@
-DROP PROCEDURE if exists remcon.pSaveEmployeeBook;
-DROP FUNCTION if exists remcon.fGetGratificationAmount;
-DROP FUNCTION if exists remcon.fSavePeriod;
-DROP FUNCTION if exists remcon.fSaveBookForEmployee;
 DROP PROCEDURE if exists remcon.pSaveOvertime;
 DROP PROCEDURE IF EXISTS remcon.getGratificationAmount;
+DROP PROCEDURE if exists remcon.pSaveEmployeeBook;
+DROP FUNCTION if exists remcon.fGetGratificationAmount;
+DROP FUNCTION if exists remcon.fSaveBookForEmployee;
 DROP FUNCTION IF EXISTS remcon.fSalaryReceived;
 DROP FUNCTION IF EXISTS remcon.fTotalIncomeTaxable;
+DROP FUNCTION IF EXISTS remcon.fGetOvertimeAmount;
 
 DELIMITER $$
 
 /************************/
 CREATE PROCEDURE remcon.pSaveEmployeeBook(IN pEmployee BIGINT, IN pDate DATE, IN pWorkDays INTEGER)
 BEGIN
-	DECLARE pPeriod BIGINT DEFAULT 0; 
-	DECLARE pBook BIGINT DEFAULT 0; 
-	DECLARE pSalaryReceived DOUBLE DEFAULT 0; 
-	DECLARE pGratificationAmount DOUBLE DEFAULT 0;
-	DECLARE pTotalIncomeTaxable DOUBLE DEFAULT 0;
+	DECLARE vPeriod BIGINT DEFAULT 0; 
+	DECLARE vBook BIGINT DEFAULT 0; 
+	DECLARE vSalaryReceived DOUBLE DEFAULT 0; 
+	DECLARE vGratificationAmount DOUBLE DEFAULT 0;
+	DECLARE vTotalIncomeTaxable DOUBLE DEFAULT 0;
+	DECLARE vOvertimeAmount DOUBLE DEFAULT 0;
 
 	SELECT	cId
-	INTO	pPeriod
+	INTO	vPeriod
 	FROM	remcon.tPeriod
 	WHERE	cDate = pDate;
 
-	SET pBook = remcon.fSaveBookForEmployee(pPeriod, pEmployee, pWorkDays);
+	SET vBook = remcon.fSaveBookForEmployee(vPeriod, pEmployee, pWorkDays);
+		
+	CALL remcon.pSaveOvertime(vBook, pEmployee, vPeriod);
 	
-	CALL remcon.pSaveOvertime(pBook, pEmployee, pPeriod);
-	
-	SET pSalaryReceived = fSalaryReceived(pBook);
-	SET pGratificationAmount = fGetGratificationAmount(pBook);
-	SET pTotalIncomeTaxable = fTotalIncomeTaxable(pBook);
-	
-	select pTotalIncomeTaxable;
+	SET vSalaryReceived = fSalaryReceived(vBook);
+	SET vGratificationAmount = fGetGratificationAmount(vBook);
+	SET vTotalIncomeTaxable = fTotalIncomeTaxable(vBook);
+	SET vOvertimeAmount = fGetOvertimeAmount(vBook);
 	
 	UPDATE	remcon.tBookAssets 
-	SET		cGratificationAmount = pGratificationAmount,
-			cTotalIncomeTaxable = pTotalIncomeTaxable
-	WHERE	cBook = pBook;
+	SET		cGratificationAmount = vGratificationAmount,
+			cTotalIncomeTaxable = vTotalIncomeTaxable,
+			cOvertimeAmount = vOvertimeAmount
+	WHERE	cBook = vBook;
 
 	UPDATE	remcon.tBook 
-	SET		cSalaryReceived = pSalaryReceived 
-	WHERE	cId = pBook;
+	SET		cSalaryReceived = vSalaryReceived 
+	WHERE	cId = vBook;
 	
 END$$
 
-
+/************************/
 CREATE FUNCTION remcon.fTotalIncomeTaxable(pBook BIGINT) RETURNS DOUBLE
 BEGIN
 	DECLARE pOut DOUBLE DEFAULT 0;
@@ -59,7 +60,7 @@ BEGIN
 	RETURN pOut;
 END$$
 
-
+/************************/
 CREATE FUNCTION remcon.fSalaryReceived(pBook BIGINT) RETURNS DOUBLE
 BEGIN
 	DECLARE pOut DOUBLE DEFAULT 0;
@@ -71,85 +72,49 @@ BEGIN
 	RETURN pOut;
 END$$
 
-/***********************
-Crea o actualiza la tabla tPeriod si no existe el registro.
-*/
-CREATE FUNCTION remcon.fSavePeriod(pDate DATE) RETURNS BIGINT 
-BEGIN
-/** 
-TODO: Hay que sacar el valor de la UF y Factor desde una tabla histórica 
-por si hay que recalcular para atras...
-*/
-	DECLARE pOut BIGINT DEFAULT 0;
-
-	SELECT	cUF, cOvertimeFactor 
-	INTO	@uf, @overtimeFactor
-	FROM	remcon.tMonthlyParameter
-	WHERE	cDate = pDate;
-	
-	SELECT	cValue INTO @MinSalary
-	FROM	remcon.tParameter
-	WHERE	cKey = 'BASE_SALARY';
-
-	IF EXISTS(	SELECT	cId 
-				FROM	remcon.tPeriod
-				WHERE	cDate = pDate) THEN
-				
-		UPDATE	remcon.tPeriod
-		SET		cUF = @uf,
-				cOvertimeFactor = @overtimeFactor,
-				cMinSalary = @minSalary
-		WHERE	cDate = pDate;
-		
-		SELECT	cId INTO pOut 
-		FROM	remcon.tPeriod 
-		WHERE	cDate = pDate; 
-	ELSE
-		INSERT INTO remcon.tPeriod(cDate, cUF, cOvertimeFactor, cMinSalary) 
-		VALUES(pDate, @uf, @overtimeFactor, @minSalary);
-		SET pOut = LAST_INSERT_ID();
-	END IF;
-	RETURN pOut;
-END$$
 
 /************************/
 CREATE FUNCTION remcon.fSaveBookForEmployee(pPeriod BIGINT, pEmployee BIGINT, pWorkDays INTEGER) RETURNS BIGINT
 BEGIN
-	SELECT		b.cId INTO @bookId
-	FROM		remcon.tPeriod AS a
-	LEFT JOIN	remcon.tBook AS b ON b.cPeriod = a.cId
+	DECLARE vOut, vHorary, vGratificationType BIGINT DEFAULT 0;
+	DECLARE vSalaryRoot DOUBLE DEFAULT 0;
+	
+	SELECT		b.cId 
+	INTO		vOut
+	FROM		remcon.tPeriod	AS a
+	LEFT JOIN	remcon.tBook	AS b ON b.cPeriod = a.cId
 	WHERE		b.cEmployee = pEmployee AND
 				a.cId = pPeriod;
-	
-	SELECT	cHorary, cSalaryRoot, 0,			cGratificationType 
-	INTO	@horary, @salaryRoot, @overtime,	@gratificationType
+
+	SELECT	cHorary, cSalaryRoot, cGratificationType 
+	INTO	vHorary, vSalaryRoot, vGratificationType
 	FROM	remcon.tAgreement
 	WHERE	cEmployee = pEmployee;
-	
-	IF @bookId IS NOT NULL THEN
+
+	IF (vOut != 0) THEN
 		UPDATE	remcon.tBook
 		SET		cPeriod = pPeriod,
 				cEmployee = pEmployee,
-				cHorary = @horary,
+				cHorary = vHorary,
 				cWorkDays = pWorkDays,
-				cSalaryRoot = @salaryRoot,
-				cOvertime = @overtime
-		WHERE	cId = @bookId;
+				cSalaryRoot = vSalaryRoot,
+				cOvertime = 0
+		WHERE	cId = vOut;
 		
 		UPDATE	remcon.tBookAssets
-		SET		cGratificationType = @gratificationType		
-		WHERE	cBook = @bookId;
-	ELSE
-		INSERT INTO tBook(cPeriod, cEmployee, cHorary, cWorkDays, cSalaryRoot, cOvertime)
-		VALUES(pPeriod, pEmployee, @horary, pWorkDays, @salaryRoot, @overtime);
+		SET		cGratificationType = vGratificationType		
+		WHERE	cBook = vOut;
 		
-		SET @bookId = LAST_INSERT_ID();
+	ELSE
+		INSERT INTO remcon.tBook(cPeriod, cEmployee, cHorary, cWorkDays, cSalaryRoot, cOvertime)
+		VALUES(pPeriod, pEmployee, vHorary, pWorkDays, vSalaryRoot, 0);
+		SET vOut = LAST_INSERT_ID();
 		
 		INSERT INTO remcon.tBookAssets(cBook, cGratificationType)
-		VALUES(@bookId, @gratificationType);
-		
+		VALUES(vOut, vGratificationType);
 	END IF;
-	RETURN @bookId;
+
+	RETURN vOut;
 END$$
 
 /************************/
@@ -175,35 +140,52 @@ END$$
 /************************/
 CREATE FUNCTION remcon.fGetGratificationAmount(pBook BIGINT) RETURNS DOUBLE
 BEGIN
-	DECLARE pOut DOUBLE DEFAULT 0;
+	DECLARE vOut, vSalaryReceived, vMinSalary, vOvertimeAmount, vParticipation,
+			vB01, vB02, vB03, vB04, vB05, vB06, vB07, vB08, vB09, vB10,
+			vLimit, vSumGratificaion DOUBLE DEFAULT 0;
+	DECLARE vGratificationType BIGINT DEFAULT 0;
 	
 	SELECT	cGratificationType, cSalaryReceived, cMinSalary, cOvertimeAmount, cParticipation,
 			cB01, cB02, cB03, cB04, cB05, cB06, cB07, cB08, cB09, cB10
-	INTO	@GratificationType, @SalaryReceived, @minSalary, @overtimeAmount, @participation,
-			@B01, @B02, @B03, @B04, @B05, @B06, @B07, @B08, @B09, @B10
+	INTO	vGratificationType, vSalaryReceived, vMinSalary, vOvertimeAmount, vParticipation,
+			vB01, vB02, vB03, vB04, vB05, vB06, vB07, vB08, vB09, vB10
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
 	 
-	IF(@GratificationType = 1) THEN /* Sin Gratificacion */
-		SET pOut = 0;
+	IF(vGratificationType = 1) THEN /* Sin Gratificacion */
+		SET vOut = 0;
 		
-	ELSEIF (@GratificationType = 2) THEN /* Gratificacion : 25% Impo. (Tope 4,75imm/12)*/
-		SET @limit =  4.75 * @minSalary;
+	ELSEIF (vGratificationType = 2) THEN /* Gratificacion : 25% Impo. (Tope 4,75imm/12)*/
+		SET vLimit =  4.75 * vMinSalary;
 		
-		SET @sumGratificaion =	@SalaryReceived + @overtimeAmount + @participation + 
-								@B01 + @B02 + @B03 + @B04 + @B05 + 
-								@B06 + @B07 + @B08 + @B09 + @B10;
+		SET vSumGratificaion =	vSalaryReceived + vOvertimeAmount + vParticipation + 
+								vB01 + vB02 + vB03 + vB04 + vB05 + 
+								vB06 + vB07 + vB08 + vB09 + vB10;
 								
-		IF(@sumGratification * 0.25 > @limit) THEN
-			SET pOut = @limit;
+		IF(vSumGratificaion * 0.25 > vLimit) THEN
+			SET vOut = vLimit;
 		ELSE
-			SET pOut = @sumGratificaion * 0.25;
+			SET vOut = vSumGratificaion * 0.25;
 
 		END IF;
 				
 	ELSE /* Por antiguedad */
-		SET pOut = @SalaryReceived * 0.25;
+		SET vOut = vSalaryReceived * 0.25;
 	END IF;
+	
+	RETURN vOut;
+END$$
+
+/************************/
+CREATE FUNCTION remcon.fGetOvertimeAmount(pBook BIGINT) RETURNS DOUBLE
+BEGIN
+	DECLARE pOut DOUBLE DEFAULT 0;
+
+	SELECT 	(a.cSalaryRoot * b.cOvertimeFactor) * a.cOvertime
+	INTO	pOut 
+	FROM	remcon.tBook		AS a
+	LEFT JOIN remcon.tPeriod	AS b ON a.cPeriod = b.cId
+	WHERE	a.cId = pBook;
 	
 	RETURN pOut;
 END$$

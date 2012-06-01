@@ -406,6 +406,7 @@ Tramo SE INGRESA A MANO LA LETRA "A,B,C,D" ya que es la caja de
 compensacion la que determina el tramo al que pertenece el trabajor
 No se calcula
 */
+	cOvertimeAmount				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto ganado por horas extras - se calcula',
 	cParticipation				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Aplica cuando tiene participacion en empresa - Ingreso por período',
 	cB01						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Bono 1 - Se ingresa por período, o copiar del mes anterior',
 	cB02						DOUBLE NOT NULL DEFAULT '0',
