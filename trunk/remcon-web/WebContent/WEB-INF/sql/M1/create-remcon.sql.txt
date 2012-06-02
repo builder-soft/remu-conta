@@ -342,6 +342,7 @@ create table tHorary(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+/*
 create table tMonthlyParameter(
 	cId					BIGINT(20) NOT NULL auto_increment,
 	cDate				DATE 	NOT NULL,
@@ -349,7 +350,7 @@ create table tMonthlyParameter(
 	cOvertimeFactor		DOUBLE COMMENT 'Para calcular las horas extras, puede ser 0.07777 o 0.0333',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
-
+*/
 
 /*
 Tabla para registrar las horas extras del empleado.
@@ -373,6 +374,7 @@ create table tPeriod(
 	cUF					DOUBLE	NOT NULL,
 	cOvertimeFactor		DOUBLE COMMENT 'Para calcular las horas extras, puede ser 0.07777 o 0.0333',
 	cMinSalary			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Ingresos Mínimos Mensuales', 
+	cLimitGratification	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Limite gratificacion - 4.75 Ingresos mínimos',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -445,7 +447,8 @@ Tabla de libro con descuentos.
 hay 2 seguros
 S.I.S. = es un % (1.87) lo entrega el previred es de costo del trabajador, se paga a la AFP (parametro del mes)
 Seguro de Invalidez de la Mutual
-Es un % que fija la mutual en base al indice de siniestralidad, lo paga el empleador a la mutual, (parametro mensual x cada mutual), nota este parametro no cambia todos los meses. No se imprime en la liquidacion pero se contabiliza como parte del costo empresa
+Es un % que fija la mutual en base al indice de siniestralidad, lo paga el empleador a la mutual, (parametro mensual x cada mutual), 
+nota este parametro no cambia todos los meses. No se imprime en la liquidacion pero se contabiliza como parte del costo empresa.
 */
 create table tBookDiscounts(
 	cId								BIGINT(20) NOT NULL auto_increment,
@@ -454,14 +457,14 @@ create table tBookDiscounts(
 	cObligatoryInsurance			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Seguro Obligatorio - Es un % ',
 	cAVPAmount						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto APV - Suma de todos los montos en APV, algunos traducir a pesos desde UF',
 	cAccount2						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cuenta 2, Ahorro AFP - Se saca de la tabla tAccount',
-	cLimitTaxableForecast			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Previsional - Parámetro del mes, hay que buscar el valor por tramos',
+	cLimitTaxableForecast			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Previsional - Parámetro del mes, 60 UFs',
 	cLimitTaxableDismissInsurance	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Seguro Cesantia - Parámetro del mes, es un valor fijo',
 	cHealth							BIGINT(20) NOT NULL COMMENT 'Codigo de sistema de salud - Es la Isapre o fonasa',
 	
 	cLawfulQuote					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotización Legar - Es el 7% del imponible, el valor es calculado',
 	
-	cCurrencyPlanHealth				BIGINT(20) NOT NULL COMMENT 'Moneda del plan complementario de salud - UF o CLP - tAgreement.cAdditionalHealthCLP/UF',
-	cPlanHealth						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto pactado de salud - Relacionado con campo cMonedaPlanHealth',
+	cCurrencyPlanHealth				BIGINT(20) NULL COMMENT 'Moneda del plan complementario de salud - UF o CLP - tAgreement.cAdditionalHealthCLP/UF',
+	cPlanHealthAmount				DOUBLE NULL DEFAULT '0' COMMENT 'Monto pactado de salud - Relacionado con campo cCurrencyPlanHealth',
 	
 	cExtraHealth					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Adicional de salud - Diferencia entre el plan de salud y la legal, cCotizacionLegal - PlanPactado',
 	cLimitExtraHealth				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope de la cotización de salud',
@@ -475,7 +478,7 @@ Si alguien tiene un plan muy caro de salud debe tributar como impuesto unico a l
 /*
 	cCotisacionSaludRebaja			COMMENT 'Preguntar que es',
 */
-	cUnemploymentInsurance			BIGINT(20) NOT NULL COMMENT 'Código de seguro de sesantia - Sin seguro, contrato indefinido o a plazo',
+	cUnemploymentInsurance			BIGINT(20) NULL COMMENT 'Código de seguro de sesantia - Sin seguro, contrato indefinido o a plazo',
 /*
 Seguro Cesantia
 Hay 3 tipos:
