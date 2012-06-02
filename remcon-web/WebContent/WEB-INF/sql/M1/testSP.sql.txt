@@ -7,14 +7,15 @@ SELECT	a.cId AS cId,
 		d.cDate,
 		a.cEmployee,
 		e.cLastName1,
+		d.cUF,
 		a.cWorkDays,
 		d.cMinSalary,
 		a.cSalaryRoot,
 		a.cSalaryReceived,
 		b.cGratificationType,
 		b.cGratificationAmount,
-		0 AS cLimitGratification,			/* 4.75 Ingresos mínimos */
-		a.cOvertime,
+		d.cLimitGratification,				/* 4.75 Ingresos mínimos */
+		a.cOvertime,						/* Cantidad de horas extras */
 		b.cOvertimeAmount,					/* Se calcula (SalaryRoot * 0.0777) * cOvertime */
 		b.cParticipation,
 		b.cB01,
@@ -29,18 +30,15 @@ SELECT	a.cId AS cId,
 		b.cB10,
 		b.cExtraPay,
 		b.cTotalIncomeTaxable,				/* Total Haberes Imponibles * /
+		c.cLimitTaxableForecast,			/* Tope Imponible Previsional */
+		c.cLimitTaxableDismissInsurance,	/* Tope Imponible Seguro Cesantia - Parámetro del mes, es un valor fijo */
 		
-		c.cLimitTaxableForecast,
-		c.cLimitTaxableDismissInsurance,
 		0 AS cIncome,						/* Renta Afecta */
-		b.cFamilyAssignmentStretch			/* Tramo asignacion familiar */
+		b.cFamilyAssignmentStretch,			/* Tramo asignacion familiar */
 		
-/********************
 		a.cHorary,
-		
 		b.cId AS cAssetsId,
 		b.cRewardAmount,
-
 		b.cFamilyAssignment,
 		b.cFamilyAssignmentAmount,
 		b.cRetroactiveFamily,
@@ -51,7 +49,6 @@ SELECT	a.cId AS cId,
 		b.cIAS,
 		b.cProportionalHoliday,
 		b.cVoluntaryindenmization,
-		
 		c.cId AS cDiscountsId,
 		c.cPFM,
 		c.cObligatoryInsurance,
@@ -60,7 +57,7 @@ SELECT	a.cId AS cId,
 		c.cHealth,
 		c.cLawfulQuote,
 		c.cCurrencyPlanHealth,
-		c.cPlanHealth,
+/*		c.cPlanHealth,*/
 		c.cExtraHealth,
 		c.cLimitExtraHealth,
 		c.cUnemploymentInsurance,
@@ -71,6 +68,7 @@ SELECT	a.cId AS cId,
 		c.cLoanCompensationFund,
 		c.cSavingCompensationFund,
 		c.cJudicialRetention
+/********************
 */
 
 /*,
@@ -91,16 +89,20 @@ LEFT JOIN remcon.tPeriod		AS d ON a.cPeriod = d.cId
 LEFT JOIN remcon.tEmployee		AS e ON a.cEmployee = e.cId
 ORDER BY a.cId;
 
-select remcon.fSavePeriod('2012-05-01');
 
+call remcon.pSavePeriod('2012-05-01', @Period);
+
+delete from remcon.tOvertime;
 insert into remcon.tOvertime(cEmployee, cPeriod, cDate, cHours)
-VALUES(1,1, '2012-05-15', 4);
+VALUES(1, 1, '2012-05-15', 4);
+
 
 call remcon.pSaveEmployeeBook(1,'2012-05-01', 25);
 call remcon.pSaveEmployeeBook(2,'2012-05-01', 30);
 
-select * from remcon.vBook;
 
-/*call remcon.pGetEnterpriseConfig(1);*/
+/*
+select * from remcon.vBook;
+call remcon.pGetEnterpriseConfig(1);*/
 
 
