@@ -281,6 +281,14 @@ CREATE TABLE IF NOT EXISTS tR_AgreementAPV (
 	PRIMARY KEY(cAgreement,cAPV,cCurrency)
 ) ENGINE=innoDB;
 
+CREATE TABLE IF NOT EXISTS tR_AgreementAPVHistory (
+	cPeriod 		BIGINT NOT NULL COMMENT 'Id del período',
+	cAgreement 		BIGINT NOT NULL COMMENT 'Id del contrato',
+	cAPV			BIGINT NOT NULL COMMENT 'Id del apv',
+	cCurrency		BIGINT NOT NULL COMMENT 'Moneda en la que se deposita el apv',
+	cAmount			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto a ahorrar en apv',
+	PRIMARY KEY(cPeriod,cAgreement,cAPV,cCurrency)
+) ENGINE=innoDB;
 
 create table tProfile (
 	cId					BIGINT(20) NOT NULL auto_increment, 

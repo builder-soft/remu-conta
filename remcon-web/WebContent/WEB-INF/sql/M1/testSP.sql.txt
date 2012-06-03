@@ -6,6 +6,7 @@ SELECT	a.cId AS cId,
 		a.cPeriod,
 		d.cDate,
 		a.cEmployee,
+		f.cId AS cAgreement,
 		e.cLastName1,
 		d.cUF,
 		a.cWorkDays,
@@ -55,7 +56,7 @@ SELECT	a.cId AS cId,
 		c.cId AS cDiscountsId,
 		c.cPFMHistory,
 		c.cObligatoryQuote,					/* Monto que se le paga a la AFP de manera obligatoria */
-		c.cAVPAmount,
+		c.cAVPAmount,						/* Suma de todos los fondos en CLP */
 		c.cAccount2,
 		c.cHealth,
 		c.cLawfulQuote,
@@ -90,6 +91,7 @@ LEFT JOIN remcon.tBookAssets	AS b ON b.cBook = a.cId
 LEFT JOIN remcon.tBookDiscounts	AS c ON c.cBook = a.cId
 LEFT JOIN remcon.tPeriod		AS d ON a.cPeriod = d.cId
 LEFT JOIN remcon.tEmployee		AS e ON a.cEmployee = e.cId
+LEFT JOIN remcon.tAgreement		AS f ON e.cId = f.cEmployee
 ORDER BY a.cId;
 
 delete from remcon.tOvertime;

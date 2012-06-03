@@ -10,7 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import cl.buildersoft.framework.beans.Rol;
+import cl.buildersoft.framework.beans.User;
 import cl.buildersoft.framework.database.BSmySQL;
 
 @WebServlet("/servlet/system/roledef/SaveRoleDef")
@@ -22,8 +25,7 @@ public class SaveRoleDef extends HttpServlet {
 
 	}
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String[] options = request.getParameterValues("Option");
 		Long rol = Long.parseLong(request.getParameter("Rol"));
@@ -44,13 +46,22 @@ public class SaveRoleDef extends HttpServlet {
 			mysql.closeSQL();
 		}
 
-		request.getRequestDispatcher("/servlet/system/roleDef/RoleDef").forward(request,
-				response);
+		String nextServlet = "/servlet/system/roleDef/RoleDef";
+
+		HttpSession session = request.getSession();
+		List<Rol> rols = (List<Rol>) session.getAttribute("Rol");
+		for (Rol rolUser : rols) {
+			if (rolUser.getId().equals(rol)) {
+				nextServlet = "/servlet/login/GetMenuServlet";
+				break;
+			}
+		}
+
+		request.getRequestDispatcher(nextServlet).forward(request, response);
 
 	}
 
-	private void saveNewDef(Connection conn, BSmySQL mysql, String[] options,
-			Long rol) {
+	private void saveNewDef(Connection conn, BSmySQL mysql, String[] options, Long rol) {
 		String sql = "INSERT INTO tR_RolOption(cRol, cOption) VALUES(?,?)";
 		List<Object> prms = new ArrayList<Object>();
 		prms.add(rol);

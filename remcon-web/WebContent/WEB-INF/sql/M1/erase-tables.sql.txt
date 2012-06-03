@@ -4,6 +4,8 @@ drop table if exists remcon.tAccount;
 DROP TABLE IF EXISTS remcon.tFile;
 DROP TABLE IF EXISTS remcon.tFileCategory;
 drop table if exists remcon.tR_AgreementAPV;
+drop table if exists remcon.tR_AgreementAPVHistory;
+
 drop table if exists remcon.tAgreement;
 
 DROP TABLE IF EXISTS remcon.tBookDiscounts;

@@ -32,3 +32,4 @@ DROP FUNCTION IF EXISTS remcon.fTotalIncomeTaxable;
 DROP FUNCTION IF EXISTS remcon.fGetLimitTaxableForecast;
 DROP FUNCTION IF EXISTS remcon.fGetLimitTaxableDismissInsurance;
 DROP FUNCTION IF EXISTS remcon.fGetObligatoryQuote;
+DROP FUNCTION IF EXISTS remcon.fGetLimitGratification;

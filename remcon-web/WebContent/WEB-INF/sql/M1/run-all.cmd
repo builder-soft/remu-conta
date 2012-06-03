@@ -17,5 +17,4 @@ mysql -u root -padmin --default-character-set=utf8 < data-bsframework.sql.txt
 mysql -u root -padmin --default-character-set=utf8 < data-remcon.sql.txt
 mysql -u root -padmin --default-character-set=utf8 < data-menu.sql.txt
 
-
-mysql -u root -t -padmin --default-character-set=utf8 < testSP.sql.txt
+mysql -u root -padmin --default-character-set=utf8 -t < testSP.sql.txt

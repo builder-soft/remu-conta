@@ -1,19 +1,15 @@
 DROP PROCEDURE if exists remcon.pCalculateSalary;
 DROP PROCEDURE if exists remcon.pSaveOvertime;
-
 DROP PROCEDURE if exists remcon.pGratificationAmount;
-
-DROP FUNCTION if exists remcon.fSaveBookForEmployee;
 DROP PROCEDURE IF EXISTS remcon.pSalaryReceived;
 DROP PROCEDURE IF EXISTS remcon.pTotalIncomeTaxable;
 DROP PROCEDURE IF EXISTS remcon.pOvertimeAmount;
 DROP PROCEDURE IF EXISTS remcon.pLimitTaxableForecast;
 DROP PROCEDURE IF EXISTS remcon.pLimitTaxableDismissInsurance;
 DROP PROCEDURE IF EXISTS remcon.pIncome;
+DROP PROCEDURE IF EXISTS remcon.pAPV;
 DROP PROCEDURE IF EXISTS remcon.pObligatoryQuote;
-
-
-DROP FUNCTION IF EXISTS remcon.fGetLimitGratification;
+DROP FUNCTION if exists remcon.fSaveBookForEmployee;
 DROP FUNCTION IF EXISTS remcon.fGetPFMForBook;
 
 DELIMITER $$
@@ -51,6 +47,7 @@ BEGIN
 	CALL remcon.pLimitTaxableDismissInsurance(vBook);
 	
 	CALL remcon.pObligatoryQuote(vBook);	
+	CALL remcon.pAPV(vBook);	
 	
 	CALL remcon.pIncome(vBook);
 
@@ -271,20 +268,6 @@ BEGIN
 END$$
 
 /************************/
-CREATE FUNCTION remcon.fGetLimitGratification(pBook BIGINT) RETURNS DOUBLE
-BEGIN
-/*4.75 Ingresos mínimos*/
-	DECLARE vOut DOUBLE DEFAULT 0;
-	
-	SELECT 	cMinSalary * cGratificationFactor
-	INTO	vOut 
-	FROM	remcon.vBook
-	WHERE	cId = pBook;
-	
-	RETURN vOut;
-END$$
-
-/************************/
 CREATE PROCEDURE remcon.pLimitTaxableForecast(pBook BIGINT)
 BEGIN
 /**
@@ -339,7 +322,42 @@ BEGIN
 	
 END$$
 
+CREATE PROCEDURE remcon.pAPV(pBook BIGINT)
+BEGIN
+	DECLARE vAgreement, vPeriod, vAPV, vCurrency BIGINT DEFAULT 0;
+	DECLARE vDone BOOLEAN DEFAULT FALSE;
+	DECLARE vAmount, vUF, vSum DOUBLE DEFAULT 0;
+	DECLARE vKey VARCHAR(3) DEFAULT '   ';
+	DECLARE cursorAPV CURSOR FOR
+		SELECT	a.cAmount, b.cKey  
+		FROM	remcon.tR_AgreementAPVHistory AS a
+		LEFT JOIN	remcon.tCurrency	AS b ON a.cCurrency = b.cId
+		LEFT JOIN	remcon.vBook		AS c ON a.cPeriod = c.cPeriod
+		WHERE	c.cId = pBook AND a.cAgreement = c.cAgreement;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET vDone = TRUE;
+	
+	SET vUF = (SELECT cUF FROM vBook WHERE cId = pBook);
+	OPEN cursorAPV;
+	cursorAPV_loop: LOOP
+		FETCH cursorAPV INTO vAmount, vKey;
+		
+		IF(vDone) THEN 
+			LEAVE cursorAPV_loop;
+		END IF;
+		
+		IF(vKey = 'UF') THEN
+			SET vAmount = vAmount * vUF;
+		END IF;
+	    SET vSum = vSum + vAmount;
+		
+	END LOOP cursorAPV_loop;
+	CLOSE cursorAPV;
+			
+	UPDATE	remcon.tBookDiscounts
+	SET		cAVPAmount = vSum
+	WHERE	cBook = pBook;
 
+END $$
 
 CREATE PROCEDURE remcon.pIncome(pBook BIGINT)
 BEGIN
