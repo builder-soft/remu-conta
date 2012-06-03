@@ -33,6 +33,7 @@
 <!--  
 <form action="${pageContext.request.contextPath}/servlet/ShowParameters" method="post">
  -->
+ <div style="overflow: scroll; width: 1080px; height: 400px">
 	<table border="0" width="50%">
 		<tr>
 			<td class="cLabel">Roles:</td>
@@ -55,6 +56,7 @@
 			</td>
 		</tr>
 	</table>
+	</div>
 	<input type="submit" value="Grabar">
 </form>
 

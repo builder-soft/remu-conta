@@ -241,15 +241,28 @@ BEGIN
 	VALUES (vPeriod, NEW.cKey, NEW.cName, NEW.cFactor, NEW.cSIS);
 END$$
 
-CREATE TRIGGER remcon.UpdateOnPFM AFTER UPDATE ON tPFM
+CREATE TRIGGER remcon.DeleteOnAgreementPFM AFTER DELETE ON tR_AgreementAPV
 FOR EACH ROW
 BEGIN
 	DECLARE vPeriod BIGINT DEFAULT 0;
 	SET vPeriod = fGetOpenedPeriod();
- 
-	INSERT INTO tPFMHistory (cPeriod, cKey, cName, cFactor, cSIS) 
-	VALUES (vPeriod, NEW.cKey, NEW.cName, NEW.cFactor, NEW.cSIS);
+	
+	DELETE
+	FROM	remcon.tR_AgreementAPVHistory
+	WHERE	cPeriod=vPeriod AND 
+			cAgreement=OLD.cAgreement AND
+			cAPV=OLD.cAPV AND
+			cCurrency=OLD.cCurrency;
 END$$
 
+CREATE TRIGGER remcon.InsertOnAgreementPFM AFTER INSERT ON tR_AgreementAPV
+FOR EACH ROW
+BEGIN
+	DECLARE vPeriod BIGINT DEFAULT 0;
+	SET vPeriod = fGetOpenedPeriod();
+			
+	INSERT INTO tR_AgreementAPVHistory (cPeriod, cAgreement, cAPV, cCurrency, cAmount) 
+	VALUES (vPeriod, NEW.cAgreement, NEW.cAPV, NEW.cCurrency, NEW.cAmount);
+END$$
 
 DELIMITER ;
