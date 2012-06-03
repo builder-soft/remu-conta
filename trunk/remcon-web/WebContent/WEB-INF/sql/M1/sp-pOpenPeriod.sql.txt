@@ -1,0 +1,16 @@
+DROP PROCEDURE if exists remcon.pOpenPeriod;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pOpenPeriod(IN pPeriod BIGINT)
+BEGIN
+	UPDATE		remcon.tPeriod
+	SET			cPeriodStatus = 1;
+	
+	UPDATE		remcon.tPeriod
+	SET			cPeriodStatus = 2
+	WHERE		cId = pPeriod;
+
+END$$
+
+DELIMITER ;
+ 

@@ -1,6 +1,6 @@
+DROP PROCEDURE if exists remcon.pCalculateSalary;
 DROP PROCEDURE if exists remcon.pSaveOvertime;
 DROP PROCEDURE IF EXISTS remcon.getGratificationAmount;
-DROP PROCEDURE if exists remcon.pSaveEmployeeBook;
 DROP FUNCTION if exists remcon.fGetGratificationAmount;
 DROP FUNCTION if exists remcon.fSaveBookForEmployee;
 DROP FUNCTION IF EXISTS remcon.fSalaryReceived;
@@ -9,17 +9,19 @@ DROP FUNCTION IF EXISTS remcon.fGetOvertimeAmount;
 DROP FUNCTION IF EXISTS remcon.fGetLimitGratification;
 DROP FUNCTION IF EXISTS remcon.fGetLimitTaxableForecast;
 DROP FUNCTION IF EXISTS remcon.fGetLimitTaxableDismissInsurance;
+DROP FUNCTION IF EXISTS remcon.fGetObligatoryQuote;
+DROP FUNCTION IF EXISTS remcon.fGetPFMForBook;
 
 DELIMITER $$
 
 /************************/
-CREATE PROCEDURE remcon.pSaveEmployeeBook(IN pEmployee BIGINT, IN pDate DATE, IN pWorkDays INTEGER)
+CREATE PROCEDURE remcon.pCalculateSalary(IN pEmployee BIGINT, IN pDate DATE, IN pWorkDays INTEGER)
 BEGIN
 	DECLARE vPeriod, vBook BIGINT DEFAULT 0; 
 	DECLARE vSalaryReceived, vGratificationAmount, 
 			vTotalIncomeTaxable, vOvertimeAmount, 
 			vLimitGratification, vLimitTaxableForecast,
-			vLimitTaxableDismissInsurance DOUBLE DEFAULT 0;
+			vLimitTaxableDismissInsurance, vObligatoryQuote DOUBLE DEFAULT 0;
 
 	SELECT	cId
 	INTO	vPeriod
@@ -41,6 +43,8 @@ BEGIN
 	SET vOvertimeAmount = fGetOvertimeAmount(vBook);
 	SET vLimitTaxableForecast = fGetLimitTaxableForecast(vBook);
 	SET vLimitTaxableDismissInsurance = fGetLimitTaxableDismissInsurance(vBook);
+	SET vObligatoryQuote = fGetObligatoryQuote(vBook);
+	
 		
 	UPDATE	remcon.tBookAssets 
 	SET		cGratificationAmount = vGratificationAmount,
@@ -50,7 +54,8 @@ BEGIN
 
 	UPDATE	remcon.tBookDiscounts
 	SET		cLimitTaxableForecast = vLimitTaxableForecast,
-			cLimitTaxableDismissInsurance = vLimitTaxableDismissInsurance
+			cLimitTaxableDismissInsurance = vLimitTaxableDismissInsurance,
+			cObligatoryQuote = vObligatoryQuote
 	WHERE	cBook = vBook;
 
 	UPDATE	remcon.tBook 
@@ -103,7 +108,9 @@ BEGIN
 	INTO	vHorary, vSalaryRoot, vGratificationType, vPFM, vHealth, vUnemploymentInsurance
 	FROM	remcon.tAgreement
 	WHERE	cEmployee = pEmployee;
-
+	
+	SET vPFM = fGetPFMForBook(vPFM, pPeriod);
+	
 	IF (vOut != 0) THEN
 		UPDATE	remcon.tBook
 		SET		cPeriod = pPeriod,
@@ -120,7 +127,7 @@ BEGIN
 		
 		UPDATE	remcon.tBookDiscounts
 		SET		cLimitTaxableForecast = 0,
-				cPFM = vPFM,
+				cPFMHistory = vPFM,
 				cHealth = vHealth,
 				cUnemploymentInsurance = vUnemploymentInsurance
 		WHERE	cBook = vOut;
@@ -133,12 +140,34 @@ BEGIN
 		INSERT INTO remcon.tBookAssets(cBook, cGratificationType)
 		VALUES(vOut, vGratificationType);
 		
-		INSERT INTO remcon.tBookDiscounts(cBook, cLimitTaxableForecast, cPFM, cHealth, cUnemploymentInsurance)
+		INSERT INTO remcon.tBookDiscounts(cBook, cLimitTaxableForecast, cPFMHistory, cHealth, cUnemploymentInsurance)
 		VALUES(vOut, 0, vPFM, vHealth, vUnemploymentInsurance);
 	END IF;
 
 	RETURN vOut;
 END$$
+
+/************************/
+CREATE FUNCTION remcon.fGetPFMForBook(pPFM BIGINT, pPeriod BIGINT) RETURNS BIGINT
+BEGIN
+	DECLARE vOut BIGINT DEFAULT 0;
+	DECLARE vKey VARCHAR(2) DEFAULT ' ';
+
+	SELECT 	cKey
+	INTO	vKey 
+	FROM	remcon.tPFM
+	WHERE	cId = pPFM;
+
+	SELECT 	cId
+	INTO	vOut 
+	FROM	remcon.tPFMHistory
+	WHERE	cKey = vKey AND cPeriod <= pPeriod
+	ORDER BY cId DESC
+	LIMIT 0, 1;
+	
+	RETURN vOut;
+END$$
+
 
 /************************/
 CREATE PROCEDURE remcon.pSaveOvertime(IN pBook BIGINT, IN pEmployee BIGINT, IN pPeriod BIGINT)
@@ -272,6 +301,26 @@ BEGIN
 		SET vOut = vTotalIncomeTaxable;
 	END IF;
 		
+	RETURN vOut;
+END$$
+
+CREATE FUNCTION remcon.fGetObligatoryQuote(pBook BIGINT) RETURNS DOUBLE
+BEGIN
+/**
+ SI(AFP=Cuprum		;TopeImponiblePrevicional*11.48;
+ SI(AFP=Habitat		;TopeImponiblePrevicional*11.36;
+ SI(AFP=Planvital	;TopeImponiblePrevicional*12.36;
+ SI(AFP=Provida		;TopeImponiblePrevicional*11.54;
+ SI(AFP=IngCapital	;TopeImponiblePrevicional*11.44;
+ SI(AFP=Jubilado	;TopeImponiblePrevicional*0;
+ SI(AFP=INP(EMPART)	;TopeImponiblePrevicional*21.84;
+ SI(AFP=INP(Ex-SSS)	;TopeImponiblePrevicional*18.84;0))))))))
+*/
+	DECLARE vOut DOUBLE DEFAULT 0;
+	
+	
+	
+	
 	RETURN vOut;
 END$$
 
