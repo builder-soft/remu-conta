@@ -1,4 +1,3 @@
-DROP PROCEDURE if exists remcon.pGetProfileList;
 DROP PROCEDURE if exists remcon.pListProfile;
 DELIMITER $$
 

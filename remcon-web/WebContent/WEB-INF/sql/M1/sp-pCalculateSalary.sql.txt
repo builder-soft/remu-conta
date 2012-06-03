@@ -32,7 +32,8 @@ BEGIN
 	
 	CALL remcon.pSaveOvertime(vBook, pEmployee, vPeriod);
 	
-	SET vLimitGratification = fGetLimitGratification(vBook);
+	SET	vLimitGratification = fGetLimitGratification(vBook);
+	
 	UPDATE	remcon.tPeriod 
 	SET		cLimitGratification = vLimitGratification 
 	WHERE	cId = vPeriod;
@@ -43,9 +44,7 @@ BEGIN
 	SET vOvertimeAmount = fGetOvertimeAmount(vBook);
 	SET vLimitTaxableForecast = fGetLimitTaxableForecast(vBook);
 	SET vLimitTaxableDismissInsurance = fGetLimitTaxableDismissInsurance(vBook);
-	SET vObligatoryQuote = fGetObligatoryQuote(vBook);
 	
-		
 	UPDATE	remcon.tBookAssets 
 	SET		cGratificationAmount = vGratificationAmount,
 			cTotalIncomeTaxable = vTotalIncomeTaxable,
@@ -61,6 +60,13 @@ BEGIN
 	UPDATE	remcon.tBook 
 	SET		cSalaryReceived = vSalaryReceived 
 	WHERE	cId = vBook;
+
+	SET vObligatoryQuote = remcon.fGetObligatoryQuote(vBook);	
+
+	UPDATE	remcon.tBookDiscounts
+	SET		cObligatoryQuote = vObligatoryQuote
+	WHERE	cBook = vBook;
+
 	
 END$$
 
@@ -167,7 +173,6 @@ BEGIN
 	
 	RETURN vOut;
 END$$
-
 
 /************************/
 CREATE PROCEDURE remcon.pSaveOvertime(IN pBook BIGINT, IN pEmployee BIGINT, IN pPeriod BIGINT)
@@ -307,19 +312,29 @@ END$$
 CREATE FUNCTION remcon.fGetObligatoryQuote(pBook BIGINT) RETURNS DOUBLE
 BEGIN
 /**
- SI(AFP=Cuprum		;TopeImponiblePrevicional*11.48;
- SI(AFP=Habitat		;TopeImponiblePrevicional*11.36;
- SI(AFP=Planvital	;TopeImponiblePrevicional*12.36;
- SI(AFP=Provida		;TopeImponiblePrevicional*11.54;
- SI(AFP=IngCapital	;TopeImponiblePrevicional*11.44;
- SI(AFP=Jubilado	;TopeImponiblePrevicional*0;
- SI(AFP=INP(EMPART)	;TopeImponiblePrevicional*21.84;
- SI(AFP=INP(Ex-SSS)	;TopeImponiblePrevicional*18.84;0))))))))
+ SI(AFP=Cuprum		;cLimitTaxableForecast*11.48;
+ SI(AFP=Habitat		;cLimitTaxableForecast*11.36;
+ SI(AFP=Planvital	;cLimitTaxableForecast*12.36;
+ SI(AFP=Provida		;cLimitTaxableForecast*11.54;
+ SI(AFP=IngCapital	;cLimitTaxableForecast*11.44;
+ SI(AFP=Jubilado	;cLimitTaxableForecast*0;
+ SI(AFP=INP(EMPART)	;cLimitTaxableForecast*21.84;
+ SI(AFP=INP(Ex-SSS)	;cLimitTaxableForecast*18.84;0))))))))
 */
-	DECLARE vOut DOUBLE DEFAULT 0;
+	DECLARE vOut, vLimitTaxableForecast, vFactor DOUBLE DEFAULT 0;
+	DECLARE vPFMHistory BIGINT DEFAULT 0;
 	
+	SELECT	cLimitTaxableForecast, cPFMHistory
+	INTO	vLimitTaxableForecast, vPFMHistory
+	FROM	remcon.vBook
+	WHERE	cId = pBook;
+		
+	SELECT	cFactor
+	INTO	vFactor
+	FROM	remcon.tPFMHistory
+	WHERE	cId = vPFMHistory;
 	
-	
+	SET	vOut = vFactor * vLimitTaxableForecast;
 	
 	RETURN vOut;
 END$$

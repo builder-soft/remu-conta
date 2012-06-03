@@ -1,5 +1,4 @@
 DROP PROCEDURE if exists remcon.pListAPV;
-DROP PROCEDURE if exists remcon.pGetAPVList;
 DELIMITER $$
 
 CREATE PROCEDURE remcon.pListAPV()

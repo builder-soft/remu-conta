@@ -49,22 +49,6 @@ public class PayMode extends AbstractServletUtil {
 				response);
 	}
 
-	/**
-	 * <code>
-	private Account2 getAccount(Connection conn, BSBeanUtilsSP bu,
-			Long employeeId) {
-		Account2 account = (Account2) bu.get(conn, new Account2(),
-				"pListAccountsForEmployeeAndType2",
-				array2List(employeeId, "BANK"));
-		if (account == null) {
-			account = new Account2();
-			account.setNumber("");
-		}
-		return account;
-	}
-	</code>
-	 */
-
 	private Employee getEmployee(Connection conn, BSBeanUtilsSP bu, Long id) {
 		Employee out = new Employee();
 		out.setId(id);

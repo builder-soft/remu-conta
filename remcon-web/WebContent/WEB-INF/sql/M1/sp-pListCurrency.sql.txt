@@ -1,4 +1,3 @@
-DROP PROCEDURE if exists remcon.pGetCurrencyList;
 DROP PROCEDURE if exists remcon.pListCurrency;
 DELIMITER $$
 

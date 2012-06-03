@@ -52,25 +52,6 @@ public class SavePayMode extends AbstractServletUtil {
 
 	}
 
-	/**<code>
-	private Account2 getAccount(Connection conn, BSBeanUtilsSP bu,
-			Long employeeId) {
-		Account2 account = (Account2) bu.get(conn, new Account2(),
-				"pListAccountsForEmployeeAndType2",
-				array2List(employeeId, "BANK"));
-
-		Account2 out = null;
-		if (account == null) {
-			out = new Account2();
-//			out.setEmployee(employeeId);
-		} else {
-			out = account;
-		}
-
-		return out;
-	}
-	</code>*/
-
 	private Agreement getAgreement(Connection conn, Long idEmployee) {
 		AgreementService agreementService = new AgreementServiceImpl();
 		Agreement out = agreementService.getAgreementByEmployee(conn,

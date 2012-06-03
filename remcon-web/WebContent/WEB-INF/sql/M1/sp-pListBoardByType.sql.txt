@@ -1,5 +1,4 @@
 DROP PROCEDURE if exists remcon.pListBoardByType;
-DROP PROCEDURE if exists remcon.pGetTboardListByType;
 DELIMITER $$
 
 CREATE PROCEDURE remcon.pListBoardByType(IN pType VARCHAR(15))

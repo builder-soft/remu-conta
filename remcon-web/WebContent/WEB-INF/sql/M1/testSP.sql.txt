@@ -29,7 +29,7 @@ SELECT	a.cId AS cId,
 		b.cB09,
 		b.cB10,
 		b.cExtraPay,
-		b.cTotalIncomeTaxable,				/* Total Haberes Imponibles * /
+		b.cTotalIncomeTaxable,				/* Total Haberes Imponibles */
 		c.cLimitTaxableForecast,			/* Tope Imponible Previsional */
 		c.cLimitTaxableDismissInsurance,	/* Tope Imponible Seguro Cesantia - Parámetro del mes, es un valor fijo */
 		
@@ -51,7 +51,7 @@ SELECT	a.cId AS cId,
 		b.cVoluntaryindenmization,
 		c.cId AS cDiscountsId,
 		c.cPFMHistory,
-		c.cObligatoryQuote,
+		c.cObligatoryQuote,					/* Monto que se le paga a la AFP de manera obligatoria */
 		c.cAVPAmount,
 		c.cAccount2,
 		c.cHealth,

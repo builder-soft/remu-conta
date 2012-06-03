@@ -1,4 +1,3 @@
-DROP PROCEDURE if exists remcon.pGetHoraryList;
 DROP PROCEDURE if exists remcon.pListHorary;
 DELIMITER $$
 
