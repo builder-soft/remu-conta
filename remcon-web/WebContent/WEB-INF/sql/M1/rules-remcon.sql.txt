@@ -144,17 +144,16 @@ ADD INDEX index_user (cUser ASC),
 ADD CONSTRAINT r_UserRolToRol FOREIGN KEY (cRol) REFERENCES remcon.tRol(cId);/*,
 ADD CONSTRAINT r_RolOptionToOption FOREIGN KEY (cOption) REFERENCES remcon.tOption(cId);*/
 
-/* PFM 
-ALTER TABLE remcon.tPFMAttribute
-ADD INDEX PFMAttribute_index_Board (cPFM ASC),
-ADD CONSTRAINT PFMAttributeToBoard FOREIGN KEY (cPFM) REFERENCES remcon.tBoard(cId);
-*/
+/* PFM History */
+ALTER TABLE remcon.tPFMHistory
+ADD INDEX PFMHistory_index_Period (cPeriod ASC),
+ADD CONSTRAINT PFMHistoryToPeriod FOREIGN KEY (cPeriod) REFERENCES remcon.tPeriod(cId);
 
-/* HEALTH  
-ALTER TABLE remcon.tHealthAttribute
-ADD INDEX HealthAttribute_index_Board (cHealth ASC),
-ADD CONSTRAINT HealthAttributeToBoard FOREIGN KEY (cHealth) REFERENCES remcon.tBoard(cId);
-*/
+
+/* Period */   
+ALTER TABLE remcon.tPeriod
+ADD INDEX Period_index_PeriodStatus (cPeriodStatus ASC),
+ADD CONSTRAINT PeriodStatusToPeriod FOREIGN KEY (cPeriodStatus) REFERENCES remcon.tPeriodStatus(cId);
 
 /* FILE */
 ALTER TABLE remcon.tFile
@@ -193,8 +192,8 @@ ADD INDEX tBookDiscounts_index_Book (cBook ASC),
 ADD CONSTRAINT tBookDiscountsToBook FOREIGN KEY (cBook) REFERENCES remcon.tBook(cId);
 
 ALTER TABLE remcon.tBookDiscounts
-ADD INDEX BookDiscounts_index_PFM (cPFM ASC),
-ADD CONSTRAINT tBookDiscountsToPFM FOREIGN KEY (cPFM) REFERENCES remcon.tPFM(cId);
+ADD INDEX BookDiscounts_index_PFM (cPFMHistory ASC),
+ADD CONSTRAINT tBookDiscountsToPFMHistory FOREIGN KEY (cPFMHistory) REFERENCES remcon.tPFMHistory(cId);
 
 ALTER TABLE remcon.tBookDiscounts
 ADD INDEX BookDiscounts_index_Health (cHealth ASC),
@@ -217,10 +216,40 @@ ADD INDEX fk_tEnterpriseConfig_tenterprise (cEnterprise ASC),
 ADD CONSTRAINT tEnterpriseConfigToEnterprise FOREIGN KEY (cEnterprise) REFERENCES remcon.tEnterprise(cId);
 
 /* TRIGERS */
+
+DROP TRIGGER IF EXISTS remcon.create_record;
+DROP TRIGGER IF EXISTS remcon.InsertOnEnterprise;
+DROP TRIGGER IF EXISTS remcon.InsertOnPFM;
+DROP TRIGGER IF EXISTS remcon.UpdateOnPFM;
+ 
 DELIMITER $$
-CREATE TRIGGER create_record AFTER INSERT ON tEnterprise
+
+CREATE TRIGGER remcon.InsertOnEnterprise AFTER INSERT ON tEnterprise
 FOR EACH ROW
 BEGIN
-INSERT INTO tEnterpriseConfig (cEnterprise) VALUES (NEW.cId);
+	INSERT INTO tEnterpriseConfig (cEnterprise) 
+	VALUES (NEW.cId);
 END$$
+
+CREATE TRIGGER remcon.InsertOnPFM AFTER INSERT ON tPFM
+FOR EACH ROW
+BEGIN
+	DECLARE vPeriod BIGINT DEFAULT 0;
+	SET vPeriod = fGetOpenedPeriod();
+ 
+	INSERT INTO tPFMHistory (cPeriod, cKey, cName, cFactor, cSIS) 
+	VALUES (vPeriod, NEW.cKey, NEW.cName, NEW.cFactor, NEW.cSIS);
+END$$
+
+CREATE TRIGGER remcon.UpdateOnPFM AFTER UPDATE ON tPFM
+FOR EACH ROW
+BEGIN
+	DECLARE vPeriod BIGINT DEFAULT 0;
+	SET vPeriod = fGetOpenedPeriod();
+ 
+	INSERT INTO tPFMHistory (cPeriod, cKey, cName, cFactor, cSIS) 
+	VALUES (vPeriod, NEW.cKey, NEW.cName, NEW.cFactor, NEW.cSIS);
+END$$
+
+
 DELIMITER ;

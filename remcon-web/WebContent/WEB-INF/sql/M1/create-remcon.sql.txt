@@ -291,7 +291,7 @@ create table tProfile (
 ) ENGINE=InnoDB;
 
 /*
-Administadora de fondos de pension, en ingles se escribe como "Pension Fund Manager" (PFM), 
+Administadora de fondos de pension(AFP), en ingles se escribe como "Pension Fund Manager" (PFM), 
 de aqui el nombre de la tabla. 
 */
 create table tPFM(
@@ -302,6 +302,18 @@ create table tPFM(
 	cSIS			DOUBLE NOT NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
+
+create table tPFMHistory(
+	cId				BIGINT(20) NOT NULL auto_increment,
+	cPeriod			BIGINT(20) NOT NULL DEFAULT '0',
+	cKey			VARCHAR(2) NOT NULL,
+	cName			VARCHAR(50) NOT NULL,
+	cFactor			DOUBLE NOT NULL,
+	cSIS			DOUBLE NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+
 
 create table tHealth (
 	cId				BIGINT(20) NOT NULL auto_increment,
@@ -371,12 +383,24 @@ los parámetros que aplican en forma general.
 create table tPeriod(
 	cId					BIGINT(20) NOT NULL auto_increment,
 	cDate				DATE 	NOT NULL,
+	cPeriodStatus		BIGINT(20) NOT NULL DEFAULT '1',
 	cUF					DOUBLE	NOT NULL,
 	cOvertimeFactor		DOUBLE COMMENT 'Para calcular las horas extras, puede ser 0.07777 o 0.0333',
 	cMinSalary			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Ingresos Mínimos Mensuales', 
 	cLimitGratification	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Limite gratificacion - 4.75 Ingresos mínimos',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
+
+/*
+La tabla tPeriodStatus es para indicar si el período está cerrado o abierto, si está cerrado, no se 
+pueden cambiar los valores de la tabla.
+*/
+create table tPeriodStatus(
+	cId			BIGINT(20) NOT NULL auto_increment,
+	cName		VARCHAR(50) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
 
 /*
 Esta tabla tiene todos los empleados agrupados por período.
@@ -453,8 +477,8 @@ nota este parametro no cambia todos los meses. No se imprime en la liquidacion p
 create table tBookDiscounts(
 	cId								BIGINT(20) NOT NULL auto_increment,
 	cBook							BIGINT(20) NOT NULL,
-	cPFM							BIGINT(20) NOT NULL COMMENT 'Código de AFP',
-	cObligatoryInsurance			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Seguro Obligatorio - Es un % ',
+	cPFMHistory						BIGINT(20) NOT NULL COMMENT 'Código de AFP',
+	cObligatoryQuote				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotizacion Obligatoria - Es un % multiplicado por el TopeImponiblePrevicional',
 	cAVPAmount						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto APV - Suma de todos los montos en APV, algunos traducir a pesos desde UF',
 	cAccount2						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cuenta 2, Ahorro AFP - Se saca de la tabla tAccount',
 	cLimitTaxableForecast			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Previsional - Parámetro del mes, 60 UFs',

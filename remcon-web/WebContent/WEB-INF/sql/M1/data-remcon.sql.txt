@@ -27,7 +27,7 @@ INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CSV_SEPARATOR', 
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('RECORDS_PER_PAGE', 'Registros por p&aacute;gina', '15', @integerId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('BASE_SALARY', 'Sueldo Base', '185000', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('OVERTIME_FACTOR', 'Factor para cálculo de horas extras', '0.0777', @doubleId);
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('GRATIFICATION_FACTOR', 'Factor grtificacion', '4.75', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('GRATIFICATION_FACTOR', 'Factor grtificacion x sueldos minímos', '4.75', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_IPS', 'Tope imponible para afiliados al IPS (ex INP) en UF', '60', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_INSURANCE', 'Tope imponible seguro de cesantia en UF', '90', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CURRENT_UF', 'Valor actual de la UF', '22000', @doubleId);
@@ -90,13 +90,6 @@ INSERT INTO tCurrency(cKey, cName) VALUES('CLP', 'Pesos Chilenos');
 SET @clp = LAST_INSERT_ID();
 
 /* PFM */
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('33', 'Capital', '1.44', '1.49');
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('3', 'Cuprum', '1.48', '1.49');
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('5', 'Habitat', '1.36', '1.49');
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('34', 'Modelo', '1.14', '1.49');
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('29', 'Planvital', '2.36', '1.49');
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('8', 'Provida', '1.54', '1.49');
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('0', 'Sin AFP', '0', '0');
 
 /* Isapres */
 INSERT INTO tHealth(cKey, cName, cFactor) VALUES('7', 'Fonasa', 7);
@@ -937,6 +930,30 @@ INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ZAF','South Africa');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ZMB','Zambia');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ZWE','Zimbabwe');
 */
+
+INSERT INTO tPeriodStatus(cName) VALUES ('Cerrado');
+INSERT INTO tPeriodStatus(cName) VALUES ('Abierto');
+
+
+/** DATOS DE PRUEBA */
+
+call remcon.pSavePeriod('2012-05-01', @Period1);
+call remcon.pSavePeriod('2012-06-01', @Period2);
+call remcon.pOpenPeriod(@Period1);
+
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('33', 'Capital', 1.44, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('3', 'Cuprum', 1.48, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('5', 'Habitat', 1.36, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('34', 'Modelo', 1.14, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('29', 'Planvital', 2.36, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('8', 'Provida', 1.54, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('0', 'Sin AFP/Jubilado', 0, 0);
+
+call remcon.pOpenPeriod(@Period2);
+
+UPDATE	remcon.tPFM 
+SET		cFactor=1.70
+WHERE	cId = 3; 
 
 INSERT INTO tEnterprise(cRut, cName, cLegalRep, cRutLegalRep, cCategory, cAddress, cComuna, cPhone, cMutual, cMutualFactor, cCompensationFund)
 VALUES('1-9', 'Buildersoft Ltda.', 'Juan Perez', '1-9', 'Servicios profesionales', 'Avenida X, numero 88', 3, '2345678', 1, 0.5, 1);

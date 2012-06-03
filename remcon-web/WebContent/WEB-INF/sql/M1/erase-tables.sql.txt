@@ -10,7 +10,9 @@ DROP TABLE IF EXISTS remcon.tBookDiscounts;
 DROP TABLE IF EXISTS remcon.tBookAssets;
 DROP TABLE IF EXISTS remcon.tBook;
 DROP TABLE IF EXISTS remcon.tOvertime;
+DROP TABLE IF EXISTS remcon.tPFMHistory;
 DROP TABLE IF EXISTS remcon.tPeriod;
+DROP TABLE IF EXISTS remcon.tPeriodStatus;
 
 drop table if exists remcon.tEmployee;
 

@@ -2,7 +2,12 @@ USE bsframework;
 
 /**
 * http://www.mysqltutorial.org/mysql-stored-procedure-tutorial.aspx
-* 
+*
+* Lanzar error desde MySQL
+* https://blogs.oracle.com/svetasmirnova/entry/how_to_raise_error_in
+* http://dev.mysql.com/doc/refman/5.5/en/signal.html
+* http://illya-keeplearning.blogspot.com/2009/03/raise-exception-error-in-mysql-50.html
+*
 * http://dev.mysql.com/doc/refman/5.5/en/connector-j-reference-type-conversions.html
 * Los tipos de datos que vamos a usar...
 * MYSQL					Java

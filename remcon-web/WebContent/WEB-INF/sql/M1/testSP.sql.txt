@@ -50,8 +50,8 @@ SELECT	a.cId AS cId,
 		b.cProportionalHoliday,
 		b.cVoluntaryindenmization,
 		c.cId AS cDiscountsId,
-		c.cPFM,
-		c.cObligatoryInsurance,
+		c.cPFMHistory,
+		c.cObligatoryQuote,
 		c.cAVPAmount,
 		c.cAccount2,
 		c.cHealth,
@@ -89,16 +89,13 @@ LEFT JOIN remcon.tPeriod		AS d ON a.cPeriod = d.cId
 LEFT JOIN remcon.tEmployee		AS e ON a.cEmployee = e.cId
 ORDER BY a.cId;
 
-
-call remcon.pSavePeriod('2012-05-01', @Period);
-
 delete from remcon.tOvertime;
 insert into remcon.tOvertime(cEmployee, cPeriod, cDate, cHours)
 VALUES(1, 1, '2012-05-15', 4);
 
 
-call remcon.pSaveEmployeeBook(1,'2012-05-01', 25);
-call remcon.pSaveEmployeeBook(2,'2012-05-01', 30);
+call remcon.pCalculateSalary(1,'2012-06-01', 25);
+call remcon.pCalculateSalary(2,'2012-05-01', 30);
 
 
 /*
