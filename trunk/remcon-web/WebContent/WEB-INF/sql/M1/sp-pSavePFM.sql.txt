@@ -1,4 +1,3 @@
-DROP PROCEDURE if exists remcon.pSetPFMSave;
 DROP PROCEDURE if exists remcon.pSavePFM;
 DELIMITER $$
 

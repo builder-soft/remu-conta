@@ -1,5 +1,3 @@
-DROP PROCEDURE if exists remcon.pDelAccount;
-DROP PROCEDURE if exists remcon.pDelAccountsByEmployeeAndType;
 DROP PROCEDURE if exists remcon.pDelAgreementAPVByEmployee;
 DELIMITER $$
 

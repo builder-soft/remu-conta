@@ -1,4 +1,3 @@
-DROP PROCEDURE if exists remcon.pGetAgreement;
 DROP PROCEDURE if exists remcon.pGetAgreementByEmployee;
 DELIMITER $$
 

@@ -1,0 +1,30 @@
+DROP PROCEDURE if exists remcon.pGetPrefiredFileByPeriod;
+DROP PROCEDURE if exists remcon.pDelAccount;
+DROP PROCEDURE if exists remcon.pDelAccountsByEmployeeAndType;
+DROP PROCEDURE if exists remcon.pGetAgreement;
+DROP PROCEDURE if exists bsframework.getUserList;
+DROP PROCEDURE if exists bsframework.pGetUserList;
+DROP PROCEDURE if exists remcon.pGetAccountsForEmployee;
+DROP PROCEDURE if exists remcon.pGetAccountsForEmployeeAndTypeBoard;
+DROP PROCEDURE if exists remcon.pListAccountsForEmployeeAndType;
+DROP PROCEDURE if exists remcon.pListAccountsForEmployeeAndType2;
+DROP PROCEDURE if exists remcon.pGetAPVList;
+DROP PROCEDURE if exists remcon.pGetTboardListByType;
+DROP PROCEDURE if exists remcon.pGetContractTypeList;
+DROP PROCEDURE if exists remcon.pGetCurrencyList;
+DROP PROCEDURE if exists bsframework.getDomainAttribute;
+DROP PROCEDURE if exists bsframework.pGetDomainAttribute;
+DROP PROCEDURE if exists bsframework.getDomainsForUser;
+DROP PROCEDURE if exists bsframework.pGetDomainsForUser;
+DROP PROCEDURE if exists remcon.pGetGratificationTypeList;
+DROP PROCEDURE if exists remcon.pGetHoraryList;
+DROP PROCEDURE if exists remcon.pGetProfileList;
+DROP PROCEDURE if exists remcon.pSetAccountSave;
+DROP PROCEDURE if exists remcon.pSaveAccount;
+DROP PROCEDURE if exists remcon.pSetPFMSave;
+DROP PROCEDURE if exists bsframework.setUserSave;
+DROP PROCEDURE if exists bsframework.pSetUserSave;
+
+
+
+

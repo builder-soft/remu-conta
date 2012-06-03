@@ -1,4 +1,3 @@
-DROP PROCEDURE if exists remcon.pGetContractTypeList;
 DROP PROCEDURE if exists remcon.pListContractType;
 DELIMITER $$
 

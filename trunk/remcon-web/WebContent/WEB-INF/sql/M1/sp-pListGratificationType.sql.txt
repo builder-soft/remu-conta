@@ -1,4 +1,3 @@
-DROP PROCEDURE if exists remcon.pGetGratificationTypeList;
 DROP PROCEDURE if exists remcon.pListGratificationType;
 DELIMITER $$
 

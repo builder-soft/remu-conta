@@ -478,7 +478,7 @@ create table tBookDiscounts(
 	cId								BIGINT(20) NOT NULL auto_increment,
 	cBook							BIGINT(20) NOT NULL,
 	cPFMHistory						BIGINT(20) NOT NULL COMMENT 'Código de AFP',
-	cObligatoryQuote				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotizacion Obligatoria - Es un % multiplicado por el TopeImponiblePrevicional',
+	cObligatoryQuote				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotizacion Obligatoria - Es un % multiplicado por el cLimitTaxableForecast',
 	cAVPAmount						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto APV - Suma de todos los montos en APV, algunos traducir a pesos desde UF',
 	cAccount2						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cuenta 2, Ahorro AFP - Se saca de la tabla tAccount',
 	cLimitTaxableForecast			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Previsional - Parámetro del mes, 60 UFs',
