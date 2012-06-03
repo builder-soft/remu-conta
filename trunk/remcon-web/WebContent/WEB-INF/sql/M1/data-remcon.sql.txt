@@ -26,11 +26,11 @@ INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_DECIMAL',
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CSV_SEPARATOR', 'Separador de archivos csv', ';', @stringId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('RECORDS_PER_PAGE', 'Registros por p&aacute;gina', '15', @integerId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('BASE_SALARY', 'Sueldo Base', '185000', @doubleId);
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('OVERTIME_FACTOR', 'Factor para cálculo de horas extras', '0.0777', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('OVERTIME_FACTOR', 'Factor para cálculo de horas extras', '0.0077777', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('GRATIFICATION_FACTOR', 'Factor grtificacion x sueldos minímos', '4.75', @doubleId);
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_IPS', 'Tope imponible para afiliados al IPS (ex INP) en UF', '60', @doubleId);
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_INSURANCE', 'Tope imponible seguro de cesantia en UF', '90', @doubleId);
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CURRENT_UF', 'Valor actual de la UF', '22000', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_IPS', 'Tope imponible para afiliados al IPS (ex INP) en UFs', '64.7', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_INSURANCE', 'Tope imponible seguro de cesantia en UF', '97.1', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CURRENT_UF', 'Valor actual de la UF', '21031.5', @doubleId);
 
 /*
 SET @date = CONCAT(YEAR(CURDATE()), '-', MONTH(CURDATE()), '-', '01');
@@ -941,19 +941,19 @@ call remcon.pSavePeriod('2012-05-01', @Period1);
 call remcon.pSavePeriod('2012-06-01', @Period2);
 call remcon.pOpenPeriod(@Period1);
 
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('33', 'Capital', 1.44, 1.49);
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('3', 'Cuprum', 1.48, 1.49);
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('5', 'Habitat', 1.36, 1.49);
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('34', 'Modelo', 1.14, 1.49);
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('29', 'Planvital', 2.36, 1.49);
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('8', 'Provida', 1.54, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('33', 'Capital', 11.44, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('3', 'Cuprum', 11.48, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('5', 'Habitat', 11.36, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('34', 'Modelo', 11.14, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('29', 'Planvital', 12.36, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('8', 'Provida', 11.54, 1.49);
 INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('0', 'Sin AFP/Jubilado', 0, 0);
 
 call remcon.pOpenPeriod(@Period2);
 
 UPDATE	remcon.tPFM 
-SET		cFactor=1.70
-WHERE	cId = 3; 
+SET		cFactor=1.41
+WHERE	cId = 3;
 
 INSERT INTO tEnterprise(cRut, cName, cLegalRep, cRutLegalRep, cCategory, cAddress, cComuna, cPhone, cMutual, cMutualFactor, cCompensationFund)
 VALUES('1-9', 'Buildersoft Ltda.', 'Juan Perez', '1-9', 'Servicios profesionales', 'Avenida X, numero 88', 3, '2345678', 1, 0.5, 1);
@@ -973,7 +973,7 @@ VALUES(					'10809246-7',	'Pato',	'Aranguiz',	'Torres',	'1966-08-28',	'Fray Cami
 SET @employeeId = LAST_INSERT_ID();
 
 INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot)
-VALUES(					@employeeId,	2,				'2009-12-01',	'2013-01-01',	1,			3,		1,			2,					3,				580,			395,		1,			185000);
+VALUES(					@employeeId,	2,				'2009-12-01',	'2013-01-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000);
 SET @agreementId = LAST_INSERT_ID();
 
 INSERT INTO tR_AgreementAPV(cAgreement, cAPV, cCurrency, cAmount)
@@ -983,4 +983,4 @@ INSERT INTO tEmployee(cRut,				cName,		cLastName1,	cLastName2,	cBirthDate,		cAdd
 VALUES(					'12870668-2',	'Claudio',	'Moscoso',	'Howard',	'1966-08-28',	'xxx',		2,			3,			1,			@single,		'', 	'',		'');
 SET @employeeId = LAST_INSERT_ID();
 INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot)
-VALUES(					@employeeId,	1,				'2009-12-01',	'2013-01-01',	1,			3,		1,			2,					3,				580,			395,		1,			185000);
+VALUES(					@employeeId,	1,				'2009-12-01',	'2013-01-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000);
