@@ -24,7 +24,11 @@ DROP PROCEDURE if exists remcon.pSaveAccount;
 DROP PROCEDURE if exists remcon.pSetPFMSave;
 DROP PROCEDURE if exists bsframework.setUserSave;
 DROP PROCEDURE if exists bsframework.pSetUserSave;
-
-
-
-
+DROP PROCEDURE IF EXISTS remcon.getGratificationAmount;
+DROP FUNCTION IF EXISTS remcon.fSalaryReceived;
+DROP FUNCTION IF EXISTS remcon.fGetGratificationAmount;
+DROP FUNCTION IF EXISTS remcon.fGetOvertimeAmount;
+DROP FUNCTION IF EXISTS remcon.fTotalIncomeTaxable;
+DROP FUNCTION IF EXISTS remcon.fGetLimitTaxableForecast;
+DROP FUNCTION IF EXISTS remcon.fGetLimitTaxableDismissInsurance;
+DROP FUNCTION IF EXISTS remcon.fGetObligatoryQuote;

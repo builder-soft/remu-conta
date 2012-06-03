@@ -381,13 +381,16 @@ La tabla tPeriod sirve para identificar los períodos para los cuales existe cá
 los parámetros que aplican en forma general.
 */
 create table tPeriod(
-	cId					BIGINT(20) NOT NULL auto_increment,
-	cDate				DATE 	NOT NULL,
-	cPeriodStatus		BIGINT(20) NOT NULL DEFAULT '1',
-	cUF					DOUBLE	NOT NULL,
-	cOvertimeFactor		DOUBLE COMMENT 'Para calcular las horas extras, puede ser 0.07777 o 0.0333',
-	cMinSalary			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Ingresos Mínimos Mensuales', 
-	cLimitGratification	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Limite gratificacion - 4.75 Ingresos mínimos',
+	cId						BIGINT(20) NOT NULL auto_increment,
+	cDate					DATE NOT NULL COMMENT 'Siempre es el día 1 del mes',
+	cPeriodStatus			BIGINT(20) NOT NULL DEFAULT '1' COMMENT 'Mirar tabla tPeriodStatus',
+	cUF						DOUBLE NOT NULL COMMENT 'Valor de la UF para el período',
+	cOvertimeFactor			DOUBLE NOT NULL COMMENT 'Para calcular las horas extras, puede ser 0.07777 o 0.0333',
+	cMinSalary				DOUBLE NOT NULL COMMENT 'Ingreso Mínimo Mensual', 
+	cLimitGratification		DOUBLE NOT NULL COMMENT 'Limite gratificacion - 4.75 Ingresos mínimos',
+	cGratificationFactor	DOUBLE NOT NULL COMMENT 'Factor de cálculo de gratificacion',
+	cLimitIPS				DOUBLE NOT NULL COMMENT 'Tope imponible para afiliados al IPS (ex INP) en UFs',
+	cLimitInsurance			DOUBLE NOT NULL COMMENT 'Tope de seguro de cesantia',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -446,6 +449,7 @@ No se calcula
 	cB10						DOUBLE NOT NULL DEFAULT '0',
 	cExtraPay					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Aguinaldo - Se ingresa por período',
 	cTotalIncomeTaxable			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Total Haberes Imponibles - suma de bonos, gratificacion y sueldo ganado',
+	cIncome						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Renta afecta, ',
 	cFamilyAssignment			INTEGER NOT NULL DEFAULT '0' COMMENT 'Cargas Familiares - tAgreement.CAMPO_NUEVO',
 	cFamilyAssignmentAmount 	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Por Cargas - Calcular',
 	cRetroactiveFamily			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Familiar Retroactivo - Se ingresa por período',

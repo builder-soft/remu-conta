@@ -1,15 +1,19 @@
 DROP PROCEDURE if exists remcon.pCalculateSalary;
 DROP PROCEDURE if exists remcon.pSaveOvertime;
-DROP PROCEDURE IF EXISTS remcon.getGratificationAmount;
-DROP FUNCTION if exists remcon.fGetGratificationAmount;
+
+DROP PROCEDURE if exists remcon.pGratificationAmount;
+
 DROP FUNCTION if exists remcon.fSaveBookForEmployee;
-DROP FUNCTION IF EXISTS remcon.fSalaryReceived;
-DROP FUNCTION IF EXISTS remcon.fTotalIncomeTaxable;
-DROP FUNCTION IF EXISTS remcon.fGetOvertimeAmount;
+DROP PROCEDURE IF EXISTS remcon.pSalaryReceived;
+DROP PROCEDURE IF EXISTS remcon.pTotalIncomeTaxable;
+DROP PROCEDURE IF EXISTS remcon.pOvertimeAmount;
+DROP PROCEDURE IF EXISTS remcon.pLimitTaxableForecast;
+DROP PROCEDURE IF EXISTS remcon.pLimitTaxableDismissInsurance;
+DROP PROCEDURE IF EXISTS remcon.pIncome;
+DROP PROCEDURE IF EXISTS remcon.pObligatoryQuote;
+
+
 DROP FUNCTION IF EXISTS remcon.fGetLimitGratification;
-DROP FUNCTION IF EXISTS remcon.fGetLimitTaxableForecast;
-DROP FUNCTION IF EXISTS remcon.fGetLimitTaxableDismissInsurance;
-DROP FUNCTION IF EXISTS remcon.fGetObligatoryQuote;
 DROP FUNCTION IF EXISTS remcon.fGetPFMForBook;
 
 DELIMITER $$
@@ -18,10 +22,6 @@ DELIMITER $$
 CREATE PROCEDURE remcon.pCalculateSalary(IN pEmployee BIGINT, IN pDate DATE, IN pWorkDays INTEGER)
 BEGIN
 	DECLARE vPeriod, vBook BIGINT DEFAULT 0; 
-	DECLARE vSalaryReceived, vGratificationAmount, 
-			vTotalIncomeTaxable, vOvertimeAmount, 
-			vLimitGratification, vLimitTaxableForecast,
-			vLimitTaxableDismissInsurance, vObligatoryQuote DOUBLE DEFAULT 0;
 
 	SELECT	cId
 	INTO	vPeriod
@@ -32,69 +32,84 @@ BEGIN
 	
 	CALL remcon.pSaveOvertime(vBook, pEmployee, vPeriod);
 	
-	SET	vLimitGratification = fGetLimitGratification(vBook);
-	
+	/*
+	SET		vLimitGratification = fGetLimitGratification(vBook);
 	UPDATE	remcon.tPeriod 
-	SET		cLimitGratification = vLimitGratification 
+	SET		cLimitGratification = fGetLimitGratification(vBook)
 	WHERE	cId = vPeriod;
+	*/
 
-	SET vSalaryReceived = fSalaryReceived(vBook);
-	SET vGratificationAmount = fGetGratificationAmount(vBook);
-	SET vTotalIncomeTaxable = fTotalIncomeTaxable(vBook);
-	SET vOvertimeAmount = fGetOvertimeAmount(vBook);
-	SET vLimitTaxableForecast = fGetLimitTaxableForecast(vBook);
-	SET vLimitTaxableDismissInsurance = fGetLimitTaxableDismissInsurance(vBook);
 	
+/*	SET vSalaryReceived = fSalaryReceived(vBook);*/
+	CALL remcon.pSalaryReceived(vBook);
+	CALL remcon.pGratificationAmount(vBook);
+	
+	CALL remcon.pOvertimeAmount(vBook);
+	CALL remcon.pTotalIncomeTaxable(vBook);
+	
+	CALL remcon.pLimitTaxableForecast(vBook);
+	CALL remcon.pLimitTaxableDismissInsurance(vBook);
+	
+	CALL remcon.pObligatoryQuote(vBook);	
+	
+	CALL remcon.pIncome(vBook);
+
+/*
 	UPDATE	remcon.tBookAssets 
-	SET		cGratificationAmount = vGratificationAmount,
-			cTotalIncomeTaxable = vTotalIncomeTaxable,
-			cOvertimeAmount = vOvertimeAmount
+	SET		cOvertimeAmount = vOvertimeAmount
 	WHERE	cBook = vBook;
+*/
 
-	UPDATE	remcon.tBookDiscounts
-	SET		cLimitTaxableForecast = vLimitTaxableForecast,
-			cLimitTaxableDismissInsurance = vLimitTaxableDismissInsurance,
-			cObligatoryQuote = vObligatoryQuote
-	WHERE	cBook = vBook;
 
+	/*
 	UPDATE	remcon.tBook 
 	SET		cSalaryReceived = vSalaryReceived 
 	WHERE	cId = vBook;
+	
 
 	SET vObligatoryQuote = remcon.fGetObligatoryQuote(vBook);	
 
 	UPDATE	remcon.tBookDiscounts
 	SET		cObligatoryQuote = vObligatoryQuote
 	WHERE	cBook = vBook;
-
+*/
 	
 END$$
 
 /************************/
-CREATE FUNCTION remcon.fTotalIncomeTaxable(pBook BIGINT) RETURNS DOUBLE
+CREATE PROCEDURE remcon.pTotalIncomeTaxable(pBook BIGINT)
 BEGIN
 	DECLARE vOut DOUBLE DEFAULT 0;
 
 	SELECT	cB01 + cB02 + cB03 + cB04 + cB05 + 
 			cB06 + cB07 + cB08 + cB09 + cB10 +
-			cGratificationAmount + cSalaryReceived 
+			cSalaryReceived + cGratificationAmount + cOvertimeAmount 
 	INTO	vOut
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
 
-	RETURN vOut;
+	UPDATE	remcon.tBookAssets 
+	SET		cTotalIncomeTaxable = vOut
+	WHERE	cBook = pBook;
+	
+	
 END$$
 
 /************************/
-CREATE FUNCTION remcon.fSalaryReceived(pBook BIGINT) RETURNS DOUBLE
+CREATE PROCEDURE remcon.pSalaryReceived(pBook BIGINT)
 BEGIN
+	/*
 	DECLARE vOut DOUBLE DEFAULT 0;
 	
-	SELECT	(cSalaryRoot / 30) * cWorkDays INTO vOut
+	SELECT	cSalaryRoot / 30 * cWorkDays
+	INTO	vOut
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
+	*/
+	UPDATE	remcon.tBook 
+	SET		cSalaryReceived = cSalaryRoot / 30 * cWorkDays 
+	WHERE	cId = pBook;
 	
-	RETURN vOut;
 END$$
 
 /************************/
@@ -195,17 +210,17 @@ BEGIN
 END$$
 
 /************************/
-CREATE FUNCTION remcon.fGetGratificationAmount(pBook BIGINT) RETURNS DOUBLE
+CREATE PROCEDURE remcon.pGratificationAmount(pBook BIGINT)
 BEGIN
 	DECLARE vOut, vSalaryReceived, vMinSalary, vOvertimeAmount, vParticipation,
 			vB01, vB02, vB03, vB04, vB05, vB06, vB07, vB08, vB09, vB10,
-			vLimit, vSumGratificaion DOUBLE DEFAULT 0;
+			vLimit, vSumGratificaion, vLimitGratification DOUBLE DEFAULT 0;
 	DECLARE vGratificationType BIGINT DEFAULT 0;
 	
 	SELECT	cGratificationType, cSalaryReceived, cMinSalary, cOvertimeAmount, cParticipation,
-			cB01, cB02, cB03, cB04, cB05, cB06, cB07, cB08, cB09, cB10
+			cB01, cB02, cB03, cB04, cB05, cB06, cB07, cB08, cB09, cB10, cLimitGratification
 	INTO	vGratificationType, vSalaryReceived, vMinSalary, vOvertimeAmount, vParticipation,
-			vB01, vB02, vB03, vB04, vB05, vB06, vB07, vB08, vB09, vB10
+			vB01, vB02, vB03, vB04, vB05, vB06, vB07, vB08, vB09, vB10, vLimitGratification
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
 	 
@@ -213,14 +228,16 @@ BEGIN
 		SET vOut = 0;
 		
 	ELSEIF (vGratificationType = 2) THEN /* Gratificacion : 25% Impo. (Tope 4,75imm/12)*/
-		SET vLimit =  4.75 * vMinSalary;
-		
+	/*
+		SET vLimit = 4.75 * vMinSalary;
+		SET vLimit = cLimitGratification;
+*/		
 		SET vSumGratificaion =	vSalaryReceived + vOvertimeAmount + vParticipation + 
 								vB01 + vB02 + vB03 + vB04 + vB05 + 
 								vB06 + vB07 + vB08 + vB09 + vB10;
 								
-		IF(vSumGratificaion * 0.25 > vLimit) THEN
-			SET vOut = vLimit;
+		IF(vSumGratificaion * 0.25 > vLimitGratification) THEN
+			SET vOut = vLimitGratification;
 		ELSE
 			SET vOut = vSumGratificaion * 0.25;
 
@@ -230,11 +247,14 @@ BEGIN
 		SET vOut = vSalaryReceived * 0.25;
 	END IF;
 	
-	RETURN vOut;
+	UPDATE	remcon.tBookAssets 
+	SET		cGratificationAmount = vOut
+	WHERE	cBook = pBook;
+	
 END$$
 
 /************************/
-CREATE FUNCTION remcon.fGetOvertimeAmount(pBook BIGINT) RETURNS DOUBLE
+CREATE PROCEDURE remcon.pOvertimeAmount(pBook BIGINT) 
 BEGIN
 	DECLARE vOut DOUBLE DEFAULT 0;
 
@@ -244,21 +264,19 @@ BEGIN
 	LEFT JOIN remcon.tPeriod	AS b ON a.cPeriod = b.cId
 	WHERE	a.cId = pBook;
 	
-	RETURN vOut;
+	UPDATE	remcon.tBookAssets 
+	SET		cOvertimeAmount = vOut
+	WHERE	cBook = pBook;
+	
 END$$
 
 /************************/
 CREATE FUNCTION remcon.fGetLimitGratification(pBook BIGINT) RETURNS DOUBLE
 BEGIN
 /*4.75 Ingresos mínimos*/
-	DECLARE vOut, vGratificationFactor DOUBLE DEFAULT 0;
+	DECLARE vOut DOUBLE DEFAULT 0;
 	
-	SELECT	cValue
-	INTO	vGratificationFactor
-	FROM	tParameter
-	WHERE	cKey = 'GRATIFICATION_FACTOR';
-
-	SELECT 	cMinSalary * vGratificationFactor
+	SELECT 	cMinSalary * cGratificationFactor
 	INTO	vOut 
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
@@ -267,35 +285,44 @@ BEGIN
 END$$
 
 /************************/
-CREATE FUNCTION remcon.fGetLimitTaxableForecast(pBook BIGINT) RETURNS DOUBLE
+CREATE PROCEDURE remcon.pLimitTaxableForecast(pBook BIGINT)
 BEGIN
-/*4.75 Ingresos mínimos */
-	DECLARE vOut, vGratificationFactor, vUFs DOUBLE DEFAULT 0;
+/**
+ 	cLimitIPS_CLP = cLimitIPS * UF 
+  	SI(cTotalIncomeTaxable>=cLimitIPS_CLP) THEN
+  		cLimitIPS_CLP
+	ELSE
+		cTotalIncomeTaxable
+	END IF
+* */
+	DECLARE vOut, vLimitIPSasCLP, vTotalIncomeTaxable DOUBLE DEFAULT 0;
 	
-	SELECT	cValue
-	INTO	vUFs
-	FROM	tParameter
-	WHERE	cKey = 'LIMIT_IPS';
-
-	SELECT 	(vUFs * cUF)
-	INTO	vOut 
+	SELECT 	(cLimitIPS * cUF), cTotalIncomeTaxable 
+	INTO	vLimitIPSasCLP, vTotalIncomeTaxable
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
 	
+	IF(vTotalIncomeTaxable>=vLimitIPSasCLP) THEN
+		SET vOut = vLimitIPSasCLP;
+	ELSE
+		SET vOut = vTotalIncomeTaxable;
+	END IF;
+	
+	/*
 	RETURN vOut;
+	*/
+	UPDATE	remcon.tBookDiscounts
+	SET		cLimitTaxableForecast = vOut
+	WHERE	cBook = pBook;
+	
 END$$
 
-CREATE FUNCTION remcon.fGetLimitTaxableDismissInsurance(pBook BIGINT) RETURNS DOUBLE
+CREATE PROCEDURE remcon.pLimitTaxableDismissInsurance(pBook BIGINT)
 BEGIN
 /* = SI(cTotalIncomeTaxable >= 90UF ; 90UF; cTotalIncomeTaxable) */
 	DECLARE vTotalIncomeTaxable, vUFs, vLimit, vOut DOUBLE DEFAULT 0;
-	
-	SELECT	cValue
-	INTO	vUFs
-	FROM	tParameter
-	WHERE	cKey = 'LIMIT_INSURANCE';
-	
-	SELECT 	cTotalIncomeTaxable, (cUF * vUFs)
+
+	SELECT 	cTotalIncomeTaxable, (cUF * cLimitInsurance)
 	INTO	vTotalIncomeTaxable, vLimit
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
@@ -306,10 +333,41 @@ BEGIN
 		SET vOut = vTotalIncomeTaxable;
 	END IF;
 		
-	RETURN vOut;
+	UPDATE	remcon.tBookDiscounts
+	SET		cLimitTaxableDismissInsurance = vOut
+	WHERE	cBook = pBook;
+	
 END$$
 
-CREATE FUNCTION remcon.fGetObligatoryQuote(pBook BIGINT) RETURNS DOUBLE
+
+
+CREATE PROCEDURE remcon.pIncome(pBook BIGINT)
+BEGIN
+/* =cTotalIncomeTaxable-cObligatoryQuote-APV-(COT SALUD REBAJA)BA13-(SEGURO CESANTIA)BC13 */
+	
+	/*
+	DECLARE vTotalIncomeTaxable, vUFs, vLimit, vOut DOUBLE DEFAULT 0;
+
+	SELECT 	cTotalIncomeTaxable, (cUF * cLimitInsurance)
+	INTO	vTotalIncomeTaxable, vLimit
+	FROM	remcon.vBook
+	WHERE	cId = pBook;
+	
+	IF (vTotalIncomeTaxable >= vLimit) THEN
+		SET vOut = vLimit;
+	ELSE
+		SET vOut = vTotalIncomeTaxable;
+	END IF;
+		
+	UPDATE	remcon.tBookDiscounts
+	SET		cLimitTaxableDismissInsurance = vOut
+	WHERE	cBook = pBook;
+	*/
+END$$
+
+
+
+CREATE PROCEDURE remcon.pObligatoryQuote(pBook BIGINT)
 BEGIN
 /**
  SI(AFP=Cuprum		;cLimitTaxableForecast*11.48;
@@ -334,9 +392,12 @@ BEGIN
 	FROM	remcon.tPFMHistory
 	WHERE	cId = vPFMHistory;
 	
-	SET	vOut = vFactor * vLimitTaxableForecast;
+	SET	vOut = vLimitTaxableForecast * (vFactor/100);
 	
-	RETURN vOut;
+	UPDATE	remcon.tBookDiscounts
+	SET		cObligatoryQuote = vOut
+	WHERE	cBook = pBook;
+	
 END$$
 
 DELIMITER ;

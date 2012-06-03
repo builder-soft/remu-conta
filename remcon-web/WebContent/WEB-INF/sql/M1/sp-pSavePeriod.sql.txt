@@ -10,26 +10,47 @@ BEGIN
 TODO: Hay que sacar el valor de la UF y Factor desde una tabla histórica 
 por si hay que recalcular para atras...
 */
-	DECLARE vCurrentUF, vOvertimeFactor DOUBLE DEFAULT 0; 
+	DECLARE vCurrentUF, vOvertimeFactor,
+			vGratificationFactor, vMinSalary,
+			vLimitIPS, vLimitInsurance DOUBLE DEFAULT 0; 
 
 	SET vCurrentUF = (SELECT cValue FROM tParameter WHERE cKey = 'CURRENT_UF');
 	SET vOvertimeFactor = (SELECT cValue FROM tParameter WHERE cKey = 'OVERTIME_FACTOR');
-
+	SET vGratificationFactor = (SELECT cValue FROM tParameter WHERE cKey = 'GRATIFICATION_FACTOR');
+	SET vMinSalary = (SELECT cValue FROM tParameter WHERE cKey = 'BASE_SALARY');
+	SET vLimitIPS = (SELECT cValue FROM tParameter WHERE cKey = 'LIMIT_IPS');
+	SET vLimitInsurance = (SELECT cValue FROM tParameter WHERE cKey = 'LIMIT_INSURANCE');
+	
 	IF EXISTS(	SELECT	cId 
 				FROM	remcon.tPeriod
 				WHERE	cDate = pDate) THEN
 				
 		UPDATE	remcon.tPeriod
 		SET		cUF = vCurrentUF,
-				cOvertimeFactor = vOvertimeFactor
+				cOvertimeFactor = vOvertimeFactor,
+				cGratificationFactor = vGratificationFactor,
+				cMinSalary = MinSalary,
+				cLimitGratification = cMinSalary * cGratificationFactor,
+				cLImitIPS = vLimitIPS,
+				cLimitInsurance = vLimitInsurance 
+				
+	/*			
+					SELECT 	cMinSalary * cGratificationFactor
+	INTO	vOut 
+	FROM	remcon.vBook
+	WHERE	cId = pBook;
+*/
 		WHERE	cDate = pDate;
 		
-		SELECT	cId INTO pPeriod 
+		SELECT	cId
+		INTO	pPeriod 
 		FROM	remcon.tPeriod 
 		WHERE	cDate = pDate; 
 	ELSE
-		INSERT INTO remcon.tPeriod(cDate, cUF, cOvertimeFactor) 
-		VALUES(pDate, vCurrentUF, vOvertimeFactor);
+		INSERT INTO remcon.tPeriod(cDate, cUF, cOvertimeFactor, cGratificationFactor, cMinSalary,
+				cLimitGratification, cLimitIPS, cLimitInsurance) 
+		VALUES(pDate, vCurrentUF, vOvertimeFactor, vGratificationFactor, vMinSalary,
+				cMinSalary * cGratificationFactor, vLimitIPS, vLimitInsurance);
 		SET pPeriod = LAST_INSERT_ID();
 	END IF;
 END$$
