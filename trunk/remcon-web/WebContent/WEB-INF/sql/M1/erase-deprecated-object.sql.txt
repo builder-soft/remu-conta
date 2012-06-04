@@ -1,3 +1,8 @@
+drop table if exists remcon.tPFMAttribute;
+drop table if exists remcon.tHealthAttribute;
+drop table if exists remcon.tBoard;
+drop table if exists remcon.tMonthlyParameter;
+drop table if exists remcon.tAccount;
 DROP PROCEDURE if exists remcon.pGetPrefiredFileByPeriod;
 DROP PROCEDURE if exists remcon.pDelAccount;
 DROP PROCEDURE if exists remcon.pDelAccountsByEmployeeAndType;

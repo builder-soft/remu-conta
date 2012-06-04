@@ -1,5 +1,3 @@
-drop table if exists remcon.tMonthlyParameter;
-drop table if exists remcon.tAccount;
 
 DROP TABLE IF EXISTS remcon.tFile;
 DROP TABLE IF EXISTS remcon.tFileCategory;
@@ -12,7 +10,10 @@ DROP TABLE IF EXISTS remcon.tBookDiscounts;
 DROP TABLE IF EXISTS remcon.tBookAssets;
 DROP TABLE IF EXISTS remcon.tBook;
 DROP TABLE IF EXISTS remcon.tOvertime;
+
 DROP TABLE IF EXISTS remcon.tPFMHistory;
+DROP TABLE IF EXISTS remcon.tHealthHistory;
+
 DROP TABLE IF EXISTS remcon.tPeriod;
 DROP TABLE IF EXISTS remcon.tPeriodStatus;
 
@@ -25,13 +26,10 @@ drop table if exists remcon.tBank;
 drop table if exists remcon.tAccountType;
 drop table if exists remcon.tHorary;
 drop table if exists remcon.tCountry;
-drop table if exists remcon.tPFMAttribute;
 
 drop table if exists remcon.tContractType;
 drop table if exists remcon.tProfile;
 drop table if exists remcon.tPFM;
-drop table if exists remcon.tPFMAttribute;
-drop table if exists remcon.tHealthAttribute;
 drop table if exists remcon.tHealth;
 drop table if exists remcon.tGratificationType;
 
@@ -53,7 +51,6 @@ drop table if exists remcon.tCompensationFund;
 
 DROP TABLE IF EXISTS remcon.tParameter;
 
-drop table if exists remcon.tBoard;
 drop table if exists remcon.tDataType;
 
 DROP TABLE IF EXISTS remcon.tR_UserRol;
