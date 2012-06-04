@@ -208,8 +208,10 @@ create table tAgreement(
 	cFeeding			DOUBLE DEFAULT '0'		COMMENT 'Alimentacion',
 	cExBoxSystem		BIGINT(20) NULL			COMMENT 'Caja Ex-Regimen',
 	cExBoxSystemPRC		DOUBLE NULL				COMMENT 'Porcentaje de Caja Ex-Regimen (esto debiera ir a otra tabla al parecer)',
-	cAdditionalHealthUF	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Adicional sistema de salud, en UF',
-	cAdditionalHealthCLP	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Adicional sistema de salud, en Pesos chilenos',
+	
+	cAdditionalHealthAmount	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Monto adicional sistema de salud',
+	cAdditionalHealthCurrency	BIGINT(20) NULL	COMMENT 'Moneda en el cual se expresa el adicional de salud',
+	
 	cSimpleLoads		INTEGER	NOT NULL DEFAULT '0' 	COMMENT 'Cargas Simples',
 	cDisabilityBurdens	INTEGER	NOT NULL DEFAULT '0' 	COMMENT 'Cargas Invalidez',
 	cMaternalLoads		INTEGER	NOT NULL DEFAULT '0' 	COMMENT 'Cargas Maternales',
@@ -313,7 +315,7 @@ create table tPFM(
 
 create table tPFMHistory(
 	cId				BIGINT(20) NOT NULL auto_increment,
-	cPeriod			BIGINT(20) NOT NULL DEFAULT '0',
+	cPeriod			BIGINT(20) NOT NULL,
 	cKey			VARCHAR(2) NOT NULL,
 	cName			VARCHAR(50) NOT NULL,
 	cFactor			DOUBLE NOT NULL,
@@ -321,10 +323,17 @@ create table tPFMHistory(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-
-
 create table tHealth (
 	cId				BIGINT(20) NOT NULL auto_increment,
+	cKey			VARCHAR(2) NOT NULL,	
+	cName			VARCHAR(50) NOT NULL,
+	cFactor			DOUBLE NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+create table tHealthHistory(
+	cId				BIGINT(20) NOT NULL auto_increment,
+	cPeriod			BIGINT(20) NOT NULL,
 	cKey			VARCHAR(2) NOT NULL,	
 	cName			VARCHAR(50) NOT NULL,
 	cFactor			DOUBLE NOT NULL,
@@ -495,21 +504,21 @@ create table tBookDiscounts(
 	cAccount2						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cuenta 2, Ahorro AFP - Se saca de la tabla tAccount',
 	cLimitTaxableForecast			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Previsional - Parámetro del mes, 60 UFs',
 	cLimitTaxableDismissInsurance	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Seguro Cesantia - Parámetro del mes, es un valor fijo',
-	cHealth							BIGINT(20) NOT NULL COMMENT 'Codigo de sistema de salud - Es la Isapre o fonasa',
 	
+	cHealthHistory					BIGINT(20) NOT NULL COMMENT 'Codigo de sistema de salud - Es la Isapre o fonasa',
 	cLawfulQuote					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotización Legar - Es el 7% del imponible, el valor es calculado',
-	
 	cCurrencyPlanHealth				BIGINT(20) NULL COMMENT 'Moneda del plan complementario de salud - UF o CLP - tAgreement.cAdditionalHealthCLP/UF',
-	cPlanHealthAmount				DOUBLE NULL DEFAULT '0' COMMENT 'Monto pactado de salud - Relacionado con campo cCurrencyPlanHealth',
-	
-	cExtraHealth					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Adicional de salud - Diferencia entre el plan de salud y la legal, cCotizacionLegal - PlanPactado',
+	cPlanHealthAmount				DOUBLE NULL DEFAULT '0' COMMENT 'Monto pactado de salud complementario - Relacionado con campo cCurrencyPlanHealth',
+	cExtraHealth					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Adicional de salud complementario - Diferencia entre el plan de salud y la legal, cCotizacionLegal - PlanPactado',
 	cLimitExtraHealth				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope de la cotización de salud',
+	
 /*
 Cotizacion Salud Rebaja
 Tope 4.2 UF (parametro puede variar)
-Sí, la cotización adicional de salud, superior al 7%, aplicada a una renta imponible de 67,4 UF a contar de enero 2012, es tributable para los efectos del 
-Impuesto Único, pues permite rebajar por concepto de cotización de salud hasta 4,72 UF (67,4 UF por 7%).
-Si alguien tiene un plan muy caro de salud debe tributar como impuesto unico a la renta el excedente
+Sí, la cotización adicional de salud, superior al 7%, aplicada a una renta imponible de 67,4 UF a contar de enero 2012, es 
+tributable para los efectos del Impuesto Único, pues permite rebajar por concepto de cotización de salud hasta 4,72UF 
+(67,4 UF por 7%).
+Si alguien tiene un plan muy caro de salud debe tributar como impuesto unico a la renta el excedente.
 */
 /*
 	cCotisacionSaludRebaja			COMMENT 'Preguntar que es',

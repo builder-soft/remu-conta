@@ -54,11 +54,12 @@ SELECT	a.cId AS cId,
 		b.cProportionalHoliday,
 		b.cVoluntaryindenmization,
 		c.cId AS cDiscountsId,
-		c.cPFMHistory,
+		c.cPFMHistory,						/* Código de la AFP */
 		c.cObligatoryQuote,					/* Monto que se le paga a la AFP de manera obligatoria */
 		c.cAVPAmount,						/* Suma de todos los fondos en CLP */
 		c.cAccount2,
-		c.cHealth,
+		
+		c.cHealthHistory,					/* Código de sistema de salud contratado */
 		c.cLawfulQuote,
 		c.cCurrencyPlanHealth,
 /*		c.cPlanHealth,*/

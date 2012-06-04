@@ -91,20 +91,6 @@ SET @clp = LAST_INSERT_ID();
 
 /* PFM */
 
-/* Isapres */
-INSERT INTO tHealth(cKey, cName, cFactor) VALUES('7', 'Fonasa', 7);
-INSERT INTO tHealth(cKey, cName, cFactor) VALUES('1', 'Banmédica', 7);
-INSERT INTO tHealth(cKey, cName, cFactor) VALUES('4', 'Colmena', 7);
-INSERT INTO tHealth(cKey, cName, cFactor) VALUES('2', 'Consalud', 7);
-INSERT INTO tHealth(cKey, cName, cFactor) VALUES('5', 'Cruz Blanca', 7);
-INSERT INTO tHealth(cKey, cName, cFactor) VALUES('10', 'Ferrosalud', 7);
-INSERT INTO tHealth(cKey, cName, cFactor) VALUES('12', 'Fundación', 7);
-INSERT INTO tHealth(cKey, cName, cFactor) VALUES('11', 'Fusat', 7);
-INSERT INTO tHealth(cKey, cName, cFactor) VALUES('17', 'Mas Vida', 7);
-INSERT INTO tHealth(cKey, cName, cFactor) VALUES('18', 'Normédica', 7);
-INSERT INTO tHealth(cKey, cName, cFactor) VALUES('22', 'Sfera', 7);
-INSERT INTO tHealth(cKey, cName, cFactor) VALUES('3', 'Vida Tres', 7);
-
 /*
 Tipos de cuentas donde van a dar los fondos.
 APV 
@@ -934,7 +920,6 @@ INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ZWE','Zimbabwe');
 INSERT INTO tPeriodStatus(cName) VALUES ('Cerrado');
 INSERT INTO tPeriodStatus(cName) VALUES ('Abierto');
 
-
 /** DATOS DE PRUEBA */
 
 call remcon.pSavePeriod('2012-05-01', @Period1);
@@ -948,12 +933,30 @@ INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('34', 'Modelo', 11.14, 1.49)
 INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('29', 'Planvital', 12.36, 1.49);
 INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('8', 'Provida', 11.54, 1.49);
 INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('0', 'Sin AFP/Jubilado', 0, 0);
+/* Isapres */
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('7', 'Fonasa', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('1', 'Banmédica', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('4', 'Colmena', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('2', 'Consalud', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('5', 'Cruz Blanca', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('10', 'Ferrosalud', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('12', 'Fundación', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('11', 'Fusat', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('17', 'Mas Vida', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('18', 'Normédica', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('22', 'Sfera', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('3', 'Vida Tres', 7);
 
 call remcon.pOpenPeriod(@Period2);
 
 UPDATE	remcon.tPFM 
 SET		cFactor=1.41
 WHERE	cId = 3;
+
+UPDATE	remcon.tHealth 
+SET		cFactor=7.01
+WHERE	cId = 3;
+
 
 INSERT INTO tEnterprise(cRut, cName, cLegalRep, cRutLegalRep, cCategory, cAddress, cComuna, cPhone, cMutual, cMutualFactor, cCompensationFund)
 VALUES('1-9', 'Buildersoft Ltda.', 'Juan Perez', '1-9', 'Servicios profesionales', 'Avenida X, numero 88', 3, '2345678', 1, 0.5, 1);
