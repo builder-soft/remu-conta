@@ -13,6 +13,8 @@ DROP TABLE IF EXISTS remcon.tOvertime;
 
 DROP TABLE IF EXISTS remcon.tPFMHistory;
 DROP TABLE IF EXISTS remcon.tHealthHistory;
+DROP TABLE IF EXISTS remcon.tUnemploymentInsurance;
+
 
 DROP TABLE IF EXISTS remcon.tPeriod;
 DROP TABLE IF EXISTS remcon.tPeriodStatus;

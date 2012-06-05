@@ -3,6 +3,22 @@ drop table if exists remcon.tHealthAttribute;
 drop table if exists remcon.tBoard;
 drop table if exists remcon.tMonthlyParameter;
 drop table if exists remcon.tAccount;
+
+DROP VIEW IF EXISTS remcon.vDataType;
+DROP VIEW IF EXISTS remcon.vType;
+DROP VIEW IF EXISTS remcon.vTypeOption;
+DROP VIEW IF EXISTS remcon.vMaritalStatus;
+DROP VIEW IF EXISTS remcon.vGenere;
+DROP VIEW IF EXISTS remcon.vCurrency;
+DROP VIEW IF EXISTS remcon.vMutual;
+DROP VIEW IF EXISTS remcon.vPFM;
+DROP VIEW IF EXISTS remcon.vHealth;
+DROP VIEW IF EXISTS remcon.vPaymentType; 
+DROP VIEW IF EXISTS remcon.vAccountType;
+DROP VIEW IF EXISTS remcon.vCompensationFound;
+DROP VIEW IF EXISTS remcon.vCompensationFund;
+DROP VIEW IF EXISTS remcon.vAPV;
+
 DROP PROCEDURE if exists remcon.pGetPrefiredFileByPeriod;
 DROP PROCEDURE if exists remcon.pDelAccount;
 DROP PROCEDURE if exists remcon.pDelAccountsByEmployeeAndType;

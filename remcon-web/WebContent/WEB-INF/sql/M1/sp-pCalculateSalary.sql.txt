@@ -11,10 +11,10 @@ DROP PROCEDURE IF EXISTS remcon.pAPV;
 DROP PROCEDURE IF EXISTS remcon.pObligatoryQuote;
 DROP PROCEDURE IF EXISTS remcon.pLawfulQuote;
 DROP PROCEDURE IF EXISTS remcon.pAdditionalHealth;
+DROP PROCEDURE IF EXISTS remcon.pUnemploymentInsuranceAmount;
 DROP FUNCTION IF exists remcon.fSaveBookForEmployee;
 DROP FUNCTION IF EXISTS remcon.fGetPFMForBook;
 DROP FUNCTION IF EXISTS remcon.fGetHealthForBook;
-
 
 DELIMITER $$
 
@@ -41,15 +41,38 @@ BEGIN
 	CALL remcon.pLawfulQuote(vBook);
 	CALL remcon.pAPV(vBook);
 	CALL remcon.pAdditionalHealth(vBook);
+	CALL remcon.pUnemploymentInsuranceAmount(vBook);
+	
 	
 /*	=SI(+AY13+AZ13<=(4,2*PARAMETROS!$D$10);AY13+AZ13;4,2*PARAMETROS!$D$10)*/
 	
 	CALL remcon.pIncome(vBook);
-
 	
 END$$
 
 /************************/
+
+CREATE PROCEDURE remcon.pUnemploymentInsuranceAmount(pBook BIGINT)
+BEGIN
+	DECLARE vInsuranceFactor, vUnemploymentInsuranceAmount,
+			vLimitTaxableDismissInsurance DOUBLE DEFAULT 0;
+	DECLARE vContractType BIGINT DEFAULT 0;
+
+	SELECT	cContractType, cInsuranceFactor, cLimitTaxableDismissInsurance
+	INTO	vContractType, vInsuranceFactor, vLimitTaxableDismissInsurance
+	FROM	remcon.vBook
+	WHERE	cId = pBook;
+
+	IF(vContractType = 1) THEN
+		SET vUnemploymentInsuranceAmount = vInsuranceFactor * vLimitTaxableDismissInsurance;
+	END IF;
+	
+	UPDATE	remcon.tBookDiscounts 
+	SET		cUnemploymentInsuranceAmount = vUnemploymentInsuranceAmount
+	WHERE	cBook = pBook;
+	
+END$$
+
 CREATE PROCEDURE remcon.pLawfulQuote(pBook BIGINT)
 /*
  * Siempre se calcula en % basado en el valor de cHealthHistory. El resto de los calculos, aplican para el complementario
@@ -92,27 +115,44 @@ END$$
 /************************/
 CREATE PROCEDURE remcon.pAdditionalHealth(pBook BIGINT)
 BEGIN
-	DECLARE vAgreement BIGINT DEFAULT 0;
-	DECLARE vAdditionalHealthUF, vAdditionalHealthCLP DOUBLE DEFAULT 0;
+	DECLARE vAdditionalHealthCurrency, vAgreement BIGINT DEFAULT 0;
+	DECLARE vAdditionalHealthAmount, vUF, vAdditionalHealthCLP, vHealthQuote,
+			vLimitHealth DOUBLE DEFAULT 0;
+	DECLARE vKey VARCHAR(3) DEFAULT '   ';
 	
-	SELECT	cAgreement
-	INTO	vAgreement
+	SELECT	cAgreement, cUF, cLimitHealth
+	INTO	vAgreement, vUF, vLimitHealth
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
 	
-	/*
-	SELECT	cAdditionalHealthUF, cAdditionalHealthCLP
-	INTO	vAdditionalHealthUF, vAdditionalHealthCLP
-	FROM	tAgreement
-	WHERE	cId = vAgreement;
+	SELECT	a.cAdditionalHealthCurrency, a.cAdditionalHealthAmount, b.cKey
+	INTO	vAdditionalHealthCurrency, vAdditionalHealthAmount, vKey
+	FROM	remcon.tAgreement AS a
+	LEFT JOIN tCurrency AS b ON a.cAdditionalHealthCurrency = b.cId
+	WHERE	a.cId = vAgreement;
 	
-	
-	IF(vAdditionalHealthCLP > 0) THEN
-		
+	IF(vAdditionalHealthCurrency IS NULL) THEN
+		SET vAdditionalHealthCLP = 0;
 	ELSE
-		
+		IF(vKey = 'UF') THEN
+			SET vAdditionalHealthCLP = vAdditionalHealthAmount * vUF;
+		ELSE
+			SET vAdditionalHealthCLP = vAdditionalHealthAmount;
+		END IF;
 	END IF;
-	*/
+
+	IF(vAdditionalHealthCLP > vLimitHealth * vUF) THEN
+		SET vHealthQuote = vLimitHealth * vUF;
+	ELSE
+		SET vHealthQuote = vAdditionalHealthCLP;
+	END IF;
+	
+	UPDATE	remcon.tBookDiscounts
+	SET		cAdditionalHealthCurrency = vAdditionalHealthCurrency, 
+			cAdditionalHealthAmount = vAdditionalHealthAmount,
+			cAdditionalHealthCLP = vAdditionalHealthCLP,
+			cHealthQuote = vHealthQuote
+	WHERE	cBook = pBook;
 	
 END $$
 /************************/
@@ -145,7 +185,8 @@ END$$
 /************************/
 CREATE FUNCTION remcon.fSaveBookForEmployee(pPeriod BIGINT, pEmployee BIGINT, pWorkDays INTEGER) RETURNS BIGINT
 BEGIN
-	DECLARE vOut, vHorary, vGratificationType, vPFM, vHealth, vUnemploymentInsurance BIGINT DEFAULT 0;
+	DECLARE vOut, vHorary, vGratificationType, vPFM, vHealth, vUnemploymentInsurance,
+			vContractType BIGINT DEFAULT 0;
 	DECLARE vSalaryRoot DOUBLE DEFAULT 0;
 	
 	SELECT		b.cId
@@ -156,7 +197,7 @@ BEGIN
 				a.cId = pPeriod;
 
 	SELECT	cHorary, cSalaryRoot, cGratificationType, cPFM, cHealth, cContractType
-	INTO	vHorary, vSalaryRoot, vGratificationType, vPFM, vHealth, vUnemploymentInsurance
+	INTO	vHorary, vSalaryRoot, vGratificationType, vPFM, vHealth, vContractType
 	FROM	remcon.tAgreement
 	WHERE	cEmployee = pEmployee;
 	
@@ -170,7 +211,8 @@ BEGIN
 				cHorary = vHorary,
 				cWorkDays = pWorkDays,
 				cSalaryRoot = vSalaryRoot,
-				cOvertime = 0
+				cOvertime = 0,
+				cContractType = vContractType
 		WHERE	cId = vOut;
 		
 		UPDATE	remcon.tBookAssets
@@ -185,8 +227,8 @@ BEGIN
 		WHERE	cBook = vOut;
 		
 	ELSE
-		INSERT INTO remcon.tBook(cPeriod, cEmployee, cHorary, cWorkDays, cSalaryRoot, cOvertime)
-		VALUES(pPeriod, pEmployee, vHorary, pWorkDays, vSalaryRoot, 0);
+		INSERT INTO remcon.tBook(cPeriod, cEmployee, cHorary, cWorkDays, cSalaryRoot, cOvertime, cContractType)
+		VALUES(pPeriod, pEmployee, vHorary, pWorkDays, vSalaryRoot, 0, vContractType);
 		SET vOut = LAST_INSERT_ID();
 		
 		INSERT INTO remcon.tBookAssets(cBook, cGratificationType)
@@ -245,7 +287,7 @@ END$$
 CREATE PROCEDURE remcon.pSaveOvertime(IN pBook BIGINT, IN pEmployee BIGINT, IN pPeriod BIGINT)
 BEGIN
 	DECLARE pHours INTEGER DEFAULT 0;
-
+	
 	SELECT	SUM(cHours) INTO pHours 
 	FROM	remcon.tOvertime
 	WHERE	cEmployee = pEmployee AND 
@@ -340,6 +382,7 @@ BEGIN
 	
 END$$
 
+/************************/
 CREATE PROCEDURE remcon.pLimitTaxableDismissInsurance(pBook BIGINT)
 BEGIN
 /* = SI(cTotalIncomeTaxable >= 90UF ; 90UF; cTotalIncomeTaxable) */
@@ -362,6 +405,7 @@ BEGIN
 	
 END$$
 
+/************************/
 CREATE PROCEDURE remcon.pAPV(pBook BIGINT)
 BEGIN
 	DECLARE vAgreement, vPeriod, vAPV, vCurrency BIGINT DEFAULT 0;
@@ -399,32 +443,29 @@ BEGIN
 
 END $$
 
+/************************/
 CREATE PROCEDURE remcon.pIncome(pBook BIGINT)
 BEGIN
-/* =cTotalIncomeTaxable-cObligatoryQuote-APV-(COT SALUD REBAJA)BA13-(SEGURO CESANTIA)BC13 */
-	
-	/*
-	DECLARE vTotalIncomeTaxable, vUFs, vLimit, vOut DOUBLE DEFAULT 0;
+/* =cTotalIncomeTaxable-cObligatoryQuote-APV-cHealthQuote-cUnemploymentInsuranceAmount */
+	DECLARE vTotalIncomeTaxable, vObligatoryQuote, vAPV, vHealthQuote, 
+			vUnemploymentInsuranceAmount DOUBLE DEFAULT 0;
 
-	SELECT 	cTotalIncomeTaxable, (cUF * cLimitInsurance)
-	INTO	vTotalIncomeTaxable, vLimit
+	SELECT 	cTotalIncomeTaxable
+	INTO	vTotalIncomeTaxable
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
+
+/*
+	select vTotalIncomeTaxable-vObligatoryQuote-vAPV-vHealthQuote-vUnemploymentInsuranceAmount;
+*/
 	
-	IF (vTotalIncomeTaxable >= vLimit) THEN
-		SET vOut = vLimit;
-	ELSE
-		SET vOut = vTotalIncomeTaxable;
-	END IF;
-		
-	UPDATE	remcon.tBookDiscounts
-	SET		cLimitTaxableDismissInsurance = vOut
+	UPDATE	remcon.tBookAssets
+	SET		cIncome = vTotalIncomeTaxable-vObligatoryQuote-vAPV-vHealthQuote-vUnemploymentInsuranceAmount
 	WHERE	cBook = pBook;
-	*/
+	
 END$$
 
-
-
+/************************/
 CREATE PROCEDURE remcon.pObligatoryQuote(pBook BIGINT)
 BEGIN
 /**

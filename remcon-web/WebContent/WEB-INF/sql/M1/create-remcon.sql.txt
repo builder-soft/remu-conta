@@ -408,6 +408,8 @@ create table tPeriod(
 	cGratificationFactor	DOUBLE NOT NULL COMMENT 'Factor de cálculo de gratificacion',
 	cLimitIPS				DOUBLE NOT NULL COMMENT 'Tope imponible para afiliados al IPS (ex INP) en UFs',
 	cLimitInsurance			DOUBLE NOT NULL COMMENT 'Tope de seguro de cesantia',
+	cLimitHealth			DOUBLE NOT NULL COMMENT 'Tope de salud, expresado en UF',
+	cInsuranceFactor		DOUBLE NOT NULL COMMENT 'Factor para calcular el seguro de cesania',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -421,6 +423,13 @@ create table tPeriodStatus(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+/* Esta tabla tiene los tipos de seguros de cesantia 
+create table tUnemploymentInsurance(
+	cId			BIGINT(20) NOT NULL auto_increment,
+	cName		VARCHAR(50) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+*/
 
 /*
 Esta tabla tiene todos los empleados agrupados por período.
@@ -434,6 +443,7 @@ create table tBook(
 	cSalaryRoot			DOUBLE NOT NULL COMMENT 'Sueldo Base - cp from tAgreement.cSalaryRoot',
 	cOvertime			INTEGER	NOT NULL DEFAULT '0' COMMENT 'Cantidad Horas Extras - Sumar tabla tOvertime',
 	cSalaryReceived		DOUBLE NULL DEFAULT '0' COMMENT 'Salario recibido - calculo de sueldo_base/30 x días trabajados',
+	cContractType		BIGINT(20) NOT NULL COMMENT 'Tipo de contrato, define el tipo de seguro de cesantia',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -466,7 +476,7 @@ No se calcula
 	cB10						DOUBLE NOT NULL DEFAULT '0',
 	cExtraPay					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Aguinaldo - Se ingresa por período',
 	cTotalIncomeTaxable			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Total Haberes Imponibles - suma de bonos, gratificacion y sueldo ganado',
-	cIncome						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Renta afecta, ',
+	cIncome						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Renta afecta',
 	cFamilyAssignment			INTEGER NOT NULL DEFAULT '0' COMMENT 'Cargas Familiares - tAgreement.CAMPO_NUEVO',
 	cFamilyAssignmentAmount 	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Por Cargas - Calcular',
 	cRetroactiveFamily			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Familiar Retroactivo - Se ingresa por período',
@@ -507,11 +517,13 @@ create table tBookDiscounts(
 	
 	cHealthHistory					BIGINT(20) NOT NULL COMMENT 'Codigo de sistema de salud - Es la Isapre o fonasa',
 	cLawfulQuote					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotización Legar - Es el 7% del imponible, el valor es calculado',
-	cCurrencyPlanHealth				BIGINT(20) NULL COMMENT 'Moneda del plan complementario de salud - UF o CLP - tAgreement.cAdditionalHealthCLP/UF',
-	cPlanHealthAmount				DOUBLE NULL DEFAULT '0' COMMENT 'Monto pactado de salud complementario - Relacionado con campo cCurrencyPlanHealth',
-	cExtraHealth					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Adicional de salud complementario - Diferencia entre el plan de salud y la legal, cCotizacionLegal - PlanPactado',
+	cAdditionalHealthCurrency		BIGINT(20) NULL COMMENT 'Moneda del plan complementario de salud - UF o CLP',
+	cAdditionalHealthAmount			DOUBLE NULL DEFAULT '0' COMMENT 'Monto pactado de salud complementario',
+	cAdditionalHealthCLP			DOUBLE NULL DEFAULT '0' COMMENT 'Monto complementario de saludo, siempre en pesos',
+	cHealthQuote					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotizacion de salud, corresponde al valor final que paga por salud',
+	/*
 	cLimitExtraHealth				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope de la cotización de salud',
-	
+	*/
 /*
 Cotizacion Salud Rebaja
 Tope 4.2 UF (parametro puede variar)
@@ -559,19 +571,3 @@ EN LA VISTA:
 
  /** V I S T A S **/
 
-DROP VIEW IF EXISTS vDataType;
-DROP VIEW IF EXISTS vType;
-DROP VIEW IF EXISTS vTypeOption;
-DROP VIEW IF EXISTS vMaritalStatus;
-DROP VIEW IF EXISTS vGenere;
-DROP VIEW IF EXISTS vCurrency;
-DROP VIEW IF EXISTS vMutual;
-DROP VIEW IF EXISTS vPFM;
-DROP VIEW IF EXISTS vHealth;
-DROP VIEW IF EXISTS vPaymentType; 
-DROP VIEW IF EXISTS vAccountType;
-DROP VIEW IF EXISTS vCompensationFound;
-DROP VIEW IF EXISTS vCompensationFund;
-DROP VIEW IF EXISTS vAPV;
-
-  
