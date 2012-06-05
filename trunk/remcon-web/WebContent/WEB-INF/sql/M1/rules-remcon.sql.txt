@@ -176,7 +176,9 @@ ADD CONSTRAINT BookToPeriod FOREIGN KEY (cPeriod) REFERENCES remcon.tPeriod(cId)
 ADD INDEX Book_index_Employee (cEmployee ASC),
 ADD CONSTRAINT BookToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId),
 ADD INDEX Book_index_Horary (cHorary ASC),
-ADD CONSTRAINT BookToHorary FOREIGN KEY (cHorary) REFERENCES remcon.tHorary(cId);
+ADD CONSTRAINT BookToHorary FOREIGN KEY (cHorary) REFERENCES remcon.tHorary(cId),
+ADD INDEX BookDiscounts_index_ContractType (cContractType ASC),
+ADD CONSTRAINT BookDiscountsToContractType FOREIGN KEY (cContractType) REFERENCES remcon.tContractType(cId);
 
 /* tBookAssets */
 ALTER TABLE remcon.tBookAssets
@@ -193,8 +195,8 @@ ADD INDEX BookDiscounts_index_PFM (cPFMHistory ASC),
 ADD CONSTRAINT tBookDiscountsToPFMHistory FOREIGN KEY (cPFMHistory) REFERENCES remcon.tPFMHistory(cId),
 ADD INDEX BookDiscounts_index_HealthHistory (cHealthHistory ASC),
 ADD CONSTRAINT tBookDiscountsToHealthHistory FOREIGN KEY (cHealthHistory) REFERENCES remcon.tHealthHistory(cId),
-ADD INDEX BookDiscounts_index_cCurrencyPlanHealth (cCurrencyPlanHealth ASC),
-ADD CONSTRAINT BookDiscountsTocCurrencyPlanHealth FOREIGN KEY (cCurrencyPlanHealth) REFERENCES remcon.tCurrency(cId);
+ADD INDEX BookDiscounts_index_cAdditionalHealthCurrency (cAdditionalHealthCurrency ASC),
+ADD CONSTRAINT BookDiscountsToCurrency FOREIGN KEY (cAdditionalHealthCurrency) REFERENCES remcon.tCurrency(cId);
 
 /* tOvertime */
 ALTER TABLE remcon.tOvertime
