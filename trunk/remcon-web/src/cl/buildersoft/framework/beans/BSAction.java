@@ -9,6 +9,15 @@ public class BSAction {
 	private BSActionType actionType = null;
 	private String url = null;
 	private String[] natTable = null;
+	private String method = null;
+
+	public String getMethod() {
+		return method;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
+	}
 
 	public BSAction(String code, BSActionType actionType) {
 		super();

@@ -210,16 +210,26 @@ function getApvSelected(){
 				
 			</tr>
 			<tr>
-				
-				
-				<td class="cLabel" valign='top'>Plan UF:</td>
+				<td colspan="3" class="cLabel">Complementario de salud (El complementario de salud solo aplica con valor mayor a 0)<br/></td>
+			</tr>
+			<tr>
+				<td class="cLabel" valign='top'>Moneda :</td>
 				<td class="cData">
-				<input id="additionalHealthUF" name="additionalHealthUF" value="<%=agreementEmp.getAdditionalHealthUF()%>">
+								<select id="additionalHealthCurrency" name="additionalHealthCurrency">
+										<%			
+										for(Currency bsCurrency : listadoCurrency)
+										{											
+										%>
+											<OPTION value="<%=bsCurrency.getId()%>"<%=agreementEmp.getAdditionalHealthCurrency()!= null && bsCurrency.getId().equals(agreementEmp.getAdditionalHealthCurrency()) ? "selected" : "" %>><%=bsCurrency.getKey()%></OPTION>
+										<%
+										}
+										%>
+								</select>
 				</td>				
 				
-				<td class="cLabel" valign='top'>Plan $:</td>
+				<td class="cLabel" valign='top'>Monto :</td>
 				<td class="cData">
-				<input id="additionalHealthCLP" name="additionalHealthCLP" value="<%=agreementEmp.getAdditionalHealthCLP()%>">
+				<input id="additionalHealthAmount" name="additionalHealthAmount" value="<%=agreementEmp.getAdditionalHealthAmount()%>">
 				</td>			
 			</tr>
 			<tr>

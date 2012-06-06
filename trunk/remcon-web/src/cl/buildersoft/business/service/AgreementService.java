@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.config.employee;
+package cl.buildersoft.business.service;
 
 import java.sql.Connection;
 

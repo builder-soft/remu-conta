@@ -9,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cl.buildersoft.business.service.AgreementService;
+import cl.buildersoft.business.service.impl.AgreementServiceImpl;
 import cl.buildersoft.framework.beans.AccountType;
 import cl.buildersoft.framework.beans.Agreement;
 import cl.buildersoft.framework.beans.Bank;

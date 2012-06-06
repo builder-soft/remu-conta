@@ -12,6 +12,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cl.buildersoft.business.service.AgreementService;
+import cl.buildersoft.business.service.EmployeeService;
+import cl.buildersoft.business.service.impl.AgreementServiceImpl;
+import cl.buildersoft.business.service.impl.EmployeeServiceImpl;
 import cl.buildersoft.framework.beans.APV;
 import cl.buildersoft.framework.beans.Agreement;
 import cl.buildersoft.framework.beans.Currency;
@@ -23,8 +27,6 @@ import cl.buildersoft.framework.beans.RagreementAPV;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
-import cl.buildersoft.web.servlet.config.employee.AgreementService;
-import cl.buildersoft.web.servlet.config.employee.AgreementServiceImpl;
 
 /**
  * Servlet implementation class EditRecord
@@ -48,7 +50,8 @@ public class EmployeeInformation extends AbstractServletUtil {
 		conn = mysql.getConnection(request);
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
 
-		Employee employee = getEmployee(conn, bu, employeeId);
+		EmployeeService service = new EmployeeServiceImpl();
+		Employee employee = service.getEmployee(conn, bu, employeeId);
 
 		List<APV> listadoApv = (List<APV>) bu.list(conn, new APV(), "pListAPV");
 		List<PFM> listadoAfp = (List<PFM>) bu.list(conn, new PFM(), "pListPFM");
@@ -113,10 +116,5 @@ public class EmployeeInformation extends AbstractServletUtil {
 		return out;
 	}
 
-	private Employee getEmployee(Connection conn, BSBeanUtilsSP bu, Long id) {
-		Employee out = new Employee();
-		out.setId(id);
-		bu.search(conn, out);
-		return out;
-	}
+
 }

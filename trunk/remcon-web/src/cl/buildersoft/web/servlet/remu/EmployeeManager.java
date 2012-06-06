@@ -49,7 +49,13 @@ public class EmployeeManager extends BSHttpServlet {
 		payMode.setLabel("Forma de Pago");
 		payMode.setUrl("/servlet/config/employee/PayMode");
 		table.addAction(payMode);
-			
+
+		BSAction document = new BSAction("DOCUMENTS", BSActionType.Record);
+		document.setLabel("Documentos");
+		document.setUrl("/servlet/config/employee/DocumentEmployee");
+		document.setMethod("listDocuments");
+		table.addAction(document);		
+		
 		return table;
 	}
 }

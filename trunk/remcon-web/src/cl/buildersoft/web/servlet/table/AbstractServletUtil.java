@@ -1,11 +1,18 @@
 package cl.buildersoft.web.servlet.table;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.el.util.ReflectionUtil;
 
 import cl.buildersoft.framework.beans.BSField;
+import cl.buildersoft.framework.util.ReflectionUtils;
 
 public class AbstractServletUtil extends HttpServlet {
 	private static final long serialVersionUID = -34792656017725168L;
@@ -55,4 +62,41 @@ public class AbstractServletUtil extends HttpServlet {
 		return out;
 	}
 
+	@Override
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		this.doPost(request, response);
+	}
+	
+	@Override
+	@SuppressWarnings("unused")
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+	
+		Object[] parameters = {request,response};
+		String servletName = "cl.buildersoft.web."+request.getRequestURI().substring(12).replaceAll("/", ".");
+		String methodName = request.getParameter("Method");
+		Object servletClazz;
+		try {
+			servletClazz = Class.forName(servletName).newInstance();
+			ReflectionUtils.execute(methodName, servletClazz, parameters);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+		
+		
+	}
+	
 }

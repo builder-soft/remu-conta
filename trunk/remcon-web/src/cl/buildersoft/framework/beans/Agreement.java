@@ -27,8 +27,8 @@ public class Agreement extends BSBean {
 	private Double feeding = null;
 	private Long exBoxSystem = null;
 	private Double exBoxSystemPRC = null;
-	private Double additionalHealthUF = null;
-	private Double additionalHealthCLP = null;
+	private Double additionalHealthAmount = null;
+	private Long additionalHealthCurrency = null;
 	private Integer simpleLoads = null;
 	private Integer disabilityBurdens = null;
 	private Integer maternalLoads = null;
@@ -153,22 +153,6 @@ public class Agreement extends BSBean {
 		this.exBoxSystemPRC = exBoxSystemPRC;
 	}
 
-	public Double getAdditionalHealthUF() {
-		return additionalHealthUF;
-	}
-
-	public void setAdditionalHealthUF(Double additionalHealthUF) {
-		this.additionalHealthUF = additionalHealthUF;
-	}
-
-	public Double getAdditionalHealthCLP() {
-		return additionalHealthCLP;
-	}
-
-	public void setAdditionalHealthCLP(Double additionalHealthCLP) {
-		this.additionalHealthCLP = additionalHealthCLP;
-	}
-
 	public Integer getSimpleLoads() {
 		return simpleLoads;
 	}
@@ -203,10 +187,26 @@ public class Agreement extends BSBean {
 				+ ", paymentType=" + paymentType + ", horary=" + horary
 				+ ", mobilization=" + mobilization + ", feeding=" + feeding
 				+ ", exBoxSystem=" + exBoxSystem + ", exBoxSystemPRC="
-				+ exBoxSystemPRC + ", additionalHealthUF=" + additionalHealthUF
-				+ ", additionalHealthCLP=" + additionalHealthCLP
+				+ exBoxSystemPRC + ", additionalHealthAmount=" + additionalHealthAmount
+				+ ", additionalHealthCurrency=" + additionalHealthCurrency
 				+ ", simpleLoads=" + simpleLoads + ", disabilityBurdens="
 				+ disabilityBurdens + ", maternalLoads=" + maternalLoads + "]";
+	}
+
+	public Double getAdditionalHealthAmount() {
+		return additionalHealthAmount;
+	}
+
+	public void setAdditionalHealthAmount(Double additionalHealthAmount) {
+		this.additionalHealthAmount = additionalHealthAmount;
+	}
+
+	public Long getAdditionalHealthCurrency() {
+		return additionalHealthCurrency;
+	}
+
+	public void setAdditionalHealthCurrency(Long additionalHealthCurrency) {
+		this.additionalHealthCurrency = additionalHealthCurrency;
 	}
 
 	public Long getBank() {

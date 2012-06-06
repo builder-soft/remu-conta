@@ -1,10 +1,11 @@
-package cl.buildersoft.web.servlet.config.employee;
+package cl.buildersoft.business.service.impl;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cl.buildersoft.business.service.AgreementService;
 import cl.buildersoft.framework.beans.Agreement;
 import cl.buildersoft.framework.beans.ContractType;
 import cl.buildersoft.framework.beans.GratificationType;
@@ -41,8 +42,7 @@ public class AgreementServiceImpl implements AgreementService {
 			agreement.setAccountNumber("");
 						
 			agreement.setHorary(getHorary(conn, bu));
-			agreement.setAdditionalHealthCLP(0D);
-			agreement.setAdditionalHealthUF(0D);
+			agreement.setAdditionalHealthAmount(0D);
 			agreement.setSimpleLoads(0);
 			agreement.setDisabilityBurdens(0);
 			agreement.setMaternalLoads(0);

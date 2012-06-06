@@ -14,10 +14,10 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import cl.buildersoft.business.service.AgreementService;
+import cl.buildersoft.business.service.impl.AgreementServiceImpl;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.web.servlet.config.employee.AgreementService;
-import cl.buildersoft.web.servlet.config.employee.AgreementServiceImpl;
 
 @WebFilter(urlPatterns = { "/servlet/table/InsertRecord" }, dispatcherTypes = { DispatcherType.REQUEST })
 public class SaveEmployeeFilter implements Filter {
