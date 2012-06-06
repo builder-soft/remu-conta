@@ -62,12 +62,12 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		Integer maternalLoad = Integer.valueOf(request
 				.getParameter("maternalLoad"));
 		Long afpEmp = Long.valueOf(request.getParameter("afpEmp"));
-		Double additionalHealthUF = Double.valueOf(request
-				.getParameter("additionalHealthUF"));
+		Long additionalHealthCurrency = Long.valueOf(request
+				.getParameter("additionalHealthCurrency"));
 
 		Long health = Long.valueOf(request.getParameter("health"));
-		Double additionalHealthCLP = Double.valueOf(request
-				.getParameter("additionalHealthCLP"));
+		Double additionalHealthAmount = Double.valueOf(request
+				.getParameter("additionalHealthAmount"));
 		Integer simpleLoads = Integer.valueOf(request
 				.getParameter("simpleLoad"));
 
@@ -75,9 +75,9 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		agreement.setDisabilityBurdens(disabilityBurdens);
 		agreement.setMaternalLoads(maternalLoad);
 		agreement.setPfm(afpEmp);
-		agreement.setAdditionalHealthUF(additionalHealthUF);
+		agreement.setAdditionalHealthCurrency(additionalHealthCurrency);
 		agreement.setHealth(health);
-		agreement.setAdditionalHealthCLP(additionalHealthCLP);
+		agreement.setAdditionalHealthAmount(additionalHealthAmount);
 		agreement.setSimpleLoads(simpleLoads);
 
 		bu.save(conn, agreement);

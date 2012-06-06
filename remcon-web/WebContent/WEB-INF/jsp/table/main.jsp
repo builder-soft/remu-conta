@@ -163,11 +163,12 @@
 		for (BSAction action : recordActions) {
 			if (BSWeb.canUse(action.getCode(), request)) {
 				String id = capitalize(action.getCode());
+				String method = action.getMethod() != null ? "&Method="+action.getMethod() : "";
 				out.print("<input type='button' ");
 				out.print("value='" + action.getLabel() + "' ");
 				out.print("id='o" + id + "' ");
 				out.print("onclick='javascript:doAction(\"" + ctxPath
-						+ action.getUrl() + "\", \"" + action.getCode()
+						+ action.getUrl() + "\", \"" + action.getCode() + method
 						+ "\");'");
 
 				out.print(">");
