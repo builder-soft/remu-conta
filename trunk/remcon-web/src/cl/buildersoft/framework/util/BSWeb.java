@@ -180,6 +180,17 @@ public class BSWeb {
 		return out;
 	}
 
+	public static String dateTime2String(HttpServletRequest request, Object value) {
+		String out = "";
+		if (value != null) {
+			String format = getFormatDatetime(request);
+			DateFormat formatter = new SimpleDateFormat(format);
+			out = formatter.format((Date) value);
+		}
+		return out;
+	}
+	
+	
 	public static String number2String(Object value, String format) {
 		String out = "";
 		if (value != null) {
