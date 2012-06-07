@@ -1,6 +1,6 @@
 <%@page import="cl.buildersoft.framework.util.BSBeanUtilsSP"%>
-<%@page	import="cl.buildersoft.web.servlet.config.employee.AgreementServiceImpl"%>
-<%@page	import="cl.buildersoft.web.servlet.config.employee.AgreementService"%>
+<%@page	import="cl.buildersoft.business.service.impl.AgreementServiceImpl"%>
+<%@page	import="cl.buildersoft.business.service.AgreementService"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="cl.buildersoft.framework.database.BSmySQL"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
