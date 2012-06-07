@@ -81,7 +81,7 @@ public class DocumentEmployee extends AbstractServletUtil {
 				documentEmp.setFileName(rs.getString("cFileName"));
 				documentEmp.setFileRealName(rs.getString("cFileRealName"));
 				documentEmp.setSize(rs.getLong("cSize"));
-				documentEmp.setDateTime(rs.getDate("cDateTime"));
+				documentEmp.setDateTime(rs.getTimestamp("cDateTime"));
 				out.add(documentEmp);
 			}
 		} catch (SQLException e) {

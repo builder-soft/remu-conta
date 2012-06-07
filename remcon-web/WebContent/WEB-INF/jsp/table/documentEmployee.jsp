@@ -70,7 +70,7 @@
 							%>
 								<tr>
 									<td class="cDataTD_odd"><%=document.getFileName()%></td>
-									<td class="cDataTD_odd"><%=BSWeb.date2String(request,document.getDateTime())%></td>
+									<td class="cDataTD_odd"><%=document.getDateTime()%></td>
 									<td class="cDataTD_odd"><%=document.getSize()%></td>
 									<td class="cDataTD_odd"><a href="javascript:$('#Method').val('delete');$('#idDocument').val('<%=document.getId()%>');$('#editForm').submit();">Eliminar</a></td>
 								<tr/>

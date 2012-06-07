@@ -1,6 +1,6 @@
 package cl.buildersoft.framework.beans;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Document extends BSBean {
 
@@ -13,7 +13,7 @@ public class Document extends BSBean {
 	private String fileRealName;
 	private Long size;
 	private Long fileCategory;
-	private Date dateTime;
+	private Timestamp dateTime;
 	public Long getEmployee() {
 		return employee;
 	}
@@ -50,10 +50,11 @@ public class Document extends BSBean {
 	public void setFileCategory(Long fileCategory) {
 		this.fileCategory = fileCategory;
 	}
-	public Date getDateTime() {
+	public Timestamp getDateTime() {
 		return dateTime;
 	}
-	public void setDateTime(Date dateTime) {
+	public void setDateTime(Timestamp dateTime) {
 		this.dateTime = dateTime;
 	}
+
 }
