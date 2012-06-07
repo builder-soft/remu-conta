@@ -10,7 +10,7 @@
 <%@page import="cl.buildersoft.framework.beans.BSCss"%>
 <%@page import="cl.buildersoft.framework.beans.BSScript"%>
 <%@page import="cl.buildersoft.framework.beans.BSHeadConfig"%>
-<%@page import="cl.buildersoft.framework.util.BSWeb"%>
+<%@page import="static cl.buildersoft.framework.util.BSWeb.dateTime2String"%>
 <%@page import="cl.buildersoft.framework.type.BSFieldType"%>
 <%@page import="cl.buildersoft.framework.beans.BSField"%>
 <%@page import="cl.buildersoft.framework.beans.BSTableConfig"%>
@@ -45,14 +45,14 @@
 	<input type="hidden" name="cId" value="<%=request.getParameter("cId") != null ? request.getParameter("cId") : request.getAttribute("cId")%>">
 	<input type="hidden" id="idDocument" name="idDocument" value=""/>
 	<input type="hidden" id="Method" name="Method"/>
-	<table border="0" width="400px">
+	<table border="0" width="600px">
 			<tr>
 					<td>
 					<table class="cList" cellpadding="0" cellspacing="0">
 					<tr>
 						<td class="cHeadTD" width="30%">Documento</td>
-						<td class="cHeadTD" width="30%">Fecha</td>
-						<td class="cHeadTD" width="40%">Tamaño</td>
+						<td class="cHeadTD" width="40%">Fecha</td>
+						<td class="cHeadTD" width="30%">Tamaño</td>
 						<td class="cHeadTD"></td>
 					</tr>
 							<%	
@@ -70,7 +70,7 @@
 							%>
 								<tr>
 									<td class="cDataTD_odd"><%=document.getFileName()%></td>
-									<td class="cDataTD_odd"><%=document.getDateTime()%></td>
+									<td class="cDataTD_odd"><%=dateTime2String(request,document.getDateTime())%></td>
 									<td class="cDataTD_odd"><%=document.getSize()%></td>
 									<td class="cDataTD_odd"><a href="javascript:$('#Method').val('delete');$('#idDocument').val('<%=document.getId()%>');$('#editForm').submit();">Eliminar</a></td>
 								<tr/>
