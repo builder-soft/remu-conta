@@ -1020,5 +1020,3 @@ INSERT INTO tfilecategory( cName ) VALUES('Archivo excel');
 INSERT INTO tfile( cEmployee, 	cDesc, 				 cFileName, 			  cFileRealName, 			cSize, cFileCategory, cDateTime ) 
 VALUES (		   1, 'Archivo de prueba', 'archivo_de_prueba.xsl', 'file_test_20120101.xsl', 200  ,    1, '2012-06-06');
 
-update  tBookAssets set cB01 = 1500000;
- 

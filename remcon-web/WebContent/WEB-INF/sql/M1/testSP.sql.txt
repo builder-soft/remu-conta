@@ -105,6 +105,7 @@ delete from remcon.tOvertime;
 insert into remcon.tOvertime(cEmployee, cPeriod, cDate, cHours)
 VALUES(1, 2, '2012-06-15', 4);
 
+update  remcon.tBookAssets set cB01 = 1500000;
 
 call remcon.pCalculateSalary(1,'2012-06-01', 30);
 call remcon.pCalculateSalary(2,'2012-05-01', 30);
