@@ -77,7 +77,7 @@ BEGIN
 	SELECT * FROM	tUniqueTax;
 	select 2;
 	*/
-	DECLARE vUTM, vIncome, vUniqueTax DOUBLE DEFAULT 0;
+	DECLARE vUTM, vIncome, vUniqueTax, vFactor DOUBLE DEFAULT 0;
 	DECLARE vPeriod BIGINT DEFAULT 0;
 	
 	SELECT	cUTM, cPeriod, cIncome
@@ -85,8 +85,9 @@ BEGIN
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
 
-select vIncome;
 /*
+select vIncome;
+
 SELECT	*, (cLimit * vUTM) AS cTo, cDiscount * vUTM AS rebaja
 FROM	tUniqueTax
 WHERE	cPeriod = vPeriod;
@@ -97,9 +98,13 @@ SELECT	vIncome, *, (cLimit * vUTM) AS cTo, cDiscount * vUTM AS rebaja
 FROM	tUniqueTax
 WHERE	cPeriod = vPeriod AND cLimit * vUTM < vIncome
 ORDER BY cTo DESC;
-*/
+
 
 SELECT	vIncome*(cLimit * vUTM)-(cDiscount * vUTM)
+
+*/
+
+SELECT	vIncome * cFactor - (cDiscount*vUTM) 
 INTO	vUniqueTax
 FROM	tUniqueTax
 WHERE	cPeriod = vPeriod AND cLimit * vUTM < vIncome
@@ -107,8 +112,18 @@ ORDER BY (cLimit * vUTM) DESC
 LIMIT 0,1;
 
 
+SELECT	vUniqueTax, '=', vIncome, cFactor, vUTM, cDiscount, '--->', vIncome * cFactor - (cDiscount*vUTM) 
+FROM	tUniqueTax
+WHERE	cPeriod = vPeriod AND cLimit * vUTM < vIncome
+ORDER BY (cLimit * vUTM) DESC
+LIMIT 0,1;
+
+/*
+select vUniqueTax, '=', vIncome, cLimit * vUTM)-(cDiscount * vUTM);
+*/
+
 	UPDATE	remcon.tBookDiscounts
-	SET		cUniqueTax  = vUTM * 2
+	SET		cUniqueTax  = vUniqueTax
 	WHERE	cBook = pBook;
 	
 END$$
