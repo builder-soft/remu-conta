@@ -27,7 +27,8 @@ CREATE TABLE IF NOT EXISTS tFile (
     cFileName		VARCHAR(40) NOT NULL COMMENT 'Nombre del archivo que se subio, ej. foto-01.jpg',
     cFileRealName	VARCHAR(50) NOT NULL COMMENT 'Archivo en el disco 128706682-12345678901234567890.png',
     cSize			BIGINT NOT NULL COMMENT 'Tamaño del archivo',
-    cFileCategory	BIGINT
+    cFileCategory	BIGINT,
+    cDateTime		DATETIME
 ) ENGINE=innoDB;
 
 /*

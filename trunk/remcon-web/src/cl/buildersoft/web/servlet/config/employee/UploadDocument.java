@@ -3,6 +3,7 @@ package cl.buildersoft.web.servlet.config.employee;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class UploadDocument extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				document.setDateTime(new Date());
+				document.setDateTime(new Timestamp(new Date().getDate()));
 				document.setSize((item.getSize() / 1024));
 				document.setFileName(item.getName());
 				document.setFileRealName(realName);
