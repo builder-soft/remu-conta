@@ -7,53 +7,53 @@ public class Document extends BSBean {
 	private static final long serialVersionUID = 7991912578572439406L;
 	private String TABLE = "tFile";
 	
-	private Long cEmployee;
-	private String cDesc;
-	private String cFileName;
-	private String cFileRealName;
-	private Long cSize;
-	private Long cFileCategory;
-	private Date cDateTime;
-	public Date getcDateTime() {
-		return cDateTime;
+	private Long employee;
+	private String desc;
+	private String fileName;
+	private String fileRealName;
+	private Long size;
+	private Long fileCategory;
+	private Date dateTime;
+	public Long getEmployee() {
+		return employee;
 	}
-	public void setcDateTime(Date cDateTime) {
-		this.cDateTime = cDateTime;
+	public void setEmployee(Long employee) {
+		this.employee = employee;
 	}
-	public Long getcEmployee() {
-		return cEmployee;
+	public String getDesc() {
+		return desc;
 	}
-	public void setcEmployee(Long cEmployee) {
-		this.cEmployee = cEmployee;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
-	public String getcDesc() {
-		return cDesc;
+	public String getFileName() {
+		return fileName;
 	}
-	public void setcDesc(String cDesc) {
-		this.cDesc = cDesc;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
-	public String getcFileName() {
-		return cFileName;
+	public String getFileRealName() {
+		return fileRealName;
 	}
-	public void setcFileName(String cFileName) {
-		this.cFileName = cFileName;
+	public void setFileRealName(String fileRealName) {
+		this.fileRealName = fileRealName;
 	}
-	public String getcFileRealName() {
-		return cFileRealName;
+	public Long getSize() {
+		return size;
 	}
-	public void setcFileRealName(String cFileRealName) {
-		this.cFileRealName = cFileRealName;
+	public void setSize(Long size) {
+		this.size = size;
 	}
-	public Long getcSize() {
-		return cSize;
+	public Long getFileCategory() {
+		return fileCategory;
 	}
-	public void setcSize(Long cSize) {
-		this.cSize = cSize;
+	public void setFileCategory(Long fileCategory) {
+		this.fileCategory = fileCategory;
 	}
-	public Long getcFileCategory() {
-		return cFileCategory;
+	public Date getDateTime() {
+		return dateTime;
 	}
-	public void setcFileCategory(Long cFileCategory) {
-		this.cFileCategory = cFileCategory;
+	public void setDateTime(Date dateTime) {
+		this.dateTime = dateTime;
 	}
 }

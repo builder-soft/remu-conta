@@ -42,48 +42,69 @@
 </table>
 <br>
 <form action="${pageContext.request.contextPath}/servlet/config/employee/DocumentEmployee" method="post" id="editForm">
-	<input type="hidden" name="cId" value="<%=request.getParameter("cId")%>">
+	<input type="hidden" name="cId" value="<%=request.getParameter("cId") != null ? request.getParameter("cId") : request.getAttribute("cId")%>">
 	<input type="hidden" id="idDocument" name="idDocument" value=""/>
 	<input type="hidden" id="Method" name="Method"/>
-	<table border="0">
+	<table border="0" width="400px">
 			<tr>
 					<td>
 					<table class="cList" cellpadding="0" cellspacing="0">
 					<tr>
-						<td class="cHeadTD">Documento</td>
-						<td class="cHeadTD">Fecha</td>
-						<td class="cHeadTD">Tamaño</td>
+						<td class="cHeadTD" width="30%">Documento</td>
+						<td class="cHeadTD" width="30%">Fecha</td>
+						<td class="cHeadTD" width="40%">Tamaño</td>
 						<td class="cHeadTD"></td>
 					</tr>
-							<%			
+							<%	
+							if(listadoArchivos.size() == 0)
+							{
+							%>
+							<tr>
+								<td colspan="3">No existen registros</td>
+							</tr>
+							<%
+							}
+							
 							for(Document document : listadoArchivos)
 							{											
 							%>
 								<tr>
-									<td class="cDataTD_odd"><%=document.getcFileRealName()%></td>
-									<td class="cDataTD_odd"><%=document.getcDateTime()%></td>
-									<td class="cDataTD_odd"><%=document.getcSize()%></td>
+									<td class="cDataTD_odd"><%=document.getFileName()%></td>
+									<td class="cDataTD_odd"><%=BSWeb.date2String(request,document.getDateTime())%></td>
+									<td class="cDataTD_odd"><%=document.getSize()%></td>
 									<td class="cDataTD_odd"><a href="javascript:$('#Method').val('delete');$('#idDocument').val('<%=document.getId()%>');$('#editForm').submit();">Eliminar</a></td>
 								<tr/>
 							<%
 							}
 							%>
-					</table>
-					
-					<table>
-					<tr>
-						<td>Documento:</td>
-						<td><input type="file" id="fileUpload"> Seleccionar archivo</td>
-					</tr>
-					</table>
+					</table>					
 			</tr>		
 	</table>
 </form>
+
+<form action="${pageContext.request.contextPath}/servlet/config/employee/UploadDocument" method="post" id="uploadForm" enctype='multipart/form-data'>
+			<input type="hidden" name="cIdEmployee" value="<%=request.getParameter("cId") != null ? request.getParameter("cId") : request.getAttribute("cId")%>">
+			<br/>
+			<table border="0">
+			<tr>
+				<td>Nombre del archivo:</td>
+				<td><input type="text" name="desc"></td>
+			</tr>
+			<tr>
+				<td>Documento:</td>
+				<td><input type="file" name="file1"><br></td>
+			</tr>
+			<tr>
+				<td><input type="submit"></td>
+			</tr>
+			</table>
+</form>
+
 <br>
-<input type="button" value="Aceptar"
-	onclick="javascript:$('#editForm').submit();">
+<input type="button" value="Aceptar" onclick="javascript:$('#editForm').submit();">
 &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;
-<a href="${pageContext.request.contextPath}/servlet/table/LoadTable">Cancelar</a>&nbsp;&nbsp;&nbsp;
+<input type="button" value="Aceptar" onclick="javascript:window.location.href='${pageContext.request.contextPath}/servlet/table/LoadTable'">
+
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
