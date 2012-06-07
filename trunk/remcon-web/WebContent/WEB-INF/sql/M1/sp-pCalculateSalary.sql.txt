@@ -12,6 +12,8 @@ DROP PROCEDURE IF EXISTS remcon.pObligatoryQuote;
 DROP PROCEDURE IF EXISTS remcon.pLawfulQuote;
 DROP PROCEDURE IF EXISTS remcon.pAdditionalHealth;
 DROP PROCEDURE IF EXISTS remcon.pUnemploymentInsuranceAmount;
+DROP PROCEDURE IF EXISTS remcon.pFamilyAssignment;
+DROP PROCEDURE IF EXISTS remcon.pUniqueTax;
 DROP FUNCTION IF exists remcon.fSaveBookForEmployee;
 DROP FUNCTION IF EXISTS remcon.fGetPFMForBook;
 DROP FUNCTION IF EXISTS remcon.fGetHealthForBook;
@@ -42,16 +44,103 @@ BEGIN
 	CALL remcon.pAPV(vBook);
 	CALL remcon.pAdditionalHealth(vBook);
 	CALL remcon.pUnemploymentInsuranceAmount(vBook);
-	
+	CALL remcon.pFamilyAssignment(vBook);
 	
 /*	=SI(+AY13+AZ13<=(4,2*PARAMETROS!$D$10);AY13+AZ13;4,2*PARAMETROS!$D$10)*/
 	
 	CALL remcon.pIncome(vBook);
+	CALL remcon.pUniqueTax(vBook);
+	
 	
 END$$
 
-/************************/
+CREATE PROCEDURE remcon.pUniqueTax(pBook BIGINT)
+BEGIN
+/*
+=SI(cIncome<=TRAMO1){
+	0
+}else{
+	SI(cIncome<=TRAMO2){
+		;cIncome*FacT2-DesT2
+		}else{
+		;SI(cIncome<=TRAMO3){
+			;cIncome*FacT3-DesT3
+		}else{
+			;SI(cIncome<=TRAMO4){
+				;cIncome*FacT4-DesT4
+			}else{
+				;SI(cIncome<=TRAMO5;cIncome*FacT5-DesT5;SI(cIncome<=TRAMO6;cIncome*FacT6-DesT6;SI(cIncome<=TRAMO7;cIncome*FacT7-DesT7;cIncome*FacT8-DesT8)))))))
+ */
+	
+	/*
+	select 1;
+	SELECT * FROM	tUniqueTax;
+	select 2;
+	*/
+	DECLARE vUTM, vIncome, vUniqueTax DOUBLE DEFAULT 0;
+	DECLARE vPeriod BIGINT DEFAULT 0;
+	
+	SELECT	cUTM, cPeriod, cIncome
+	INTO	vUTM, vPeriod, vIncome
+	FROM	remcon.vBook
+	WHERE	cId = pBook;
 
+select vIncome;
+/*
+SELECT	*, (cLimit * vUTM) AS cTo, cDiscount * vUTM AS rebaja
+FROM	tUniqueTax
+WHERE	cPeriod = vPeriod;
+
+cIncome*FacT2-DesT2
+
+SELECT	vIncome, *, (cLimit * vUTM) AS cTo, cDiscount * vUTM AS rebaja
+FROM	tUniqueTax
+WHERE	cPeriod = vPeriod AND cLimit * vUTM < vIncome
+ORDER BY cTo DESC;
+*/
+
+SELECT	vIncome*(cLimit * vUTM)-(cDiscount * vUTM)
+INTO	vUniqueTax
+FROM	tUniqueTax
+WHERE	cPeriod = vPeriod AND cLimit * vUTM < vIncome
+ORDER BY (cLimit * vUTM) DESC
+LIMIT 0,1;
+
+
+	UPDATE	remcon.tBookDiscounts
+	SET		cUniqueTax  = vUTM * 2
+	WHERE	cBook = pBook;
+	
+END$$
+/************************/
+CREATE PROCEDURE remcon.pFamilyAssignment(pBook BIGINT)
+BEGIN
+	DECLARE vFamilyAssignmentCount INTEGER DEFAULT 0;
+	DECLARE vAgreement, vFamilyAssignmentStretch BIGINT DEFAULT 0;
+	DECLARE vFamilyAssignmentAmount, vFamilyAssignmentUnique DOUBLE DEFAULT 0;
+	
+	SELECT	cAgreement
+	INTO	vAgreement
+	FROM	remcon.vBook
+	WHERE	cId = pBook;
+	
+	SELECT	a.cFamilyAssignmentStretch,	b.cAmount,					a.cSimpleLoads + a.cDisabilityBurdens + a.cMaternalLoads
+	INTO	vFamilyAssignmentStretch,	vFamilyAssignmentUnique,	vFamilyAssignmentCount
+	FROM	remcon.tAgreement AS a
+	LEFT JOIN tFamilyAssignmentStretchHistory AS b ON a.cFamilyAssignmentStretch = b.cId
+	WHERE	a.cId = vAgreement;
+	
+	SET vFamilyAssignmentAmount = vFamilyAssignmentUnique * vFamilyAssignmentCount;
+
+	UPDATE	remcon.tBookAssets 
+	SET		cFamilyAssignmentStretch = vFamilyAssignmentStretch,
+			cFamilyAssignmentCount = vFamilyAssignmentCount,
+			cFamilyAssignmentAmount = vFamilyAssignmentAmount
+	WHERE	cBook = pBook;
+
+END$$
+
+/************************/
 CREATE PROCEDURE remcon.pUnemploymentInsuranceAmount(pBook BIGINT)
 BEGIN
 	DECLARE vInsuranceFactor, vUnemploymentInsuranceAmount,

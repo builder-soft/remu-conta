@@ -25,6 +25,8 @@ INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_INTEGER',
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_DECIMAL', 'Formato para montos', '###,###.##', @stringId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CSV_SEPARATOR', 'Separador de archivos csv', ';', @stringId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('RECORDS_PER_PAGE', 'Registros por p&aacute;gina', '15', @integerId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('EMPLOYEE_FILES', 'Ubicación de archivos de empleados (en server)', 'd:\temp', @doubleId);
+
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('BASE_SALARY', 'Sueldo Base', '185000', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('OVERTIME_FACTOR', 'Factor para cálculo de horas extras', '0.0077777', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('GRATIFICATION_FACTOR', 'Factor grtificacion x sueldos minímos', '4.75', @doubleId);
@@ -33,6 +35,7 @@ INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_INSURANCE'
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('INSURANCE_FACTOR', 'Factor para cálculo de seguro de cesantía', '0.006', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CURRENT_UF', 'Valor actual de la UF', '21031.5', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_HEALTH', 'Tope cotizacion de salud, en UF', '4.2', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('UTM', 'Valor de una UTM', '36862', @doubleId);
 
 /*
 SET @date = CONCAT(YEAR(CURDATE()), '-', MONTH(CURDATE()), '-', '01');
@@ -928,9 +931,26 @@ INSERT INTO tUnemploymentInsurance(cName) VALUES ('Sin seguro');
 */
 /** DATOS DE PRUEBA */
 
+/* Tabla de impuestos únicos 
+INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('1', 13.5,	0.00,	0);
+INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('2', 0030,	0.05,	0.675);
+INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('3', 0050,	0.10,	2.175);
+INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('4', 0070,	0.15,	4.675);
+INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('5', 0090,	0.25,	11.675);
+INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('6', 0120,	0.32,	17.975);
+INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('7', 0150,	0.37,	23.975);
+INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('8', 9999,	0.40,	28.475);
+*/
+
 call remcon.pSavePeriod('2012-05-01', @Period1);
 call remcon.pSavePeriod('2012-06-01', @Period2);
 call remcon.pOpenPeriod(@Period1);
+
+INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES(' ', 0);
+INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('A', 5393);
+INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('B', 4223);
+INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('C', 1375);
+INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('D', 0);
 
 INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('33', 'Capital', 11.44, 1.49);
 INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('3', 'Cuprum', 11.48, 1.49);
@@ -981,8 +1001,8 @@ INSERT INTO tEmployee(cRut,				cName,	cLastName1,	cLastName2,	cBirthDate,		cAddr
 VALUES(					'10809246-7',	'Pato',	'Aranguiz',	'Torres',	'1966-08-28',	'Fray Camilo Henriquez 2063',	2,			3,			1,			@single,				'', 	'',		'');
 SET @employeeId = LAST_INSERT_ID();
 
-INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cAdditionalHealthCurrency,	cAdditionalHealthAmount)
-VALUES(					@employeeId,	2,				'2009-12-01',	'2013-01-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000, 		2,							12000);
+INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cAdditionalHealthCurrency,	cAdditionalHealthAmount,	cFamilyAssignmentStretch,	cMaternalLoads)
+VALUES(					@employeeId,	2,				'2009-12-01',	'2013-01-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000, 		2,							12000,						2,							3);
 SET @agreementId = LAST_INSERT_ID();
 
 INSERT INTO tR_AgreementAPV(cAgreement, cAPV, cCurrency, cAmount)
@@ -991,10 +1011,14 @@ VALUES(@agreementId, @APV1, @clp, 12000);
 INSERT INTO tEmployee(cRut,				cName,		cLastName1,	cLastName2,	cBirthDate,		cAddress,	cGenere,	cComuna,	cCountry,	cMaritalStatus,	cPhone, cMovil, cEmail) 
 VALUES(					'12870668-2',	'Claudio',	'Moscoso',	'Howard',	'1966-08-28',	'xxx',		2,			3,			1,			@single,		'', 	'',		'');
 SET @employeeId = LAST_INSERT_ID();
-INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cAdditionalHealthCurrency,	cAdditionalHealthAmount)
-VALUES(					@employeeId,	1,				'2009-12-01',	'2013-01-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000,			1,							2);
+INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cAdditionalHealthCurrency,	cAdditionalHealthAmount,	cFamilyAssignmentStretch)
+VALUES(					@employeeId,	1,				'2009-12-01',	'2013-01-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000,			1,							2,							2);
 
+ 
 INSERT INTO tfilecategory( cName ) VALUES('Archivo excel');
 
 INSERT INTO tfile( cEmployee, 	cDesc, 				 cFileName, 			  cFileRealName, 			cSize, cFileCategory, cDateTime ) 
 VALUES (		   1, 'Archivo de prueba', 'archivo_de_prueba.xsl', 'file_test_20120101.xsl', 200  ,    1, '2012-06-06');
+
+update  tBookAssets set cB01 = 1500000;
+ 
