@@ -9,6 +9,7 @@ SELECT	a.cId AS cId,
 		f.cId AS cAgreement,
 		e.cLastName1,
 		d.cUF,
+		d.cUTM,
 		a.cWorkDays,
 		a.cContractType,
 		d.cMinSalary,
@@ -37,20 +38,21 @@ SELECT	a.cId AS cId,
 		c.cLimitTaxableDismissInsurance,	/* Tope Imponible Seguro Cesantia - Parámetro del mes, es un valor fijo */
 		d.cLimitInsurance,					/* Tope de Seguro de cesantia */
 		d.cLimitIPS,						/* Tope imponible para afiliados al IPS (ex INP) en UFs */
-		
 		b.cIncome,							/* Renta Afecta */
 		
 		b.cFamilyAssignmentStretch,			/* Tramo asignacion familiar */
+		b.cFamilyAssignmentCount,			/* Cantidad de cargas familiares */
+		b.cFamilyAssignmentAmount,			/* Monto por cargas familiares */
+		b.cFamilyRetroactive,				/* Retroactivo familiar, esto se asigna mes a mes */
+
+		b.cFeeding,
+		b.cMobilization,
+		b.cBounty,
 		
 		a.cHorary,
 		b.cId AS cAssetsId,
 		b.cRewardAmount,
-		b.cFamilyAssignment,
-		b.cFamilyAssignmentAmount,
-		b.cRetroactiveFamily,
-		b.cFeeding,
-		b.cMobilization,
-		b.cBounty,
+		
 		b.cMonthNotification,
 		b.cIAS,
 		b.cProportionalHoliday,
@@ -76,18 +78,13 @@ SELECT	a.cId AS cId,
 		d.cInsuranceFactor,					/* Factor para cálculo de seguro de cesantía */
 		c.cUnemploymentInsuranceAmount,		/* Monto Seguro Cesantia en pesos */
 		
-		c.cUniqueTax,
+		c.cUniqueTax,						/* Impuesto único */
 		c.cAdvance,
 		c.cLoanEnterprise,
 		c.cLoanCompensationFund,
 		c.cSavingCompensationFund,
 		c.cJudicialRetention
 /********************
-*/
-
-/*,
-a.*, b.*, c.* 
-
 	cTotalIncomeNoTaxable			/ * Total Haberes No Imponibles * /,
 	cTotalIncome					/ * Total Haberes * /,
 	*CotizacionAdicional			/ *  * /,

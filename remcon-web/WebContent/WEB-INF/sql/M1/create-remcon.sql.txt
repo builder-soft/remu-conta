@@ -216,8 +216,26 @@ create table tAgreement(
 	cSimpleLoads		INTEGER	NOT NULL DEFAULT '0' 	COMMENT 'Cargas Simples',
 	cDisabilityBurdens	INTEGER	NOT NULL DEFAULT '0' 	COMMENT 'Cargas Invalidez',
 	cMaternalLoads		INTEGER	NOT NULL DEFAULT '0' 	COMMENT 'Cargas Maternales',
+	
+	cFamilyAssignmentStretch	BIGINT(20) NOT NULL  COMMENT 'Tramo de asignación familiar',
 	PRIMARY KEY (cId)
 )ENGINE=InnoDB;
+
+create table tFamilyAssignmentStretch(
+	cId					BIGINT(20)  NOT NULL auto_increment,
+	cKey				CHAR(1) NOT NULL DEFAULT ' ' COMMENT 'Tramo de asignación familiar',
+	cAmount				DOUBLE COMMENT 'Monto a considerar por cada una de las cargas',
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+create table tFamilyAssignmentStretchHistory(
+	cId					BIGINT(20) NOT NULL auto_increment,
+	cPeriod				BIGINT(20) NOT NULL COMMENT 'Codigo del período',
+	cKey				CHAR(1) NOT NULL DEFAULT ' ' COMMENT 'Tramo de asignación familiar',
+	cAmount				DOUBLE COMMENT 'Monto a considerar por cada una de las cargas',
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
 
 create table tEnterprise (
 	cId					BIGINT(20)  NOT NULL auto_increment, 
@@ -394,6 +412,27 @@ create table tOvertime(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+/*
+La tabla tPeriodStatus es para indicar si el período está cerrado o abierto, si está cerrado, no se 
+pueden cambiar los valores de la tabla.
+*/
+create table tPeriodStatus(
+	cId			BIGINT(20) NOT NULL auto_increment,
+	cName		VARCHAR(50) NOT NULL,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+/* Esta tabla tiene los tramos de los Impuestos únicos */ 
+create table tUniqueTax(
+	cId			BIGINT(20) NOT NULL auto_increment,
+	cPeriod		BIGINT(20) NOT NULL COMMENT 'Enlace con la tabla tPeriod - 01/Mes/Año',
+	cKey		VARCHAR(1) NOT NULL,
+	cLimit		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Limite superior del tramo, se multiplica con UTM, Ej. 30xUTM',
+	cFactor		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Factor de descuento',
+	cDiscount	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Factor de rebaja que se multiplica por la UTM, Ej. 0,675 x UTM',
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
 /**
 La tabla tPeriod sirve para identificar los períodos para los cuales existe cálculo, y 
 los parámetros que aplican en forma general.
@@ -411,26 +450,9 @@ create table tPeriod(
 	cLimitInsurance			DOUBLE NOT NULL COMMENT 'Tope de seguro de cesantia',
 	cLimitHealth			DOUBLE NOT NULL COMMENT 'Tope de salud, expresado en UF',
 	cInsuranceFactor		DOUBLE NOT NULL COMMENT 'Factor para calcular el seguro de cesania',
+	cUTM					DOUBLE NOT NULL COMMENT 'Valor de una UTM',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
-
-/*
-La tabla tPeriodStatus es para indicar si el período está cerrado o abierto, si está cerrado, no se 
-pueden cambiar los valores de la tabla.
-*/
-create table tPeriodStatus(
-	cId			BIGINT(20) NOT NULL auto_increment,
-	cName		VARCHAR(50) NOT NULL,
-	PRIMARY KEY (cId)
-) ENGINE=InnoDB;
-
-/* Esta tabla tiene los tipos de seguros de cesantia 
-create table tUnemploymentInsurance(
-	cId			BIGINT(20) NOT NULL auto_increment,
-	cName		VARCHAR(50) NOT NULL,
-	PRIMARY KEY (cId)
-) ENGINE=InnoDB;
-*/
 
 /*
 Esta tabla tiene todos los empleados agrupados por período.
@@ -457,11 +479,9 @@ create table tBookAssets(
 	cGratificationType			BIGINT(20) NOT NULL COMMENT 'Tipo de Gratificación - cp from tAgreement.cGratificationType',
 	cGratificationAmount		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto de la gratificación',
 	cRewardAmount				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Gratificacion - Basado en cGratificationType, buscar el que le corresponde(%, monto o 0)',
-	cFamilyAssignmentStretch	CHAR(1)	NOT NULL DEFAULT 'A' COMMENT 'Tramo Asignacion Familiar - Se ingresa por empleado, [A/B/C/D]',
 /*
-Tramo SE INGRESA A MANO LA LETRA "A,B,C,D" ya que es la caja de
-compensacion la que determina el tramo al que pertenece el trabajor
-No se calcula
+Tramo SE INGRESA A MANO LA LETRA "A,B,C,D" ya que es la caja de compensacion la que determina el tramo al que pertenece 
+el trabajor, No se calcula
 */
 	cOvertimeAmount				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto ganado por horas extras - se calcula',
 	cParticipation				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Aplica cuando tiene participacion en empresa - Ingreso por período',
@@ -478,9 +498,12 @@ No se calcula
 	cExtraPay					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Aguinaldo - Se ingresa por período',
 	cTotalIncomeTaxable			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Total Haberes Imponibles - suma de bonos, gratificacion y sueldo ganado',
 	cIncome						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Renta afecta',
-	cFamilyAssignment			INTEGER NOT NULL DEFAULT '0' COMMENT 'Cargas Familiares - tAgreement.CAMPO_NUEVO',
+	
+	cFamilyAssignmentStretch	CHAR(1)	NOT NULL DEFAULT ' ' COMMENT 'Tramo Asignacion Familiar - Se ingresa por empleado, [A/B/C/D]',
+	cFamilyAssignmentCount		INTEGER NOT NULL DEFAULT '0' COMMENT 'Cargas Familiares - tAgreement.CAMPO_NUEVO',
 	cFamilyAssignmentAmount 	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Por Cargas - Calcular',
-	cRetroactiveFamily			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Familiar Retroactivo - Se ingresa por período',
+	cFamilyRetroactive			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Retroactivo Familiar, esto se asigna mes a mes',
+	
 	cFeeding					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Colación - Se ingresa por período',
 	cMobilization				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Movilización - Se ingresa por período',
 	cBounty               		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Viaticos - Se ingresa por período',

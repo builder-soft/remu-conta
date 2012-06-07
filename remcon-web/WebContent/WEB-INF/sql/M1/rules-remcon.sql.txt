@@ -27,58 +27,35 @@ ADD CONSTRAINT employeeToComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(
 /** AGREEMENT */
 ALTER TABLE remcon.tAgreement
 ADD INDEX Employee_index (cEmployee ASC),
-ADD CONSTRAINT AgreementToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId);
-
-ALTER TABLE remcon.tAgreement
+ADD CONSTRAINT AgreementToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId),
 ADD INDEX contractType_index (cContractType ASC),
-ADD CONSTRAINT AgreementToContractType FOREIGN KEY (cContractType) REFERENCES remcon.tContractType(cId);
-
-ALTER TABLE remcon.tAgreement
+ADD CONSTRAINT AgreementToContractType FOREIGN KEY (cContractType) REFERENCES remcon.tContractType(cId),
 ADD INDEX profile_index (cProfile ASC),
-ADD CONSTRAINT EmployeeToProfile FOREIGN KEY (cProfile) REFERENCES remcon.tProfile(cId);
-
-ALTER TABLE remcon.tAgreement
+ADD CONSTRAINT EmployeeToProfile FOREIGN KEY (cProfile) REFERENCES remcon.tProfile(cId),
 ADD INDEX pfm_index (cPFM ASC),
-ADD CONSTRAINT AgreementToPFM FOREIGN KEY (cPFM) REFERENCES remcon.tPFM(cId);
-
-ALTER TABLE remcon.tAgreement
+ADD CONSTRAINT AgreementToPFM FOREIGN KEY (cPFM) REFERENCES remcon.tPFM(cId),
 ADD INDEX Health_index (cHealth ASC),
-ADD CONSTRAINT AgreementToHealth FOREIGN KEY (cHealth) REFERENCES remcon.tHealth(cId);
-
-ALTER TABLE remcon.tAgreement
+ADD CONSTRAINT AgreementToHealth FOREIGN KEY (cHealth) REFERENCES remcon.tHealth(cId),
 ADD INDEX gratificationType_index (cGratificationType ASC),
-ADD CONSTRAINT AgreementToGratificationType FOREIGN KEY (cGratificationType) REFERENCES remcon.tGratificationType(cId);
-
-ALTER TABLE remcon.tAgreement
+ADD CONSTRAINT AgreementToGratificationType FOREIGN KEY (cGratificationType) REFERENCES remcon.tGratificationType(cId),
 ADD INDEX Agreement_index_PaymentType (cPaymentType ASC),
-ADD CONSTRAINT AgreementToPaymentType FOREIGN KEY (cPaymentType) REFERENCES remcon.tPaymentType(cId);
-
-ALTER TABLE remcon.tAgreement
+ADD CONSTRAINT AgreementToPaymentType FOREIGN KEY (cPaymentType) REFERENCES remcon.tPaymentType(cId),
 ADD INDEX Horary_index (cHorary ASC),
-ADD CONSTRAINT AgreementToHorary FOREIGN KEY (cHorary) REFERENCES remcon.tHorary(cId);
-
-ALTER TABLE remcon.tAgreement
+ADD CONSTRAINT AgreementToHorary FOREIGN KEY (cHorary) REFERENCES remcon.tHorary(cId),
 ADD INDEX Bank_index (cBank ASC),
-ADD CONSTRAINT AgreementToBank FOREIGN KEY (cBank) REFERENCES remcon.tBank(cId);
-
-ALTER TABLE remcon.tAgreement
+ADD CONSTRAINT AgreementToBank FOREIGN KEY (cBank) REFERENCES remcon.tBank(cId),
 ADD INDEX AccountType_index (cAccountType ASC),
-ADD CONSTRAINT AgreementToAccountType FOREIGN KEY (cAccountType) REFERENCES remcon.tAccountType(cId);
-
-ALTER TABLE remcon.tAgreement
+ADD CONSTRAINT AgreementToAccountType FOREIGN KEY (cAccountType) REFERENCES remcon.tAccountType(cId),
 ADD INDEX ExBoxSystem_index (cExBoxSystem ASC),
-ADD CONSTRAINT AgreementToExBoxSystem FOREIGN KEY (cExBoxSystem) REFERENCES remcon.tExBoxSystem(cId);
-
-ALTER TABLE remcon.tAgreement
+ADD CONSTRAINT AgreementToExBoxSystem FOREIGN KEY (cExBoxSystem) REFERENCES remcon.tExBoxSystem(cId),
 ADD INDEX CurrencyAct2_index (cCurrencyAccount2 ASC),
-ADD CONSTRAINT CurrencyAccount2ToCurrency FOREIGN KEY (cCurrencyAccount2) REFERENCES remcon.tCurrency(cId);
-
-ALTER TABLE remcon.tAgreement
+ADD CONSTRAINT CurrencyAccount2ToCurrency FOREIGN KEY (cCurrencyAccount2) REFERENCES remcon.tCurrency(cId),
 ADD INDEX Currency_index (cCurrencyAccount2 ASC),
 ADD CONSTRAINT AgrementToCurrency FOREIGN KEY (cCurrencyAccount2) REFERENCES remcon.tCurrency(cId),
-
 ADD INDEX AdditionalHealthCurrency_index (cAdditionalHealthCurrency ASC),
-ADD CONSTRAINT AdditionalHealthCurrencyToCurrency FOREIGN KEY (cAdditionalHealthCurrency) REFERENCES remcon.tCurrency(cId);
+ADD CONSTRAINT AdditionalHealthCurrencyToCurrency FOREIGN KEY (cAdditionalHealthCurrency) REFERENCES remcon.tCurrency(cId),
+ADD INDEX Agreement_index_FamilyAssignmentStretch (cFamilyAssignmentStretch ASC),
+ADD CONSTRAINT AgreementToFamilyAssignmentStretch FOREIGN KEY (cFamilyAssignmentStretch) REFERENCES remcon.tFamilyAssignmentStretch(cId);
 
 /** AGREEMENT-APV */
 ALTER TABLE remcon.tR_AgreementAPV
@@ -219,6 +196,7 @@ DROP TRIGGER IF EXISTS remcon.InsertOnHealth;
 DROP TRIGGER IF EXISTS remcon.UpdateOnHealth;
 DROP TRIGGER IF EXISTS remcon.DeleteOnAgreementPFM;
 DROP TRIGGER IF EXISTS remcon.InsertOnAgreementPFM;
+DROP TRIGGER IF EXISTS remcon.InsertOnPeriod;
  
 DELIMITER $$
 
@@ -295,6 +273,57 @@ BEGIN
 			
 	INSERT INTO tR_AgreementAPVHistory (cPeriod, cAgreement, cAPV, cCurrency, cAmount) 
 	VALUES (vPeriod, NEW.cAgreement, NEW.cAPV, NEW.cCurrency, NEW.cAmount);
+END$$
+
+/* tFamilyAssignmentStretchHistory */
+CREATE TRIGGER remcon.InsertOnFamilyAssignmentStretch AFTER INSERT ON tFamilyAssignmentStretch
+FOR EACH ROW
+BEGIN
+	DECLARE vPeriod BIGINT DEFAULT 0;
+	SET vPeriod = fGetOpenedPeriod();
+ 
+	INSERT INTO tFamilyAssignmentStretchHistory (cPeriod, cKey, cAmount) 
+	VALUES (vPeriod, NEW.cKey, NEW.cAmount);
+END$$
+
+CREATE TRIGGER remcon.UpdateOnFamilyAssignmentStretch AFTER UPDATE ON tFamilyAssignmentStretch
+FOR EACH ROW
+BEGIN
+	DECLARE vPeriod BIGINT DEFAULT 0;
+	SET vPeriod = fGetOpenedPeriod();
+ 
+	INSERT INTO tHealthFamilyAssignmentStretchHistory (cPeriod, cKey, cAmount) 
+	VALUES (vPeriod, NEW.cKey, NEW.cAmount);
+END$$
+
+/* tPeriod */
+CREATE TRIGGER remcon.InsertOnPeriod AFTER INSERT ON tPeriod
+FOR EACH ROW
+BEGIN
+	DECLARE vPeriodCount INTEGER DEFAULT 0;
+	DECLARE vLastPeriod, vMax BIGINT DEFAULT 0;
+	
+	SET vPeriodCount = (SELECT COUNT(cId) FROM tPeriod);
+	
+	IF(vPeriodCount = 1) THEN
+		INSERT INTO tUniqueTax(cPeriod, cKey, cLimit, cFactor, cDiscount) VALUES(NEW.cId, '1', 13.5,	0.00,	0);
+		INSERT INTO tUniqueTax(cPeriod, cKey, cLimit, cFactor, cDiscount) VALUES(NEW.cId, '2', 0030,	0.05,	0.675);
+		INSERT INTO tUniqueTax(cPeriod, cKey, cLimit, cFactor, cDiscount) VALUES(NEW.cId, '3', 0050,	0.10,	2.175);
+		INSERT INTO tUniqueTax(cPeriod, cKey, cLimit, cFactor, cDiscount) VALUES(NEW.cId, '4', 0070,	0.15,	4.675);
+		INSERT INTO tUniqueTax(cPeriod, cKey, cLimit, cFactor, cDiscount) VALUES(NEW.cId, '5', 0090,	0.25,	11.675);
+		INSERT INTO tUniqueTax(cPeriod, cKey, cLimit, cFactor, cDiscount) VALUES(NEW.cId, '6', 0120,	0.32,	17.975);
+		INSERT INTO tUniqueTax(cPeriod, cKey, cLimit, cFactor, cDiscount) VALUES(NEW.cId, '7', 0150,	0.37,	23.975);
+		INSERT INTO tUniqueTax(cPeriod, cKey, cLimit, cFactor, cDiscount) VALUES(NEW.cId, '8', 9999,	0.40,	28.475);
+	ELSE
+		SET vLastPeriod = (SELECT cId FROM tPeriod WHERE cId != NEW.cId ORDER BY cId DESC LIMIT 0,1);
+
+		INSERT INTO tUniqueTax(cPeriod, cKey, cLimit, cFactor, cDiscount)
+
+		SELECT	NEW.cId, cKey, cLimit, cFactor, cDiscount 
+		FROM	tUniqueTax 
+		WHERE	cPeriod = vLastPeriod;
+			
+	END IF;
 END$$
 
 DELIMITER ;

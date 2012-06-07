@@ -1,15 +1,17 @@
-
 DROP TABLE IF EXISTS remcon.tFile;
 DROP TABLE IF EXISTS remcon.tFileCategory;
 drop table if exists remcon.tR_AgreementAPV;
 drop table if exists remcon.tR_AgreementAPVHistory;
 
 drop table if exists remcon.tAgreement;
-
 DROP TABLE IF EXISTS remcon.tBookDiscounts;
 DROP TABLE IF EXISTS remcon.tBookAssets;
 DROP TABLE IF EXISTS remcon.tBook;
 DROP TABLE IF EXISTS remcon.tOvertime;
+DROP TABLE IF EXISTS remcon.tFamilyAssignmentStretch;
+DROP TABLE IF EXISTS remcon.tFamilyAssignmentStretchHistory;
+
+DROP TABLE IF EXISTS remcon.tUniqueTax;
 
 DROP TABLE IF EXISTS remcon.tPFMHistory;
 DROP TABLE IF EXISTS remcon.tHealthHistory;
