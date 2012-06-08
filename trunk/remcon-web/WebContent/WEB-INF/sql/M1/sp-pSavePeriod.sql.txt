@@ -11,7 +11,8 @@ TODO: Hay que sacar el valor de la UF y Factor desde una tabla histórica
 por si hay que recalcular para atras...
 */
 	DECLARE vCurrentUF, vOvertimeFactor, vGratificationFactor, vMinSalary,
-			vLimitIPS, vLimitInsurance, vLimitHealth, vInsuranceFactor, vUTM DOUBLE DEFAULT 0; 
+			vLimitIPS, vLimitInsurance, vLimitHealth, vInsuranceFactor, vUTM DOUBLE DEFAULT 0;
+	DECLARE vDaysForYear INTEGER DEFAULT 0;
 
 	SET vCurrentUF = (SELECT cValue FROM tParameter WHERE cKey = 'CURRENT_UF');
 	SET vOvertimeFactor = (SELECT cValue FROM tParameter WHERE cKey = 'OVERTIME_FACTOR');
@@ -22,6 +23,7 @@ por si hay que recalcular para atras...
 	SET vLimitHealth = (SELECT cValue FROM tParameter WHERE cKey = 'LIMIT_HEALTH');
 	SET vInsuranceFactor = (SELECT cValue FROM tParameter WHERE cKey = 'INSURANCE_FACTOR');
 	SET vUTM = (SELECT cValue FROM tParameter WHERE cKey = 'UTM');
+	SET vDaysForYear = (SELECT cValue FROM tParameter WHERE cKey = 'DAYS_FOR_YEAR');
 	
 	IF EXISTS(	SELECT	cId 
 				FROM	remcon.tPeriod
@@ -37,7 +39,8 @@ por si hay que recalcular para atras...
 				cLimitInsurance = vLimitInsurance,
 				cLimitHealth = vLimitHealth,
 				cInsuranceFactor = vInsuranceFactor,
-				cUTM = vUTM
+				cUTM = vUTM,
+				cDaysForYear = vDaysForYear 
 /*
 	SELECT 	cMinSalary * cGratificationFactor
 	INTO	vOut 
@@ -53,10 +56,10 @@ por si hay que recalcular para atras...
 	ELSE
 		INSERT INTO remcon.tPeriod(cDate, cUF, cOvertimeFactor, cGratificationFactor, cMinSalary,
 				cLimitGratification, cLimitIPS, cLimitInsurance, cLimitHealth,
-				cInsuranceFactor, cUTM) 
+				cInsuranceFactor, cUTM, cDaysForYear) 
 		VALUES(pDate, vCurrentUF, vOvertimeFactor, vGratificationFactor, vMinSalary,
 				cMinSalary * cGratificationFactor, vLimitIPS, vLimitInsurance, vLimitHealth,
-				vInsuranceFactor, vUTM);
+				vInsuranceFactor, vUTM, vDaysForYear);
 		SET pPeriod = LAST_INSERT_ID();
 	END IF;
 END$$

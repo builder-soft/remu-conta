@@ -36,6 +36,7 @@ INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('INSURANCE_FACTOR
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CURRENT_UF', 'Valor actual de la UF', '21031.5', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_HEALTH', 'Tope cotizacion de salud, en UF', '4.2', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('UTM', 'Valor de una UTM', '36862', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('DAYS_FOR_YEAR', 'Días de vacaciones por año trabajado', '15', @integerId);
 
 /*
 SET @date = CONCAT(YEAR(CURDATE()), '-', MONTH(CURDATE()), '-', '01');
@@ -1002,7 +1003,7 @@ VALUES(					'10809246-7',	'Pato',	'Aranguiz',	'Torres',	'1966-08-28',	'Fray Cami
 SET @employeeId = LAST_INSERT_ID();
 
 INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cAdditionalHealthCurrency,	cAdditionalHealthAmount,	cFamilyAssignmentStretch,	cMaternalLoads)
-VALUES(					@employeeId,	2,				'2009-12-01',	'2013-01-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000, 		2,							12000,						2,							3);
+VALUES(					@employeeId,	2,				'2010-11-09',	'2011-07-27',	1,			6,		1,			2,					3,				580,			395,		1,			185000, 		2,							12000,						2,							3);
 SET @agreementId = LAST_INSERT_ID();
 
 INSERT INTO tR_AgreementAPV(cAgreement, cAPV, cCurrency, cAmount)
@@ -1019,4 +1020,8 @@ INSERT INTO tfilecategory( cName ) VALUES('Archivo excel');
 
 INSERT INTO tfile( cEmployee, 	cDesc, 				 cFileName, 			  cFileRealName, 			cSize, cFileCategory, cDateTime ) 
 VALUES (		   1, 'Archivo de prueba', 'archivo_de_prueba.xsl', 'file_test_20120101.xsl', 200  ,    1, '2012-06-06');
+
+INSERT INTO tFiscalDate(cDate) VALUES('2011-08-01');
+INSERT INTO tFiscalDate(cDate) VALUES('2011-08-02');
+
 
