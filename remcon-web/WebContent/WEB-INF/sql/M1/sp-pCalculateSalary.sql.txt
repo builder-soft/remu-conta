@@ -14,9 +14,14 @@ DROP PROCEDURE IF EXISTS remcon.pAdditionalHealth;
 DROP PROCEDURE IF EXISTS remcon.pUnemploymentInsuranceAmount;
 DROP PROCEDURE IF EXISTS remcon.pFamilyAssignment;
 DROP PROCEDURE IF EXISTS remcon.pUniqueTax;
+DROP PROCEDURE IF EXISTS remcon.pProportionalHoliday;
+DROP PROCEDURE IF EXISTS remcon.pSubtotalLawfulDiscounts;
 DROP FUNCTION IF exists remcon.fSaveBookForEmployee;
 DROP FUNCTION IF EXISTS remcon.fGetPFMForBook;
 DROP FUNCTION IF EXISTS remcon.fGetHealthForBook;
+DROP FUNCTION IF EXISTS remcon.fBusinessDate;
+DROP FUNCTION IF EXISTS remcon.fHoliday;
+DROP FUNCTION IF EXISTS remcon.fSalaryDaily;
 
 DELIMITER $$
 
@@ -50,33 +55,104 @@ BEGIN
 	
 	CALL remcon.pIncome(vBook);
 	CALL remcon.pUniqueTax(vBook);
-	
+	CALL remcon.pProportionalHoliday(vBook);
+	CALL remcon.pSubtotalLawfulDiscounts(vBook);
 	
 END$$
 
-CREATE PROCEDURE remcon.pUniqueTax(pBook BIGINT)
+CREATE PROCEDURE remcon.pSubtotalLawfulDiscounts(pBook BIGINT)
 BEGIN
 /*
-=SI(cIncome<=TRAMO1){
-	0
-}else{
-	SI(cIncome<=TRAMO2){
-		;cIncome*FacT2-DesT2
-		}else{
-		;SI(cIncome<=TRAMO3){
-			;cIncome*FacT3-DesT3
-		}else{
-			;SI(cIncome<=TRAMO4){
-				;cIncome*FacT4-DesT4
-			}else{
-				;SI(cIncome<=TRAMO5;cIncome*FacT5-DesT5;SI(cIncome<=TRAMO6;cIncome*FacT6-DesT6;SI(cIncome<=TRAMO7;cIncome*FacT7-DesT7;cIncome*FacT8-DesT8)))))))
+ =+AR13+AS13+AT13+AY13+AZ13+BC13+BD13
+ cObligatoryQuote+cAPVAmount+cHealthQuote+cUnemploymentInsuranceAmount+cUniqueTax
  */
 	
-	/*
-	select 1;
-	SELECT * FROM	tUniqueTax;
-	select 2;
-	*/
+	UPDATE	remcon.tBookDiscounts 
+	SET		cSubtotalLawfulDiscounts = cObligatoryQuote+cAPVAmount+cHealthQuote+cUnemploymentInsuranceAmount+cUniqueTax
+	WHERE	cBook = pBook;
+
+END$$
+
+CREATE PROCEDURE remcon.pProportionalHoliday(pBook BIGINT)
+/* Cálculo de vacaciones proporcionales 
+Ref.: http://www.dt.gob.cl/consultas/1613/w3-article-60200.html
+
+TODO: falta descontar los días de vacaciones.
+*/
+BEGIN
+	DECLARE vDaysForYear INTEGER DEFAULT 15;
+	DECLARE vDailyFactor, vDateDiff, vIndemnify, vIndemnifyDays DOUBLE DEFAULT 0;
+	DECLARE vStartContract, vEndContract, vDate, vBusinessDate DATE;
+	
+	SELECT	cDaysForYear, cStartContract, cEndContract, cDate
+	INTO	vDaysForYear, vStartContract, vEndContract, vDate
+	FROM	remcon.vBook
+	WHERE	cId = pBook;
+	
+	SET vDateDiff = DateDiff(vEndContract, vStartContract);
+	SET vDailyFactor = round((vDaysForYear / 12) / 30, 5);
+	
+	SET vIndemnify = vDailyFactor * vDateDiff;
+	SET vBusinessDate = remcon.fBusinessDate(vEndContract, vIndemnify);
+	SET vIndemnifyDays = (vIndemnify - FLOOR(vIndemnify)) + DateDiff(vBusinessDate, vEndContract);
+	
+	/*select vEndContract, FLOOR(vIndemnify), vIndemnify, vBusinessDate, vIndemnifyDays;*/
+	
+	UPDATE	remcon.tBookAssets 
+	SET		cProportionalHoliday = vIndemnifyDays * remcon.fSalaryDaily(pBook)
+	WHERE	cBook = pBook;
+
+END$$
+
+CREATE FUNCTION remcon.fSalaryDaily(pBook BIGINT) RETURNS DOUBLE
+BEGIN
+	DECLARE vOut DOUBLE DEFAULT 0;
+	
+	SELECT	cSalaryRoot / 30
+	INTO	vOut
+	FROM	remcon.vBook
+	WHERE	cId = pBook;
+	
+	RETURN vOut;
+END$$ 
+
+/* Funcion que retorma la fecha que resulta de la fecha inicial más los días que se pasan por parámetro */
+CREATE FUNCTION remcon.fBusinessDate(vStartDay DATE, vCountDays DOUBLE) RETURNS DATE
+BEGIN
+	DECLARE vIndexDay DATE;
+	DECLARE vIndex DOUBLE DEFAULT 0;
+	DECLARE vDayOfWeek INTEGER DEFAULT -1;
+	
+	SET vIndexDay = vStartDay;
+	WHILE vIndex < vCountDays DO
+		SET vIndexDay = vIndexDay + INTERVAL 1 DAY;
+		SET vIndex = vIndex + 1;
+		
+		SET vDayOfWeek = DAYOFWEEK(vIndexDay);
+		
+		IF(vDayOfWeek = 1 OR vDayOfWeek = 7 OR remcon.fHoliday(vIndexDay)) THEN
+			SET vIndex = vIndex - 1;
+		END IF;
+	END WHILE;
+	
+	RETURN vIndexDay;
+END$$
+
+/* Funcion que retorna si una fecha es feriada o no */
+CREATE FUNCTION remcon.fHoliday(vDate DATE) RETURNS BOOLEAN
+BEGIN
+	DECLARE vOut BOOLEAN DEFAULT FALSE;
+	
+	IF(EXISTS(SELECT cDate FROM tFiscalDate WHERE cDate = vDate)) THEN
+		SET vOut = TRUE; 
+	END IF;
+	
+	RETURN vOut;
+END$$
+
+/*****************************/
+CREATE PROCEDURE remcon.pUniqueTax(pBook BIGINT)
+BEGIN
 	DECLARE vUTM, vIncome, vUniqueTax, vFactor DOUBLE DEFAULT 0;
 	DECLARE vPeriod BIGINT DEFAULT 0;
 	
@@ -85,42 +161,12 @@ BEGIN
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
 
-/*
-select vIncome;
-
-SELECT	*, (cLimit * vUTM) AS cTo, cDiscount * vUTM AS rebaja
-FROM	tUniqueTax
-WHERE	cPeriod = vPeriod;
-
-cIncome*FacT2-DesT2
-
-SELECT	vIncome, *, (cLimit * vUTM) AS cTo, cDiscount * vUTM AS rebaja
-FROM	tUniqueTax
-WHERE	cPeriod = vPeriod AND cLimit * vUTM < vIncome
-ORDER BY cTo DESC;
-
-
-SELECT	vIncome*(cLimit * vUTM)-(cDiscount * vUTM)
-
-*/
-
-SELECT	vIncome * cFactor - (cDiscount*vUTM) 
-INTO	vUniqueTax
-FROM	tUniqueTax
-WHERE	cPeriod = vPeriod AND cLimit * vUTM < vIncome
-ORDER BY (cLimit * vUTM) DESC
-LIMIT 0,1;
-
-
-SELECT	vUniqueTax, '=', vIncome, cFactor, vUTM, cDiscount, '--->', vIncome * cFactor - (cDiscount*vUTM) 
-FROM	tUniqueTax
-WHERE	cPeriod = vPeriod AND cLimit * vUTM < vIncome
-ORDER BY (cLimit * vUTM) DESC
-LIMIT 0,1;
-
-/*
-select vUniqueTax, '=', vIncome, cLimit * vUTM)-(cDiscount * vUTM);
-*/
+	SELECT	vIncome * cFactor - (cDiscount*vUTM) 
+	INTO	vUniqueTax
+	FROM	tUniqueTax
+	WHERE	cPeriod = vPeriod AND cLimit * vUTM < vIncome
+	ORDER BY (cLimit * vUTM) DESC
+	LIMIT 0,1;
 
 	UPDATE	remcon.tBookDiscounts
 	SET		cUniqueTax  = vUniqueTax
@@ -542,7 +588,7 @@ BEGIN
 	CLOSE cursorAPV;
 			
 	UPDATE	remcon.tBookDiscounts
-	SET		cAVPAmount = vSum
+	SET		cAPVAmount = vSum
 	WHERE	cBook = pBook;
 
 END $$
@@ -604,3 +650,4 @@ BEGIN
 END$$
 
 DELIMITER ;
+

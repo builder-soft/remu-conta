@@ -412,6 +412,12 @@ create table tOvertime(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+create table tFiscalDate(
+	cId			BIGINT(20) NOT NULL auto_increment,
+	cDate		DATE NOT NULL UNIQUE,
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
 /*
 La tabla tPeriodStatus es para indicar si el período está cerrado o abierto, si está cerrado, no se 
 pueden cambiar los valores de la tabla.
@@ -451,6 +457,7 @@ create table tPeriod(
 	cLimitHealth			DOUBLE NOT NULL COMMENT 'Tope de salud, expresado en UF',
 	cInsuranceFactor		DOUBLE NOT NULL COMMENT 'Factor para calcular el seguro de cesania',
 	cUTM					DOUBLE NOT NULL COMMENT 'Valor de una UTM',
+	cDaysForYear			INTEGER NOT NULL DEFAULT '15' COMMENT 'Días de vacaciones por año trabajado',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -534,7 +541,7 @@ create table tBookDiscounts(
 	cBook							BIGINT(20) NOT NULL,
 	cPFMHistory						BIGINT(20) NOT NULL COMMENT 'Código de AFP',
 	cObligatoryQuote				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotizacion Obligatoria - Es un % multiplicado por el cLimitTaxableForecast',
-	cAVPAmount						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto APV - Suma de todos los montos en APV, algunos traducir a pesos desde UF',
+	cAPVAmount						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto APV - Suma de todos los montos en APV, algunos traducir a pesos desde UF',
 	cAccount2						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cuenta 2, Ahorro AFP - Se saca de la tabla tAccount',
 	cLimitTaxableForecast			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Previsional - Parámetro del mes, 60 UFs',
 	cLimitTaxableDismissInsurance	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Seguro Cesantia - Parámetro del mes, es un valor fijo',
@@ -582,6 +589,7 @@ parametro del mes (obvio)
 	cLoanCompensationFund			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Prestamo Caja Compenzacion', 
 	cSavingCompensationFund			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Ahorro Caja Compenzacion', 
 	cJudicialRetention				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Retenciones Judiciales',
+	cSubtotalLawfulDiscounts		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Sub total de descuentos legales',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
