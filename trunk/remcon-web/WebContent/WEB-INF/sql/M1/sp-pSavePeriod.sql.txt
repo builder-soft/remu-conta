@@ -11,24 +11,26 @@ TODO: Hay que sacar el valor de la UF y Factor desde una tabla histórica
 por si hay que recalcular para atras...
 */
 	DECLARE vCurrentUF, vOvertimeFactor, vGratificationFactor, vMinSalary,
-			vLimitIPS, vLimitInsurance, vLimitHealth, vInsuranceFactor, vUTM DOUBLE DEFAULT 0;
+			vLimitIPS, vLimitInsurance, vLimitHealth, vUTM DOUBLE DEFAULT 0;
 	DECLARE vDaysForYear INTEGER DEFAULT 0;
 
-	SET vCurrentUF = (SELECT cValue FROM tParameter WHERE cKey = 'CURRENT_UF');
-	SET vOvertimeFactor = (SELECT cValue FROM tParameter WHERE cKey = 'OVERTIME_FACTOR');
-	SET vGratificationFactor = (SELECT cValue FROM tParameter WHERE cKey = 'GRATIFICATION_FACTOR');
-	SET vMinSalary = (SELECT cValue FROM tParameter WHERE cKey = 'BASE_SALARY');
-	SET vLimitIPS = (SELECT cValue FROM tParameter WHERE cKey = 'LIMIT_IPS');
-	SET vLimitInsurance = (SELECT cValue FROM tParameter WHERE cKey = 'LIMIT_INSURANCE');
-	SET vLimitHealth = (SELECT cValue FROM tParameter WHERE cKey = 'LIMIT_HEALTH');
-	SET vInsuranceFactor = (SELECT cValue FROM tParameter WHERE cKey = 'INSURANCE_FACTOR');
-	SET vUTM = (SELECT cValue FROM tParameter WHERE cKey = 'UTM');
-	SET vDaysForYear = (SELECT cValue FROM tParameter WHERE cKey = 'DAYS_FOR_YEAR');
+	SET vCurrentUF =			(SELECT cValue FROM tParameter WHERE cKey = 'CURRENT_UF');
+	SET vOvertimeFactor =		(SELECT cValue FROM tParameter WHERE cKey = 'OVERTIME_FACTOR');
+	SET vGratificationFactor =	(SELECT cValue FROM tParameter WHERE cKey = 'GRATIFICATION_FACTOR');
+	SET vMinSalary =			(SELECT cValue FROM tParameter WHERE cKey = 'BASE_SALARY');
+	SET vLimitIPS =				(SELECT cValue FROM tParameter WHERE cKey = 'LIMIT_IPS');
+	SET vLimitInsurance =		(SELECT cValue FROM tParameter WHERE cKey = 'LIMIT_INSURANCE');
+	SET vLimitHealth =			(SELECT cValue FROM tParameter WHERE cKey = 'LIMIT_HEALTH');
+	
+	/*SET vInsuranceFactor =		(SELECT cValue FROM tParameter WHERE cKey = 'INSURANCE_FACTOR');*/
+	
+	SET vUTM =					(SELECT cValue FROM tParameter WHERE cKey = 'UTM');
+	SET vDaysForYear =			(SELECT cValue FROM tParameter WHERE cKey = 'DAYS_FOR_YEAR');
 	
 	IF EXISTS(	SELECT	cId 
 				FROM	remcon.tPeriod
 				WHERE	cDate = pDate) THEN
-				
+		
 		UPDATE	remcon.tPeriod
 		SET		cUF = vCurrentUF,
 				cOvertimeFactor = vOvertimeFactor,
@@ -38,7 +40,9 @@ por si hay que recalcular para atras...
 				cLImitIPS = vLimitIPS,
 				cLimitInsurance = vLimitInsurance,
 				cLimitHealth = vLimitHealth,
+				/*
 				cInsuranceFactor = vInsuranceFactor,
+				*/
 				cUTM = vUTM,
 				cDaysForYear = vDaysForYear 
 /*
@@ -56,10 +60,10 @@ por si hay que recalcular para atras...
 	ELSE
 		INSERT INTO remcon.tPeriod(cDate, cUF, cOvertimeFactor, cGratificationFactor, cMinSalary,
 				cLimitGratification, cLimitIPS, cLimitInsurance, cLimitHealth,
-				cInsuranceFactor, cUTM, cDaysForYear) 
+				cUTM, cDaysForYear) 
 		VALUES(pDate, vCurrentUF, vOvertimeFactor, vGratificationFactor, vMinSalary,
 				cMinSalary * cGratificationFactor, vLimitIPS, vLimitInsurance, vLimitHealth,
-				vInsuranceFactor, vUTM, vDaysForYear);
+				vUTM, vDaysForYear);
 		SET pPeriod = LAST_INSERT_ID();
 	END IF;
 END$$

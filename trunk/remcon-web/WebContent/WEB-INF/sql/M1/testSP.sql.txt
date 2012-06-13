@@ -53,14 +53,16 @@ SELECT	a.cId AS cId,
 		b.cBounty,
 		
 		a.cHorary,
-		b.cId AS cAssetsId,
+/*		b.cId AS cAssetsId, */
 		b.cRewardAmount,
 		
 		b.cMonthNotification,
 		b.cIAS,
-		b.cProportionalHoliday,
-		b.cVoluntaryindenmization,
-		c.cId AS cDiscountsId,
+
+		b.cProportionalHoliday,				/* Feriado proporcional */
+		b.cTotalIncomeNotTaxable,			/* Total haberes no imponibles */
+		b.cVoluntaryIndenmization,			/* Indemnisación voluntaria */
+		c.cId AS cDiscountsId,				
 		c.cPFMHistory,						/* Código de la AFP */
 		c.cObligatoryQuote,					/* Monto que se le paga a la AFP de manera obligatoria */
 		c.cAPVAmount,						/* Suma de todos los fondos en CLP */
@@ -77,35 +79,35 @@ SELECT	a.cId AS cId,
 		c.cHealthQuote,						/* Cotizacion de salud, corresponde al valor filan que paga por salud */
 /*		c.cLimitExtraHealth,*/
 		
-		c.cUnemploymentInsurance,
-		d.cInsuranceFactor,					/* Factor para cálculo de seguro de cesantía */
+		a.cInsuranceFactorEmployee,			/* Factor para cálculo de seguro de cesantía de empleado*/
+		a.cInsuranceFactorEnterprise,		/* Factor para cálculo de seguro de cesantía de empresa*/		
 		c.cUnemploymentInsuranceAmount,		/* Monto Seguro Cesantia en pesos */
 		
 		c.cUniqueTax,						/* Impuesto único */
-		c.cAdvance,
-		c.cLoanEnterprise,
-		c.cLoanCompensationFund,
-		c.cSavingCompensationFund,
-		c.cJudicialRetention,
 		
-		c.cSubtotalLawfulDiscounts
+		c.cSubtotalLawfulDiscounts,		
+		c.cAdvance,						/* Anticipo de sueldo, se agrega por período */
+		c.cLoanEnterprise,				/* Prestamo de empresa */
+		c.cLoanCompensationFund,		/* Prestamo de caja de compensación */
+		c.cSavingCompensationFund,		/* Ahorro en caja de compensación */
+		c.cJudicialRetention,			/* Retención judicial */
+		c.cSubtotalOtherDiscounts,		/* Subtotal de otros descuentos */
+		c.cTotalDiscounts,				/* Total descuentos */
+		a.cNetPaymentScope,				/* Alcance líquido */
+		b.cTotalIncome,					/* Total Haberes */
+		a.cToPayEmployee,				/* A Pagar, es el dinero que recibe la persona */
+		a.cInsuranceAmountEnterprise,	/* Monto que tiene que cancelar la empresa por consepto de seguro */
+		a.cMutualFactor,				/* El factor de lo que la empresa le paga a la Mutual */
+		a.cPayToMutulEnterprise
+		/* cLimitTaxableForecast * */
 		
-/********************
-	cTotalIncomeNoTaxable			/ * Total Haberes No Imponibles * /,
-	cTotalIncome					/ * Total Haberes * /,
-	*CotizacionAdicional			/ *  * /,
-	*SubtotalDescuentosLegales,
-	*SubTotalOtrosDescuentos,
-	*TotalDescuentos,
-	*AlcanceLiquido,
-	*LiquidoPagar,*/
-FROM	remcon.tBook AS a
-LEFT JOIN remcon.tBookAssets	AS b ON b.cBook = a.cId
-LEFT JOIN remcon.tBookDiscounts	AS c ON c.cBook = a.cId
-LEFT JOIN remcon.tPeriod		AS d ON a.cPeriod = d.cId
-LEFT JOIN remcon.tEmployee		AS e ON a.cEmployee = e.cId
-LEFT JOIN remcon.tAgreement		AS f ON e.cId = f.cEmployee
-ORDER BY a.cId;
+		FROM	remcon.tBook AS a
+		LEFT JOIN remcon.tBookAssets	AS b ON b.cBook = a.cId
+		LEFT JOIN remcon.tBookDiscounts	AS c ON c.cBook = a.cId
+		LEFT JOIN remcon.tPeriod		AS d ON a.cPeriod = d.cId
+		LEFT JOIN remcon.tEmployee		AS e ON a.cEmployee = e.cId
+		LEFT JOIN remcon.tAgreement		AS f ON e.cId = f.cEmployee
+		ORDER BY a.cId;
 
 delete from remcon.tOvertime;
 insert into remcon.tOvertime(cEmployee, cPeriod, cDate, cHours)
