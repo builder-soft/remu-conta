@@ -32,7 +32,9 @@ INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('OVERTIME_FACTOR'
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('GRATIFICATION_FACTOR', 'Factor grtificacion x sueldos minímos', '4.75', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_IPS', 'Tope imponible para afiliados al IPS (ex INP) en UFs', '64.7', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_INSURANCE', 'Tope imponible seguro de cesantia en UF', '97.1', @doubleId);
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('INSURANCE_FACTOR', 'Factor para cálculo de seguro de cesantía', '0.006', @doubleId);
+
+/*INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('INSURANCE_FACTOR', 'Factor para cálculo de seguro de cesantía', '0.006', @doubleId);*/
+
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CURRENT_UF', 'Valor actual de la UF', '21031.5', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_HEALTH', 'Tope cotizacion de salud, en UF', '4.2', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('UTM', 'Valor de una UTM', '36862', @doubleId);
@@ -51,8 +53,8 @@ SELECT cId INTO @userId FROM bsframework.tUser WHERE cMail = 'admin';
 INSERT INTO tR_UserRol(cUser, cRol) VALUES(@userId, @rolId);
 
 /*INSERT INTO tContractType (cName, cBody) VALUES('Sin Seguro', '');*/
-INSERT INTO tContractType (cName, cBody) VALUES('Indefinido', '');
-INSERT INTO tContractType (cName, cBody) VALUES('Plazo fijo', '');
+INSERT INTO tContractType (cName, cBody, cInsuranceFactorEmployee, cInsuranceFactorEnterprise) VALUES('Indefinido', '', 0.006, 0.024);
+INSERT INTO tContractType (cName, cBody, cInsuranceFactorEmployee, cInsuranceFactorEnterprise) VALUES('Plazo fijo', '', 0.000, 0.030);
 
 INSERT INTO tGratificationType(cName) VALUES('Sin Gratificación');
 INSERT INTO tGratificationType(cName) VALUES('25% Imp. (Tope 4,75imm/12)');
@@ -83,7 +85,6 @@ INSERT INTO tMutual(cKey, cName) VALUES ('03','Instituto de Seguridad del Trabaj
 INSERT INTO tGenere(cName) VALUES('Femenino');
 INSERT INTO tGenere(cName) VALUES('Masculino');
 
-
 /* Estado civil */
 INSERT INTO tMaritalStatus(cKey, cName) VALUES('MARRIED', 'Casado');
 INSERT INTO tMaritalStatus(cKey, cName) VALUES('SINGLE', 'Soltero');
@@ -96,7 +97,7 @@ SET @clp = LAST_INSERT_ID();
 
 /* PFM */
 
-/*
+/**
 Tipos de cuentas donde van a dar los fondos.
 APV 
 ACCT2
@@ -986,7 +987,7 @@ WHERE	cId = 3;
 
 
 INSERT INTO tEnterprise(cRut, cName, cLegalRep, cRutLegalRep, cCategory, cAddress, cComuna, cPhone, cMutual, cMutualFactor, cCompensationFund)
-VALUES('1-9', 'Buildersoft Ltda.', 'Juan Perez', '1-9', 'Servicios profesionales', 'Avenida X, numero 88', 3, '2345678', 1, 0.5, 1);
+VALUES('1-9', 'Buildersoft Ltda.', 'Juan Perez', '1-9', 'Servicios profesionales', 'Avenida X, numero 88', 3, '2345678', 1, 0.0231, 1);
 /*SET @enterpriseId = LAST_INSERT_ID();*/
 
 INSERT INTO tBranch(cName, cEnterprise, cAddress, cComuna, cPhone) 

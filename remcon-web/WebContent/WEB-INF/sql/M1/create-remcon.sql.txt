@@ -281,9 +281,11 @@ create table tCostCenter(
 ) ENGINE=InnoDB;
 
 create table tContractType(
-	cId 				BIGINT(20) NOT NULL auto_increment, 
-	cName				VARCHAR(20) NOT NULL,
-	cBody				LONGTEXT,
+	cId 						BIGINT(20) NOT NULL auto_increment, 
+	cName						VARCHAR(20) NOT NULL,
+	cInsuranceFactorEmployee	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Factor que aporta el empleado por seguro de cesantía',
+	cInsuranceFactorEnterprise	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Factor que aporta la empresa',
+	cBody						LONGTEXT,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -444,20 +446,25 @@ La tabla tPeriod sirve para identificar los períodos para los cuales existe cá
 los parámetros que aplican en forma general.
 */
 create table tPeriod(
-	cId						BIGINT(20) NOT NULL auto_increment,
-	cDate					DATE NOT NULL COMMENT 'Siempre es el día 1 del mes',
-	cPeriodStatus			BIGINT(20) NOT NULL DEFAULT '1' COMMENT 'Mirar tabla tPeriodStatus',
-	cUF						DOUBLE NOT NULL COMMENT 'Valor de la UF para el período',
-	cOvertimeFactor			DOUBLE NOT NULL COMMENT 'Para calcular las horas extras, puede ser 0.07777 o 0.0333',
-	cMinSalary				DOUBLE NOT NULL COMMENT 'Ingreso Mínimo Mensual', 
-	cLimitGratification		DOUBLE NOT NULL COMMENT 'Limite gratificacion - 4.75 Ingresos mínimos',
-	cGratificationFactor	DOUBLE NOT NULL COMMENT 'Factor de cálculo de gratificacion',
-	cLimitIPS				DOUBLE NOT NULL COMMENT 'Tope imponible para afiliados al IPS (ex INP) en UFs',
-	cLimitInsurance			DOUBLE NOT NULL COMMENT 'Tope de seguro de cesantia',
-	cLimitHealth			DOUBLE NOT NULL COMMENT 'Tope de salud, expresado en UF',
-	cInsuranceFactor		DOUBLE NOT NULL COMMENT 'Factor para calcular el seguro de cesania',
-	cUTM					DOUBLE NOT NULL COMMENT 'Valor de una UTM',
-	cDaysForYear			INTEGER NOT NULL DEFAULT '15' COMMENT 'Días de vacaciones por año trabajado',
+	cId							BIGINT(20) NOT NULL auto_increment,
+	cDate						DATE NOT NULL COMMENT 'Siempre es el día 1 del mes',
+	cPeriodStatus				BIGINT(20) NOT NULL DEFAULT '1' COMMENT 'Mirar tabla tPeriodStatus',
+	cUF							DOUBLE NOT NULL COMMENT 'Valor de la UF para el período',
+	cOvertimeFactor				DOUBLE NOT NULL COMMENT 'Para calcular las horas extras, puede ser 0.07777 o 0.0333',
+	cMinSalary					DOUBLE NOT NULL COMMENT 'Ingreso Mínimo Mensual', 
+	cLimitGratification			DOUBLE NOT NULL COMMENT 'Limite gratificacion - 4.75 Ingresos mínimos',
+	cGratificationFactor		DOUBLE NOT NULL COMMENT 'Factor de cálculo de gratificacion',
+	cLimitIPS					DOUBLE NOT NULL COMMENT 'Tope imponible para afiliados al IPS (ex INP) en UFs',
+	cLimitInsurance				DOUBLE NOT NULL COMMENT 'Tope de seguro de cesantia',
+	cLimitHealth				DOUBLE NOT NULL COMMENT 'Tope de salud, expresado en UF',
+	
+	/*
+	cInsuranceFactorEmployee	DOUBLE NOT NULL COMMENT 'Factor que se aplica al empleado por seguro de sesantía',
+	cInsuranceFactorEnterprise	DOUBLE NOT NULL COMMENT 'Factor para empresa, por seguro de cesantía',
+	*/
+	
+	cUTM						DOUBLE NOT NULL COMMENT 'Valor de una UTM',
+	cDaysForYear				INTEGER NOT NULL DEFAULT '15' COMMENT 'Días de vacaciones por año trabajado',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -473,7 +480,15 @@ create table tBook(
 	cSalaryRoot			DOUBLE NOT NULL COMMENT 'Sueldo Base - cp from tAgreement.cSalaryRoot',
 	cOvertime			INTEGER	NOT NULL DEFAULT '0' COMMENT 'Cantidad Horas Extras - Sumar tabla tOvertime',
 	cSalaryReceived		DOUBLE NULL DEFAULT '0' COMMENT 'Salario recibido - calculo de sueldo_base/30 x días trabajados',
+	cInsuranceFactorEmployee	DOUBLE NOT NULL COMMENT 'Factor con el que aporta el empleado para seguro de cesantía',
+	cInsuranceFactorEnterprise	DOUBLE NOT NULL COMMENT 'Factor con el que aporta la empresa para seguro de cesantía',
 	cContractType		BIGINT(20) NOT NULL COMMENT 'Tipo de contrato, define el tipo de seguro de cesantia',
+	cNetPaymentScope	DOUBLE NULL DEFAULT '0' COMMENT 'Alcance líquido',
+	cToPayEmployee		DOUBLE NULL DEFAULT '0' COMMENT 'Líquido a Pagar al empleado',
+	cInsuranceAmountEnterprise	DOUBLE NULL DEFAULT '0' COMMENT 'Monto que cancela el empleador por cesantía',
+	cMutualFactor			DOUBLE NULL DEFAULT '0' COMMENT 'Facor de lo que la empresa le paga a la Mutual',
+	cPayToMutulEnterprise	DOUBLE NULL DEFAULT '0' COMMENT 'Monto que la empresa debe pagar a la mutual correspondiente',
+	cFamilyAssignmentEnterprise	DOUBLE NULL DEFAULT '0' COMMENT 'Monto que la empresa debe pagar por concepto de cargas familiares',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -516,13 +531,16 @@ el trabajor, No se calcula
 	cBounty               		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Viaticos - Se ingresa por período',
 	cMonthNotification			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Mes De Aviso - Se ingresa por período',
 	cIAS 						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Indemnisacion años de servicio - Se ingresa por período',
-	cProportionalHoliday		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Feriado Proporcional - Hay que calcularlo?',
+	cProportionalHoliday		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Feriado Proporcional - Se calcula',
+	cTotalIncomeNotTaxable		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Total haberes no imponibles',
+	cTotalIncome				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Total haberes',
+	
 /*
-Formula: (Meses Trabajados/30) * 1.75 * Imponible - Horas Extras - Gratificacion
-este valor se GUARDA y NO SE MUESTRA EN LA LIQUIDACION EMPRESA pero si
-se contabilizará en una cuenta contable
+	Formula: (Meses Trabajados/30) * 1.75 * Imponible - Horas Extras - Gratificacion
+	este valor se GUARDA y NO SE MUESTRA EN LA LIQUIDACION EMPRESA pero si
+	se contabilizará en una cuenta contable
 */
-	cVoluntaryindenmization		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Indemnisacion Voluntaira - Se ingresa por período',
+	cVoluntaryIndenmization		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Indemnisacion Voluntaira - Se ingresa por período',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -566,7 +584,11 @@ Si alguien tiene un plan muy caro de salud debe tributar como impuesto unico a l
 /*
 	cCotisacionSaludRebaja			COMMENT 'Preguntar que es',
 */
+	
+/*
+ 	Este campo se reemplaza por el código del contrato.
 	cUnemploymentInsurance			BIGINT(20) NULL COMMENT 'Código de seguro de sesantia - Sin seguro, contrato indefinido o a plazo',
+*/	
 /*
 Seguro Cesantia
 Hay 3 tipos:
@@ -575,9 +597,8 @@ Hay 3 tipos:
  3.Contrato indefinido = el empleador cubre un 2.4% y el 0.6% lo cancela el trabajador (descuento)
 La columna en el libro de remuneraciones se llama Aporte Patronal se contabiliza y no se imprime en la liquidacion, salvo el 0.6% cuando corresponde (es costo empresa).
 
- Ojo tiene tope en UF ese tope lo da el previred y puede cambiar en el año
-el 3% (2.4 + 0.6) es ley y tambien podria cambiar por tanto dejar como
-parametro del mes (obvio)
+Ojo tiene tope en UF ese tope lo da el previred y puede cambiar en el año el 3% (2.4 + 0.6) es ley y tambien podria cambiar por tanto dejar como parametro del mes (obvio).
+ 
 */
 	cUnemploymentInsuranceAmount	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Seguro Cesantia en pesos',
 	cUniqueTax						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Impuesto Unico - es un valor que se calcula', 
@@ -590,6 +611,8 @@ parametro del mes (obvio)
 	cSavingCompensationFund			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Ahorro Caja Compenzacion', 
 	cJudicialRetention				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Retenciones Judiciales',
 	cSubtotalLawfulDiscounts		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Sub total de descuentos legales',
+	cSubtotalOtherDiscounts			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Sub total de otros descuentos',
+	cTotalDiscounts					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Total descuentos',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 

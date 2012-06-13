@@ -16,6 +16,15 @@ DROP PROCEDURE IF EXISTS remcon.pFamilyAssignment;
 DROP PROCEDURE IF EXISTS remcon.pUniqueTax;
 DROP PROCEDURE IF EXISTS remcon.pProportionalHoliday;
 DROP PROCEDURE IF EXISTS remcon.pSubtotalLawfulDiscounts;
+DROP PROCEDURE IF EXISTS remcon.pSubtotalOtherDiscounts;
+DROP PROCEDURE IF EXISTS remcon.pNetPaymentScope;
+DROP PROCEDURE IF EXISTS remcon.pTotalIncomeNotTaxable;
+DROP PROCEDURE IF EXISTS remcon.pTotalIncome;
+DROP PROCEDURE IF EXISTS remcon.pToPayEmployee;
+DROP PROCEDURE IF EXISTS remcon.pInsuranceAmountEnterprise;
+DROP PROCEDURE IF EXISTS remcon.pPayToMutulEnterprise;
+DROP PROCEDURE IF EXISTS remcon.pFamilyAssignmentEnterprise;
+
 DROP FUNCTION IF exists remcon.fSaveBookForEmployee;
 DROP FUNCTION IF EXISTS remcon.fGetPFMForBook;
 DROP FUNCTION IF EXISTS remcon.fGetHealthForBook;
@@ -57,18 +66,165 @@ BEGIN
 	CALL remcon.pUniqueTax(vBook);
 	CALL remcon.pProportionalHoliday(vBook);
 	CALL remcon.pSubtotalLawfulDiscounts(vBook);
+	CALL remcon.pSubtotalOtherDiscounts(vBook);
+
+	CALL remcon.pTotalIncomeNotTaxable(vBook);
+	CALL remcon.pTotalIncome(vBook);
+	
+	CALL remcon.pNetPaymentScope(vBook);
+	
+	CALL remcon.pToPayEmployee(vBook);
+	
+	CALL remcon.pInsuranceAmountEnterprise(vBook);
+	CALL remcon.pPayToMutulEnterprise(vBook);
+	CALL remcon.pFamilyAssignmentEnterprise(vBook);
 	
 END$$
 
-CREATE PROCEDURE remcon.pSubtotalLawfulDiscounts(pBook BIGINT)
+
+CREATE PROCEDURE remcon.pFamilyAssignmentEnterprise(pBook BIGINT)
 BEGIN
+	DECLARE	vFamilyAssignmentEnterprise DOUBLE DEFAULT 0;
+
+	SELECT		cFamilyAssignmentAmount + cFamilyRetroactive
+	INTO		vFamilyAssignmentEnterprise
+	FROM		remcon.vBook
+	WHERE		cId = pBook;
+
+	UPDATE	remcon.tBook
+	SET		cFamilyAssignmentEnterprise	= vFamilyAssignmentEnterprise
+	WHERE	cId = pBook;
+
+END$$
+
+
+
+CREATE PROCEDURE remcon.pPayToMutulEnterprise(pBook BIGINT)
+BEGIN
+	DECLARE	vMutualFactor, vLimitTaxableForecast DOUBLE DEFAULT 0;
+
+	SELECT		f.cMutualFactor, a.cLimitTaxableForecast
+	INTO		vMutualFactor, vLimitTaxableForecast
+	FROM		remcon.vBook AS a
+	LEFT JOIN	remcon.tAgreement	AS b ON a.cAgreement = b.cId
+	LEFT JOIN	remcon.tProfile		AS c ON b.cProfile = c.cId
+	LEFT JOIN	remcon.tCostCenter	AS d ON c.cCostCenter = d.cId
+	LEFT JOIN	remcon.tBranch		AS e ON d.cBranch = e.cId
+	LEFT JOIN	remcon.tEnterprise	AS f ON e.cEnterprise = f.cId
+	WHERE		a.cId = pBook;
+
+	UPDATE	remcon.tBook
+	SET		cMutualFactor			= vMutualFactor,
+			cPayToMutulEnterprise	= vMutualFactor * vLimitTaxableForecast
+	WHERE	cId = pBook;
+
+END$$
+
+CREATE PROCEDURE remcon.pInsuranceAmountEnterprise(pBook BIGINT)
+BEGIN
+	DECLARE	vInsuranceAmountEnterprise, vInsuranceFactorEnterprise, vInsuranceFactorEmployee, 
+			vLimitTaxableDismissInsurance DOUBLE DEFAULT 0;
+
+	SELECT	b.cInsuranceFactorEmployee,	b.cInsuranceFactorEnterprise,	a.cLimitTaxableDismissInsurance
+	INTO	vInsuranceFactorEmployee,	vInsuranceFactorEnterprise,		vLimitTaxableDismissInsurance
+	FROM	remcon.vBook AS a
+	LEFT JOIN	remcon.tContractType AS b ON a.cContractType = b.cId
+	WHERE	a.cId = pBook;
+	
+	/*el empleador cubre un 2.4% y el 0.6% lo cancela el trabajador (descuento)*/
+	UPDATE	remcon.tBook
+	SET		cInsuranceAmountEnterprise = vInsuranceFactorEnterprise * vLimitTaxableDismissInsurance,
+			cInsuranceFactorEmployee = vInsuranceFactorEmployee,
+			cInsuranceFactorEnterprise = vInsuranceFactorEnterprise
+	WHERE	cId = pBook;
+	
 /*
- =+AR13+AS13+AT13+AY13+AZ13+BC13+BD13
- cObligatoryQuote+cAPVAmount+cHealthQuote+cUnemploymentInsuranceAmount+cUniqueTax
- */
+	UPDATE	remcon.tBook
+	SET		cToPayEmployee = vToPayEmployee
+	WHERE	cId = pBook;
+*/
+END$$
+
+
+CREATE PROCEDURE remcon.pToPayEmployee(pBook BIGINT)
+BEGIN
+	DECLARE	vToPayEmployee DOUBLE DEFAULT 0;
+	
+	SELECT	cNetPaymentScope - cAdvance
+	INTO	vToPayEmployee
+	FROM	vBook
+	WHERE	cId = pBook;
+	
+	UPDATE	remcon.tBook
+	SET		cToPayEmployee = vToPayEmployee
+	WHERE	cId = pBook;
+
+END$$
+
+CREATE PROCEDURE remcon.pTotalIncomeNotTaxable(pBook BIGINT)
+BEGIN
+	DECLARE	vTotalIncomeNotTaxable DOUBLE DEFAULT 0;
+	
+	SELECT	cFamilyAssignmentAmount + cFamilyRetroactive + cFeeding + 
+			cMobilization + cBounty + cMonthNotification + cIAS + 
+			cProportionalHoliday + cVoluntaryIndenmization
+	INTO	vTotalIncomeNotTaxable
+	FROM	vBook
+	WHERE	cId = pBook;
+	
+	UPDATE	remcon.tBookAssets
+	SET		cTotalIncomeNotTaxable = vTotalIncomeNotTaxable
+	WHERE	cId = pBook;
+
+END$$
+
+CREATE PROCEDURE remcon.pNetPaymentScope(pBook BIGINT)
+BEGIN
+	DECLARE	vNetPaymentScope DOUBLE DEFAULT 0;
+	
+	SELECT	cTotalIncome - cTotalDiscounts
+	INTO	vNetPaymentScope
+	FROM	vBook
+	WHERE	cId = pBook;
+	
+	UPDATE	remcon.tBook 
+	SET		cNetPaymentScope = vNetPaymentScope
+	WHERE	cId = pBook;
+
+END$$
+
+CREATE PROCEDURE remcon.pTotalIncome(pBook BIGINT)
+BEGIN
+	DECLARE	vTotalIncome DOUBLE DEFAULT 0;
+	
+	SELECT	cTotalIncomeTaxable + cTotalIncomeNotTaxable
+	INTO	vTotalIncome
+	FROM	vBook
+	WHERE	cId = pBook;
+	
+	UPDATE	remcon.tBookAssets 
+	SET		cTotalIncome = vTotalIncome
+	WHERE	cId = pBook;
+
+END$$
+
+CREATE PROCEDURE remcon.pSubtotalOtherDiscounts(pBook BIGINT)
+BEGIN
 	
 	UPDATE	remcon.tBookDiscounts 
-	SET		cSubtotalLawfulDiscounts = cObligatoryQuote+cAPVAmount+cHealthQuote+cUnemploymentInsuranceAmount+cUniqueTax
+	SET		cSubtotalOtherDiscounts = cLoanEnterprise + cLoanCompensationFund + 
+			cSavingCompensationFund + cJudicialRetention
+	WHERE	cBook = pBook;
+
+END$$
+
+
+CREATE PROCEDURE remcon.pSubtotalLawfulDiscounts(pBook BIGINT)
+BEGIN
+	
+	UPDATE	remcon.tBookDiscounts 
+	SET		cSubtotalLawfulDiscounts = cObligatoryQuote + cAPVAmount + cHealthQuote + 
+			cUnemploymentInsuranceAmount + cUniqueTax
 	WHERE	cBook = pBook;
 
 END$$
@@ -204,17 +360,17 @@ END$$
 /************************/
 CREATE PROCEDURE remcon.pUnemploymentInsuranceAmount(pBook BIGINT)
 BEGIN
-	DECLARE vInsuranceFactor, vUnemploymentInsuranceAmount,
+	DECLARE vInsuranceFactorEmployee, vUnemploymentInsuranceAmount,
 			vLimitTaxableDismissInsurance DOUBLE DEFAULT 0;
 	DECLARE vContractType BIGINT DEFAULT 0;
 
-	SELECT	cContractType, cInsuranceFactor, cLimitTaxableDismissInsurance
-	INTO	vContractType, vInsuranceFactor, vLimitTaxableDismissInsurance
+	SELECT	cContractType, cInsuranceFactorEmployee, cLimitTaxableDismissInsurance
+	INTO	vContractType, vInsuranceFactorEmployee, vLimitTaxableDismissInsurance
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
 
 	IF(vContractType = 1) THEN
-		SET vUnemploymentInsuranceAmount = vInsuranceFactor * vLimitTaxableDismissInsurance;
+		SET vUnemploymentInsuranceAmount = vInsuranceFactorEmployee * vLimitTaxableDismissInsurance;
 	END IF;
 	
 	UPDATE	remcon.tBookDiscounts 
@@ -336,7 +492,7 @@ END$$
 CREATE FUNCTION remcon.fSaveBookForEmployee(pPeriod BIGINT, pEmployee BIGINT, pWorkDays INTEGER) RETURNS BIGINT
 BEGIN
 	DECLARE vOut, vHorary, vGratificationType, vPFM, vHealth, vUnemploymentInsurance,
-			vContractType BIGINT DEFAULT 0;
+			vContractType, vInsuranceFactorEmployee, vInsuranceFactorEnterprise BIGINT DEFAULT 0;
 	DECLARE vSalaryRoot DOUBLE DEFAULT 0;
 	
 	SELECT		b.cId
@@ -346,10 +502,13 @@ BEGIN
 	WHERE		b.cEmployee = pEmployee AND
 				a.cId = pPeriod;
 
-	SELECT	cHorary, cSalaryRoot, cGratificationType, cPFM, cHealth, cContractType
-	INTO	vHorary, vSalaryRoot, vGratificationType, vPFM, vHealth, vContractType
-	FROM	remcon.tAgreement
-	WHERE	cEmployee = pEmployee;
+	SELECT	a.cHorary, a.cSalaryRoot, a.cGratificationType, a.cPFM, a.cHealth, a.cContractType, 
+			b.cInsuranceFactorEmployee, b.cInsuranceFactorEnterprise
+	INTO	vHorary, vSalaryRoot, vGratificationType, vPFM, vHealth, vContractType,
+			vInsuranceFactorEmployee, vInsuranceFactorEnterprise
+	FROM	remcon.tAgreement AS a
+	LEFT JOIN remcon.tContractType AS b ON a.cContractType = b.cId
+	WHERE	a.cEmployee = pEmployee;
 	
 	SET vPFM = fGetPFMForBook(vPFM, pPeriod);
 	SET vHealth = fGetHealthForBook(vHealth, pPeriod);
@@ -362,7 +521,9 @@ BEGIN
 				cWorkDays = pWorkDays,
 				cSalaryRoot = vSalaryRoot,
 				cOvertime = 0,
-				cContractType = vContractType
+				cContractType = vContractType,
+				cInsuranceFactorEmployee = vInsuranceFactorEmployee,
+				cInsuranceFactorEnterprise = vInsuranceFactorEnterprise
 		WHERE	cId = vOut;
 		
 		UPDATE	remcon.tBookAssets
@@ -372,20 +533,21 @@ BEGIN
 		UPDATE	remcon.tBookDiscounts
 		SET		cLimitTaxableForecast = 0,
 				cPFMHistory = vPFM,
-				cHealthHistory = vHealth,
-				cUnemploymentInsurance = vUnemploymentInsurance
+				cHealthHistory = vHealth
 		WHERE	cBook = vOut;
 		
 	ELSE
-		INSERT INTO remcon.tBook(cPeriod, cEmployee, cHorary, cWorkDays, cSalaryRoot, cOvertime, cContractType)
-		VALUES(pPeriod, pEmployee, vHorary, pWorkDays, vSalaryRoot, 0, vContractType);
+		INSERT INTO remcon.tBook(cPeriod, cEmployee, cHorary, cWorkDays, cSalaryRoot, cOvertime, cContractType,
+					cInsuranceFactorEmployee, cInsuranceFactorEnterprise)
+		VALUES(pPeriod, pEmployee, vHorary, pWorkDays, vSalaryRoot, 0, vContractType,
+					vInsuranceFactorEmployee, vInsuranceFactorEnterprise);
 		SET vOut = LAST_INSERT_ID();
 		
 		INSERT INTO remcon.tBookAssets(cBook, cGratificationType)
 		VALUES(vOut, vGratificationType);
-		
-		INSERT INTO remcon.tBookDiscounts(cBook, cLimitTaxableForecast, cPFMHistory, cHealthHistory, cUnemploymentInsurance)
-		VALUES(vOut, 0, vPFM, vHealth, vUnemploymentInsurance);
+	
+		INSERT INTO remcon.tBookDiscounts(cBook, cLimitTaxableForecast, cPFMHistory, cHealthHistory)
+		VALUES(vOut, 0, vPFM, vHealth);
 	END IF;
 
 	RETURN vOut;
