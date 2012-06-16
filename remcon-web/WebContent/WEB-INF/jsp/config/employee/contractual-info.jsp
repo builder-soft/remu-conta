@@ -4,12 +4,12 @@
 <%@page import="java.sql.Connection"%>
 <%@page import="cl.buildersoft.framework.database.BSmySQL"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
-<%@page import="cl.buildersoft.framework.beans.Agreement"%>
-<%@page import="cl.buildersoft.framework.beans.Horary"%>
-<%@page import="cl.buildersoft.framework.beans.GratificationType"%>
-<%@page import="cl.buildersoft.framework.beans.ContractType"%>
-<%@page import="cl.buildersoft.framework.beans.Profile"%>
-<%@page import="cl.buildersoft.framework.beans.Employee"%>
+<%@page import="cl.buildersoft.business.beans.Agreement"%>
+<%@page import="cl.buildersoft.business.beans.Horary"%>
+<%@page import="cl.buildersoft.business.beans.GratificationType"%>
+<%@page import="cl.buildersoft.business.beans.ContractType"%>
+<%@page import="cl.buildersoft.business.beans.Profile"%>
+<%@page import="cl.buildersoft.business.beans.Employee"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>

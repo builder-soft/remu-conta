@@ -24,6 +24,7 @@ DROP PROCEDURE IF EXISTS remcon.pToPayEmployee;
 DROP PROCEDURE IF EXISTS remcon.pInsuranceAmountEnterprise;
 DROP PROCEDURE IF EXISTS remcon.pPayToMutulEnterprise;
 DROP PROCEDURE IF EXISTS remcon.pFamilyAssignmentEnterprise;
+DROP PROCEDURE IF EXISTS remcon.pCostEnterprise;
 
 DROP FUNCTION IF exists remcon.fSaveBookForEmployee;
 DROP FUNCTION IF EXISTS remcon.fGetPFMForBook;
@@ -78,9 +79,25 @@ BEGIN
 	CALL remcon.pInsuranceAmountEnterprise(vBook);
 	CALL remcon.pPayToMutulEnterprise(vBook);
 	CALL remcon.pFamilyAssignmentEnterprise(vBook);
+	CALL remcon.pCostEnterprise(vBook);
 	
 END$$
 
+CREATE PROCEDURE remcon.pCostEnterprise(pBook BIGINT)
+BEGIN
+	DECLARE	vCostEnterprise DOUBLE DEFAULT 0;
+
+	SELECT		cTotalIncome + cInsuranceAmountEnterprise + cPayToMutulEnterprise + 
+				cPayToMutulEnterprise + cFamilyAssignmentEnterprise
+	INTO		vCostEnterprise
+	FROM		remcon.vBook
+	WHERE		cId = pBook;
+
+	UPDATE	remcon.tBook
+	SET		cCostEnterprise	= vCostEnterprise
+	WHERE	cId = pBook;
+
+END$$
 
 CREATE PROCEDURE remcon.pFamilyAssignmentEnterprise(pBook BIGINT)
 BEGIN
@@ -96,8 +113,6 @@ BEGIN
 	WHERE	cId = pBook;
 
 END$$
-
-
 
 CREATE PROCEDURE remcon.pPayToMutulEnterprise(pBook BIGINT)
 BEGIN

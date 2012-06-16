@@ -25,33 +25,31 @@ import cl.buildersoft.framework.type.BSFieldType;
 import cl.buildersoft.framework.type.BSTypeFactory;
 
 public class BSWeb {
-	public static Object value2Object(Connection conn,
-			HttpServletRequest request, BSField field, boolean fromWebPage) {
+
+	public static String month2Word(Date date) {
+		String[] out = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre",
+				"Noviembre", "Diciembre" };
+		return out[date.getMonth()];
+	}
+
+	public static Object value2Object(Connection conn, HttpServletRequest request, BSField field, boolean fromWebPage) {
 		Object out = null;
 		String name = field.getName();
-		String value = fromWebPage ? request.getParameter(name)
-				: (String) field.getValue();
-		// BSFieldType type = field.getType();
+		String value = fromWebPage ? request.getParameter(name) : (String) field.getValue();
 
-		// System.out.println("name : " + field.getName() + " Valor : " +
-		// field.getValue());
-
-		// out = evaluateType(conn, request, out, value, type, field);
 		out = evaluateType(conn, value, field);
 		return out;
 	}
 
-	private static Object evaluateType(Connection conn, String value,
-			BSField field) {
+	private static Object evaluateType(Connection conn, String value, BSField field) {
 		BSFieldDataType fieldDataType = BSTypeFactory.create(field);
 		Object out = fieldDataType.parse(conn, value);
 
 		return out;
 	}
 
-	private static Object evaluateType(Connection conn,
-			HttpServletRequest request, Object out, String value,
-			BSFieldType type, BSField field) {
+	private static Object evaluateType(Connection conn, HttpServletRequest request, Object out, String value, BSFieldType type,
+			BSField field) {
 
 		if (type.equals(BSFieldType.String)) {
 			out = value;
@@ -66,8 +64,7 @@ public class BSWeb {
 			try {
 				out = (Date) formatter.parse(value);
 			} catch (ParseException e) {
-				throw new BSProgrammerException("0110",
-						"No se pudo parsear el valor " + value + " como fecha");
+				throw new BSProgrammerException("0110", "No se pudo parsear el valor " + value + " como fecha");
 			}
 
 		} else if (type.equals(BSFieldType.Timestamp)) {
@@ -77,9 +74,7 @@ public class BSWeb {
 			try {
 				parsedDate = dateFormat.parse(value);
 			} catch (ParseException e) {
-				throw new BSProgrammerException("0110",
-						"No se pudo parsear el valor " + value
-								+ " como fecha/hora");
+				throw new BSProgrammerException("0110", "No se pudo parsear el valor " + value + " como fecha/hora");
 			}
 			out = new java.sql.Timestamp(parsedDate.getTime());
 		} else if (type.equals(BSFieldType.Text)) {
@@ -189,8 +184,7 @@ public class BSWeb {
 		}
 		return out;
 	}
-	
-	
+
 	public static String number2String(Object value, String format) {
 		String out = "";
 		if (value != null) {
@@ -217,8 +211,7 @@ public class BSWeb {
 			}
 
 			for (Rol rol : rols) {
-				out = validResourceByRol(conn, mysql, option.getId(),
-						rol.getId());
+				out = validResourceByRol(conn, mysql, option.getId(), rol.getId());
 				if (out) {
 					break;
 				}
@@ -227,8 +220,7 @@ public class BSWeb {
 		return out;
 	}
 
-	private static Boolean validResourceByRol(Connection conn, BSmySQL mysql,
-			Long option, Long rol) {
+	private static Boolean validResourceByRol(Connection conn, BSmySQL mysql, Long option, Long rol) {
 		String sql = "SELECT COUNT(cOption) AS cnt FROM tR_RolOption WHERE cOption=? AND cRol=?";
 
 		List<Object> prm = new ArrayList<Object>();

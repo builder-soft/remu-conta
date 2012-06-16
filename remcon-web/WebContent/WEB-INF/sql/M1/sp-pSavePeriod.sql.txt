@@ -13,6 +13,7 @@ por si hay que recalcular para atras...
 	DECLARE vCurrentUF, vOvertimeFactor, vGratificationFactor, vMinSalary,
 			vLimitIPS, vLimitInsurance, vLimitHealth, vUTM DOUBLE DEFAULT 0;
 	DECLARE vDaysForYear INTEGER DEFAULT 0;
+	DECLARE vId, vPeriodStatus BIGINT DEFAULT -1;
 
 	SET vCurrentUF =			(SELECT cValue FROM tParameter WHERE cKey = 'CURRENT_UF');
 	SET vOvertimeFactor =		(SELECT cValue FROM tParameter WHERE cKey = 'OVERTIME_FACTOR');
@@ -21,42 +22,40 @@ por si hay que recalcular para atras...
 	SET vLimitIPS =				(SELECT cValue FROM tParameter WHERE cKey = 'LIMIT_IPS');
 	SET vLimitInsurance =		(SELECT cValue FROM tParameter WHERE cKey = 'LIMIT_INSURANCE');
 	SET vLimitHealth =			(SELECT cValue FROM tParameter WHERE cKey = 'LIMIT_HEALTH');
-	
-	/*SET vInsuranceFactor =		(SELECT cValue FROM tParameter WHERE cKey = 'INSURANCE_FACTOR');*/
-	
 	SET vUTM =					(SELECT cValue FROM tParameter WHERE cKey = 'UTM');
 	SET vDaysForYear =			(SELECT cValue FROM tParameter WHERE cKey = 'DAYS_FOR_YEAR');
 	
-	IF EXISTS(	SELECT	cId 
-				FROM	remcon.tPeriod
-				WHERE	cDate = pDate) THEN
-		
-		UPDATE	remcon.tPeriod
-		SET		cUF = vCurrentUF,
-				cOvertimeFactor = vOvertimeFactor,
-				cGratificationFactor = vGratificationFactor,
-				cMinSalary = MinSalary,
-				cLimitGratification = cMinSalary * cGratificationFactor,
-				cLImitIPS = vLimitIPS,
-				cLimitInsurance = vLimitInsurance,
-				cLimitHealth = vLimitHealth,
-				/*
-				cInsuranceFactor = vInsuranceFactor,
-				*/
-				cUTM = vUTM,
-				cDaysForYear = vDaysForYear 
-/*
-	SELECT 	cMinSalary * cGratificationFactor
-	INTO	vOut 
-	FROM	remcon.vBook
-	WHERE	cId = pBook;
-*/
-		WHERE	cDate = pDate;
-		
+	SELECT	cId, cPeriodStatus
+	INTO	vId, vPeriodStatus
+	FROM	remcon.tPeriod
+	WHERE	cDate = pDate;
+
+	/*
+	select vId, vPeriodStatus;
+	*/
+	
+	IF (vId > -1) THEN
+		IF (vPeriodStatus = 2) THEN
+			UPDATE	remcon.tPeriod
+			SET		cUF = vCurrentUF,
+					cOvertimeFactor = vOvertimeFactor,
+					cGratificationFactor = vGratificationFactor,
+					cMinSalary = vMinSalary,
+					cLimitGratification = vMinSalary * vGratificationFactor,
+					cLImitIPS = vLimitIPS,
+					cLimitInsurance = vLimitInsurance,
+					cLimitHealth = vLimitHealth,
+					cUTM = vUTM,
+					cDaysForYear = vDaysForYear 
+			WHERE	cDate = pDate;
+		END IF;
+		/*
 		SELECT	cId
 		INTO	pPeriod 
 		FROM	remcon.tPeriod 
-		WHERE	cDate = pDate; 
+		WHERE	cDate = pDate;
+		*/
+		SET pPeriod = vId; 
 	ELSE
 		INSERT INTO remcon.tPeriod(cDate, cUF, cOvertimeFactor, cGratificationFactor, cMinSalary,
 				cLimitGratification, cLimitIPS, cLimitInsurance, cLimitHealth,

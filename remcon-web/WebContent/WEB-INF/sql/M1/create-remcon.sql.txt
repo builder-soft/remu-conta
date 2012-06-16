@@ -489,6 +489,7 @@ create table tBook(
 	cMutualFactor			DOUBLE NULL DEFAULT '0' COMMENT 'Facor de lo que la empresa le paga a la Mutual',
 	cPayToMutulEnterprise	DOUBLE NULL DEFAULT '0' COMMENT 'Monto que la empresa debe pagar a la mutual correspondiente',
 	cFamilyAssignmentEnterprise	DOUBLE NULL DEFAULT '0' COMMENT 'Monto que la empresa debe pagar por concepto de cargas familiares',
+	cCostEnterprise			DOUBLE NULL DEFAULT '0' COMMENT 'Costo para la empresa por trabajador',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -626,3 +627,114 @@ EN LA VISTA:
 
  /** V I S T A S **/
 
+DROP VIEW IF EXISTS remcon.vBook;
+
+CREATE VIEW remcon.vBook
+AS
+SELECT	a.cId AS cId,
+		a.cPeriod,
+		d.cDate,
+		f.cStartContract,
+		f.cEndContract,
+		a.cEmployee,
+		f.cId AS cAgreement,
+		e.cLastName1,
+		d.cUF,
+		d.cUTM,
+		a.cWorkDays,
+		d.cDaysForYear,
+		a.cContractType,
+		d.cMinSalary,
+		a.cSalaryRoot,
+		a.cSalaryReceived,					/* (cSalaryRoot / 30) * cWorkDays */
+		b.cGratificationType,				/* From tAgreement */
+		d.cLimitGratification,				/* 4.75 Ingresos mínimos */
+		b.cGratificationAmount,				/* 25% Impo. (Tope 4,75imm/12) */
+		d.cGratificationFactor,				/* Se lee desde tParameter */
+		a.cOvertime,						/* Cantidad de horas extras */
+		b.cOvertimeAmount,					/* Se calcula (SalaryRoot * 0.0777) * cOvertime */
+		b.cParticipation,
+		b.cB01,
+		b.cB02,
+		b.cB03,
+		b.cB04,
+		b.cB05,
+		b.cB06,
+		b.cB07,
+		b.cB08,
+		b.cB09,
+		b.cB10,
+		b.cExtraPay,
+		b.cTotalIncomeTaxable,				/* Total Haberes Imponibles */
+		c.cLimitTaxableForecast,			/* Tope Imponible Previsional */
+		c.cLimitTaxableDismissInsurance,	/* Tope Imponible Seguro Cesantia - Parámetro del mes, es un valor fijo */
+		d.cLimitInsurance,					/* Tope de Seguro de cesantia */
+		d.cLimitIPS,						/* Tope imponible para afiliados al IPS (ex INP) en UFs */
+		b.cIncome,							/* Renta Afecta */
+		
+		b.cFamilyAssignmentStretch,			/* Tramo asignacion familiar */
+		b.cFamilyAssignmentCount,			/* Cantidad de cargas familiares */
+		b.cFamilyAssignmentAmount,			/* Monto por cargas familiares */
+		b.cFamilyRetroactive,				/* Retroactivo familiar, esto se asigna mes a mes */
+		
+		b.cFeeding,
+		b.cMobilization,
+		b.cBounty,
+		
+		a.cHorary,
+/*		b.cId AS cAssetsId, */
+		b.cRewardAmount,
+		
+		b.cMonthNotification,
+		b.cIAS,
+
+		b.cProportionalHoliday,				/* Feriado proporcional */
+		b.cTotalIncomeNotTaxable,			/* Total haberes no imponibles */
+		b.cVoluntaryIndenmization,			/* Indemnisación voluntaria */
+		c.cId AS cDiscountsId,				
+		c.cPFMHistory,						/* Código de la AFP */
+		c.cObligatoryQuote,					/* Monto que se le paga a la AFP de manera obligatoria */
+		c.cAPVAmount,						/* Suma de todos los fondos en CLP */
+		c.cAccount2,
+		
+		c.cHealthHistory,					/* Código de sistema de salud contratado */
+		c.cLawfulQuote,
+		c.cAdditionalHealthCurrency,		/* Moneda del complementario de salud */
+		c.cAdditionalHealthAmount,			/* Monto del complementario de salud */
+		c.cAdditionalHealthCLP,				/* Monto de salud siempre en pesos */
+		/*c.cPlanHealth,					 Monto por salud, con tope máximo aplicado */
+		d.cLimitHealth,						/* Límite de salud, expresado en UF, proviene de la tabla tPeriod */
+		
+		c.cHealthQuote,						/* Cotizacion de salud, corresponde al valor filan que paga por salud */
+/*		c.cLimitExtraHealth,*/
+		
+		a.cInsuranceFactorEmployee,			/* Factor para cálculo de seguro de cesantía de empleado*/
+		a.cInsuranceFactorEnterprise,		/* Factor para cálculo de seguro de cesantía de empresa*/		
+		c.cUnemploymentInsuranceAmount,		/* Monto Seguro Cesantia en pesos */
+		
+		c.cUniqueTax,						/* Impuesto único */
+		
+		c.cSubtotalLawfulDiscounts,		
+		c.cAdvance,						/* Anticipo de sueldo, se agrega por período */
+		c.cLoanEnterprise,				/* Prestamo de empresa */
+		c.cLoanCompensationFund,		/* Prestamo de caja de compensación */
+		c.cSavingCompensationFund,		/* Ahorro en caja de compensación */
+		c.cJudicialRetention,			/* Retención judicial */
+		c.cSubtotalOtherDiscounts,		/* Subtotal de otros descuentos */
+		c.cTotalDiscounts,				/* Total descuentos */
+		a.cNetPaymentScope,				/* Alcance líquido */
+		b.cTotalIncome,					/* Total Haberes */
+		a.cToPayEmployee,				/* A Pagar, es el dinero que recibe la persona */
+		a.cInsuranceAmountEnterprise,	/* Monto que tiene que cancelar la empresa por consepto de seguro */
+		a.cMutualFactor,				/* El factor de lo que la empresa le paga a la Mutual */
+		a.cPayToMutulEnterprise,		/* El monto de lo que la empresa le paga a la mutual */
+		a.cFamilyAssignmentEnterprise,	/* Monto que paga la empresa por asignaciones familiares */
+		a.cCostEnterprise
+		/* cLimitTaxableForecast * */
+		FROM	remcon.tBook AS a
+		LEFT JOIN remcon.tBookAssets	AS b ON b.cBook = a.cId
+		LEFT JOIN remcon.tBookDiscounts	AS c ON c.cBook = a.cId
+		LEFT JOIN remcon.tPeriod		AS d ON a.cPeriod = d.cId
+		LEFT JOIN remcon.tEmployee		AS e ON a.cEmployee = e.cId
+		LEFT JOIN remcon.tAgreement		AS f ON e.cId = f.cEmployee
+		ORDER BY a.cId;

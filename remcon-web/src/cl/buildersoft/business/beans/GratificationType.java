@@ -1,4 +1,6 @@
-package cl.buildersoft.framework.beans;
+package cl.buildersoft.business.beans;
+
+import cl.buildersoft.framework.beans.BSBean;
 
 public class GratificationType extends BSBean {
 	private static final long serialVersionUID = 3874374388821483765L;

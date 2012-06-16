@@ -1,4 +1,4 @@
-package cl.buildersoft.framework.beans;
+package cl.buildersoft.business.beans;
 
 public class RagreementAPV {
 	private Long agreement = null;

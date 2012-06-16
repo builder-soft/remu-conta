@@ -17,7 +17,7 @@ INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, @menuIdSystem);
 
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CONFIG', 'Configuracion', NULL, NULL);
 SET @menuIdConfig = LAST_INSERT_ID();
-	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PARAMS', 'Parámetros del Sistema', '/servlet/common/ParameterManager', @menuIdConfig);
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PARAMS', 'Parámetros del Sistema', '/servlet/config/systemparams/ParameterManager', @menuIdConfig);
 	SET @menuId = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cType) VALUES('ADD_PARAMS', 'Boton Nuevo', null, @menuId, 2);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cType) VALUES('MOD_PARAMS', 'Bot&oacute;n Modificar', null, @menuId, 2);
@@ -66,9 +66,9 @@ SET @menuIdRemu = LAST_INSERT_ID();
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PROCESS', 'Procesos', NULL, @menuIdRemu);
 	SET @menuIdProcess = LAST_INSERT_ID();
 
-		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('SALARY', 'Sueldos', NULL, @menuIdProcess);
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('SALARY', 'Cálculo de Sueldos', '/servlet/remuneration/process/salary/ProcessSalary', @menuIdProcess);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PAYROLL', 'Nóminas', NULL, @menuIdProcess);
-		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PREVIRED', 'Previred', NULL, @menuIdProcess);
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PREVIRED', 'Previred', '', @menuIdProcess);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CENTRALIZATION', 'Centralización', NULL, @menuIdProcess);
 
 

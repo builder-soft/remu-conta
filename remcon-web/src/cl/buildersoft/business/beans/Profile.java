@@ -1,4 +1,6 @@
-package cl.buildersoft.framework.beans;
+package cl.buildersoft.business.beans;
+
+import cl.buildersoft.framework.beans.BSBean;
 
 public class Profile extends BSBean {
 	private static final long serialVersionUID = -7720519574923823260L;

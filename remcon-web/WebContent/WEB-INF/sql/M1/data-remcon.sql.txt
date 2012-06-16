@@ -1016,7 +1016,6 @@ SET @employeeId = LAST_INSERT_ID();
 INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cAdditionalHealthCurrency,	cAdditionalHealthAmount,	cFamilyAssignmentStretch)
 VALUES(					@employeeId,	1,				'2009-12-01',	'2013-01-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000,			1,							2,							2);
 
- 
 INSERT INTO tfilecategory( cName ) VALUES('Archivo excel');
 
 INSERT INTO tfile( cEmployee, 	cDesc, 				 cFileName, 			  cFileRealName, 			cSize, cFileCategory, cDateTime ) 

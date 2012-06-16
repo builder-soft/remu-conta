@@ -1,8 +1,10 @@
-package cl.buildersoft.framework.beans;
+package cl.buildersoft.business.beans;
 
-public class APV extends BSBean {
-	private static final long serialVersionUID = -7998293980754094636L;
-	private String TABLE = "tAPV";
+import cl.buildersoft.framework.beans.BSBean;
+
+public class ExBoxSystem extends BSBean {
+	private static final long serialVersionUID = 139863602362567698L;
+	private String TABLE = "tExBoxSystem";
 	private String key = null;
 	private String name = null;
 
@@ -24,6 +26,7 @@ public class APV extends BSBean {
 
 	@Override
 	public String toString() {
-		return "APV [key=" + key + ", name=" + name + "]";
+		return "ExBoxSystem [key=" + key + ", name=" + name + "]";
 	}
+
 }

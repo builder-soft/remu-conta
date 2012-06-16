@@ -1,4 +1,6 @@
-package cl.buildersoft.framework.beans;
+package cl.buildersoft.business.beans;
+
+import cl.buildersoft.framework.beans.BSBean;
 
 public class PFM extends BSBean {
 	private static final long serialVersionUID = 3712344053087746491L;

@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cl.buildersoft.business.beans.Agreement;
+import cl.buildersoft.business.beans.ContractType;
+import cl.buildersoft.business.beans.GratificationType;
+import cl.buildersoft.business.beans.Health;
+import cl.buildersoft.business.beans.Horary;
+import cl.buildersoft.business.beans.PaymentType;
+import cl.buildersoft.business.beans.Profile;
 import cl.buildersoft.business.service.AgreementService;
-import cl.buildersoft.framework.beans.Agreement;
-import cl.buildersoft.framework.beans.ContractType;
-import cl.buildersoft.framework.beans.GratificationType;
-import cl.buildersoft.framework.beans.Health;
-import cl.buildersoft.framework.beans.Horary;
-import cl.buildersoft.framework.beans.PaymentType;
-import cl.buildersoft.framework.beans.Profile;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.framework.util.BSConfig;
 

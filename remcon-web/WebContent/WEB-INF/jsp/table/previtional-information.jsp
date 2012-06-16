@@ -1,11 +1,11 @@
-<%@page import="cl.buildersoft.framework.beans.Health"%>
-<%@page import="cl.buildersoft.framework.beans.ExBoxSystem"%>
-<%@page import="cl.buildersoft.framework.beans.PFM"%>
-<%@page import="cl.buildersoft.framework.beans.RagreementAPV"%>
-<%@page import="cl.buildersoft.framework.beans.Currency"%>
-<%@page import="cl.buildersoft.framework.beans.APV"%>
-<%@page import="cl.buildersoft.framework.beans.Employee"%>
-<%@page import="cl.buildersoft.framework.beans.Agreement"%>
+<%@page import="cl.buildersoft.business.beans.Health"%>
+<%@page import="cl.buildersoft.business.beans.ExBoxSystem"%>
+<%@page import="cl.buildersoft.business.beans.PFM"%>
+<%@page import="cl.buildersoft.business.beans.RagreementAPV"%>
+<%@page import="cl.buildersoft.business.beans.Currency"%>
+<%@page import="cl.buildersoft.business.beans.APV"%>
+<%@page import="cl.buildersoft.business.beans.Employee"%>
+<%@page import="cl.buildersoft.business.beans.Agreement"%>
 <%@page import="cl.buildersoft.framework.beans.BSCss"%>
 <%@page import="cl.buildersoft.framework.beans.BSScript"%>
 <%@page import="cl.buildersoft.framework.beans.BSHeadConfig"%>
@@ -30,7 +30,6 @@
 	
 	Agreement agreementEmp = (Agreement)request.getAttribute("agreementEmp");
 	Employee employee = (Employee) request.getAttribute("Employee");
-
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <script>
@@ -89,14 +88,14 @@ function getApvSelected(){
 		BSScript script = head.getScript();
 		BSCss css = head.getCss();
 		for (String oneScript : script.getListScriptNames()) {
-			out.print("<script src='" + request.getContextPath()
-					+ script.getPath() + oneScript + ".js'></script>");
+	out.print("<script src='" + request.getContextPath()
+			+ script.getPath() + oneScript + ".js'></script>");
 		}
 
 		for (String oneCss : css.getListCssNames()) {
-			out.print("<LINK rel='stylesheet' type='text/css' src='"
-					+ request.getContextPath() + css.getPath() + oneCss
-					+ ".css'/>");
+	out.print("<LINK rel='stylesheet' type='text/css' src='"
+			+ request.getContextPath() + css.getPath() + oneCss
+			+ ".css'/>");
 		}
 	}
 %>
@@ -131,13 +130,13 @@ function getApvSelected(){
 								<td class="cLabel" valign='top'>APV:</td>
 								<td class="cData">
 								<select id="apvCurrency" name="apvCurrency">
-										<%			
-										for(Currency bsCurrency : listadoCurrency)
-										{											
+										<%
+											for(Currency bsCurrency : listadoCurrency)
+																		{
 										%>
 											<OPTION value="<%=bsCurrency.getId()%>"><%=bsCurrency.getKey()%></OPTION>
 										<%
-										}
+											}
 										%>
 								</select>
 								</td>
@@ -145,13 +144,13 @@ function getApvSelected(){
 								<td class="cLabel" valign='top'>Institucion:</td>
 								<td class="cData">
 								<select id="apvInstitution" name="apvInstitution">
-										<%			
-										for(APV bsApv : listadoApv)
-										{
+										<%
+											for(APV bsApv : listadoApv)
+																		{
 										%>
 											<OPTION value="<%=bsApv.getId()%>"><%=bsApv.getName()%></OPTION>
-										<% 
-										}
+										<%
+											}
 										%>	
 								</select>
 								</td>
@@ -168,13 +167,13 @@ function getApvSelected(){
 					<td class="cLabel" valign='top'>AFP:</td>
 					<td class="cData" colspan="3">
 					<select id="afpEmp" name="afpEmp">
-							<%			
-							for(PFM bsAfp : listadoAfp)
-							{											
-							%>
-								<OPTION value="<%=bsAfp.getId()%>"<%=agreementEmp.getPfm()!=null && bsAfp.getId().equals(agreementEmp.getPfm()) ? "selected" : "" %>><%=bsAfp.getName()%></OPTION>
 							<%
-							}
+								for(PFM bsAfp : listadoAfp)
+												{
+							%>
+								<OPTION value="<%=bsAfp.getId()%>"<%=agreementEmp.getPfm()!=null && bsAfp.getId().equals(agreementEmp.getPfm()) ? "selected" : ""%>><%=bsAfp.getName()%></OPTION>
+							<%
+								}
 							%>
 					</select>						
 				</td>
@@ -183,13 +182,13 @@ function getApvSelected(){
 				<td class="cLabel" valign='top'>Caja Ex-Régimen:</td>
 				<td class="cData" colspan="3">
 				<select id="exBox" name="exBox">
-						<%			
-						for(ExBoxSystem bsExbox : listadoExBox)
-						{											
-						%>
-							<OPTION value="<%=bsExbox.getId()%>"<%=agreementEmp.getExBoxSystem() != null && bsExbox.getId().equals(agreementEmp.getExBoxSystem()) ? "selected" : "" %>><%=bsExbox.getName()%></OPTION>
 						<%
-						}
+							for(ExBoxSystem bsExbox : listadoExBox)
+										{
+						%>
+							<OPTION value="<%=bsExbox.getId()%>"<%=agreementEmp.getExBoxSystem() != null && bsExbox.getId().equals(agreementEmp.getExBoxSystem()) ? "selected" : ""%>><%=bsExbox.getName()%></OPTION>
+						<%
+							}
 						%>
 				</select>
 			</tr>
@@ -197,13 +196,13 @@ function getApvSelected(){
 				<td class="cLabel" valign='top'>Sistema de salud:</td>
 				<td class="cData" colspan="3">
 				<select id="health" name="health">
-						<%			
-						for(Health bsHealth : listadoHealth)
-						{											
-						%>
-							<OPTION value="<%=bsHealth.getId()%>"<%=agreementEmp.getHealth()!= null && bsHealth.getId().equals(agreementEmp.getHealth()) ? "selected" : "" %>><%=bsHealth.getName()%></OPTION>
 						<%
-						}
+							for(Health bsHealth : listadoHealth)
+										{
+						%>
+							<OPTION value="<%=bsHealth.getId()%>"<%=agreementEmp.getHealth()!= null && bsHealth.getId().equals(agreementEmp.getHealth()) ? "selected" : ""%>><%=bsHealth.getName()%></OPTION>
+						<%
+							}
 						%>
 				</select>
 				</td>
@@ -216,13 +215,13 @@ function getApvSelected(){
 				<td class="cLabel" valign='top'>Moneda :</td>
 				<td class="cData">
 								<select id="additionalHealthCurrency" name="additionalHealthCurrency">
-										<%			
-										for(Currency bsCurrency : listadoCurrency)
-										{											
-										%>
-											<OPTION value="<%=bsCurrency.getId()%>"<%=agreementEmp.getAdditionalHealthCurrency()!= null && bsCurrency.getId().equals(agreementEmp.getAdditionalHealthCurrency()) ? "selected" : "" %>><%=bsCurrency.getKey()%></OPTION>
 										<%
-										}
+											for(Currency bsCurrency : listadoCurrency)
+																		{
+										%>
+											<OPTION value="<%=bsCurrency.getId()%>"<%=agreementEmp.getAdditionalHealthCurrency()!= null && bsCurrency.getId().equals(agreementEmp.getAdditionalHealthCurrency()) ? "selected" : ""%>><%=bsCurrency.getKey()%></OPTION>
+										<%
+											}
 										%>
 								</select>
 				</td>				
@@ -252,14 +251,12 @@ function getApvSelected(){
 			<tr>
 				<td colspan="4">
 					<table id="apvs">
-					<%	
-					int contador = 0;
-					int cantApvs = listadoApvEmp.size();
-					for(RagreementAPV bsApvEmp : listadoApvEmp){
-
-							out.print("<script>addApv('"+bsApvEmp.getCurrency()+"','"+bsApvEmp.getApv() +"','"+bsApvEmp.getAmount()+"');</script>");
-						
-					}
+					<%
+						int contador = 0;
+								int cantApvs = listadoApvEmp.size();
+								for(RagreementAPV bsApvEmp : listadoApvEmp){
+										out.print("<script>addApv('"+bsApvEmp.getCurrency()+"','"+bsApvEmp.getApv() +"','"+bsApvEmp.getAmount()+"');</script>");
+								}
 					%>
 					</table>
 				</td>
