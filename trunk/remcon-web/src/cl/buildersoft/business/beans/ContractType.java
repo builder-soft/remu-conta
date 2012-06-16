@@ -1,4 +1,6 @@
-package cl.buildersoft.framework.beans;
+package cl.buildersoft.business.beans;
+
+import cl.buildersoft.framework.beans.BSBean;
 
 public class ContractType extends BSBean {
 	private static final long serialVersionUID = -4586243792442002702L;

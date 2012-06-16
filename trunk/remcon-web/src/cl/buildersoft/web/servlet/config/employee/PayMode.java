@@ -9,13 +9,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cl.buildersoft.business.beans.AccountType;
+import cl.buildersoft.business.beans.Agreement;
+import cl.buildersoft.business.beans.Bank;
+import cl.buildersoft.business.beans.Employee;
+import cl.buildersoft.business.beans.PaymentType;
 import cl.buildersoft.business.service.AgreementService;
 import cl.buildersoft.business.service.impl.AgreementServiceImpl;
-import cl.buildersoft.framework.beans.AccountType;
-import cl.buildersoft.framework.beans.Agreement;
-import cl.buildersoft.framework.beans.Bank;
-import cl.buildersoft.framework.beans.Employee;
-import cl.buildersoft.framework.beans.PaymentType;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.web.servlet.table.AbstractServletUtil;

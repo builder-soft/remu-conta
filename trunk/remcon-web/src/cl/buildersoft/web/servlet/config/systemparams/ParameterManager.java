@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.common;
+package cl.buildersoft.web.servlet.config.systemparams;
 
 import javax.servlet.Servlet;
 import javax.servlet.annotation.WebServlet;
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.web.servlet.BSHttpServlet;
 
-@WebServlet("/servlet/common/ParameterManager")
+@WebServlet("/servlet/config/systemparams/ParameterManager")
 public class ParameterManager extends BSHttpServlet implements Servlet {
 	private static final long serialVersionUID = 1L;
 

@@ -1,8 +1,10 @@
-package cl.buildersoft.framework.beans;
+package cl.buildersoft.business.beans;
 
-public class AccountType extends BSBean {
-	private static final long serialVersionUID = -962677999789237378L;
-	private String TABLE = "tAccountType";
+import cl.buildersoft.framework.beans.BSBean;
+
+public class Currency extends BSBean {
+	private static final long serialVersionUID = -6575629925342560802L;
+	private String TABLE = "tCurrency";
 	private String key = null;
 	private String name = null;
 
@@ -24,7 +26,7 @@ public class AccountType extends BSBean {
 
 	@Override
 	public String toString() {
-		return "AccountType [key=" + key + ", name=" + name + "]";
+		return "Currency [key=" + key + ", name=" + name + "]";
 	}
 
 }

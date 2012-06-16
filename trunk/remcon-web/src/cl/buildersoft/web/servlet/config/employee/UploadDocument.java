@@ -13,17 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.catalina.util.Base64;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import cl.buildersoft.business.beans.Document;
 import cl.buildersoft.business.service.EmployeeService;
 import cl.buildersoft.business.service.impl.EmployeeServiceImpl;
-import cl.buildersoft.framework.beans.DatabaseFile;
-import cl.buildersoft.framework.beans.Document;
 import cl.buildersoft.framework.exception.BSSystemException;
 
 @WebServlet("/servlet/config/employee/UploadDocument")

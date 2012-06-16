@@ -1,8 +1,10 @@
-package cl.buildersoft.framework.beans;
+package cl.buildersoft.business.beans;
 
-public class Currency extends BSBean {
-	private static final long serialVersionUID = -6575629925342560802L;
-	private String TABLE = "tCurrency";
+import cl.buildersoft.framework.beans.BSBean;
+
+public class APV extends BSBean {
+	private static final long serialVersionUID = -7998293980754094636L;
+	private String TABLE = "tAPV";
 	private String key = null;
 	private String name = null;
 
@@ -24,7 +26,6 @@ public class Currency extends BSBean {
 
 	@Override
 	public String toString() {
-		return "Currency [key=" + key + ", name=" + name + "]";
+		return "APV [key=" + key + ", name=" + name + "]";
 	}
-
 }

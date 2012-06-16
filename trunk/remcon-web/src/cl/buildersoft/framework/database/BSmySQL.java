@@ -176,7 +176,7 @@ public class BSmySQL extends BSDataUtils {
 	}
 
 	private String getQuestionMarks(List<Object> prms) {
-		String out = null;
+		String out = "";
 
 		if (prms != null && prms.size() > 0) {
 			out = "";

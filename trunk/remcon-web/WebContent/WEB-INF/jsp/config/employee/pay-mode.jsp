@@ -1,8 +1,8 @@
-<%@page import="cl.buildersoft.framework.beans.AccountType"%>
-<%@page import="cl.buildersoft.framework.beans.Bank"%>
-<%@page import="cl.buildersoft.framework.beans.PaymentType"%>
-<%@page import="cl.buildersoft.framework.beans.Agreement"%>
-<%@page import="cl.buildersoft.framework.beans.Employee"%>
+<%@page import="cl.buildersoft.business.beans.AccountType"%>
+<%@page import="cl.buildersoft.business.beans.Bank"%>
+<%@page import="cl.buildersoft.business.beans.PaymentType"%>
+<%@page import="cl.buildersoft.business.beans.Agreement"%>
+<%@page import="cl.buildersoft.business.beans.Employee"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%

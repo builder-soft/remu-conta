@@ -1,4 +1,6 @@
-package cl.buildersoft.framework.beans;
+package cl.buildersoft.business.beans;
+
+import cl.buildersoft.framework.beans.BSBean;
 
 public class Health extends BSBean {
 	private static final long serialVersionUID = -1094852332277262238L;

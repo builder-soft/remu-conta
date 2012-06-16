@@ -1,6 +1,8 @@
-package cl.buildersoft.framework.beans;
+package cl.buildersoft.business.beans;
 
 import java.sql.Timestamp;
+
+import cl.buildersoft.framework.beans.BSBean;
 
 public class Document extends BSBean {
 

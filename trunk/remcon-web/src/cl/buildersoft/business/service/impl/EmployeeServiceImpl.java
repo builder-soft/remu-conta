@@ -7,9 +7,9 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cl.buildersoft.business.beans.Document;
+import cl.buildersoft.business.beans.Employee;
 import cl.buildersoft.business.service.EmployeeService;
-import cl.buildersoft.framework.beans.Document;
-import cl.buildersoft.framework.beans.Employee;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;

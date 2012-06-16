@@ -1,6 +1,8 @@
-package cl.buildersoft.framework.beans;
+package cl.buildersoft.business.beans;
 
 import java.util.Date;
+
+import cl.buildersoft.framework.beans.BSBean;
 
 public class Agreement extends BSBean {
 	private static final long serialVersionUID = -5201220655674962338L;

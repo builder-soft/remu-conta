@@ -1,8 +1,10 @@
-package cl.buildersoft.framework.beans;
+package cl.buildersoft.business.beans;
 
-public class ExBoxSystem extends BSBean {
-	private static final long serialVersionUID = 139863602362567698L;
-	private String TABLE = "tExBoxSystem";
+import cl.buildersoft.framework.beans.BSBean;
+
+public class PaymentType extends BSBean {
+	private static final long serialVersionUID = -4560608021242821822L;
+	private String TABLE = "tPaymentType";
 	private String key = null;
 	private String name = null;
 
@@ -24,7 +26,7 @@ public class ExBoxSystem extends BSBean {
 
 	@Override
 	public String toString() {
-		return "ExBoxSystem [key=" + key + ", name=" + name + "]";
+		return "PaymentType [key=" + key + ", name=" + name + "]";
 	}
 
 }
