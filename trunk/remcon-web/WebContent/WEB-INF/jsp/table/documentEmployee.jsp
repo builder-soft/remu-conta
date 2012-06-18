@@ -69,9 +69,9 @@
 							{											
 							%>
 								<tr>
-									<td class="cDataTD_odd"><%=document.getFileName()%></td>
+									<td class="cDataTD_odd"><a href="javascript:$('#Method').val('downloadFile');$('#idDocument').val('<%=document.getId()%>');$('#editForm').submit();"><%=document.getFileName()%></a></td>
 									<td class="cDataTD_odd"><%=dateTime2String(request,document.getDateTime())%></td>
-									<td class="cDataTD_odd"><%=document.getSize()%></td>
+									<td class="cDataTD_odd"><%=document.getSize()%> KB</td>
 									<td class="cDataTD_odd"><a href="javascript:$('#Method').val('delete');$('#idDocument').val('<%=document.getId()%>');$('#editForm').submit();">Eliminar</a></td>
 								<tr/>
 							<%
