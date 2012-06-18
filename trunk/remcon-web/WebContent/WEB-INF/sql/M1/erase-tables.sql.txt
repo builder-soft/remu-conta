@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS remcon.tBond;
 DROP TABLE IF EXISTS remcon.tFiscalDate;
 DROP TABLE IF EXISTS remcon.tFile;
 DROP TABLE IF EXISTS remcon.tFileCategory;
