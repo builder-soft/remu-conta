@@ -68,7 +68,7 @@ public class UploadDocument extends HttpServlet {
 			} else {
 				String fileName = item.getName().lastIndexOf(".") != -1 ? item.getName().substring(0,item.getName().indexOf(".")) : "";
                 String extencion = item.getName().lastIndexOf(".") != -1 ? item.getName().substring(item.getName().lastIndexOf(".")+1) : "";
-                String realName = fileName + "_" +new Date().getTime() + "." + extencion;
+                String realName = request.getAttribute("cId") + "-" + System.currentTimeMillis() + "." + extencion;
 				File uploadedFile = new File("C:\\temporal\\" + realName);
                 try {
 					item.write(uploadedFile);
@@ -82,6 +82,7 @@ public class UploadDocument extends HttpServlet {
 				document.setFileRealName(realName);
 				document.setDesc("Descripcion de prueba");
 				document.setFileCategory(new Long(1));
+				document.setContentType(item.getContentType());
 				service.saveDocument(document,request);
 				
 				request.getRequestDispatcher("/servlet/config/employee/DocumentEmployee?Method=listDocuments").forward(

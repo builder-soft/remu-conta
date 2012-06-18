@@ -1,10 +1,8 @@
-package cl.buildersoft.business.beans;
+package cl.buildersoft.framework.beans;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-
-import cl.buildersoft.framework.beans.BSBean;
 
 public class Document extends BSBean {
 

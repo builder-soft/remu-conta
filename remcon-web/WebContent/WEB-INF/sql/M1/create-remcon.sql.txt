@@ -24,11 +24,12 @@ CREATE TABLE IF NOT EXISTS tFile (
 	cId				BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	cEmployee		BIGINT  NOT NULL,
 	cDesc			VARCHAR(100) COMMENT 'Descripcion que ingresa el usuario',
-    cFileName		VARCHAR(40) NOT NULL COMMENT 'Nombre del archivo que se subio, ej. foto-01.jpg',
-    cFileRealName	VARCHAR(50) NOT NULL COMMENT 'Archivo en el disco 128706682-12345678901234567890.png',
+    cFileName		VARCHAR(255) NOT NULL COMMENT 'Nombre del archivo que se subio, ej. foto-01.jpg',
+    cFileRealName	VARCHAR(255) NOT NULL COMMENT 'Archivo en el disco 128706682-12345678901234567890.png',
     cSize			BIGINT NOT NULL COMMENT 'Tamaño del archivo',
     cFileCategory	BIGINT,
-    cDateTime		DATETIME
+    cDateTime		DATETIME NOT NULL COMMENT 'Fecha de creacion',
+    cContentType	VARCHAR(100) COMMENT 'Tipo de archivo'
 ) ENGINE=innoDB;
 
 /*

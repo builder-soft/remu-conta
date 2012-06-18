@@ -1,18 +1,22 @@
 package cl.buildersoft.business.service.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.business.beans.Document;
 import cl.buildersoft.business.beans.Employee;
 import cl.buildersoft.business.service.EmployeeService;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 
 
@@ -42,29 +46,46 @@ public class EmployeeServiceImpl implements EmployeeService {
 			HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request);
-	
+		Connection conn = mysql.getConnection(request);	
 		ResultSet rs = mysql.callSingleSP(conn, "pListDocument", document.getEmployee());
-		boolean bandera = false;
-		String deleteFileName = null;
+		
+		document.findDocument(rs);			
+		File uploadedFile = new File("C:\\temporal\\" + document.getFileName());
+		uploadedFile.delete(); //eliminacion de archivo fisico
+		mysql.callSingleSP(conn, "pDelDocument", document.getId()); //Eliminacion de archivo desde BD
+		request.setAttribute("cId", request.getParameter("cId"));		
+		
+		
+	}
+	
+	public void downloadDocument(Document document, HttpServletRequest request, HttpServletResponse response)
+	{
 		try {
-			while (rs.next() && bandera == false) {
-				if(rs.getLong("cId") == document.getId())
-				{
-					bandera = true;
-					deleteFileName = rs.getString("cFileRealName");
-				}
-			}
+			BSmySQL mysql = new BSmySQL();
+			Connection conn = mysql.getConnection(request);	
+			ResultSet rs = mysql.callSingleSP(conn, "pListDocument", document.getEmployee());
+			document.findDocument(rs);
+			ServletOutputStream fos = response.getOutputStream();
+			response.setContentType(document.getContentType());
+			String disposition = "attachment; fileName="+URLEncoder.encode(document.getFileName(),"UTF8")+"";
+			response.setHeader("Content-Disposition", disposition);
+			File file = new File("C:\\temporal\\" + document.getFileRealName());
+		      byte[] readData = new byte[1024];
+		      FileInputStream fis = new FileInputStream(file);
+		      int i = fis.read(readData);
+
+		      while (i != -1) {
+		        fos.write(readData, 0, i);
+		        i = fis.read(readData);
+		      }
+		      fos.flush();		      
+		      fis.close();
+		      fos.close();
 			
-			File uploadedFile = new File("C:\\temporal\\" + deleteFileName);
-			uploadedFile.delete(); //eliminacion de archivo fisico
-			mysql.callSingleSP(conn, "pDelDocument", document.getId()); //Eliminacion de archivo desde BD
-			request.setAttribute("cId", request.getParameter("cId"));				
-		} catch (SQLException e) {
-			throw new BSDataBaseException("", e.getMessage());
-		}		
-		
-		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
 	
 }

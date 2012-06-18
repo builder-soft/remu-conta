@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,8 +53,22 @@ public class DocumentEmployee extends AbstractServletUtil {
 		service.deleteDocumentById(document, request);
 		request.getRequestDispatcher("/servlet/config/employee/DocumentEmployee?Method=listDocuments").forward(request, response);
 	}
-
-	public void uploadFile(HttpServletRequest request, HttpServletResponse response) {
+	
+	public void downloadFile(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException
+	{
+		Long documentId = Long.valueOf(request.getParameter("idDocument"));
+		Long employeeId = Long.valueOf(request.getParameter("cId"));		
+		EmployeeService service = new EmployeeServiceImpl();
+		Document document = new Document();
+		document.setId(documentId);
+		document.setEmployee(employeeId);
+		service.downloadDocument(document, request, response);
+	}
+	
+	public void uploadFile(HttpServletRequest request,
+			HttpServletResponse response)
+	{
 		FileUtil fileUtil = new FileUtil(request, response);
 		fileUtil.uploadFile();
 	}
