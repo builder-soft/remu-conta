@@ -1,0 +1,16 @@
+DROP PROCEDURE if exists remcon.pListPrevired;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pListPrevired(IN pPeriod BIGINT)
+BEGIN
+	SELECT		b.cRut, b.cLastName1, b.cLastName2, b.cName, c.cKey AS cGenere,
+				b.cCountry, a.cDate, a.cPFMHistory AS cPFM, a.cExBoxSystem,
+				remcon.fGetAge(b.cBirthDate) AS cAge, a.cPensionary, a.cWorkDays
+	FROM 		remcon.vBook		AS a
+	LEFT JOIN	remcon.tEmployee	AS b ON a.cEmployee = b.cId
+	LEFT JOIN	remcon.tGenere		AS c ON b.cGenere = c.cId
+	WHERE	a.cPeriod = pPeriod;
+END$$
+
+DELIMITER ;
+ 

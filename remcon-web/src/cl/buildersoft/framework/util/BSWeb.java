@@ -32,6 +32,11 @@ public class BSWeb {
 		return out[date.getMonth()];
 	}
 
+	public static String getYear(Date date) {
+		SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy");
+		return simpleDateformat.format(date);
+	}
+
 	public static Object value2Object(Connection conn, HttpServletRequest request, BSField field, boolean fromWebPage) {
 		Object out = null;
 		String name = field.getName();

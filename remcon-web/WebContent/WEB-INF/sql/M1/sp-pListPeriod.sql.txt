@@ -1,0 +1,11 @@
+DROP PROCEDURE if exists remcon.pListPeriod;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pListPeriod()
+BEGIN
+	SELECT		cId
+	FROM 		remcon.tPeriod;
+END$$
+
+DELIMITER ;
+ 

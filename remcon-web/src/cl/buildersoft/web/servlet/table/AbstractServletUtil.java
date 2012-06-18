@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,11 +30,14 @@ public class AbstractServletUtil extends HttpServlet {
 		}
 		return out;
 	}
-/**<code>
+
+	/**
+	 * <code>
 	protected Boolean isId(String s) {
 		return "id".equalsIgnoreCase(s) || "cid".equalsIgnoreCase(s);
 	}
-</code>*/
+</code>
+	 */
 	protected String getCommas(BSField[] fields) {
 		String out = "";
 		for (int i = 0; i < fields.length; i++) {
@@ -63,18 +67,16 @@ public class AbstractServletUtil extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.doPost(request, response);
 	}
-	
+
 	@Override
 	@SuppressWarnings("unused")
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-	
-		Object[] parameters = {request,response};
-		String servletName = "cl.buildersoft.web."+request.getRequestURI().substring(12).replaceAll("/", ".");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		Object[] parameters = { request, response };
+		String servletName = "cl.buildersoft.web." + request.getRequestURI().substring(12).replaceAll("/", ".");
 		String methodName = request.getParameter("Method");
 		Object servletClazz;
 		try {
@@ -93,10 +95,15 @@ public class AbstractServletUtil extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
-		
-		
 	}
-	
+
+	protected ServletOutputStream configHeaderAsCSV(HttpServletResponse response, String fileName) throws IOException {
+		ServletOutputStream output = response.getOutputStream();
+		response.setContentType("text/csv");
+		String disposition = "attachment; fileName=" + fileName + ".csv";
+		response.setHeader("Content-Disposition", disposition);
+		return output;
+	}
+
 }

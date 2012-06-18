@@ -82,8 +82,8 @@ INSERT INTO tMutual(cKey, cName) VALUES ('02','Mutual de Seguridad CCHC' );
 INSERT INTO tMutual(cKey, cName) VALUES ('03','Instituto de Seguridad del Trabajo I.S.T.' );
 
 /* Genero */
-INSERT INTO tGenere(cName) VALUES('Femenino');
-INSERT INTO tGenere(cName) VALUES('Masculino');
+INSERT INTO tGenere(cKey, cName) VALUES('F', 'Femenino');
+INSERT INTO tGenere(cKey, cName) VALUES('M', 'Masculino');
 
 /* Estado civil */
 INSERT INTO tMaritalStatus(cKey, cName) VALUES('MARRIED', 'Casado');
@@ -679,7 +679,7 @@ INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (343,'San Jo
 INSERT INTO `tComuna` (`cID`,`cName`,`cRegion`,`cPrioridad`) VALUES (344,'Valdivia',13,0);
 */
 
-/*
+INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CHL','Chile');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ABW','Aruba');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('AFG','Afghanistan');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('AGO','Angola');
@@ -720,11 +720,8 @@ INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CAF','Central African Republic')
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CAN','Canada');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CCK','Cocos (Keeling) Islands');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CHE','Switzerland');
-*/
-INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CHL','Chile');
-/*
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CHN','China');
-INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CIV','CÃƒÂ´te dÃ‚â€™Ivoire');
+INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CIV','Costa de Marfil');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('CMR','Cameroon');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('COD','Congo, The Democratic Republic of the');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('COG','Congo');
@@ -861,7 +858,7 @@ INSERT INTO tCountry (`cCode`,`cName`) VALUES ('PRY','Paraguay');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('PSE','Palestine');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('PYF','French Polynesia');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('QAT','Qatar');
-INSERT INTO tCountry (`cCode`,`cName`) VALUES ('REU','RÃƒÂ©union');
+INSERT INTO tCountry (`cCode`,`cName`) VALUES ('REU','Reunión');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ROM','Romania');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('RUS','Russian Federation');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('RWA','Rwanda');
@@ -921,10 +918,20 @@ INSERT INTO tCountry (`cCode`,`cName`) VALUES ('YUG','Yugoslavia');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ZAF','South Africa');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ZMB','Zambia');
 INSERT INTO tCountry (`cCode`,`cName`) VALUES ('ZWE','Zimbabwe');
-*/
 
 INSERT INTO tPeriodStatus(cName) VALUES ('Cerrado');
 INSERT INTO tPeriodStatus(cName) VALUES ('Abierto');
+
+INSERT INTO tBond(cName) VALUES('Bono 1');
+INSERT INTO tBond(cName) VALUES('Bono 2');
+INSERT INTO tBond(cName) VALUES('Bono 3');
+INSERT INTO tBond(cName) VALUES('Bono 4');
+INSERT INTO tBond(cName) VALUES('Bono 5');
+INSERT INTO tBond(cName) VALUES('Bono 6');
+INSERT INTO tBond(cName) VALUES('Bono 7');
+INSERT INTO tBond(cName) VALUES('Bono 8');
+INSERT INTO tBond(cName) VALUES('Bono 9');
+INSERT INTO tBond(cName) VALUES('Bono 10');
 
 /*
 INSERT INTO tUnemploymentInsurance(cName) VALUES ('Indefinido');
@@ -954,13 +961,13 @@ INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('B', 4223);
 INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('C', 1375);
 INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('D', 0);
 
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('0', 'Sin AFP/Jubilado', 0, 0);
 INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('33', 'Capital', 11.44, 1.49);
 INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('3', 'Cuprum', 11.48, 1.49);
 INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('5', 'Habitat', 11.36, 1.49);
 INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('34', 'Modelo', 11.14, 1.49);
 INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('29', 'Planvital', 12.36, 1.49);
 INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('8', 'Provida', 11.54, 1.49);
-INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('0', 'Sin AFP/Jubilado', 0, 0);
 /* Isapres */
 INSERT INTO tHealth(cKey, cName, cFactor) VALUES('7', 'Fonasa', 7);
 INSERT INTO tHealth(cKey, cName, cFactor) VALUES('1', 'Banmédica', 7);

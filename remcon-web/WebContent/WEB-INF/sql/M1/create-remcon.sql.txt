@@ -83,18 +83,6 @@ CREATE TABLE tComuna (
 	PRIMARY KEY(cId)  
 ) ENGINE=InnoDB;
 
-/*
-CREATE TABLE tBoard (
-	cId BIGINT UNIQUE AUTO_INCREMENT,
-	cType VARCHAR(15) NOT NULL,
-	cKey VARCHAR(15)  NOT NULL DEFAULT '',
-	cValue Varchar(200) NOT NULL,
-	cEnable BIT NOT NULL DEFAULT 1,
-	PRIMARY KEY(cId),
-	UNIQUE TypeAndKey (cType, cKey)
-) ENGINE=InnoDB;
-*/
-
 CREATE TABLE tBank (
 	cId BIGINT UNIQUE AUTO_INCREMENT,
 	cKey	VARCHAR(5) NOT NULL, 
@@ -157,7 +145,15 @@ CREATE TABLE tCountry (
  	cName		VARCHAR(60) NOT NULL DEFAULT '',
 	PRIMARY KEY(cId)
 ) ENGINE=InnoDB;
- 
+
+CREATE TABLE tBond (
+ 	cId			BIGINT UNIQUE AUTO_INCREMENT,
+ 	cName		VARCHAR(50) NOT NULL DEFAULT '',
+ 	cEnable		BIT	NOT NULL DEFAULT 0 COMMENT 'Flag para indicar si esta habilitado o no',
+ 	cLimit		DOUBLE NULL DEFAULT '1' COMMENT 'Limite del bono',
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
+
  /* Crea tabla Empleados */
 create table tEmployee (
 	cId					BIGINT(20)  NOT NULL auto_increment, 
@@ -178,11 +174,11 @@ create table tEmployee (
 ) ENGINE=InnoDB;
 
 create table tGenere(
-	cId 				BIGINT(20) NOT NULL auto_increment, 
+	cId 				BIGINT(20) NOT NULL auto_increment,
+	cKey				CHAR(1) NOT NULL DEFAULT ' ',
 	cName				VARCHAR(20) NOT NULL,
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
-
 
 create table tAgreement(
 	cId					BIGINT(20) NOT NULL auto_increment, 
@@ -213,11 +209,13 @@ create table tAgreement(
 	cAdditionalHealthAmount	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Monto adicional sistema de salud',
 	cAdditionalHealthCurrency	BIGINT(20) NULL	COMMENT 'Moneda en el cual se expresa el adicional de salud',
 	
-	cSimpleLoads		INTEGER	NOT NULL DEFAULT '0' 	COMMENT 'Cargas Simples',
-	cDisabilityBurdens	INTEGER	NOT NULL DEFAULT '0' 	COMMENT 'Cargas Invalidez',
-	cMaternalLoads		INTEGER	NOT NULL DEFAULT '0' 	COMMENT 'Cargas Maternales',
+	cSimpleLoads		INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Simples',
+	cDisabilityBurdens	INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Invalidez',
+	cMaternalLoads		INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Maternales',
 	
-	cFamilyAssignmentStretch	BIGINT(20) NOT NULL  COMMENT 'Tramo de asignación familiar',
+	cFamilyAssignmentStretch	BIGINT(20) NOT NULL		COMMENT 'Tramo de asignación familiar',
+	cPensionary			BIT NOT NULL DEFAULT 0		COMMENT 'Indica si es pensionado',
+	
 	PRIMARY KEY (cId)
 )ENGINE=InnoDB;
 
@@ -479,6 +477,10 @@ create table tBook(
 	cWorkDays			INTEGER NOT NULL DEFAULT '30' COMMENT 'Días trabajados - Ingresa por el período',
 	cSalaryRoot			DOUBLE NOT NULL COMMENT 'Sueldo Base - cp from tAgreement.cSalaryRoot',
 	cOvertime			INTEGER	NOT NULL DEFAULT '0' COMMENT 'Cantidad Horas Extras - Sumar tabla tOvertime',
+	/*
+	cPFM				BIGINT(20) NOT NULL COMMENT 'Id de afp de la época',
+	cExBoxSystem		BIGINT(20) NOT NULL COMMENT 'Id del ex-regimen de la época',
+	*/
 	cSalaryReceived		DOUBLE NULL DEFAULT '0' COMMENT 'Salario recibido - calculo de sueldo_base/30 x días trabajados',
 	cInsuranceFactorEmployee	DOUBLE NOT NULL COMMENT 'Factor con el que aporta el empleado para seguro de cesantía',
 	cInsuranceFactorEnterprise	DOUBLE NOT NULL COMMENT 'Factor con el que aporta la empresa para seguro de cesantía',
@@ -490,6 +492,7 @@ create table tBook(
 	cPayToMutulEnterprise	DOUBLE NULL DEFAULT '0' COMMENT 'Monto que la empresa debe pagar a la mutual correspondiente',
 	cFamilyAssignmentEnterprise	DOUBLE NULL DEFAULT '0' COMMENT 'Monto que la empresa debe pagar por concepto de cargas familiares',
 	cCostEnterprise			DOUBLE NULL DEFAULT '0' COMMENT 'Costo para la empresa por trabajador',
+	cPensionary			BIT NOT NULL DEFAULT 0		COMMENT 'Indica si es pensionado',				
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -559,6 +562,7 @@ create table tBookDiscounts(
 	cId								BIGINT(20) NOT NULL auto_increment,
 	cBook							BIGINT(20) NOT NULL,
 	cPFMHistory						BIGINT(20) NOT NULL COMMENT 'Código de AFP',
+	cExBoxSystem					BIGINT(20) NULL COMMENT 'Id del ex-regimen de la época',
 	cObligatoryQuote				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotizacion Obligatoria - Es un % multiplicado por el cLimitTaxableForecast',
 	cAPVAmount						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto APV - Suma de todos los montos en APV, algunos traducir a pesos desde UF',
 	cAccount2						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cuenta 2, Ahorro AFP - Se saca de la tabla tAccount',
@@ -617,16 +621,7 @@ Ojo tiene tope en UF ese tope lo da el previred y puede cambiar en el año el 3%
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-/****************
-EN LA VISTA:
-*/
-
-
-
-/***************************************/
-
  /** V I S T A S **/
-
 DROP VIEW IF EXISTS remcon.vBook;
 
 CREATE VIEW remcon.vBook
@@ -642,6 +637,7 @@ SELECT	a.cId AS cId,
 		d.cUF,
 		d.cUTM,
 		a.cWorkDays,
+		a.cPensionary,						/* indica si es pencionado */
 		d.cDaysForYear,
 		a.cContractType,
 		d.cMinSalary,
@@ -693,6 +689,7 @@ SELECT	a.cId AS cId,
 		b.cVoluntaryIndenmization,			/* Indemnisación voluntaria */
 		c.cId AS cDiscountsId,				
 		c.cPFMHistory,						/* Código de la AFP */
+		c.cExBoxSystem,						/* Código de ex-caja */
 		c.cObligatoryQuote,					/* Monto que se le paga a la AFP de manera obligatoria */
 		c.cAPVAmount,						/* Suma de todos los fondos en CLP */
 		c.cAccount2,

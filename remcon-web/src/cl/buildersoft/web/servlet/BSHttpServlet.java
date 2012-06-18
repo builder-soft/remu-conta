@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +15,7 @@ import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
 
 public abstract class BSHttpServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 713819586332712332L;
 	protected abstract BSTableConfig getBSTableConfig(HttpServletRequest request);
 
 	public BSHttpServlet() {
@@ -59,4 +59,5 @@ public abstract class BSHttpServlet extends HttpServlet {
 			table.getField(fieldName).setVisible(false);
 		}
 	}
+	
 }

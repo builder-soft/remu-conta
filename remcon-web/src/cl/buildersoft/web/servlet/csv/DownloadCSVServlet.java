@@ -33,12 +33,11 @@ public abstract class DownloadCSVServlet extends HttpServlet {
 		super();
 	}
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		BSTableConfig table = getBSTableConfig();
 
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request );
+		Connection conn = mysql.getConnection(request);
 
 		table.configFields(conn, mysql);
 		BSField[] fields = table.deleteId();
@@ -47,9 +46,8 @@ public abstract class DownloadCSVServlet extends HttpServlet {
 
 		char separator = new BSConfig().getSeparator(conn);
 
-		ServletOutputStream output = setHeader(response, table.getTableName());
-		CsvWriter csv = new CsvWriter(output, separator,
-				Charset.defaultCharset());
+		ServletOutputStream output = configHeaderAsCSV(response, table.getTableName());
+		CsvWriter csv = new CsvWriter(output, separator, Charset.defaultCharset());
 
 		for (BSField field : fields) {
 			csv.write(field.getName());
@@ -77,11 +75,10 @@ public abstract class DownloadCSVServlet extends HttpServlet {
 		csv.close();
 	}
 
-	private ServletOutputStream setHeader(HttpServletResponse response,
-			String tableName) throws IOException {
+	private ServletOutputStream configHeaderAsCSV(HttpServletResponse response, String fileName) throws IOException {
 		ServletOutputStream output = response.getOutputStream();
 		response.setContentType("text/csv");
-		String disposition = "attachment; fileName=" + tableName + ".csv";
+		String disposition = "attachment; fileName=" + fileName + ".csv";
 		response.setHeader("Content-Disposition", disposition);
 		return output;
 	}

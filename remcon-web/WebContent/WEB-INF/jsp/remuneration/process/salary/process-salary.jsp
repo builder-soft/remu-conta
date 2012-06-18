@@ -13,19 +13,22 @@
 
 <h1 class="cTitle">Cálculo de Remuneraciones</h1>
 
-<form action="/servlet/">
-<table>
-	<tr>
-		<td class='cLabel'>Período:</td>
-		<td class='cData'><%=BSWeb.month2Word(date)%> de <%=date.getYear()%></td>
-	</tr>
-	<!-- 
+<form
+	action="${pageContext.request.contextPath}/servlet/remuneration/process/salary/CalculateSalary"
+	method="post">
+	<table>
+		<tr>
+			<td class='cLabel'>Período:</td>
+			<td class='cData'><%=BSWeb.month2Word(date)%> de <%=BSWeb.getYear(date)%></td>
+		</tr>
+		<!-- 
 <tr>
 <td class='cLabel'>Empresa:</td>
 <td class='cData'><select/></td>
 </tr>
 -->
-</table>
+	</table>
+	<input type="submit" value="Calcular">
 </form>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

@@ -46,6 +46,7 @@ public class AgreementServiceImpl implements AgreementService {
 			agreement.setSimpleLoads(0);
 			agreement.setDisabilityBurdens(0);
 			agreement.setMaternalLoads(0);
+			agreement.setPensionary(Boolean.FALSE);
 
 			bu.save(conn, agreement);
 		}

@@ -36,16 +36,16 @@ DROP FUNCTION IF EXISTS remcon.fSalaryDaily;
 DELIMITER $$
 
 /************************/
-CREATE PROCEDURE remcon.pCalculateSalary(IN pEmployee BIGINT, IN pDate DATE, IN pWorkDays INTEGER)
+CREATE PROCEDURE remcon.pCalculateSalary(IN pEmployee BIGINT, IN vPeriod BIGINT)
 BEGIN
-	DECLARE vPeriod, vBook BIGINT DEFAULT 0; 
-
+	DECLARE vBook BIGINT DEFAULT 0; 
+/*
 	SELECT	cId
 	INTO	vPeriod
 	FROM	remcon.tPeriod
 	WHERE	cDate = pDate;
-
-	SET vBook = remcon.fSaveBookForEmployee(vPeriod, pEmployee, pWorkDays);
+*/
+	SET vBook = remcon.fSaveBookForEmployee(vPeriod, pEmployee);
 	
 	CALL remcon.pSaveOvertime(vBook, pEmployee, vPeriod);
 	CALL remcon.pSalaryReceived(vBook);
@@ -504,11 +504,13 @@ BEGIN
 END$$
 
 /************************/
-CREATE FUNCTION remcon.fSaveBookForEmployee(pPeriod BIGINT, pEmployee BIGINT, pWorkDays INTEGER) RETURNS BIGINT
+CREATE FUNCTION remcon.fSaveBookForEmployee(pPeriod BIGINT, pEmployee BIGINT) RETURNS BIGINT
 BEGIN
 	DECLARE vOut, vHorary, vGratificationType, vPFM, vHealth, vUnemploymentInsurance,
-			vContractType, vInsuranceFactorEmployee, vInsuranceFactorEnterprise BIGINT DEFAULT 0;
+			vContractType, vInsuranceFactorEmployee, vInsuranceFactorEnterprise,
+			vExBoxSystem BIGINT DEFAULT 0;
 	DECLARE vSalaryRoot DOUBLE DEFAULT 0;
+	DECLARE vPensionary BIT DEFAULT 0;
 	
 	SELECT		b.cId
 	INTO		vOut
@@ -518,9 +520,11 @@ BEGIN
 				a.cId = pPeriod;
 
 	SELECT	a.cHorary, a.cSalaryRoot, a.cGratificationType, a.cPFM, a.cHealth, a.cContractType, 
-			b.cInsuranceFactorEmployee, b.cInsuranceFactorEnterprise
+			b.cInsuranceFactorEmployee, b.cInsuranceFactorEnterprise, cExBoxSystem,
+			a.cPensionary
 	INTO	vHorary, vSalaryRoot, vGratificationType, vPFM, vHealth, vContractType,
-			vInsuranceFactorEmployee, vInsuranceFactorEnterprise
+			vInsuranceFactorEmployee, vInsuranceFactorEnterprise, vExBoxSystem,
+			vPensionary
 	FROM	remcon.tAgreement AS a
 	LEFT JOIN remcon.tContractType AS b ON a.cContractType = b.cId
 	WHERE	a.cEmployee = pEmployee;
@@ -533,12 +537,11 @@ BEGIN
 		SET		cPeriod = pPeriod,
 				cEmployee = pEmployee,
 				cHorary = vHorary,
-				cWorkDays = pWorkDays,
 				cSalaryRoot = vSalaryRoot,
-				cOvertime = 0,
 				cContractType = vContractType,
 				cInsuranceFactorEmployee = vInsuranceFactorEmployee,
-				cInsuranceFactorEnterprise = vInsuranceFactorEnterprise
+				cInsuranceFactorEnterprise = vInsuranceFactorEnterprise,
+				cPensionary = vPensionary
 		WHERE	cId = vOut;
 		
 		UPDATE	remcon.tBookAssets
@@ -548,21 +551,22 @@ BEGIN
 		UPDATE	remcon.tBookDiscounts
 		SET		cLimitTaxableForecast = 0,
 				cPFMHistory = vPFM,
+				cExBoxSystem = vExBoxSystem,
 				cHealthHistory = vHealth
 		WHERE	cBook = vOut;
 		
 	ELSE
-		INSERT INTO remcon.tBook(cPeriod, cEmployee, cHorary, cWorkDays, cSalaryRoot, cOvertime, cContractType,
-					cInsuranceFactorEmployee, cInsuranceFactorEnterprise)
-		VALUES(pPeriod, pEmployee, vHorary, pWorkDays, vSalaryRoot, 0, vContractType,
-					vInsuranceFactorEmployee, vInsuranceFactorEnterprise);
+		INSERT INTO remcon.tBook(cPeriod, cEmployee, cHorary, cSalaryRoot, cContractType,
+					cInsuranceFactorEmployee, cInsuranceFactorEnterprise, cPensionary)
+		VALUES(pPeriod, pEmployee, vHorary, vSalaryRoot, vContractType,
+					vInsuranceFactorEmployee, vInsuranceFactorEnterprise, vPensionary);
 		SET vOut = LAST_INSERT_ID();
 		
 		INSERT INTO remcon.tBookAssets(cBook, cGratificationType)
 		VALUES(vOut, vGratificationType);
 	
-		INSERT INTO remcon.tBookDiscounts(cBook, cLimitTaxableForecast, cPFMHistory, cHealthHistory)
-		VALUES(vOut, 0, vPFM, vHealth);
+		INSERT INTO remcon.tBookDiscounts(cBook, cLimitTaxableForecast, cPFMHistory, cHealthHistory, cExBoxSystem)
+		VALUES(vOut, 0, vPFM, vHealth, vExBoxSystem);
 	END IF;
 
 	RETURN vOut;

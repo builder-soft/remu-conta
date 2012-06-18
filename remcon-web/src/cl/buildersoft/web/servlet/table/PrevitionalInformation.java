@@ -31,17 +31,12 @@ import cl.buildersoft.framework.util.BSBeanUtilsSP;
 /**
  * Servlet implementation class EditRecord
  */
-@WebServlet("/servlet/table/EmployeeInformation")
-public class EmployeeInformation extends AbstractServletUtil {
+@WebServlet("/servlet/table/PrevitionalInformation")
+public class PrevitionalInformation extends AbstractServletUtil {
 
 	private static final long serialVersionUID = -5785656616097922095L;
 
-	public EmployeeInformation() {
-		super();
-	}
-
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long employeeId = Long.parseLong(request.getParameter("cId"));
 
 		Connection conn = null;
@@ -55,18 +50,13 @@ public class EmployeeInformation extends AbstractServletUtil {
 
 		List<APV> listadoApv = (List<APV>) bu.list(conn, new APV(), "pListAPV");
 		List<PFM> listadoAfp = (List<PFM>) bu.list(conn, new PFM(), "pListPFM");
-		List<Currency> listadoCurrency = (List<Currency>) bu.list(conn,
-				new Currency(), "pListCurrency");
-		List<Health> listadoHealth = (List<Health>) bu.list(conn, new Health(),
-				"pListHealth");
-		List<ExBoxSystem> listadoExBox = (List<ExBoxSystem>) bu.list(conn,
-				new ExBoxSystem(), "pListExBoxSystem");
+		List<Currency> listadoCurrency = (List<Currency>) bu.list(conn, new Currency(), "pListCurrency");
+		List<Health> listadoHealth = (List<Health>) bu.list(conn, new Health(), "pListHealth");
+		List<ExBoxSystem> listadoExBox = (List<ExBoxSystem>) bu.list(conn, new ExBoxSystem(), "pListExBoxSystem");
 
-		List<RagreementAPV> listadoApvEmp = listAPVForEmployee(conn, mysql,
-				employeeId);
+		List<RagreementAPV> listadoApvEmp = listAPVForEmployee(conn, mysql, employeeId);
 
-		Agreement agreementEmp = getAgreement(conn, new BSBeanUtilsSP(),
-				employeeId);
+		Agreement agreementEmp = getAgreement(conn, new BSBeanUtilsSP(), employeeId);
 
 		request.setAttribute("listadoAfp", listadoAfp);
 		request.setAttribute("listadoApv", listadoApv);
@@ -78,15 +68,11 @@ public class EmployeeInformation extends AbstractServletUtil {
 		request.setAttribute("Employee", employee);
 
 		request.setAttribute("Action", "Update");
-		request.getRequestDispatcher(
-				"/WEB-INF/jsp/table/previtional-information.jsp").forward(
-				request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/table/previtional-information.jsp").forward(request, response);
 	}
 
-	private List<RagreementAPV> listAPVForEmployee(Connection conn,
-			BSmySQL mysql, Long employeeId) {
-		ResultSet rs = mysql.callSingleSP(conn, "pListAPVForEmployee",
-				array2List(employeeId));
+	private List<RagreementAPV> listAPVForEmployee(Connection conn, BSmySQL mysql, Long employeeId) {
+		ResultSet rs = mysql.callSingleSP(conn, "pListAPVForEmployee", array2List(employeeId));
 
 		// List<RagreementAPV> listadoApvEmp = (List<RagreementAPV>)
 		// bu.list(conn,
@@ -108,13 +94,10 @@ public class EmployeeInformation extends AbstractServletUtil {
 		return out;
 	}
 
-	public Agreement getAgreement(Connection conn, BSBeanUtilsSP bu,
-			Long idEmployee) {
+	public Agreement getAgreement(Connection conn, BSBeanUtilsSP bu, Long idEmployee) {
 		AgreementService agreementService = new AgreementServiceImpl();
-		Agreement out = agreementService.getAgreementByEmployee(conn,
-				idEmployee);
+		Agreement out = agreementService.getAgreementByEmployee(conn, idEmployee);
 		return out;
 	}
-
 
 }
