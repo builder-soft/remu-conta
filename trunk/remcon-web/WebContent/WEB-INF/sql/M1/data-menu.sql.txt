@@ -68,7 +68,7 @@ SET @menuIdRemu = LAST_INSERT_ID();
 
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('SALARY', 'Cálculo de Sueldos', '/servlet/remuneration/process/salary/ProcessSalary', @menuIdProcess);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PAYROLL', 'Nóminas', NULL, @menuIdProcess);
-		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PREVIRED', 'Previred', '', @menuIdProcess);
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PREVIRED', 'Previred', '/servlet/remuneration/process/previred/Previred', @menuIdProcess);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CENTRALIZATION', 'Centralización', NULL, @menuIdProcess);
 
 

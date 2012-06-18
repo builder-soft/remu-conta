@@ -16,7 +16,7 @@ public class EmployeeManager extends BSHttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {		
+	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
 		BSTableConfig table = initTable(request, "tEmployee");
 		table.setTitle("Listado de empleados");
 		table.setDeleteSP("pDelEmployee");
@@ -29,18 +29,16 @@ public class EmployeeManager extends BSHttpServlet {
 		table.getField("cGenere").setLabel("Género");
 		table.getField("cCountry").setLabel("Nacionalidad");
 		table.getField("cMaritalStatus").setLabel("Estado Civil");
-		
-		BSAction previtionalInformation = new BSAction("PREVITIONAL",
-				BSActionType.Record);
+
+		BSAction previtionalInformation = new BSAction("PREVITIONAL", BSActionType.Record);
 		previtionalInformation.setLabel("Información Previsional");
-//		previtionalInformation.setUrl("/servlet/ShowParameters");
-		previtionalInformation.setUrl("/servlet/table/EmployeeInformation");
+		// previtionalInformation.setUrl("/servlet/ShowParameters");
+		previtionalInformation.setUrl("/servlet/table/PrevitionalInformation");
 		table.addAction(previtionalInformation);
 
 		table.getAction("EDIT").setLabel("Informacion Personal");
-		
-		BSAction contractualInfo = new BSAction("CONTRACTUAL",
-				BSActionType.Record);
+
+		BSAction contractualInfo = new BSAction("CONTRACTUAL", BSActionType.Record);
 		contractualInfo.setLabel("Información Contractual");
 		contractualInfo.setUrl("/servlet/config/employee/ContractualInfo");
 		table.addAction(contractualInfo);
@@ -54,8 +52,8 @@ public class EmployeeManager extends BSHttpServlet {
 		document.setLabel("Documentos");
 		document.setUrl("/servlet/config/employee/DocumentEmployee");
 		document.setMethod("listDocuments");
-		table.addAction(document);		
-		
+		table.addAction(document);
+
 		return table;
 	}
 }

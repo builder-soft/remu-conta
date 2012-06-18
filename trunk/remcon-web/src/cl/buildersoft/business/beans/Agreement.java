@@ -17,13 +17,13 @@ public class Agreement extends BSBean {
 	private Long health = null;
 	private Long gratificationType = null;
 	private Long paymentType = null;
-	
+
 	private Long bank = null;
 	private Long accountType = null;
 	private String accountNumber = null;
 	private Long currencyAccount2 = null;
 	private Double amountAccount2 = null;
-	
+
 	private Long horary = null;
 	private Double mobilization = null;
 	private Double feeding = null;
@@ -34,6 +34,7 @@ public class Agreement extends BSBean {
 	private Integer simpleLoads = null;
 	private Integer disabilityBurdens = null;
 	private Integer maternalLoads = null;
+	private Boolean pensionary = null;
 
 	public Long getEmployee() {
 		return employee;
@@ -181,18 +182,13 @@ public class Agreement extends BSBean {
 
 	@Override
 	public String toString() {
-		return "Agreement [employee=" + employee + ", contractType="
-				+ contractType + ", startContract=" + startContract
-				+ ", endContract=" + endContract + ", profile=" + profile
-				+ ", salaryRoot=" + salaryRoot + ", pfm=" + pfm + ", health="
-				+ health + ", gratificationType=" + gratificationType
-				+ ", paymentType=" + paymentType + ", horary=" + horary
-				+ ", mobilization=" + mobilization + ", feeding=" + feeding
-				+ ", exBoxSystem=" + exBoxSystem + ", exBoxSystemPRC="
-				+ exBoxSystemPRC + ", additionalHealthAmount=" + additionalHealthAmount
-				+ ", additionalHealthCurrency=" + additionalHealthCurrency
-				+ ", simpleLoads=" + simpleLoads + ", disabilityBurdens="
-				+ disabilityBurdens + ", maternalLoads=" + maternalLoads + "]";
+		return "Agreement [employee=" + employee + ", contractType=" + contractType + ", startContract=" + startContract
+				+ ", endContract=" + endContract + ", profile=" + profile + ", salaryRoot=" + salaryRoot + ", pfm=" + pfm
+				+ ", health=" + health + ", gratificationType=" + gratificationType + ", paymentType=" + paymentType
+				+ ", horary=" + horary + ", mobilization=" + mobilization + ", feeding=" + feeding + ", exBoxSystem="
+				+ exBoxSystem + ", exBoxSystemPRC=" + exBoxSystemPRC + ", additionalHealthAmount=" + additionalHealthAmount
+				+ ", additionalHealthCurrency=" + additionalHealthCurrency + ", simpleLoads=" + simpleLoads
+				+ ", disabilityBurdens=" + disabilityBurdens + ", maternalLoads=" + maternalLoads + "]";
 	}
 
 	public Double getAdditionalHealthAmount() {
@@ -249,6 +245,14 @@ public class Agreement extends BSBean {
 
 	public void setAmountAccount2(Double amountAccount2) {
 		this.amountAccount2 = amountAccount2;
+	}
+
+	public Boolean getPensionary() {
+		return pensionary;
+	}
+
+	public void setPensionary(Boolean pensionary) {
+		this.pensionary = pensionary;
 	}
 
 }

@@ -18,8 +18,7 @@ import cl.buildersoft.web.servlet.table.AbstractServletUtil;
 public class SavePrevitionalInfo extends AbstractServletUtil {
 	private static final long serialVersionUID = 5316369008384063620L;
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Long employeeId = Long.parseLong(request.getParameter("cId"));
 
@@ -33,10 +32,8 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		Agreement agreement = getAgreement(conn, bu, employeeId);
 		mysql.callSingleSP(conn, "pDelAgreementAPVByEmployee", employeeId);
 
-		String[] apvInstitution = (String[]) request
-				.getParameterValues("apvInstitution");
-		String[] apvCurrency = (String[]) request
-				.getParameterValues("apvCurrency");
+		String[] apvInstitution = (String[]) request.getParameterValues("apvInstitution");
+		String[] apvCurrency = (String[]) request.getParameterValues("apvCurrency");
 		String[] apvAmount = (String[]) request.getParameterValues("apvAmount");
 
 		for (int i = 0; apvInstitution != null && i < apvInstitution.length; i++) {
@@ -50,26 +47,21 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 			mysql.callSingleSP(
 					conn,
 					"pSaveAPVForAgreement",
-					array2List(agreementAPV.getAgreement(),
-							agreementAPV.getApv(), agreementAPV.getCurrency(),
+					array2List(agreementAPV.getAgreement(), agreementAPV.getApv(), agreementAPV.getCurrency(),
 							agreementAPV.getAmount()));
 
 		}
 
 		Long exBox = Long.valueOf(request.getParameter("exBox"));
-		Integer disabilityBurdens = Integer.valueOf(request
-				.getParameter("disabilityBurdens"));
-		Integer maternalLoad = Integer.valueOf(request
-				.getParameter("maternalLoad"));
+		Integer disabilityBurdens = Integer.valueOf(request.getParameter("disabilityBurdens"));
+		Integer maternalLoad = Integer.valueOf(request.getParameter("maternalLoad"));
 		Long afpEmp = Long.valueOf(request.getParameter("afpEmp"));
-		Long additionalHealthCurrency = Long.valueOf(request
-				.getParameter("additionalHealthCurrency"));
+		Long additionalHealthCurrency = Long.valueOf(request.getParameter("additionalHealthCurrency"));
 
 		Long health = Long.valueOf(request.getParameter("health"));
-		Double additionalHealthAmount = Double.valueOf(request
-				.getParameter("additionalHealthAmount"));
-		Integer simpleLoads = Integer.valueOf(request
-				.getParameter("simpleLoad"));
+		Double additionalHealthAmount = Double.valueOf(request.getParameter("additionalHealthAmount"));
+		Integer simpleLoads = Integer.valueOf(request.getParameter("simpleLoad"));
+		Boolean pensionary = Boolean.parseBoolean(request.getParameter("Pensionary"));
 
 		agreement.setExBoxSystem(exBox);
 		agreement.setDisabilityBurdens(disabilityBurdens);
@@ -79,22 +71,23 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		agreement.setHealth(health);
 		agreement.setAdditionalHealthAmount(additionalHealthAmount);
 		agreement.setSimpleLoads(simpleLoads);
+		agreement.setPensionary(pensionary);
 
 		bu.save(conn, agreement);
 
-		request.getRequestDispatcher("/servlet/remu/EmployeeManager").forward(
-				request, response);
+		request.getRequestDispatcher("/servlet/remu/EmployeeManager").forward(request, response);
 	}
 
-	private Agreement getAgreement(Connection conn, BSBeanUtilsSP bu,
-			Long idEmployee) {
+	private Agreement getAgreement(Connection conn, BSBeanUtilsSP bu, Long idEmployee) {
 		ContractualInfo ci = new ContractualInfo();
 		return ci.getAgreement(conn, bu, idEmployee);
 	}
-/**<code>
+	/**
+	 * <code>
 	private Account2 getAccountByEmployee(Connection conn, BSBeanUtilsSP bu,
 			Long idEmployee) {
 		return null;
 	}
-</code>*/
+</code>
+	 */
 }
