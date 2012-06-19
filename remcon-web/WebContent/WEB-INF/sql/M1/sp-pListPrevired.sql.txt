@@ -4,11 +4,14 @@ DELIMITER $$
 CREATE PROCEDURE remcon.pListPrevired(IN pPeriod BIGINT)
 BEGIN
 	SELECT		b.cRut, b.cLastName1, b.cLastName2, b.cName, c.cKey AS cGenere,
-				b.cCountry, a.cDate, a.cPFMHistory AS cPFM, a.cExBoxSystem,
-				remcon.fGetAge(b.cBirthDate) AS cAge, a.cPensionary, a.cWorkDays
+				b.cCountry, a.cDate, LAST_DAY(a.cDate) AS cLastDay,  a.cPFMHistory AS cPFM, a.cExBoxSystem,
+				remcon.fGetAge(b.cBirthDate) AS cAge, a.cPensionary, a.cWorkDays, e.cKey AS cFamilyAssignmentStretch,
+				a.cSimpleLoads, a.cDisabilityBurdens, a.cMaternalLoads, a.cFamilyAssignmentAmount, cFamilyRetroactive
 	FROM 		remcon.vBook		AS a
 	LEFT JOIN	remcon.tEmployee	AS b ON a.cEmployee = b.cId
 	LEFT JOIN	remcon.tGenere		AS c ON b.cGenere = c.cId
+	LEFT JOIN	remcon.tAgreement	AS d ON a.cAgreement = d.cId
+	LEFT JOIN	remcon.tFamilyAssignmentStretch AS e ON d.cFamilyAssignmentStretch = e.cId
 	WHERE	a.cPeriod = pPeriod;
 END$$
 

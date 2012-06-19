@@ -3,7 +3,7 @@
 <%@page import="cl.buildersoft.business.beans.Employee,cl.buildersoft.business.beans.Agreement,cl.buildersoft.framework.beans.BSCss"%>
 <%@page import="cl.buildersoft.framework.beans.BSScript,cl.buildersoft.framework.beans.BSHeadConfig,cl.buildersoft.framework.util.BSWeb"%>
 <%@page import="cl.buildersoft.framework.type.BSFieldType,cl.buildersoft.framework.beans.BSField,cl.buildersoft.framework.beans.BSTableConfig"%>
-<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.ResultSet, cl.buildersoft.business.beans.FamilyAssignmentStretch"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -17,6 +17,7 @@
 	List<PFM> listadoAfp = (List<PFM>) request.getAttribute("listadoAfp");
 	List<ExBoxSystem> listadoExBox = (List<ExBoxSystem>) request.getAttribute("listadoExBox");
 	List<Health> listadoHealth = (List<Health>) request.getAttribute("listadoHealth");
+	List<FamilyAssignmentStretch> familyAssignmentStretchs = (List<FamilyAssignmentStretch>) request.getAttribute("FamilyAssignmentStretch");
 
 	Agreement agreementEmp = (Agreement) request.getAttribute("agreementEmp");
 	Employee employee = (Employee) request.getAttribute("Employee");
@@ -160,7 +161,7 @@ function changeExBox(o){
 </div>
 <form action="${pageContext.request.contextPath}/servlet/config/employee/SavePrevitionalInfo" method="post" id="editForm">
 	<input type="hidden" name="cId" value="<%=request.getParameter("cId")%>">
-	<table border="0">
+	<table border="1">
 			<tr>
 					<td class="cLabel" valign='top'>AFP:</td>
 					<td class="cData" colspan="3">
@@ -213,16 +214,16 @@ function changeExBox(o){
 			<tr>
 				<td class="cLabel" valign='top'>Moneda :</td>
 				<td class="cData">
-								<select id="additionalHealthCurrency" name="additionalHealthCurrency">
-										<%
-											for (Currency bsCurrency : listadoCurrency) {
-										%>
-											<OPTION value="<%=bsCurrency.getId()%>"<%=agreementEmp.getAdditionalHealthCurrency() != null
-						&& bsCurrency.getId().equals(agreementEmp.getAdditionalHealthCurrency()) ? "selected" : ""%>><%=bsCurrency.getKey()%></OPTION>
-										<%
-											}
-										%>
-								</select>
+					<select id="additionalHealthCurrency" name="additionalHealthCurrency">
+							<%
+								for (Currency bsCurrency : listadoCurrency) {
+							%>
+								<OPTION value="<%=bsCurrency.getId()%>"<%=agreementEmp.getAdditionalHealthCurrency() != null
+			&& bsCurrency.getId().equals(agreementEmp.getAdditionalHealthCurrency()) ? "selected" : ""%>><%=bsCurrency.getKey()%></OPTION>
+							<%
+								}
+							%>
+					</select>
 				</td>				
 				
 				<td class="cLabel" valign='top'>Monto :</td>
@@ -232,6 +233,24 @@ function changeExBox(o){
 			</tr>
 			<tr>
 				<td colspan="4">&nbsp;</td>
+			</tr>
+			
+			
+			
+			<tr>
+				<td class="cLabel" valign='top'>Tramo asignación familiar:</td>
+				<td class="cData" colspan="3">
+								<select name="FamilyAssignmentStretch">
+										<%
+											for (FamilyAssignmentStretch familyAssignmentStretch : familyAssignmentStretchs) {
+										%>
+											<OPTION value="<%=familyAssignmentStretch.getId()%>" <%=agreementEmp.getFamilyAssignmentStretch() != null
+						&& familyAssignmentStretch.getId().equals(agreementEmp.getFamilyAssignmentStretch()) ? "selected" : ""%>><%=familyAssignmentStretch.getKey()%></OPTION>
+										<%
+											}
+										%>
+								</select>
+				</td>
 			</tr>
 			
 			<tr>

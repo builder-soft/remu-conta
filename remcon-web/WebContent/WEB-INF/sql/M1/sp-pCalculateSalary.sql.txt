@@ -511,6 +511,8 @@ BEGIN
 			vExBoxSystem BIGINT DEFAULT 0;
 	DECLARE vSalaryRoot DOUBLE DEFAULT 0;
 	DECLARE vPensionary BIT DEFAULT 0;
+	DECLARE	vSimpleLoads, vDisabilityBurdens, vMaternalLoads INTEGER DEFAULT 0;
+
 	
 	SELECT		b.cId
 	INTO		vOut
@@ -521,10 +523,10 @@ BEGIN
 
 	SELECT	a.cHorary, a.cSalaryRoot, a.cGratificationType, a.cPFM, a.cHealth, a.cContractType, 
 			b.cInsuranceFactorEmployee, b.cInsuranceFactorEnterprise, cExBoxSystem,
-			a.cPensionary
+			a.cPensionary, a.cSimpleLoads, a.cDisabilityBurdens, a.cMaternalLoads
 	INTO	vHorary, vSalaryRoot, vGratificationType, vPFM, vHealth, vContractType,
 			vInsuranceFactorEmployee, vInsuranceFactorEnterprise, vExBoxSystem,
-			vPensionary
+			vPensionary, vSimpleLoads, vDisabilityBurdens, vMaternalLoads
 	FROM	remcon.tAgreement AS a
 	LEFT JOIN remcon.tContractType AS b ON a.cContractType = b.cId
 	WHERE	a.cEmployee = pEmployee;
@@ -545,7 +547,10 @@ BEGIN
 		WHERE	cId = vOut;
 		
 		UPDATE	remcon.tBookAssets
-		SET		cGratificationType = vGratificationType		
+		SET		cGratificationType = vGratificationType,
+				cSimpleLoads = vSimpleLoads, 
+				cDisabilityBurdens = vDisabilityBurdens, 
+				cMaternalLoads = vMaternalLoads
 		WHERE	cBook = vOut;
 		
 		UPDATE	remcon.tBookDiscounts
@@ -562,8 +567,8 @@ BEGIN
 					vInsuranceFactorEmployee, vInsuranceFactorEnterprise, vPensionary);
 		SET vOut = LAST_INSERT_ID();
 		
-		INSERT INTO remcon.tBookAssets(cBook, cGratificationType)
-		VALUES(vOut, vGratificationType);
+		INSERT INTO remcon.tBookAssets(cBook, cGratificationType, cSimpleLoads, cDisabilityBurdens, cMaternalLoads )
+		VALUES(vOut, vGratificationType, vSimpleLoads, vDisabilityBurdens, vMaternalLoads );
 	
 		INSERT INTO remcon.tBookDiscounts(cBook, cLimitTaxableForecast, cPFMHistory, cHealthHistory, cExBoxSystem)
 		VALUES(vOut, 0, vPFM, vHealth, vExBoxSystem);

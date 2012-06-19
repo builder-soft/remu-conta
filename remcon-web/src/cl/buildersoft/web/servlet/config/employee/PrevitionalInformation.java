@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.table;
+package cl.buildersoft.web.servlet.config.employee;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -17,6 +17,7 @@ import cl.buildersoft.business.beans.Agreement;
 import cl.buildersoft.business.beans.Currency;
 import cl.buildersoft.business.beans.Employee;
 import cl.buildersoft.business.beans.ExBoxSystem;
+import cl.buildersoft.business.beans.FamilyAssignmentStretch;
 import cl.buildersoft.business.beans.Health;
 import cl.buildersoft.business.beans.PFM;
 import cl.buildersoft.business.beans.RagreementAPV;
@@ -27,11 +28,12 @@ import cl.buildersoft.business.service.impl.EmployeeServiceImpl;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
+import cl.buildersoft.web.servlet.table.AbstractServletUtil;
 
 /**
  * Servlet implementation class EditRecord
  */
-@WebServlet("/servlet/table/PrevitionalInformation")
+@WebServlet("/servlet/config/employee/PrevitionalInformation")
 public class PrevitionalInformation extends AbstractServletUtil {
 
 	private static final long serialVersionUID = -5785656616097922095L;
@@ -53,6 +55,7 @@ public class PrevitionalInformation extends AbstractServletUtil {
 		List<Currency> listadoCurrency = (List<Currency>) bu.list(conn, new Currency(), "pListCurrency");
 		List<Health> listadoHealth = (List<Health>) bu.list(conn, new Health(), "pListHealth");
 		List<ExBoxSystem> listadoExBox = (List<ExBoxSystem>) bu.list(conn, new ExBoxSystem(), "pListExBoxSystem");
+		List <FamilyAssignmentStretch> familyAssignmentStretch = (List<FamilyAssignmentStretch>) bu.list(conn, new FamilyAssignmentStretch(), "pListFamilyAssignmentStretch");
 
 		List<RagreementAPV> listadoApvEmp = listAPVForEmployee(conn, mysql, employeeId);
 
@@ -65,10 +68,11 @@ public class PrevitionalInformation extends AbstractServletUtil {
 		request.setAttribute("listadoExBox", listadoExBox);
 		request.setAttribute("listadoHealth", listadoHealth);
 		request.setAttribute("agreementEmp", agreementEmp);
+		request.setAttribute("FamilyAssignmentStretch", familyAssignmentStretch);
 		request.setAttribute("Employee", employee);
 
 		request.setAttribute("Action", "Update");
-		request.getRequestDispatcher("/WEB-INF/jsp/table/previtional-information.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/config/employee/previtional-information.jsp").forward(request, response);
 	}
 
 	private List<RagreementAPV> listAPVForEmployee(Connection conn, BSmySQL mysql, Long employeeId) {

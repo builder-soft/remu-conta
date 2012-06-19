@@ -1,5 +1,3 @@
-@echo off
-cls
 @echo on
 
 mysql -t -u root -padmin --default-character-set=utf8 < erase-tables.sql.txt

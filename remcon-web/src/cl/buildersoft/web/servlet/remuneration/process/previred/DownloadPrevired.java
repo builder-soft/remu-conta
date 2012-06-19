@@ -138,8 +138,27 @@ public class DownloadPrevired extends AbstractServletUtil {
 		workerType(rs, csv); /* 12 */
 		csv.write("" + rs.getInt("cWorkDays")); /* 13 */
 		lineType(rs, csv); /* 14 */
+		movingType(rs, csv); /* 15 */
+		
+		period = BSWeb.date2String(rs.getDate("cDate"), "dd-MM-yyyy");
+		csv.write(period);		
+		period = BSWeb.date2String(rs.getDate("cLastDay"), "dd-MM-yyyy");
+		csv.write(period); /* 17 */
+		csv.write(rs.getString("cFamilyAssignmentStretch")); /* 18 */
+		csv.write(rs.getString("cSimpleLoads"));/* 19 */
+		csv.write(rs.getString("cMaternalLoads"));/* 20 */
+		csv.write(rs.getString("cDisabilityBurdens"));/* 21 */
+		csv.write(rs.getString("cFamilyAssignmentAmount"));/* 22 */		
+		csv.write(rs.getString("cFamilyRetroactive"));/* 23 */
+		
+		csv.write("0");/* 24 */
+		csv.write("N");/* 25 */
 		
 		
+	}
+
+	private void movingType(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
+		csv.write("00");
 
 	}
 
