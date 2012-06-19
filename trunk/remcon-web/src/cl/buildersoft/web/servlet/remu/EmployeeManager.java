@@ -33,7 +33,7 @@ public class EmployeeManager extends BSHttpServlet {
 		BSAction previtionalInformation = new BSAction("PREVITIONAL", BSActionType.Record);
 		previtionalInformation.setLabel("Información Previsional");
 		// previtionalInformation.setUrl("/servlet/ShowParameters");
-		previtionalInformation.setUrl("/servlet/table/PrevitionalInformation");
+		previtionalInformation.setUrl("/servlet/config/employee/PrevitionalInformation");
 		table.addAction(previtionalInformation);
 
 		table.getAction("EDIT").setLabel("Informacion Personal");

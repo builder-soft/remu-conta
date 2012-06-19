@@ -34,7 +34,9 @@ public class Agreement extends BSBean {
 	private Integer simpleLoads = null;
 	private Integer disabilityBurdens = null;
 	private Integer maternalLoads = null;
+
 	private Boolean pensionary = null;
+	private Long familyAssignmentStretch = null;
 
 	public Long getEmployee() {
 		return employee;
@@ -253,6 +255,14 @@ public class Agreement extends BSBean {
 
 	public void setPensionary(Boolean pensionary) {
 		this.pensionary = pensionary;
+	}
+
+	public Long getFamilyAssignmentStretch() {
+		return familyAssignmentStretch;
+	}
+
+	public void setFamilyAssignmentStretch(Long familyAssignmentStretch) {
+		this.familyAssignmentStretch = familyAssignmentStretch;
 	}
 
 }

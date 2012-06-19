@@ -1,0 +1,14 @@
+DROP PROCEDURE if exists remcon.pListFamilyAssignmentStretch;
+DELIMITER $$
+
+CREATE PROCEDURE remcon.pListFamilyAssignmentStretch()
+BEGIN
+	SELECT		cId 
+	FROM 		remcon.tFamilyAssignmentStretch
+	ORDER BY	cId;
+END$$
+
+DELIMITER ;
+ 
+
+

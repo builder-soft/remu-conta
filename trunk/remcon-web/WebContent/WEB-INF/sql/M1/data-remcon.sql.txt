@@ -955,7 +955,7 @@ call remcon.pSavePeriod('2012-05-01', @Period1);
 call remcon.pSavePeriod('2012-06-01', @Period2);
 call remcon.pOpenPeriod(@Period1);
 
-INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES(' ', 0);
+INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('-', 0);
 INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('A', 5393);
 INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('B', 4223);
 INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('C', 1375);

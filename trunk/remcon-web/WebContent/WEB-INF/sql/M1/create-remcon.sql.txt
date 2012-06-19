@@ -258,18 +258,18 @@ create table tCompensationFund(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS `remcon`.`tEnterpriseConfig` (
-   `cId` INT NOT NULL AUTO_INCREMENT ,
-   `cEnterprise` BIGINT(20) NOT NULL DEFAULT 1 COMMENT 'Referencia a la tabla tEnterprise' ,
-   `cShowDateUfUtm` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Fecha, UF y UTM' ,
-   `cShowProfile` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Cargo' ,
-   `cShowCostCenter` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Centro de Costos' ,
-   `cShowDataAgreement` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Datos del Contrato' ,
-   `cShowSalaryRoot` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Renta Base' ,
-   `cShowEmployerBonus` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Aportes del Empleador' ,
-   `cShowWorkDay` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Días Trabajados' ,
-   `cShowNetPaymentScope` BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Alcance Líquido' ,  
-   PRIMARY KEY (`cId`)
+CREATE  TABLE IF NOT EXISTS remcon.tEnterpriseConfig (
+   cId INT NOT NULL AUTO_INCREMENT ,
+   cEnterprise BIGINT(20) NOT NULL DEFAULT 1 COMMENT 'Referencia a la tabla tEnterprise' ,
+   cShowDateUfUtm BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Fecha, UF y UTM' ,
+   cShowProfile BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Cargo' ,
+   cShowCostCenter BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Centro de Costos' ,
+   cShowDataAgreement BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Datos del Contrato' ,
+   cShowSalaryRoot BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Renta Base' ,
+   cShowEmployerBonus BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Aportes del Empleador' ,
+   cShowWorkDay BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Días Trabajados' ,
+   cShowNetPaymentScope BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Alcance Líquido' ,  
+   PRIMARY KEY (cId)
 )ENGINE = InnoDB;
 
 create table tCostCenter(
@@ -530,7 +530,11 @@ el trabajor, No se calcula
 	cFamilyAssignmentCount		INTEGER NOT NULL DEFAULT '0' COMMENT 'Cargas Familiares - tAgreement.CAMPO_NUEVO',
 	cFamilyAssignmentAmount 	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto Por Cargas - Calcular',
 	cFamilyRetroactive			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Retroactivo Familiar, esto se asigna mes a mes',
-	
+
+	cSimpleLoads				INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Simples',
+	cDisabilityBurdens			INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Invalidez',
+	cMaternalLoads				INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Maternales',
+
 	cFeeding					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Colación - Se ingresa por período',
 	cMobilization				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Movilización - Se ingresa por período',
 	cBounty               		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Viaticos - Se ingresa por período',
@@ -727,7 +731,11 @@ SELECT	a.cId AS cId,
 		a.cMutualFactor,				/* El factor de lo que la empresa le paga a la Mutual */
 		a.cPayToMutulEnterprise,		/* El monto de lo que la empresa le paga a la mutual */
 		a.cFamilyAssignmentEnterprise,	/* Monto que paga la empresa por asignaciones familiares */
-		a.cCostEnterprise
+		
+		a.cCostEnterprise,
+		b.cSimpleLoads, 
+		b.cDisabilityBurdens, 
+		b.cMaternalLoads 
 		/* cLimitTaxableForecast * */
 		FROM	remcon.tBook AS a
 		LEFT JOIN remcon.tBookAssets	AS b ON b.cBook = a.cId
