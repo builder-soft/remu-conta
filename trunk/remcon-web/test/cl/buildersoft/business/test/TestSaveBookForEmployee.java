@@ -28,7 +28,7 @@ public class TestSaveBookForEmployee extends TestCase {
 		c.set(Calendar.MONTH, 4);
 		c.set(Calendar.YEAR, 2012);
 
-		period = Long.parseLong(mysql.callFunction(conn, "fSavePeriod", c));
+		period = Long.parseLong(mysql.callFunction(conn, "pSavePeriod", c));
 	}
 
 	@After
@@ -38,23 +38,23 @@ public class TestSaveBookForEmployee extends TestCase {
 
 	@Test
 	public void testSaveBookForEmployee1() {
-		List<Object> prms = new ArrayList<Object>();
-		prms.add(1L);
-		prms.add(1L);
-		prms.add(25);
+		List<Object> book = new ArrayList<Object>();
+		book.add(1L);
+		book.add(1L);
 
-		Long expected = Long.parseLong(mysql.callFunction(conn, "fSaveBookForEmployee", prms));
+		Long expected = Long.parseLong(mysql.callFunction(conn, "fSaveBookForEmployee", book));
+
 		super.assertTrue(expected == 1L);
 
 	}
+
 	@Test
 	public void testSaveBookForEmployee2() {
-		List<Object> prms = new ArrayList<Object>();
-		prms.add(1L);
-		prms.add(2L);
-		prms.add(30);
+		List<Object> book = new ArrayList<Object>();
+		book.add(1L);
+		book.add(2L);
 
-		Long expected = Long.parseLong(mysql.callFunction(conn, "fSaveBookForEmployee", prms));
+		Long expected = Long.parseLong(mysql.callFunction(conn, "fSaveBookForEmployee", book));
 		super.assertTrue(expected == 2L);
 
 	}

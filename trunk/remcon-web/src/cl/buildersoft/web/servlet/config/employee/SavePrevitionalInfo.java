@@ -77,7 +77,7 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 
 		bu.save(conn, agreement);
 
-		request.getRequestDispatcher("/servlet/remu/EmployeeManager").forward(request, response);
+		request.getRequestDispatcher("/servlet/config/employee/EmployeeManager").forward(request, response);
 	}
 
 	private Agreement getAgreement(Connection conn, BSBeanUtilsSP bu, Long idEmployee) {

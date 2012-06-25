@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.remu;
+package cl.buildersoft.web.servlet.config.enterprise;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +11,7 @@ import cl.buildersoft.web.servlet.BSHttpServlet;
 /**
  * Servlet implementation class EmployeeManager
  */
-@WebServlet("/servlet/remu/EnterpriseManager")
+@WebServlet("/servlet/config/enterprise/EnterpriseManager")
 public class EnterpriseManager extends BSHttpServlet {
 	private static final long serialVersionUID = 1L;
 

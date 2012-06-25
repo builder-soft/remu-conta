@@ -65,7 +65,7 @@ public class SaveContractualInfo extends HttpServlet {
 
 		bu.save(conn, agreement);
 
-		request.getRequestDispatcher("/servlet/remu/EmployeeManager").forward(
+		request.getRequestDispatcher("/servlet/config/employee/EmployeeManager").forward(
 				request, response);
 	}
 

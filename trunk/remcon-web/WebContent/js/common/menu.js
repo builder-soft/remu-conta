@@ -1,3 +1,17 @@
+function setupMenu(){
+	$('.myMenu > li').bind('mouseover', openSubMenu);
+	$('.myMenu > li').bind('mouseout', closeSubMenu);
+}
+
+function openSubMenu() {
+	$(this).find('ul').css('visibility', 'visible');	
+};
+
+function closeSubMenu() {
+	$(this).find('ul').css('visibility', 'hidden');	
+};
+
+/**
 var menu = null;
 function getSubMenu(obj, id) {
 	menu = obj.id;
@@ -25,3 +39,4 @@ function errorFunction(jqXHR, textStatus, errorThrown) {
 	var msg = "Lo sentimos, se ha producido un error.\n" + errorThrown;
 	alert(msg);
 }
+*/

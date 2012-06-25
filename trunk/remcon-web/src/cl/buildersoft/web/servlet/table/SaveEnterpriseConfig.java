@@ -8,13 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cl.buildersoft.business.beans.Agreement;
 import cl.buildersoft.business.beans.EnterpriseConfig;
-import cl.buildersoft.business.beans.RagreementAPV;
 import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.framework.type.BSFieldDataType;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
-import cl.buildersoft.web.servlet.table.AbstractServletUtil;
 
 @WebServlet("/servlet/config/employee/SaveEnterpriseConfig")
 public class SaveEnterpriseConfig extends AbstractServletUtil {
@@ -44,7 +40,7 @@ public class SaveEnterpriseConfig extends AbstractServletUtil {
 		enterpriseConfig.setEmail(request.getParameter("email"));
 		
 		bu.update(conn, enterpriseConfig);
-		request.getRequestDispatcher("/servlet/remu/EnterpriseManager").forward(
+		request.getRequestDispatcher("/servlet/config/enterprise/EnterpriseManager").forward(
 				request, response);		
 	}
 	

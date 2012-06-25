@@ -2,6 +2,15 @@ DROP PROCEDURE if exists remcon.pOpenPeriod;
 DELIMITER $$
 
 CREATE PROCEDURE remcon.pOpenPeriod(IN pPeriod BIGINT)
+/*
+1.- se abre / crea un periodo
+2.- se ingresan parametros para el calculo
+3.- se calcula
+4.- se pueden modificar parametros para calcular de nuevo
+5.- se calcula con correcciones
+6.- se cierra periodo
+7.- no se puede volver a calcular nuevamente para ese período...
+*/
 BEGIN
 	UPDATE		remcon.tPeriod
 	SET			cPeriodStatus = 1;
