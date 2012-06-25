@@ -209,6 +209,10 @@ create table tAgreement(
 	
 	cAdditionalHealthAmount	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Monto adicional sistema de salud',
 	cAdditionalHealthCurrency	BIGINT(20) NULL	COMMENT 'Moneda en el cual se expresa el adicional de salud',
+
+	cAdditionalPFMAmount	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Monto de ahorro en afp',
+	cAdditionalPFMCurrency	BIGINT(20) NULL	COMMENT 'Moneda de ahorro en afp',
+	
 	
 	cSimpleLoads		INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Simples',
 	cDisabilityBurdens	INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Invalidez',
@@ -571,6 +575,7 @@ create table tBookDiscounts(
 	cObligatoryQuote				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotizacion Obligatoria - Es un % multiplicado por el cLimitTaxableForecast',
 	cAPVAmount						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto APV - Suma de todos los montos en APV, algunos traducir a pesos desde UF',
 	cAccount2						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cuenta 2, Ahorro AFP - Se saca de la tabla tAccount',
+	
 	cLimitTaxableForecast			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Previsional - Parámetro del mes, 60 UFs',
 	cLimitTaxableDismissInsurance	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Seguro Cesantia - Parámetro del mes, es un valor fijo',
 	
