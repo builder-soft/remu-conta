@@ -43,7 +43,7 @@ public class SavePayMode extends AbstractServletUtil {
 
 		bu.save(conn, agreement);
 
-		request.getRequestDispatcher("/servlet/remu/EmployeeManager").forward(
+		request.getRequestDispatcher("/servlet/config/employee/EmployeeManager").forward(
 				request, response);
 	}
 

@@ -513,7 +513,6 @@ BEGIN
 	DECLARE vPensionary BIT DEFAULT 0;
 	DECLARE	vSimpleLoads, vDisabilityBurdens, vMaternalLoads INTEGER DEFAULT 0;
 
-	
 	SELECT		b.cId
 	INTO		vOut
 	FROM		remcon.tPeriod	AS a

@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.admin;
+package cl.buildersoft.web.servlet.admin.comuna;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.web.servlet.BSHttpServlet;
 
-@WebServlet("/servlet/admin/ComunaManager")
+@WebServlet("/servlet/admin/comuna/ComunaManager")
 public class ComunaManager extends BSHttpServlet {
 
 	private static final long serialVersionUID = -3771211715459399925L;

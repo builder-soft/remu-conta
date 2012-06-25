@@ -22,18 +22,18 @@ public class TestSaveOvertime {
 		mysql = new BSmySQL();
 		conn = mysql.getConnection("org.gjt.mm.mysql.Driver", "localhost", "remcon", "admin", "root");
 
-		Calendar c = Calendar.getInstance();
-		c.set(Calendar.DAY_OF_MONTH, 1);
-		c.set(Calendar.MONTH, 4);
-		c.set(Calendar.YEAR, 2012);
+		Calendar datePeriod = Calendar.getInstance();
+		datePeriod.set(Calendar.DAY_OF_MONTH, 1);
+		datePeriod.set(Calendar.MONTH, 4);
+		datePeriod.set(Calendar.YEAR, 2012);
 
-		period = Long.parseLong(mysql.callFunction(conn, "fSavePeriod", c));
+		period = Long.parseLong(mysql.callFunction(conn, "fSavePeriod", datePeriod));
 
-		c.set(Calendar.DAY_OF_MONTH, 5);
+		datePeriod.set(Calendar.DAY_OF_MONTH, 5);
 		
 		clearOvertime(2L);
 		
-		addOvertime(2L, period, c, 2);
+		addOvertime(2L, period, datePeriod, 2);
 
 	}
 

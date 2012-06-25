@@ -34,7 +34,7 @@ public class ValidateLoginTest {
 		BSDataUtils dau = new BSDataUtils();
 		Connection conn = null;
 		conn = dau.getConnection("org.gjt.mm.mysql.Driver", "localhost",
-				"bsframework", "12870668", "root");
+				"bsframework", "admin", "root");
 
 		user = userService.login(conn, mail, password);
 
@@ -53,7 +53,7 @@ public class ValidateLoginTest {
 		BSDataUtils dau = new BSDataUtils();
 		Connection conn = null;
 		conn = dau.getConnection("org.gjt.mm.mysql.Driver", "localhost",
-				"bsframework", "12870668", "root");
+				"bsframework", "admin", "root");
 
 		user = userService.login(conn, mail, password);
 
@@ -72,7 +72,7 @@ public class ValidateLoginTest {
 		BSDataUtils dau = new BSDataUtils();
 		Connection conn = null;
 		conn = dau.getConnection("org.gjt.mm.mysql.Driver", "localhost",
-				"bsframework", "12870668", "root");
+				"bsframework", "admin", "root");
 
 		user = userService.login(conn, mail, password);
 

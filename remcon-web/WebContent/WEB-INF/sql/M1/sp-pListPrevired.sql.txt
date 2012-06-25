@@ -6,13 +6,15 @@ BEGIN
 	SELECT		b.cRut, b.cLastName1, b.cLastName2, b.cName, c.cKey AS cGenere,
 				b.cCountry, a.cDate, LAST_DAY(a.cDate) AS cLastDay,  a.cPFMHistory AS cPFM, a.cExBoxSystem,
 				remcon.fGetAge(b.cBirthDate) AS cAge, a.cPensionary, a.cWorkDays, e.cKey AS cFamilyAssignmentStretch,
-				a.cSimpleLoads, a.cDisabilityBurdens, a.cMaternalLoads, a.cFamilyAssignmentAmount, cFamilyRetroactive
+				a.cSimpleLoads, a.cDisabilityBurdens, a.cMaternalLoads, a.cFamilyAssignmentAmount, cFamilyRetroactive,
+				f.cKey AS cPFMKey, ROUND(a.cIncome) AS cIncome
 	FROM 		remcon.vBook		AS a
 	LEFT JOIN	remcon.tEmployee	AS b ON a.cEmployee = b.cId
 	LEFT JOIN	remcon.tGenere		AS c ON b.cGenere = c.cId
 	LEFT JOIN	remcon.tAgreement	AS d ON a.cAgreement = d.cId
 	LEFT JOIN	remcon.tFamilyAssignmentStretch AS e ON d.cFamilyAssignmentStretch = e.cId
-	WHERE	a.cPeriod = pPeriod;
+	LEFT JOIN	remcon.tPFMHistory AS f ON a.cPFMHistory = f.cId
+	WHERE		a.cPeriod = pPeriod;
 END$$
 
 DELIMITER ;

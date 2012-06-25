@@ -161,7 +161,7 @@ function changeExBox(o){
 </div>
 <form action="${pageContext.request.contextPath}/servlet/config/employee/SavePrevitionalInfo" method="post" id="editForm">
 	<input type="hidden" name="cId" value="<%=request.getParameter("cId")%>">
-	<table border="1">
+	<table border="0">
 			<tr>
 					<td class="cLabel" valign='top'>AFP:</td>
 					<td class="cData" colspan="3">
