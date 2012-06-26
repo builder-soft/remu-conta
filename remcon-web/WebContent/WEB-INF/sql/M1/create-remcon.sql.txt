@@ -211,9 +211,8 @@ create table tAgreement(
 	cAdditionalHealthCurrency	BIGINT(20) NULL	COMMENT 'Moneda en el cual se expresa el adicional de salud',
 
 	cAdditionalPFMAmount	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Monto de ahorro en afp',
-	cAdditionalPFMCurrency	BIGINT(20) NULL	COMMENT 'Moneda de ahorro en afp',
-	
-	
+	cAdditionalPFMCurrency	BIGINT(20) NOT NULL	COMMENT 'Moneda de ahorro en afp',
+		
 	cSimpleLoads		INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Simples',
 	cDisabilityBurdens	INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Invalidez',
 	cMaternalLoads		INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Maternales',
@@ -584,6 +583,11 @@ create table tBookDiscounts(
 	cAdditionalHealthCurrency		BIGINT(20) NULL COMMENT 'Moneda del plan complementario de salud - UF o CLP',
 	cAdditionalHealthAmount			DOUBLE NULL DEFAULT '0' COMMENT 'Monto pactado de salud complementario',
 	cAdditionalHealthCLP			DOUBLE NULL DEFAULT '0' COMMENT 'Monto complementario de saludo, siempre en pesos',
+	
+	cAdditionalPFMCurrency			BIGINT(20) NULL	COMMENT 'Moneda de ahorro en afp',
+	cAdditionalPFMAmount			DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Monto de ahorro en afp',
+	cAdditionalPFMCLP				DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Monto de ahorro en afp en pesos',
+	
 	cHealthQuote					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotizacion de salud, corresponde al valor final que paga por salud',
 	/*
 	cLimitExtraHealth				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope de la cotización de salud',
@@ -708,7 +712,13 @@ SELECT	a.cId AS cId,
 		c.cLawfulQuote,
 		c.cAdditionalHealthCurrency,		/* Moneda del complementario de salud */
 		c.cAdditionalHealthAmount,			/* Monto del complementario de salud */
+		
 		c.cAdditionalHealthCLP,				/* Monto de salud siempre en pesos */
+		
+		c.cAdditionalPFMCurrency,			/* Moneda Ahorro de AFP */
+		c.cAdditionalPFMAmount,				/* Monto Ahorro de AFP */
+		c.cAdditionalPFMCLP,				/* Monto Ahorro de AFP en pesos*/
+		
 		/*c.cPlanHealth,					 Monto por salud, con tope máximo aplicado */
 		d.cLimitHealth,						/* Límite de salud, expresado en UF, proviene de la tabla tPeriod */
 		

@@ -25,6 +25,7 @@ DROP PROCEDURE IF EXISTS remcon.pInsuranceAmountEnterprise;
 DROP PROCEDURE IF EXISTS remcon.pPayToMutulEnterprise;
 DROP PROCEDURE IF EXISTS remcon.pFamilyAssignmentEnterprise;
 DROP PROCEDURE IF EXISTS remcon.pCostEnterprise;
+DROP PROCEDURE IF EXISTS remcon.pAdditionalPFM;
 
 DROP FUNCTION IF exists remcon.fSaveBookForEmployee;
 DROP FUNCTION IF EXISTS remcon.fGetPFMForBook;
@@ -57,6 +58,7 @@ BEGIN
 	CALL remcon.pObligatoryQuote(vBook);
 	CALL remcon.pLawfulQuote(vBook);
 	CALL remcon.pAPV(vBook);
+	CALL remcon.pAdditionalPFM(vBook);
 	CALL remcon.pAdditionalHealth(vBook);
 	CALL remcon.pUnemploymentInsuranceAmount(vBook);
 	CALL remcon.pFamilyAssignment(vBook);
@@ -771,12 +773,41 @@ BEGIN
 		
 	END LOOP cursorAPV_loop;
 	CLOSE cursorAPV;
-			
+
 	UPDATE	remcon.tBookDiscounts
 	SET		cAPVAmount = vSum
 	WHERE	cBook = pBook;
 
 END $$
+
+/************************/
+CREATE PROCEDURE remcon.pAdditionalPFM(pBook BIGINT)
+BEGIN
+	DECLARE vAdditionalPFMAmount, vAdditionalPFMCLP, vUF DOUBLE DEFAULT 0;
+	DECLARE vAdditionalPFMCurrency, vAgreement BIGINT DEFAULT 0;
+	
+	SELECT	cAgreement, cUF
+	INTO	vAgreement, vUF
+	FROM	remcon.vBook
+	WHERE	cId = pBook;
+	
+	SELECT	cAdditionalPFMAmount, cAdditionalPFMCurrency
+	INTO	vAdditionalPFMAmount, vAdditionalPFMCurrency
+	FROM	remcon.tAgreement
+	WHERE	cId = vAgreement;
+	
+	IF(vAdditionalPFMCurrency = 1) THEN
+		SET vAdditionalPFMCLP = vAdditionalPFMAmount * vUF;
+	ELSE
+		SET vAdditionalPFMCLP = vAdditionalPFMAmount;
+	END IF;
+	
+	UPDATE	remcon.tBookDiscounts
+	SET		cAdditionalPFMAmount = vAdditionalPFMAmount,
+			cAdditionalPFMCurrency = vAdditionalPFMCurrency,
+			cAdditionalPFMCLP = vAdditionalPFMCLP
+	WHERE	cBook = pBook;
+END$$
 
 /************************/
 CREATE PROCEDURE remcon.pIncome(pBook BIGINT)
