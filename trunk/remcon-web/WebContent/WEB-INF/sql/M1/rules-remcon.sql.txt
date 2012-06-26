@@ -173,7 +173,9 @@ ADD CONSTRAINT tBookDiscountsToPFMHistory FOREIGN KEY (cPFMHistory) REFERENCES r
 ADD INDEX BookDiscounts_index_HealthHistory (cHealthHistory ASC),
 ADD CONSTRAINT tBookDiscountsToHealthHistory FOREIGN KEY (cHealthHistory) REFERENCES remcon.tHealthHistory(cId),
 ADD INDEX BookDiscounts_index_cAdditionalHealthCurrency (cAdditionalHealthCurrency ASC),
-ADD CONSTRAINT BookDiscountsToCurrency FOREIGN KEY (cAdditionalHealthCurrency) REFERENCES remcon.tCurrency(cId);
+ADD CONSTRAINT BookDiscountsToCurrency FOREIGN KEY (cAdditionalHealthCurrency) REFERENCES remcon.tCurrency(cId),
+ADD INDEX BookDiscounts_index_cAdditionalPFMCurrency (cAdditionalPFMCurrency ASC),
+ADD CONSTRAINT BookDiscountsToCurrency2 FOREIGN KEY (cAdditionalPFMCurrency) REFERENCES remcon.tCurrency(cId);
 
 /* tOvertime */
 ALTER TABLE remcon.tOvertime

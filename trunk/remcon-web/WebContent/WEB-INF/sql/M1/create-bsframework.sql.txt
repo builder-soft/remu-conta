@@ -8,6 +8,9 @@ USE bsframework;
 * http://dev.mysql.com/doc/refman/5.5/en/signal.html
 * http://illya-keeplearning.blogspot.com/2009/03/raise-exception-error-in-mysql-50.html
 *
+* Para hacer un "eval" en MySQL
+* http://dev.mysql.com/doc/refman/5.1/en/sql-syntax-prepared-statements.html
+*
 * http://dev.mysql.com/doc/refman/5.5/en/connector-j-reference-type-conversions.html
 * Los tipos de datos que vamos a usar...
 * MYSQL					Java
