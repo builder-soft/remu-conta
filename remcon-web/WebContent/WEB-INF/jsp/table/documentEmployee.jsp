@@ -60,7 +60,7 @@
 							{
 							%>
 							<tr>
-								<td colspan="3">No existen registros</td>
+								<td class="cDataTD_odd" colspan="3">No existen registros</td>
 							</tr>
 							<%
 							}
@@ -87,24 +87,22 @@
 			<br/>
 			<table border="0">
 			<tr>
-				<td>Nombre del archivo:</td>
-				<td><input type="text" name="desc"></td>
+				<td class="cLabel">Nombre del archivo:</td>
+				<td class="cInputNoFocus"><input type="text" name="desc"></td>
 			</tr>
 			<tr>
-				<td>Documento:</td>
-				<td><input type="file" name="file1"><br></td>
+				<td class="cLabel">Documento:</td>
+				<td class="cInputNoFocus"><input type="file" name="file1"><br></td>
 			</tr>
 			<tr>
 				<td><input type="submit"></td>
+				<td><a href="javascript:window.location.href='${pageContext.request.contextPath}/servlet/table/LoadTable'">Volver</a></td>
 			</tr>
 			</table>
 </form>
 
 <br>
-<input type="button" value="Aceptar" onclick="javascript:$('#editForm').submit();">
-&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;
-<input type="button" value="Aceptar" onclick="javascript:window.location.href='${pageContext.request.contextPath}/servlet/table/LoadTable'">
+
 
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

@@ -20,6 +20,7 @@ import cl.buildersoft.business.service.impl.EmployeeServiceImpl;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
+import cl.buildersoft.framework.util.BSConfig;
 import cl.buildersoft.framework.util.FileUtil;
 import cl.buildersoft.web.servlet.table.AbstractServletUtil;
 
@@ -69,7 +70,11 @@ public class DocumentEmployee extends AbstractServletUtil {
 	public void uploadFile(HttpServletRequest request,
 			HttpServletResponse response)
 	{
-		FileUtil fileUtil = new FileUtil(request, response);
+		BSConfig config = new BSConfig();
+		BSmySQL mysql = new BSmySQL();
+		Connection conn = mysql.getConnection(request);
+		String filesPath = config.getString(conn, "EMPLOYEE_FILES");
+		FileUtil fileUtil = new FileUtil(request, response,filesPath);
 		fileUtil.uploadFile();
 	}
 

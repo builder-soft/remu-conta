@@ -18,6 +18,7 @@ import cl.buildersoft.business.service.EmployeeService;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
+import cl.buildersoft.framework.util.BSConfig;
 
 
 public class EmployeeServiceImpl implements EmployeeService {
@@ -64,12 +65,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 			BSmySQL mysql = new BSmySQL();
 			Connection conn = mysql.getConnection(request);	
 			ResultSet rs = mysql.callSingleSP(conn, "pListDocument", document.getEmployee());
+			BSConfig config = new BSConfig();
+			String filesPath = config.getString(conn, "EMPLOYEE_FILES");
 			document.findDocument(rs);
 			ServletOutputStream fos = response.getOutputStream();
 			response.setContentType(document.getContentType());
 			String disposition = "attachment; fileName="+URLEncoder.encode(document.getFileName(),"UTF8")+"";
 			response.setHeader("Content-Disposition", disposition);
-			File file = new File("C:\\temporal\\" + document.getFileRealName());
+			File file = new File(filesPath + document.getFileRealName());
 		      byte[] readData = new byte[1024];
 		      FileInputStream fis = new FileInputStream(file);
 		      int i = fis.read(readData);

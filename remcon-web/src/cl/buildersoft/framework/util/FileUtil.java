@@ -25,16 +25,18 @@ public class FileUtil {
 
 	private HttpServletRequest request;
 	private HttpServletResponse response;
-	public FileUtil(HttpServletRequest request,	HttpServletResponse response)
+	private String filesPath;
+	public FileUtil(HttpServletRequest request,	HttpServletResponse response, String filesPath)
 	{
 		this.request = request;
 		this.response = response;
+		this.filesPath = filesPath;
 	}
 	
 	public void uploadFile()
 	{
 		DiskFileItemFactory factory = new DiskFileItemFactory();
-		factory.setRepository(new File("c:\temp"));
+		factory.setRepository(new File(filesPath));
 		ServletFileUpload upload = new ServletFileUpload(factory);
 
 		List<FileItem> items = null;
