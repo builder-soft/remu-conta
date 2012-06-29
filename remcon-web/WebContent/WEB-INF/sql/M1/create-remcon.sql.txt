@@ -412,7 +412,8 @@ create table tOvertime(
 	cEmployee			BIGINT(20) NOT NULL COMMENT 'Identificador del empleado quien tiene las horas extras',
 	cPeriod				BIGINT(20) NOT NULL COMMENT 'Id del período para el cual se registran las horas',
 	cDate				DATE NOT NULL COMMENT 'Fecha en la cual se registran las horas',
-	cHours				INTEGER NOT NULL DEFAULT '1' COMMENT 'Cantidad de horas extras trabajadas',
+	cPercent			INTEGER NOT NULL DEFAULT '50' 'Porcentaje que se paga la hora extra',
+	cAmount				INTEGER NOT NULL DEFAULT '1' COMMENT 'Cantidad de horas extras trabajadas',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
