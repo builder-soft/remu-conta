@@ -90,10 +90,13 @@ INSERT INTO tMaritalStatus(cKey, cName) VALUES('MARRIED', 'Casado');
 INSERT INTO tMaritalStatus(cKey, cName) VALUES('SINGLE', 'Soltero');
 SET @single = LAST_INSERT_ID();
 
+/* Tipos de Monedas */
 INSERT INTO tCurrency(cKey, cName) VALUES('UF', 'Unidad de Fomento');
 SET @uf = LAST_INSERT_ID();
 INSERT INTO tCurrency(cKey, cName) VALUES('CLP', 'Pesos Chilenos');
 SET @clp = LAST_INSERT_ID();
+INSERT INTO tCurrency(cKey, cName) VALUES('PRC', 'Porcentaje');
+SET @prc = LAST_INSERT_ID();
 
 /* PFM */
 
@@ -1010,8 +1013,8 @@ INSERT INTO tEmployee(cRut,		cName,	cLastName1,	cLastName2,	cBirthDate,		cAddres
 VALUES(			'10809246-7',	'Pato',	'Aranguiz',	'Torres',	'1966-08-28',	'Fray Camilo Henriquez 2063',	2,			3,			1,			@single,				'', 	'',		'');
 SET @employeeId = LAST_INSERT_ID();
 
-INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cAdditionalHealthCurrency,	cAdditionalHealthAmount,	cFamilyAssignmentStretch,	cMaternalLoads,	cAdditionalPFMCurrency)
-VALUES(					@employeeId,	2,				'2010-11-09',	'2011-07-27',	1,			6,		1,			2,					3,				580,			395,		1,			185000, 		2,							12000,						2,							3,				1);
+INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cHealthCurrency,	cHealthAmount,	cFamilyAssignmentStretch,	cMaternalLoads,	cAdditionalPFMCurrency)
+VALUES(					@employeeId,	2,				'2010-11-09',	'2011-07-27',	1,			6,		1,			2,					3,				580,			395,		1,			185000, 		@prc,				7,				2,							3,				1);
 SET @agreementId = LAST_INSERT_ID();
 
 INSERT INTO tR_AgreementAPV(cAgreement, cAPV, cCurrency, cAmount)
@@ -1020,13 +1023,13 @@ VALUES(@agreementId, @APV1, @clp, 12000);
 INSERT INTO tEmployee(cRut,		cName,		cLastName1,	cLastName2,	cBirthDate,		cAddress,	cGenere,	cComuna,	cCountry,	cMaritalStatus,	cPhone, cMovil, cEmail) 
 VALUES(			'12870668-2',	'Claudio',	'Moscoso',	'Howard',	'1966-08-28',	'xxx',		2,			3,			1,			@single,		'', 	'',		'');
 SET @employeeId = LAST_INSERT_ID();
-INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cAdditionalHealthCurrency,	cAdditionalHealthAmount,	cFamilyAssignmentStretch,	cAdditionalPFMCurrency, cAdditionalPFMAmount)
-VALUES(					@employeeId,	1,				'2009-12-01',	'2013-01-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000,			1,							2,							2,							1,						3);
+INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cHealthCurrency,	cHealthAmount,	cFamilyAssignmentStretch,	cAdditionalPFMCurrency, cAdditionalPFMAmount)
+VALUES(					@employeeId,	1,				'2009-12-01',	'2013-01-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000,			@uf,				10,				2,							1,						3);
 
 INSERT INTO tFileCategory( cName ) VALUES('Archivo excel');
 
 INSERT INTO tFile( cEmployee, 	cDesc, 				 cFileName, 			  cFileRealName, 			cSize, cFileCategory, cDateTime ) 
-VALUES (		   1, 'Archivo de prueba', 'archivo_de_prueba.xsl', 'file_test_20120101.xsl', 200  ,    1, '2012-06-06');
+VALUES (		   1, 			'Archivo de prueba', 'archivo_de_prueba.xsl', 'file_test_20120101.xsl', 200  ,    1, '2012-06-06');
 
 INSERT INTO tFiscalDate(cDate) VALUES('2011-08-01');
 INSERT INTO tFiscalDate(cDate) VALUES('2011-08-02');

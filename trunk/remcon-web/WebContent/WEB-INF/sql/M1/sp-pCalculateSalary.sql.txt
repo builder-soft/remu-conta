@@ -10,7 +10,7 @@ DROP PROCEDURE IF EXISTS remcon.pIncome;
 DROP PROCEDURE IF EXISTS remcon.pAPV;
 DROP PROCEDURE IF EXISTS remcon.pObligatoryQuote;
 DROP PROCEDURE IF EXISTS remcon.pLawfulQuote;
-DROP PROCEDURE IF EXISTS remcon.pAdditionalHealth;
+DROP PROCEDURE IF EXISTS remcon.pHealth;
 DROP PROCEDURE IF EXISTS remcon.pUnemploymentInsuranceAmount;
 DROP PROCEDURE IF EXISTS remcon.pFamilyAssignment;
 DROP PROCEDURE IF EXISTS remcon.pUniqueTax;
@@ -56,10 +56,12 @@ BEGIN
 	CALL remcon.pLimitTaxableForecast(vBook);
 	CALL remcon.pLimitTaxableDismissInsurance(vBook);
 	CALL remcon.pObligatoryQuote(vBook);
+	/*
 	CALL remcon.pLawfulQuote(vBook);
+	*/
 	CALL remcon.pAPV(vBook);
 	CALL remcon.pAdditionalPFM(vBook);
-	CALL remcon.pAdditionalHealth(vBook);
+	CALL remcon.pHealth(vBook);
 	CALL remcon.pUnemploymentInsuranceAmount(vBook);
 	CALL remcon.pFamilyAssignment(vBook);
 	
@@ -263,7 +265,7 @@ BEGIN
 	WHERE	cId = pBook;
 	
 	SET vDateDiff = DateDiff(vEndContract, vStartContract);
-	SET vDailyFactor = round((vDaysForYear / 12) / 30, 5);
+	SET vDailyFactor = ROUND((vDaysForYear / 12) / 30, 5);
 	
 	SET vIndemnify = vDailyFactor * vDateDiff;
 	SET vBusinessDate = remcon.fBusinessDate(vEndContract, vIndemnify);
@@ -436,45 +438,60 @@ BEGIN
 END$$
 
 /************************/
-CREATE PROCEDURE remcon.pAdditionalHealth(pBook BIGINT)
+CREATE PROCEDURE remcon.pHealth(pBook BIGINT)
 BEGIN
-	DECLARE vAdditionalHealthCurrency, vAgreement BIGINT DEFAULT 0;
-	DECLARE vAdditionalHealthAmount, vUF, vAdditionalHealthCLP, vHealthQuote,
-			vLimitHealth DOUBLE DEFAULT 0;
-	DECLARE vKey VARCHAR(3) DEFAULT '   ';
+/*
+	cHealthCurrency
+	cHealthAmount
+	cHealthCLP
+	cAdditionalHealth
+	cHealthQuote
+*/	
+	DECLARE vHealthCurrency, vAgreement, vHealthHistory BIGINT DEFAULT 0;
+	DECLARE vHealthAmount, vUF, vHealthCLP, vHealthLegalQuote, vLimitTaxableForecast,
+			vLimitHealth, vAdditionalHealth, vSevenPercent, vSum DOUBLE DEFAULT 0;
+	DECLARE vKey VARCHAR(3) DEFAULT '';
 	
-	SELECT	cAgreement, cUF, cLimitHealth
-	INTO	vAgreement, vUF, vLimitHealth
+	SELECT	cAgreement, cUF, cLimitHealth, cHealthHistory, cLimitTaxableForecast /*, vHealthAmount, vHealthCurrency, vHealthCLP, vAdditionalHealth*/
+	INTO	vAgreement, vUF, vLimitHealth, vHealthHistory, vLimitTaxableForecast /*, cHealthAmount, cHealthCurrency, cHealthCLP, cAdditionalHealth*/
 	FROM	remcon.vBook
 	WHERE	cId = pBook;
 	
-	SELECT	a.cAdditionalHealthCurrency, a.cAdditionalHealthAmount, b.cKey
-	INTO	vAdditionalHealthCurrency, vAdditionalHealthAmount, vKey
-	FROM	remcon.tAgreement AS a
-	LEFT JOIN tCurrency AS b ON a.cAdditionalHealthCurrency = b.cId
+	SELECT	a.cHealthCurrency,	a.cHealthAmount,	b.cKey
+	INTO	vHealthCurrency,	vHealthAmount,		vKey
+	FROM	remcon.tAgreement	AS a
+	LEFT JOIN tCurrency			AS b ON a.cHealthCurrency = b.cId
 	WHERE	a.cId = vAgreement;
 	
-	IF(vAdditionalHealthCurrency IS NULL) THEN
-		SET vAdditionalHealthCLP = 0;
-	ELSE
-		IF(vKey = 'UF') THEN
-			SET vAdditionalHealthCLP = vAdditionalHealthAmount * vUF;
-		ELSE
-			SET vAdditionalHealthCLP = vAdditionalHealthAmount;
-		END IF;
+	IF(vKey = 'UF') THEN
+		SET vHealthCLP = vHealthAmount * vUF;
+	ELSEIF (vKey = 'CLP') THEN
+		SET vHealthCLP = vHealthAmount;
+	ELSE /* Es porcentaje */
+		SET vHealthCLP = (vLimitTaxableForecast/100) * vHealthAmount;
 	END IF;
 
-	IF(vAdditionalHealthCLP > vLimitHealth * vUF) THEN
-		SET vHealthQuote = vLimitHealth * vUF;
+	SET vSevenPercent = (SELECT cFactor FROM remcon.tHealthHistory WHERE cId = vHealthHistory);
+	SET vHealthLegalQuote = vLimitTaxableForecast * (vSevenPercent/100);
+	SET vAdditionalHealth = ROUND(vHealthCLP) - ROUND(vHealthLegalQuote);	
+	SET vSum = vHealthLegalQuote + vAdditionalHealth;
+	
+	IF(vSum > vLimitHealth * vUF) THEN
+		SET vHealthLegalQuote = vLimitHealth * vUF;
 	ELSE
-		SET vHealthQuote = vAdditionalHealthCLP;
+		SET vHealthLegalQuote = vSum;
 	END IF;
 	
+	
 	UPDATE	remcon.tBookDiscounts
-	SET		cAdditionalHealthCurrency = vAdditionalHealthCurrency, 
-			cAdditionalHealthAmount = vAdditionalHealthAmount,
-			cAdditionalHealthCLP = vAdditionalHealthCLP,
-			cHealthQuote = vHealthQuote
+	SET		cHealthCurrency = vHealthCurrency, 
+			cHealthAmount = vHealthAmount,
+			cHealthCLP = vHealthCLP,
+			cHealthLegalQuote = vHealthLegalQuote,
+			cAdditionalHealth = vAdditionalHealth
+			/*
+			cHealthQuote = vHealthCLP + vAdditionalHealth
+			*/
 	WHERE	cBook = pBook;
 	
 END $$
@@ -623,19 +640,20 @@ END$$
 /************************/
 CREATE PROCEDURE remcon.pSaveOvertime(IN pBook BIGINT, IN pEmployee BIGINT, IN pPeriod BIGINT)
 BEGIN
-	DECLARE pHours INTEGER DEFAULT 0;
+	DECLARE vAmount INTEGER DEFAULT 0;
 	
-	SELECT	SUM(cHours) INTO pHours 
+	SELECT	SUM(cAmount) 
+	INTO	vAmount 
 	FROM	remcon.tOvertime
 	WHERE	cEmployee = pEmployee AND 
 			cPeriod = pPeriod;
 	
-	IF(pHours IS NULL) THEN
-		SET pHours = 0;
+	IF(vAmount IS NULL) THEN
+		SET vAmount = 0;
 	END IF;
 	
 	UPDATE	remcon.tBook 
-	SET		cOvertime = pHours
+	SET		cOvertime = vAmount
 	WHERE	cId = pBook;
 	
 END$$

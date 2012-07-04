@@ -10,7 +10,7 @@ BEGIN
 /*
 	DECLARE vAmount, vUF, vSum DOUBLE DEFAULT 0;
 	DECLARE vKey VARCHAR(3) DEFAULT '   ';
-	*/
+*/
 	DECLARE cursorEmployee CURSOR FOR
 		SELECT	cId
 		FROM	remcon.tEmployee;
