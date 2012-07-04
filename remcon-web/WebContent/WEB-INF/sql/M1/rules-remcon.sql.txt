@@ -52,8 +52,8 @@ ADD INDEX CurrencyAct2_index (cCurrencyAccount2 ASC),
 ADD CONSTRAINT CurrencyAccount2ToCurrency FOREIGN KEY (cCurrencyAccount2) REFERENCES remcon.tCurrency(cId),
 ADD INDEX Currency_index (cCurrencyAccount2 ASC),
 ADD CONSTRAINT AgrementToCurrency FOREIGN KEY (cCurrencyAccount2) REFERENCES remcon.tCurrency(cId),
-ADD INDEX AdditionalHealthCurrency_index (cAdditionalHealthCurrency ASC),
-ADD CONSTRAINT AdditionalHealthCurrencyToCurrency FOREIGN KEY (cAdditionalHealthCurrency) REFERENCES remcon.tCurrency(cId),
+ADD INDEX HealthCurrency_index (cHealthCurrency ASC),
+ADD CONSTRAINT HealthCurrencyToCurrency FOREIGN KEY (cHealthCurrency) REFERENCES remcon.tCurrency(cId),
 ADD INDEX Agreement_index_FamilyAssignmentStretch (cFamilyAssignmentStretch ASC),
 ADD CONSTRAINT AgreementToFamilyAssignmentStretch FOREIGN KEY (cFamilyAssignmentStretch) REFERENCES remcon.tFamilyAssignmentStretch(cId);
 
@@ -172,8 +172,8 @@ ADD INDEX BookDiscounts_index_PFM (cPFMHistory ASC),
 ADD CONSTRAINT tBookDiscountsToPFMHistory FOREIGN KEY (cPFMHistory) REFERENCES remcon.tPFMHistory(cId),
 ADD INDEX BookDiscounts_index_HealthHistory (cHealthHistory ASC),
 ADD CONSTRAINT tBookDiscountsToHealthHistory FOREIGN KEY (cHealthHistory) REFERENCES remcon.tHealthHistory(cId),
-ADD INDEX BookDiscounts_index_cAdditionalHealthCurrency (cAdditionalHealthCurrency ASC),
-ADD CONSTRAINT BookDiscountsToCurrency FOREIGN KEY (cAdditionalHealthCurrency) REFERENCES remcon.tCurrency(cId),
+ADD INDEX BookDiscounts_index_cHealthCurrency (cHealthCurrency ASC),
+ADD CONSTRAINT BookDiscountsToCurrency FOREIGN KEY (cHealthCurrency) REFERENCES remcon.tCurrency(cId),
 ADD INDEX BookDiscounts_index_cAdditionalPFMCurrency (cAdditionalPFMCurrency ASC),
 ADD CONSTRAINT BookDiscountsToCurrency2 FOREIGN KEY (cAdditionalPFMCurrency) REFERENCES remcon.tCurrency(cId);
 

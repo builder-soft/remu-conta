@@ -184,41 +184,41 @@ create table tGenere(
 create table tAgreement(
 	cId					BIGINT(20) NOT NULL auto_increment, 
 	cEmployee			BIGINT(20) NOT NULL UNIQUE	COMMENT 'Id del empleado',
-	cContractType		BIGINT(20) NOT NULL 	COMMENT 'Tipo de contrato: fijo o indefinido',
-	cStartContract		DATE NOT NULL 			COMMENT 'Inicio de contrato',
-	cEndContract		DATE NULL 				COMMENT 'Fin de contrato',
-	cProfile			BIGINT(20) NOT NULL 	COMMENT 'Cargo de la persona',
-	cSalaryRoot			DOUBLE NOT NULL DEFAULT '1' COMMENT 'Sueldo Base',
-	cPFM				BIGINT(20) NOT NULL		COMMENT 'AFP',
-	cHealth				BIGINT(20) NOT NULL		COMMENT 'Sistema de salud, isapre o fonasa',
-	cGratificationType	BIGINT(20) NOT NULL 	COMMENT 'Tipo de gratificacion',
-	cPaymentType		BIGINT(20) NOT NULL 	COMMENT 'Tipo de pago',
+	cContractType		BIGINT(20) NOT NULL 		COMMENT 'Tipo de contrato: fijo o indefinido',
+	cStartContract		DATE NOT NULL 				COMMENT 'Inicio de contrato',
+	cEndContract		DATE NULL 					COMMENT 'Fin de contrato',
+	cProfile			BIGINT(20) NOT NULL 		COMMENT 'Cargo de la persona',
+	cSalaryRoot			DOUBLE NOT NULL DEFAULT '1'	COMMENT 'Sueldo Base',
+	cPFM				BIGINT(20) NOT NULL			COMMENT 'AFP',
+	cHealth				BIGINT(20) NOT NULL			COMMENT 'Sistema de salud, isapre o fonasa',
+	cGratificationType	BIGINT(20) NOT NULL 		COMMENT 'Tipo de gratificacion',
+	cPaymentType		BIGINT(20) NOT NULL 		COMMENT 'Tipo de pago',
 	
-	cBank				BIGINT(20) NULL 		COMMENT 'Banco para efectos de pago de sueldo',
-	cAccountType		BIGINT(20) NULL 		COMMENT 'Tipo de cuenta a la cual se hará el deposito',
-	cAccountNumber		NVARCHAR(20) NULL		COMMENT 'Número de la cuenta a la cual se le hará el deposito',
+	cBank				BIGINT(20) NULL 			COMMENT 'Banco para efectos de pago de sueldo',
+	cAccountType		BIGINT(20) NULL 			COMMENT 'Tipo de cuenta a la cual se hará el deposito',
+	cAccountNumber		NVARCHAR(20) NULL			COMMENT 'Número de la cuenta a la cual se le hará el deposito',
 	
-	cCurrencyAccount2	BIGINT(20) NULL 		COMMENT 'Moneda de la cuenta 2',
-	cAmountAccount2		DOUBLE NULL DEFAULT '0' COMMENT 'Monto de la cuenta 2',
+	cCurrencyAccount2	BIGINT(20) NULL 			COMMENT 'Moneda de la cuenta 2',
+	cAmountAccount2		DOUBLE NULL DEFAULT '0'		COMMENT 'Monto de la cuenta 2',
 	
-	cHorary				BIGINT(20) NOT NULL 	COMMENT 'Tipo de jornada, full-time o part-time (tHorary)',
-	cMobilization		DOUBLE DEFAULT '0'		COMMENT 'Movilizacion',
-	cFeeding			DOUBLE DEFAULT '0'		COMMENT 'Alimentacion',
-	cExBoxSystem		BIGINT(20) NULL			COMMENT 'Caja Ex-Regimen',
-	cExBoxSystemPRC		DOUBLE NULL				COMMENT 'Porcentaje de Caja Ex-Regimen (esto debiera ir a otra tabla al parecer)',
+	cHorary				BIGINT(20) NOT NULL 		COMMENT 'Tipo de jornada, full-time o part-time (tHorary)',
+	cMobilization		DOUBLE DEFAULT '0'			COMMENT 'Movilizacion',
+	cFeeding			DOUBLE DEFAULT '0'			COMMENT 'Alimentacion',
+	cExBoxSystem		BIGINT(20) NULL				COMMENT 'Caja Ex-Regimen',
+	cExBoxSystemPRC		DOUBLE NULL					COMMENT 'Porcentaje de Caja Ex-Regimen (esto debiera ir a otra tabla al parecer)',
 	
-	cAdditionalHealthAmount	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Monto adicional sistema de salud',
-	cAdditionalHealthCurrency	BIGINT(20) NULL	COMMENT 'Moneda en el cual se expresa el adicional de salud',
+	cHealthAmount		DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Monto sistema de salud',
+	cHealthCurrency 	BIGINT(20) NULL	DEFAULT '0'	COMMENT 'Moneda en el cual se expresa de salud',
 
 	cAdditionalPFMAmount	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Monto de ahorro en afp',
-	cAdditionalPFMCurrency	BIGINT(20) NOT NULL	COMMENT 'Moneda de ahorro en afp',
+	cAdditionalPFMCurrency	BIGINT(20) NOT NULL			COMMENT 'Moneda de ahorro en afp',
 		
 	cSimpleLoads		INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Simples',
 	cDisabilityBurdens	INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Invalidez',
 	cMaternalLoads		INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Maternales',
 	
 	cFamilyAssignmentStretch	BIGINT(20) NOT NULL		COMMENT 'Tramo de asignación familiar',
-	cPensionary			BIT NOT NULL DEFAULT 0		COMMENT 'Indica si es pensionado',
+	cPensionary			BIT NOT NULL DEFAULT 0			COMMENT 'Indica si es pensionado',
 	
 	PRIMARY KEY (cId)
 )ENGINE=InnoDB;
@@ -412,7 +412,7 @@ create table tOvertime(
 	cEmployee			BIGINT(20) NOT NULL COMMENT 'Identificador del empleado quien tiene las horas extras',
 	cPeriod				BIGINT(20) NOT NULL COMMENT 'Id del período para el cual se registran las horas',
 	cDate				DATE NOT NULL COMMENT 'Fecha en la cual se registran las horas',
-	cPercent			INTEGER NOT NULL DEFAULT '50' 'Porcentaje que se paga la hora extra',
+	cPercent			INTEGER NOT NULL DEFAULT '50' COMMENT 'Porcentaje que se paga la hora extra',
 	cAmount				INTEGER NOT NULL DEFAULT '1' COMMENT 'Cantidad de horas extras trabajadas',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
@@ -570,26 +570,31 @@ nota este parametro no cambia todos los meses. No se imprime en la liquidacion p
 create table tBookDiscounts(
 	cId								BIGINT(20) NOT NULL auto_increment,
 	cBook							BIGINT(20) NOT NULL,
-	cPFMHistory						BIGINT(20) NOT NULL COMMENT 'Código de AFP',
-	cExBoxSystem					BIGINT(20) NULL COMMENT 'Id del ex-regimen de la época',
-	cObligatoryQuote				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotizacion Obligatoria - Es un % multiplicado por el cLimitTaxableForecast',
-	cAPVAmount						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto APV - Suma de todos los montos en APV, algunos traducir a pesos desde UF',
-	cAccount2						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cuenta 2, Ahorro AFP - Se saca de la tabla tAccount',
+	cPFMHistory						BIGINT(20) NOT NULL			COMMENT 'Código de AFP',
+	cExBoxSystem					BIGINT(20) NULL				COMMENT 'Id del ex-regimen de la época',
+	cObligatoryQuote				DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Cotizacion Obligatoria - Es un % multiplicado por el cLimitTaxableForecast',
+	cAPVAmount						DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Monto APV - Suma de todos los montos en APV, algunos traducir a pesos desde UF',
+	cAccount2						DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Cuenta 2, Ahorro AFP - Se saca de la tabla tAccount',
 	
-	cLimitTaxableForecast			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Previsional - Parámetro del mes, 60 UFs',
-	cLimitTaxableDismissInsurance	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope Imponible Seguro Cesantia - Parámetro del mes, es un valor fijo',
+	cLimitTaxableForecast			DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Tope Imponible Previsional - Parámetro del mes, 60 UFs',
+	cLimitTaxableDismissInsurance	DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Tope Imponible Seguro Cesantia - Parámetro del mes, es un valor fijo',
 	
-	cHealthHistory					BIGINT(20) NOT NULL COMMENT 'Codigo de sistema de salud - Es la Isapre o fonasa',
-	cLawfulQuote					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotización Legar - Es el 7% del imponible, el valor es calculado',
-	cAdditionalHealthCurrency		BIGINT(20) NULL COMMENT 'Moneda del plan complementario de salud - UF o CLP',
-	cAdditionalHealthAmount			DOUBLE NULL DEFAULT '0' COMMENT 'Monto pactado de salud complementario',
-	cAdditionalHealthCLP			DOUBLE NULL DEFAULT '0' COMMENT 'Monto complementario de saludo, siempre en pesos',
+	/*
+	cLawfulQuote					DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Cotización Legar - Es el 7% del imponible, el valor es calculado',
+	*/
+	cHealthHistory					BIGINT(20) NOT NULL			COMMENT 'Codigo de sistema de salud - Es la Isapre o fonasa',
+	cHealthCurrency					BIGINT(20) NULL				COMMENT 'Moneda del plan de salud - UF o CLP',
+	cHealthAmount					DOUBLE NULL DEFAULT '0'		COMMENT 'Monto pactado de salud',
+	cHealthCLP						DOUBLE NULL DEFAULT '0'		COMMENT 'Monto de salud, siempre en pesos',
+	cAdditionalHealth				DOUBLE NULL DEFAULT '0'		COMMENT 'Monto de salud complementario, siempre en pesos',
+	cHealthLegalQuote				DOUBLE NULL DEFAULT '0'		COMMENT 'Cotizacion legal, corresponde al 7% y no mas',
+	cHealthQuote					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotizacion de salud, corresponde al valor final que paga por salud',
 	
-	cAdditionalPFMCurrency			BIGINT(20) NULL	COMMENT 'Moneda de ahorro en afp',
+	cAdditionalPFMCurrency			BIGINT(20) NULL				COMMENT 'Moneda de ahorro en afp',
 	cAdditionalPFMAmount			DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Monto de ahorro en afp',
 	cAdditionalPFMCLP				DOUBLE NOT NULL DEFAULT '0'	COMMENT 'Monto de ahorro en afp en pesos',
 	
-	cHealthQuote					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Cotizacion de salud, corresponde al valor final que paga por salud',
+	
 	/*
 	cLimitExtraHealth				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope de la cotización de salud',
 	*/
@@ -710,11 +715,14 @@ SELECT	a.cId AS cId,
 		c.cAccount2,
 		
 		c.cHealthHistory,					/* Código de sistema de salud contratado */
+		/*
 		c.cLawfulQuote,
-		c.cAdditionalHealthCurrency,		/* Moneda del complementario de salud */
-		c.cAdditionalHealthAmount,			/* Monto del complementario de salud */
-		
-		c.cAdditionalHealthCLP,				/* Monto de salud siempre en pesos */
+		*/
+		c.cHealthCurrency,					/* Moneda del complementario de salud */
+		c.cHealthAmount,					/* Monto del complementario de salud */
+		c.cHealthCLP,						/* Monto de salud siempre en pesos */
+		c.cAdditionalHealth,				/* Monto de salud siempre en pesos */
+		c.cHealthLegalQuote,				/* Es el monto legal del 7 porciento, no más */
 		
 		c.cAdditionalPFMCurrency,			/* Moneda Ahorro de AFP */
 		c.cAdditionalPFMAmount,				/* Monto Ahorro de AFP */
