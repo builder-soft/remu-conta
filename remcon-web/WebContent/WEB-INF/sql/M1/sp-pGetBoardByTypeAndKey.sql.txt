@@ -1,10 +1,10 @@
-DROP PROCEDURE if exists remcon.pGetBoardByTypeAndKey;
+DROP PROCEDURE if exists pGetBoardByTypeAndKey;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pGetBoardByTypeAndKey(IN pType VARCHAR(15), IN pKey VARCHAR(15))
+CREATE PROCEDURE pGetBoardByTypeAndKey(IN pType VARCHAR(15), IN pKey VARCHAR(15))
 BEGIN
 	SELECT		cId, cType, cKey, cValue, cEnable 
-	FROM 		remcon.tBoard
+	FROM 		tBoard
 	WHERE		cType = pType AND cKey = pKey
 	ORDER BY	cId;
 END$$

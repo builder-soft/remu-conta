@@ -1,10 +1,10 @@
-DROP PROCEDURE if exists remcon.pListAccountType;
+DROP PROCEDURE if exists pListAccountType;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pListAccountType()
+CREATE PROCEDURE pListAccountType()
 BEGIN
 	SELECT		cId, cKey, cName 
-	FROM 		remcon.tAccountType;
+	FROM 		tAccountType;
 END$$
 
 DELIMITER ;

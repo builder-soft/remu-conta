@@ -1,5 +1,3 @@
-use remcon;
-
 /**
 ALTER TABLE tR_RolOption ADD PRIMARY KEY(cRol, cOption);
 ALTER TABLE tR_UserRol ADD PRIMARY KEY(cUser,cRol);
@@ -8,202 +6,202 @@ ALTER TABLE tR_UserRol ADD PRIMARY KEY(cUser,cRol);
 /** L L A V E S   F O R A N E A S **/
 
 /** EMPLOYEE */
-ALTER TABLE remcon.tEmployee
+ALTER TABLE tEmployee
 ADD INDEX Employee_index_MaritalStatus (cMaritalStatus ASC),
-ADD CONSTRAINT withMaritalStatus FOREIGN KEY (cMaritalStatus) REFERENCES remcon.tMaritalStatus(cId);
+ADD CONSTRAINT withMaritalStatus FOREIGN KEY (cMaritalStatus) REFERENCES tMaritalStatus(cId);
 
-ALTER TABLE remcon.tEmployee
+ALTER TABLE tEmployee
 ADD INDEX Employee_index_Country (cCountry ASC),
-ADD CONSTRAINT withCountry       FOREIGN KEY (cCountry) REFERENCES remcon.tCountry(cId);
+ADD CONSTRAINT withCountry       FOREIGN KEY (cCountry) REFERENCES tCountry(cId);
 
-ALTER TABLE remcon.tEmployee
+ALTER TABLE tEmployee
 ADD INDEX Employee_index_Genere (cGenere ASC),
-ADD CONSTRAINT EmployeeToGenere FOREIGN KEY (cGenere) REFERENCES remcon.tGenere(cId);
+ADD CONSTRAINT EmployeeToGenere FOREIGN KEY (cGenere) REFERENCES tGenere(cId);
 
-ALTER TABLE remcon.tEmployee
+ALTER TABLE tEmployee
 ADD INDEX comuna_index (cComuna ASC),
-ADD CONSTRAINT employeeToComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(cId);
+ADD CONSTRAINT employeeToComuna FOREIGN KEY (cComuna) REFERENCES tComuna(cId);
 
 /** AGREEMENT */
-ALTER TABLE remcon.tAgreement
+ALTER TABLE tAgreement
 ADD INDEX Employee_index (cEmployee ASC),
-ADD CONSTRAINT AgreementToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId),
+ADD CONSTRAINT AgreementToEmployee FOREIGN KEY (cEmployee) REFERENCES tEmployee(cId),
 ADD INDEX contractType_index (cContractType ASC),
-ADD CONSTRAINT AgreementToContractType FOREIGN KEY (cContractType) REFERENCES remcon.tContractType(cId),
+ADD CONSTRAINT AgreementToContractType FOREIGN KEY (cContractType) REFERENCES tContractType(cId),
 ADD INDEX profile_index (cProfile ASC),
-ADD CONSTRAINT EmployeeToProfile FOREIGN KEY (cProfile) REFERENCES remcon.tProfile(cId),
+ADD CONSTRAINT EmployeeToProfile FOREIGN KEY (cProfile) REFERENCES tProfile(cId),
 ADD INDEX pfm_index (cPFM ASC),
-ADD CONSTRAINT AgreementToPFM FOREIGN KEY (cPFM) REFERENCES remcon.tPFM(cId),
+ADD CONSTRAINT AgreementToPFM FOREIGN KEY (cPFM) REFERENCES tPFM(cId),
 ADD INDEX Health_index (cHealth ASC),
-ADD CONSTRAINT AgreementToHealth FOREIGN KEY (cHealth) REFERENCES remcon.tHealth(cId),
+ADD CONSTRAINT AgreementToHealth FOREIGN KEY (cHealth) REFERENCES tHealth(cId),
 ADD INDEX gratificationType_index (cGratificationType ASC),
-ADD CONSTRAINT AgreementToGratificationType FOREIGN KEY (cGratificationType) REFERENCES remcon.tGratificationType(cId),
+ADD CONSTRAINT AgreementToGratificationType FOREIGN KEY (cGratificationType) REFERENCES tGratificationType(cId),
 ADD INDEX Agreement_index_PaymentType (cPaymentType ASC),
-ADD CONSTRAINT AgreementToPaymentType FOREIGN KEY (cPaymentType) REFERENCES remcon.tPaymentType(cId),
+ADD CONSTRAINT AgreementToPaymentType FOREIGN KEY (cPaymentType) REFERENCES tPaymentType(cId),
 ADD INDEX Horary_index (cHorary ASC),
-ADD CONSTRAINT AgreementToHorary FOREIGN KEY (cHorary) REFERENCES remcon.tHorary(cId),
+ADD CONSTRAINT AgreementToHorary FOREIGN KEY (cHorary) REFERENCES tHorary(cId),
 ADD INDEX Bank_index (cBank ASC),
-ADD CONSTRAINT AgreementToBank FOREIGN KEY (cBank) REFERENCES remcon.tBank(cId),
+ADD CONSTRAINT AgreementToBank FOREIGN KEY (cBank) REFERENCES tBank(cId),
 ADD INDEX AccountType_index (cAccountType ASC),
-ADD CONSTRAINT AgreementToAccountType FOREIGN KEY (cAccountType) REFERENCES remcon.tAccountType(cId),
+ADD CONSTRAINT AgreementToAccountType FOREIGN KEY (cAccountType) REFERENCES tAccountType(cId),
 ADD INDEX ExBoxSystem_index (cExBoxSystem ASC),
-ADD CONSTRAINT AgreementToExBoxSystem FOREIGN KEY (cExBoxSystem) REFERENCES remcon.tExBoxSystem(cId),
+ADD CONSTRAINT AgreementToExBoxSystem FOREIGN KEY (cExBoxSystem) REFERENCES tExBoxSystem(cId),
 ADD INDEX CurrencyAct2_index (cCurrencyAccount2 ASC),
-ADD CONSTRAINT CurrencyAccount2ToCurrency FOREIGN KEY (cCurrencyAccount2) REFERENCES remcon.tCurrency(cId),
+ADD CONSTRAINT CurrencyAccount2ToCurrency FOREIGN KEY (cCurrencyAccount2) REFERENCES tCurrency(cId),
 ADD INDEX Currency_index (cCurrencyAccount2 ASC),
-ADD CONSTRAINT AgrementToCurrency FOREIGN KEY (cCurrencyAccount2) REFERENCES remcon.tCurrency(cId),
+ADD CONSTRAINT AgrementToCurrency FOREIGN KEY (cCurrencyAccount2) REFERENCES tCurrency(cId),
 ADD INDEX HealthCurrency_index (cHealthCurrency ASC),
-ADD CONSTRAINT HealthCurrencyToCurrency FOREIGN KEY (cHealthCurrency) REFERENCES remcon.tCurrency(cId),
+ADD CONSTRAINT HealthCurrencyToCurrency FOREIGN KEY (cHealthCurrency) REFERENCES tCurrency(cId),
 ADD INDEX Agreement_index_FamilyAssignmentStretch (cFamilyAssignmentStretch ASC),
-ADD CONSTRAINT AgreementToFamilyAssignmentStretch FOREIGN KEY (cFamilyAssignmentStretch) REFERENCES remcon.tFamilyAssignmentStretch(cId);
+ADD CONSTRAINT AgreementToFamilyAssignmentStretch FOREIGN KEY (cFamilyAssignmentStretch) REFERENCES tFamilyAssignmentStretch(cId);
 
 /** AGREEMENT-APV */
-ALTER TABLE remcon.tR_AgreementAPV
+ALTER TABLE tR_AgreementAPV
 ADD INDEX index_agreement (cAgreement ASC),
 ADD INDEX index_apv (cAPV ASC),
 ADD INDEX Currency_index (cCurrency ASC),
-ADD CONSTRAINT r_AgreementAPVToAgreement FOREIGN KEY (cAgreement) REFERENCES remcon.tAgreement(cId),
-ADD CONSTRAINT r_AgreementAPVToAPV FOREIGN KEY (cAPV) REFERENCES remcon.tAPV(cId),
-ADD CONSTRAINT r_AgreementAPVToCurrency FOREIGN KEY (cCurrency) REFERENCES remcon.tCurrency(cId);
+ADD CONSTRAINT r_AgreementAPVToAgreement FOREIGN KEY (cAgreement) REFERENCES tAgreement(cId),
+ADD CONSTRAINT r_AgreementAPVToAPV FOREIGN KEY (cAPV) REFERENCES tAPV(cId),
+ADD CONSTRAINT r_AgreementAPVToCurrency FOREIGN KEY (cCurrency) REFERENCES tCurrency(cId);
 
 /** ENTERPRISE */
-ALTER TABLE remcon.tEnterprise
+ALTER TABLE tEnterprise
 ADD INDEX comuna_index (cComuna ASC),
-ADD CONSTRAINT withComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(cId),
+ADD CONSTRAINT withComuna FOREIGN KEY (cComuna) REFERENCES tComuna(cId),
 ADD INDEX Mutual_index (cMutual ASC),
-ADD CONSTRAINT EnterpriseToMutual FOREIGN KEY (cMutual) REFERENCES remcon.tMutual(cId),
+ADD CONSTRAINT EnterpriseToMutual FOREIGN KEY (cMutual) REFERENCES tMutual(cId),
 ADD INDEX CompensationFund_index (cCompensationFund ASC),
-ADD CONSTRAINT EnterpriseToCompensationFund FOREIGN KEY (cCompensationFund) REFERENCES remcon.tCompensationFund(cId);
+ADD CONSTRAINT EnterpriseToCompensationFund FOREIGN KEY (cCompensationFund) REFERENCES tCompensationFund(cId);
 
 
 /** BRANCH */
-ALTER TABLE remcon.tBranch
+ALTER TABLE tBranch
 ADD INDEX enterprise_index (cEnterprise ASC),
-ADD CONSTRAINT BranchToEnterprise FOREIGN KEY (cEnterprise) REFERENCES remcon.tEnterprise(cId);
+ADD CONSTRAINT BranchToEnterprise FOREIGN KEY (cEnterprise) REFERENCES tEnterprise(cId);
 
-ALTER TABLE remcon.tBranch
+ALTER TABLE tBranch
 ADD INDEX comuna_index (cComuna ASC),
-ADD CONSTRAINT BranchToComuna FOREIGN KEY (cComuna) REFERENCES remcon.tComuna(cId);
+ADD CONSTRAINT BranchToComuna FOREIGN KEY (cComuna) REFERENCES tComuna(cId);
 
 /** PARAMETER */
-ALTER TABLE remcon.tParameter
+ALTER TABLE tParameter
 ADD INDEX Parameter_index (cDataType ASC),
-ADD CONSTRAINT ParameterToDataType FOREIGN KEY (cDataType) REFERENCES remcon.tDataType(cId);
+ADD CONSTRAINT ParameterToDataType FOREIGN KEY (cDataType) REFERENCES tDataType(cId);
 
 /** COST CENTER */
-ALTER TABLE remcon.tCostCenter
+ALTER TABLE tCostCenter
 ADD INDEX branch_index_costCenter (cBranch ASC),
-ADD CONSTRAINT CostCenterToBranch FOREIGN KEY (cBranch) REFERENCES remcon.tBranch(cId);
+ADD CONSTRAINT CostCenterToBranch FOREIGN KEY (cBranch) REFERENCES tBranch(cId);
 
 /** PROFILE */
-ALTER TABLE remcon.tProfile
+ALTER TABLE tProfile
 ADD INDEX costCenter_index (cCostCenter ASC),
-ADD CONSTRAINT withCostCenter FOREIGN KEY (cCostCenter) REFERENCES remcon.tCostCenter(cId);
+ADD CONSTRAINT withCostCenter FOREIGN KEY (cCostCenter) REFERENCES tCostCenter(cId);
 
 /** ACCOUNT 
-ALTER TABLE remcon.tAccount
+ALTER TABLE tAccount
 ADD INDEX account_index_employee (cEmployee ASC),
-ADD CONSTRAINT AccountToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId);
+ADD CONSTRAINT AccountToEmployee FOREIGN KEY (cEmployee) REFERENCES tEmployee(cId);
 
-ALTER TABLE remcon.tAccount
+ALTER TABLE tAccount
 ADD INDEX account_index_currency (cCurrency ASC),
-ADD CONSTRAINT AccountToCurrency FOREIGN KEY (cCurrency) REFERENCES remcon.tCurrency(cId);
+ADD CONSTRAINT AccountToCurrency FOREIGN KEY (cCurrency) REFERENCES tCurrency(cId);
 */
 
 /** ROL-OPTION */
-ALTER TABLE remcon.tR_RolOption
+ALTER TABLE tR_RolOption
 ADD INDEX index_rol (cRol ASC),
 ADD INDEX index_option (cOption ASC),
-ADD CONSTRAINT r_RolOptionToRol FOREIGN KEY (cRol) REFERENCES remcon.tRol(cId),
-ADD CONSTRAINT r_RolOptionToOption FOREIGN KEY (cOption) REFERENCES remcon.tOption(cId);
+ADD CONSTRAINT r_RolOptionToRol FOREIGN KEY (cRol) REFERENCES tRol(cId),
+ADD CONSTRAINT r_RolOptionToOption FOREIGN KEY (cOption) REFERENCES tOption(cId);
 
 /** USER-ROL */
-ALTER TABLE remcon.tR_UserRol
+ALTER TABLE tR_UserRol
 ADD INDEX index_rol (cRol ASC),
 ADD INDEX index_user (cUser ASC),
-ADD CONSTRAINT r_UserRolToRol FOREIGN KEY (cRol) REFERENCES remcon.tRol(cId);/*,
-ADD CONSTRAINT r_RolOptionToOption FOREIGN KEY (cOption) REFERENCES remcon.tOption(cId);*/
+ADD CONSTRAINT r_UserRolToRol FOREIGN KEY (cRol) REFERENCES tRol(cId);/*,
+ADD CONSTRAINT r_RolOptionToOption FOREIGN KEY (cOption) REFERENCES tOption(cId);*/
 
 /* PFM History */
-ALTER TABLE remcon.tPFMHistory
+ALTER TABLE tPFMHistory
 ADD INDEX PFMHistory_index_Period (cPeriod ASC),
-ADD CONSTRAINT PFMHistoryToPeriod FOREIGN KEY (cPeriod) REFERENCES remcon.tPeriod(cId);
+ADD CONSTRAINT PFMHistoryToPeriod FOREIGN KEY (cPeriod) REFERENCES tPeriod(cId);
 
 /* tHealthHistory */
-ALTER TABLE remcon.tHealthHistory
+ALTER TABLE tHealthHistory
 ADD INDEX HealthHistory_index_Period (cPeriod ASC),
-ADD CONSTRAINT HealthHistoryToPeriod FOREIGN KEY (cPeriod) REFERENCES remcon.tPeriod(cId);
+ADD CONSTRAINT HealthHistoryToPeriod FOREIGN KEY (cPeriod) REFERENCES tPeriod(cId);
 
 /* Period */   
-ALTER TABLE remcon.tPeriod
+ALTER TABLE tPeriod
 ADD INDEX Period_index_PeriodStatus (cPeriodStatus ASC),
-ADD CONSTRAINT PeriodStatusToPeriod FOREIGN KEY (cPeriodStatus) REFERENCES remcon.tPeriodStatus(cId);
+ADD CONSTRAINT PeriodStatusToPeriod FOREIGN KEY (cPeriodStatus) REFERENCES tPeriodStatus(cId);
 
 /* FILE */
-ALTER TABLE remcon.tFile
+ALTER TABLE tFile
 ADD INDEX File_index_FileCategory (cFileCategory ASC),
-ADD CONSTRAINT FileToFileCategory FOREIGN KEY (cFileCategory) REFERENCES remcon.tFileCategory(cId),
+ADD CONSTRAINT FileToFileCategory FOREIGN KEY (cFileCategory) REFERENCES tFileCategory(cId),
 ADD INDEX File_index_Employee (cEmployee ASC),
-ADD CONSTRAINT FileToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId);
+ADD CONSTRAINT FileToEmployee FOREIGN KEY (cEmployee) REFERENCES tEmployee(cId);
 
 /* BOOK */
-ALTER TABLE remcon.tBook
+ALTER TABLE tBook
 ADD INDEX Book_index_Period (cPeriod ASC),
-ADD CONSTRAINT BookToPeriod FOREIGN KEY (cPeriod) REFERENCES remcon.tPeriod(cId),
+ADD CONSTRAINT BookToPeriod FOREIGN KEY (cPeriod) REFERENCES tPeriod(cId),
 ADD INDEX Book_index_Employee (cEmployee ASC),
-ADD CONSTRAINT BookToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId),
+ADD CONSTRAINT BookToEmployee FOREIGN KEY (cEmployee) REFERENCES tEmployee(cId),
 ADD INDEX Book_index_Horary (cHorary ASC),
-ADD CONSTRAINT BookToHorary FOREIGN KEY (cHorary) REFERENCES remcon.tHorary(cId),
+ADD CONSTRAINT BookToHorary FOREIGN KEY (cHorary) REFERENCES tHorary(cId),
 ADD INDEX BookDiscounts_index_ContractType (cContractType ASC),
-ADD CONSTRAINT BookDiscountsToContractType FOREIGN KEY (cContractType) REFERENCES remcon.tContractType(cId);
+ADD CONSTRAINT BookDiscountsToContractType FOREIGN KEY (cContractType) REFERENCES tContractType(cId);
 
 /* tBookAssets */
-ALTER TABLE remcon.tBookAssets
+ALTER TABLE tBookAssets
 ADD INDEX BookAssets_index_Book (cBook ASC),
-ADD CONSTRAINT tBookAssetsToBook FOREIGN KEY (cBook) REFERENCES remcon.tBook(cId),
+ADD CONSTRAINT tBookAssetsToBook FOREIGN KEY (cBook) REFERENCES tBook(cId),
 ADD INDEX GratificationType_index_Book (cGratificationType ASC),
-ADD CONSTRAINT BookAssetsToGratificationType FOREIGN KEY (cGratificationType) REFERENCES remcon.tGratificationType(cId);
+ADD CONSTRAINT BookAssetsToGratificationType FOREIGN KEY (cGratificationType) REFERENCES tGratificationType(cId);
 
 /* tBookDiscounts */
-ALTER TABLE remcon.tBookDiscounts
+ALTER TABLE tBookDiscounts
 ADD INDEX tBookDiscounts_index_Book (cBook ASC),
-ADD CONSTRAINT tBookDiscountsToBook FOREIGN KEY (cBook) REFERENCES remcon.tBook(cId),
+ADD CONSTRAINT tBookDiscountsToBook FOREIGN KEY (cBook) REFERENCES tBook(cId),
 ADD INDEX BookDiscounts_index_PFM (cPFMHistory ASC),
-ADD CONSTRAINT tBookDiscountsToPFMHistory FOREIGN KEY (cPFMHistory) REFERENCES remcon.tPFMHistory(cId),
+ADD CONSTRAINT tBookDiscountsToPFMHistory FOREIGN KEY (cPFMHistory) REFERENCES tPFMHistory(cId),
 ADD INDEX BookDiscounts_index_HealthHistory (cHealthHistory ASC),
-ADD CONSTRAINT tBookDiscountsToHealthHistory FOREIGN KEY (cHealthHistory) REFERENCES remcon.tHealthHistory(cId),
+ADD CONSTRAINT tBookDiscountsToHealthHistory FOREIGN KEY (cHealthHistory) REFERENCES tHealthHistory(cId),
 ADD INDEX BookDiscounts_index_cHealthCurrency (cHealthCurrency ASC),
-ADD CONSTRAINT BookDiscountsToCurrency FOREIGN KEY (cHealthCurrency) REFERENCES remcon.tCurrency(cId),
+ADD CONSTRAINT BookDiscountsToCurrency FOREIGN KEY (cHealthCurrency) REFERENCES tCurrency(cId),
 ADD INDEX BookDiscounts_index_cAdditionalPFMCurrency (cAdditionalPFMCurrency ASC),
-ADD CONSTRAINT BookDiscountsToCurrency2 FOREIGN KEY (cAdditionalPFMCurrency) REFERENCES remcon.tCurrency(cId);
+ADD CONSTRAINT BookDiscountsToCurrency2 FOREIGN KEY (cAdditionalPFMCurrency) REFERENCES tCurrency(cId);
 
 /* tOvertime */
-ALTER TABLE remcon.tOvertime
+ALTER TABLE tOvertime
 ADD INDEX Overtime_index_Employee (cEmployee ASC),
 ADD INDEX Overtime_index_Period (cPeriod ASC),
-ADD CONSTRAINT OvertimeToEmployee FOREIGN KEY (cEmployee) REFERENCES remcon.tEmployee(cId),
-ADD CONSTRAINT OvertimeToPeriod FOREIGN KEY (cPeriod) REFERENCES remcon.tPeriod(cId);
+ADD CONSTRAINT OvertimeToEmployee FOREIGN KEY (cEmployee) REFERENCES tEmployee(cId),
+ADD CONSTRAINT OvertimeToPeriod FOREIGN KEY (cPeriod) REFERENCES tPeriod(cId);
 
 /*tEnterpriseConfig*/
-ALTER TABLE remcon.tEnterpriseConfig
+ALTER TABLE tEnterpriseConfig
 ADD INDEX fk_tEnterpriseConfig_tenterprise (cEnterprise ASC),
-ADD CONSTRAINT tEnterpriseConfigToEnterprise FOREIGN KEY (cEnterprise) REFERENCES remcon.tEnterprise(cId);
+ADD CONSTRAINT tEnterpriseConfigToEnterprise FOREIGN KEY (cEnterprise) REFERENCES tEnterprise(cId);
 
 /* TRIGERS */
-DROP TRIGGER IF EXISTS remcon.create_record;
-DROP TRIGGER IF EXISTS remcon.InsertOnEnterprise;
-DROP TRIGGER IF EXISTS remcon.InsertOnPFM;
-DROP TRIGGER IF EXISTS remcon.UpdateOnPFM;
-DROP TRIGGER IF EXISTS remcon.InsertOnHealth;
-DROP TRIGGER IF EXISTS remcon.UpdateOnHealth;
-DROP TRIGGER IF EXISTS remcon.DeleteOnAgreementPFM;
-DROP TRIGGER IF EXISTS remcon.InsertOnAgreementPFM;
-DROP TRIGGER IF EXISTS remcon.InsertOnPeriod;
+DROP TRIGGER IF EXISTS create_record;
+DROP TRIGGER IF EXISTS InsertOnEnterprise;
+DROP TRIGGER IF EXISTS InsertOnPFM;
+DROP TRIGGER IF EXISTS UpdateOnPFM;
+DROP TRIGGER IF EXISTS InsertOnHealth;
+DROP TRIGGER IF EXISTS UpdateOnHealth;
+DROP TRIGGER IF EXISTS DeleteOnAgreementPFM;
+DROP TRIGGER IF EXISTS InsertOnAgreementPFM;
+DROP TRIGGER IF EXISTS InsertOnPeriod;
  
 DELIMITER $$
 
 /* tEnterprise */
-CREATE TRIGGER remcon.InsertOnEnterprise AFTER INSERT ON tEnterprise
+CREATE TRIGGER InsertOnEnterprise AFTER INSERT ON tEnterprise
 FOR EACH ROW
 BEGIN
 	INSERT INTO tEnterpriseConfig (cEnterprise) 
@@ -211,7 +209,7 @@ BEGIN
 END$$
 
 /* tPFM */
-CREATE TRIGGER remcon.InsertOnPFM AFTER INSERT ON tPFM
+CREATE TRIGGER InsertOnPFM AFTER INSERT ON tPFM
 FOR EACH ROW
 BEGIN
 	DECLARE vPeriod BIGINT DEFAULT 0;
@@ -221,7 +219,7 @@ BEGIN
 	VALUES (vPeriod, NEW.cKey, NEW.cName, NEW.cFactor, NEW.cSIS);
 END$$
 
-CREATE TRIGGER remcon.UpdateOnPFM AFTER UPDATE ON tPFM
+CREATE TRIGGER UpdateOnPFM AFTER UPDATE ON tPFM
 FOR EACH ROW
 BEGIN
 	DECLARE vPeriod BIGINT DEFAULT 0;
@@ -232,7 +230,7 @@ BEGIN
 END$$
 
 /* tHealth */
-CREATE TRIGGER remcon.InsertOnHealth AFTER INSERT ON tHealth
+CREATE TRIGGER InsertOnHealth AFTER INSERT ON tHealth
 FOR EACH ROW
 BEGIN
 	DECLARE vPeriod BIGINT DEFAULT 0;
@@ -242,7 +240,7 @@ BEGIN
 	VALUES (vPeriod, NEW.cKey, NEW.cName, NEW.cFactor);
 END$$
 
-CREATE TRIGGER remcon.UpdateOnHealth AFTER UPDATE ON tHealth
+CREATE TRIGGER UpdateOnHealth AFTER UPDATE ON tHealth
 FOR EACH ROW
 BEGIN
 	DECLARE vPeriod BIGINT DEFAULT 0;
@@ -253,21 +251,21 @@ BEGIN
 END$$
 
 /* tR_AgreementAPV */
-CREATE TRIGGER remcon.DeleteOnAgreementPFM AFTER DELETE ON tR_AgreementAPV
+CREATE TRIGGER DeleteOnAgreementPFM AFTER DELETE ON tR_AgreementAPV
 FOR EACH ROW
 BEGIN
 	DECLARE vPeriod BIGINT DEFAULT 0;
 	SET vPeriod = fGetOpenedPeriod();
 	
 	DELETE
-	FROM	remcon.tR_AgreementAPVHistory
+	FROM	tR_AgreementAPVHistory
 	WHERE	cPeriod=vPeriod AND 
 			cAgreement=OLD.cAgreement AND
 			cAPV=OLD.cAPV AND
 			cCurrency=OLD.cCurrency;
 END$$
 
-CREATE TRIGGER remcon.InsertOnAgreementPFM AFTER INSERT ON tR_AgreementAPV
+CREATE TRIGGER InsertOnAgreementPFM AFTER INSERT ON tR_AgreementAPV
 FOR EACH ROW
 BEGIN
 	DECLARE vPeriod BIGINT DEFAULT 0;
@@ -278,7 +276,7 @@ BEGIN
 END$$
 
 /* tFamilyAssignmentStretchHistory */
-CREATE TRIGGER remcon.InsertOnFamilyAssignmentStretch AFTER INSERT ON tFamilyAssignmentStretch
+CREATE TRIGGER InsertOnFamilyAssignmentStretch AFTER INSERT ON tFamilyAssignmentStretch
 FOR EACH ROW
 BEGIN
 	DECLARE vPeriod BIGINT DEFAULT 0;
@@ -288,7 +286,7 @@ BEGIN
 	VALUES (vPeriod, NEW.cKey, NEW.cAmount);
 END$$
 
-CREATE TRIGGER remcon.UpdateOnFamilyAssignmentStretch AFTER UPDATE ON tFamilyAssignmentStretch
+CREATE TRIGGER UpdateOnFamilyAssignmentStretch AFTER UPDATE ON tFamilyAssignmentStretch
 FOR EACH ROW
 BEGIN
 	DECLARE vPeriod BIGINT DEFAULT 0;
@@ -299,7 +297,7 @@ BEGIN
 END$$
 
 /* tPeriod */
-CREATE TRIGGER remcon.InsertOnPeriod AFTER INSERT ON tPeriod
+CREATE TRIGGER InsertOnPeriod AFTER INSERT ON tPeriod
 FOR EACH ROW
 BEGIN
 	DECLARE vPeriodCount INTEGER DEFAULT 0;

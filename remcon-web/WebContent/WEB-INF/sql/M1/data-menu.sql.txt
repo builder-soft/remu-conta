@@ -1,5 +1,3 @@
-use remcon;
-
 SELECT cId INTO @rolId FROM tRol WHERE cName = 'Administrador';
 
 /** Opciones para perfilar y crear usuarios */

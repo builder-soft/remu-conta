@@ -1,10 +1,10 @@
-DROP PROCEDURE if exists remcon.pGetCurrencyByKey;
+DROP PROCEDURE if exists pGetCurrencyByKey;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pGetCurrencyByKey(IN pKey CHAR(3))
+CREATE PROCEDURE pGetCurrencyByKey(IN pKey CHAR(3))
 BEGIN
 	SELECT		cId, cKey, cName 
-	FROM 		remcon.tCurrency
+	FROM 		tCurrency
 	WHERE		cKey = pKey;
 END$$
 

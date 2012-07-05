@@ -1,10 +1,10 @@
-delete from remcon.tOvertime;
+delete from tOvertime;
 /*
 insert into remcon.tOvertime(cEmployee, cPeriod, cDate, cAmount) VALUES(1, 2, '2012-06-15', 4);
 
 update  remcon.tBookAssets set cB01 = 1500000;
 */
-call remcon.pSavePeriod('2012-06-01', @periodo);
+call pSavePeriod('2012-06-01', @periodo);
 
 /*
 call remcon.pCalculateSalary(1,@periodo);
@@ -15,5 +15,5 @@ call remcon.pGetEnterpriseConfig(1);
 
 */
 
-call remcon.pCalculateAllSalary;
+call pCalculateAllSalary;
 

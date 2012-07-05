@@ -1,10 +1,10 @@
-DROP PROCEDURE if exists remcon.pDelDocument;
+DROP PROCEDURE if exists pDelDocument;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pDelDocument(IN pDocument BIGINT)
+CREATE PROCEDURE pDelDocument(IN pDocument BIGINT)
 BEGIN
 	DELETE
-	FROM 		remcon.tFile
+	FROM 		tFile
 	WHERE		cId = pDocument;
 END$$
 

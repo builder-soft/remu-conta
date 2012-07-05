@@ -1,7 +1,7 @@
-DROP PROCEDURE if exists remcon.pOpenPeriod;
+DROP PROCEDURE if exists pOpenPeriod;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pOpenPeriod(IN pPeriod BIGINT)
+CREATE PROCEDURE pOpenPeriod(IN pPeriod BIGINT)
 /*
 1.- se abre / crea un periodo
 2.- se ingresan parametros para el calculo
@@ -12,10 +12,10 @@ CREATE PROCEDURE remcon.pOpenPeriod(IN pPeriod BIGINT)
 7.- no se puede volver a calcular nuevamente para ese período...
 */
 BEGIN
-	UPDATE		remcon.tPeriod
+	UPDATE		tPeriod
 	SET			cPeriodStatus = 1;
 	
-	UPDATE		remcon.tPeriod
+	UPDATE		tPeriod
 	SET			cPeriodStatus = 2
 	WHERE		cId = pPeriod;
 

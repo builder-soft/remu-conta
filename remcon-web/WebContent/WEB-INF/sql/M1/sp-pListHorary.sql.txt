@@ -1,10 +1,10 @@
-DROP PROCEDURE if exists remcon.pListHorary;
+DROP PROCEDURE if exists pListHorary;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pListHorary()
+CREATE PROCEDURE pListHorary()
 BEGIN
 	SELECT		cId, cName, cDetail
-	FROM 		remcon.tHorary
+	FROM 		tHorary
 	ORDER BY	cId;
 END$$
 

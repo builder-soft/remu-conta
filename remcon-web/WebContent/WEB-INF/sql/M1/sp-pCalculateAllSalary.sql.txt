@@ -1,9 +1,9 @@
-DROP PROCEDURE if exists remcon.pCalculateAllSalary;
+DROP PROCEDURE if exists pCalculateAllSalary;
 
 DELIMITER $$
 
 /************************/
-CREATE PROCEDURE remcon.pCalculateAllSalary()
+CREATE PROCEDURE pCalculateAllSalary()
 BEGIN
 	DECLARE vId, vPeriod BIGINT DEFAULT 0;
 	DECLARE vDone BOOLEAN DEFAULT FALSE;
@@ -13,10 +13,10 @@ BEGIN
 */
 	DECLARE cursorEmployee CURSOR FOR
 		SELECT	cId
-		FROM	remcon.tEmployee;
+		FROM	tEmployee;
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET vDone = TRUE;
 	
-	SET vPeriod = remcon.fGetOpenedPeriod();
+	SET vPeriod = fGetOpenedPeriod();
 	
 	OPEN cursorEmployee;
 	cursorEmployee_loop: LOOP

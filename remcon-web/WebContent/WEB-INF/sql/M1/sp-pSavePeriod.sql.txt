@@ -1,10 +1,10 @@
-DROP PROCEDURE if exists remcon.pSavePeriod;
+DROP PROCEDURE if exists pSavePeriod;
 DELIMITER $$
 
 /***********************
 Crea o actualiza la tabla tPeriod si no existe el registro.
 */
-CREATE PROCEDURE remcon.pSavePeriod(IN pDate DATE, OUT pPeriod BIGINT)
+CREATE PROCEDURE pSavePeriod(IN pDate DATE, OUT pPeriod BIGINT)
 BEGIN
 /** 
 TODO: Hay que sacar el valor de la UF y Factor desde una tabla histórica 
@@ -27,7 +27,7 @@ por si hay que recalcular para atras...
 	
 	SELECT	cId, cPeriodStatus
 	INTO	vId, vPeriodStatus
-	FROM	remcon.tPeriod
+	FROM	tPeriod
 	WHERE	cDate = pDate;
 
 	/*
@@ -36,7 +36,7 @@ por si hay que recalcular para atras...
 	
 	IF (vId > -1) THEN
 		IF (vPeriodStatus = 2) THEN
-			UPDATE	remcon.tPeriod
+			UPDATE	tPeriod
 			SET		cUF = vCurrentUF,
 					cOvertimeFactor = vOvertimeFactor,
 					cGratificationFactor = vGratificationFactor,
@@ -52,12 +52,12 @@ por si hay que recalcular para atras...
 		/*
 		SELECT	cId
 		INTO	pPeriod 
-		FROM	remcon.tPeriod 
+		FROM	tPeriod 
 		WHERE	cDate = pDate;
 		*/
 		SET pPeriod = vId; 
 	ELSE
-		INSERT INTO remcon.tPeriod(cDate, cUF, cOvertimeFactor, cGratificationFactor, cMinSalary,
+		INSERT INTO tPeriod(cDate, cUF, cOvertimeFactor, cGratificationFactor, cMinSalary,
 				cLimitGratification, cLimitIPS, cLimitInsurance, cLimitHealth,
 				cUTM, cDaysForYear) 
 		VALUES(pDate, vCurrentUF, vOvertimeFactor, vGratificationFactor, vMinSalary,
