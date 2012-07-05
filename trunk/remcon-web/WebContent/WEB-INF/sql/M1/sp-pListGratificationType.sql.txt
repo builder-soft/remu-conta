@@ -1,10 +1,10 @@
-DROP PROCEDURE if exists remcon.pListGratificationType;
+DROP PROCEDURE if exists pListGratificationType;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pListGratificationType()
+CREATE PROCEDURE pListGratificationType()
 BEGIN
 	SELECT		cId 
-	FROM 		remcon.tGratificationType
+	FROM 		tGratificationType
 	ORDER BY	cId;
 END$$
 

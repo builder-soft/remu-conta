@@ -1,5 +1,3 @@
-USE bsframework;
-
 /**
 * http://www.mysqltutorial.org/mysql-stored-procedure-tutorial.aspx
 *
@@ -26,7 +24,7 @@ USE bsframework;
 */
 
 /* Tabla con el listado de usuarios del sistema, independiente del dominio al cual pertenece */
-CREATE TABLE IF NOT EXISTS tUser (
+CREATE TABLE IF NOT EXISTS bsframework.tUser (
 	cId			BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	cMail 		VARCHAR(50) NOT NULL UNIQUE COMMENT 'Campo con el cual el usuario hace login, ideal es que sea el mail para que no se le olvide',
 	cName		VARCHAR(100) NOT NULL COMMENT 'El nombre real del usuario',
@@ -38,21 +36,21 @@ CREATE TABLE IF NOT EXISTS tUser (
 creado, debe existir una base de datos. El nombre de la base de datos, debe coincidir con 
 el valor puesto en la columna cAlias de esta tabla.
 */
-CREATE TABLE IF NOT EXISTS tDomain (
+CREATE TABLE IF NOT EXISTS bsframework.tDomain (
 	cId			BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	cName		VARCHAR(100) NULL,
 	cAlias		VARCHAR(15) NULL	
 ) ENGINE=innoDB;
 
 /* En esta tabla, se guarda la relación para determinar a que dominios puede acceder un usuario */
-CREATE TABLE IF NOT EXISTS tR_UserDomain (
+CREATE TABLE IF NOT EXISTS bsframework.tR_UserDomain (
 	cUser		BIGINT  NOT NULL,
 	cDomain		BIGINT  NOT NULL	
 ) ENGINE=innoDB;
 
 /* Aqui se guardan atributos adicionales para cada dominio, en un inicio, se guardan los datos 
 de conección a la base de datos para cada uno de ellos*/
-CREATE TABLE IF NOT EXISTS tDomainAttribute (
+CREATE TABLE IF NOT EXISTS bsframework.tDomainAttribute (
 	cId			BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	cDomain		BIGINT  NOT NULL,
 	cKey		VARCHAR(20) NULL,
@@ -62,15 +60,15 @@ CREATE TABLE IF NOT EXISTS tDomainAttribute (
 
  /** V I S T A S **/
  
-DROP VIEW IF EXISTS vUserAdmin;
-CREATE VIEW vUserAdmin
+DROP VIEW IF EXISTS bsframework.vUserAdmin;
+CREATE VIEW bsframework.vUserAdmin
 AS
  		SELECT		cId, cMail, cName, cAdmin 
 		FROM 		bsframework.tUser;
 
 
-DROP VIEW IF EXISTS vUser;
-CREATE VIEW vUser
+DROP VIEW IF EXISTS bsframework.vUser;
+CREATE VIEW bsframework.vUser
 AS
 		SELECT		cId, cMail, cName 
 		FROM 		bsframework.tUser

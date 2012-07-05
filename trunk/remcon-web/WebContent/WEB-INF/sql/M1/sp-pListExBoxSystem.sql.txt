@@ -1,10 +1,10 @@
-DROP PROCEDURE if exists remcon.pListExBoxSystem;
+DROP PROCEDURE if exists pListExBoxSystem;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pListExBoxSystem()
+CREATE PROCEDURE pListExBoxSystem()
 BEGIN
 	SELECT		cId 
-	FROM 		remcon.tExBoxSystem;
+	FROM 		tExBoxSystem;
 END$$
 
 DELIMITER ;

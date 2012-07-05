@@ -1,10 +1,10 @@
-DROP PROCEDURE if exists remcon.pListDocument;
+DROP PROCEDURE if exists pListDocument;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pListDocument(IN pEmployee BIGINT)
+CREATE PROCEDURE pListDocument(IN pEmployee BIGINT)
 BEGIN
 	SELECT		* 
-	FROM 		remcon.tFile WHERE cEmployee = pEmployee;
+	FROM 		tFile WHERE cEmployee = pEmployee;
 END$$
 
 DELIMITER ;

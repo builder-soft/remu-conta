@@ -1,10 +1,10 @@
-DROP PROCEDURE if exists remcon.pGetEnterpriseConfig;
+DROP PROCEDURE if exists pGetEnterpriseConfig;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pGetEnterpriseConfig(IN pId BIGINT)
+CREATE PROCEDURE pGetEnterpriseConfig(IN pId BIGINT)
 BEGIN
 	SELECT		* 
-	FROM 		remcon.tEnterpriseConfig
+	FROM 		tEnterpriseConfig
 	WHERE		cEnterprise = pId;
 END$$
 

@@ -1,4 +1,21 @@
-for %%i in (fn-*.sql.txt) do mysql -u root -t -padmin --default-character-set=utf8 < %%i
-for %%i in (sp-*.sql.txt) do mysql -u root -t -padmin --default-character-set=utf8 < %%i
+@echo off
+IF "%1" == "" GOTO error
 
-mysql -u root -t -padmin --default-character-set=utf8 < testSP.sql.txt
+@echo on
+for %%i in (fn-*.sql.txt) do mysql -D%1 -u root -t -padmin --default-character-set=utf8 < %%i
+for %%i in (sp-*.sql.txt) do mysql -D%1 -u root -t -padmin --default-character-set=utf8 < %%i
+
+mysql -D%1 -u root -t -padmin --default-character-set=utf8 < testSP.sql.txt
+
+@echo off
+goto fin
+
+:error
+@echo off
+echo No se indico nombre de la base de datos, ejecute: 
+echo $ run-all remcon
+
+
+:fin
+@echo off
+echo *** FIN ***

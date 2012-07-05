@@ -1,68 +1,68 @@
-DROP TABLE IF EXISTS remcon.tBond;
-DROP TABLE IF EXISTS remcon.tFiscalDate;
-DROP TABLE IF EXISTS remcon.tFile;
-DROP TABLE IF EXISTS remcon.tFileCategory;
-drop table if exists remcon.tR_AgreementAPV;
-drop table if exists remcon.tR_AgreementAPVHistory;
+DROP TABLE IF EXISTS tBond;
+DROP TABLE IF EXISTS tFiscalDate;
+DROP TABLE IF EXISTS tFile;
+DROP TABLE IF EXISTS tFileCategory;
+drop table if exists tR_AgreementAPV;
+drop table if exists tR_AgreementAPVHistory;
 
-drop table if exists remcon.tAgreement;
-DROP TABLE IF EXISTS remcon.tBookDiscounts;
-DROP TABLE IF EXISTS remcon.tBookAssets;
-DROP TABLE IF EXISTS remcon.tBook;
-DROP TABLE IF EXISTS remcon.tOvertime;
-DROP TABLE IF EXISTS remcon.tFamilyAssignmentStretch;
-DROP TABLE IF EXISTS remcon.tFamilyAssignmentStretchHistory;
+drop table if exists tAgreement;
+DROP TABLE IF EXISTS tBookDiscounts;
+DROP TABLE IF EXISTS tBookAssets;
+DROP TABLE IF EXISTS tBook;
+DROP TABLE IF EXISTS tOvertime;
+DROP TABLE IF EXISTS tFamilyAssignmentStretch;
+DROP TABLE IF EXISTS tFamilyAssignmentStretchHistory;
 
-DROP TABLE IF EXISTS remcon.tUniqueTax;
+DROP TABLE IF EXISTS tUniqueTax;
 
-DROP TABLE IF EXISTS remcon.tPFMHistory;
-DROP TABLE IF EXISTS remcon.tHealthHistory;
-DROP TABLE IF EXISTS remcon.tUnemploymentInsurance;
+DROP TABLE IF EXISTS tPFMHistory;
+DROP TABLE IF EXISTS tHealthHistory;
+DROP TABLE IF EXISTS tUnemploymentInsurance;
 
 
-DROP TABLE IF EXISTS remcon.tPeriod;
-DROP TABLE IF EXISTS remcon.tPeriodStatus;
+DROP TABLE IF EXISTS tPeriod;
+DROP TABLE IF EXISTS tPeriodStatus;
 
-drop table if exists remcon.tEmployee;
+drop table if exists tEmployee;
 
-drop table if exists remcon.tGenere;
-drop table if exists remcon.tMaritalStatus;
-drop table if exists remcon.tPaymentType;
-drop table if exists remcon.tBank;
-drop table if exists remcon.tAccountType;
-drop table if exists remcon.tHorary;
-drop table if exists remcon.tCountry;
+drop table if exists tGenere;
+drop table if exists tMaritalStatus;
+drop table if exists tPaymentType;
+drop table if exists tBank;
+drop table if exists tAccountType;
+drop table if exists tHorary;
+drop table if exists tCountry;
 
-drop table if exists remcon.tContractType;
-drop table if exists remcon.tProfile;
-drop table if exists remcon.tPFM;
-drop table if exists remcon.tHealth;
-drop table if exists remcon.tGratificationType;
+drop table if exists tContractType;
+drop table if exists tProfile;
+drop table if exists tPFM;
+drop table if exists tHealth;
+drop table if exists tGratificationType;
 
-drop table if exists remcon.tExBoxSystem;
-drop table if exists remcon.tCostCenter;
-drop table if exists remcon.tBranch;
-drop table if exists remcon.tEnterpriseConfig;
-drop table if exists remcon.tEnterprise;
-drop table if exists remcon.tComuna;
-drop table if exists remcon.tCompensationFund;
+drop table if exists tExBoxSystem;
+drop table if exists tCostCenter;
+drop table if exists tBranch;
+drop table if exists tEnterpriseConfig;
+drop table if exists tEnterprise;
+drop table if exists tComuna;
+drop table if exists tCompensationFund;
 
 /************** */
-drop table if exists remcon.tMutual;
-drop table if exists remcon.tAPV;
-drop table if exists remcon.tCurrency;
+drop table if exists tMutual;
+drop table if exists tAPV;
+drop table if exists tCurrency;
 
-drop table if exists remcon.tMutual;
-drop table if exists remcon.tCompensationFund;
+drop table if exists tMutual;
+drop table if exists tCompensationFund;
 
-DROP TABLE IF EXISTS remcon.tParameter;
+DROP TABLE IF EXISTS tParameter;
 
-drop table if exists remcon.tDataType;
+drop table if exists tDataType;
 
-DROP TABLE IF EXISTS remcon.tR_UserRol;
-DROP TABLE IF EXISTS remcon.tR_RolOption;
-DROP TABLE IF EXISTS remcon.tOption;
-DROP TABLE IF EXISTS remcon.tRol;
+DROP TABLE IF EXISTS tR_UserRol;
+DROP TABLE IF EXISTS tR_RolOption;
+DROP TABLE IF EXISTS tOption;
+DROP TABLE IF EXISTS tRol;
 
 DROP TABLE IF EXISTS bsframework.tR_UserDomain;
 DROP TABLE IF EXISTS bsframework.tDomainAttribute;

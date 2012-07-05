@@ -1,22 +1,22 @@
-DROP PROCEDURE if exists remcon.pDelEmployee;
+DROP PROCEDURE if exists pDelEmployee;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pDelEmployee(IN pEmployee BIGINT)
+CREATE PROCEDURE pDelEmployee(IN pEmployee BIGINT)
 BEGIN
 	SELECT	cId INTO @agreement 
 	FROM	tAgreement 
 	WHERE	cEmployee = pEmployee;
 
 	DELETE
-	FROM 		remcon.tR_AgreementAPV
+	FROM 		tR_AgreementAPV
 	WHERE		cAgreement = @agreement;
 	
 	DELETE
-	FROM 		remcon.tAgreement
+	FROM 		tAgreement
 	WHERE		cEmployee = pEmployee;
 
 	DELETE
-	FROM 		remcon.tEmployee
+	FROM 		tEmployee
 	WHERE		cId = pEmployee;
 END$$
 

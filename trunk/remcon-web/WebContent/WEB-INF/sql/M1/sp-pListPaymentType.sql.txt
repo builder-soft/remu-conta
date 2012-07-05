@@ -1,10 +1,10 @@
-DROP PROCEDURE if exists remcon.pListPaymentType;
+DROP PROCEDURE if exists pListPaymentType;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pListPaymentType()
+CREATE PROCEDURE pListPaymentType()
 BEGIN
 	SELECT		 cId, cKey, cName 
-	FROM 		remcon.tPaymentType
+	FROM 		tPaymentType
 	ORDER BY	cId;
 END$$
 

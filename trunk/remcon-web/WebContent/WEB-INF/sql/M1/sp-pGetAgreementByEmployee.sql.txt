@@ -1,10 +1,10 @@
-DROP PROCEDURE if exists remcon.pGetAgreementByEmployee;
+DROP PROCEDURE if exists pGetAgreementByEmployee;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pGetAgreementByEmployee(IN pEmployee BIGINT)
+CREATE PROCEDURE pGetAgreementByEmployee(IN pEmployee BIGINT)
 BEGIN
 	SELECT		cId 
-	FROM 		remcon.tAgreement
+	FROM 		tAgreement
 	WHERE		cEmployee = pEmployee;
 
 END$$

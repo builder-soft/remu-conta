@@ -1,16 +1,16 @@
-DROP PROCEDURE if exists remcon.pListCurrency;
+DROP PROCEDURE if exists pListCurrency;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pListCurrency()
+CREATE PROCEDURE pListCurrency()
 BEGIN
 	SELECT		cId, cKey, cName 
-	FROM 		remcon.tCurrency;
+	FROM 		tCurrency;
 END$$
 
 DELIMITER ;
 
 /*
-call remcon.pGetAPVList();
+call pGetAPVList();
 */
 
 

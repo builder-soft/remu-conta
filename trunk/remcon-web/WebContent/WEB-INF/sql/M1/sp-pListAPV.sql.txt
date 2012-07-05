@@ -1,10 +1,10 @@
-DROP PROCEDURE if exists remcon.pListAPV;
+DROP PROCEDURE if exists pListAPV;
 DELIMITER $$
 
-CREATE PROCEDURE remcon.pListAPV()
+CREATE PROCEDURE pListAPV()
 BEGIN
 	SELECT		cId, cKey, cName 
-	FROM 		remcon.tAPV;
+	FROM 		tAPV;
 END$$
 
 DELIMITER ;

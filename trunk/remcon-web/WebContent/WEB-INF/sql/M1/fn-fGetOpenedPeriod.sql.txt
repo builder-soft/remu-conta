@@ -1,14 +1,14 @@
-DROP FUNCTION IF EXISTS remcon.fGetOpenedPeriod;
+DROP FUNCTION IF EXISTS fGetOpenedPeriod;
 
 DELIMITER $$
 
-CREATE FUNCTION remcon.fGetOpenedPeriod() RETURNS BIGINT
+CREATE FUNCTION fGetOpenedPeriod() RETURNS BIGINT
 BEGIN
 	DECLARE vOut BIGINT DEFAULT 0;
 
 	SELECT	cId 
 	INTO	vOut
-	FROM	remcon.tPeriod
+	FROM	tPeriod
 	WHERE	cPeriodStatus = 2;
 
 	RETURN vOut;

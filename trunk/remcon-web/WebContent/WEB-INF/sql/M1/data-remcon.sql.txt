@@ -1,4 +1,3 @@
-use remcon;
 /**
 INSERT INTO `tperson` (`cId`,`cRUT`,`cGenere`,`cFechaRegistro`,`cNombre`,`cApellidoPaterno`,`cApellidoMaterno`,`cDireccion`,`cNumero`,`cVilla`,`cBlock`,`cDepartamento`,`cComuna`,`cTelefono`,`cCelular`,`cMail`) VALUES (1,'14184576-4',2,'2007-05-23','FELIPE FRANCISCO','IBANEZ','ESCOBAR','PJE. LAS CALESAS','1111','SAN GERONIMO','','',315,'2-8509029','8-3575908','damoreno@gmail.com');
 INSERT INTO `tperson` (`cId`,`cRUT`,`cGenere`,`cFechaRegistro`,`cNombre`,`cApellidoPaterno`,`cApellidoMaterno`,`cDireccion`,`cNumero`,`cVilla`,`cBlock`,`cDepartamento`,`cComuna`,`cTelefono`,`cCelular`,`cMail`) VALUES (2,'16094925-2',1,'2007-05-23','VALENTINA CRISTAL','BRAVO','FARIAS','PJE. DAMIAN','1691','DOnA GARBIELA','','',315,'5361611','8-8590139','about_boo@hotmail.com');
@@ -954,9 +953,9 @@ INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('7', 0150,	0.37,
 INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('8', 9999,	0.40,	28.475);
 */
 
-call remcon.pSavePeriod('2012-05-01', @Period1);
-call remcon.pSavePeriod('2012-06-01', @Period2);
-call remcon.pOpenPeriod(@Period1);
+call pSavePeriod('2012-05-01', @Period1);
+call pSavePeriod('2012-06-01', @Period2);
+call pOpenPeriod(@Period1);
 
 INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('-', 0);
 INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('A', 5393);
@@ -985,13 +984,13 @@ INSERT INTO tHealth(cKey, cName, cFactor) VALUES('18', 'Normédica', 7);
 INSERT INTO tHealth(cKey, cName, cFactor) VALUES('22', 'Sfera', 7);
 INSERT INTO tHealth(cKey, cName, cFactor) VALUES('3', 'Vida Tres', 7);
 
-call remcon.pOpenPeriod(@Period2);
+call pOpenPeriod(@Period2);
 
-UPDATE	remcon.tPFM 
+UPDATE	tPFM 
 SET		cFactor=1.41
 WHERE	cId = 3;
 
-UPDATE	remcon.tHealth 
+UPDATE	tHealth 
 SET		cFactor=7.01
 WHERE	cId = 3;
 

@@ -1,5 +1,3 @@
-use remcon;
-
 CREATE TABLE IF NOT EXISTS tBranch(
 	cId					BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	cName				VARCHAR(50),
@@ -261,7 +259,7 @@ create table tCompensationFund(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
-CREATE  TABLE IF NOT EXISTS remcon.tEnterpriseConfig (
+CREATE  TABLE IF NOT EXISTS tEnterpriseConfig (
    cId INT NOT NULL AUTO_INCREMENT ,
    cEnterprise BIGINT(20) NOT NULL DEFAULT 1 COMMENT 'Referencia a la tabla tEnterprise' ,
    cShowDateUfUtm BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Fecha, UF y UTM' ,
@@ -643,9 +641,9 @@ Ojo tiene tope en UF ese tope lo da el previred y puede cambiar en el año el 3%
 ) ENGINE=InnoDB;
 
  /** V I S T A S **/
-DROP VIEW IF EXISTS remcon.vBook;
+DROP VIEW IF EXISTS vBook;
 
-CREATE VIEW remcon.vBook
+CREATE VIEW vBook
 AS
 SELECT	a.cId AS cId,
 		a.cPeriod,
@@ -762,10 +760,10 @@ SELECT	a.cId AS cId,
 		b.cDisabilityBurdens, 
 		b.cMaternalLoads,
 		a.cSimpleAdjustment					/* Ajuste de sencillo */
-		FROM	remcon.tBook AS a
-		LEFT JOIN remcon.tBookAssets	AS b ON b.cBook = a.cId
-		LEFT JOIN remcon.tBookDiscounts	AS c ON c.cBook = a.cId
-		LEFT JOIN remcon.tPeriod		AS d ON a.cPeriod = d.cId
-		LEFT JOIN remcon.tEmployee		AS e ON a.cEmployee = e.cId
-		LEFT JOIN remcon.tAgreement		AS f ON e.cId = f.cEmployee
+		FROM	tBook AS a
+		LEFT JOIN tBookAssets	AS b ON b.cBook = a.cId
+		LEFT JOIN tBookDiscounts	AS c ON c.cBook = a.cId
+		LEFT JOIN tPeriod		AS d ON a.cPeriod = d.cId
+		LEFT JOIN tEmployee		AS e ON a.cEmployee = e.cId
+		LEFT JOIN tAgreement		AS f ON e.cId = f.cEmployee
 		ORDER BY a.cId;
