@@ -475,29 +475,30 @@ create table tPeriod(
 Esta tabla tiene todos los empleados agrupados por período.
 */
 create table tBook(
-	cId					BIGINT(20) NOT NULL auto_increment,
-	cPeriod				BIGINT(20) NOT NULL COMMENT 'Enlace con la tabla tPeriod - 01/Mes/Año',
-	cEmployee			BIGINT(20) NOT NULL COMMENT 'Empleado - tEmployee.cId',
-	cHorary				BIGINT(20) NOT NULL COMMENT 'Tipo de jornada: part-time / full-time - tAgreement.cHoray',
-	cWorkDays			INTEGER NOT NULL DEFAULT '30' COMMENT 'Días trabajados - Ingresa por el período',
-	cSalaryRoot			DOUBLE NOT NULL COMMENT 'Sueldo Base - cp from tAgreement.cSalaryRoot',
-	cOvertime			INTEGER	NOT NULL DEFAULT '0' COMMENT 'Cantidad Horas Extras - Sumar tabla tOvertime',
+	cId							BIGINT(20) NOT NULL auto_increment,
+	cPeriod						BIGINT(20) NOT NULL COMMENT 'Enlace con la tabla tPeriod - 01/Mes/Año',
+	cEmployee					BIGINT(20) NOT NULL COMMENT 'Empleado - tEmployee.cId',
+	cHorary						BIGINT(20) NOT NULL COMMENT 'Tipo de jornada: part-time / full-time - tAgreement.cHoray',
+	cWorkDays					INTEGER NOT NULL DEFAULT '30' COMMENT 'Días trabajados - Ingresa por el período',
+	cSalaryRoot					DOUBLE NOT NULL COMMENT 'Sueldo Base - cp from tAgreement.cSalaryRoot',
+	cOvertime					INTEGER	NOT NULL DEFAULT '0' COMMENT 'Cantidad Horas Extras - Sumar tabla tOvertime',
 	/*
 	cPFM				BIGINT(20) NOT NULL COMMENT 'Id de afp de la época',
 	cExBoxSystem		BIGINT(20) NOT NULL COMMENT 'Id del ex-regimen de la época',
 	*/
-	cSalaryReceived		DOUBLE NULL DEFAULT '0' COMMENT 'Salario recibido - calculo de sueldo_base/30 x días trabajados',
+	cSalaryReceived				DOUBLE NULL DEFAULT '0' COMMENT 'Salario recibido - calculo de sueldo_base/30 x días trabajados',
 	cInsuranceFactorEmployee	DOUBLE NOT NULL COMMENT 'Factor con el que aporta el empleado para seguro de cesantía',
 	cInsuranceFactorEnterprise	DOUBLE NOT NULL COMMENT 'Factor con el que aporta la empresa para seguro de cesantía',
-	cContractType		BIGINT(20) NOT NULL COMMENT 'Tipo de contrato, define el tipo de seguro de cesantia',
-	cNetPaymentScope	DOUBLE NULL DEFAULT '0' COMMENT 'Alcance líquido',
-	cToPayEmployee		DOUBLE NULL DEFAULT '0' COMMENT 'Líquido a Pagar al empleado',
+	cContractType				BIGINT(20) NOT NULL COMMENT 'Tipo de contrato, define el tipo de seguro de cesantia',
+	cNetPaymentScope			DOUBLE NULL DEFAULT '0' COMMENT 'Alcance líquido',
+	cToPayEmployee				DOUBLE NULL DEFAULT '0' COMMENT 'Líquido a Pagar al empleado',
 	cInsuranceAmountEnterprise	DOUBLE NULL DEFAULT '0' COMMENT 'Monto que cancela el empleador por cesantía',
-	cMutualFactor			DOUBLE NULL DEFAULT '0' COMMENT 'Facor de lo que la empresa le paga a la Mutual',
-	cPayToMutulEnterprise	DOUBLE NULL DEFAULT '0' COMMENT 'Monto que la empresa debe pagar a la mutual correspondiente',
+	cMutualFactor				DOUBLE NULL DEFAULT '0' COMMENT 'Facor de lo que la empresa le paga a la Mutual',
+	cPayToMutulEnterprise		DOUBLE NULL DEFAULT '0' COMMENT 'Monto que la empresa debe pagar a la mutual correspondiente',
 	cFamilyAssignmentEnterprise	DOUBLE NULL DEFAULT '0' COMMENT 'Monto que la empresa debe pagar por concepto de cargas familiares',
-	cCostEnterprise			DOUBLE NULL DEFAULT '0' COMMENT 'Costo para la empresa por trabajador',
-	cPensionary			BIT NOT NULL DEFAULT 0		COMMENT 'Indica si es pensionado',				
+	cCostEnterprise				DOUBLE NULL DEFAULT '0' COMMENT 'Costo para la empresa por trabajador',
+	cPensionary					BIT NOT NULL DEFAULT 0	COMMENT 'Indica si es pensionado',
+	cSimpleAdjustment			DOUBLE NULL DEFAULT '0' COMMENT 'Valor para ajusta el monto de pago',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
@@ -741,26 +742,26 @@ SELECT	a.cId AS cId,
 		c.cUniqueTax,						/* Impuesto único */
 		
 		c.cSubtotalLawfulDiscounts,		
-		c.cAdvance,						/* Anticipo de sueldo, se agrega por período */
-		c.cLoanEnterprise,				/* Prestamo de empresa */
-		c.cLoanCompensationFund,		/* Prestamo de caja de compensación */
-		c.cSavingCompensationFund,		/* Ahorro en caja de compensación */
-		c.cJudicialRetention,			/* Retención judicial */
-		c.cSubtotalOtherDiscounts,		/* Subtotal de otros descuentos */
-		c.cTotalDiscounts,				/* Total descuentos */
-		a.cNetPaymentScope,				/* Alcance líquido */
-		b.cTotalIncome,					/* Total Haberes */
-		a.cToPayEmployee,				/* A Pagar, es el dinero que recibe la persona */
-		a.cInsuranceAmountEnterprise,	/* Monto que tiene que cancelar la empresa por consepto de seguro */
-		a.cMutualFactor,				/* El factor de lo que la empresa le paga a la Mutual */
-		a.cPayToMutulEnterprise,		/* El monto de lo que la empresa le paga a la mutual */
-		a.cFamilyAssignmentEnterprise,	/* Monto que paga la empresa por asignaciones familiares */
+		c.cAdvance,							/* Anticipo de sueldo, se agrega por período */
+		c.cLoanEnterprise,					/* Prestamo de empresa */
+		c.cLoanCompensationFund,			/* Prestamo de caja de compensación */
+		c.cSavingCompensationFund,			/* Ahorro en caja de compensación */
+		c.cJudicialRetention,				/* Retención judicial */
+		c.cSubtotalOtherDiscounts,			/* Subtotal de otros descuentos */
+		c.cTotalDiscounts,					/* Total descuentos */
+		a.cNetPaymentScope,					/* Alcance líquido */
+		b.cTotalIncome,						/* Total Haberes */
+		a.cToPayEmployee,					/* A Pagar, es el dinero que recibe la persona */
+		a.cInsuranceAmountEnterprise,		/* Monto que tiene que cancelar la empresa por consepto de seguro */
+		a.cMutualFactor,					/* El factor de lo que la empresa le paga a la Mutual */
+		a.cPayToMutulEnterprise,			/* El monto de lo que la empresa le paga a la mutual */
+		a.cFamilyAssignmentEnterprise,		/* Monto que paga la empresa por asignaciones familiares */
 		
 		a.cCostEnterprise,
 		b.cSimpleLoads, 
 		b.cDisabilityBurdens, 
-		b.cMaternalLoads 
-		/* cLimitTaxableForecast * */
+		b.cMaternalLoads,
+		a.cSimpleAdjustment					/* Ajuste de sencillo */
 		FROM	remcon.tBook AS a
 		LEFT JOIN remcon.tBookAssets	AS b ON b.cBook = a.cId
 		LEFT JOIN remcon.tBookDiscounts	AS c ON c.cBook = a.cId
