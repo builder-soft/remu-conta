@@ -26,6 +26,7 @@ DROP PROCEDURE IF EXISTS remcon.pPayToMutulEnterprise;
 DROP PROCEDURE IF EXISTS remcon.pFamilyAssignmentEnterprise;
 DROP PROCEDURE IF EXISTS remcon.pCostEnterprise;
 DROP PROCEDURE IF EXISTS remcon.pAdditionalPFM;
+DROP PROCEDURE IF EXISTS remcon.pSimpleAdjustment;
 
 DROP FUNCTION IF exists remcon.fSaveBookForEmployee;
 DROP FUNCTION IF EXISTS remcon.fGetPFMForBook;
@@ -84,18 +85,44 @@ BEGIN
 	CALL remcon.pPayToMutulEnterprise(vBook);
 	CALL remcon.pFamilyAssignmentEnterprise(vBook);
 	CALL remcon.pCostEnterprise(vBook);
+	CALL remcon.pSimpleAdjustment(vBook);
 	
 END$$
 
+CREATE PROCEDURE remcon.pSimpleAdjustment(pBook BIGINT)
+BEGIN
+	DECLARE vNetPaymentScope, vSimpleAdjustment DOUBLE DEFAULT 0;
+	
+	SELECT	ROUND(cNetPaymentScope)
+	INTO	vNetPaymentScope
+	FROM	remcon.vBook
+	WHERE	cId = pBook;
+	
+	IF(vNetPaymentScope % 10 != 0) THEN
+		/*SET vSimpleAdjustment = CAST(CONCAT(FLOOR(vNetPaymentScope*0.1),'0') AS SIGNED);*/
+		SET vSimpleAdjustment = vNetPaymentScope % 10;
+		
+		/*
+		SELECT vSimpleAdjustment, vNetPaymentScope%10, vNetPaymentScope, vNetPaymentScope*0.1, FLOOR(vNetPaymentScope*0.1), 
+			CONCAT(FLOOR(vNetPaymentScope*0.1),'0'), CAST(CONCAT(FLOOR(vNetPaymentScope*0.1),'0') AS SIGNED);
+		*/
+	END IF;
+	
+	UPDATE	remcon.tBook
+	SET		cSimpleAdjustment = vSimpleAdjustment
+	WHERE	cId = pBook;
+	
+END$$
+	
 CREATE PROCEDURE remcon.pCostEnterprise(pBook BIGINT)
 BEGIN
 	DECLARE	vCostEnterprise DOUBLE DEFAULT 0;
 
-	SELECT		cTotalIncome + cInsuranceAmountEnterprise + cPayToMutulEnterprise + 
-				cPayToMutulEnterprise + cFamilyAssignmentEnterprise
-	INTO		vCostEnterprise
-	FROM		remcon.vBook
-	WHERE		cId = pBook;
+	SELECT	cTotalIncome + cInsuranceAmountEnterprise + cPayToMutulEnterprise + 
+			cPayToMutulEnterprise + cFamilyAssignmentEnterprise
+	INTO	vCostEnterprise
+	FROM	remcon.vBook
+	WHERE	cId = pBook;
 
 	UPDATE	remcon.tBook
 	SET		cCostEnterprise	= vCostEnterprise
