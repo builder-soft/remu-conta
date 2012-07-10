@@ -42,7 +42,7 @@ public class AgreementServiceImpl implements AgreementService {
 			agreement.setAccountNumber("");
 						
 			agreement.setHorary(getHorary(conn, bu));
-			agreement.setAdditionalHealthAmount(0D);
+			agreement.setHealthAmount(0D);
 			agreement.setSimpleLoads(0);
 			agreement.setDisabilityBurdens(0);
 			agreement.setMaternalLoads(0);

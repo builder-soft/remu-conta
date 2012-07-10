@@ -56,10 +56,10 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		Integer disabilityBurdens = Integer.valueOf(request.getParameter("disabilityBurdens"));
 		Integer maternalLoad = Integer.valueOf(request.getParameter("maternalLoad"));
 		Long afpEmp = Long.valueOf(request.getParameter("afpEmp"));
-		Long additionalHealthCurrency = Long.valueOf(request.getParameter("additionalHealthCurrency"));
+		Long healthCurrency = Long.valueOf(request.getParameter("HealthCurrency"));
 
 		Long health = Long.valueOf(request.getParameter("health"));
-		Double additionalHealthAmount = Double.valueOf(request.getParameter("additionalHealthAmount"));
+		Double healthAmount = Double.valueOf(request.getParameter("HealthAmount"));
 		Integer simpleLoads = Integer.valueOf(request.getParameter("simpleLoad"));
 		Boolean pensionary = Boolean.parseBoolean(request.getParameter("Pensionary"));
 		Long familyAssignmentStretch= Long.parseLong(request.getParameter("FamilyAssignmentStretch"));
@@ -68,9 +68,9 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		agreement.setDisabilityBurdens(disabilityBurdens);
 		agreement.setMaternalLoads(maternalLoad);
 		agreement.setPfm(afpEmp);
-		agreement.setAdditionalHealthCurrency(additionalHealthCurrency);
+		agreement.setHealthCurrency(healthCurrency);
 		agreement.setHealth(health);
-		agreement.setAdditionalHealthAmount(additionalHealthAmount);
+		agreement.setHealthAmount(healthAmount);
 		agreement.setSimpleLoads(simpleLoads);
 		agreement.setPensionary(pensionary);
 		agreement.setFamilyAssignmentStretch(familyAssignmentStretch);

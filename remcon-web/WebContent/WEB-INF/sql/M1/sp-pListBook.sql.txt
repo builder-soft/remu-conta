@@ -1,0 +1,19 @@
+DROP PROCEDURE if exists pListBook;
+DELIMITER $$
+
+CREATE PROCEDURE pListBook()
+BEGIN
+/*	DECLARE vBook BIGINT DEFAULT 0;*/
+	 
+	PREPARE stmt1 FROM 'SELECT * FROM vBook WHERE cId=?';
+	
+	SET @vBook = 1;
+	
+	/*PREPARE stmt1 FROM @s;*/
+	EXECUTE stmt1 USING @vBook;
+
+	DEALLOCATE PREPARE stmt1;
+END$$
+
+
+DELIMITER ;

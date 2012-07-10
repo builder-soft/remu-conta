@@ -29,14 +29,14 @@ public class Agreement extends BSBean {
 	private Double feeding = null;
 	private Long exBoxSystem = null;
 	private Double exBoxSystemPRC = null;
-	private Double additionalHealthAmount = null;
-	private Long additionalHealthCurrency = null;
+	private Double healthAmount = null;
+	private Long healthCurrency = null;
 	private Integer simpleLoads = null;
 	private Integer disabilityBurdens = null;
 	private Integer maternalLoads = null;
 
-	private Boolean pensionary = null;
 	private Long familyAssignmentStretch = null;
+	private Boolean pensionary = null;
 
 	public Long getEmployee() {
 		return employee;
@@ -182,33 +182,6 @@ public class Agreement extends BSBean {
 		this.maternalLoads = maternalLoads;
 	}
 
-	@Override
-	public String toString() {
-		return "Agreement [employee=" + employee + ", contractType=" + contractType + ", startContract=" + startContract
-				+ ", endContract=" + endContract + ", profile=" + profile + ", salaryRoot=" + salaryRoot + ", pfm=" + pfm
-				+ ", health=" + health + ", gratificationType=" + gratificationType + ", paymentType=" + paymentType
-				+ ", horary=" + horary + ", mobilization=" + mobilization + ", feeding=" + feeding + ", exBoxSystem="
-				+ exBoxSystem + ", exBoxSystemPRC=" + exBoxSystemPRC + ", additionalHealthAmount=" + additionalHealthAmount
-				+ ", additionalHealthCurrency=" + additionalHealthCurrency + ", simpleLoads=" + simpleLoads
-				+ ", disabilityBurdens=" + disabilityBurdens + ", maternalLoads=" + maternalLoads + "]";
-	}
-
-	public Double getAdditionalHealthAmount() {
-		return additionalHealthAmount;
-	}
-
-	public void setAdditionalHealthAmount(Double additionalHealthAmount) {
-		this.additionalHealthAmount = additionalHealthAmount;
-	}
-
-	public Long getAdditionalHealthCurrency() {
-		return additionalHealthCurrency;
-	}
-
-	public void setAdditionalHealthCurrency(Long additionalHealthCurrency) {
-		this.additionalHealthCurrency = additionalHealthCurrency;
-	}
-
 	public Long getBank() {
 		return bank;
 	}
@@ -263,6 +236,35 @@ public class Agreement extends BSBean {
 
 	public void setFamilyAssignmentStretch(Long familyAssignmentStretch) {
 		this.familyAssignmentStretch = familyAssignmentStretch;
+	}
+
+	public Double getHealthAmount() {
+		return healthAmount;
+	}
+
+	public void setHealthAmount(Double healthAmount) {
+		this.healthAmount = healthAmount;
+	}
+
+	public Long getHealthCurrency() {
+		return healthCurrency;
+	}
+
+	public void setHealthCurrency(Long healthCurrency) {
+		this.healthCurrency = healthCurrency;
+	}
+
+	@Override
+	public String toString() {
+		return "Agreement [employee=" + employee + ", contractType=" + contractType + ", startContract=" + startContract
+				+ ", endContract=" + endContract + ", profile=" + profile + ", salaryRoot=" + salaryRoot + ", pfm=" + pfm
+				+ ", health=" + health + ", gratificationType=" + gratificationType + ", paymentType=" + paymentType + ", bank="
+				+ bank + ", accountType=" + accountType + ", accountNumber=" + accountNumber + ", currencyAccount2="
+				+ currencyAccount2 + ", amountAccount2=" + amountAccount2 + ", horary=" + horary + ", mobilization="
+				+ mobilization + ", feeding=" + feeding + ", exBoxSystem=" + exBoxSystem + ", exBoxSystemPRC=" + exBoxSystemPRC
+				+ ", healthAmount=" + healthAmount + ", healthCurrency=" + healthCurrency + ", simpleLoads=" + simpleLoads
+				+ ", disabilityBurdens=" + disabilityBurdens + ", maternalLoads=" + maternalLoads + ", familyAssignmentStretch="
+				+ familyAssignmentStretch + ", pensionary=" + pensionary + "]";
 	}
 
 }

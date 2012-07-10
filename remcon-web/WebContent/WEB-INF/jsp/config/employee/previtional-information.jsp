@@ -134,7 +134,7 @@ function changeExBox(o){
 										<%
 											for (Currency bsCurrency : listadoCurrency) {
 										%>
-											<OPTION value="<%=bsCurrency.getId()%>"><%=bsCurrency.getKey()%></OPTION>
+											<OPTION value="<%=bsCurrency.getId()%>"><%=bsCurrency.getName()%></OPTION>
 										<%
 											}
 										%>
@@ -214,12 +214,12 @@ function changeExBox(o){
 			<tr>
 				<td class="cLabel" valign='top'>Moneda :</td>
 				<td class="cData">
-					<select id="additionalHealthCurrency" name="additionalHealthCurrency">
+					<select name="HealthCurrency">
 							<%
 								for (Currency bsCurrency : listadoCurrency) {
 							%>
-								<OPTION value="<%=bsCurrency.getId()%>"<%=agreementEmp.getAdditionalHealthCurrency() != null
-			&& bsCurrency.getId().equals(agreementEmp.getAdditionalHealthCurrency()) ? "selected" : ""%>><%=bsCurrency.getKey()%></OPTION>
+								<OPTION value="<%=bsCurrency.getId()%>"<%=agreementEmp.getHealthCurrency() != null
+			&& bsCurrency.getId().equals(agreementEmp.getHealthCurrency()) ? "selected" : ""%>><%=bsCurrency.getName()%></OPTION>
 							<%
 								}
 							%>
@@ -228,7 +228,7 @@ function changeExBox(o){
 				
 				<td class="cLabel" valign='top'>Monto :</td>
 				<td class="cData">
-				<input id="additionalHealthAmount" name="additionalHealthAmount" value="<%=agreementEmp.getAdditionalHealthAmount()%>">
+				<input name="HealthAmount" value="<%=agreementEmp.getHealthAmount()%>">
 				</td>			
 			</tr>
 			<tr>

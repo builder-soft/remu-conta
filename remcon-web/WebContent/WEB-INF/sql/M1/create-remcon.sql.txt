@@ -92,7 +92,7 @@ CREATE TABLE tBank (
 CREATE TABLE tCurrency (
 	cId BIGINT UNIQUE AUTO_INCREMENT,
 	cKey	VARCHAR(3) NOT NULL, 
-	cName	VARCHAR(20) NOT NULL,
+	cName	VARCHAR(25) NOT NULL,
 	PRIMARY KEY(cId)
 ) ENGINE=InnoDB;
 
@@ -194,7 +194,7 @@ create table tAgreement(
 	
 	cBank				BIGINT(20) NULL 			COMMENT 'Banco para efectos de pago de sueldo',
 	cAccountType		BIGINT(20) NULL 			COMMENT 'Tipo de cuenta a la cual se hará el deposito',
-	cAccountNumber		NVARCHAR(20) NULL			COMMENT 'Número de la cuenta a la cual se le hará el deposito',
+	cAccountNumber		NVARCHAR(20) NOT NULL DEFAULT ''	COMMENT 'Número de la cuenta a la cual se le hará el deposito',
 	
 	cCurrencyAccount2	BIGINT(20) NULL 			COMMENT 'Moneda de la cuenta 2',
 	cAmountAccount2		DOUBLE NULL DEFAULT '0'		COMMENT 'Monto de la cuenta 2',
@@ -260,16 +260,16 @@ create table tCompensationFund(
 ) ENGINE=InnoDB;
 
 CREATE  TABLE IF NOT EXISTS tEnterpriseConfig (
-   cId INT NOT NULL AUTO_INCREMENT ,
-   cEnterprise BIGINT(20) NOT NULL DEFAULT 1 COMMENT 'Referencia a la tabla tEnterprise' ,
-   cShowDateUfUtm BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Fecha, UF y UTM' ,
-   cShowProfile BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Cargo' ,
-   cShowCostCenter BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Centro de Costos' ,
-   cShowDataAgreement BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Datos del Contrato' ,
-   cShowSalaryRoot BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Renta Base' ,
-   cShowEmployerBonus BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Aportes del Empleador' ,
-   cShowWorkDay BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Días Trabajados' ,
-   cShowNetPaymentScope BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Alcance Líquido' ,  
+   cId 					BIGINT(20) NOT NULL AUTO_INCREMENT,
+   cEnterprise			BIGINT(20) NOT NULL DEFAULT 1 COMMENT 'Referencia a la tabla tEnterprise' ,
+   cShowDateUfUtm		BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Fecha, UF y UTM' ,
+   cShowProfile			BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Cargo' ,
+   cShowCostCenter		BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Centro de Costos' ,
+   cShowDataAgreement	BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Datos del Contrato' ,
+   cShowSalaryRoot		BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Renta Base' ,
+   cShowEmployerBonus	BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Aportes del Empleador' ,
+   cShowWorkDay			BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Días Trabajados' ,
+   cShowNetPaymentScope	BIT NOT NULL DEFAULT 1 COMMENT 'Mostrar Alcance Líquido' ,  
    PRIMARY KEY (cId)
 )ENGINE = InnoDB;
 

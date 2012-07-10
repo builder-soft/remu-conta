@@ -4,7 +4,8 @@ DELIMITER $$
 CREATE PROCEDURE pListDocument(IN pEmployee BIGINT)
 BEGIN
 	SELECT		* 
-	FROM 		tFile WHERE cEmployee = pEmployee;
+	FROM 		tFile 
+	WHERE cEmployee = pEmployee;
 END$$
 
 DELIMITER ;
