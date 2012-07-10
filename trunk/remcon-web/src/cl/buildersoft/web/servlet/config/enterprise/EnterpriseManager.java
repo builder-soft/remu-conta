@@ -35,7 +35,7 @@ public class EnterpriseManager extends BSHttpServlet {
 		
 		BSAction enterpriseConfig = new BSAction("Configuration",BSActionType.Record);
 		enterpriseConfig.setLabel("Configuracion de empresa");
-		enterpriseConfig.setUrl("/servlet/table/EnterpriseConfig");
+		enterpriseConfig.setUrl("/servlet/config/enterprise/EnterpriseConfig");
 		table.addAction(enterpriseConfig);
 		return table;
 	}

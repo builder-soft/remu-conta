@@ -13,7 +13,8 @@ call remcon.pCalculateSalary(2,@periodo);
 select * from remcon.vBook;
 call remcon.pGetEnterpriseConfig(1);
 
+call pCalculateAllSalary;
+
 */
 
-call pCalculateAllSalary;
 

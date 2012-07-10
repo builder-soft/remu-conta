@@ -90,11 +90,11 @@ INSERT INTO tMaritalStatus(cKey, cName) VALUES('SINGLE', 'Soltero');
 SET @single = LAST_INSERT_ID();
 
 /* Tipos de Monedas */
-INSERT INTO tCurrency(cKey, cName) VALUES('UF', 'Unidad de Fomento');
+INSERT INTO tCurrency(cKey, cName) VALUES('UF', 'UF (Unidad de Fomento)');
 SET @uf = LAST_INSERT_ID();
-INSERT INTO tCurrency(cKey, cName) VALUES('CLP', 'Pesos Chilenos');
+INSERT INTO tCurrency(cKey, cName) VALUES('CLP', '$ (Pesos Chilenos)');
 SET @clp = LAST_INSERT_ID();
-INSERT INTO tCurrency(cKey, cName) VALUES('PRC', 'Porcentaje');
+INSERT INTO tCurrency(cKey, cName) VALUES('PRC', '% (Porcentaje)');
 SET @prc = LAST_INSERT_ID();
 
 /* PFM */
