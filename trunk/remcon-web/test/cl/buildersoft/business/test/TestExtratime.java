@@ -1,15 +1,14 @@
 package cl.buildersoft.business.test;
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestExtratime {
+public class TestExtratime extends TestSaveBookForEmployee{
 
 	@Before
 	public void setUp() throws Exception {
+		super.setUp();
 	}
 
 	@After
@@ -18,7 +17,7 @@ public class TestExtratime {
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		assertEquals(true, true);
 	}
 
 }

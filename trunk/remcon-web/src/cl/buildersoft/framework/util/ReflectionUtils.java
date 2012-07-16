@@ -49,8 +49,7 @@ public class ReflectionUtils
 
 	}
 
-	public static Object execute(String nameMethod, Object subject,
-			Object[] objects, Class[] classes) throws Exception,
+	public static Object execute(String nameMethod, Object subject, Object[] objects, Class[] classes) throws Exception,
 			IllegalAccessException
 
 	{
@@ -65,8 +64,7 @@ public class ReflectionUtils
 
 	}
 
-	public static Object execute(String nameMethod, Object subject,
-			Object[] parameters) throws Exception, IllegalAccessException
+	public static Object execute(String nameMethod, Object subject, Object[] parameters) throws Exception, IllegalAccessException
 
 	{
 
@@ -166,8 +164,7 @@ public class ReflectionUtils
 
 		Method method = null;
 
-		attrib = "get" + attrib.subSequence(0, 1).toString().toUpperCase()
-				+ attrib.subSequence(1, attrib.length()).toString();
+		attrib = "get" + attrib.subSequence(0, 1).toString().toUpperCase() + attrib.subSequence(1, attrib.length()).toString();
 
 		for (int i = 0; i < methods.length; i++)
 

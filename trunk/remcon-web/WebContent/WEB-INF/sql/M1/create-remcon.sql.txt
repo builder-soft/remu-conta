@@ -140,20 +140,39 @@ CREATE TABLE tAccountType (
 
 CREATE TABLE tCountry (
  	cId			BIGINT UNIQUE AUTO_INCREMENT,
- 	cCode		CHAR(3) NOT NULL DEFAULT '' UNIQUE,
+ 	cKey		CHAR(3) NOT NULL DEFAULT '' UNIQUE,
  	cName		VARCHAR(60) NOT NULL DEFAULT '',
 	PRIMARY KEY(cId)
 ) ENGINE=InnoDB;
 
-CREATE TABLE tBond (
+CREATE TABLE tAssetDiscount (
  	cId			BIGINT UNIQUE AUTO_INCREMENT,
- 	cName		VARCHAR(50) NOT NULL DEFAULT '',
- 	cEnable		BIT	NOT NULL DEFAULT 0 COMMENT 'Flag para indicar si esta habilitado o no',
- 	cLimit		DOUBLE NULL COMMENT 'Limite del bono',
+ 	cName		VARCHAR(50)	NOT NULL DEFAULT '',
+ 	cEnable		BIT			NOT NULL DEFAULT 0 COMMENT 'Flag para indicar si esta habilitado o no',
+ 	cLimit		DOUBLE		NULL COMMENT 'Limite del bono',
+ 	cOrder		INTEGER		NOT NULL COMMENT 'Orden en el cual se muestran en pantalla o en reporte',
+ 	cAssetDiscountType	BIGINT NOT NULL COMMENT 'Tipo de haber o descuento',
 	PRIMARY KEY(cId)
 ) ENGINE=InnoDB;
 
- /* Crea tabla Empleados */
+CREATE TABLE tAssetDiscountType (
+ 	cId			BIGINT UNIQUE AUTO_INCREMENT,
+ 	cKey		CHAR(3) NOT NULL DEFAULT '' UNIQUE COMMENT 'IMP=Haberes Imponibles, NIM=Haberes no imponibles, DES=Otros Descuentos',
+ 	cName		VARCHAR(25) NOT NULL DEFAULT '',
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
+
+CREATE TABLE tAssetDiscountValue (
+ 	cId				BIGINT UNIQUE AUTO_INCREMENT,
+ 	cAssetDiscount	BIGINT NOT NULL COMMENT 'Id que apunta a la tabla tAssertDiscount',
+ 	cBook			BIGINT NOT NULL COMMENT 'Flag para indicar si esta habilitado o no',
+ 	cValue			DOUBLE NOT NULL COMMENT 'Valor del haber o descuento',
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
+
+
+
+/* Crea tabla Empleados */
 create table tEmployee (
 	cId					BIGINT(20)  NOT NULL auto_increment, 
 	cRut				VARCHAR(11) NOT NULL unique,
@@ -235,7 +254,6 @@ create table tFamilyAssignmentStretchHistory(
 	cAmount				DOUBLE COMMENT 'Monto a considerar por cada una de las cargas',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
-
 
 create table tEnterprise (
 	cId					BIGINT(20)  NOT NULL auto_increment, 

@@ -231,4 +231,13 @@ public class BSmySQL extends BSDataUtils {
 
 		return out;
 	}
+
+	public void closeConnection(Connection conn) {
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			throw new BSDataBaseException(e);
+		}
+
+	}
 }
