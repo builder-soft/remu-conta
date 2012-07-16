@@ -165,14 +165,14 @@ ADD CONSTRAINT BookAssetsToGratificationType FOREIGN KEY (cGratificationType) RE
 /* tBookDiscounts */
 ALTER TABLE tBookDiscounts
 ADD INDEX tBookDiscounts_index_Book (cBook ASC),
-ADD CONSTRAINT tBookDiscountsToBook FOREIGN KEY (cBook) REFERENCES tBook(cId),
 ADD INDEX BookDiscounts_index_PFM (cPFMHistory ASC),
-ADD CONSTRAINT tBookDiscountsToPFMHistory FOREIGN KEY (cPFMHistory) REFERENCES tPFMHistory(cId),
 ADD INDEX BookDiscounts_index_HealthHistory (cHealthHistory ASC),
-ADD CONSTRAINT tBookDiscountsToHealthHistory FOREIGN KEY (cHealthHistory) REFERENCES tHealthHistory(cId),
 ADD INDEX BookDiscounts_index_cHealthCurrency (cHealthCurrency ASC),
-ADD CONSTRAINT BookDiscountsToCurrency FOREIGN KEY (cHealthCurrency) REFERENCES tCurrency(cId),
 ADD INDEX BookDiscounts_index_cAdditionalPFMCurrency (cAdditionalPFMCurrency ASC),
+ADD CONSTRAINT tBookDiscountsToBook FOREIGN KEY (cBook) REFERENCES tBook(cId),
+ADD CONSTRAINT tBookDiscountsToPFMHistory FOREIGN KEY (cPFMHistory) REFERENCES tPFMHistory(cId),
+ADD CONSTRAINT tBookDiscountsToHealthHistory FOREIGN KEY (cHealthHistory) REFERENCES tHealthHistory(cId),
+ADD CONSTRAINT BookDiscountsToCurrency FOREIGN KEY (cHealthCurrency) REFERENCES tCurrency(cId),
 ADD CONSTRAINT BookDiscountsToCurrency2 FOREIGN KEY (cAdditionalPFMCurrency) REFERENCES tCurrency(cId);
 
 /* tOvertime */
@@ -186,6 +186,19 @@ ADD CONSTRAINT OvertimeToPeriod FOREIGN KEY (cPeriod) REFERENCES tPeriod(cId);
 ALTER TABLE tEnterpriseConfig
 ADD INDEX fk_tEnterpriseConfig_tenterprise (cEnterprise ASC),
 ADD CONSTRAINT tEnterpriseConfigToEnterprise FOREIGN KEY (cEnterprise) REFERENCES tEnterprise(cId);
+
+/*tAssetDiscount*/
+ALTER TABLE tAssetDiscount
+ADD INDEX AssetDiscount_index_AssetDiscountType (cAssetDiscountType ASC),
+ADD CONSTRAINT tAssetDiscountToAssetDiscountType FOREIGN KEY (cAssetDiscountType) REFERENCES tAssetDiscountType(cId);
+
+/*tAssetDiscountValue*/
+ALTER TABLE tAssetDiscountValue
+ADD INDEX AssetDiscountValue_index_AssetDiscount (cAssetDiscount ASC),
+ADD INDEX AssetDiscountValue_index_Book (cBook ASC),
+ADD CONSTRAINT tAssetDiscountValueToAssetDiscount FOREIGN KEY (cAssetDiscount) REFERENCES tAssetDiscount(cId),
+ADD CONSTRAINT tAssetDiscountValueToBook FOREIGN KEY (cBook) REFERENCES tBook(cId);
+
 
 /* TRIGERS */
 DROP TRIGGER IF EXISTS create_record;

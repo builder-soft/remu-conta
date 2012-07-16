@@ -3,16 +3,54 @@ DELIMITER $$
 
 CREATE PROCEDURE pListBook()
 BEGIN
-/*	DECLARE vBook BIGINT DEFAULT 0;*/
-	 
-	PREPARE stmt1 FROM 'SELECT * FROM vBook WHERE cId=?';
+	DECLARE vIndex INTEGER;
+	DECLARE vId BIGINT;
+	DECLARE vDone BOOLEAN DEFAULT FALSE;
+	DECLARE cursorAssetDiscount CURSOR FOR
+		SELECT	cId
+		FROM	tAssetDiscount	
+		WHERE	cEnable=true;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET vDone = TRUE;
 	
-	SET @vBook = 1;
-	
-	/*PREPARE stmt1 FROM @s;*/
-	EXECUTE stmt1 USING @vBook;
+	SET @BookSQL = CONCAT(	'CREATE TEMPORARY TABLE temp (',
+							'cId BIGINT(20) NOT NULL auto_increment, ',
+							'cBook BIGINT(20) NOT NULL, ');
+							
+	OPEN cursorAssetDiscount;
+	assetDiscount_loop : LOOP
+		FETCH cursorAssetDiscount INTO vId;
+		IF(vDone) THEN 
+			LEAVE assetDiscount_loop;
+		END IF;
 
+		
+		SET @BookSQL = CONCAT(@BookSQL, 'c', vId, ' DOUBLE NOT NULL DEFAULT ', "'0', ");
+		
+	END LOOP assetDiscount_loop;
+	CLOSE cursorAssetDiscount;
+	
+	SET @BookSQL = CONCAT(@BookSQL,
+						'PRIMARY KEY (cId)',
+						') ENGINE=InnoDB');
+	
+/* 
+	SET @BookSQL = 'SELECT a.cId AS cId, a.cPeriod, d.cDate, f.cStartContract, f.cEndContract, a.cEmployee, ';
+	SET @BookSQL = CONCAT(@BookSQL, 'f.cId AS cAgreement, e.cLastName1, d.cUF, d.cUTM, a.cWorkDays, a.cPensionary, ');
+	SET @BookSQL = CONCAT(@BookSQL, 'd.cDaysForYear, a.cContractType, d.cMinSalary, a.cSalaryRoot, a.cSalaryReceived, b.cGratificationType, d.cLimitGratification, b.cGratificationAmount, d.cGratificationFactor, a.cOvertime, b.cOvertimeAmount, b.cParticipation, b.cB01, b.cB02, b.cB03, b.cB04, b.cB05, b.cB06, b.cB07, b.cB08, b.cB09, b.cB10, b.cExtraPay, b.cTotalIncomeTaxable, c.cLimitTaxableForecast, c.cLimitTaxableDismissInsurance, d.cLimitInsurance, d.cLimitIPS, b.cIncome,  b.cFamilyAssignmentStretch, b.cFamilyAssignmentCount, b.cFamilyAssignmentAmount, b.cFamilyRetroactive,  b.cFeeding, b.cMobilization, b.cBounty,  a.cHorary, b.cRewardAmount,  b.cMonthNotification, b.cIAS,  b.cProportionalHoliday, b.cTotalIncomeNotTaxable, b.cVoluntaryIndenmization, c.cId AS cDiscountsId, c.cPFMHistory, c.cExBoxSystem, c.cObligatoryQuote, c.cAPVAmount, c.cAccount2,  c.cHealthHistory, c.cHealthCurrency, c.cHealthAmount, c.cHealthCLP, c.cAdditionalHealth, c.cHealthLegalQuote,  c.cAdditionalPFMCurrency, c.cAdditionalPFMAmount, c.cAdditionalPFMCLP,  d.cLimitHealth,  c.cHealthQuote,  a.cInsuranceFactorEmployee, a.cInsuranceFactorEnterprise, c.cUnemploymentInsuranceAmount,  c.cUniqueTax,  c.cSubtotalLawfulDiscounts, c.cAdvance, c.cLoanEnterprise, c.cLoanCompensationFund, c.cSavingCompensationFund, c.cJudicialRetention, c.cSubtotalOtherDiscounts, c.cTotalDiscounts, a.cNetPaymentScope, b.cTotalIncome, a.cToPayEmployee, a.cInsuranceAmountEnterprise, a.cMutualFactor, a.cPayToMutulEnterprise, a.cFamilyAssignmentEnterprise,  a.cCostEnterprise, b.cSimpleLoads,  b.cDisabilityBurdens,  b.cMaternalLoads, a.cSimpleAdjustment FROM tBook AS a LEFT JOIN tBookAssets AS b ON b.cBook = a.cId LEFT JOIN tBookDiscounts AS c ON c.cBook = a.cId LEFT JOIN tPeriod AS d ON a.cPeriod = d.cId LEFT JOIN tEmployee AS e ON a.cEmployee = e.cId LEFT JOIN tAgreement AS f ON e.cId = f.cEmployee ORDER BY a.cId;');
+*/
+
+	select @BookSQL ;
+							
+	PREPARE stmt1 FROM @BookSQL;
+	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
+	
+	insert into temp (cBook) values(1);
+	
+	select * from temp;
+/*
+	
+*/
 END$$
 
 

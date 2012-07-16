@@ -7,10 +7,6 @@ CREATE PROCEDURE pCalculateAllSalary()
 BEGIN
 	DECLARE vId, vPeriod BIGINT DEFAULT 0;
 	DECLARE vDone BOOLEAN DEFAULT FALSE;
-/*
-	DECLARE vAmount, vUF, vSum DOUBLE DEFAULT 0;
-	DECLARE vKey VARCHAR(3) DEFAULT '   ';
-*/
 	DECLARE cursorEmployee CURSOR FOR
 		SELECT	cId
 		FROM	tEmployee;
@@ -26,9 +22,6 @@ BEGIN
 			LEAVE cursorEmployee_loop;
 		END IF;
 
-/*
-select concat('Procesando: Employee:', vId, ' - Period:', vPeriod);
-*/
 	    CALL pCalculateSalary(vId, vPeriod);
 		
 	END LOOP cursorEmployee_loop;

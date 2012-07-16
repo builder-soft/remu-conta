@@ -6,10 +6,6 @@ Crea o actualiza la tabla tPeriod si no existe el registro.
 */
 CREATE PROCEDURE pSavePeriod(IN pDate DATE, OUT pPeriod BIGINT)
 BEGIN
-/** 
-TODO: Hay que sacar el valor de la UF y Factor desde una tabla histórica 
-por si hay que recalcular para atras...
-*/
 	DECLARE vCurrentUF, vOvertimeFactor, vGratificationFactor, vMinSalary,
 			vLimitIPS, vLimitInsurance, vLimitHealth, vUTM DOUBLE DEFAULT 0;
 	DECLARE vDaysForYear INTEGER DEFAULT 0;
@@ -30,10 +26,6 @@ por si hay que recalcular para atras...
 	FROM	tPeriod
 	WHERE	cDate = pDate;
 
-	/*
-	select vId, vPeriodStatus;
-	*/
-	
 	IF (vId > -1) THEN
 		IF (vPeriodStatus = 2) THEN
 			UPDATE	tPeriod
@@ -49,12 +41,7 @@ por si hay que recalcular para atras...
 					cDaysForYear = vDaysForYear 
 			WHERE	cDate = pDate;
 		END IF;
-		/*
-		SELECT	cId
-		INTO	pPeriod 
-		FROM	tPeriod 
-		WHERE	cDate = pDate;
-		*/
+
 		SET pPeriod = vId; 
 	ELSE
 		INSERT INTO tPeriod(cDate, cUF, cOvertimeFactor, cGratificationFactor, cMinSalary,

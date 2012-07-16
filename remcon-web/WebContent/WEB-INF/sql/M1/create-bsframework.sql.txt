@@ -1,4 +1,7 @@
 /**
+ * Tablas temporales
+ * http://fbddocs.dlsi.ua.es/practicas-sql-espanol/vistas-y-tablas-temporales
+ * 
 * http://www.mysqltutorial.org/mysql-stored-procedure-tutorial.aspx
 *
 * Lanzar error desde MySQL
