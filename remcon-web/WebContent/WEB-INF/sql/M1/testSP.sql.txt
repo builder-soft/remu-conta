@@ -1,5 +1,6 @@
-delete from tOvertime;
 /*
+delete from tOvertime;
+
 insert into remcon.tOvertime(cEmployee, cPeriod, cDate, cAmount) VALUES(1, 2, '2012-06-15', 4);
 
 update  remcon.tBookAssets set cB01 = 1500000;
@@ -13,14 +14,12 @@ call remcon.pCalculateSalary(2,@periodo);
  
 select * from remcon.vBook;
 call remcon.pGetEnterpriseConfig(1);
-
+*/
 
 call pCalculateAllSalary;
-
+/*
 
 INSERT INTO tAssetDiscountValue(cAssetDiscount, cBook, cValue) VALUES(1, 1, 10000);
-
-
 call pListBook;
 
 select * from temp;

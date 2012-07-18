@@ -16,13 +16,14 @@ import cl.buildersoft.business.beans.Employee;
 import cl.buildersoft.business.service.EmployeeService;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.framework.util.BSBeanUtilsSP;
+import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.framework.util.BSConfig;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
-	public Employee getEmployee(Connection conn, BSBeanUtilsSP bu, Long id) {
+	public Employee getEmployee(Connection conn, Long id) {
 		Employee out = new Employee();
+		BSBeanUtils bu = new BSBeanUtils();
 		out.setId(id);
 		bu.search(conn, out);
 		return out;
@@ -42,7 +43,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void deleteDocumentById(Document document, HttpServletRequest request) {
-		// TODO Auto-generated method stub
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 		ResultSet rs = mysql.callSingleSP(conn, "pListDocument", document.getEmployee());
@@ -84,8 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			fos.close();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new BSProgrammerException(e);
 		}
 	}
 

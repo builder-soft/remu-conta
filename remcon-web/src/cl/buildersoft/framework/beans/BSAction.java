@@ -65,16 +65,14 @@ public class BSAction {
 
 	@Override
 	public String toString() {
-		return "BSAction [code=" + code + ", label=" + label + ", actionType="
-				+ actionType + ", url=" + url + "]";
+		return "BSAction [code=" + code + ", label=" + label + ", actionType=" + actionType + ", url=" + url + "]";
 	}
 
 	public String[] getNatTable() {
 		return natTable;
 	}
 
-	public void setNatTable(String directDatabase, String directTable,
-			String otherDatabase, String otherTable) {
+	public void setNatTable(String directDatabase, String directTable, String otherDatabase, String otherTable) {
 		this.natTable = new String[4];
 		this.natTable[0] = directDatabase;
 		this.natTable[1] = directTable;

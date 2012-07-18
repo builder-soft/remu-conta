@@ -648,7 +648,12 @@ Ojo tiene tope en UF ese tope lo da el previred y puede cambiar en el año el 3%
 /*	
 	cAnticipoViatico
 */				
-	cLoanEnterprise					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Prestamo de la Empresa', 
+	cLoanEnterprise					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Prestamo de la Empresa',
+	cD01							DOUBLE NOT NULL DEFAULT '0' COMMENT 'Otro Descuento',
+	cD02							DOUBLE NOT NULL DEFAULT '0' COMMENT 'Otro Descuento',
+	cD03							DOUBLE NOT NULL DEFAULT '0' COMMENT 'Otro Descuento',
+	cD04							DOUBLE NOT NULL DEFAULT '0' COMMENT 'Otro Descuento',
+	cD05							DOUBLE NOT NULL DEFAULT '0' COMMENT 'Otro Descuento',
 	cLoanCompensationFund			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Prestamo Caja Compenzacion', 
 	cSavingCompensationFund			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Ahorro Caja Compenzacion', 
 	cJudicialRetention				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Retenciones Judiciales',
@@ -715,7 +720,6 @@ SELECT	a.cId AS cId,
 		b.cBounty,
 		
 		a.cHorary,
-/*		b.cId AS cAssetsId, */
 		b.cRewardAmount,
 		
 		b.cMonthNotification,
@@ -732,9 +736,6 @@ SELECT	a.cId AS cId,
 		c.cAccount2,
 		
 		c.cHealthHistory,					/* Código de sistema de salud contratado */
-		/*
-		c.cLawfulQuote,
-		*/
 		c.cHealthCurrency,					/* Moneda del complementario de salud */
 		c.cHealthAmount,					/* Monto del complementario de salud */
 		c.cHealthCLP,						/* Monto de salud siempre en pesos */
@@ -745,11 +746,9 @@ SELECT	a.cId AS cId,
 		c.cAdditionalPFMAmount,				/* Monto Ahorro de AFP */
 		c.cAdditionalPFMCLP,				/* Monto Ahorro de AFP en pesos*/
 		
-		/*c.cPlanHealth,					 Monto por salud, con tope máximo aplicado */
 		d.cLimitHealth,						/* Límite de salud, expresado en UF, proviene de la tabla tPeriod */
 		
 		c.cHealthQuote,						/* Cotizacion de salud, corresponde al valor filan que paga por salud */
-/*		c.cLimitExtraHealth,*/
 		
 		a.cInsuranceFactorEmployee,			/* Factor para cálculo de seguro de cesantía de empleado*/
 		a.cInsuranceFactorEnterprise,		/* Factor para cálculo de seguro de cesantía de empresa*/		
@@ -760,6 +759,11 @@ SELECT	a.cId AS cId,
 		c.cSubtotalLawfulDiscounts,		
 		c.cAdvance,							/* Anticipo de sueldo, se agrega por período */
 		c.cLoanEnterprise,					/* Prestamo de empresa */
+		c.cD01,
+		c.cD02,
+		c.cD03,
+		c.cD04,
+		c.cD05,
 		c.cLoanCompensationFund,			/* Prestamo de caja de compensación */
 		c.cSavingCompensationFund,			/* Ahorro en caja de compensación */
 		c.cJudicialRetention,				/* Retención judicial */
@@ -779,9 +783,9 @@ SELECT	a.cId AS cId,
 		b.cMaternalLoads,
 		a.cSimpleAdjustment					/* Ajuste de sencillo */
 		FROM	tBook AS a
-		LEFT JOIN tBookAssets	AS b ON b.cBook = a.cId
+		LEFT JOIN tBookAssets		AS b ON b.cBook = a.cId
 		LEFT JOIN tBookDiscounts	AS c ON c.cBook = a.cId
-		LEFT JOIN tPeriod		AS d ON a.cPeriod = d.cId
-		LEFT JOIN tEmployee		AS e ON a.cEmployee = e.cId
+		LEFT JOIN tPeriod			AS d ON a.cPeriod = d.cId
+		LEFT JOIN tEmployee			AS e ON a.cEmployee = e.cId
 		LEFT JOIN tAgreement		AS f ON e.cId = f.cEmployee
 		ORDER BY a.cId;

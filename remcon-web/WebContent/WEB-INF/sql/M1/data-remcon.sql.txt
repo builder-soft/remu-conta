@@ -24,7 +24,7 @@ INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_INTEGER',
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_DECIMAL', 'Formato para montos', '###,###.##', @stringId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CSV_SEPARATOR', 'Separador de archivos csv', ';', @stringId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('RECORDS_PER_PAGE', 'Registros por p&aacute;gina', '15', @integerId);
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('EMPLOYEE_FILES', 'Ubicación de archivos de empleados (en server)', 'd:\\temp', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('EMPLOYEE_FILES', 'Ubicación de archivos de empleados (en server)', 'D:\\temp\\remcon', @stringId);
 
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('BASE_SALARY', 'Sueldo Base', '185000', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('OVERTIME_FACTOR', 'Factor para cálculo de horas extras', '0.0077777', @doubleId);
@@ -965,21 +965,16 @@ INSERT INTO tUnemploymentInsurance(cName) VALUES ('Sin seguro');
 */
 /** DATOS DE PRUEBA */
 
-/* Tabla de impuestos únicos 
-INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('1', 13.5,	0.00,	0);
-INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('2', 0030,	0.05,	0.675);
-INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('3', 0050,	0.10,	2.175);
-INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('4', 0070,	0.15,	4.675);
-INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('5', 0090,	0.25,	11.675);
-INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('6', 0120,	0.32,	17.975);
-INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('7', 0150,	0.37,	23.975);
-INSERT INTO tUniqueTax(cKey, cLimit, cFactor, cDiscount) VALUES('8', 9999,	0.40,	28.475);
-*/
-
+select fInsertPeriod('2012-05-01')
+INTO @Period1;
+select fInsertPeriod('2012-06-01')
+INTO @Period2;
+call pOpenPeriod(@Period1);
 /*
 call pSavePeriod('2012-05-01', @Period1);
 call pSavePeriod('2012-06-01', @Period2);
-call pOpenPeriod(@Period1);
+
+*/
 
 INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('-', 0);
 INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('A', 5393);
@@ -1049,12 +1044,12 @@ INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract
 VALUES(					@employeeId,	1,				'2009-12-01',	'2013-01-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000,			@uf,				10,				2,							1,						3);
 
 INSERT INTO tFileCategory( cName ) VALUES('Archivo excel');
-
+/*
 INSERT INTO tFile( cEmployee, 	cDesc, 				 cFileName, 			  cFileRealName, 			cSize, cFileCategory, cDateTime ) 
 VALUES (		   1, 			'Archivo de prueba', 'archivo_de_prueba.xsl', 'file_test_20120101.xsl', 200  ,    1, '2012-06-06');
+*/
 
 INSERT INTO tFiscalDate(cDate) VALUES('2011-08-01');
 INSERT INTO tFiscalDate(cDate) VALUES('2011-08-02');
 
 
-*/

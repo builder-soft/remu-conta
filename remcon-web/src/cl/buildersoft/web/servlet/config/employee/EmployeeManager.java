@@ -30,11 +30,10 @@ public class EmployeeManager extends BSHttpServlet {
 		table.getField("cCountry").setLabel("Nacionalidad");
 		table.getField("cMaritalStatus").setLabel("Estado Civil");
 
-		BSAction previtionalInformation = new BSAction("PREVITIONAL", BSActionType.Record);
-		previtionalInformation.setLabel("Información Previsional");
-		// previtionalInformation.setUrl("/servlet/ShowParameters");
-		previtionalInformation.setUrl("/servlet/config/employee/PrevitionalInformation");
-		table.addAction(previtionalInformation);
+		BSAction informationPrevitional = new BSAction("PREVITIONAL", BSActionType.Record);
+		informationPrevitional.setLabel("Información Previsional");
+		informationPrevitional.setUrl("/servlet/config/employee/InformationPrevitional");
+		table.addAction(informationPrevitional);
 
 		table.getAction("EDIT").setLabel("Informacion Personal");
 

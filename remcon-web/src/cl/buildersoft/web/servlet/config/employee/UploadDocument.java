@@ -22,14 +22,14 @@ import cl.buildersoft.business.beans.Document;
 import cl.buildersoft.business.service.EmployeeService;
 import cl.buildersoft.business.service.impl.EmployeeServiceImpl;
 import cl.buildersoft.framework.exception.BSSystemException;
+import cl.buildersoft.web.servlet.table.AbstractServletUtil;
 
 @WebServlet("/servlet/config/employee/UploadDocument")
-public class UploadDocument extends HttpServlet {
+public class UploadDocument extends AbstractServletUtil {
 	private static final long serialVersionUID = 1L;
 
 	public UploadDocument() {
 		super();
-
 	}
 
 	protected void doGet(HttpServletRequest request,
@@ -40,7 +40,7 @@ public class UploadDocument extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// String desc = request.getParameter("desc");
+
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		EmployeeService service = new EmployeeServiceImpl();

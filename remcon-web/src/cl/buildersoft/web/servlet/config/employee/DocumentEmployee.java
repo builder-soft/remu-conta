@@ -18,7 +18,6 @@ import cl.buildersoft.business.service.EmployeeService;
 import cl.buildersoft.business.service.impl.EmployeeServiceImpl;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
-import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.framework.util.BSConfig;
 import cl.buildersoft.framework.util.FileUtil;
 import cl.buildersoft.web.servlet.table.AbstractServletUtil;
@@ -33,11 +32,11 @@ public class DocumentEmployee extends AbstractServletUtil {
 		EmployeeService service = new EmployeeServiceImpl();
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
-		// BSmySQL bu = new BSmySQL();
-		Employee employee = service.getEmployee(conn, new BSBeanUtilsSP(), employeeId);
-		List<Document> listadoArchivos = listDocumentoPorEmployee(conn, mysql, employeeId);
 
-		request.setAttribute("listadoArchivos", listadoArchivos);
+		Employee employee = service.getEmployee(conn, employeeId);
+		List<Document> files = listDocumentsByEmployee(conn, mysql, employeeId);
+
+		request.setAttribute("filesEmployee", files);
 		request.setAttribute("Employee", employee);
 		request.getRequestDispatcher("/WEB-INF/jsp/config/employee/documentEmployee.jsp").forward(request, response);
 	}
@@ -72,12 +71,9 @@ public class DocumentEmployee extends AbstractServletUtil {
 		fileUtil.uploadFile();
 	}
 
-	private List<Document> listDocumentoPorEmployee(Connection conn, BSmySQL mysql, Long employeeId) {
+	private List<Document> listDocumentsByEmployee(Connection conn, BSmySQL mysql, Long employeeId) {
 		ResultSet rs = mysql.callSingleSP(conn, "pListDocument", array2List(employeeId));
 
-		// List<RagreementAPV> listadoApvEmp = (List<RagreementAPV>)
-		// bu.list(conn,
-		// new RagreementAPV(), "pListAPVForEmployee", parameter);
 		List<Document> out = new ArrayList<Document>();
 		try {
 			while (rs.next()) {
@@ -91,18 +87,10 @@ public class DocumentEmployee extends AbstractServletUtil {
 				out.add(documentEmp);
 			}
 		} catch (SQLException e) {
-			throw new BSDataBaseException("", e.getMessage());
+			throw new BSDataBaseException(e);
 		}
 
 		return out;
 	}
 
-	/**
-	 * <code>
-	private Account2 getAccountByEmployee(Connection conn, BSBeanUtilsSP bu,
-			Long idEmployee) {
-		return null;
-	}
-</code>
-	 */
 }

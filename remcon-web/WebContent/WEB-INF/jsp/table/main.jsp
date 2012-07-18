@@ -239,36 +239,7 @@
 						out += value;
 					}
 
-					/**<code>
-					} else if (type.equals(BSFieldType.Date)) {
-					
-					String format = BSWeb.getFormatDate(request);
-					Format formatter = new SimpleDateFormat(format);
-					out += formatter.format(value);
-					} else if (type.equals(BSFieldType.Timestamp)) {
-					
-					String format = BSWeb.getFormatDatetime(request);
-					Format formatter = new SimpleDateFormat(format);
-					out += formatter.format(value);
-
-					} else if (type.equals(BSFieldType.Double)) {
-					
-					BSFieldDataType	dataType = BSTypeFactory.create(field);
-					BSmySQL mysql = new BSmySQL();
-					Connection conn = mysql.getConnection(request);
-					
-					out +=						dataType.format(conn, value);
-					/ * *				
-					String format = BSWeb.getFormatNumber(request);
-					Format formatter = new DecimalFormat(format);
-					out += formatter.format(value);
-					 */
 				}
-				/**
-				if (selectorType > 0) {
-					out += "</a>";
-				}
-				 */
 				out += "</td>";
 			}
 		}

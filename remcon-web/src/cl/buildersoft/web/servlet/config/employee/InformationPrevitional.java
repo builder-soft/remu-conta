@@ -30,11 +30,8 @@ import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.web.servlet.table.AbstractServletUtil;
 
-/**
- * Servlet implementation class EditRecord
- */
-@WebServlet("/servlet/config/employee/PrevitionalInformation")
-public class PrevitionalInformation extends AbstractServletUtil {
+@WebServlet("/servlet/config/employee/InformationPrevitional")
+public class InformationPrevitional extends AbstractServletUtil {
 
 	private static final long serialVersionUID = -5785656616097922095L;
 
@@ -48,14 +45,15 @@ public class PrevitionalInformation extends AbstractServletUtil {
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
 
 		EmployeeService service = new EmployeeServiceImpl();
-		Employee employee = service.getEmployee(conn, bu, employeeId);
+		Employee employee = service.getEmployee(conn, employeeId);
 
 		List<APV> listadoApv = (List<APV>) bu.list(conn, new APV(), "pListAPV");
 		List<PFM> listadoAfp = (List<PFM>) bu.list(conn, new PFM(), "pListPFM");
 		List<Currency> listadoCurrency = (List<Currency>) bu.list(conn, new Currency(), "pListCurrency");
 		List<Health> listadoHealth = (List<Health>) bu.list(conn, new Health(), "pListHealth");
 		List<ExBoxSystem> listadoExBox = (List<ExBoxSystem>) bu.list(conn, new ExBoxSystem(), "pListExBoxSystem");
-		List <FamilyAssignmentStretch> familyAssignmentStretch = (List<FamilyAssignmentStretch>) bu.list(conn, new FamilyAssignmentStretch(), "pListFamilyAssignmentStretch");
+		List<FamilyAssignmentStretch> familyAssignmentStretch = (List<FamilyAssignmentStretch>) bu.list(conn,
+				new FamilyAssignmentStretch(), "pListFamilyAssignmentStretch");
 
 		List<RagreementAPV> listadoApvEmp = listAPVForEmployee(conn, mysql, employeeId);
 

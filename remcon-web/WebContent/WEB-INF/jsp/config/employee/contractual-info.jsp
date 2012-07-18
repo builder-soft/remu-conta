@@ -40,8 +40,10 @@ Employee employee = (Employee) request.getAttribute("Employee");
 	String dateFormat = (String) request.getAttribute("DateFormat");
 %>
 
-<h1 class="cTitle">Infrmación Contractual</h1>
+<h1 class="cTitle">Información Contractual</h1>
+<%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
 
+<!-- 
 <table>
 	<tr>
 		<td class="cLabel">RUT:</td>
@@ -53,6 +55,7 @@ Employee employee = (Employee) request.getAttribute("Employee");
 					+ employee.getLastName2()%></td>
 	</tr>
 </table>
+-->
 <br>
 <form
 	action="${pageContext.request.contextPath}/servlet/config/employee/SaveContractualInfo">

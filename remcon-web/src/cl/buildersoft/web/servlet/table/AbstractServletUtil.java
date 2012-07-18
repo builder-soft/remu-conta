@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.framework.beans.BSField;
+import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.framework.util.ReflectionUtils;
 
 public class AbstractServletUtil extends HttpServlet {
@@ -70,9 +71,7 @@ public class AbstractServletUtil extends HttpServlet {
 	}
 
 	@Override
-	@SuppressWarnings("unused")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		Object[] parameters = { request, response };
 		String servletName = "cl.buildersoft.web." + request.getRequestURI().substring(12).replaceAll("/", ".");
 		String methodName = request.getParameter("Method");
@@ -80,20 +79,9 @@ public class AbstractServletUtil extends HttpServlet {
 		try {
 			servletClazz = Class.forName(servletName).newInstance();
 			ReflectionUtils.execute(methodName, servletClazz, parameters);
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new BSProgrammerException(e);
 		}
-
 	}
 
 	protected ServletOutputStream configHeaderAsCSV(HttpServletResponse response, String fileName) throws IOException {
