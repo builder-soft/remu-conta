@@ -33,20 +33,9 @@
 	 -->
 
 	<input type="hidden" name="cId" value="<%=empl.getId()%>">
-
+<%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
+<br>
 	<table border=0>
-		<tr>
-			<td class="cLabel">RUT:</td>
-			<td class="cData"><%=empl.getRut()%></td>
-		</tr>
-		<tr>
-			<td class="cLabel">Empleado:</td>
-			<td class="cData"><%=empl.getName() + " " + empl.getLastName1() + " "
-					+ empl.getLastName2()%></td>
-		</tr>
-		<tr>
-			<td colspan="2">&nbsp;</td>
-		</tr>
 		<tr>
 			<td class="cLabel">Modo de pago:</td>
 			<td><select name="cPaymentType">

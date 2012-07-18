@@ -259,7 +259,8 @@ BEGIN
 	
 	UPDATE	tBookDiscounts 
 	SET		cSubtotalOtherDiscounts = cLoanEnterprise + cLoanCompensationFund + 
-			cSavingCompensationFund + cJudicialRetention
+			cSavingCompensationFund + cJudicialRetention +
+			cD01 + cD02 + cD03 + cD04 + cD05
 	WHERE	cBook = pBook;
 
 END$$

@@ -3,7 +3,7 @@ DELIMITER $$
 
 /***********************
 Crea o actualiza la tabla tPeriod si no existe el registro.
-*/
+
 CREATE PROCEDURE pSavePeriod(IN pDate DATE, OUT pPeriod BIGINT)
 BEGIN
 	DECLARE vCurrentUF, vOvertimeFactor, vGratificationFactor, vMinSalary,
@@ -53,5 +53,5 @@ BEGIN
 		SET pPeriod = LAST_INSERT_ID();
 	END IF;
 END$$
-
+*/
 DELIMITER ;
