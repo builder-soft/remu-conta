@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 import cl.buildersoft.framework.beans.BSBean;
 
-public class Document extends BSBean {
+public class EmployeeFile extends BSBean {
 
 	private static final long serialVersionUID = 7991912578572439406L;
 	private String TABLE = "tFile";
