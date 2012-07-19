@@ -1,5 +1,6 @@
 package cl.buildersoft.framework.util;
 
+import java.io.File;
 import java.sql.Connection;
 
 public class BSConfig extends BSDataUtils {
@@ -26,5 +27,8 @@ public class BSConfig extends BSDataUtils {
 
 	public Integer getRecordsPerPage(Connection conn) {
 		return getInteger(conn, "RECORDS_PER_PAGE");
+	}
+	public static  String getFileSeparator(){
+		return System.getProperty("file.separator");
 	}
 }

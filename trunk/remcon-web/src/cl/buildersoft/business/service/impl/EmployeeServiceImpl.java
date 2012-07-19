@@ -11,7 +11,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cl.buildersoft.business.beans.Document;
+import cl.buildersoft.business.beans.EmployeeFile;
 import cl.buildersoft.business.beans.Employee;
 import cl.buildersoft.business.service.EmployeeService;
 import cl.buildersoft.framework.database.BSBeanUtils;
@@ -30,7 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public void saveDocument(Document document, HttpServletRequest request) {
+	public void saveDocument(EmployeeFile document, HttpServletRequest request) {
 
 		BSmySQL mysql = new BSmySQL();
 		Connection conn;
@@ -42,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public void deleteDocumentById(Document document, HttpServletRequest request) {
+	public void deleteDocumentById(EmployeeFile document, HttpServletRequest request) {
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 		ResultSet rs = mysql.callSingleSP(conn, "pListDocument", document.getEmployee());
@@ -58,7 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	}
 
-	public void downloadDocument(Document document, HttpServletRequest request, HttpServletResponse response) {
+	public void downloadDocument(EmployeeFile document, HttpServletRequest request, HttpServletResponse response) {
 		try {
 			BSmySQL mysql = new BSmySQL();
 			Connection conn = mysql.getConnection(request);

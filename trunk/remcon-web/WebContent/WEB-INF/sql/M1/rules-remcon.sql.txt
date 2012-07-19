@@ -140,8 +140,8 @@ ADD CONSTRAINT PeriodStatusToPeriod FOREIGN KEY (cPeriodStatus) REFERENCES tPeri
 /* FILE */
 ALTER TABLE tFile
 ADD INDEX File_index_FileCategory (cFileCategory ASC),
-ADD CONSTRAINT FileToFileCategory FOREIGN KEY (cFileCategory) REFERENCES tFileCategory(cId),
 ADD INDEX File_index_Employee (cEmployee ASC),
+ADD CONSTRAINT FileToFileCategory FOREIGN KEY (cFileCategory) REFERENCES tFileCategory(cId),
 ADD CONSTRAINT FileToEmployee FOREIGN KEY (cEmployee) REFERENCES tEmployee(cId);
 
 /* BOOK */

@@ -44,6 +44,12 @@ SET @date = CONCAT(YEAR(CURDATE()), '-', MONTH(CURDATE()), '-', '01');
 INSERT INTO tMonthlyParameter(cDate, cUF, cOvertimeFactor) VALUES(@date, 22000, 0.0777);
 */
 
+INSERT INTO tFileCategory( cName ) VALUES('Curriculums');
+INSERT INTO tFileCategory( cName ) VALUES('Licencia médica');
+INSERT INTO tFileCategory( cName ) VALUES('Certificado de estudio');
+
+
+
 INSERT INTO tRol(cName) VALUES('Administrador');
 SET @rolId = LAST_INSERT_ID();
 
@@ -1043,7 +1049,6 @@ SET @employeeId = LAST_INSERT_ID();
 INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cHealthCurrency,	cHealthAmount,	cFamilyAssignmentStretch,	cAdditionalPFMCurrency, cAdditionalPFMAmount)
 VALUES(					@employeeId,	1,				'2009-12-01',	'2013-01-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000,			@uf,				10,				2,							1,						3);
 
-INSERT INTO tFileCategory( cName ) VALUES('Archivo excel');
 /*
 INSERT INTO tFile( cEmployee, 	cDesc, 				 cFileName, 			  cFileRealName, 			cSize, cFileCategory, cDateTime ) 
 VALUES (		   1, 			'Archivo de prueba', 'archivo_de_prueba.xsl', 'file_test_20120101.xsl', 200  ,    1, '2012-06-06');

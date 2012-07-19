@@ -5,15 +5,15 @@ import java.sql.Connection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cl.buildersoft.business.beans.Document;
+import cl.buildersoft.business.beans.EmployeeFile;
 import cl.buildersoft.business.beans.Employee;
 
 public interface EmployeeService {
 	public Employee getEmployee(Connection conn, Long id);
 
-	public void saveDocument(Document document, HttpServletRequest request);
+	public void saveDocument(EmployeeFile document, HttpServletRequest request);
 
-	public void deleteDocumentById(Document document, HttpServletRequest request);
+	public void deleteDocumentById(EmployeeFile document, HttpServletRequest request);
 
-	public void downloadDocument(Document document, HttpServletRequest request, HttpServletResponse response);
+	public void downloadDocument(EmployeeFile document, HttpServletRequest request, HttpServletResponse response);
 }
