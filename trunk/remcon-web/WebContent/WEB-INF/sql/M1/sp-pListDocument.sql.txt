@@ -3,9 +3,10 @@ DELIMITER $$
 
 CREATE PROCEDURE pListDocument(IN pEmployee BIGINT)
 BEGIN
-	SELECT		* 
-	FROM 		tFile 
-	WHERE cEmployee = pEmployee;
+	SELECT		a.cId, cEmployee, cDesc, cFileName, cFileRealName, cSize, cFileCategory, cDateTime, cContentType, b.cName AS cCategoryName 
+	FROM 		tFile	AS a 
+	LEFT JOIN	tFileCategory AS b ON a.cFileCategory = b.cId
+	WHERE		cEmployee = pEmployee;
 END$$
 
 DELIMITER ;

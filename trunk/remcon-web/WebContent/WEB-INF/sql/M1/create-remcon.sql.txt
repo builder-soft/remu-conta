@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS tFile (
     cSize			BIGINT NOT NULL COMMENT 'Tamaño del archivo',
     cFileCategory	BIGINT NOT NULL COMMENT 'Tipo del archivo',
     cDateTime		DATETIME NOT NULL COMMENT 'Fecha de creacion',
-    cContentType	VARCHAR(50) COMMENT 'Tipo de archivo'
+    cContentType	VARCHAR(100) COMMENT 'Tipo de archivo'
 ) ENGINE=innoDB;
 
 /*

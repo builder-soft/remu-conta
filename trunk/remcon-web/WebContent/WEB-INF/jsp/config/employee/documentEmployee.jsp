@@ -1,11 +1,12 @@
+<%@page import="java.sql.ResultSet"%>
 <%@page import="cl.buildersoft.business.beans.FileCategory"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
-<%@page import="cl.buildersoft.business.beans.EmployeeFile"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
 <%
-	List<EmployeeFile> filesEmployee = (List<EmployeeFile>)request.getAttribute("filesEmployee");
+	ResultSet filesEmployee = (ResultSet)request.getAttribute("filesEmployee");
 	Employee employee = (Employee) request.getAttribute("Employee");
 	List<FileCategory> categories = (List<FileCategory>)request.getAttribute("Category");
 %>
@@ -16,49 +17,53 @@
 <%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
 
 <br>
-<form action="${pageContext.request.contextPath}/servlet/config/employee/DocumentEmployee" method="post" id="editForm">
-	<input type="hidden" name="cId" value="<%=request.getParameter("cId") != null ? request.getParameter("cId") : request.getAttribute("cId")%>">
-	<input type="hidden" id="idDocument" name="idDocument" value=""/>
-	<input type="hidden" id="Method" name="Method"/>
-	<table border="0" width="600px">
+		<form action="${pageContext.request.contextPath}/servlet/config/employee/DocumentEmployee" method="post" id="editForm">
+			<input type="hidden" name="cId" value="<%=request.getParameter("cId") != null ? request.getParameter("cId") : request.getAttribute("cId")%>">
+			<input type="hidden" id="idDocument" name="idDocument" value=""/>
+			<input type="hidden" id="Method" name="Method"/>
+		 </form>
+		<table class="cList" cellpadding="0" cellspacing="0">
+		<tr>
+			<td class="cHeadTD">Archivo</td>
+			<td class="cHeadTD">Descripción</td>
+			<td class="cHeadTD">Fecha</td>
+			<td class="cHeadTD">Categoría</td>
+			<td class="cHeadTD">Tamaño</td>
+			<td class="cHeadTD">Acción</td>
+		</tr>
+		<%
+		Boolean haveRecords = Boolean.FALSE;
+		
+		String color = "";
+		Integer rowCount = 0;
+		while (filesEmployee.next()) {
+			haveRecords = Boolean.TRUE;
+			color = rowCount++ % 2 != 0 ? "cDataTD" : "cDataTD_odd";
+		%>
 			<tr>
-					<td>
-					<table class="cList" cellpadding="0" cellspacing="0">
-					<tr>
-						<td class="cHeadTD" width="30%">Documento</td>
-						<td class="cHeadTD" width="40%">Fecha</td>
-						<td class="cHeadTD" width="30%">Tamaño</td>
-						<td class="cHeadTD"></td>
-					</tr>
-							<%
-								if(filesEmployee.size() == 0)
-												{
-							%>
-							<tr>
-								<td class="cDataTD_odd" colspan="3">No existen registros</td>
-							</tr>
-							<%
-								}
-												
-												for(EmployeeFile document : filesEmployee)
-												{
-							%>
-								<tr>
-									<td class="cDataTD_odd"><a href="javascript:$('#Method').val('downloadFile');$('#idDocument').val('<%=document.getId()%>');$('#editForm').submit();"><%=document.getFileName()%></a></td>
-									<td class="cDataTD_odd"><%=BSWeb.dateTime2String(request,document.getDateTime())%></td>
-									<td class="cDataTD_odd"><%=document.getSize()%> KB</td>
-									<td class="cDataTD_odd"><a href="javascript:$('#Method').val('delete');$('#idDocument').val('<%=document.getId()%>');$('#editForm').submit();">Eliminar</a></td>
-								<tr/>
-							<%
-							}
-							%>
-					</table>					
-			</tr>		
-	</table>
-</form>
+				<td class='<%=color%>'><a href="javascript:$('#Method').val('downloadFile');$('#idDocument').val('<%=filesEmployee.getLong("cID")%>');$('#editForm').submit();"><%=filesEmployee.getString("cFileName")%></a></td>
+				<td class='<%=color%>'><%=filesEmployee.getString("cDesc")%></td>
+				<td class='<%=color%>'><%=BSWeb.dateTime2String(request,filesEmployee.getTimestamp("cDateTime"))%></td>
+				<td class='<%=color%>'><%=filesEmployee.getString("cCategoryName")%></td>
+				<td class='<%=color%>'><%=filesEmployee.getLong("cSize")%>kb</td>
+				<td class='<%=color%>'><a href="javascript:$('#Method').val('delete');$('#idDocument').val('<%=filesEmployee.getLong("cID")%>');$('#editForm').submit();">Eliminar</a></td>
+			<tr/>
+<%
+		}
+		if(!haveRecords){
+%>
+			<tr>
+				<td class="cDataTD" colspan="6">No existen registros</td>
+			</tr>
+<%
+		}						
+%>
+		</table>					
+ 
+
 
 <form action="${pageContext.request.contextPath}/servlet/config/employee/DocumentEmployee?Method=uploadFile" method="post" enctype='multipart/form-data'>
-			<input type="hidden" name="cIdEmployee" value="<%=request.getParameter("cId") != null ? request.getParameter("cId") : request.getAttribute("cId")%>">
+			<input type="hidden" name="cId" value="<%=request.getParameter("cId") != null ? request.getParameter("cId") : request.getAttribute("cId")%>">
 			<input type="hidden" name="Method" value="uploadFile">
 			
 			<br/>

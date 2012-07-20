@@ -46,9 +46,8 @@ INSERT INTO tMonthlyParameter(cDate, cUF, cOvertimeFactor) VALUES(@date, 22000, 
 
 INSERT INTO tFileCategory( cName ) VALUES('Curriculums');
 INSERT INTO tFileCategory( cName ) VALUES('Licencia médica');
-INSERT INTO tFileCategory( cName ) VALUES('Certificado de estudio');
-
-
+INSERT INTO tFileCategory( cName ) VALUES('Certificados de título');
+INSERT INTO tFileCategory( cName ) VALUES('Otros archivos');
 
 INSERT INTO tRol(cName) VALUES('Administrador');
 SET @rolId = LAST_INSERT_ID();
