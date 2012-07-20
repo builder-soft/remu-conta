@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.table;
+package cl.buildersoft.web.servlet.config.enterprise;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,20 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 import cl.buildersoft.business.beans.EnterpriseConfig;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
+import cl.buildersoft.web.servlet.table.AbstractServletUtil;
 
 @WebServlet("/servlet/config/employee/SaveEnterpriseConfig")
 public class SaveEnterpriseConfig extends AbstractServletUtil {
 	private static final long serialVersionUID = 5316369008384063620L;
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Long enterpriseId = Long.parseLong(request.getParameter("cId"));
 
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
-		
+
 		EnterpriseConfig enterpriseConfig = new EnterpriseConfig();
 		enterpriseConfig.setId(enterpriseId);
 		enterpriseConfig.setEnterprise(Long.valueOf(request.getParameter("enterprise")));
@@ -37,23 +37,24 @@ public class SaveEnterpriseConfig extends AbstractServletUtil {
 		enterpriseConfig.setShowWorkDay(validateCheck(request.getParameter("showWorkDay")));
 		enterpriseConfig.setShowNetPaymentScope(validateCheck(request.getParameter("showNetPaymentScope")));
 		enterpriseConfig.setTextFootSalary(request.getParameter("textFootSalary"));
-		enterpriseConfig.setEmail(request.getParameter("email"));
-		
+		enterpriseConfig.setMailNotice(request.getParameter("email"));
+		enterpriseConfig.setViewLastSettlements(Integer.parseInt(request.getParameter("cViewLastSettlements")));
+
 		bu.update(conn, enterpriseConfig);
-		request.getRequestDispatcher("/servlet/config/enterprise/EnterpriseManager").forward(
-				request, response);		
+		request.getRequestDispatcher("/servlet/config/enterprise/EnterpriseManager").forward(request, response);
 	}
-	
-	private boolean validateCheck(String check)
-	{
-		if(check == null)
+
+	private boolean validateCheck(String check) {
+		if (check == null)
 			return false;
 		return check.equalsIgnoreCase("on") ? true : false;
 	}
-/**<code>
+	/**
+	 * <code>
 	private Account2 getAccountByEmployee(Connection conn, BSBeanUtilsSP bu,
 			Long idEmployee) {
 		return null;
 	}
-</code>*/
+</code>
+	 */
 }

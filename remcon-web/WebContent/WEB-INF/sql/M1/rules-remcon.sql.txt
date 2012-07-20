@@ -217,8 +217,8 @@ DELIMITER $$
 CREATE TRIGGER InsertOnEnterprise AFTER INSERT ON tEnterprise
 FOR EACH ROW
 BEGIN
-	INSERT INTO tEnterpriseConfig (cEnterprise) 
-	VALUES (NEW.cId);
+	INSERT INTO tEnterpriseConfig (cEnterprise, cTextFootSalary) 
+	VALUES (NEW.cId, '');
 END$$
 
 /* tPFM */
