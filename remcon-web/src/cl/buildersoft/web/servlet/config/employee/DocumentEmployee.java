@@ -1,30 +1,33 @@
 package cl.buildersoft.web.servlet.config.employee;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cl.buildersoft.business.beans.EmployeeFile;
 import cl.buildersoft.business.beans.Employee;
+import cl.buildersoft.business.beans.EmployeeFile;
 import cl.buildersoft.business.beans.FileCategory;
 import cl.buildersoft.business.service.EmployeeService;
 import cl.buildersoft.business.service.impl.EmployeeServiceImpl;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSConfigurationException;
-import cl.buildersoft.framework.exception.BSDataBaseException;
+import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.framework.util.BSConfig;
 import cl.buildersoft.framework.util.BSFileUtil;
 import cl.buildersoft.web.servlet.table.AbstractServletUtil;
@@ -42,7 +45,11 @@ public class DocumentEmployee extends AbstractServletUtil {
 		BSBeanUtils bu = new BSBeanUtils();
 
 		Employee employee = service.getEmployee(conn, employeeId);
-		List<EmployeeFile> files = listDocumentsByEmployee(conn, mysql, employeeId);
+
+		// List<EmployeeFile> files = listDocumentsByEmployee(conn, mysql,
+		// employeeId);
+		ResultSet files = mysql.callSingleSP(conn, "pListDocument", employeeId);
+
 		List<FileCategory> category = (List<FileCategory>) bu.listAll(conn, new FileCategory());
 
 		request.setAttribute("filesEmployee", files);
@@ -51,25 +58,81 @@ public class DocumentEmployee extends AbstractServletUtil {
 		request.getRequestDispatcher("/WEB-INF/jsp/config/employee/documentEmployee.jsp").forward(request, response);
 	}
 
-	public void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Long documentId = Long.valueOf(request.getParameter("idDocument"));
-		Long employeeId = Long.valueOf(request.getParameter("cId"));
-		EmployeeService service = new EmployeeServiceImpl();
-		EmployeeFile document = new EmployeeFile();
-		document.setId(documentId);
-		document.setEmployee(employeeId);
-		service.deleteDocumentById(document, request);
+	public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			// EmployeeService service = new EmployeeServiceImpl();
+			EmployeeFile employeeFile = new EmployeeFile();
+			BSmySQL mysql = new BSmySQL();
+			BSBeanUtils bu = new BSBeanUtils();
+			BSConfig config = new BSConfig();
+			Connection conn = mysql.getConnection(request);
+
+			Long documentId = Long.valueOf(request.getParameter("idDocument"));
+			employeeFile.setId(documentId);
+			bu.search(conn, employeeFile);
+
+			String path = fixPath(fixPath(config.getString(conn, "EMPLOYEE_FILES")) + employeeFile.getFileCategory());
+
+			writeFileToBrowser(response, employeeFile, path);
+
+		} catch (Exception e) {
+			throw new BSProgrammerException(e);
+		} // service.deleteDocumentById(document, request);
 		request.getRequestDispatcher("/servlet/config/employee/DocumentEmployee?Method=listDocuments").forward(request, response);
 	}
 
-	public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Long documentId = Long.valueOf(request.getParameter("idDocument"));
-		Long employeeId = Long.valueOf(request.getParameter("cId"));
-		EmployeeService service = new EmployeeServiceImpl();
-		EmployeeFile document = new EmployeeFile();
-		document.setId(documentId);
-		document.setEmployee(employeeId);
-		service.downloadDocument(document, request, response);
+	public void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Long idEmployee = 0L;
+		idEmployee = Long.valueOf(request.getParameter("cId"));
+		try {
+
+			Long documentId = Long.valueOf(request.getParameter("idDocument"));
+			BSmySQL mysql = new BSmySQL();
+			Connection conn = mysql.getConnection(request);
+			EmployeeFile employeeFile = getEmployeeFile(conn, documentId);
+			BSConfig config = new BSConfig();
+			String path = fixPath(fixPath(config.getString(conn, "EMPLOYEE_FILES")) + employeeFile.getFileCategory());
+
+			File file = new File(path + employeeFile.getFileRealName());
+			if (file.delete()) {
+				BSBeanUtils bu = new BSBeanUtils();
+				bu.delete(conn, employeeFile);
+			}
+		} catch (Exception e) {
+			throw new BSProgrammerException(e);
+		}
+		request.getRequestDispatcher("/servlet/config/employee/DocumentEmployee?Method=listDocuments&cId=" + idEmployee).forward(
+				request, response);
+	}
+
+	private EmployeeFile getEmployeeFile(Connection conn, Long documentId) {
+		EmployeeFile out = new EmployeeFile();
+
+		BSBeanUtils bu = new BSBeanUtils();
+
+		out.setId(documentId);
+		bu.search(conn, out);
+		return out;
+	}
+
+	private void writeFileToBrowser(HttpServletResponse response, EmployeeFile employeeFile, String filesPath)
+			throws IOException, UnsupportedEncodingException, FileNotFoundException {
+		ServletOutputStream fos = response.getOutputStream();
+		response.setContentType(employeeFile.getContentType());
+		String disposition = "attachment; fileName=" + URLEncoder.encode(employeeFile.getFileName(), "UTF8") + "";
+		response.setHeader("Content-Disposition", disposition);
+		File file = new File(filesPath + employeeFile.getFileRealName());
+		byte[] readData = new byte[1024];
+		FileInputStream fis = new FileInputStream(file);
+		int i = fis.read(readData);
+
+		while (i != -1) {
+			fos.write(readData, 0, i);
+			i = fis.read(readData);
+		}
+		fos.flush();
+		fis.close();
+		fos.close();
 	}
 
 	public void uploadFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -83,7 +146,7 @@ public class DocumentEmployee extends AbstractServletUtil {
 		String tempFileName = "" + System.currentTimeMillis();
 		Map<String, String> values = (HashMap<String, String>) fileUtil.uploadFile(request, tempPath, tempFileName);
 
-		Long idEmployee = Long.parseLong(values.get("cIdEmployee"));
+		Long idEmployee = Long.parseLong(values.get("cId"));
 		Long idCategory = Long.parseLong(values.get("cCategory"));
 
 		EmployeeService employeeService = new EmployeeServiceImpl();
@@ -106,7 +169,7 @@ public class DocumentEmployee extends AbstractServletUtil {
 		employeeFile.setContentType(values.get("file.contentType"));
 		employeeFile.setDateTime(new Timestamp(System.currentTimeMillis()));
 		employeeFile.setDesc(values.get("desc"));
-		employeeFile.setEmployee(Long.parseLong(values.get("cIdEmployee")));
+		employeeFile.setEmployee(Long.parseLong(values.get("cId")));
 		employeeFile.setFileCategory(Long.parseLong(values.get("cCategory")));
 		employeeFile.setFileName(values.get("file.fileName"));
 		employeeFile.setFileRealName(newFileName);
@@ -138,40 +201,8 @@ public class DocumentEmployee extends AbstractServletUtil {
 	}
 
 	private String getFileName(Employee employee, String fileName) {
-		/**
-		 * <code>
-		 * Ejemplo de archivo a cargar RUT FechaHora como Long
-		 * 128706682-12345678901234567890.docx
-		 * 
-		 * C:\archivos\ -> Configuracion \1 -> (id de categoria) Categoria Curriculums 
-		 * 								 \2 -> Fotos \128706682-12345678901234567890.png -> Foto carnet del empleado 12870668-2
-		 * </code>
-		 */
 		String rut = employee.getRut().replaceAll("-", "");
 		String out = rut + "-" + System.currentTimeMillis() + fileName.substring(fileName.lastIndexOf("."));
 		return out;
 	}
-
-	private List<EmployeeFile> listDocumentsByEmployee(Connection conn, BSmySQL mysql, Long employeeId) {
-		ResultSet rs = mysql.callSingleSP(conn, "pListDocument", array2List(employeeId));
-
-		List<EmployeeFile> out = new ArrayList<EmployeeFile>();
-		try {
-			while (rs.next()) {
-				EmployeeFile documentEmp = new EmployeeFile();
-				documentEmp.setId(rs.getLong("cId"));
-				documentEmp.setDesc(rs.getString("cDesc"));
-				documentEmp.setFileName(rs.getString("cFileName"));
-				documentEmp.setFileRealName(rs.getString("cFileRealName"));
-				documentEmp.setSize(rs.getLong("cSize"));
-				documentEmp.setDateTime(rs.getTimestamp("cDateTime"));
-				out.add(documentEmp);
-			}
-		} catch (SQLException e) {
-			throw new BSDataBaseException(e);
-		}
-
-		return out;
-	}
-
 }

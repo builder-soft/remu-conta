@@ -227,7 +227,6 @@
 						}
 
 					} else if (type.equals(BSFieldType.Date)
-							|| type.equals(BSFieldType.Timestamp)
 							|| type.equals(BSFieldType.Double)) {
 						BSFieldDataType dataType = BSTypeFactory.create(field);
 						BSmySQL mysql = new BSmySQL();

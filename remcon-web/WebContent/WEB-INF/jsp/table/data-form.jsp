@@ -103,12 +103,14 @@
 					if (size > 75) {
 						size = 75;
 					}
+					
 				} else if (type.equals(BSFieldType.Date)) {
 					maxlength = 10;
 					format = BSWeb.getFormatDate(request);
 					value = BSWeb.date2String(value, format);
 					size = maxlength;
 					afterInput = "(formato: " + format + ")";
+					
 				} else if (type.equals(BSFieldType.Timestamp)) {
 					maxlength = 16;
 					format = BSWeb.getFormatDatetime(request);
