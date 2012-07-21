@@ -17,4 +17,6 @@ public interface PeriodService {
 	public Period getOpenedPeriod(Connection conn);
 
 	public Period getPeriod(Connection conn, Long periodId);
+
+	public Integer lastDayMonth(Period period);
 }

@@ -13,20 +13,21 @@ import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.exception.BSProgrammerException;
 
 public class BSBeanUtilsSP extends BSBeanUtils {
-	public List<? extends BSBean> list(Connection conn, BSBean bean,
-			String spName) {
-		return list(conn, bean, spName, null);
+	public List<? extends BSBean> list(Connection conn, BSBean bean, String spName) {
+		return list(conn, bean, spName, new ArrayList());
 	}
 
-	public List<? extends BSBean> list(Connection conn, BSBean bean,
-			String spName, Object oneParam) {
+	public List<? extends BSBean> list(Connection conn, BSBean bean, String spName, Object oneParam) {
 		List<Object> params = new ArrayList<Object>();
 		params.add(oneParam);
 		return list(conn, bean, spName, params);
 	}
 
-	public List<? extends BSBean> list(Connection conn, BSBean bean,
-			String spName, List<Object> params) {
+	public List<? extends BSBean> list(Connection conn, BSBean bean, String spName, List<Object> params) {
+
+		if (params.size() == 0) {
+			params = null;
+		}
 
 		BSmySQL mysql = new BSmySQL();
 		ResultSet rs = mysql.callSingleSP(conn, spName, params);
@@ -50,15 +51,13 @@ public class BSBeanUtilsSP extends BSBeanUtils {
 		return out;
 	}
 
-	public BSBean get(Connection conn, BSBean bean, String spName,
-			Object oneParam) {
+	public BSBean get(Connection conn, BSBean bean, String spName, Object oneParam) {
 		List<Object> params = new ArrayList<Object>();
 		params.add(oneParam);
 		return get(conn, bean, spName, params);
 	}
 
-	public BSBean get(Connection conn, BSBean bean, String spName,
-			List<Object> params) {
+	public BSBean get(Connection conn, BSBean bean, String spName, List<Object> params) {
 
 		BSmySQL mysql = new BSmySQL();
 		ResultSet rs = mysql.callSingleSP(conn, spName, params);
