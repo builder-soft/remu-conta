@@ -59,7 +59,7 @@ public class ContractualInfo extends HttpServlet {
 
 	private List<BSBean> getList(Connection conn, BSBeanUtilsSP bu,
 			BSBean object, String spName) {
-		List<BSBean> out = (List<BSBean>) bu.list(conn, object, spName, null);
+		List<BSBean> out = (List<BSBean>) bu.listAll(conn, object); //, spName, null);
 		return out;
 	}
 

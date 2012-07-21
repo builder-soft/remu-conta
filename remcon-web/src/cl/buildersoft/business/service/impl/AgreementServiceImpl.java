@@ -54,19 +54,19 @@ public class AgreementServiceImpl implements AgreementService {
 	}
 
 	private Long getHorary(Connection conn, BSBeanUtilsSP bu) {
-		List<Horary> horary = (List<Horary>) bu.list(conn, new Horary(), "pListHorary", null);
+		List<Horary> horary = (List<Horary>) bu.list(conn, new Horary(), "pListHorary");
 		return horary.get(0).getId();
 	}
 
 	private Long getPaymentType(Connection conn, BSBeanUtilsSP bu) {
-		List<PaymentType> paymentType = (List<PaymentType>) bu.list(conn, new PaymentType(), "pListPaymentType", null);
+		List<PaymentType> paymentType = (List<PaymentType>) bu.list(conn, new PaymentType(), "pListPaymentType");
 		return paymentType.get(0).getId();
 
 	}
 
 	private Long getGratificationType(Connection conn, BSBeanUtilsSP bu) {
 		List<GratificationType> gratificationType = (List<GratificationType>) bu.list(conn, new GratificationType(),
-				"pListGratificationType", null);
+				"pListGratificationType");
 		return gratificationType.get(0).getId();
 	}
 
@@ -76,17 +76,17 @@ public class AgreementServiceImpl implements AgreementService {
 	}
 
 	private Long getPFM(Connection conn, BSBeanUtilsSP bu) {
-		List<Profile> profiles = (List<Profile>) bu.list(conn, new Profile(), "pListProfile", null);
+		List<Profile> profiles = (List<Profile>) bu.list(conn, new Profile(), "pListProfile");
 		return profiles.get(0).getId();
 	}
 
 	private Long getProfile(Connection conn, BSBeanUtilsSP bu) {
-		List<Profile> profiles = (List<Profile>) bu.list(conn, new Profile(), "pListProfile", null);
+		List<Profile> profiles = (List<Profile>) bu.list(conn, new Profile(), "pListProfile");
 		return profiles.get(0).getId();
 	}
 
 	private Long getContractType(Connection conn, BSBeanUtilsSP bu) {
-		List<ContractType> contractTypes = (List<ContractType>) bu.list(conn, new ContractType(), "pListContractType", null);
+		List<ContractType> contractTypes = (List<ContractType>) bu.list(conn, new ContractType(), "pListContractType");
 		return contractTypes.get(0).getId();
 	}
 

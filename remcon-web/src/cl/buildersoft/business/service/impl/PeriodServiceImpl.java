@@ -58,4 +58,12 @@ public class PeriodServiceImpl implements PeriodService {
 		return period;
 	}
 
+	@Override
+	public Integer lastDayMonth(Period period) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(period.getDate().getTime());
+		Integer out = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+		return out;
+	}
+
 }
