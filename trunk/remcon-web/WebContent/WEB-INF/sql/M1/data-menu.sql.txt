@@ -53,13 +53,14 @@ SET @menuIdConfig = LAST_INSERT_ID();
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('REMU', 'Remuneraciones', NULL, NULL);
 SET @menuIdRemu = LAST_INSERT_ID();
 
-	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('EVENTS', 'Eventos', NULL, @menuIdRemu);
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('EVENTS', 'Eventos de Empleados', '/servlet/remuneration/events/EventsEmployeeServlet', @menuIdRemu);
+/*
 	SET @menuIdEvents = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('HYD', 'Haberes y Descuentos', NULL, @menuIdEvents);
-		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('OVERTIME', 'Horas Extras', '/servlet/remuneration/events/overtime/OvertimeServlet', @menuIdEvents);
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('OVERTIME', 'Horas Extras', '/servlet/remuneration/events/EventsEmployeeServlet', @menuIdEvents);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('LICENSES', 'Licencias', NULL, @menuIdEvents);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('HOLIDAYS', 'Vacaciones', NULL, @menuIdEvents);
-
+*/
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PROCESS', 'Procesos', NULL, @menuIdRemu);
 	SET @menuIdProcess = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('SALARY', 'Cálculo de Sueldos', '/servlet/remuneration/process/salary/ProcessSalary', @menuIdProcess);

@@ -149,7 +149,7 @@ CREATE TABLE tAssetDiscount (
  	cId			BIGINT UNIQUE AUTO_INCREMENT,
  	cName		VARCHAR(50)	NOT NULL DEFAULT '',
  	cEnable		BIT			NOT NULL DEFAULT 0 COMMENT 'Flag para indicar si esta habilitado o no',
- 	cLimit		DOUBLE		NULL COMMENT 'Limite del bono',
+ 	cLimit		DOUBLE		NULL COMMENT 'Limite del valor que se ingresa',
  	cOrder		INTEGER		NOT NULL COMMENT 'Orden en el cual se muestran en pantalla o en reporte',
  	cAssetDiscountType	BIGINT NOT NULL COMMENT 'Tipo de haber o descuento',
 	PRIMARY KEY(cId)
@@ -157,7 +157,7 @@ CREATE TABLE tAssetDiscount (
 
 CREATE TABLE tAssetDiscountType (
  	cId			BIGINT UNIQUE AUTO_INCREMENT,
- 	cKey		CHAR(3) NOT NULL DEFAULT '' UNIQUE COMMENT 'IMP=Haberes Imponibles, NIM=Haberes no imponibles, DES=Otros Descuentos',
+ 	cKey		CHAR(3) NOT NULL UNIQUE COMMENT 'IMP=Haberes Imponibles, NIM=Haberes no imponibles, DES=Otros Descuentos',
  	cName		VARCHAR(25) NOT NULL DEFAULT '',
 	PRIMARY KEY(cId)
 ) ENGINE=InnoDB;

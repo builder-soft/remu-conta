@@ -28,6 +28,7 @@ INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('EMPLOYEE_FILES',
 
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('BASE_SALARY', 'Sueldo Base', '185000', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('OVERTIME_FACTOR', 'Factor para cálculo de horas extras', '0.0077777', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('OVERTIME_PERCENT', 'Porcentaje de gratificación de horas extras', '50', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('GRATIFICATION_FACTOR', 'Factor grtificacion x sueldos minímos', '4.75', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_IPS', 'Tope imponible para afiliados al IPS (ex INP) en UFs', '64.7', @doubleId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_INSURANCE', 'Tope imponible seguro de cesantia en UF', '97.1', @doubleId);
