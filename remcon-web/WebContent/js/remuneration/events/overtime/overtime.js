@@ -30,17 +30,18 @@ function commit() {
 	document.getElementById("frm").submit();
 
     } else {
-	document.getElementById("cDay").value = 7;
-	document.getElementById("cPercent").value = document.getElementById("percent").value;
-	document.getElementById("cAmount").value = document.getElementById("amount").value;
-	if (action == "ADD") {
-	    document.getElementById("frm").setAttribute("action",
-		    contextPath + "/servlet/remuneration/events/overtime/AddOvertime");
-	} else if (action == "EDIT") {
-	    document.getElementById("cOvertime").value = overtimeId;
-	    document.getElementById("frm").setAttribute("action",
-		    contextPath + "/servlet/remuneration/events/overtime/UpdateOvertime");
-	}
+    	var combo = document.getElementById("day");
+		document.getElementById("cDay").value = combo.options[combo.selectedIndex].text;
+		document.getElementById("cPercent").value = document.getElementById("percent").value;
+		document.getElementById("cAmount").value = document.getElementById("amount").value;
+		if (action == "ADD") {
+		    document.getElementById("frm").setAttribute("action",
+			    contextPath + "/servlet/remuneration/events/overtime/AddOvertime");
+		} else if (action == "EDIT") {
+		    document.getElementById("cOvertime").value = overtimeId;
+		    document.getElementById("frm").setAttribute("action",
+			    contextPath + "/servlet/remuneration/events/overtime/UpdateOvertime");
+		}
     }
     document.getElementById("frm").submit();
 }
@@ -68,14 +69,20 @@ function editOvertime(lastDayMonth, overtimePercent, periodName) {
     action = "EDIT";
 
     var row = document.getElementById('overtimeTable').rows[selectedRadio];
-
-    day = 7; // row.cells[1].innerHTML;
+    
+    day = row.cells[1].innerHTML;
+    day = day.substr(0,2);
+    day = parseInt(day)-1;
+    
     percent = row.cells[2].innerHTML;
     amount = row.cells[3].innerHTML;
 
     buidInputs(row, false, lastDayMonth, overtimePercent, periodName);
-
-    document.getElementById("day").value = day;
+    
+	document.getElementById("day").selectedIndex = day;
+//    combo.options[combo.selectedIndex].text = day;
+    
+//    document.getElementById("day").value = day;
     document.getElementById("percent").value = percent;
     document.getElementById("amount").value = amount;
 
