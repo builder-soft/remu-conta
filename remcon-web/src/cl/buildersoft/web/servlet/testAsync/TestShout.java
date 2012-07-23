@@ -15,9 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/TestShout")
 public class TestShout extends HttpServlet {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5404285019953279795L;
 	Map<String, Set<AsyncContext>> auctionMapWatchers = new ConcurrentHashMap<String, Set<AsyncContext>>();
 
