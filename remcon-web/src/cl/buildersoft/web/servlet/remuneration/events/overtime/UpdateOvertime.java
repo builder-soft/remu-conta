@@ -15,13 +15,10 @@ import cl.buildersoft.business.beans.Overtime;
 import cl.buildersoft.business.beans.Period;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.framework.type.BSFieldDataType;
-import cl.buildersoft.framework.type.BSFieldType;
-import cl.buildersoft.framework.type.BSTypeFactory;
 
-@WebServlet("/servlet/remuneration/events/overtime/AddOvertime")
-public class AddOvertime extends HttpServlet {
-	private static final long serialVersionUID = -2050274960694477685L;
+@WebServlet("/servlet/remuneration/events/overtime/UpdateOvertime")
+public class UpdateOvertime extends HttpServlet {
+	private static final long serialVersionUID = -8225234569078888328L;
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		BSmySQL mysql = new BSmySQL();
@@ -29,6 +26,7 @@ public class AddOvertime extends HttpServlet {
 
 		Long employeeId = Long.parseLong(request.getParameter("cId"));
 		Long periodId = Long.parseLong(request.getParameter("cPeriod"));
+		Long overtimeId = Long.parseLong(request.getParameter("cOvertime"));
 
 		String day = request.getParameter("cDay");
 		Integer percent = Integer.parseInt(request.getParameter("cPercent"));
@@ -36,33 +34,25 @@ public class AddOvertime extends HttpServlet {
 
 		Date date = getDate(conn, day, periodId);
 
+		BSBeanUtils bu = new BSBeanUtils();
 		Overtime overtime = new Overtime();
+		overtime.setId(overtimeId);
+		bu.search(conn, overtime);
+		
 		overtime.setAmount(amount);
 		overtime.setDate(date);
-		overtime.setEmployee(employeeId);
 		overtime.setPercent(percent);
-		overtime.setPeriod(periodId);
 
-		BSBeanUtils bu = new BSBeanUtils();
-		bu.save(conn, overtime);
+		bu.update(conn, overtime);
 
 		request.setAttribute("cId", employeeId);
 		request.getRequestDispatcher("/servlet/remuneration/events/overtime/OvertimeMain").forward(request, response);
 
 	}
 
-	public Date getDate(Connection conn, String day, Long periodId) {
-		BSBeanUtils bu = new BSBeanUtils();
-		Period period = new Period();
-		period.setId(periodId);
-		bu.search(conn, period);
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(period.getDate());
-		calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day));
-
-		Date date = calendar.getTime();
-
-		return date;
+	private Date getDate(Connection conn, String day, Long periodId) {
+		AddOvertime addOvertimeServlet = new AddOvertime();
+		return addOvertimeServlet.getDate(conn, day, periodId);
 	}
+
 }

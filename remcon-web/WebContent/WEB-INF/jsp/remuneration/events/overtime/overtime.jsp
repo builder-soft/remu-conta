@@ -1,3 +1,5 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
 <%@page import="cl.buildersoft.business.service.impl.PeriodServiceImpl"%>
 <%@page import="cl.buildersoft.business.service.PeriodService"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
@@ -11,26 +13,33 @@
 	Period period = (Period) request.getAttribute("Period");
 	Employee employee = (Employee) request.getAttribute("Employee");
 	List<Overtime> overtimes = (List<Overtime>) request.getAttribute("Overtimes");
+	Double overtimePercent = (Double)request.getAttribute("OvertimePercent");
 	
 	Integer lastDayMonth = lastDayMonth(period);
-	
+	String periodName = BSWeb.month2Word(period.getDate()) + " de " +   getYear(period.getDate());
 %>
-<%!
-private Integer lastDayMonth(Period period){
-	PeriodService ps = new PeriodServiceImpl();
-	return ps.lastDayMonth(period);
-}
-%>
+<%!private Integer lastDayMonth(Period period) {
+		PeriodService ps = new PeriodServiceImpl();
+		return ps.lastDayMonth(period);
+	}
+
+	private Integer getYear(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(date.getTime());
+		Integer out = calendar.get(Calendar.YEAR);
+		return out;
+	}%>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 
 <script
-	src="${pageContext.request.contextPath}/js/remuneration/events/overtime/overtime.js?<%=Math.random()%>"></script>
+	src="${pageContext.request.contextPath}/js/remuneration/events/overtime/overtime.js?<%=Math.random()%>">
+	</script>
 
 <h1 class="cTitle">Horas Extras</h1>
 
 <span class="cLabel">Período:&nbsp;&nbsp;</span>
-<span class="cData"><%=BSWeb.month2Word(period.getDate())%></span>
+<span class="cData"><%=periodName%></span>
 <br>
 <%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
 <br>
@@ -48,10 +57,15 @@ private Integer lastDayMonth(Period period){
 Integer index = 0;
 for(Overtime overtime : overtimes){
 	String color = index++ % 2 == 0 ? "cDataTD": "cDataTD_odd";
+	if(index.equals(1)){
+		%>
+		<script>overtimeId = <%=overtime.getId()%></script>
+		<%
+	}
 %>
 	<tr>
 		<td class='<%=color%>'><input name="overtimeId" type="radio" value="<%=overtime.getId() %>" <%=index==1?"checked":""%> 
-										onclick="javascript:selectRadio(<%=index%>)"></td>
+										onclick="javascript:selectRadio(<%=index%>, <%=overtime.getId() %>)"></td>
 		<td class='<%=color%>'><%=BSWeb.date2String(request, overtime.getDate()) %></td>
 		<td class='<%=color%>'><%=overtime.getPercent() %></td>
 		<td class='<%=color%>'><%=overtime.getAmount() %></td>
@@ -64,16 +78,16 @@ for(Overtime overtime : overtimes){
 </table>
 <br>
 <div id="defaultButtons">
-	<input type="Button" value="Agregar" onclick="javascript:add(<%=lastDayMonth%>);"> 
+	<input type="Button" value="Agregar" onclick="javascript:add(<%=lastDayMonth%>, <%=overtimePercent%>, '<%=periodName%>');"> 
 	
-	<input type="Button" value="Modificar" id="modify" onclick="javascript:editOvertime(<%=lastDayMonth%>);">
+	<input type="Button" value="Modificar" id="modify" onclick="javascript:editOvertime(<%=lastDayMonth%>, <%=overtimePercent%>, '<%=periodName%>');">
 	 
-	<input type="Button" value="Eliminar" id="erase"> 
+	<input type="Button" value="Eliminar" id="erase" onclick="javascript:eraseOvertime();"> 
 	
-	<a href="${pageContext.request.contextPath}/servlet/remuneration/events/overtime/OvertimeServlet">Volver</a>
+	<a href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
 </div>
 <div id="commitButtons" style="float: left; display: none;">
-	<input type="Button" value="Aceptar" onclick="javascript:commitAdd();">
+	<input type="Button" value="Aceptar" onclick="javascript:commit();">
 	<input type="Button" value="Cancelar" onclick="javascript:cancel();">
 </div>
 
@@ -81,9 +95,10 @@ for(Overtime overtime : overtimes){
 	<input type="hidden" name="cId" value="<%=employee.getId()%>">
 	<input type="hidden" name="cPeriod" value="<%=period.getId()%>">
 
-	<input type="hidden" name="cDate" id="cDate"> <input
-		type="hidden" name="cPercent" id="cPercent"> <input
-		type="hidden" name="cAmount" id="cAmount">
+	<input type="hidden" name="cOvertime" id="cOvertime">
+	<input type="hidden" name="cDay" id="cDay"> 
+	<input type="hidden" name="cPercent" id="cPercent"> 
+	<input type="hidden" name="cAmount" id="cAmount">
 </form>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

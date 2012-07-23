@@ -19,11 +19,11 @@ import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSConfig;
 
-@WebServlet("/servlet/remuneration/events/overtime/OvertimeEmployee")
-public class OvertimeEmployee extends HttpServlet {
+@WebServlet("/servlet/remuneration/events/overtime/OvertimeMain")
+public class OvertimeMain extends HttpServlet {
 	private static final long serialVersionUID = 835430674208654536L;
 
-	public OvertimeEmployee() {
+	public OvertimeMain() {
 		super();
 	}
 
@@ -35,13 +35,21 @@ public class OvertimeEmployee extends HttpServlet {
 		Period period = getPeriod(conn, mysql, bu, request);
 		Employee employee = getEmployee(conn, request);
 		List<Overtime> overtimes = getOvertimes(conn, employee, period);
+		Double overtimePercent = getOvertimePercent(conn);
 
 		request.setAttribute("Period", period);
 		request.setAttribute("Employee", employee);
 		request.setAttribute("Overtimes", overtimes);
+		request.setAttribute("OvertimePercent", overtimePercent);
 
 		request.getRequestDispatcher("/WEB-INF/jsp/remuneration/events/overtime/overtime.jsp").forward(request, response);
 
+	}
+
+	private Double getOvertimePercent(Connection conn) {
+		BSConfig config = new BSConfig();
+		Double overtimePercent = config.getDouble(conn, "OVERTIME_PERCENT");
+		return overtimePercent;
 	}
 
 	private List<Overtime> getOvertimes(Connection conn, Employee employee, Period period) {
