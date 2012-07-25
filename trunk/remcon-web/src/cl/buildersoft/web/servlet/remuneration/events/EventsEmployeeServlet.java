@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.remuneration.events.overtime;
+package cl.buildersoft.web.servlet.remuneration.events;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ public class EventsEmployeeServlet extends BSHttpServlet {
 	@Override
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
 		BSTableConfig table = initTable(request, "tEmployee");
-		table.setTitle("Horas Hextras");
+		table.setTitle("Eventos de empleados");
 
 		table.getField("cLastName1").setLabel("A. Paterno");
 		table.getField("cLastName2").setLabel("A. Materno");
@@ -31,7 +31,7 @@ public class EventsEmployeeServlet extends BSHttpServlet {
 		table.removeAction("EDIT");
 
 		createAction(table, "OVERTIME", "Horas Extras", "/servlet/remuneration/events/overtime/OvertimeMain");
-		createAction(table, "AANDD", "Haberes y descuentos", "/servlet/remuneration/events/assetDiscount/AssetDiscount");
+		createAction(table, "AANDD", "Haberes y descuentos", "/servlet/remuneration/events/assetDiscount/AssetDiscountMain");
 
 		return table;
 	}

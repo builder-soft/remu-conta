@@ -71,7 +71,7 @@ public class OvertimeMain extends HttpServlet {
 		return employee;
 	}
 
-	private Period getPeriod(Connection conn, BSmySQL mysql, BSBeanUtils bu, HttpServletRequest request) {
+	public Period getPeriod(Connection conn, BSmySQL mysql, BSBeanUtils bu, HttpServletRequest request) {
 		Long periodId = Long.parseLong(mysql.callFunction(conn, "fGetOpenedPeriod", null));
 		Period period = new Period();
 		period.setId(periodId);

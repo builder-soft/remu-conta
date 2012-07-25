@@ -7,13 +7,13 @@
 
 
 
-<ul class="myMenu_"><li>
+<ul class="myMenu_">
 	<%=write_menu_in_menu_jsp(session, request)%>
-	</li>
 </ul>
 
 </td>
-<td valign="top" width="5%" colspan="2"><%!private String write_menu_in_menu_jsp(HttpSession session,
+<td valign="top" width="5%" colspan="2">
+<%!private String write_menu_in_menu_jsp(HttpSession session,
 			HttpServletRequest request) {
 		Menu menuUser = (Menu) session.getAttribute("Menu");
 		String out = "";

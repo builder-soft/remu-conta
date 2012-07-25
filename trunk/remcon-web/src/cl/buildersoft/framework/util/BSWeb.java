@@ -31,7 +31,7 @@ public class BSWeb {
 				"Noviembre", "Diciembre" };
 		return out[date.getMonth()];
 	}
-
+	
 	public static String getYear(Date date) {
 		SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy");
 		return simpleDateformat.format(date);
