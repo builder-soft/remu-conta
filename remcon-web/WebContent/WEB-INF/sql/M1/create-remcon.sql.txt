@@ -151,6 +151,7 @@ CREATE TABLE tAssetDiscount (
  	cEnable		BIT			NOT NULL DEFAULT 0 COMMENT 'Flag para indicar si esta habilitado o no',
  	cLimit		DOUBLE		NULL COMMENT 'Limite del valor que se ingresa',
  	cOrder		INTEGER		NOT NULL COMMENT 'Orden en el cual se muestran en pantalla o en reporte',
+ 	cIndex		INTEGER		NOT NULL COMMENT 'Corresponde al indice de los campos de la tabla tBookAssets o tBookDiscounts',
  	cAssetDiscountType	BIGINT NOT NULL COMMENT 'Tipo de haber o descuento',
 	PRIMARY KEY(cId)
 ) ENGINE=InnoDB;

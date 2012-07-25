@@ -938,17 +938,17 @@ SET @hni = LAST_INSERT_ID();
 INSERT INTO tAssetDiscountType(cKey, cName) VALUES('DES', 'Otros Descuentos');
 SET @des = LAST_INSERT_ID();
 
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType) VALUES('Participación', true, 0, 1, @him);
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType) VALUES('Aguinaldo', true, 0, 2, @him);
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType) VALUES('Bono fin de año', true, 0, 3, @him);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Participación', true, 0, 1, @him, 1);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Aguinaldo', true, 0, 2, @him, 2);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Bono fin de año', true, 0, 3, @him, 3);
 
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType) VALUES('Alimentación', true, 0, 1, @hni);
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType) VALUES('Movilización', true, 0, 2, @hni);
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType) VALUES('Viaticos', true, 0, 3, @hni);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Alimentación', true, 0, 1, @hni, 1);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Movilización', true, 0, 2, @hni, 2);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Viaticos', true, 0, 3, @hni, 3);
 
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType) VALUES('Prestamo empresa', true, 0, 1, @des);
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType) VALUES('Retención Judicial', true, 0, 2, @des);
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType) VALUES('Convenio telefonía celular', true, 0, 3, @des);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Prestamo empresa', true, 0, 1, @des, 1);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Retención Judicial', true, 0, 2, @des, 2);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Convenio telefonía celular', true, 0, 3, @des, 3);
 
 
 /*

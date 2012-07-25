@@ -16,19 +16,14 @@
 	Double overtimePercent = (Double)request.getAttribute("OvertimePercent");
 	
 	Integer lastDayMonth = lastDayMonth(period);
-	String periodName = BSWeb.month2Word(period.getDate()) + " de " +   getYear(period.getDate());
+	String periodName = BSWeb.month2Word(period.getDate()) + " de " +  BSWeb.getYear(period.getDate());
 %>
 <%!private Integer lastDayMonth(Period period) {
 		PeriodService ps = new PeriodServiceImpl();
 		return ps.lastDayMonth(period);
 	}
 
-	private Integer getYear(Date date) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(date.getTime());
-		Integer out = calendar.get(Calendar.YEAR);
-		return out;
-	}%>
+	%>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 
