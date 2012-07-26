@@ -1,3 +1,4 @@
+/**
 function setupMenu(){
 	$('.myMenu > li').bind('mouseover', openSubMenu);
 	$('.myMenu > li').bind('mouseout', closeSubMenu);
@@ -11,7 +12,7 @@ function closeSubMenu() {
 	$(this).find('ul').css('visibility', 'hidden');	
 };
 
-/**
+
 var menu = null;
 function getSubMenu(obj, id) {
 	menu = obj.id;

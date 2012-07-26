@@ -1,3 +1,4 @@
+/*
 A:hover
 {
     TEXT-DECORATION: none 
@@ -10,6 +11,7 @@ A
     FONT-FAMILY: Arial;
     TEXT-DECORATION: none
 }
+*/
 BODY
 {
     FONT-FAMILY: Symbol, OpenSymbol, 'MT Extra', Marlett, 'Courier New';
@@ -219,9 +221,11 @@ TEXTAREA.cTextareaNoFocus
     FONT-FAMILY: Tahoma;
     BACKGROUND-COLOR: white
 }
+/*
 div.content{
 	height: 250px;
 	width: 90%;
 	overflow: scroll;
 	position: relative;
 }
+*/

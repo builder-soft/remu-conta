@@ -6,15 +6,41 @@
 	pageEncoding="ISO-8859-1"%>
 
 
+<ul class="jd_menu">
 
-<ul class="myMenu_">
 	<%=write_menu_in_menu_jsp(session, request)%>
+
+
+	<!-- 
+		<li>Sistema
+			<ul>
+				<li><a href="/remcon-web/servlet/system/user/UserManager">Usuarios</a></li>
+				<ul></ul>
+				<li><a href="/remcon-web/servlet/system/roleDef/RoleDef">Permisos
+						de roles</a></li>
+				<ul></ul>
+				<li><a
+					href="/remcon-web/servlet/system/changepassword/SearchPassword">Cambio
+						de clave</a></li>
+				<ul></ul>
+				<li><a href="/remcon-web/servlet/system/role/RolManager">Definición
+						de Roles</a></li>
+				<ul></ul>
+			</ul>
+		</li>
+		<li>Remuneraciones
+			<ul>
+				<li><a
+					href="/remcon-web/servlet/remuneration/events/EventsEmployeeServlet">Eventos
+						de Empleados</a></li>
+				<ul></ul>
+			</ul>
+		</li>
+	 -->
 </ul>
 
 </td>
-<td valign="top" width="5%" colspan="2">
-<%!private String write_menu_in_menu_jsp(HttpSession session,
-			HttpServletRequest request) {
+<td valign="top" width="5%" colspan="2"><%!private String write_menu_in_menu_jsp(HttpSession session, HttpServletRequest request) {
 		Menu menuUser = (Menu) session.getAttribute("Menu");
 		String out = "";
 		if (menuUser != null) {
@@ -26,30 +52,17 @@
 			for (Submenu submenu : main) {
 				opt = submenu.getOption();
 
-				out += option2String(opt, ctxPath);
+				out += "<li>";
+				out += option2String(opt, ctxPath, true);
 				out += writeSubMenu(submenu, ctxPath);
+				out += "</li>\n";
 			}
 		}
 		return out;
 	}
 
-	private String writeSubMenu(Submenu menu, String contextPath) {
-		Option opt = null;
-		String url = null;
-		String label = null;
-		String out = "<ul>";
-
-		List<Submenu> menuList = menu.list();
-		for (Submenu submenu : menuList) {
-			out += option2String(submenu.getOption(), contextPath);
-			out += writeSubMenu(submenu, contextPath);
-		}
-		out += "</ul>";
-		return out;
-	}
-
-	private String option2String(Option opt, String contextPath) {
-		String out = "<li>";
+	private String option2String(Option opt, String contextPath, Boolean isRoot) {
+		String out = "";
 		String url = opt.getUrl();
 		String label = opt.getLabel();
 		String urlPath = "";
@@ -68,11 +81,33 @@
 			out += "href=\"" + url + "\">";
 			endTag = "</a>";
 		} else {
-			out += "<a>";
-			endTag = "</a>";
+			if (isRoot) {
+				out += "";
+				endTag = "";
+			} else {
+				out += "<li>";
+				endTag = "</li>";
+
+			}
 		}
 
-		out += label + endTag + "</li>";
+		out += label + endTag + "";
 
+		return out;
+	}
+
+	private String writeSubMenu(Submenu menu, String contextPath) {
+		Option opt = null;
+		String url = null;
+		String label = null;
+		List<Submenu> menuList = menu.list();
+		Integer count = menuList.size();
+		String out = count > 0 ? "<ul>" : "";
+
+		for (Submenu submenu : menuList) {
+			out += option2String(submenu.getOption(), contextPath, false);
+			out += writeSubMenu(submenu, contextPath);
+		}
+		out += count > 0 ? "</ul>\n" : "\n";
 		return out;
 	}%>

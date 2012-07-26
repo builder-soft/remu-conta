@@ -21,43 +21,45 @@
 <%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
 <br>
 
-<table>
-	<tr>
-		<td valign="top">
-			<table border="1"><%=write_asset_discount(1L, assetDiscounts)%>
-				<tr>
-					<td class='cLabel'>cParticipation</td>
-				</tr>
-				<tr>
-					<td class='cLabel'>cExtraPay</td>
-				</tr>
-				<tr>
-					<td class='cLabel'>cFamilyRetroactive</td>
-				</tr>
-				<tr>
-					<td class='cLabel'>cFeeding</td>
-				</tr>
-				<tr>
-					<td class='cLabel'>cMobilization</td>
-				</tr>
-				<tr>
-					<td class='cLabel'>cBounty</td>
-				</tr>
-				<tr>
-					<td class='cLabel'>cMonthNotification</td>
-				</tr>
-				<tr>
-					<td class='cLabel'>cIAS</td>
-				</tr>
-			</table>
-		</td>
-		<td valign="top">
-			<table border="1"><%=write_asset_discount(2L, assetDiscounts)%>
-			</table>
-</table>
-<!-- 
-<a href="${pageContext.request.contextPath}/servlet/...">Volver</a>
- -->
+<form action="${pageContext.request.contextPath}/servlet/ShowParameters">
+	<table>
+		<tr>
+			<td valign="top">
+				<table border="1"><%=write_asset_discount(1L, assetDiscounts)%>
+					<tr>
+						<td class='cLabel'>cParticipation</td>
+					</tr>
+					<tr>
+						<td class='cLabel'>cExtraPay</td>
+					</tr>
+					<tr>
+						<td class='cLabel'>cFamilyRetroactive</td>
+					</tr>
+					<tr>
+						<td class='cLabel'>cFeeding</td>
+					</tr>
+					<tr>
+						<td class='cLabel'>cMobilization</td>
+					</tr>
+					<tr>
+						<td class='cLabel'>cBounty</td>
+					</tr>
+					<tr>
+						<td class='cLabel'>cMonthNotification</td>
+					</tr>
+					<tr>
+						<td class='cLabel'>cIAS</td>
+					</tr>
+				</table>
+			</td>
+			<td valign="top">
+				<table border="1"><%=write_asset_discount(2L, assetDiscounts)%>
+				</table>
+	</table>
+	<input type="submit" value="Aceptar">
+	<a href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
+	
+</form>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 
