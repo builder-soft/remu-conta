@@ -29,6 +29,7 @@ String periodName = BSWeb.month2Word(period.getDate()) + " de " +   BSWeb.getYea
 <%for(AssetDiscount assetDiscount : assetDiscounts ){ %>
 	<tr>
 		<td class='cLabel'><%=assetDiscount.getName() %></td>
+		<td><input type="text"></td>
 	</tr>
 <%} %>	
 	
