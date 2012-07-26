@@ -4,22 +4,39 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 <LINK rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/default.css?<%=Math.random() %>" />
 <LINK rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/menu.css?<%=Math.random() %>" />
+	href="${pageContext.request.contextPath}/css/jdMenu.css?<%=Math.random() %>" />
+		
 <title>Buildersoft &radic;</title>
 <script>
 	var contextPath = "${pageContext.request.contextPath}";
 	var speed = "fast";
 </script>
 <script src="${pageContext.request.contextPath}/js/common/framework.js"></script>
+<!-- 
 <script src="${pageContext.request.contextPath}/js/common/menu.js"></script>
+ -->
 <script
 	src="${pageContext.request.contextPath}/js/common/jquery-1.7.1.js"></script>
+	
+<script src="${pageContext.request.contextPath}/js/common/jdMenu/jquery.dimensions.js"></script>
+<script src="${pageContext.request.contextPath}/js/common/jdMenu/jquery.jdMenu.js"></script>
+<script src="${pageContext.request.contextPath}/js/common/jdMenu/jquery.jdMenu.packed.js"></script>	
+	
+	<script type="text/javascript">
+	$(function() {
+		$('ul.jd_menu').jdMenu();
+	});
+</script>
 </head>
+
+
+
 <body marginwidth="25" marginheight="25" bgcolor="#EDEDED"
-	onload="javaScript:loadFormat();setupMenu();try{onLoadPage();}catch(e){}">
+	onload="javaScript:loadFormat();try{onLoadPage();}catch(e){}">
 
 	<table border="0" style="width: 100%">
 		<tr>
