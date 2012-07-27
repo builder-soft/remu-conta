@@ -15,10 +15,8 @@
 	var contextPath = "${pageContext.request.contextPath}";
 	var speed = "fast";
 </script>
-<script src="${pageContext.request.contextPath}/js/common/framework.js"></script>
-<!-- 
-<script src="${pageContext.request.contextPath}/js/common/menu.js"></script>
- -->
+<script src="${pageContext.request.contextPath}/js/common/framework.js?<%=Math.random() %>"></script>
+
 <script
 	src="${pageContext.request.contextPath}/js/common/jquery-1.7.1.js"></script>
 	
@@ -33,8 +31,6 @@
 </script>
 </head>
 
-
-
 <body marginwidth="25" marginheight="25" bgcolor="#EDEDED"
 	onload="javaScript:loadFormat();try{onLoadPage();}catch(e){}">
 
@@ -48,4 +44,4 @@
 			</a></td>
 		</tr>
 		<tr>
-			<td valign="top">
+			<td valign="top" colspan="3">
