@@ -2,45 +2,15 @@
 <%@ page import="cl.buildersoft.framework.beans.Submenu"%>
 <%@ page import="cl.buildersoft.framework.beans.Option"%>
 <%@ page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 
 
-<ul class="_jd_menu">
+	<ul class="jd_menu">
+		<%=write_menu_in_menu_jsp(session, request)%>
+	</ul>
 
-	<%=write_menu_in_menu_jsp(session, request)%>
 
-
-	<!-- 
-		<li>Sistema
-			<ul>
-				<li><a href="/remcon-web/servlet/system/user/UserManager">Usuarios</a></li>
-				<ul></ul>
-				<li><a href="/remcon-web/servlet/system/roleDef/RoleDef">Permisos
-						de roles</a></li>
-				<ul></ul>
-				<li><a
-					href="/remcon-web/servlet/system/changepassword/SearchPassword">Cambio
-						de clave</a></li>
-				<ul></ul>
-				<li><a href="/remcon-web/servlet/system/role/RolManager">Definición
-						de Roles</a></li>
-				<ul></ul>
-			</ul>
-		</li>
-		<li>Remuneraciones
-			<ul>
-				<li><a
-					href="/remcon-web/servlet/remuneration/events/EventsEmployeeServlet">Eventos
-						de Empleados</a></li>
-				<ul></ul>
-			</ul>
-		</li>
-	 -->
-</ul>
-
-</td>
-<td valign="top" width="5%" colspan="2"><%!private String write_menu_in_menu_jsp(HttpSession session, HttpServletRequest request) {
+<%!private String write_menu_in_menu_jsp(HttpSession session,
+			HttpServletRequest request) {
 		Menu menuUser = (Menu) session.getAttribute("Menu");
 		String out = "";
 		if (menuUser != null) {
@@ -80,19 +50,18 @@
 			out += startTag;
 			out += "href=\"" + url + "\">";
 			endTag = "</a>";
-		} else {
+			/**<code>
+			} else {
 			if (isRoot) {
 				out += "";
 				endTag = "";
 			} else {
 				out += "<li>";
 				endTag = "</li>";
-
-			}
+			}</code>
+			 */
 		}
-
 		out += label + endTag + "";
-
 		return out;
 	}
 
@@ -105,8 +74,10 @@
 		String out = count > 0 ? "<ul>" : "";
 
 		for (Submenu submenu : menuList) {
+			out += "<li>";
 			out += option2String(submenu.getOption(), contextPath, false);
 			out += writeSubMenu(submenu, contextPath);
+			out += "</li>\n";
 		}
 		out += count > 0 ? "</ul>\n" : "\n";
 		return out;
