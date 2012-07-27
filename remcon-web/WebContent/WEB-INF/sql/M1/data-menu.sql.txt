@@ -13,9 +13,9 @@ INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, @menuIdSystem);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ROL', 'Definición de Roles', '/servlet/system/role/RolManager', @menuIdSystem);
 	INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, LAST_INSERT_ID());
 
-INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CONFIG', 'Configuracion', NULL, NULL);
+INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CONFIG', 'Configuracion del Sistema', NULL, NULL);
 SET @menuIdConfig = LAST_INSERT_ID();
-	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PARAMS', 'Parámetros del Sistema', '/servlet/config/systemparams/ParameterManager', @menuIdConfig);
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PARAMS', 'Parámetros', '/servlet/config/systemparams/ParameterManager', @menuIdConfig);
 	SET @menuId = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cType) VALUES('ADD_PARAMS', 'Botón Nuevo', null, @menuId, 2);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cType) VALUES('MOD_PARAMS', 'Botón Modificar', null, @menuId, 2);
@@ -47,7 +47,7 @@ SET @menuIdConfig = LAST_INSERT_ID();
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PFM', 'AFP', '/servlet/config/pfm/PFMManager', @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('INSURANCE', 'Seguro Cesantia', NULL, @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('SINGLE_TAX', 'Impuesto único', NULL, @menuIdConfig);
-	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ALLOWANCES', 'Asignaciones Familiar y Maternal', NULL, @menuIdConfig);
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ALLOWANCES', 'Asig. Familiar y Maternal', NULL, @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('SUPPORT', 'Soporte', NULL, @menuIdConfig);
 	
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('REMU', 'Remuneraciones', NULL, NULL);
@@ -79,6 +79,15 @@ SET @menuIdRemu = LAST_INSERT_ID();
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('REPORT', 'Reportes', NULL, NULL);
 SET @menuIdReport = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('FAVORITES', 'Favoritos', NULL, @menuIdReport);
+		SET @menuIdFavorites = LAST_INSERT_ID();
+			INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('F01', 'Favoritos 01', NULL, @menuIdFavorites);
+			INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('F02', 'Favoritos 02', NULL, @menuIdFavorites);
+			INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('F03', 'Favoritos 03', NULL, @menuIdFavorites);
+			INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('F04', 'Favoritos 04 >', NULL, @menuIdFavorites);
+			SET @menuIdFavorites04 = LAST_INSERT_ID();
+				INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('I01', 'Informe 01', NULL, @menuIdFavorites04);
+				INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('I02', 'Informe 02', NULL, @menuIdFavorites04);
+		
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CUSTOM_REPORT', 'Informe Personalizado', NULL, @menuIdReport);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('GRAPH', 'Gráfico', NULL, @menuIdReport);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PERIODS_REPORT', 'Períodos', NULL, @menuIdReport);

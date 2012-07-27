@@ -6,6 +6,7 @@
 
 	<ul class="jd_menu">
 		<%=write_menu_in_menu_jsp(session, request)%>
+		<li><a href="${pageContext.request.contextPath}/jsp/login/logout.jsp">Salir</a></li>
 	</ul>
 
 
