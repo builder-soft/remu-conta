@@ -1,17 +1,18 @@
+
 /*
 A:hover
 {
     TEXT-DECORATION: none 
 }
-
-A
+*/
+a
 {
-    FONT-SIZE: 10pt;
+/*    FONT-SIZE: 10pt;*/
     COLOR: #000e78;
     FONT-FAMILY: Arial;
     TEXT-DECORATION: none
 }
-*/
+
 BODY
 {
     FONT-FAMILY: Symbol, OpenSymbol, 'MT Extra', Marlett, 'Courier New';
@@ -77,7 +78,7 @@ H2.cTitle2
 {
     CURSOR: default;
     COLOR: firebrick;
-    FONT-FAMILY: 'Arial Black';
+    FONT-FAMILY: 'Arial';
     TEXT-DECORATION: underline
 }
 TD.cHeadTD

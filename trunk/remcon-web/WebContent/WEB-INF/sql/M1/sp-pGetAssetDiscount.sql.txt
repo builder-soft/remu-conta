@@ -5,9 +5,11 @@ CREATE PROCEDURE pGetAssetDiscount(IN pPeriod BIGINT, IN pEmployee BIGINT)
 BEGIN
 	SELECT	b.cBook, b.cGratificationType, b.cSimpleLoads,	b.cDisabilityBurdens, b.cMaternalLoads, b.cParticipation,
 			b.cExtraPay, b.cIAS, b.cBounty, b.cFamilyRetroactive, b.cMonthNotification, b.cFeeding, b.cMobilization,
-			b.cB01, b.cB02, b.cB03
+			b.cB01, b.cB02, b.cB03, b.cB04, b.cB05, b.cB06, b.cB07, b.cB08, b.cB09, b.cB10,
+			c.cD01, c.cD02, c.cD03
 	FROM	tBook AS a
 	LEFT JOIN tBookAssets AS b ON b.cBook = a.cId
+	LEFT JOIN tBookDiscounts AS c ON c.cBook = a.cId
 	WHERE	a.cPeriod = pPeriod AND 
 			a.cEmployee = pEmployee;
 			

@@ -81,7 +81,7 @@
 				<table border="0"><%=write_asset_discount(2L, assetDiscounts, assetDiscountData, haveData)%>
 				</table>
 	</table>
-	<input type="submit" value="Aceptar"> <a
+	<input type="submit" value="Aceptar"><a
 		href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
 
 </form>
