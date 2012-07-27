@@ -2,6 +2,8 @@ package cl.buildersoft.web.servlet.remuneration.events.assetDiscount;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -31,12 +33,22 @@ public class AssetDiscountMain extends HttpServlet {
 		Period period = getPeriod(conn, mysql, bu, request);
 		Employee employee = getEmployee(conn, request);
 		List<AssetDiscount> assetDiscount = (List<AssetDiscount>) bu.listAll(conn, new AssetDiscount());
+		List<Object> params = getParams(period, employee);
+		ResultSet assetDiscountData = mysql.callSingleSP(conn, "pGetAssetDiscount", params);
 
 		request.setAttribute("Period", period);
 		request.setAttribute("Employee", employee);
 		request.setAttribute("AssetDiscount", assetDiscount);
+		request.setAttribute("AssetDiscountData", assetDiscountData);
 		request.getRequestDispatcher("/WEB-INF/jsp/remuneration/events/assetDiscount/asset-discount.jsp").forward(request,
 				response);
+	}
+
+	private List<Object> getParams(Period period, Employee employee) {
+		List<Object> out = new ArrayList<Object>();
+		out.add(period.getId());
+		out.add(employee.getId());
+		return out;
 	}
 
 	private Period getPeriod(Connection conn, BSmySQL mysql, BSBeanUtils bu, HttpServletRequest request) {

@@ -6,7 +6,7 @@
 	pageEncoding="ISO-8859-1"%>
 
 
-<ul class="jd_menu">
+<ul class="_jd_menu">
 
 	<%=write_menu_in_menu_jsp(session, request)%>
 

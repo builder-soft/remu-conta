@@ -1,0 +1,16 @@
+DROP PROCEDURE if exists pGetAssetDiscount;
+DELIMITER $$
+
+CREATE PROCEDURE pGetAssetDiscount(IN pPeriod BIGINT, IN pEmployee BIGINT)
+BEGIN
+	SELECT	b.cBook, b.cGratificationType, b.cSimpleLoads,	b.cDisabilityBurdens, b.cMaternalLoads, b.cParticipation,
+			b.cExtraPay, b.cIAS, b.cBounty, b.cFamilyRetroactive, b.cMonthNotification, b.cFeeding, b.cMobilization,
+			b.cB01, b.cB02, b.cB03
+	FROM	tBook AS a
+	LEFT JOIN tBookAssets AS b ON b.cBook = a.cId
+	WHERE	a.cPeriod = pPeriod AND 
+			a.cEmployee = pEmployee;
+			
+END$$
+
+DELIMITER ;
