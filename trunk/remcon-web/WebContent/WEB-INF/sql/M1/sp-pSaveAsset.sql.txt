@@ -1,0 +1,38 @@
+DROP PROCEDURE if exists pSaveAsset;
+DELIMITER $$
+
+CREATE PROCEDURE pSaveAsset(IN pPeriod BIGINT, IN pEmployee BIGINT, IN pParticipation DOUBLE,
+							IN pExtraPay DOUBLE, IN pIAS DOUBLE, IN pBounty DOUBLE, IN pFamilyRetroactive DOUBLE,
+							IN pMonthNotification DOUBLE, IN pFeeding DOUBLE, IN pMobilization DOUBLE)
+BEGIN	
+	DECLARE vId, vBook BIGINT DEFAULT -1;
+	
+	SELECT	b.cId, a.cId
+	INTO	vId, vBook
+	FROM	tBook AS a
+	LEFT JOIN tBookAssets AS b ON b.cBook = a.cId
+	WHERE	a.cPeriod = pPeriod AND 
+			a.cEmployee = pEmployee;
+	
+	IF (vId > -1) THEN
+		UPDATE	tBookAssets
+		SET		cParticipation = pParticipation,
+				cExtraPay = pExtraPay,
+				cIAS = pIAS,
+				cBounty = pBounty, 
+				cFamilyRetroactive = pFamilyRetroactive,
+				cMonthNotification = pMonthNotification,
+				cFeeding = pFeeding,
+				cMobilization = pMobilization
+		WHERE	cId = vId;
+	ELSE
+		INSERT INTO 
+			tBookAssets(cBook, cGratificationType, cSimpleLoads,	cDisabilityBurdens, cMaternalLoads, cParticipation,
+						cExtraPay, cIAS, cBounty, cFamilyRetroactive, cMonthNotification, cFeeding, cMobilization)
+		VALUES(			vBook, 1, 					0, 				0, 					0,				pParticipation,
+						pExtraPay, pIAS, pBounty, pFamilyRetroactive, pMonthNotification, pFeeding, pMobilization);
+		
+	END IF;
+END$$
+
+DELIMITER ;

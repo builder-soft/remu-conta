@@ -564,7 +564,7 @@ el trabajor, No se calcula
 	cMobilization				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Movilización - Se ingresa por período',
 	cBounty               		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Viaticos - Se ingresa por período',
 	cMonthNotification			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Mes De Aviso - Se ingresa por período',
-	cIAS 						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Indemnisacion años de servicio - Se ingresa por período',
+	cIAS 						DOUBLE NOT NULL DEFAULT '0' COMMENT 'Indemnización años de servicio - Se ingresa por período',
 	cProportionalHoliday		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Feriado Proporcional - Se calcula',
 	cTotalIncomeNotTaxable		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Total haberes no imponibles',
 	cTotalIncome				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Total haberes',

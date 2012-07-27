@@ -941,7 +941,7 @@ INSERT INTO tAssetDiscountType(cKey, cName) VALUES('DES', 'Otros Descuentos');
 SET @des = LAST_INSERT_ID();
 */
 
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Participación', true, 0, 1, @bon, 1);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Bono Producción', true, 0, 1, @bon, 1);
 INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Aguinaldo', true, 0, 2, @bon, 2);
 INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Bono fin de año', true, 0, 3, @bon, 3);
 
