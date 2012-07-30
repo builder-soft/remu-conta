@@ -51,6 +51,7 @@ DROP PROCEDURE if exists bsframework.pSetUserSave;
 DROP PROCEDURE IF EXISTS getGratificationAmount;
 DROP PROCEDURE IF EXISTS pListBoardByType;
 DROP PROCEDURE IF EXISTS fInsertPeriod;
+DROP PROCEDURE IF EXISTS pSaveAssetBond;
 
 DROP FUNCTION IF EXISTS fSalaryReceived;
 DROP FUNCTION IF EXISTS fGetGratificationAmount;

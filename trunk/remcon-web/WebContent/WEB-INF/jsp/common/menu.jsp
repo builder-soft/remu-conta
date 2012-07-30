@@ -5,6 +5,7 @@
 
 
 	<ul class="jd_menu">
+		<li><a href="${pageContext.request.contextPath}/servlet/Home">Inicio</a></li>	
 		<%=write_menu_in_menu_jsp(session, request)%>
 		<li><a href="${pageContext.request.contextPath}/jsp/login/logout.jsp">Salir</a></li>
 	</ul>
@@ -14,6 +15,7 @@
 			HttpServletRequest request) {
 		Menu menuUser = (Menu) session.getAttribute("Menu");
 		String out = "";
+		//Boolean haveMore = null;
 		if (menuUser != null) {
 			String ctxPath = request.getContextPath();
 			List<Submenu> main = menuUser.list();
@@ -22,7 +24,6 @@
 			String label = null;
 			for (Submenu submenu : main) {
 				opt = submenu.getOption();
-
 				out += "<li>";
 				out += option2String(opt, ctxPath, true);
 				out += writeSubMenu(submenu, ctxPath);

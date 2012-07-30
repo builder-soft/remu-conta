@@ -951,9 +951,9 @@ INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, c
 INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Viaticos', true, 0, 3, @hni, 3);
 */
 
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Prestamo empresa', true, 0, 1, @des, 1);
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Retención Judicial', true, 0, 2, @des, 2);
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Convenio telefonía celular', true, 0, 3, @des, 3);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Convenio telefonía celular', true, 0, 1, @des, 1);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Descuento eventual', true, 0, 2, @des, 2);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Descuento final', true, 0, 3, @des, 3);
 
 
 /*

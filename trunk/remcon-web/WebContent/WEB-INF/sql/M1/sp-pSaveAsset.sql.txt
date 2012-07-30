@@ -29,6 +29,7 @@ BEGIN
 		INSERT INTO 
 			tBookAssets(cBook, cGratificationType, cSimpleLoads,	cDisabilityBurdens, cMaternalLoads, cParticipation,
 						cExtraPay, cIAS, cBounty, cFamilyRetroactive, cMonthNotification, cFeeding, cMobilization)
+						
 		VALUES(			vBook, 1, 					0, 				0, 					0,				pParticipation,
 						pExtraPay, pIAS, pBounty, pFamilyRetroactive, pMonthNotification, pFeeding, pMobilization);
 		
