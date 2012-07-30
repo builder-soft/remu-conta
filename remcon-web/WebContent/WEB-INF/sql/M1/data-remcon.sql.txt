@@ -45,6 +45,11 @@ INSERT INTO tFileCategory( cName ) VALUES('Licencia médica');
 INSERT INTO tFileCategory( cName ) VALUES('Certificados de título');
 INSERT INTO tFileCategory( cName ) VALUES('Otros archivos');
 
+INSERT INTO tLicenseCause(cKey, cName, cFileCategory) VALUES('ENFER', 'Enfermedad', 2);
+INSERT INTO tLicenseCause(cKey, cName) VALUES('ACCID', 'Accidente');
+INSERT INTO tLicenseCause(cKey, cName) VALUES('PERMI', 'Permiso');
+INSERT INTO tLicenseCause(cKey, cName) VALUES('AUSEN', 'Ausentismo');
+
 INSERT INTO tRol(cName) VALUES('Administrador');
 SET @rolId = LAST_INSERT_ID();
 

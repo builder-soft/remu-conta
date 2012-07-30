@@ -38,7 +38,7 @@
 <br>
 <%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
 <br>
- 
+<hr>
 <table class="cList" cellpadding="0" cellspacing="0" border="1"
 	id="overtimeTable">
 	<tr>

@@ -444,6 +444,27 @@ create table tFiscalDate(
 ) ENGINE=InnoDB;
 
 /*
+Tabla para registrar las aucencias y las licencias de los empleados.
+*/
+create table tLicense(
+	cId					BIGINT(20) NOT NULL auto_increment,
+	cEmployee			BIGINT(20) NOT NULL COMMENT 'Identificador del empleado quien tiene las horas extras',
+	cPeriod				BIGINT(20) NOT NULL COMMENT 'Id del período para el cual se registran las horas',
+	cStart				DATE NOT NULL COMMENT 'Fecha en la que comienza el período',
+	cEnd				DATE NOT NULL COMMENT 'Fecha de término del período',
+	cLicenseCause		BIGINT NOT NULL COMMENT 'Razon de la aucencia',
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+CREATE TABLE tLicenseCause (
+	cId BIGINT UNIQUE AUTO_INCREMENT,
+	cKey	CHAR(5) UNIQUE NOT NULL COMMENT 'Llave irrepetiblehabran procesos que la usan', 
+	cName	VARCHAR(15) NOT NULL COMMENT 'Descripción de la causa',
+	cFileCategory	BIGINT COMMENT 'Tipo del archivo asociado a la categoría',
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
+
+/*
 La tabla tPeriodStatus es para indicar si el período está cerrado o abierto, si está cerrado, no se 
 pueden cambiar los valores de la tabla.
 */
