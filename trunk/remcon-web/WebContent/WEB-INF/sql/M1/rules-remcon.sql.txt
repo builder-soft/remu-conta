@@ -98,16 +98,6 @@ ALTER TABLE tProfile
 ADD INDEX costCenter_index (cCostCenter ASC),
 ADD CONSTRAINT withCostCenter FOREIGN KEY (cCostCenter) REFERENCES tCostCenter(cId);
 
-/** ACCOUNT 
-ALTER TABLE tAccount
-ADD INDEX account_index_employee (cEmployee ASC),
-ADD CONSTRAINT AccountToEmployee FOREIGN KEY (cEmployee) REFERENCES tEmployee(cId);
-
-ALTER TABLE tAccount
-ADD INDEX account_index_currency (cCurrency ASC),
-ADD CONSTRAINT AccountToCurrency FOREIGN KEY (cCurrency) REFERENCES tCurrency(cId);
-*/
-
 /** ROL-OPTION */
 ALTER TABLE tR_RolOption
 ADD INDEX index_rol (cRol ASC),
@@ -181,6 +171,19 @@ ADD INDEX Overtime_index_Employee (cEmployee ASC),
 ADD INDEX Overtime_index_Period (cPeriod ASC),
 ADD CONSTRAINT OvertimeToEmployee FOREIGN KEY (cEmployee) REFERENCES tEmployee(cId),
 ADD CONSTRAINT OvertimeToPeriod FOREIGN KEY (cPeriod) REFERENCES tPeriod(cId);
+
+/* tLicense */
+ALTER TABLE tLicense
+ADD INDEX License_index_LicenseCause (cLicenseCause ASC),
+ADD INDEX License_index_Employee (cEmployee ASC),
+ADD INDEX License_index_Period (cPeriod ASC),
+ADD CONSTRAINT LicenseToLicenseCause FOREIGN KEY (cLicenseCause) REFERENCES tLicenseCause(cId),
+ADD CONSTRAINT LicenseToEmployee FOREIGN KEY (cEmployee) REFERENCES tEmployee(cId),
+ADD CONSTRAINT LicenseToPeriod FOREIGN KEY (cPeriod) REFERENCES tPeriod(cId);
+
+ALTER TABLE tLicenseCause
+ADD INDEX LicenseCause_index_FileCategory (cFileCategory ASC),
+ADD CONSTRAINT LicenseCauseToLicenseCause FOREIGN KEY (cFileCategory) REFERENCES tFileCategory(cId);
 
 /*tEnterpriseConfig*/
 ALTER TABLE tEnterpriseConfig

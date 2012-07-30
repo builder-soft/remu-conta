@@ -27,10 +27,9 @@
 <!--  
 <form method="post" action="${pageContext.request.contextPath}/servlet/ShowParameters">
  -->
-
+<hr>
 <form method="post"
 	action="${pageContext.request.contextPath}/servlet/remuneration/events/assetDiscount/SaveAssetDiscount">
-
 
 	<input name="cPeriod" type="hidden" value="<%=period.getId()%>">
 	<input name="cEmployee" type="hidden" value="<%=employee.getId()%>">

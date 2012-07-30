@@ -2,9 +2,6 @@
 <%@page import="cl.buildersoft.business.beans.FileCategory"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-
 <%
 	ResultSet filesEmployee = (ResultSet)request.getAttribute("filesEmployee");
 	Employee employee = (Employee) request.getAttribute("Employee");
