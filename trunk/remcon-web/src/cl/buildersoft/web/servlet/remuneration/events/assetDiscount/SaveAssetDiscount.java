@@ -25,13 +25,39 @@ public class SaveAssetDiscount extends HttpServlet {
 		Long employee = Long.parseLong(request.getParameter("cEmployee"));
 
 		saveAsset(request, mysql, conn, period, employee);
-		
-		
-		
-		
+		saveAssetAndDiscount(request, mysql, conn, period, employee,1L);
+
+		saveDiscount(request, mysql, conn, period, employee);
+		saveAssetAndDiscount(request, mysql, conn, period, employee,2L);
+
 		request.setAttribute("cId", employee);
 		request.getRequestDispatcher("/servlet/remuneration/events/EventsEmployeeServlet").forward(request, response);
 
+	}
+
+	private void saveAssetAndDiscount(HttpServletRequest request, BSmySQL mysql, Connection conn, Long period, Long employee,
+			Long type) {
+		List<Object> params = new ArrayList<Object>();
+		String fieldName, fieldValue = null;
+		String preFix = type.equals(1L) ? "cB" : "cD";
+		Double value = null;
+		params.add(period);
+		params.add(employee);
+		params.add(type);
+		for (int i = 1; i < 11; i++) {
+			fieldName = preFix + (i < 10 ? "0" + i : i);
+			fieldValue = request.getParameter(fieldName);
+			if (fieldValue != null) {
+				value = Double.parseDouble(fieldValue);
+				params.add(fieldName);
+				params.add(value);
+
+				mysql.callSingleSP(conn, "pSaveAssetOrDiscount", params);
+
+				params.remove(4);
+				params.remove(3);
+			}
+		}
 	}
 
 	private void saveAsset(HttpServletRequest request, BSmySQL mysql, Connection conn, Long period, Long employee) {
@@ -57,6 +83,23 @@ public class SaveAssetDiscount extends HttpServlet {
 		parameters.add(mobilization);
 
 		mysql.callSingleSP(conn, "pSaveAsset", parameters);
+	}
+
+	private void saveDiscount(HttpServletRequest request, BSmySQL mysql, Connection conn, Long period, Long employee) {
+		Double loanEnterprise = Double.parseDouble(request.getParameter("cLoanEnterprise"));
+		Double loanCompensationFund = Double.parseDouble(request.getParameter("cLoanCompensationFund"));
+		Double savingCompensationFund = Double.parseDouble(request.getParameter("cSavingCompensationFund"));
+		Double judicialRetention = Double.parseDouble(request.getParameter("cJudicialRetention"));
+
+		List<Object> parameters = new ArrayList<Object>();
+		parameters.add(period);
+		parameters.add(employee);
+		parameters.add(loanEnterprise);
+		parameters.add(loanCompensationFund);
+		parameters.add(savingCompensationFund);
+		parameters.add(judicialRetention);
+
+		mysql.callSingleSP(conn, "pSaveDiscount", parameters);
 	}
 
 }
