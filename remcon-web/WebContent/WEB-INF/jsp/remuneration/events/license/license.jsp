@@ -19,10 +19,20 @@
 <br>
 <%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
 
-<span class="cData"><hr>
-Pintar una tabla con los campos de la tabla tLicense, y que el detalle sea 
-considarnado la carga de un archivo para los que requieren un certificado...
-</span>
+<!-- 
+<span class="cData"><hr> Pintar una tabla con los campos de
+	la tabla tLicense, y que el detalle sea considarnado la carga de un
+	archivo para los que requieren un certificado... </span>
+-->
+
+<table class="cList" cellpadding="0" cellspacing="0" border="1">
+	<tr>
+		<td class="cHeadTD">Desde</td>
+		<td class="cHeadTD">Hasta</td>
+		<td class="cHeadTD">Días</td>
+		<td class="cHeadTD">Causa</td>
+	</tr>
+</table>
 
 <!-- 
 <table class="cList" cellpadding="0" cellspacing="0">
