@@ -12,15 +12,15 @@
 	function toNumber(valorNumber): convierte el valor a un valor numerico para poder realizar cálculos
 	validaFecha(string)
 */
-	function setClass(element, focus){
-		$(element).removeClass();
-		var name = "c";
-		
-		name += capitalize(element.tagName); //==='INPUT' ? "Select" : "Input";
-		name += focus ? "Focus" : "NoFocus";
-		
-		$(element).addClass(name);
-	}
+function setClass(element, focus){
+	$(element).removeClass();
+	var name = "c";
+	
+	name += capitalize(element.tagName); //==='INPUT' ? "Select" : "Input";
+	name += focus ? "Focus" : "NoFocus";
+	
+	$(element).addClass(name);
+}
 
 //-------------------------------------------------
     function loadFormat(theDocument){
@@ -314,3 +314,41 @@ function validaFecha2(a, c) {
 		setCookie(name,"",-1);
 	}
 	 
+	
+	function closeTooltip(){
+		$('#TOOLTIP_CONTAINER').fadeOut(speed);
+		$('#TOOLTIP_CONTENT').fadeOut(speed);
+/*
+		document.getElementById('TOOLTIP_CONTAINER').style.display = "none";
+		document.getElementById('TOOLTIP_CONTENT').style.display = "none"
+		*/
+		var cellContainer = document.getElementById('TOOLTIP_CELL_CONTAINER');
+	}
+
+	function showTooltip(divPatients){
+		document.getElementById('TOOLTIP_CELL_CONTAINER').innerHTML = document.getElementById(divPatients).innerHTML;
+		var tooltipContainer = document.getElementById('TOOLTIP_CONTAINER');
+		var tooltipContent = document.getElementById('TOOLTIP_CONTENT');
+		
+		tooltipContainer.style.height = "" + screen.height + "px";
+		tooltipContainer.style.width = "" + screen.width + "px";
+		
+//		alert("document.body.offsetHeight" +  document.body.offsetHeight + "\n screen.availHeight " + screen.availHeight);
+		
+//		tooltipContainer.style.display = "";
+		/*
+		tooltipContent.style.height = "" + document.body.offsetHeight + "px";
+		tooltipContent.style.width = "" + document.body.offsetWidth + "px";
+		*/
+		tooltipContent.style.height = "" + screen.height + "px";
+		tooltipContent.style.width = "" + screen.width + "px";
+//		tooltipContent.style.display = "";
+
+		/**
+		document.getElementById('TOOLTIP_CONTAINER').style.display = "";
+		document.getElementById('TOOLTIP_CONTENT').style.display = "";
+		*/
+		$('#TOOLTIP_CONTAINER').fadeIn(speed);
+		$('#TOOLTIP_CONTENT').fadeIn(speed);
+
+	}
