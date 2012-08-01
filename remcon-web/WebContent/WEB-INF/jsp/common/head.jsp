@@ -62,7 +62,7 @@
 			</tr>
 			<tr>
 				<td align="center" width="10">&nbsp;</td>
-				<td height="90%" align="center" valign="center"
+				<td height="90%" align="center" valign="top"
 					id="TOOLTIP_CELL_CONTAINER"></td>
 				<td align="center" width="10">&nbsp;</td>
 			</tr>

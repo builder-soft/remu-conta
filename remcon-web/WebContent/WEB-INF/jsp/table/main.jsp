@@ -137,8 +137,9 @@
 				out.print("<input type='button' ");
 				out.print("value='" + action.getLabel() + "' ");
 				out.print("id='o" + id + "' ");
+				out.print(action.getDisabled() ? "disabled":"");
 
-				out.print("onclick='javascript:window.location.href=\""
+				out.print(" onclick='javascript:window.location.href=\""
 						+ ctxPath + action.getUrl() + "\"'");
 				out.print(">");
 			}
@@ -153,7 +154,10 @@
 				out.print("<input type='button' ");
 				out.print("value='" + action.getLabel() + "' ");
 				out.print("id='o" + id + "' ");
-				out.print("onclick='javascript:f" + id + "();'");
+				
+				out.print(action.getDisabled() ? "disabled":"");
+				
+				out.print(" onclick='javascript:f" + id + "();'");
 				out.print(">");
 			}
 		}
@@ -167,7 +171,10 @@
 				out.print("<input type='button' ");
 				out.print("value='" + action.getLabel() + "' ");
 				out.print("id='o" + id + "' ");
-				out.print("onclick='javascript:doAction(\"" + ctxPath
+				
+				out.print(action.getDisabled() ? "disabled":"");
+				
+				out.print(" onclick='javascript:doAction(\"" + ctxPath
 						+ action.getUrl() + "\", \"" + action.getCode() + method
 						+ "\");'");
 

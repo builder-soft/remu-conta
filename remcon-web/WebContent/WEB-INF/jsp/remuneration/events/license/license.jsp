@@ -55,60 +55,70 @@
 
 <div id="divShowDetail" style="display: none">
 	<h2 class="cTitle2">Detalle de Licencia</h2>
-	<!-- 
-	<div class="contentScroll"></div>
-	 -->
-	<table>
-		<tr>
-			<td class="cLabel">Desde:</td>
-			<td><%=write_date(period, "From")%></td>
-		</tr>
-		<tr>
-			<td class="cLabel">Hasta:</td>
-			<td><%=write_date(period, "To")%></td>
-		</tr>
-		<tr>
-			<td class="cLabel">Días:</td>
-			<td id="days" class="cData"></td>
-		</tr>
-		<tr>
-			<td class="cLabel">Causa:</td>
-			<td>
-				<!-- 
+
+ 
+	<form
+		action="${pageContext.request.contextPath}/servlet/remuneration/events/license/AddLicense"
+		enctype="multipart/form-data" method="POST">
+
+
+<!--
+		 	<form
+		action="${pageContext.request.contextPath}/servlet/ShowParameters">
+-->
+		<input type="hidden" value="<%=employee.getId()%>" name="cId">
+		<table border="0">
+			<tr>
+				<td class="cLabel">Desde:</td>
+				<td><%=write_date(period, "cFrom")%></td>
+			</tr>
+			<tr>
+				<td class="cLabel">Hasta:</td>
+				<td><%=write_date(period, "cTo")%></td>
+			</tr>
+			<tr>
+				<td class="cLabel">Días:</td>
+				<td id="days" class="cData"></td>
+			</tr>
+			<tr>
+				<td class="cLabel">Causa:</td>
+				<td>
+					<!-- 
 			< %=cause.getId().equals(agreement.getProfile()) ? "selected"
 						: ""% >
-		 --> <select name="cCause" onchange='javascript:alert(this.value);'>
-					<%
-						String fileCategorie = null;
-						for (LicenseCause cause : licenseCauses) {
-							fileCategorie = cause.getFileCategory() == null ? "" : "" + cause.getFileCategory();
-					%>
-					<option value="<%=cause.getId()%>#<%=fileCategorie%>"><%=cause.getName()%></option>
-					<%
-						}
-					%>
-			</select>
-			</td>
-		</tr>
+		 --> <select name="cCause" id="cCause"
+					onchange='javascript:changeCause();'>
+						<%
+							String fileCategorie = null;
+							for (LicenseCause cause : licenseCauses) {
+								fileCategorie = cause.getFileCategory() == null ? "" : "" + cause.getFileCategory();
+						%>
+						<option value="<%=cause.getId()%>#<%=fileCategorie%>"><%=cause.getName()%></option>
+						<%
+							}
+						%>
+				</select>
+				</td>
+			</tr>
 
-		<tr id="RetrieveReason">
-			<td class="cLabel">Razón:</td>
-			<td><input></td>
-		</tr>
-		<tr id="RetrieveFile">
-			<td class="cLabel">Archivo:</td>
-			<td><input></td>
-		</tr>
-	</table>
-	<br /> <input type="button" value="Aceptar"
-		onclick="javascript:closeTooltip()" /> <input type="button"
-		value="Cancelar" onclick="javascript:closeTooltip()" />
+			<tr id="RetrieveReason">
+				<td class="cLabel">Razón:</td>
+				<td><input name="cReason"></td>
+			</tr>
+			<tr id="RetrieveFile">
+				<td class="cLabel">Certificado:</td>
+				<td><input type="file" name="cFile"></td>
+			</tr>
+		</table>
 
+		<br /> <input type="submit" value="Aceptar" /> <input type="button"
+			value="Cancelar" onclick="javascript:closeTooltip()" />
+	</form>
 </div>
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 <%!private String write_date(Period period, String id) {
 		String periodName = BSWeb.month2Word(period.getDate()) + " de " + BSWeb.getYear(period.getDate());
-		String html = "<select id='" + id + "' onchange='javascript:changeDay();'>";
+		String html = "<select name='" + id + "' id='" + id + "' onchange='javascript:changeDay();'>";
 		for (Integer i = 1; i <= lastDayMonth(period); i++) {
 			html += "<option value='" + i + "'>" + i + "</option>";
 		}

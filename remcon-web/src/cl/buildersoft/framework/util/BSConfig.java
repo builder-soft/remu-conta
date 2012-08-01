@@ -11,6 +11,7 @@ public class BSConfig extends BSDataUtils {
 	public Integer getInteger(Connection conn, String key) {
 		return Integer.parseInt(getValue(conn, key));
 	}
+
 	public Double getDouble(Connection conn, String key) {
 		return Double.parseDouble(getValue(conn, key));
 	}
@@ -28,7 +29,8 @@ public class BSConfig extends BSDataUtils {
 	public Integer getRecordsPerPage(Connection conn) {
 		return getInteger(conn, "RECORDS_PER_PAGE");
 	}
-	public static  String getFileSeparator(){
+
+	public static String getFileSeparator() {
 		return System.getProperty("file.separator");
 	}
 }

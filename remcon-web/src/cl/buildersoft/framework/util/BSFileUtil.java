@@ -14,28 +14,17 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import cl.buildersoft.framework.exception.BSSystemException;
 
 public class BSFileUtil {
-	// private HttpServletRequest request;
-	// private HttpServletResponse response;
-	// private String filesPath;
-	//
-	// public BSFileUtil(HttpServletRequest request, HttpServletResponse
-	// response, String filesPath) {
-	// this.request = request;
-	// this.response = response;
-	// this.filesPath = filesPath;
-	// }
 
-	public Map<String, String> uploadFile(HttpServletRequest request, String filesPath, String fileName) {
+	public Map<String, String> uploadFile(HttpServletRequest request, String path, String fileName) {
 		Map<String, String> out = new HashMap<String, String>();
 		DiskFileItemFactory factory = new DiskFileItemFactory();
-		// factory.setRepository(new File(filesPath));
+
 		ServletFileUpload upload = new ServletFileUpload(factory);
 
 		List<FileItem> items = null;
 		try {
 			items = upload.parseRequest(request);
 
-			// DatabaseFile databaseFile = new DatabaseFile();
 			for (FileItem item : items) {
 				if (item.isFormField()) {
 					out.put(item.getFieldName(), item.getString());
@@ -46,7 +35,7 @@ public class BSFileUtil {
 					out.put("file.contentType", item.getContentType());
 					out.put("file.size", "" + item.getSize());
 
-					File file = new File(filesPath + fileName);
+					File file = new File(path + fileName);
 					item.write(file);
 				}
 			}
