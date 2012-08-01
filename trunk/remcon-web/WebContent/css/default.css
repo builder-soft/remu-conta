@@ -222,11 +222,10 @@ TEXTAREA.cTextareaNoFocus
     FONT-FAMILY: Tahoma;
     BACKGROUND-COLOR: white
 }
-/*
-div.content{
+
+div.contentScroll{
 	height: 250px;
 	width: 90%;
 	overflow: scroll;
 	position: relative;
 }
-*/

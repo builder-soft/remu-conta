@@ -22,5 +22,26 @@
 
 <a href="${pageContext.request.contextPath}/servlet/...">Volver</a>
 
+<div id="divShowDetail" style="display: none">
+	<h2 class="cTitle2">Detalle de valores</h2>
+
+	<div class="contentScroll">
+		<table class="cList" cellpadding="0" cellspacing="0" id="movesTable">
+			<tr>
+				<td class="cHeadTD">Detalle</td>
+				<td class="cHeadTD">Comentario</td>
+				<td class="cHeadTD">Tipo</td>
+				<td class="cHeadTD">Monto</td>
+			</tr>
+		</table>
+	</div>
+	<br /> 
+
+	<input type="button" value="Cancelar"
+		onclick="javascript:closeTooltip()" />
+
+</div>
+
+
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 

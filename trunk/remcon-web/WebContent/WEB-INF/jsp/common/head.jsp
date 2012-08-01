@@ -17,7 +17,7 @@
 <title>Buildersoft &radic;</title>
 <script>
 	var contextPath = "${pageContext.request.contextPath}";
-	var speed = "fast";
+	var speed = "fast";// "slow";
 </script>
 <script
 	src="${pageContext.request.contextPath}/js/common/framework.js?<%=Math.random() %>"></script>
@@ -39,8 +39,41 @@
 </script>
 </head>
 
-<body marginwidth="25" marginheight="05" bgcolor="#EDEDED"
+<body marginwidth="25px" marginheight="5px" bgcolor="#EDEDED"
 	onload="javaScript:loadFormat();try{onLoadPage();}catch(e){}">
+
+	<div id="TOOLTIP_CONTAINER"
+		style="display:none;position:absolute;top:0;left:0;height:0;width:0;background-color:#CCCCCC;opacity:0.5;z-index:1;"
+		align="center">
+	</div>
+
+	<div id="TOOLTIP_CONTENT"
+		style="display: none; z-index: 2; position: absolute;" align="center">
+		<br /> <br />
+		<table border="0"
+			style="background-color: white; border: #000000 solid" width="60%"
+			height="50%">
+			<tr>
+				<td align="center" width="10">&nbsp;</td>
+				<td>&nbsp;</td>
+				<td align="center" width="10"><a
+					href="javascript:closeTooltip()"
+					onmousemove="javascript:window.status='Cerrar'"> (X) </a></td>
+			</tr>
+			<tr>
+				<td align="center" width="10">&nbsp;</td>
+				<td height="90%" align="center" valign="center"
+					id="TOOLTIP_CELL_CONTAINER"></td>
+				<td align="center" width="10">&nbsp;</td>
+			</tr>
+			<tr>
+				<td align="center" width="10">&nbsp;</td>
+				<td>&nbsp;</td>
+				<td align="center" width="10">&nbsp;</td>
+			</tr>
+		</table>
+	</div>
+
 
 	<table border="0" style="width: 100%">
 		<tr>
@@ -49,7 +82,19 @@
 				<span class="cLabel">Usuario:</span><span class="cData">&nbsp;<%=getUserName(session)%>
 					- <%=getUserMail(session)%></span></td>
 		<tr>
-			<td valign="top"><%!private String getDomainName(HttpSession session) {
+			<td valign="top">
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<%!private String getDomainName(HttpSession session) {
 		return ((Domain) session.getAttribute("Domain")).getAlias();
 	}
 
