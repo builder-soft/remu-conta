@@ -10,6 +10,7 @@ public class BSAction {
 	private String url = null;
 	private String[] natTable = null;
 	private String method = null;
+	private Boolean disabled = Boolean.FALSE;
 
 	public String getMethod() {
 		return method;
@@ -80,6 +81,14 @@ public class BSAction {
 		this.natTable[3] = otherTable;
 		this.setActionType(BSActionType.Record);
 		this.setUrl("/servlet/table/NatTable");
+	}
+
+	public Boolean getDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(Boolean disabled) {
+		this.disabled = disabled;
 	}
 
 }
