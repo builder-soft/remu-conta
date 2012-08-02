@@ -17,6 +17,7 @@ import cl.buildersoft.business.service.EmployeeService;
 import cl.buildersoft.business.service.impl.EmployeeServiceImpl;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
+import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.web.servlet.remuneration.events.overtime.OvertimeMain;
 
 @WebServlet("/servlet/remuneration/events/license/LicenseMain")
@@ -30,7 +31,7 @@ public class LicenseMain extends HttpServlet {
 
 		Period period = getPeriod(conn, mysql, bu, request);
 		Employee employee = getEmployee(conn, request);
-		List<LicenseCause> licenseCause = getLicenseCause(conn, request);
+		List<LicenseCause> licenseCause = getLicenseCause(conn);
 
 		request.setAttribute("Period", period);
 		request.setAttribute("Employee", employee);
@@ -38,7 +39,7 @@ public class LicenseMain extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/jsp/remuneration/events/license/license.jsp").forward(request, response);
 	}
 
-	private List<LicenseCause> getLicenseCause(Connection conn, HttpServletRequest request) {
+	private List<LicenseCause> getLicenseCause(Connection conn) {
 		BSBeanUtils bu = new BSBeanUtils();
 		List<LicenseCause> out = (List<LicenseCause>) bu.listAll(conn, new LicenseCause());
 		return out;
@@ -52,8 +53,24 @@ public class LicenseMain extends HttpServlet {
 
 	private Employee getEmployee(Connection conn, HttpServletRequest request) {
 		Employee employee = null;
-		String employeeId = request.getParameter("cId") == null ? (String) request.getAttribute("cId") : request
+		String idAsParameter = request.getParameter("cId");
+		String employeeId =null;
+		
+		if(idAsParameter!= null){
+			employeeId = idAsParameter;
+		}else{
+			Object idAsAttribute = request.getAttribute("cId");
+			if(idAsAttribute== null){
+				throw new BSProgrammerException("No hay parametro de ID de empleado");
+			}else{
+				employeeId = idAsAttribute.toString();
+			}			
+		}
+/*
+		String employeeId =  idAsParameter== null ? (String) request.getAttribute("cId") : request
 				.getParameter("cId");
+	*/	
+		
 		Long id = Long.parseLong(employeeId);
 		EmployeeService employeeService = new EmployeeServiceImpl();
 		employee = employeeService.getEmployee(conn, id);
