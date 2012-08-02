@@ -67,6 +67,7 @@
 		action="${pageContext.request.contextPath}/servlet/ShowParameters">
 -->
 		<input type="hidden" value="<%=employee.getId()%>" name="cId">
+		<input type="hidden" value="<%=period.getId()%>" name="cPeriod">
 		<table border="0">
 			<tr>
 				<td class="cLabel">Desde:</td>

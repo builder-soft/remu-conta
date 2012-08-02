@@ -1,6 +1,5 @@
 package cl.buildersoft.framework.util;
 
-import java.io.File;
 import java.sql.Connection;
 
 public class BSConfig extends BSDataUtils {
