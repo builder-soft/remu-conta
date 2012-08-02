@@ -66,12 +66,13 @@ public class DocumentEmployee extends AbstractServletUtil {
 			BSBeanUtils bu = new BSBeanUtils();
 			BSConfig config = new BSConfig();
 			Connection conn = mysql.getConnection(request);
+			BSFileUtil fu = new BSFileUtil();
 
 			Long documentId = Long.valueOf(request.getParameter("idDocument"));
 			employeeFile.setId(documentId);
 			bu.search(conn, employeeFile);
 
-			String path = fixPath(fixPath(config.getString(conn, "EMPLOYEE_FILES")) + employeeFile.getFileCategory());
+			String path = fu.fixPath(fu.fixPath(config.getString(conn, "EMPLOYEE_FILES")) + employeeFile.getFileCategory());
 
 			writeFileToBrowser(response, employeeFile, path);
 
@@ -91,7 +92,9 @@ public class DocumentEmployee extends AbstractServletUtil {
 			Connection conn = mysql.getConnection(request);
 			EmployeeFile employeeFile = getEmployeeFile(conn, documentId);
 			BSConfig config = new BSConfig();
-			String path = fixPath(fixPath(config.getString(conn, "EMPLOYEE_FILES")) + employeeFile.getFileCategory());
+			BSFileUtil fu = new BSFileUtil();
+
+			String path = fu.fixPath(fu.fixPath(config.getString(conn, "EMPLOYEE_FILES")) + employeeFile.getFileCategory());
 
 			File file = new File(path + employeeFile.getFileRealName());
 			if (file.delete()) {
@@ -138,13 +141,13 @@ public class DocumentEmployee extends AbstractServletUtil {
 	public void uploadFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
-		BSFileUtil fileUtil = new BSFileUtil();
+		BSFileUtil fu = new BSFileUtil();
 
 		BSConfig config = new BSConfig();
-		String tempPath = fixPath(config.getString(conn, "EMPLOYEE_FILES"));
+		String tempPath = fu.fixPath(config.getString(conn, "EMPLOYEE_FILES"));
 
 		String tempFileName = "" + System.currentTimeMillis();
-		Map<String, String> values = (HashMap<String, String>) fileUtil.uploadFile(request, tempPath, tempFileName);
+		Map<String, String> values = (HashMap<String, String>) fu.uploadFile(request, tempPath, tempFileName);
 
 		Long idEmployee = Long.parseLong(values.get("cId"));
 		Long idCategory = Long.parseLong(values.get("cCategory"));
@@ -152,10 +155,10 @@ public class DocumentEmployee extends AbstractServletUtil {
 		EmployeeService employeeService = new EmployeeServiceImpl();
 		Employee employee = employeeService.getEmployee(conn, idEmployee);
 
-		String newPath = getPath(tempPath, idCategory);
-		String newFileName = getFileName(employee, values.get("file.fileName"));
+		String newPath = fu.getPath(tempPath, idCategory);
+		String newFileName = fu.getFileName(employee, values.get("file.fileName"));
 
-		if (!fileUtil.renameFile(tempPath, tempFileName, fixPath(newPath), newFileName)) {
+		if (!fu.moveFile(tempPath, tempFileName, fu.fixPath(newPath), newFileName)) {
 			throw new BSConfigurationException("Can't move file from " + tempPath + " to " + newPath);
 		}
 		saveFileToDatabase(conn, values, newFileName);
@@ -164,7 +167,7 @@ public class DocumentEmployee extends AbstractServletUtil {
 				request, response);
 	}
 
-	private void saveFileToDatabase(Connection conn, Map<String, String> values, String newFileName) {
+	public void saveFileToDatabase(Connection conn, Map<String, String> values, String newFileName) {
 		EmployeeFile employeeFile = new EmployeeFile();
 		employeeFile.setContentType(values.get("file.contentType"));
 		employeeFile.setDateTime(new Timestamp(System.currentTimeMillis()));
@@ -181,28 +184,6 @@ public class DocumentEmployee extends AbstractServletUtil {
 
 	}
 
-	private String fixPath(String path) {
-		String fileSeparator = BSConfig.getFileSeparator();
-		if (path.lastIndexOf(fileSeparator) < path.length()) {
-			path += fileSeparator;
-		}
-		return path;
-	}
+	
 
-	private String getPath(String path, Long category) {
-		String fullPath = path + category;
-		File folder = new File(fullPath);
-
-		if (!folder.exists()) {
-			folder.mkdirs();
-		}
-
-		return fullPath;
-	}
-
-	private String getFileName(Employee employee, String fileName) {
-		String rut = employee.getRut().replaceAll("-", "");
-		String out = rut + "-" + System.currentTimeMillis() + fileName.substring(fileName.lastIndexOf("."));
-		return out;
-	}
 }

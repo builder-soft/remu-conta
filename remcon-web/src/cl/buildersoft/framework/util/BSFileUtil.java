@@ -1,6 +1,7 @@
 package cl.buildersoft.framework.util;
 
 import java.io.File;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +12,35 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import cl.buildersoft.business.beans.Employee;
+import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSSystemException;
 
 public class BSFileUtil {
+
+	public Map<String, String> uploadFile(HttpServletRequest request) {
+		BSmySQL mysql = new BSmySQL();
+		Connection conn = mysql.getConnection(request);
+
+		BSConfig config = new BSConfig();
+		String tempPath = fixPath(config.getString(conn, "EMPLOYEE_FILES"));
+
+		String tempFileName = "" + System.currentTimeMillis();
+		Map<String, String> values = (HashMap<String, String>) uploadFile(request, tempPath, tempFileName);
+
+		values.put("file.path", tempPath);
+		values.put("file.fileRealName", tempFileName);
+
+		return values;
+	}
+
+	public String fixPath(String path) {
+		String fileSeparator = BSConfig.getFileSeparator();
+		if (path.lastIndexOf(fileSeparator) < path.length()) {
+			path += fileSeparator;
+		}
+		return path;
+	}
 
 	public Map<String, String> uploadFile(HttpServletRequest request, String path, String fileName) {
 		Map<String, String> out = new HashMap<String, String>();
@@ -45,10 +72,27 @@ public class BSFileUtil {
 		return out;
 	}
 
-	public Boolean renameFile(String oldPath, String oldName, String newPath, String newName) {
+	public Boolean moveFile(String oldPath, String oldName, String newPath, String newName) {
 		File oldFile = new File(oldPath + oldName);
 		File newFile = new File(newPath + newName);
 		Boolean success = oldFile.renameTo(newFile);
 		return success;
+	}
+
+	public String getPath(String path, Long category) {
+		String fullPath = path + category;
+		File folder = new File(fullPath);
+
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+
+		return fullPath;
+	}
+
+	public String getFileName(Employee employee, String fileName) {
+		String rut = employee.getRut().replaceAll("-", "");
+		String out = rut + "-" + System.currentTimeMillis() + fileName.substring(fileName.lastIndexOf("."));
+		return out;
 	}
 }

@@ -450,8 +450,8 @@ create table tLicense(
 	cId					BIGINT(20) NOT NULL auto_increment,
 	cEmployee			BIGINT(20) NOT NULL COMMENT 'Identificador del empleado quien tiene las horas extras',
 	cPeriod				BIGINT(20) NOT NULL COMMENT 'Id del período para el cual se registran las horas',
-	cStart				DATE NOT NULL COMMENT 'Fecha en la que comienza el período',
-	cEnd				DATE NOT NULL COMMENT 'Fecha de término del período',
+	cFrom				INTEGER NOT NULL COMMENT 'Día del período de comienzo de licencia',
+	cTo					INTEGER NOT NULL COMMENT 'Día del período de término de licencia',
 	cLicenseCause		BIGINT NOT NULL COMMENT 'Razon de la aucencia',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
