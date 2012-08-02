@@ -28,6 +28,7 @@ public class AddLicense extends HttpServlet {
 		BSFileUtil fu = new BSFileUtil();
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
+		Long causeLong = null;
 
 		Map<String, String> values = fu.uploadFile(request);
 
@@ -37,10 +38,12 @@ public class AddLicense extends HttpServlet {
 		String fileCategory = null;
 		String cause = values.get("cCause");
 		Integer indexOfSign = cause.indexOf("#");
-		fileCategory = cause.substring(indexOfSign+1);
+		fileCategory = cause.substring(indexOfSign + 1);
 		cause = cause.substring(0, indexOfSign);
 
-		saveLicense(conn, Long.parseLong(cause), values, employeeId, periodId);
+		causeLong = Long.parseLong(cause);
+
+		saveLicense(conn, causeLong, values, employeeId, periodId);
 
 		if (fileCategory.length() > 0) {
 			String fileName = values.get("file.fileName");
@@ -48,12 +51,23 @@ public class AddLicense extends HttpServlet {
 			EmployeeService employeeService = new EmployeeServiceImpl();
 			Employee employee = employeeService.getEmployee(conn, employeeId);
 			fileName = fu.getFileName(employee, fileName);
+			String oldPath = values.get("file.path");
+			String newPath = fu.getPath(oldPath, causeLong);
+			String oldName = values.get("file.fileRealName");
 
 			saveFileToDatabase(conn, values, fileName, employeeId, Long.parseLong(fileCategory));
+
+			// String newName = fu.getFileName(employee, fileName);
+
+			System.out.println("oldPath:" + oldPath + ", oldName:" + oldName + ", newPath:" + newPath + ", fileName:" + fileName);
+
+			fu.moveFile(oldPath, oldName, newPath, fileName);
 		}
 
 		request.setAttribute("cId", employeeId);
 		request.getRequestDispatcher("/servlet/remuneration/events/license/LicenseMain").forward(request, response);
+		// request.getRequestDispatcher("/servlet/ShowParameters").forward(request,
+		// response);
 	}
 
 	private void saveLicense(Connection conn, Long cause, Map<String, String> values, Long employeeId, Long periodId) {
