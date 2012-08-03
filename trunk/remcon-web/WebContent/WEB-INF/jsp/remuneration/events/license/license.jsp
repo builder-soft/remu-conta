@@ -36,6 +36,7 @@
 <hr>
 <table class="cList" cellpadding="0" cellspacing="0" border="1">
 	<tr>
+		<td class="cHeadTD">Sele.</td>
 		<td class="cHeadTD">Desde</td>
 		<td class="cHeadTD">Hasta</td>
 		<td class="cHeadTD">Días</td>
@@ -44,13 +45,18 @@
 	</tr>
 	<%
 		String fileName = null;
+		Integer index = 0;
 		while (licenses.next()) {
 			fileName = licenses.getString("cFileName");
 			if (fileName == null) {
 				fileName = "-";
 			}
+			index++;
 	%>
 	<tr>
+		<td class="cDataTD"><input type="radio" name='LicenseRadio'
+			value="<%=licenses.getLong("cId")%>"
+			<%=index.equals(1) ? "checked" : ""%>></td>
 		<td class="cDataTD"><%=licenses.getInt("cFrom") + " " + periodName%></td>
 		<td class="cDataTD"><%=licenses.getInt("cTo") + " " + periodName%></td>
 		<td class="cDataTD"><%=licenses.getInt("cDays")%></td>
@@ -65,17 +71,20 @@
 <br>
 <div id="defaultButtons">
 	<input type="Button" value="Agregar" onclick="javascript:showForm();">
+	<!-- 
 	<input type="Button" value="Modificar" id="modify"
-		onclick="javascript:editOvertime();"> <input type="Button"
-		value="Eliminar" id="erase" onclick="javascript:eraseOvertime();">
-
-	<a
+		onclick="javascript:editOvertime();"> -->
+	<input type="Button" value="Eliminar" id="erase"
+		onclick="javascript:eraseLicense();"> <a
 		href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
 </div>
+<form id="EraseLicense" action="${pageContext.request.contextPath}/servlet/remuneration/events/license/EraseLicense" method="post">
+	<input type="hidden" name="cLicense" id="cLicense">
+	<input type="hidden" value="<%=employee.getId()%>" name="cId">
 
+</form>
 <div id="divShowDetail" style="display: none">
 	<h2 class="cTitle2">Detalle de Licencia</h2>
-
 
 	<form
 		action="${pageContext.request.contextPath}/servlet/remuneration/events/license/AddLicense"

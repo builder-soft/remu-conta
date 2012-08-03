@@ -44,7 +44,7 @@ public abstract class DownloadCSVServlet extends HttpServlet {
 
 		String sql = getSQL(table, fields);
 
-		char separator = new BSConfig().getSeparator(conn);
+		char separator = new BSConfig().getCSVSeparator(conn);
 
 		ServletOutputStream output = configHeaderAsCSV(response, table.getTableName());
 		CsvWriter csv = new CsvWriter(output, separator, Charset.defaultCharset());

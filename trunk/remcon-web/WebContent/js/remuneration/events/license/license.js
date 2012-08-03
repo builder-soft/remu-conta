@@ -18,12 +18,12 @@ function changeCause() {
 	var value = document.getElementById("cCause").options[index].value;
 	var position = value.indexOf("#");
 	var cause = "";
-	
+
 	if (position > -1) {
 		cause = value.substring(position + 1);
 	}
-//alert(cause + " " + (cause != null));
-	if(cause != ""){
+	// alert(cause + " " + (cause != null));
+	if (cause != "") {
 		$("#RetrieveReason").fadeIn(speed);
 		$("#RetrieveFile").fadeIn(speed);
 	} else {
@@ -38,4 +38,12 @@ function showForm(obj) {
 	changeDay();
 	changeCause();
 	// alert(document.getElementById("From").selectedIndex);
+}
+
+function eraseLicense(id) {
+	if (confirm('¿Estas seguro de querer borrar esta licencia?')) {
+		var selected = $('input[name=LicenseRadio]:checked').val();
+		document.getElementById("cLicense").value = selected;
+		$("#EraseLicense").submit();
+	}
 }

@@ -20,7 +20,7 @@ public class BSConfig extends BSDataUtils {
 		return super.queryField(conn, sql, key);
 	}
 
-	public char getSeparator(Connection conn) {
+	public char getCSVSeparator(Connection conn) {
 		String seperator = getString(conn, "CSV_SEPARATOR");
 		return seperator.toCharArray()[0];
 	}
@@ -31,5 +31,17 @@ public class BSConfig extends BSDataUtils {
 
 	public static String getFileSeparator() {
 		return System.getProperty("file.separator");
+	}
+
+	public String getFilePath(Connection conn) {
+		return fixPath(getString(conn, "EMPLOYEE_FILES"));
+	}
+
+	public String fixPath(String path) {
+		String fileSeparator = BSConfig.getFileSeparator();
+		if (path.lastIndexOf(fileSeparator) < path.length()) {
+			path += fileSeparator;
+		}
+		return path;
 	}
 }

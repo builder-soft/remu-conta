@@ -34,6 +34,7 @@ public class BSFileUtil {
 		return values;
 	}
 
+	@Deprecated
 	public String fixPath(String path) {
 		String fileSeparator = BSConfig.getFileSeparator();
 		if (path.lastIndexOf(fileSeparator) < path.length()) {
