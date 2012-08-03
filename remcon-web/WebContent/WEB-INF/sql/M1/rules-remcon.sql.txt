@@ -177,9 +177,11 @@ ALTER TABLE tLicense
 ADD INDEX License_index_LicenseCause (cLicenseCause ASC),
 ADD INDEX License_index_Employee (cEmployee ASC),
 ADD INDEX License_index_Period (cPeriod ASC),
+ADD INDEX License_index_File (cFile ASC),
 ADD CONSTRAINT LicenseToLicenseCause FOREIGN KEY (cLicenseCause) REFERENCES tLicenseCause(cId),
 ADD CONSTRAINT LicenseToEmployee FOREIGN KEY (cEmployee) REFERENCES tEmployee(cId),
-ADD CONSTRAINT LicenseToPeriod FOREIGN KEY (cPeriod) REFERENCES tPeriod(cId);
+ADD CONSTRAINT LicenseToPeriod FOREIGN KEY (cPeriod) REFERENCES tPeriod(cId),
+ADD CONSTRAINT LicenseToFile FOREIGN KEY (cFile) REFERENCES tFile(cId);
 
 ALTER TABLE tLicenseCause
 ADD INDEX LicenseCause_index_FileCategory (cFileCategory ASC),

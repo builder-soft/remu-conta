@@ -2,6 +2,7 @@ package cl.buildersoft.web.servlet.remuneration.events.license;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -32,10 +33,12 @@ public class LicenseMain extends HttpServlet {
 		Period period = getPeriod(conn, mysql, bu, request);
 		Employee employee = getEmployee(conn, request);
 		List<LicenseCause> licenseCause = getLicenseCause(conn);
+		ResultSet licenses = mysql.callSingleSP(conn, "pListLicense", employee.getId());
 
 		request.setAttribute("Period", period);
 		request.setAttribute("Employee", employee);
 		request.setAttribute("LicenseCauses", licenseCause);
+		request.setAttribute("Licenses", licenses);
 		request.getRequestDispatcher("/WEB-INF/jsp/remuneration/events/license/license.jsp").forward(request, response);
 	}
 
@@ -54,23 +57,23 @@ public class LicenseMain extends HttpServlet {
 	private Employee getEmployee(Connection conn, HttpServletRequest request) {
 		Employee employee = null;
 		String idAsParameter = request.getParameter("cId");
-		String employeeId =null;
-		
-		if(idAsParameter!= null){
+		String employeeId = null;
+
+		if (idAsParameter != null) {
 			employeeId = idAsParameter;
-		}else{
+		} else {
 			Object idAsAttribute = request.getAttribute("cId");
-			if(idAsAttribute== null){
+			if (idAsAttribute == null) {
 				throw new BSProgrammerException("No hay parametro de ID de empleado");
-			}else{
+			} else {
 				employeeId = idAsAttribute.toString();
-			}			
+			}
 		}
-/*
-		String employeeId =  idAsParameter== null ? (String) request.getAttribute("cId") : request
-				.getParameter("cId");
-	*/	
-		
+		/*
+		 * String employeeId = idAsParameter== null ? (String)
+		 * request.getAttribute("cId") : request .getParameter("cId");
+		 */
+
 		Long id = Long.parseLong(employeeId);
 		EmployeeService employeeService = new EmployeeServiceImpl();
 		employee = employeeService.getEmployee(conn, id);
