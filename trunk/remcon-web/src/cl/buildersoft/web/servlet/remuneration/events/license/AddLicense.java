@@ -29,6 +29,7 @@ public class AddLicense extends HttpServlet {
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 		Long causeLong = null;
+		Long fileId = null;
 
 		Map<String, String> values = fu.uploadFile(request);
 
@@ -43,34 +44,28 @@ public class AddLicense extends HttpServlet {
 
 		causeLong = Long.parseLong(cause);
 
-		saveLicense(conn, causeLong, values, employeeId, periodId);
-
 		if (fileCategory.length() > 0) {
-			String fileName = values.get("file.fileName");
+			String originalFileName = values.get("file.fileName");
 
 			EmployeeService employeeService = new EmployeeServiceImpl();
 			Employee employee = employeeService.getEmployee(conn, employeeId);
-			fileName = fu.getFileName(employee, fileName);
+			String fileName = fu.getFileName(employee, originalFileName);
 			String oldPath = values.get("file.path");
-			String newPath = fu.getPath(oldPath, causeLong);
+			String newPath = fu.fixPath(fu.getPath(oldPath, Long.parseLong(fileCategory)));
 			String oldName = values.get("file.fileRealName");
 
-			saveFileToDatabase(conn, values, fileName, employeeId, Long.parseLong(fileCategory));
-
-			// String newName = fu.getFileName(employee, fileName);
-
-			System.out.println("oldPath:" + oldPath + ", oldName:" + oldName + ", newPath:" + newPath + ", fileName:" + fileName);
+			fileId = saveFileToDatabase(conn, values, fileName, employeeId, Long.parseLong(fileCategory));
 
 			fu.moveFile(oldPath, oldName, newPath, fileName);
 		}
 
+		saveLicense(conn, causeLong, values, employeeId, periodId, fileId);
+
 		request.setAttribute("cId", employeeId);
 		request.getRequestDispatcher("/servlet/remuneration/events/license/LicenseMain").forward(request, response);
-		// request.getRequestDispatcher("/servlet/ShowParameters").forward(request,
-		// response);
 	}
 
-	private void saveLicense(Connection conn, Long cause, Map<String, String> values, Long employeeId, Long periodId) {
+	private void saveLicense(Connection conn, Long cause, Map<String, String> values, Long employeeId, Long periodId, Long file) {
 		Integer to = Integer.parseInt(values.get("cTo"));
 		Integer from = Integer.parseInt(values.get("cFrom"));
 		BSBeanUtils bu = new BSBeanUtils();
@@ -81,12 +76,13 @@ public class AddLicense extends HttpServlet {
 		license.setLicenseCause(cause);
 		license.setPeriod(periodId);
 		license.setTo(to);
+		license.setFile(file);
 
 		bu.save(conn, license);
 
 	}
 
-	private void saveFileToDatabase(Connection conn, Map<String, String> values, String fileName, Long employeeId,
+	private Long saveFileToDatabase(Connection conn, Map<String, String> values, String fileName, Long employeeId,
 			Long fileCategory) {
 		EmployeeFile employeeFile = new EmployeeFile();
 		employeeFile.setContentType(values.get("file.contentType"));
@@ -100,7 +96,7 @@ public class AddLicense extends HttpServlet {
 		Long size = Math.round(Double.parseDouble("" + (Long.parseLong(values.get("file.size")) / 1024)));
 		employeeFile.setSize(size);
 		BSBeanUtils bu = new BSBeanUtils();
-		bu.insert(conn, employeeFile);
+		return bu.insert(conn, employeeFile);
 
 	}
 }

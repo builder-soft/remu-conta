@@ -25,11 +25,11 @@ public class BSFileUtil {
 		BSConfig config = new BSConfig();
 		String tempPath = fixPath(config.getString(conn, "EMPLOYEE_FILES"));
 
-		String tempFileName = "" + System.currentTimeMillis();
-		Map<String, String> values = (HashMap<String, String>) uploadFile(request, tempPath, tempFileName);
+		String fileName = "" + System.currentTimeMillis();
+		Map<String, String> values = (HashMap<String, String>) uploadFile(request, tempPath, fileName);
 
 		values.put("file.path", tempPath);
-		values.put("file.fileRealName", tempFileName);
+		values.put("file.fileRealName", fileName);
 
 		return values;
 	}

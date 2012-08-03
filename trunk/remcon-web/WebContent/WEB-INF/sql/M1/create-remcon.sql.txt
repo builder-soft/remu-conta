@@ -453,6 +453,7 @@ create table tLicense(
 	cFrom				INTEGER NOT NULL COMMENT 'Día del período de comienzo de licencia',
 	cTo					INTEGER NOT NULL COMMENT 'Día del período de término de licencia',
 	cLicenseCause		BIGINT NOT NULL COMMENT 'Razon de la aucencia',
+	cFile				BIGINT NULL COMMENT 'Archivo de licencia',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 

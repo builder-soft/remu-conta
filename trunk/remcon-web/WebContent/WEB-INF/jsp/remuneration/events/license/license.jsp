@@ -1,3 +1,4 @@
+<%@page import="java.sql.ResultSet"%>
 <%@page import="cl.buildersoft.business.service.impl.PeriodServiceImpl"%>
 <%@page import="cl.buildersoft.business.service.PeriodService"%>
 <%@page import="cl.buildersoft.business.beans.LicenseCause"%>
@@ -9,6 +10,7 @@
 	Period period = (Period) request.getAttribute("Period");
 	Employee employee = (Employee) request.getAttribute("Employee");
 	List<LicenseCause> licenseCauses = (List<LicenseCause>) request.getAttribute("LicenseCauses");
+	ResultSet licenses = (ResultSet) request.getAttribute("Licenses");
 
 	String periodName = BSWeb.month2Word(period.getDate()) + " de " + BSWeb.getYear(period.getDate());
 %>
@@ -38,8 +40,26 @@
 		<td class="cHeadTD">Hasta</td>
 		<td class="cHeadTD">Días</td>
 		<td class="cHeadTD">Causa</td>
+		<td class="cHeadTD">Archivo</td>
 	</tr>
-
+	<%
+		String fileName = null;
+		while (licenses.next()) {
+			fileName = licenses.getString("cFileName");
+			if (fileName == null) {
+				fileName = "-";
+			}
+	%>
+	<tr>
+		<td class="cDataTD"><%=licenses.getInt("cFrom") + " " + periodName%></td>
+		<td class="cDataTD"><%=licenses.getInt("cTo") + " " + periodName%></td>
+		<td class="cDataTD"><%=licenses.getInt("cDays")%></td>
+		<td class="cDataTD"><%=licenses.getString("cLicenseCauseName")%></td>
+		<td class="cDataTD"><%=fileName%></td>
+	</tr>
+	<%
+		}
+	%>
 
 </table>
 <br>
@@ -56,13 +76,13 @@
 <div id="divShowDetail" style="display: none">
 	<h2 class="cTitle2">Detalle de Licencia</h2>
 
- 
+
 	<form
 		action="${pageContext.request.contextPath}/servlet/remuneration/events/license/AddLicense"
 		enctype="multipart/form-data" method="POST">
 
 
-<!--
+		<!--
 		 	<form
 		action="${pageContext.request.contextPath}/servlet/ShowParameters">
 -->
