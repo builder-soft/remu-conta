@@ -36,7 +36,7 @@ public class DownloadPrevired extends AbstractServletUtil {
 		ResultSet rs = mysql.callSingleSP(conn, "pListPrevired", periodId);
 
 		ServletOutputStream output = configHeaderAsCSV(response, "previred");
-		CsvWriter csv = new CsvWriter(output, new BSConfig().getSeparator(conn), Charset.defaultCharset());
+		CsvWriter csv = new CsvWriter(output, new BSConfig().getCSVSeparator(conn), Charset.defaultCharset());
 
 		try {
 			while (rs.next()) {

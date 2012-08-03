@@ -9,9 +9,9 @@
 <%
 	BSmySQL mysql = new BSmySQL();
 	Connection conn = mysql.getConnection(request.getServletContext(),
-			"bsframework");
+	"bsframework");
 	BSConfig myConfig = new BSConfig();
-	char separator = myConfig.getSeparator(conn);
+	char separator = myConfig.getCSVSeparator(conn);
 	String formatDate = myConfig.getString(conn, "FORMAT_DATE");
 	String formatDateTime = myConfig.getString(conn, "FORMAT_DATETIME");
 %>

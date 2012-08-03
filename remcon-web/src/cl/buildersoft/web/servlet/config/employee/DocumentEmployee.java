@@ -83,8 +83,7 @@ public class DocumentEmployee extends AbstractServletUtil {
 	}
 
 	public void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Long idEmployee = 0L;
-		idEmployee = Long.valueOf(request.getParameter("cId"));
+		Long idEmployee = Long.valueOf(request.getParameter("cId"));
 		try {
 
 			Long documentId = Long.valueOf(request.getParameter("idDocument"));
