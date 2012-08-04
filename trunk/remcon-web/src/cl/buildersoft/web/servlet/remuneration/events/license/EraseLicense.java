@@ -32,12 +32,12 @@ public class EraseLicense extends HttpServlet {
 		bu.search(conn, license);
 
 		Long fileId = license.getFile();
+		bu.delete(conn, license);
 		if (fileId != null) {
 			EmployeeFileService efs = new EmployeeFileServiceImpl();
 			efs.removeFile(conn, fileId);
 
 		}
-		bu.delete(conn, license);
 
 		request.setAttribute("cId", employeeId);
 
