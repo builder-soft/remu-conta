@@ -15,6 +15,7 @@ public class EmployeeFileServiceImpl implements EmployeeFileService {
 	public void removeFile(Connection conn, Long fileId) throws BSException {
 		BSBeanUtils bu = new BSBeanUtils();
 		EmployeeFile employeeFile = new EmployeeFile();
+		employeeFile.setId(fileId);
 
 		if (bu.search(conn, employeeFile)) {
 			BSConfig config = new BSConfig();

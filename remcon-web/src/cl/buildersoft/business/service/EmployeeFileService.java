@@ -5,7 +5,6 @@ import java.sql.Connection;
 import cl.buildersoft.framework.exception.BSException;
 
 public interface EmployeeFileService {
-	public void removeFile (Connection conn, Long fileId) throws BSException;
-	
+	public void removeFile(Connection conn, Long fileId) throws BSException;
 
 }
