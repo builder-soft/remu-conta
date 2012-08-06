@@ -31,10 +31,5 @@ public class EmployeeFileServiceImpl implements EmployeeFileService {
 			throw new BSConfigurationException("No se encuentra el registro para el archivo " + fileId);
 		}
 
-		/*
-		 * BSmySQL mysql = new BSmySQL(); BSConfig config = new BSConfig();
-		 * String rootPath = config.getFilePath(conn);
-		 */
-
 	}
 }
