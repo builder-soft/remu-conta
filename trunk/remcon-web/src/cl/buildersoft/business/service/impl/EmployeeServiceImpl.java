@@ -2,9 +2,12 @@ package cl.buildersoft.business.service.impl;
 
 import java.sql.Connection;
 
+import javax.servlet.http.HttpServletRequest;
+
 import cl.buildersoft.business.beans.Employee;
 import cl.buildersoft.business.service.EmployeeService;
 import cl.buildersoft.framework.database.BSBeanUtils;
+import cl.buildersoft.framework.exception.BSProgrammerException;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -15,24 +18,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 		bu.search(conn, out);
 		return out;
 	}
-	/**
-	 * <code>
-	
-	public void deleteDocumentById(EmployeeFile document, HttpServletRequest request) {
-		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request);
-		ResultSet rs = mysql.callSingleSP(conn, "pListDocument", document.getEmployee());
 
-		document.findDocument(rs);
-		File uploadedFile = new File("C:\\temporal\\" + document.getFileName());
-		uploadedFile.delete(); // eliminacion de archivo fisico
-		mysql.callSingleSP(conn, "pDelDocument", document.getId()); // Eliminacion
-																	// de
-																	// archivo
-																	// desde BD
-		request.setAttribute("cId", request.getParameter("cId"));
+	@Override
+	public Employee getEmployee(Connection conn, HttpServletRequest request) {
+		String idAsParameter = request.getParameter("cId");
+		String employeeId = null;
 
+		if (idAsParameter != null) {
+			employeeId = idAsParameter;
+		} else {
+			Object idAsAttribute = request.getAttribute("cId");
+			if (idAsAttribute == null) {
+				throw new BSProgrammerException("No hay parametro de ID de empleado");
+			} else {
+				employeeId = idAsAttribute.toString();
+			}
+		}
+
+		Long id = Long.parseLong(employeeId);
+		return getEmployee(conn, id);
 	}
-	</code>
-	 */
 }

@@ -33,7 +33,7 @@ public class EventsEmployeeServlet extends BSHttpServlet {
 		createAction(table, "OVERTIME", "Horas Extras", "/servlet/remuneration/events/overtime/OvertimeMain");
 		createAction(table, "AANDD", "Haberes y descuentos", "/servlet/remuneration/events/assetDiscount/AssetDiscountMain");
 		createAction(table, "LICENSE", "Licencias", "/servlet/remuneration/events/license/LicenseMain");
-		createAction(table, "HOLIDAYS", "Vacaiones", null);
+		createAction(table, "HOLIDAYS", "Vacaiones", "/servlet/remuneration/events/holiday/HolidayMain");
 
 		return table;
 	}
