@@ -69,10 +69,6 @@ public class LicenseMain extends HttpServlet {
 				employeeId = idAsAttribute.toString();
 			}
 		}
-		/*
-		 * String employeeId = idAsParameter== null ? (String)
-		 * request.getAttribute("cId") : request .getParameter("cId");
-		 */
 
 		Long id = Long.parseLong(employeeId);
 		EmployeeService employeeService = new EmployeeServiceImpl();
