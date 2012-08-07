@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.business.beans.Holiday"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
 <%@page import="cl.buildersoft.business.beans.Period"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -5,6 +6,7 @@
 <%
 	Period period = (Period) request.getAttribute("Period");
 	Employee employee = (Employee) request.getAttribute("Employee");
+	List<Holiday> holidays = (List<Holiday>) request.getAttribute("Holidays");
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
@@ -19,41 +21,64 @@
 <table>
 	<tr>
 		<td class="cLabel">Fecha inicio contrato</td>
-		<td class="cData">01/01/2012</td></tr>
-	<tr>
+		<td class="cData">01/01/2012</td>
+		<!-- 
+	</tr>
+	<tr> -->
 		<td class="cLabel">Fecha termino de contrato</td>
 		<td class="cData">31/12/2012</td>
 	</tr>
 	<tr>
 		<td class="cLabel">Días a la fecha (06/08/2012)</td>
 		<td class="cData">7</td>
+		<!-- 
 	</tr>
-	<tr>
+	<tr> -->
 		<td class="cLabel">Total días</td>
 		<td class="cData">15</td>
 	</tr>
 	<tr>
 		<td class="cLabel">Días Tomados</td>
 		<td class="cData">3</td>
+		<!-- 
 	</tr>
-	<tr>
+	<tr> -->
 		<td class="cLabel">Saldo a la fecha</td>
 		<td class="cData">4</td>
 	</tr>
 
-
 </table>
 <hr>
-<table border="0">
+<table border="0" width="90%">
 	<tr>
 		<td valign="top">
 			<table class="cList" cellpadding="0" cellspacing="0">
-				<caption>Toma de vacaciones</caption>
+				<caption>Vacaciones tomadas</caption>
 				<tr>
 					<td class='cHeadTD'>Fecha Inicio</td>
 					<td class='cHeadTD'>Fecha Termino</td>
 					<td class='cHeadTD'>Días</td>
 				</tr>
+				<%
+					if (holidays.size() == 0) {
+				%>
+				<tr>
+					<td colspan="3" class="cDataTD">No se han tomado vacaciones</td>
+				</tr>
+
+				<%
+					} else {
+						for (Holiday holiday : holidays) {
+				%>
+				<tr>
+					<td class='cDataTD'><%=BSWeb.date2String(request, holiday.getFrom())%></td>
+					<td class='cDataTD'><%=BSWeb.date2String(request, holiday.getTo())%></td>
+					<td class='cDataTD'><%=3%></td>
+				</tr>
+				<%
+					}
+					}
+				%>
 			</table>
 		</td>
 		<td>&nbsp;&nbsp;</td>
