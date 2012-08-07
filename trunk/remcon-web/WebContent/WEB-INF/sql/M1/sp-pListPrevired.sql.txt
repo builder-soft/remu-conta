@@ -16,7 +16,7 @@ BEGIN
 	LEFT JOIN	tGenere		AS c ON b.cGenere = c.cId
 	LEFT JOIN	tAgreement	AS d ON a.cAgreement = d.cId
 	LEFT JOIN	tFamilyAssignmentStretch AS e ON d.cFamilyAssignmentStretch = e.cId
-	LEFT JOIN	tPFMHistory AS f ON a.cPFMHistory = f.cId --AND f.cPeriodo = pPeriod
+	LEFT JOIN	tPFMHistory AS f ON a.cPFMHistory = f.cId /*--AND f.cPeriodo = pPeriod*/
     LEFT JOIN   tBookDiscounts As g ON g.cBook = a.cId
 	WHERE		a.cPeriod = pPeriod;
 
