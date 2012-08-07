@@ -65,49 +65,116 @@ public class DownloadPrevired extends AbstractServletUtil {
 	}
 
 	private void otherEnterpriseData_105(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
-
+		csv.write("0"); /* 105 */
 	}
 
 	private void subsidyData_103_104(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
-
+		csv.write("0"); /* 103 */
+		csv.write("0"); /* 104 */
 	}
 
 	private void insuranceManagerData_100_102(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
-
+		csv.write("0"); /* 100 */
+		csv.write("0"); /* 101 */
+		csv.write("0"); /* 102 */
 	}
 
 	private void mutualData_96_99(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
-
+		csv.write("0"); /* 96 */
+		csv.write("0"); /* 97 */
+		csv.write("0"); /* 98 */
+		csv.write("0"); /* 99 */
 	}
 
 	private void compensationFoundData_83_95(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
-
+		csv.write("0"); /* 83 */
+		csv.write("0"); /* 84 */
+		csv.write("0"); /* 85 */
+		csv.write("0"); /* 86 */
+		csv.write("0"); /* 87 */
+		csv.write("0"); /* 88 */
+		csv.write("0"); /* 89 */
+		csv.write("0"); /* 90 */
+		csv.write("0"); /* 91 */
+		csv.write("0"); /* 92 */
+		csv.write("0"); /* 93 */
+		csv.write("0"); /* 94 */
+		csv.write("0"); /* 95 */
 	}
 
 	private void healthData_75_82(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
-
+		csv.write("0"); /* 75 */
+		csv.write("0"); /* 76 */
+		csv.write("0"); /* 77 */
+		csv.write("0"); /* 78 */
+		csv.write("0"); /* 79 */
+		csv.write("0"); /* 80 */
+		csv.write("0"); /* 81 */
+		csv.write("0"); /* 82 */
 	}
 
 	private void healthSystemData_62_74(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
-
+		csv.write("0"); /* 62 */
+		csv.write("0"); /* 63 */
+		csv.write("0"); /* 64 */
+		csv.write("0"); /* 65 */
+		csv.write("0"); /* 66 */
+		csv.write("0"); /* 67 */
+		csv.write("0"); /* 68 */
+		csv.write("0"); /* 69 */
+		csv.write("0"); /* 70 */
+		csv.write("0"); /* 71 */
+		csv.write("0"); /* 72 */
+		csv.write("0"); /* 73 */
+	  	csv.write("0"); /* 74 */ 
 	}
 
 	private void affiliateData_50_61(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
-
+		csv.write("0"); /* 50 */
+		csv.write("0"); /* 51 */
+		csv.write("0"); /* 52 */
+		csv.write("0"); /* 53 */
+		csv.write("0"); /* 54 */
+		csv.write("0"); /* 55 */
+		csv.write("0"); /* 56 */
+		csv.write("0"); /* 57 */
+		csv.write("0"); /* 58 */
+		csv.write("0"); /* 59 */
+		csv.write("0"); /* 60 */
+		csv.write("0"); /* 61 */
 	}
 
 	private void savingCollectiveData_45_49(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
-
+		csv.write("0"); /* 45 */
+		csv.write("0"); /* 46 */
+		csv.write("0"); /* 47 */
+		csv.write("0"); /* 48 */
+		csv.write("0"); /* 49 */
 	}
 
 	private void savingIndividualData_40_44(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
-
+		csv.write("0"); /* 40 */
+		csv.write("0"); /* 41 */
+		csv.write("0"); /* 42 */
+		csv.write("0"); /* 43 */
+		csv.write("0"); /* 44 */
 	}
 
 	private void pfmData_26_39(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
 		csv.write(rs.getString("cPFMKey")); /* 26 - Código de la AFP */
 		csv.write(rs.getString("cIncome")); /* 27 */
-		
+		csv.write(rs.getString("cObligatoryQuote")); /* 28 - Monto Cotizacion Obligatoria */
+		csv.write(rs.getString("cEmployerDisabilityInsurance")); /* 29 - Monto Seguro invalidez y sobrevivencia empleador */
+		csv.write(rs.getString("cAPVAmount")); /* 30 - depósito en cuenta de ahorro voluntario */
+		csv.write("0"); /* 31 */
+		csv.write("0"); /* 32 */
+		csv.write("0"); /* 33 */
+		csv.write("0"); /* 34 */
+		csv.write("0"); /* 35 */
+		csv.write("0"); /* 36 */
+		csv.write("0"); /* 37 */
+		csv.write("0"); /* 38 */
+		csv.write("0"); /* 39 */
 	}
 
 	private void employeeData_1_25(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
