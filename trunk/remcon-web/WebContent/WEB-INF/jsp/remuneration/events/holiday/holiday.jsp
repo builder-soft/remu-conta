@@ -5,41 +5,89 @@
 <%
 	Period period = (Period) request.getAttribute("Period");
 	Employee employee = (Employee) request.getAttribute("Employee");
-
-	String periodName = BSWeb.month2Word(period.getDate()) + " de " + BSWeb.getYear(period.getDate());
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 
 <h1 class="cTitle">Vacaciones de empleado</h1>
 
-<span class="cLabel">Período:&nbsp;&nbsp;</span>
-<span class="cData"><%=periodName%></span>
+
 <br>
 <%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
 <hr>
 
-<table class="cList" cellpadding="0" cellspacing="0">
+<table>
 	<tr>
-		<td class='cHeadTD'>Período</td>
-		<td class='cHeadTD'>Normales</td>
-		<td class='cHeadTD'>Progresivas</td>
-		<td class='cHeadTD'>Total</td>
-		<td class='cHeadTD'>Tomadas Normales</td>
-		<td class='cHeadTD'>Tomadas Progresivas</td>
-		<td class='cHeadTD'>Saldo</td>
-
-	</tr>
-
+		<td class="cLabel">Fecha inicio contrato</td>
+		<td class="cData">01/01/2012</td></tr>
 	<tr>
-		<td class='cDataTD' colspan="7">dato</td>
+		<td class="cLabel">Fecha termino de contrato</td>
+		<td class="cData">31/12/2012</td>
 	</tr>
 	<tr>
-		<td class='cDataTD_odd' colspan="7">dato</td>
+		<td class="cLabel">Días a la fecha (06/08/2012)</td>
+		<td class="cData">7</td>
+	</tr>
+	<tr>
+		<td class="cLabel">Total días</td>
+		<td class="cData">15</td>
+	</tr>
+	<tr>
+		<td class="cLabel">Días Tomados</td>
+		<td class="cData">3</td>
+	</tr>
+	<tr>
+		<td class="cLabel">Saldo a la fecha</td>
+		<td class="cData">4</td>
+	</tr>
+
+
+</table>
+<hr>
+<table border="0">
+	<tr>
+		<td valign="top">
+			<table class="cList" cellpadding="0" cellspacing="0">
+				<caption>Toma de vacaciones</caption>
+				<tr>
+					<td class='cHeadTD'>Fecha Inicio</td>
+					<td class='cHeadTD'>Fecha Termino</td>
+					<td class='cHeadTD'>Días</td>
+				</tr>
+			</table>
+		</td>
+		<td>&nbsp;&nbsp;</td>
+		<td valign="top">
+			<table class="cList" cellpadding="0" cellspacing="0">
+				<caption>Saldo de vacaciones</caption>
+				<tr>
+					<td class='cHeadTD'>Período</td>
+					<td class='cHeadTD'>Normales</td>
+					<td class='cHeadTD'>Progresivas</td>
+					<td class='cHeadTD'>Total</td>
+					<td class='cHeadTD'>Tomadas Normales</td>
+					<td class='cHeadTD'>Tomadas Progresivas</td>
+					<td class='cHeadTD'>Saldo</td>
+
+				</tr>
+
+				<tr>
+					<td class='cDataTD' colspan="7">dato</td>
+				</tr>
+				<tr>
+					<td class='cDataTD_odd' colspan="7">dato</td>
+				</tr>
+			</table>
+
+		</td>
+
+
 	</tr>
 </table>
 
-<a href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
+
+<a
+	href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
 
 <div id="divShowDetail" style="display: none">
 	<h2 class="cTitle2">Detalle de valores</h2>
