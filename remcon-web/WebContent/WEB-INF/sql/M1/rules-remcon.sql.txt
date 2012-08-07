@@ -205,6 +205,12 @@ ADD CONSTRAINT tAssetDiscountValueToAssetDiscount FOREIGN KEY (cAssetDiscount) R
 ADD CONSTRAINT tAssetDiscountValueToBook FOREIGN KEY (cBook) REFERENCES tBook(cId);
 
 
+/*tHoliday*/
+ALTER TABLE tHoliday
+ADD INDEX Holiday_index_Employee (cEmployee ASC),
+ADD CONSTRAINT tHolidayToEmployee FOREIGN KEY (cEmployee) REFERENCES tEmployee(cId);
+
+
 /* TRIGERS */
 DROP TRIGGER IF EXISTS create_record;
 DROP TRIGGER IF EXISTS InsertOnEnterprise;
