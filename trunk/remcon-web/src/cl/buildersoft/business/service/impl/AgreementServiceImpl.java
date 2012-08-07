@@ -13,6 +13,7 @@ import cl.buildersoft.business.beans.Horary;
 import cl.buildersoft.business.beans.PaymentType;
 import cl.buildersoft.business.beans.Profile;
 import cl.buildersoft.business.service.AgreementService;
+import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.framework.util.BSConfig;
 
@@ -104,6 +105,17 @@ public class AgreementServiceImpl implements AgreementService {
 
 		Agreement out = agreements.size() == 0 ? getDefaultAgreement(conn, idEmployee) : (Agreement) agreements.get(0);
 		return out;
+	}
+
+	@Override
+	public String getContractTypeName(Connection conn, Agreement agreement) {
+		ContractType contractType = new ContractType();
+		BSBeanUtils bu = new BSBeanUtils();
+
+		contractType.setId(agreement.getContractType());
+		bu.search(conn, contractType);
+
+		return contractType.getName();
 	}
 
 }

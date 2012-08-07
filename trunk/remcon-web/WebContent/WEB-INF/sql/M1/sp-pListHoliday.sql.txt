@@ -1,0 +1,10 @@
+DROP PROCEDURE IF EXISTS pListHoliday;
+DELIMITER $$
+
+CREATE PROCEDURE pListHoliday(IN vEmployee BIGINT)
+BEGIN
+	SELECT		cId, cFrom, cTo, DATEDIFF(cTo, cFrom) AS cDays
+	FROM 		tHoliday
+	WHERE		cEmployee = vEmployee;
+
+END$$

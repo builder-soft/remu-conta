@@ -8,4 +8,6 @@ public interface AgreementService {
 	public Agreement getDefaultAgreement(Connection conn, Long employee);
 
 	public Agreement getAgreementByEmployee(Connection conn, Long employee);
+
+	public String getContractTypeName(Connection conn, Agreement agreement);
 }

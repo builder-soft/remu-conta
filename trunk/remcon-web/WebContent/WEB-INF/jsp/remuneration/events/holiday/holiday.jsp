@@ -1,4 +1,8 @@
-<%@page import="cl.buildersoft.business.beans.Holiday"%>
+<%@page
+	import="cl.buildersoft.business.service.impl.AgreementServiceImpl"%>
+<%@page import="cl.buildersoft.business.service.AgreementService"%>
+<%@page import="cl.buildersoft.business.beans.Agreement"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
 <%@page import="cl.buildersoft.business.beans.Period"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -6,13 +10,13 @@
 <%
 	Period period = (Period) request.getAttribute("Period");
 	Employee employee = (Employee) request.getAttribute("Employee");
-	List<Holiday> holidays = (List<Holiday>) request.getAttribute("Holidays");
+	ResultSet holidays = (ResultSet) request.getAttribute("Holidays");
+	Agreement agreement = (Agreement) request.getAttribute("Agreement");
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 
 <h1 class="cTitle">Vacaciones de empleado</h1>
-
 
 <br>
 <%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
@@ -21,30 +25,30 @@
 <table>
 	<tr>
 		<td class="cLabel">Fecha inicio contrato</td>
-		<td class="cData">01/01/2012</td>
+		<td class="cData"><%=BSWeb.date2String(request, agreement.getStartContract())%></td>
 		<!-- 
 	</tr>
 	<tr> -->
 		<td class="cLabel">Fecha termino de contrato</td>
-		<td class="cData">31/12/2012</td>
+		<td class="cData"><%=getEndDateContract(request, agreement)%></td>
 	</tr>
 	<tr>
 		<td class="cLabel">Días a la fecha (06/08/2012)</td>
-		<td class="cData">7</td>
+		<td class="cData">X</td>
 		<!-- 
 	</tr>
 	<tr> -->
 		<td class="cLabel">Total días</td>
-		<td class="cData">15</td>
+		<td class="cData">YY</td>
 	</tr>
 	<tr>
 		<td class="cLabel">Días Tomados</td>
-		<td class="cData">3</td>
+		<td class="cData">Z</td>
 		<!-- 
 	</tr>
 	<tr> -->
 		<td class="cLabel">Saldo a la fecha</td>
-		<td class="cData">4</td>
+		<td class="cData">W</td>
 	</tr>
 
 </table>
@@ -60,23 +64,24 @@
 					<td class='cHeadTD'>Días</td>
 				</tr>
 				<%
-					if (holidays.size() == 0) {
+					Boolean haveHoliday = Boolean.FALSE;
+					while (holidays.next()) {
+				%>
+				<tr>
+					<td class='cDataTD'><%=BSWeb.date2String(request, holidays.getDate("cFrom"))%></td>
+					<td class='cDataTD'><%=BSWeb.date2String(request, holidays.getDate("cTo"))%></td>
+					<td class='cDataTD'><%=holidays.getInt("cDays")%></td>
+				</tr>
+				<%
+					haveHoliday = Boolean.TRUE;
+					}
+
+					if (!haveHoliday) {
 				%>
 				<tr>
 					<td colspan="3" class="cDataTD">No se han tomado vacaciones</td>
 				</tr>
-
 				<%
-					} else {
-						for (Holiday holiday : holidays) {
-				%>
-				<tr>
-					<td class='cDataTD'><%=BSWeb.date2String(request, holiday.getFrom())%></td>
-					<td class='cDataTD'><%=BSWeb.date2String(request, holiday.getTo())%></td>
-					<td class='cDataTD'><%=3%></td>
-				</tr>
-				<%
-					}
 					}
 				%>
 			</table>
@@ -135,3 +140,18 @@
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 
+<%!private String getEndDateContract(HttpServletRequest request, Agreement agreement) {
+		String out = "";
+		if (agreement.getContractType().equals(1L)) {
+
+			BSmySQL mysql = new BSmySQL();
+			Connection conn = mysql.getConnection(request);
+
+			AgreementService ageementService = new AgreementServiceImpl();
+			out = ageementService.getContractTypeName(conn, agreement);
+
+		} else {
+			out = BSWeb.date2String(request, agreement.getEndContract());
+		}
+		return out;
+	}%>

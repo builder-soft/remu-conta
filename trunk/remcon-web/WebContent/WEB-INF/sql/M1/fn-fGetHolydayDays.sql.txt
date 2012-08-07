@@ -1,0 +1,41 @@
+DROP FUNCTION IF EXISTS fGetHolydayDays;
+
+DELIMITER $$
+
+CREATE FUNCTION fGetHolydayDays(pEmployee BIGINT, pFrom DATE, pTo DATE) RETURNS INTEGER
+/* Cálculo de vacaciones proporcionales 
+Ref.: http://www.dt.gob.cl/consultas/1613/w3-article-60200.html
+
+TODO: falta descontar los días de vacaciones.
+*/
+BEGIN
+/*
+	DECLARE vDaysForYear INTEGER DEFAULT 15;
+	DECLARE vDailyFactor, vDateDiff, vIndemnify, vIndemnifyDays DOUBLE DEFAULT 0;
+	DECLARE vStartContract, vEndContract, vDate, vBusinessDate DATE;
+	
+	SELECT	cDaysForYear, cStartContract, cEndContract, cDate
+	INTO	vDaysForYear, vStartContract, vEndContract, vDate
+	FROM	vBook
+	WHERE	cId = pBook;
+	
+	SET vDateDiff = DateDiff(vEndContract, vStartContract);
+	SET vDailyFactor = ROUND((vDaysForYear / 12) / 30, 5);
+	
+	SET vIndemnify = vDailyFactor * vDateDiff;
+	SET vBusinessDate = fBusinessDate(vEndContract, vIndemnify);
+	SET vIndemnifyDays = (vIndemnify - FLOOR(vIndemnify)) + DateDiff(vBusinessDate, vEndContract);
+	
+	-- select vEndContract, FLOOR(vIndemnify), vIndemnify, vBusinessDate, vIndemnifyDays;
+	
+	UPDATE	tBookAssets 
+	SET		cProportionalHoliday = vIndemnifyDays * fSalaryDaily(pBook)
+	WHERE	cBook = pBook;
+*/
+
+	RETURN 5;
+
+END$$
+
+DELIMITER ;
+
