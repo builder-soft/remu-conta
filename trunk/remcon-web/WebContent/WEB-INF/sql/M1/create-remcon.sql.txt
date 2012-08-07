@@ -638,6 +638,8 @@ create table tBookDiscounts(
 	/*
 	cLimitExtraHealth				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Tope de la cotización de salud',
 	*/
+	
+	cEmployerDisabilityInsurance	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Monto en pesos Seguro de Invalidez y Sobrevivencia Empleador',
 /*
 Cotizacion Salud Rebaja
 Tope 4.2 UF (parametro puede variar)
