@@ -16,11 +16,11 @@
 	Agreement agreement = (Agreement) request.getAttribute("Agreement");
 	ResultSet holidayInfo = (ResultSet) request.getAttribute("HolidayInfo");
 
-	String totalDays = null;
-	String proportionalToday = null;
-	String usedDays = null;
-	String balanceDays = null;
-	
+	String totalDays = "";
+	String proportionalToday = "";
+	String usedDays = "";
+	String balanceDays = "";
+
 	if (holidayInfo.next()) {
 		totalDays = getValueFormated(request, holidayInfo, "cTotalDays");
 		proportionalToday = getValueFormated(request, holidayInfo, "cProportionalToday");
@@ -28,7 +28,6 @@
 		balanceDays = getValueFormated(request, holidayInfo, "cBalanceDays");
 	}
 %>
-
 
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
@@ -122,7 +121,7 @@
 					<td class='cHeadTD'>Saldo</td>
 
 				</tr>
-<!-- 
+				<!-- 
 				<tr>
 					<td class='cDataTD' colspan="7">dato</td>
 				</tr>
