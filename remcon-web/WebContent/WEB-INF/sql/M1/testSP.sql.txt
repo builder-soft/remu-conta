@@ -31,4 +31,4 @@ delete from tHoliday;
 insert into tHoliday (cEmployee, cFrom, cTo) VALUES(2, '2012-05-10', '2012-05-13');
 insert into tHoliday (cEmployee, cFrom, cTo) VALUES(2, '2012-06-10', '2012-06-12');
 
-
+call pGetHolidayInfo(2, '2012-01-01', '2012-12-31');
