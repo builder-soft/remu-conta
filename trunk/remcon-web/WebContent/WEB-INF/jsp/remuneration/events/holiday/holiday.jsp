@@ -1,3 +1,4 @@
+<%@page import="java.sql.SQLException"%>
 <%@page import="java.util.Date"%>
 <%@page
 	import="cl.buildersoft.business.service.impl.AgreementServiceImpl"%>
@@ -15,14 +16,20 @@
 	Agreement agreement = (Agreement) request.getAttribute("Agreement");
 	ResultSet holidayInfo = (ResultSet) request.getAttribute("HolidayInfo");
 
-	Double holidayDays = 0D;
-	String holidayDaysFormated = null;
+	String totalDays = null;
+	String proportionalToday = null;
+	String usedDays = null;
+	String balanceDays = null;
+	
 	if (holidayInfo.next()) {
-		holidayDays = holidayInfo.getDouble("cHolidayDays");
-
-		holidayDaysFormated = BSWeb.number2String(holidayDays, BSWeb.getFormatDecimal(request));
+		totalDays = getValueFormated(request, holidayInfo, "cTotalDays");
+		proportionalToday = getValueFormated(request, holidayInfo, "cProportionalToday");
+		usedDays = getValueFormated(request, holidayInfo, "cUsedDays");
+		balanceDays = getValueFormated(request, holidayInfo, "cBalanceDays");
 	}
 %>
+
+
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 
@@ -45,21 +52,21 @@
 	<tr>
 		<td class="cLabel">Días a la fecha (<%=BSWeb.date2String(request, new Date())%>)
 		</td>
-		<td class="cData"><%=holidayDaysFormated%></td>
+		<td class="cData"><%=proportionalToday%></td>
 		<!-- 
 	</tr>
 	<tr> -->
 		<td class="cLabel">Total días</td>
-		<td class="cData">YY</td>
+		<td class="cData"><%=totalDays%></td>
 	</tr>
 	<tr>
 		<td class="cLabel">Días Tomados</td>
-		<td class="cData">Z</td>
+		<td class="cData"><%=usedDays%></td>
 		<!-- 
 	</tr>
 	<tr> -->
 		<td class="cLabel">Saldo a la fecha</td>
-		<td class="cData">W</td>
+		<td class="cData"><%=balanceDays%></td>
 	</tr>
 
 </table>
@@ -115,13 +122,14 @@
 					<td class='cHeadTD'>Saldo</td>
 
 				</tr>
-
+<!-- 
 				<tr>
 					<td class='cDataTD' colspan="7">dato</td>
 				</tr>
 				<tr>
 					<td class='cDataTD_odd' colspan="7">dato</td>
 				</tr>
+				 -->
 			</table>
 
 		</td>
@@ -130,7 +138,8 @@
 	</tr>
 </table>
 
-
+<br>
+<input type="Button" value="Solicitar vacaciones">
 <a
 	href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
 
@@ -169,4 +178,14 @@
 			out = BSWeb.date2String(request, agreement.getEndContract());
 		}
 		return out;
+	}
+
+	private String getValueFormated(HttpServletRequest request, ResultSet rs, String fieldName) throws SQLException {
+		Double valueAsDouble = 0D;
+		String valueFormated = null;
+
+		valueAsDouble = rs.getDouble(fieldName);
+
+		valueFormated = BSWeb.number2String(valueAsDouble, BSWeb.getFormatDecimal(request));
+		return valueFormated;
 	}%>

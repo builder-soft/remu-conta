@@ -34,7 +34,7 @@ public class HolidayMain extends HttpServlet {
 		Agreement agreement = getAgreement(conn, employee);
 
 		List<Object> params = getParameters(employee, agreement);
-		ResultSet holidayInfo = mysql.callSingleSP(conn, "fGetHolydayInfo", params);
+		ResultSet holidayInfo = mysql.callSingleSP(conn, "pGetHolidayInfo", params);
 
 		// List<Holiday> holidays = (List<Holiday>) bu.list(conn, new Holiday(),
 		// "cEmployee=?", employee.getId());
