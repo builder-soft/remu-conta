@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page
 	import="cl.buildersoft.business.service.impl.AgreementServiceImpl"%>
 <%@page import="cl.buildersoft.business.service.AgreementService"%>
@@ -12,6 +13,15 @@
 	Employee employee = (Employee) request.getAttribute("Employee");
 	ResultSet holidays = (ResultSet) request.getAttribute("Holidays");
 	Agreement agreement = (Agreement) request.getAttribute("Agreement");
+	ResultSet holidayInfo = (ResultSet) request.getAttribute("HolidayInfo");
+
+	Double holidayDays = 0D;
+	String holidayDaysFormated = null;
+	if (holidayInfo.next()) {
+		holidayDays = holidayInfo.getDouble("cHolidayDays");
+
+		holidayDaysFormated = BSWeb.number2String(holidayDays, BSWeb.getFormatDecimal(request));
+	}
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
@@ -33,8 +43,9 @@
 		<td class="cData"><%=getEndDateContract(request, agreement)%></td>
 	</tr>
 	<tr>
-		<td class="cLabel">Días a la fecha (06/08/2012)</td>
-		<td class="cData">X</td>
+		<td class="cLabel">Días a la fecha (<%=BSWeb.date2String(request, new Date())%>)
+		</td>
+		<td class="cData"><%=holidayDaysFormated%></td>
 		<!-- 
 	</tr>
 	<tr> -->
@@ -65,12 +76,16 @@
 				</tr>
 				<%
 					Boolean haveHoliday = Boolean.FALSE;
+					String color = null;
+					Integer index = 0;
 					while (holidays.next()) {
+						index++;
+						color = index % 2 == 0 ? "cDataTD_odd" : "cDataTD";
 				%>
 				<tr>
-					<td class='cDataTD'><%=BSWeb.date2String(request, holidays.getDate("cFrom"))%></td>
-					<td class='cDataTD'><%=BSWeb.date2String(request, holidays.getDate("cTo"))%></td>
-					<td class='cDataTD'><%=holidays.getInt("cDays")%></td>
+					<td class='<%=color%>'><%=BSWeb.date2String(request, holidays.getDate("cFrom"))%></td>
+					<td class='<%=color%>'><%=BSWeb.date2String(request, holidays.getDate("cTo"))%></td>
+					<td class='<%=color%>'><%=holidays.getInt("cDays")%></td>
 				</tr>
 				<%
 					haveHoliday = Boolean.TRUE;
