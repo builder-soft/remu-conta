@@ -62,7 +62,10 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		Double healthAmount = Double.valueOf(request.getParameter("HealthAmount"));
 		Integer simpleLoads = Integer.valueOf(request.getParameter("simpleLoad"));
 		Boolean pensionary = Boolean.parseBoolean(request.getParameter("Pensionary"));
-		Long familyAssignmentStretch= Long.parseLong(request.getParameter("FamilyAssignmentStretch"));
+		Long familyAssignmentStretch = Long.parseLong(request.getParameter("FamilyAssignmentStretch"));
+
+		Long currencyAccount2 = Long.parseLong(request.getParameter("CurrencyAccount2"));
+		Double amountAccount2 = Double.parseDouble(request.getParameter("AmountAccount2"));
 
 		agreement.setExBoxSystem(exBox);
 		agreement.setDisabilityBurdens(disabilityBurdens);
@@ -74,6 +77,8 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		agreement.setSimpleLoads(simpleLoads);
 		agreement.setPensionary(pensionary);
 		agreement.setFamilyAssignmentStretch(familyAssignmentStretch);
+		agreement.setCurrencyAccount2(currencyAccount2);
+		agreement.setAmountAccount2(amountAccount2);
 
 		bu.save(conn, agreement);
 
