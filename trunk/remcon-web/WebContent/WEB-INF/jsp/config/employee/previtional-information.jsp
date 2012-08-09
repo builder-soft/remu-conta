@@ -154,6 +154,28 @@ function changeExBox(o){
 </div>
 <form action="${pageContext.request.contextPath}/servlet/config/employee/SavePrevitionalInfo" method="post" id="editForm">
 	<input type="hidden" name="cId" value="<%=request.getParameter("cId")%>">
+
+	<table>
+		<tr>
+			<td class="cLabel">Moneda cuenta 2:</td>
+			<td><select name="CurrencyAccount2">
+					<%
+						for (Currency currency : listadoCurrency) {
+					%>
+					<OPTION value="<%=currency.getId()%>"
+						<%=agreementEmp.getCurrencyAccount2() != null
+						&& currency.getId().equals(agreementEmp.getCurrencyAccount2()) ? "selected" : ""%>><%=currency.getName()%></OPTION>
+					<%
+						}
+					%>
+			</select></td>
+			<td class="cLabel">Monto Cuenta 2</td>
+			<td><Input type="text" name="AmountAccount2"
+				value="<%=agreementEmp.getAmountAccount2()%>"></td>
+		</tr>
+	</table>
+	<br>
+
 	<table border="0">
 			<tr>
 					<td class="cLabel" valign='top'>AFP:</td>
