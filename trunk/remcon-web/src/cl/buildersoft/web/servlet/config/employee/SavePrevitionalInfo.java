@@ -67,6 +67,9 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		Long currencyAccount2 = Long.parseLong(request.getParameter("CurrencyAccount2"));
 		Double amountAccount2 = Double.parseDouble(request.getParameter("AmountAccount2"));
 
+		Long additionalPFMCurrency = Long.parseLong(request.getParameter("AdditionalPFMCurrency"));
+		Double additionalPFMAmount = Double.parseDouble(request.getParameter("AdditionalPFMAmount"));
+
 		agreement.setExBoxSystem(exBox);
 		agreement.setDisabilityBurdens(disabilityBurdens);
 		agreement.setMaternalLoads(maternalLoad);
@@ -79,6 +82,8 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		agreement.setFamilyAssignmentStretch(familyAssignmentStretch);
 		agreement.setCurrencyAccount2(currencyAccount2);
 		agreement.setAmountAccount2(amountAccount2);
+		agreement.setAdditionalPFMAmount(additionalPFMAmount);
+		agreement.setAdditionalPFMCurrency(additionalPFMCurrency);
 
 		bu.save(conn, agreement);
 

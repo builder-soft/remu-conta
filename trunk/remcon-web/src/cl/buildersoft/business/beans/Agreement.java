@@ -31,6 +31,10 @@ public class Agreement extends BSBean {
 	private Double exBoxSystemPRC = null;
 	private Double healthAmount = null;
 	private Long healthCurrency = null;
+
+	private Double additionalPFMAmount = null;
+	private Long additionalPFMCurrency = null;
+
 	private Integer simpleLoads = null;
 	private Integer disabilityBurdens = null;
 	private Integer maternalLoads = null;
@@ -265,6 +269,22 @@ public class Agreement extends BSBean {
 				+ ", healthAmount=" + healthAmount + ", healthCurrency=" + healthCurrency + ", simpleLoads=" + simpleLoads
 				+ ", disabilityBurdens=" + disabilityBurdens + ", maternalLoads=" + maternalLoads + ", familyAssignmentStretch="
 				+ familyAssignmentStretch + ", pensionary=" + pensionary + "]";
+	}
+
+	public Long getAdditionalPFMCurrency() {
+		return additionalPFMCurrency;
+	}
+
+	public void setAdditionalPFMCurrency(Long additionalPFMCurrency) {
+		this.additionalPFMCurrency = additionalPFMCurrency;
+	}
+
+	public Double getAdditionalPFMAmount() {
+		return additionalPFMAmount;
+	}
+
+	public void setAdditionalPFMAmount(Double additionalPFMAmount) {
+		this.additionalPFMAmount = additionalPFMAmount;
 	}
 
 }

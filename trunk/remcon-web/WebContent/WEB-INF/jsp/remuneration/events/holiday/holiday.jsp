@@ -86,6 +86,7 @@
 					Integer index = 0;
 					while (holidays.next()) {
 						index++;
+						haveHoliday = Boolean.TRUE;
 						color = index % 2 == 0 ? "cDataTD_odd" : "cDataTD";
 				%>
 				<tr>
@@ -94,7 +95,6 @@
 					<td class='<%=color%>'><%=holidays.getInt("cDays")%></td>
 				</tr>
 				<%
-					haveHoliday = Boolean.TRUE;
 					}
 
 					if (!haveHoliday) {
