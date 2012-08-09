@@ -155,7 +155,7 @@ function changeExBox(o){
 <form action="${pageContext.request.contextPath}/servlet/config/employee/SavePrevitionalInfo" method="post" id="editForm">
 	<input type="hidden" name="cId" value="<%=request.getParameter("cId")%>">
 
-	<table>
+	<table border="0">
 		<tr>
 			<td class="cLabel">Moneda cuenta 2:</td>
 			<td><select name="CurrencyAccount2">
@@ -173,27 +173,50 @@ function changeExBox(o){
 			<td><Input type="text" name="AmountAccount2"
 				value="<%=agreementEmp.getAmountAccount2()%>"></td>
 		</tr>
+		<tr><td colspan="4">&nbsp;</td></tr>
+		<tr>
+			<td class="cLabel">Ahorro voluntario adicional:</td>
+			<td><select name="AdditionalPFMCurrency">
+					<%
+						for (Currency currency : listadoCurrency) {
+					%>
+					<OPTION value="<%=currency.getId()%>"
+						<%=agreementEmp.getAdditionalPFMCurrency() != null
+						&& currency.getId().equals(agreementEmp.getAdditionalPFMCurrency()) ? "selected" : ""%>><%=currency.getName()%></OPTION>
+					<%
+						}
+					%>
+			</select></td>
+			<td class="cLabel">Monto Ahorro adicional</td>
+			<td><Input type="text" name="AdditionalPFMAmount"
+			   value="<%=agreementEmp.getAdditionalPFMAmount()%>"></td>
+		</tr>
+		
+		<tr><td colspan="4">&nbsp;</td></tr>
+		
+		<!-- 
 	</table>
 	<br>
 
-	<table border="0">
-			<tr>
-					<td class="cLabel" valign='top'>AFP:</td>
-					<td class="cData" colspan="3">
-					<select id="afpEmp" name="afpEmp" onchange="javascript:changePFM(this);">
-							<%
-								for (PFM bsAfp : listadoAfp) {
-							%>
-								<OPTION value="<%=bsAfp.getId()%>"<%=agreementEmp.getPfm() != null && bsAfp.getId().equals(agreementEmp.getPfm()) ? "selected" : ""%>><%=bsAfp.getName()%></OPTION>
-							<%
-								}
-							%>
-					</select>						
-				</td>
-			</tr>	
-			<tr>
+	<table border="1"> -->
+		<tr>
+			<td class="cLabel" valign='top'>AFP:</td>
+			<td class="cData"><select id="afpEmp" name="afpEmp"
+				onchange="javascript:changePFM(this);">
+					<%
+						for (PFM bsAfp : listadoAfp) {
+					%>
+					<OPTION value="<%=bsAfp.getId()%>"
+						<%=agreementEmp.getPfm() != null && bsAfp.getId().equals(agreementEmp.getPfm()) ? "selected" : ""%>><%=bsAfp.getName()%></OPTION>
+					<%
+						}
+					%>
+			</select></td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
 				<td class="cLabel" valign='top'>Caja Ex-Régimen:</td>
-				<td class="cData" colspan="3">
+				<td class="cData">
 				<select id="exBox" name="exBox" onchange="javascript:changeExBox(this);">
 						<%
 							for (ExBoxSystem bsExbox : listadoExBox) {
@@ -203,11 +226,12 @@ function changeExBox(o){
 						<%
 							}
 						%>
-				</select>
+				</select></td>
+				<td colspan="2"></td>
 			</tr>
 			<tr>
 				<td class="cLabel" valign='top'>Sistema de salud:</td>
-				<td class="cData" colspan="3">
+				<td class="cData">
 				<select id="health" name="health">
 						<%
 							for (Health bsHealth : listadoHealth) {
@@ -218,6 +242,7 @@ function changeExBox(o){
 						%>
 				</select>
 				</td>
+				<td colspan="2"></td>
 				
 			</tr>
 			<tr>
@@ -249,8 +274,6 @@ function changeExBox(o){
 			<tr>
 				<td colspan="4">&nbsp;</td>
 			</tr>
-			
-			
 			
 			<tr>
 				<td class="cLabel" valign='top'>Tramo asignación familiar:</td>
