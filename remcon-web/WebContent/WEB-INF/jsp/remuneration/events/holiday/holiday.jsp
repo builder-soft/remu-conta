@@ -110,25 +110,12 @@
 		<td>&nbsp;&nbsp;</td>
 		<td valign="top">
 			<table class="cList" cellpadding="0" cellspacing="0">
-				<caption>Saldo de vacaciones</caption>
+				<caption>Días Progresivos</caption>
 				<tr>
 					<td class='cHeadTD'>Período</td>
-					<td class='cHeadTD'>Normales</td>
-					<td class='cHeadTD'>Progresivas</td>
-					<td class='cHeadTD'>Total</td>
-					<td class='cHeadTD'>Tomadas Normales</td>
-					<td class='cHeadTD'>Tomadas Progresivas</td>
-					<td class='cHeadTD'>Saldo</td>
+					<td class='cHeadTD'>Días</td>
 
 				</tr>
-				<!-- 
-				<tr>
-					<td class='cDataTD' colspan="7">dato</td>
-				</tr>
-				<tr>
-					<td class='cDataTD_odd' colspan="7">dato</td>
-				</tr>
-				 -->
 			</table>
 
 		</td>
