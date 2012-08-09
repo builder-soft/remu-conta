@@ -15,11 +15,11 @@
 %>
 
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/system/role-def/role-def.js"></script>
-	<!-- 
+	<!-- "WebContent/js/common/checkboxtree/jquery.checkboxtree.js"
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/jquery-1.4.4.js"></script>
      -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/jquery-ui-1.8.12.custom.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/jquery.checkboxtree.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/common/checkboxtree/jquery-ui-1.8.12.custom.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/common/checkboxtree/jquery.checkboxtree.js"></script>
 	
     <script type="text/javascript">
         //<!--
