@@ -171,6 +171,12 @@ CREATE TABLE tAssetDiscountValue (
 	PRIMARY KEY(cId)
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS tProgressive (
+	cId				BIGINT NOT NULL AUTO_INCREMENT,
+	cEmployee		BIGINT NOT NULL,
+	cYear			INTEGER NOT NULL,
+	PRIMARY KEY (cId)	
+) ENGINE=innoDB;
 
 
 /* Crea tabla Empleados */

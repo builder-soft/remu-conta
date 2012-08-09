@@ -8,18 +8,12 @@ ALTER TABLE tR_UserRol ADD PRIMARY KEY(cUser,cRol);
 /** EMPLOYEE */
 ALTER TABLE tEmployee
 ADD INDEX Employee_index_MaritalStatus (cMaritalStatus ASC),
-ADD CONSTRAINT withMaritalStatus FOREIGN KEY (cMaritalStatus) REFERENCES tMaritalStatus(cId);
-
-ALTER TABLE tEmployee
 ADD INDEX Employee_index_Country (cCountry ASC),
-ADD CONSTRAINT withCountry       FOREIGN KEY (cCountry) REFERENCES tCountry(cId);
-
-ALTER TABLE tEmployee
 ADD INDEX Employee_index_Genere (cGenere ASC),
-ADD CONSTRAINT EmployeeToGenere FOREIGN KEY (cGenere) REFERENCES tGenere(cId);
-
-ALTER TABLE tEmployee
 ADD INDEX comuna_index (cComuna ASC),
+ADD CONSTRAINT withMaritalStatus FOREIGN KEY (cMaritalStatus) REFERENCES tMaritalStatus(cId),
+ADD CONSTRAINT withCountry       FOREIGN KEY (cCountry) REFERENCES tCountry(cId),
+ADD CONSTRAINT EmployeeToGenere FOREIGN KEY (cGenere) REFERENCES tGenere(cId),
 ADD CONSTRAINT employeeToComuna FOREIGN KEY (cComuna) REFERENCES tComuna(cId);
 
 /** AGREEMENT */
@@ -77,10 +71,8 @@ ADD CONSTRAINT EnterpriseToCompensationFund FOREIGN KEY (cCompensationFund) REFE
 /** BRANCH */
 ALTER TABLE tBranch
 ADD INDEX enterprise_index (cEnterprise ASC),
-ADD CONSTRAINT BranchToEnterprise FOREIGN KEY (cEnterprise) REFERENCES tEnterprise(cId);
-
-ALTER TABLE tBranch
 ADD INDEX comuna_index (cComuna ASC),
+ADD CONSTRAINT BranchToEnterprise FOREIGN KEY (cEnterprise) REFERENCES tEnterprise(cId),
 ADD CONSTRAINT BranchToComuna FOREIGN KEY (cComuna) REFERENCES tComuna(cId);
 
 /** PARAMETER */
@@ -204,6 +196,11 @@ ADD INDEX AssetDiscountValue_index_Book (cBook ASC),
 ADD CONSTRAINT tAssetDiscountValueToAssetDiscount FOREIGN KEY (cAssetDiscount) REFERENCES tAssetDiscount(cId),
 ADD CONSTRAINT tAssetDiscountValueToBook FOREIGN KEY (cBook) REFERENCES tBook(cId);
 
+
+/*tProgressive*/
+ALTER TABLE tProgressive
+ADD INDEX Progressive_index_Employee (cEmployee ASC),
+ADD CONSTRAINT tProgressiveToEmployee FOREIGN KEY (cEmployee) REFERENCES tEmployee(cId);
 
 /*tHoliday*/
 ALTER TABLE tHoliday
