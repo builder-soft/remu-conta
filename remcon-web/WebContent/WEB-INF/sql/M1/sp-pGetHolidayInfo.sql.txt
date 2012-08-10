@@ -11,7 +11,8 @@ Cálculo de días de vacaciones
 */
 BEGIN
 	DECLARE vDaysForYear INTEGER DEFAULT 15;
-	DECLARE vDaysDiff, vDaysDiffToday, vProportional, vProportionalToday, vHolidayDays, vOut DOUBLE DEFAULT 0;
+	DECLARE vDaysDiff, vDaysDiffToday, vProportional, vProportionalToday, 
+			vNormalDays, vProgressiveDays, vOut DOUBLE DEFAULT 0;
 	
 	SELECT	cValue
 	INTO	vDaysForYear
@@ -23,15 +24,20 @@ BEGIN
 	SET		vProportional = (vDaysDiff * vDaysForYear) / 365;
 	SET		vProportionalToday = (vDaysDiffToday * vDaysForYear) / 365;
 	
-	SET		vHolidayDays = (SELECT IFNULL(SUM(DateDiff(cTo, cFrom)), 0) 
+	SET		vNormalDays = (SELECT IFNULL(SUM(cNormal), 0) 
+							FROM tHoliday 
+							WHERE cEmployee = pEmployee AND
+								pFrom <= cFrom AND pTo >= cTo);
+	SET		vProgressiveDays = (SELECT IFNULL(SUM(cProgressive), 0) 
 							FROM tHoliday 
 							WHERE cEmployee = pEmployee AND
 								pFrom <= cFrom AND pTo >= cTo);
 								
 	SELECT	vProportional AS cTotalDays,
 			vProportionalToday AS cProportionalToday,
-			vHolidayDays AS cUsedDays,
-			vProportionalToday - vHolidayDays AS cBalanceDays;
+			vNormalDays AS cNormalDays,
+			vProgressiveDays AS cProgressiveDays,
+			vProportionalToday - (vNormalDays+vProgressiveDays) AS cBalanceDays;
 
 /*	INTO	vOut;
  	RETURN vOut; */
