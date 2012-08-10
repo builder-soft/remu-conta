@@ -48,6 +48,16 @@ SPAN.cMessage
     FONT-FAMILY: Tahoma
 }
 
+.cWarning
+{
+    FONT-WEIGHT: bold; 
+    FONT-SIZE: smaller;
+    
+    FONT-FAMILY: Tahoma;
+    COLOR: #F4FA58;
+    background-color:#BDBDBD;
+}
+
 .cError
 {
     FONT-WEIGHT: bold;

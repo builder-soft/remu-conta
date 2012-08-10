@@ -120,36 +120,36 @@ function changeExBox(o){
 
 <div style="display: none" id="divHide">
 <table id="tableHide">
-					<tr id="apvHide">
-								<td class="cLabel" valign='top'>APV:</td>
-								<td class="cData">
-								<select id="apvCurrency" name="apvCurrency">
-										<%
-											for (Currency bsCurrency : listadoCurrency) {
-										%>
-											<OPTION value="<%=bsCurrency.getId()%>"><%=bsCurrency.getName()%></OPTION>
-										<%
-											}
-										%>
-								</select>
-								</td>
-								<td class="cData"><input id="apvAmount" name="apvAmount" value="0"></td>
-								<td class="cLabel" valign='top'>Institucion:</td>
-								<td class="cData">
-								<select id="apvInstitution" name="apvInstitution">
-										<%
-											for (APV bsApv : listadoApv) {
-										%>
-											<OPTION value="<%=bsApv.getId()%>"><%=bsApv.getName()%></OPTION>
-										<%
-											}
-										%>	
-								</select>
-								</td>
-								<td id="eliminarHide">
-								<a href="javascript:delApv(0)">Eliminar</a>
-								</td>
-						</tr>
+<tr id="apvHide">
+			<td class="cLabel" valign='top'>APV:</td>
+			<td class="cData">
+			<select id="apvCurrency" name="apvCurrency">
+					<%
+					for (Currency bsCurrency : listadoCurrency) {
+				%>
+					<OPTION value="<%=bsCurrency.getId()%>"><%=bsCurrency.getName()%></OPTION>
+				<%
+					}
+				%>
+		</select>
+		</td>
+		<td class="cData"><input id="apvAmount" name="apvAmount" value="0"></td>
+		<td class="cLabel" valign='top'>Institucion:</td>
+		<td class="cData">
+		<select id="apvInstitution" name="apvInstitution">
+				<%
+					for (APV bsApv : listadoApv) {
+				%>
+					<OPTION value="<%=bsApv.getId()%>"><%=bsApv.getName()%></OPTION>
+				<%
+					}
+				%>	
+		</select>
+		</td>
+		<td id="eliminarHide">
+		<a href="javascript:delApv(0)">Eliminar</a>
+		</td>
+</tr>
 </table>						
 </div>
 <form action="${pageContext.request.contextPath}/servlet/config/employee/SavePrevitionalInfo" method="post" id="editForm">
@@ -212,7 +212,11 @@ function changeExBox(o){
 						}
 					%>
 			</select></td>
-			<td colspan="2"></td>
+			<td class="cLabel">Meses cotizados:</td>
+			
+			<td>
+				<input name="MonthsQuoted" value="<%=agreementEmp.getMonthsQuoted()%>">
+				</td>
 		</tr>
 		<tr>
 				<td class="cLabel" valign='top'>Caja Ex-Régimen:</td>

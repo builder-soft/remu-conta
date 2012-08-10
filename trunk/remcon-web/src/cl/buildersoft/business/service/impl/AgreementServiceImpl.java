@@ -36,6 +36,8 @@ public class AgreementServiceImpl implements AgreementService {
 			agreement.setContractType(getContractType(conn, bu));
 			agreement.setProfile(getProfile(conn, bu));
 			agreement.setPfm(getPFM(conn, bu));
+			agreement.setMonthsQuoted(0);
+			
 			agreement.setHealth(getHealth(conn, bu));
 			agreement.setGratificationType(getGratificationType(conn, bu));
 			agreement.setPaymentType(getPaymentType(conn, bu));

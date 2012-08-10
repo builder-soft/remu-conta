@@ -14,6 +14,7 @@ public class Agreement extends BSBean {
 	private Long profile = null;
 	private Double salaryRoot = null;
 	private Long pfm = null;
+	private Integer monthsQuoted = null;
 	private Long health = null;
 	private Long gratificationType = null;
 	private Long paymentType = null;
@@ -285,6 +286,14 @@ public class Agreement extends BSBean {
 
 	public void setAdditionalPFMAmount(Double additionalPFMAmount) {
 		this.additionalPFMAmount = additionalPFMAmount;
+	}
+
+	public Integer getMonthsQuoted() {
+		return monthsQuoted;
+	}
+
+	public void setMonthsQuoted(Integer monthsQuoted) {
+		this.monthsQuoted = monthsQuoted;
 	}
 
 }

@@ -15,16 +15,19 @@
 	ResultSet holidays = (ResultSet) request.getAttribute("Holidays");
 	Agreement agreement = (Agreement) request.getAttribute("Agreement");
 	ResultSet holidayInfo = (ResultSet) request.getAttribute("HolidayInfo");
+	Boolean expiredContract = expiredContract(agreement);
 
 	String totalDays = "";
 	String proportionalToday = "";
-	String usedDays = "";
+	String normalDays = "";
+	String progressiveDays = "";
 	String balanceDays = "";
 
 	if (holidayInfo.next()) {
 		totalDays = getValueFormated(request, holidayInfo, "cTotalDays");
 		proportionalToday = getValueFormated(request, holidayInfo, "cProportionalToday");
-		usedDays = getValueFormated(request, holidayInfo, "cUsedDays");
+		normalDays = getValueFormated(request, holidayInfo, "cNormalDays");
+		progressiveDays = getValueFormated(request, holidayInfo, "cProgressiveDays");
 		balanceDays = getValueFormated(request, holidayInfo, "cBalanceDays");
 	}
 %>
@@ -51,15 +54,15 @@
 		<td class="cData"><%=proportionalToday%></td>
 		<td class="cLabel">Total días</td>
 		<td class="cData"><%=totalDays%></td>
-	 </tr>
-	 <tr>
+	</tr>
+	<tr>
 		<td class="cLabel">Días progresivos tomados</td>
-		<td class="cData">XX</td>
-	
+		<td class="cData"><%=progressiveDays%></td>
+
 		<td class="cLabel">Días normales tomados</td>
-		<td class="cData"><%=usedDays%></td>
-		</tr>
-	
+		<td class="cData"><%=normalDays%></td>
+	</tr>
+
 	<tr>
 		<td class="cLabel">Saldo a la fecha</td>
 		<td class="cData"><%=balanceDays%></td>
@@ -74,10 +77,10 @@
 			<table class="cList" cellpadding="0" cellspacing="0">
 				<caption>Vacaciones tomadas</caption>
 				<tr>
-					<td class='cHeadTD'>Fecha Inicio</td>
-					<td class='cHeadTD'>Fecha Termino</td>
-					<td class='cHeadTD'>Días Normales</td>
-					<td class='cHeadTD'>Días Progresivos</td>
+					<td class='cHeadTD' align="center">Fecha Inicio</td>
+					<td class='cHeadTD' align="center">Fecha Termino</td>
+					<td class='cHeadTD' align="center">Días Normales</td>
+					<td class='cHeadTD' align="center">Días Progresivos</td>
 				</tr>
 				<%
 					Boolean haveHoliday = Boolean.FALSE;
@@ -89,10 +92,10 @@
 						color = index % 2 == 0 ? "cDataTD_odd" : "cDataTD";
 				%>
 				<tr>
-					<td class='<%=color%>'><%=BSWeb.date2String(request, holidays.getDate("cFrom"))%></td>
-					<td class='<%=color%>'><%=BSWeb.date2String(request, holidays.getDate("cTo"))%></td>
-					<td class='<%=color%>'><%=holidays.getInt("cDays")%></td>
-					<td class='<%=color%>'>&nbsp;</td>
+					<td class='<%=color%>' align="center"><%=BSWeb.date2String(request, holidays.getDate("cFrom"))%></td>
+					<td class='<%=color%>' align="center"><%=BSWeb.date2String(request, holidays.getDate("cTo"))%></td>
+					<td class='<%=color%>' align="right"><%=holidays.getInt("cDays")%></td>
+					<td class='<%=color%>' align="right">&nbsp;</td>
 				</tr>
 				<%
 					}
@@ -100,7 +103,7 @@
 					if (!haveHoliday) {
 				%>
 				<tr>
-					<td colspan="3" class="cDataTD">No se han tomado vacaciones</td>
+					<td colspan="4" class="cDataTD">Vacaciones no registradas</td>
 				</tr>
 				<%
 					}
@@ -110,7 +113,7 @@
 		<td>&nbsp;&nbsp;</td>
 		<td valign="top">
 			<table class="cList" cellpadding="0" cellspacing="0">
-				<caption>Saldo de vacaciones</caption>
+				<caption>Desarrollo de vacaciones</caption>
 				<tr>
 					<td class='cHeadTD'>Período</td>
 					<td class='cHeadTD'>Normales</td>
@@ -121,46 +124,60 @@
 					<td class='cHeadTD'>Saldo</td>
 
 				</tr>
-				<!-- 
-				<tr>
-					<td class='cDataTD' colspan="7">dato</td>
-				</tr>
-				<tr>
-					<td class='cDataTD_odd' colspan="7">dato</td>
-				</tr>
-				 -->
+
 			</table>
 
 		</td>
-
 
 	</tr>
 </table>
 
 <br>
-<input type="Button" value="Solicitar vacaciones" onclick="javascript:showTooltip('divRetrieveHoliday');">
+
+<input type="Button" value="Solicitar vacaciones"
+	onclick="javascript:showTooltip('divRetrieveHoliday');"
+	<%=expiredContract ? "disabled" : ""%>>
+
 <a
 	href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
-
+<%
+	if (expiredContract) {
+		out.println("<br><span class='cWarning' style='width:100%;'>&nbsp;&nbsp;&nbsp;El contrato ya expiró&nbsp;&nbsp;&nbsp;</span>");
+	}
+%>
 <div id="divRetrieveHoliday" style="display: none">
 	<h2 class="cTitle2">Solicitud de vacaciones</h2>
 
 
-<table>
+	<table>
+		<tr>
+			<td class="cLabel">Fecha Inicio:</td>
+			<td><input></td>
+		</tr>
 
-<tr>
-<td>Fecha Inicio:</td>
-<td><input></td>
-</tr>
+		<tr>
+			<td class="cLabel">Fecha Final:</td>
+			<td><input></td>
+		</tr>
+
+		<tr>
+			<td class="cLabel">Días normales:</td>
+			<td><input></td>
+		</tr>
+
+		<tr>
+			<td class="cLabel">Días progresivos:</td>
+			<td><input></td>
+		</tr>
+
+	</table>
+
+	<br>
+	<button disabled>Aceptar y descargar comprobante</button>
+	<button onclick="javascript:closeTooltip()">Cancelar</button>
 
 
-<tr>
-<td>Fecha Final:</td>
-<td><input></td>
-</tr>
-
-</table>
-<!-- 
+	<!-- 
 	<div class="contentScroll">
 		<table class="cList" cellpadding="0" cellspacing="0" id="movesTable">
 			<tr>
@@ -171,10 +188,10 @@
 			</tr>
 		</table>
 	</div>
-	-->
 	
 	<br /> <input type="button" value="Aceptar" disabled
 		onclick="javascript:closeTooltip()" />
+	-->
 
 </div>
 
@@ -205,4 +222,13 @@
 
 		valueFormated = BSWeb.number2String(valueAsDouble, BSWeb.getFormatDecimal(request));
 		return valueFormated;
+	}
+
+	private Boolean expiredContract(Agreement agreement) {
+		Boolean out = Boolean.FALSE;
+		if (!agreement.getContractType().equals(1L)) {
+			Date endContract = agreement.getEndContract();
+			out = endContract.before(new Date());
+		}
+		return out;
 	}%>
