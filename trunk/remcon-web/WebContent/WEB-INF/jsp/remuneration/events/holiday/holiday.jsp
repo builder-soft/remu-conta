@@ -81,6 +81,7 @@
 					<td class='cHeadTD' align="center">Fecha Termino</td>
 					<td class='cHeadTD' align="center">Días Normales</td>
 					<td class='cHeadTD' align="center">Días Progresivos</td>
+					<td class='cHeadTD' align="center">Certificado</td>
 				</tr>
 				<%
 					Boolean haveHoliday = Boolean.FALSE;
@@ -96,6 +97,7 @@
 					<td class='<%=color%>' align="center"><%=BSWeb.date2String(request, holidays.getDate("cTo"))%></td>
 					<td class='<%=color%>' align="right"><%=holidays.getInt("cDays")%></td>
 					<td class='<%=color%>' align="right">&nbsp;</td>
+					<td class='<%=color%>' align="center"><a href="#">Descargar</a></td>
 				</tr>
 				<%
 					}

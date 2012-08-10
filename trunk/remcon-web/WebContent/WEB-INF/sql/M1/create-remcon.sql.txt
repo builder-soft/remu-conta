@@ -458,6 +458,7 @@ create table tLicense(
 create table tHoliday(
 	cId					BIGINT(20) NOT NULL auto_increment,
 	cEmployee			BIGINT(20) NOT NULL COMMENT 'Identificador del empleado quien tiene las horas extras',
+	cCreation			DATE NOT NULL COMMENT 'Fecha de ingreso de las vacaciones',
 	cFrom				DATE NOT NULL COMMENT 'Inicio de las vacaciones',
 	cTo					DATE NOT NULL COMMENT 'Fin de las vacaciones',
 	cNormal				INTEGER NOT NULL COMMENT 'Cantidad de días normales',
