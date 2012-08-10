@@ -38,34 +38,32 @@
 <%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
 <hr>
 
-<table>
+<table border="0">
 	<tr>
-		<td class="cLabel">Fecha inicio contrato</td>
+		<td class="cLabel">Fecha inicio</td>
 		<td class="cData"><%=BSWeb.date2String(request, agreement.getStartContract())%></td>
-		<!-- 
-	</tr>
-	<tr> -->
-		<td class="cLabel">Fecha termino de contrato</td>
+		<td class="cLabel">Fecha termino</td>
 		<td class="cData"><%=getEndDateContract(request, agreement)%></td>
 	</tr>
 	<tr>
 		<td class="cLabel">Días a la fecha (<%=BSWeb.date2String(request, new Date())%>)
 		</td>
 		<td class="cData"><%=proportionalToday%></td>
-		<!-- 
-	</tr>
-	<tr> -->
 		<td class="cLabel">Total días</td>
 		<td class="cData"><%=totalDays%></td>
-	</tr>
-	<tr>
-		<td class="cLabel">Días Tomados</td>
+	 </tr>
+	 <tr>
+		<td class="cLabel">Días progresivos tomados</td>
+		<td class="cData">XX</td>
+	
+		<td class="cLabel">Días normales tomados</td>
 		<td class="cData"><%=usedDays%></td>
-		<!-- 
-	</tr>
-	<tr> -->
+		</tr>
+	
+	<tr>
 		<td class="cLabel">Saldo a la fecha</td>
 		<td class="cData"><%=balanceDays%></td>
+		<td colspan="2">&nbsp;</td>
 	</tr>
 
 </table>
@@ -78,7 +76,8 @@
 				<tr>
 					<td class='cHeadTD'>Fecha Inicio</td>
 					<td class='cHeadTD'>Fecha Termino</td>
-					<td class='cHeadTD'>Días</td>
+					<td class='cHeadTD'>Días Normales</td>
+					<td class='cHeadTD'>Días Progresivos</td>
 				</tr>
 				<%
 					Boolean haveHoliday = Boolean.FALSE;
@@ -93,6 +92,7 @@
 					<td class='<%=color%>'><%=BSWeb.date2String(request, holidays.getDate("cFrom"))%></td>
 					<td class='<%=color%>'><%=BSWeb.date2String(request, holidays.getDate("cTo"))%></td>
 					<td class='<%=color%>'><%=holidays.getInt("cDays")%></td>
+					<td class='<%=color%>'>&nbsp;</td>
 				</tr>
 				<%
 					}
@@ -110,12 +110,25 @@
 		<td>&nbsp;&nbsp;</td>
 		<td valign="top">
 			<table class="cList" cellpadding="0" cellspacing="0">
-				<caption>Días Progresivos</caption>
+				<caption>Saldo de vacaciones</caption>
 				<tr>
 					<td class='cHeadTD'>Período</td>
-					<td class='cHeadTD'>Días</td>
+					<td class='cHeadTD'>Normales</td>
+					<td class='cHeadTD'>Progresivas</td>
+					<td class='cHeadTD'>Total</td>
+					<td class='cHeadTD'>Tomadas Normales</td>
+					<td class='cHeadTD'>Tomadas Progresivas</td>
+					<td class='cHeadTD'>Saldo</td>
 
 				</tr>
+				<!-- 
+				<tr>
+					<td class='cDataTD' colspan="7">dato</td>
+				</tr>
+				<tr>
+					<td class='cDataTD_odd' colspan="7">dato</td>
+				</tr>
+				 -->
 			</table>
 
 		</td>
@@ -125,13 +138,29 @@
 </table>
 
 <br>
-<input type="Button" value="Solicitar vacaciones">
+<input type="Button" value="Solicitar vacaciones" onclick="javascript:showTooltip('divRetrieveHoliday');">
 <a
 	href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
 
-<div id="divShowDetail" style="display: none">
-	<h2 class="cTitle2">Detalle de valores</h2>
+<div id="divRetrieveHoliday" style="display: none">
+	<h2 class="cTitle2">Solicitud de vacaciones</h2>
 
+
+<table>
+
+<tr>
+<td>Fecha Inicio:</td>
+<td><input></td>
+</tr>
+
+
+<tr>
+<td>Fecha Final:</td>
+<td><input></td>
+</tr>
+
+</table>
+<!-- 
 	<div class="contentScroll">
 		<table class="cList" cellpadding="0" cellspacing="0" id="movesTable">
 			<tr>
@@ -142,7 +171,9 @@
 			</tr>
 		</table>
 	</div>
-	<br /> <input type="button" value="Cancelar"
+	-->
+	
+	<br /> <input type="button" value="Aceptar" disabled
 		onclick="javascript:closeTooltip()" />
 
 </div>

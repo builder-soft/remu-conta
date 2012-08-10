@@ -421,16 +421,6 @@ create table tHorary(
 ) ENGINE=InnoDB;
 
 /*
-create table tMonthlyParameter(
-	cId					BIGINT(20) NOT NULL auto_increment,
-	cDate				DATE 	NOT NULL,
-	cUF					DOUBLE	NOT NULL,
-	cOvertimeFactor		DOUBLE COMMENT 'Para calcular las horas extras, puede ser 0.07777 o 0.0333',
-	PRIMARY KEY (cId)
-) ENGINE=InnoDB;
-*/
-
-/*
 Tabla para registrar las horas extras del empleado.
 */
 create table tOvertime(
@@ -468,6 +458,8 @@ create table tHoliday(
 	cEmployee			BIGINT(20) NOT NULL COMMENT 'Identificador del empleado quien tiene las horas extras',
 	cFrom				DATE NOT NULL COMMENT 'Inicio de las vacaciones',
 	cTo					DATE NOT NULL COMMENT 'Fin de las vacaciones',
+	cNormal				INTEGER NOT NULL COMMENT 'Cantidad de días normales',
+	cProgressive		INTEGER NOT NULL COMMENT 'Cantidad de días progresivos',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
