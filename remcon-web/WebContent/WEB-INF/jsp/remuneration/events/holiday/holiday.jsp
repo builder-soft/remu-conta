@@ -95,8 +95,8 @@
 				<tr>
 					<td class='<%=color%>' align="center"><%=BSWeb.date2String(request, holidays.getDate("cFrom"))%></td>
 					<td class='<%=color%>' align="center"><%=BSWeb.date2String(request, holidays.getDate("cTo"))%></td>
-					<td class='<%=color%>' align="right"><%=holidays.getInt("cDays")%></td>
-					<td class='<%=color%>' align="right">&nbsp;</td>
+					<td class='<%=color%>' align="right"><%=holidays.getInt("cNormal")%></td>
+					<td class='<%=color%>' align="right"><%=holidays.getInt("cProgressive")%></td>
 					<td class='<%=color%>' align="center"><a href="#">Descargar</a></td>
 				</tr>
 				<%
@@ -118,9 +118,11 @@
 				<caption>Desarrollo de vacaciones</caption>
 				<tr>
 					<td class='cHeadTD'>Período</td>
+
 					<td class='cHeadTD'>Normales</td>
 					<td class='cHeadTD'>Progresivas</td>
 					<td class='cHeadTD'>Total</td>
+
 					<td class='cHeadTD'>Tomadas Normales</td>
 					<td class='cHeadTD'>Tomadas Progresivas</td>
 					<td class='cHeadTD'>Saldo</td>

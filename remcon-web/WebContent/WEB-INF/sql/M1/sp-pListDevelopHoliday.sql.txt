@@ -1,0 +1,57 @@
+DROP PROCEDURE IF EXISTS pListDevelopHoliday;
+DELIMITER $$
+
+CREATE PROCEDURE pListDevelopHoliday(IN vEmployee BIGINT)
+BEGIN
+	DECLARE	vStartContract, vEndContract DATE;
+	DECLARE vStartYear, vEndYear INTEGER; 
+	DECLARE	vContractType BIGINT DEFAULT '0';
+	DECLARE i INTEGER DEFAULT '0';
+	
+	CREATE TEMPORARY TABLE tempTable(
+		cId				BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,	
+		cYear			INTEGER,
+		cNormal			INTEGER,
+		cProgressive	INTEGER,
+		cNormalTaken	INTEGER,
+		cProgressiveTaken	INTEGER,
+		cBalance		INTEGER
+	) ENGINE=innoDB;
+	
+	SELECT		cStartContract, cEndContract, cContractType
+	INTO		vStartContract, vEndContract, vContractType
+	FROM 		tAgreement
+	WHERE		cEmployee = vEmployee;
+	
+	IF(vContractType = 1) THEN
+		SET vEndContract = NOW(); 
+	END IF;
+/*
+	SELECT vStartContract, vEndContract, vContractType;
+	*/
+	SET vStartYear = YEAR(vStartContract);
+	SET vEndYear = YEAR(vEndContract);
+	
+	SET i = vStartYear;
+	
+	WHILE i <= vEndYear DO
+		INSERT INTO tempTable(cYear) VALUES(i);
+		
+		
+		
+		SET i = i + 1;
+	END WHILE;
+
+	SELECT vStartContract, vEndContract;
+	SELECT * FROM tempTable ORDER BY cYear;
+	
+	/*
+	SELECT * FROM tempTable;
+	*/
+	
+	DROP TABLE tempTable;
+	
+END$$
+
+DELIMITER ;
+
