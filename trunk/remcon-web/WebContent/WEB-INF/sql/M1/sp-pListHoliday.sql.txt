@@ -3,8 +3,11 @@ DELIMITER $$
 
 CREATE PROCEDURE pListHoliday(IN vEmployee BIGINT)
 BEGIN
-	SELECT		cId, cFrom, cTo, DATEDIFF(cTo, cFrom) AS cDays
+	SELECT		cId, cFrom, cTo, cNormal, cProgressive
 	FROM 		tHoliday
 	WHERE		cEmployee = vEmployee;
 
 END$$
+
+DELIMITER ;
+
