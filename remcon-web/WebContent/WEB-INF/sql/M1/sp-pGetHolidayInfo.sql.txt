@@ -21,6 +21,7 @@ BEGIN
 	
 	SET		vDaysDiff = DateDiff(pTo, pFrom);
 	SET		vDaysDiffToday = DateDiff(CURRENT_DATE(), pFrom);
+	
 	SET		vProportional = (vDaysDiff * vDaysForYear) / 365;
 	SET		vProportionalToday = (vDaysDiffToday * vDaysForYear) / 365;
 	
@@ -39,10 +40,8 @@ BEGIN
 			vProgressiveDays AS cProgressiveDays,
 			vProportionalToday - (vNormalDays+vProgressiveDays) AS cBalanceDays;
 
-/*	INTO	vOut;
- 	RETURN vOut; */
-
 END$$
+
 
 DELIMITER ;
 

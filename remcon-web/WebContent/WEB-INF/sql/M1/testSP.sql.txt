@@ -29,13 +29,14 @@ select * from temp;
 	
 delete from tHoliday;
 
-insert into tHoliday (cEmployee, cFrom, cTo, cNormal, cProgressive) VALUES(2, '2012-05-10', '2012-05-13', 3, 0);
-insert into tHoliday (cEmployee, cFrom, cTo, cNormal, cProgressive) VALUES(2, '2012-06-10', '2012-06-12', 1, 1);
+insert into tHoliday (cEmployee, cCreation, cFrom, cTo, cNormal, cProgressive) VALUES(2, now(), '2012-05-10', '2012-05-13', 3, 0);
+insert into tHoliday (cEmployee, cCreation, cFrom, cTo, cNormal, cProgressive) VALUES(2, now(), '2012-06-10', '2012-06-12', 1, 1);
 
 /*
 call pGetHolidayInfo(2, '2012-01-01', '2012-12-31');
 */
 
 call pListDevelopHoliday(1);
+ /*  */
 call pListDevelopHoliday(2);
 

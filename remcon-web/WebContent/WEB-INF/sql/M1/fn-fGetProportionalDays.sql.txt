@@ -1,0 +1,20 @@
+DROP FUNCTION IF EXISTS fGetProportionalDays;
+
+DELIMITER $$
+CREATE FUNCTION fGetProportionalDays(vFrom DATE, vTo DATE) RETURNS DOUBLE
+BEGIN
+	DECLARE vOut DOUBLE DEFAULT 0;
+	DECLARE vDaysForYear, vDaysDiff INTEGER DEFAULT 15;
+	
+	SELECT	cValue
+	INTO	vDaysForYear
+	FROM	tParameter
+	WHERE	cKey = 'DAYS_FOR_YEAR';	
+	
+	SET		vDaysDiff = DateDiff(vTo, vFrom);
+	SET		vOut = (vDaysDiff * vDaysForYear) / 365;
+	
+	RETURN vOut;
+END$$ 
+
+DELIMITER ;
