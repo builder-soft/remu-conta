@@ -1,26 +1,33 @@
 DROP PROCEDURE IF EXISTS pListDevelopHoliday;
+DROP FUNCTION IF EXISTS fGetProgresiveDays;
+DROP FUNCTION IF EXISTS fGetTakenDays;
 DELIMITER $$
 
 CREATE PROCEDURE pListDevelopHoliday(IN vEmployee BIGINT)
 BEGIN
 	DECLARE	vStartContract, vEndContract, vFirstDayYear, vLastDayYear, vStarPeriod, vEndPeriod DATE;
-	DECLARE vStartYear, vEndYear INTEGER; 
+	DECLARE vStartYear, vEndYear INTEGER DEFAULT '0'; 
 	DECLARE	vContractType BIGINT DEFAULT '0';
-	DECLARE vDiffDays DOUBLE DEFAULT '0';
-	DECLARE i INTEGER DEFAULT '0';
+	DECLARE vDiffDays, vProgressiveDays, vLastBalance DOUBLE DEFAULT '0';
+	DECLARE i, vMonthsQuoted, vNormalTaken, vProgressiveTaken INTEGER DEFAULT '0';
 	
 	CREATE TEMPORARY TABLE tempTable(
-		cId				BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,	
-		cYear			INTEGER,
-		cNormal			DOUBLE,
-		cProgressive	DOUBLE,
-		cNormalTaken	DOUBLE,
+		cId					BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,	
+		cYear				INTEGER,
+		
+		cNormal				DOUBLE,
+		cProgressive		DOUBLE,
+		cSum				DOUBLE,
+		cBalance			DOUBLE,
+		
+		cNormalTaken		DOUBLE,
 		cProgressiveTaken	DOUBLE,
-		cBalance		DOUBLE
+		cSumTaken			DOUBLE,
+		cBalanceTaken		DOUBLE
 	) ENGINE=innoDB;
 	
-	SELECT		cStartContract, cEndContract, cContractType
-	INTO		vStartContract, vEndContract, vContractType
+	SELECT		cStartContract, cEndContract, cContractType, cMonthsQuoted
+	INTO		vStartContract, vEndContract, vContractType, vMonthsQuoted
 	FROM 		tAgreement
 	WHERE		cEmployee = vEmployee;
 	
@@ -42,37 +49,73 @@ BEGIN
 		SET vStarPeriod = fGetLastDate(vStartContract, vFirstDayYear);
 		SET vEndPeriod = fGetLessDate(vEndContract, vLastDayYear);
 		
-		/*select vStartContract, vFirstDayYear, vStarPeriod;
-		select vEndContract, vLastDayYear, vEndPeriod;
-		*/
-		
-		
-		/*
-		IF (vStartContract < vFirstDayYear) THEN
-			SET vStarPeriod = vStartContract;
-		ELSE
-			SET vStarPeriod = vFirstDayYear;
-		END IF;
-		*/
-		
 		SET vDiffDays = fGetProportionalDays(vStarPeriod, vEndPeriod);
+		SET vProgressiveDays = fGetProgresiveDays(vMonthsQuoted, i, vStartYear, vProgressiveDays);
+		SET vNormalTaken = fGetTakenDays(vEmployee, vFirstDayYear, vLastDayYear, TRUE);
+		SET vProgressiveTaken = fGetTakenDays(vEmployee, vFirstDayYear, vLastDayYear, FALSE);
 		
-		INSERT INTO tempTable(cYear, cNormal) VALUES(i, vDiffDays);
+		SET vLastBalance = vDiffDays+vProgressiveDays;
+		
+		INSERT INTO tempTable(	cYear, cNormal, 
+								cProgressive, cSum, cBalance, 
+								cNormalTaken, cProgressiveTaken, cBalanceTaken) 
+		VALUES(					i, vDiffDays, 
+								vProgressiveDays, vDiffDays+vProgressiveDays, vLastBalance, 
+								vNormalTaken, vProgressiveTaken, NULL);
+								
+/*		SET vLastBalance = IF(i = vStartYear, 0, vDiffDays+vProgressiveDays);*/
+		
 		SET i = i + 1;
 	END WHILE;
 
-	/*
-	SELECT vStartContract, vEndContract;
-	SELECT * FROM tempTable ORDER BY cYear;
-	*/
-
-	SELECT * FROM tempTable;
+	SELECT	cId, cYear, 
+			cNormal, 		cProgressive, 		cSum,		cBalance, 
+			cNormalTaken,	cProgressiveTaken,	cSumTaken,	cBalanceTaken
+	FROM	tempTable;
 	
-	
-	DROP TABLE tempTable;
-	
+	DROP TABLE tempTable;	
 END$$
 
+CREATE FUNCTION fGetProgresiveDays(vMonthsQuoted INTEGER, vCurrentYear INTEGER, vStartYear INTEGER, vProgresive INTEGER) RETURNS DOUBLE
+BEGIN
+	DECLARE vOut DOUBLE DEFAULT '0';
+	DECLARE vContracted INTEGER DEFAULT '0';
+	
+	SET vOut = vProgresive; 
+	
+	IF(vMonthsQuoted >= 120) THEN
+		SET vContracted = vCurrentYear - vStartYear;
+		
+		IF(vContracted >= 3) THEN
+			IF(vContracted MOD 3 = 0) THEN
+				SET vOut = vProgresive + 1;
+			END IF;
+		END IF;
+		
+	END IF;
+
+	RETURN vOut;
+END$$
+
+
+CREATE FUNCTION fGetTakenDays(vEmployee BIGINT, vFirstDayYear DATE, vLastDayYear DATE, vIsNormal BOOLEAN) RETURNS INTEGER
+BEGIN
+	DECLARE vOut INTEGER;
+	
+	IF(vIsNormal) THEN
+		SET vOut = (SELECT IFNULL(SUM(cNormal), 0) 
+					FROM tHoliday 
+					WHERE cEmployee = vEmployee AND
+						vFirstDayYear <= cFrom AND vLastDayYear >= cTo);
+	ELSE
+		SET vOut = (SELECT IFNULL(SUM(cProgressive), 0) 
+					FROM tHoliday 
+					WHERE cEmployee = vEmployee AND
+						vFirstDayYear <= cFrom AND vLastDayYear >= cTo);
+	END IF;
+	
+	RETURN vOut;
+END$$
 
 DELIMITER ;
 
