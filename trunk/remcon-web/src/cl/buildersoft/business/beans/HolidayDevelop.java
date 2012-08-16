@@ -1,7 +1,7 @@
 package cl.buildersoft.business.beans;
 
 public class HolidayDevelop {
-	private Long id = null;
+	private Integer id = null;
 	private Integer year = null;
 	private Double normal = null;
 	private Double progressive = null;
@@ -12,10 +12,10 @@ public class HolidayDevelop {
 	private Double sumTaken = null;
 	private Double balanceTaken = null;
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public Integer getYear() {

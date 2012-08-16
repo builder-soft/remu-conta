@@ -1,5 +1,8 @@
 package cl.buildersoft.business.service.impl;
 
+import static cl.buildersoft.framework.util.BSUtils.date2Calendar;
+import static cl.buildersoft.framework.util.BSUtils.string2Calendar;
+
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,9 +10,11 @@ import java.util.Date;
 import java.util.List;
 
 import cl.buildersoft.business.beans.Agreement;
+import cl.buildersoft.business.beans.Holiday;
 import cl.buildersoft.business.beans.HolidayDevelop;
 import cl.buildersoft.business.service.AgreementService;
 import cl.buildersoft.business.service.HolidayService;
+import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.exception.BSException;
 import cl.buildersoft.framework.util.BSConfig;
 import cl.buildersoft.framework.util.BSUtils;
@@ -23,18 +28,19 @@ public class HolidayServiceImpl implements HolidayService {
 		List<HolidayDevelop> out = new ArrayList<HolidayDevelop>();
 		HolidayDevelop holidayDevelop = null;
 		Agreement agreement = getAgreement(conn, employee);
-		Calendar startContract = BSUtils.date2Calendar(agreement.getStartContract());
+		Calendar startContract = date2Calendar(agreement.getStartContract());
 		Calendar endContract, startPeriod, endPeriod = null;
-		Long id = 1L;
+		Integer id = 1;
 
 		if (agreement.getContractType().equals(1L)) {
-			endContract = BSUtils.date2Calendar(new Date());
+			endContract = date2Calendar(new Date());
 		} else {
-			endContract = BSUtils.date2Calendar(agreement.getEndContract());
+			endContract = date2Calendar(agreement.getEndContract());
 		}
 
 		Integer startYear = startContract.get(Calendar.YEAR);
 		Integer endYear = endContract.get(Calendar.YEAR);
+		List<Holiday> holidays = getHolidayOfEmployee(conn, employee);
 
 		Integer index = startYear;
 		Calendar firstDayOfYear = null;
@@ -42,13 +48,13 @@ public class HolidayServiceImpl implements HolidayService {
 		Double progressiveDays = 0D;
 
 		while (index <= endYear) {
-			firstDayOfYear = BSUtils.string2Calendar(index + "-01-01", "yyyy-MM-dd");
-			lastDayOfYear = BSUtils.string2Calendar(index + "-12-31", "yyyy-MM-dd");
+			firstDayOfYear = string2Calendar(index + "-01-01", "yyyy-MM-dd");
+			lastDayOfYear = string2Calendar(index + "-12-31", "yyyy-MM-dd");
 
 			startPeriod = getLastDate(startContract, firstDayOfYear);
 			endPeriod = getLessDate(endContract, lastDayOfYear);
 
-			Double diffDays = getProportionalDays(conn, startPeriod, endPeriod);
+			Double diffDays = getProportionalDays(conn, endPeriod, startPeriod);
 
 			progressiveDays = getProgresiveDays(agreement.getMonthsQuoted(), index, startYear, progressiveDays);
 
@@ -74,12 +80,81 @@ public class HolidayServiceImpl implements HolidayService {
 			holidayDevelop.setNormal(diffDays);
 			holidayDevelop.setProgressive(progressiveDays);
 			holidayDevelop.setSum(diffDays + progressiveDays);
-			
+			holidayDevelop.setBalance(holidayDevelop.getSum() + getPrevioBalance(out, id));
+			holidayDevelop.setNormalTaken(getNormalTaken(holidays, index));
+
 			out.add(holidayDevelop);
 
 			index++;
 		}
 
+		return out;
+	}
+
+	private Double getNormalTaken(List<Holiday> holidays, Integer year) {
+		Calendar from, to = null;
+		Integer yearFrom, yearTo = null;
+		Double out = 0D;
+
+		for (Holiday holiday : holidays) {
+			from = date2Calendar(holiday.getFrom());
+			to = date2Calendar(holiday.getTo());
+			yearFrom = from.get(Calendar.YEAR);
+			yearTo = to.get(Calendar.YEAR);
+
+			// vacaciones en el año en curso
+			if (yearFrom.equals(year) || yearTo.equals(year)) {
+				// Doble año
+				if (yearFrom.equals(yearTo)) {
+					out = Double.parseDouble("" + dateDiff(from, to));
+				} else {
+					Integer currentYear = yearFrom;
+					Calendar currentDate = from;
+					while (currentYear.equals(yearFrom)) {
+						System.out.println(BSUtils.calendar2String(currentDate));
+						currentDate.add(Calendar.DAY_OF_MONTH, 1);
+						System.out.println(BSUtils.calendar2String(currentDate));
+						out++;
+						currentYear = currentDate.get(Calendar.YEAR);
+					}
+				}
+			}
+		}
+
+		// Holiday x = holidays.get(1);
+
+		/**
+		 * <code>
+ver si hay vacaciones tomadas en el año
+si tiene vacaciones tomadas
+
+	recorrer las vacaciones tomadas	
+		ver si el periodo de vacaciones tomadas son de uno o dos años.
+		si son de 1 año -> entonces
+			contar los días tomados por el rango de fechas
+		si no
+			recorrer los días seleccionados y contar cuantos son del año en curso.
+		fin
+	fin recorrido
+fin
+		  <code>
+		 */
+
+		return out;
+	}
+
+	private List<Holiday> getHolidayOfEmployee(Connection conn, Long employee) {
+		BSBeanUtils bu = new BSBeanUtils();
+		List<Holiday> out = (List<Holiday>) bu.list(conn, new Holiday(), "cEmployee=?", employee);
+		return out;
+	}
+
+	private Double getPrevioBalance(List<HolidayDevelop> list, Integer id) {
+		Double out = 0D;
+		if (!id.equals(2)) {
+			HolidayDevelop hd = list.get(id - 3);
+			out = hd.getBalance();
+		}
 		return out;
 	}
 
@@ -96,35 +171,6 @@ public class HolidayServiceImpl implements HolidayService {
 			}
 		}
 		return (double) (daysDiff * holidaysForYear) / daysOfYear;
-
-		/**
-		 * <code>
-CREATE FUNCTION fGetProportionalDays(vFrom DATE, vTo DATE) RETURNS DOUBLE
-BEGIN
-	DECLARE vOut DOUBLE DEFAULT 0;
-	DECLARE vDaysForYear, vDaysDiff INTEGER DEFAULT 15;
-	DECLARE vDaysOfYear INTEGER DEFAULT 364;
-	
-	SELECT	cValue
-	INTO	vDaysForYear
-	FROM	tParameter
-	WHERE	cKey = 'DAYS_FOR_YEAR';	
-	
-	SET		vDaysDiff = DateDiff(vTo, vFrom);
-	
-	IF(YEAR(vFrom) = YEAR(vTo)) THEN
-		IF(YEAR(vFrom) MOD 4 = 0) THEN
-			SET vDaysOfYear = 365;
-		END IF;
-	END IF;
-	
-	SET	vOut = (vDaysDiff * vDaysForYear) / vDaysOfYear;
-	
-	RETURN vOut;
-END$$ 
-		 </code>
-		 */
-
 	}
 
 	private Agreement getAgreement(Connection conn, Long employee) {
@@ -150,16 +196,11 @@ END$$
 		} else {
 			out = date2;
 		}
-
 		return out;
 	}
 
 	private Long dateDiff(Calendar prevDate, Calendar postDate) {
 		Long diff = prevDate.getTimeInMillis() - postDate.getTimeInMillis();
-		/**
-		 * System.out.println("The 21st century (up to " + today + ") is " +
-		 * (diff / (1000 * 60 * 60 * 24)) + " days old.");
-		 */
 		return (diff / MILLISECONDS_ON_DAY);
 	}
 
@@ -175,32 +216,6 @@ END$$
 				}
 			}
 		}
-
 		return out;
-		/**
-		 * <code>
-	CREATE FUNCTION fGetProgresiveDays(vMonthsQuoted INTEGER, vCurrentYear INTEGER, vStartYear INTEGER, vProgresive INTEGER) RETURNS DOUBLE
-	BEGIN
-		DECLARE vOut DOUBLE DEFAULT '0';
-		DECLARE vContracted INTEGER DEFAULT '0';
-		
-		SET vOut = vProgresive; 
-		
-		IF(vMonthsQuoted >= 120) THEN
-			SET vContracted = vCurrentYear - vStartYear;
-			
-			IF(vContracted >= 3) THEN
-				IF(vContracted MOD 3 = 0) THEN
-					SET vOut = vProgresive + 1;
-				END IF;
-			END IF;
-			
-		END IF;
-
-		RETURN vOut;
-	END$$
-</code>
-		 */
-
 	}
 }
