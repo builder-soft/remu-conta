@@ -54,7 +54,7 @@ BEGIN
 		SET vNormalTaken = fGetTakenDays(vEmployee, vFirstDayYear, vLastDayYear, TRUE);
 		SET vProgressiveTaken = fGetTakenDays(vEmployee, vFirstDayYear, vLastDayYear, FALSE);
 		
-		SET vLastBalance = vDiffDays+vProgressiveDays;
+		SET vLastBalance = vLastBalance + vDiffDays+vProgressiveDays;
 		
 		INSERT INTO tempTable(	cYear, cNormal, 
 								cProgressive, cSum, cBalance, 
@@ -100,8 +100,63 @@ END$$
 
 CREATE FUNCTION fGetTakenDays(vEmployee BIGINT, vFirstDayYear DATE, vLastDayYear DATE, vIsNormal BOOLEAN) RETURNS INTEGER
 BEGIN
-	DECLARE vOut INTEGER;
+	DECLARE vOut, vNormal, vProgressive	INTEGER DEFAULT 0;
+	DECLARE vDone		BOOLEAN DEFAULT FALSE;
+	DECLARE vId			BIGINT;
+	DECLARE vFrom, vTo	DATE;
+	DECLARE curHolidays CURSOR FOR 
+			SELECT cId FROM tHoliday 
+			WHERE cEmployee = vEmployee AND YEAR(cFrom) = YEAR(vFirstDayYear) OR 
+				YEAR(cTo) = YEAR(vFirstDayYear);
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET vDone = TRUE;
 	
+	OPEN curHolidays;
+	curHolidays_loop: LOOP
+		FETCH curHolidays INTO vId;
+	
+		IF(vDone) THEN 
+			LEAVE curHolidays_loop;
+		END IF;	
+		
+		SELECT	cFrom, cTo, cNormal, cProgressive
+		INTO	vFrom, vTo, vNormal, vProgressive
+		FROM	tHoliday
+		WHERE	cId = vId;
+		
+		IF(YEAR(vFrom) = YEAR(vTo)) THEN
+			IF(vIsNormal) THEN
+				SET vOut = vNormal;
+			ELSE
+				SET vOut = vProgressive;
+			END IF;
+		ELSE
+			SET vOut = -1;
+		END IF;
+		
+		
+	END LOOP curHolidays_loop;
+	CLOSE curHolidays;
+	
+	/*
+	
+
+	
+
+OK	ver si hay vacaciones tomadas en el año
+OK	si tiene vacaciones tomadas
+	
+OK		recorrer las vacaciones tomadas	
+OK			ver si el periodo de vacaciones tomadas son de uno o dos años.
+OK			si son de 1 año -> entonces
+				contar los días tomados por el rango de fechas
+			si no
+				recorrer los días seleccionados y contar cuantos son del año en curso.
+			fin
+		fin recorrido
+	fin
+*/
+	
+	/*
 	IF(vIsNormal) THEN
 		SET vOut = (SELECT IFNULL(SUM(cNormal), 0) 
 					FROM tHoliday 
@@ -113,6 +168,7 @@ BEGIN
 					WHERE cEmployee = vEmployee AND
 						vFirstDayYear <= cFrom AND vLastDayYear >= cTo);
 	END IF;
+	*/
 	
 	RETURN vOut;
 END$$
