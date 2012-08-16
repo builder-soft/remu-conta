@@ -48,7 +48,7 @@ public class HolidayServiceTest extends AbstractTestUtil {
 	}
 
 	private void showList(List<HolidayDevelop> list) {
-		System.out.println("Id\tYear\tNormal");
+		System.out.println("Id\tYear\tNormal\tProg.\tSum\tBalance\tNor T.\tProg T.\tSum T.\tBalance T.");
 
 		for (HolidayDevelop hd : list) {
 			System.out.print(hd.getId() + "\t");
