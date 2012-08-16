@@ -106,7 +106,7 @@ public class HolidayServiceImpl implements HolidayService {
 			if (yearFrom.equals(year) || yearTo.equals(year)) {
 				// Doble año
 				if (yearFrom.equals(yearTo)) {
-					out = Double.parseDouble("" + dateDiff(from, to));
+					out += Double.parseDouble("" + holiday.getNormal());
 				} else {
 					Integer currentYear = yearFrom;
 					Calendar currentDate = from;
