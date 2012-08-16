@@ -16,6 +16,7 @@ import cl.buildersoft.business.service.AgreementService;
 import cl.buildersoft.business.service.HolidayService;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.exception.BSException;
+import cl.buildersoft.framework.type.BSCalendar;
 import cl.buildersoft.framework.util.BSConfig;
 import cl.buildersoft.framework.util.BSUtils;
 
@@ -81,7 +82,7 @@ public class HolidayServiceImpl implements HolidayService {
 			holidayDevelop.setProgressive(progressiveDays);
 			holidayDevelop.setSum(diffDays + progressiveDays);
 			holidayDevelop.setBalance(holidayDevelop.getSum() + getPrevioBalance(out, id));
-			holidayDevelop.setNormalTaken(getNormalTaken(holidays, index));
+			holidayDevelop.setNormalTaken(getNormalTaken(holidays, index, startPeriod, endPeriod));
 
 			out.add(holidayDevelop);
 
@@ -91,10 +92,14 @@ public class HolidayServiceImpl implements HolidayService {
 		return out;
 	}
 
-	private Double getNormalTaken(List<Holiday> holidays, Integer year) {
+	private Double getNormalTaken(List<Holiday> holidays, Integer year, Calendar firstDayOfYear, Calendar lastDayOfYear) {
 		Calendar from, to = null;
 		Integer yearFrom, yearTo = null;
 		Double out = 0D;
+		Long firstDay = firstDayOfYear.getTimeInMillis();
+		Long lastDay = lastDayOfYear.getTimeInMillis();
+
+		BSCalendar cal = new BSCalendar();
 
 		for (Holiday holiday : holidays) {
 			from = date2Calendar(holiday.getFrom());
@@ -108,14 +113,20 @@ public class HolidayServiceImpl implements HolidayService {
 				if (yearFrom.equals(yearTo)) {
 					out += Double.parseDouble("" + holiday.getNormal());
 				} else {
-					Integer currentYear = yearFrom;
+					// Integer currentYear = yearFrom;
 					Calendar currentDate = from;
-					while (currentYear.equals(yearFrom)) {
-						System.out.println(BSUtils.calendar2String(currentDate));
+
+					while (currentDate.getTimeInMillis() <= to.getTimeInMillis()) {
+						// while (currentYear.equals(yearFrom)) {
+//						System.out.println(BSUtils.calendar2String(currentDate));
 						currentDate.add(Calendar.DAY_OF_MONTH, 1);
-						System.out.println(BSUtils.calendar2String(currentDate));
-						out++;
-						currentYear = currentDate.get(Calendar.YEAR);
+						// System.out.println(BSUtils.calendar2String(currentDate));
+						Long current = currentDate.getTimeInMillis();
+
+						if (current > firstDay && current < lastDay) {
+							out++;
+						}
+						// currentYear = currentDate.get(Calendar.YEAR);
 					}
 				}
 			}
