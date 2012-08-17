@@ -456,12 +456,12 @@ create table tLicense(
 ) ENGINE=InnoDB;
 
 create table tHoliday(
-	cId					BIGINT(20) NOT NULL auto_increment,
-	cEmployee			BIGINT(20) NOT NULL COMMENT 'Identificador del empleado quien tiene las horas extras',
-	cCreation			DATE NOT NULL COMMENT 'Fecha de ingreso de las vacaciones',
-	cFrom				DATE NOT NULL COMMENT 'Inicio de las vacaciones',
-	cNormal				INTEGER NOT NULL COMMENT 'Cantidad de días normales',
-	cProgressive		INTEGER NOT NULL COMMENT 'Cantidad de días progresivos',
+	cId				BIGINT(20) NOT NULL auto_increment,
+	cEmployee		BIGINT(20) NOT NULL COMMENT 'Identificador del empleado quien tiene las horas extras',
+	cCreation		DATE NOT NULL COMMENT 'Fecha de ingreso de las vacaciones',
+	cFrom			DATE NOT NULL COMMENT 'Inicio de las vacaciones',
+	cNormal			INTEGER NOT NULL COMMENT 'Cantidad de días normales',
+	cCreeping		INTEGER NOT NULL COMMENT 'Cantidad de días progresivos',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 

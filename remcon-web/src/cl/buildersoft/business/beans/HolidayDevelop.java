@@ -1,21 +1,20 @@
 package cl.buildersoft.business.beans;
 
 public class HolidayDevelop {
-	private Integer id = null;
+	private Long id = null;
 	private Integer year = null;
-	private Double normal = null;
-	private Double progressive = null;
-	private Double sum = null;
-	private Double balance = null;
+	private Double normalRatio = null;
 	private Double normalTaken = null;
-	private Double progressiveTaken = null;
-	private Double sumTaken = null;
-	private Double balanceTaken = null;
+	private Double normalBalance = null;
+	private Double creepingRatio = null;
+	private Double creepingTaken = null;
+	private Double creepingBalance = null;
+	private Double totalBalance = null;
 	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public Integer getYear() {
@@ -24,29 +23,11 @@ public class HolidayDevelop {
 	public void setYear(Integer year) {
 		this.year = year;
 	}
-	public Double getNormal() {
-		return normal;
+	public Double getNormalRatio() {
+		return normalRatio;
 	}
-	public void setNormal(Double normal) {
-		this.normal = normal;
-	}
-	public Double getProgressive() {
-		return progressive;
-	}
-	public void setProgressive(Double progressive) {
-		this.progressive = progressive;
-	}
-	public Double getSum() {
-		return sum;
-	}
-	public void setSum(Double sum) {
-		this.sum = sum;
-	}
-	public Double getBalance() {
-		return balance;
-	}
-	public void setBalance(Double balance) {
-		this.balance = balance;
+	public void setNormalRatio(Double normalRatio) {
+		this.normalRatio = normalRatio;
 	}
 	public Double getNormalTaken() {
 		return normalTaken;
@@ -54,22 +35,35 @@ public class HolidayDevelop {
 	public void setNormalTaken(Double normalTaken) {
 		this.normalTaken = normalTaken;
 	}
-	public Double getProgressiveTaken() {
-		return progressiveTaken;
+	public Double getNormalBalance() {
+		return normalBalance;
 	}
-	public void setProgressiveTaken(Double progressiveTaken) {
-		this.progressiveTaken = progressiveTaken;
+	public void setNormalBalance(Double normalBalance) {
+		this.normalBalance = normalBalance;
 	}
-	public Double getSumTaken() {
-		return sumTaken;
+	public Double getCreepingRatio() {
+		return creepingRatio;
 	}
-	public void setSumTaken(Double sumTaken) {
-		this.sumTaken = sumTaken;
+	public void setCreepingRatio(Double creepingRatio) {
+		this.creepingRatio = creepingRatio;
 	}
-	public Double getBalanceTaken() {
-		return balanceTaken;
+	public Double getCreepingTaken() {
+		return creepingTaken;
 	}
-	public void setBalanceTaken(Double balanceTaken) {
-		this.balanceTaken = balanceTaken;
+	public void setCreepingTaken(Double creepingTaken) {
+		this.creepingTaken = creepingTaken;
 	}
+	public Double getCreepingBalance() {
+		return creepingBalance;
+	}
+	public void setCreepingBalance(Double creepingBalance) {
+		this.creepingBalance = creepingBalance;
+	}
+	public Double getTotalBalance() {
+		return totalBalance;
+	}
+	public void setTotalBalance(Double totalBalance) {
+		this.totalBalance = totalBalance;
+	}
+
 }

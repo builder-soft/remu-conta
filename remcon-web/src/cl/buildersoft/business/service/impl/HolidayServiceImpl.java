@@ -4,6 +4,8 @@ import static cl.buildersoft.framework.util.BSUtils.date2Calendar;
 import static cl.buildersoft.framework.util.BSUtils.string2Calendar;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,11 +16,10 @@ import cl.buildersoft.business.beans.Holiday;
 import cl.buildersoft.business.beans.HolidayDevelop;
 import cl.buildersoft.business.service.AgreementService;
 import cl.buildersoft.business.service.HolidayService;
-import cl.buildersoft.framework.database.BSBeanUtils;
+import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSException;
-import cl.buildersoft.framework.type.BSCalendar;
+import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.framework.util.BSConfig;
-import cl.buildersoft.framework.util.BSUtils;
 
 public class HolidayServiceImpl implements HolidayService {
 
@@ -29,70 +30,116 @@ public class HolidayServiceImpl implements HolidayService {
 		List<HolidayDevelop> out = new ArrayList<HolidayDevelop>();
 		HolidayDevelop holidayDevelop = null;
 		Agreement agreement = getAgreement(conn, employee);
-		Calendar startContract = date2Calendar(agreement.getStartContract());
-		Calendar endContract, startPeriod, endPeriod = null;
-		Integer id = 1;
 
+		Calendar startContract = date2Calendar(agreement.getStartContract());
+		Calendar endContract = getEndContract(agreement);
+
+		Integer startYear = startContract.get(Calendar.YEAR);
+		Integer endYear = endContract.get(Calendar.YEAR);
+
+		Double[] holidays = getHolidaysOfEmployee(conn, employee);
+		Double balanceNormalTaken = holidays[0];
+		Double balanceCreepingTaken = holidays[1];
+
+		System.out.println("balanceNormalTaken:" + balanceNormalTaken + "\nbalanceCreepingTaken:" + balanceCreepingTaken);
+
+		Integer year = startYear;
+		// Calendar firstDayOfYear = null;
+		// Calendar lastDayOfYear = null;
+		Double ratioDays = null;
+		Calendar startPeriod = null;
+		Calendar endPeriod = null;
+		Double creepingDays = 0D;
+		Double normalPastBalace = 0D;
+		Double creepingPastBalace = 0D;
+		Long id = 1L;
+		while (year <= endYear) {
+			startPeriod = getStartPeriod(startContract, year);
+			endPeriod = getEndPeriod(endContract, year);
+
+			ratioDays = getRatioDays(conn, endPeriod, startPeriod);
+			creepingDays = getProgresiveDays(agreement.getMonthsQuoted(), year, startYear, creepingDays);
+
+			holidayDevelop = getHolidayDevelopInstance(year, id);
+
+			balanceNormalTaken = calculateNormalValues(holidayDevelop, balanceNormalTaken, ratioDays, normalPastBalace);
+			normalPastBalace = holidayDevelop.getNormalBalance();
+
+			balanceCreepingTaken = calculateCreepingValues(holidayDevelop, balanceCreepingTaken, creepingDays, creepingPastBalace);
+			creepingPastBalace = holidayDevelop.getCreepingBalance();
+
+			holidayDevelop.setTotalBalance(holidayDevelop.getNormalBalance() + holidayDevelop.getCreepingBalance());
+
+			out.add(holidayDevelop);
+			year++;
+			id++;
+		}
+
+		return out;
+	}
+
+	private HolidayDevelop getHolidayDevelopInstance(Integer year, Long id) {
+		HolidayDevelop holidayDevelop;
+		holidayDevelop = new HolidayDevelop();
+		holidayDevelop.setId(id);
+		holidayDevelop.setYear(year);
+		return holidayDevelop;
+	}
+
+	private Double calculateNormalValues(HolidayDevelop holidayDevelop, Double balanceNormalTaken, Double ratioDays,
+			Double normalPastBalace) {
+		holidayDevelop.setNormalRatio(ratioDays);
+		if (balanceNormalTaken >= ratioDays) {
+			holidayDevelop.setNormalTaken(ratioDays);
+			balanceNormalTaken -= ratioDays;
+		} else {
+			holidayDevelop.setNormalTaken(balanceNormalTaken);
+			balanceNormalTaken -= balanceNormalTaken;
+		}
+		holidayDevelop.setNormalBalance(ratioDays - holidayDevelop.getNormalTaken() + normalPastBalace);
+		return balanceNormalTaken;
+	}
+
+	private Double calculateCreepingValues(HolidayDevelop holidayDevelop, Double balanceCreepeingTaken, Double ratioDays,
+			Double creepingPastBalace) {
+		holidayDevelop.setCreepingRatio(ratioDays);
+
+		if (balanceCreepeingTaken >= ratioDays) {
+			holidayDevelop.setCreepingTaken(ratioDays);
+			balanceCreepeingTaken -= ratioDays;
+		} else {
+			holidayDevelop.setCreepingTaken(balanceCreepeingTaken);
+			balanceCreepeingTaken -= balanceCreepeingTaken;
+		}
+		holidayDevelop.setCreepingBalance(ratioDays - holidayDevelop.getCreepingTaken() + creepingPastBalace);
+
+		return balanceCreepeingTaken;
+	}
+
+	private Calendar getEndPeriod(Calendar endContract, Integer year) {
+		Calendar endPeriod;
+		Calendar lastDayOfYear;
+		lastDayOfYear = string2Calendar(year + "-12-31", "yyyy-MM-dd");
+		endPeriod = getLessDate(endContract, lastDayOfYear);
+		return endPeriod;
+	}
+
+	private Calendar getStartPeriod(Calendar startContract, Integer year) {
+		Calendar startPeriod;
+		Calendar firstDayOfYear;
+		firstDayOfYear = string2Calendar(year + "-01-01", "yyyy-MM-dd");
+		startPeriod = getLastDate(startContract, firstDayOfYear);
+		return startPeriod;
+	}
+
+	private Calendar getEndContract(Agreement agreement) {
+		Calendar endContract;
 		if (agreement.getContractType().equals(1L)) {
 			endContract = date2Calendar(new Date());
 		} else {
 			endContract = date2Calendar(agreement.getEndContract());
 		}
-
-		Integer startYear = startContract.get(Calendar.YEAR);
-		Integer endYear = endContract.get(Calendar.YEAR);
-		List<Holiday> holidays = getHolidayOfEmployee(conn, employee);
-
-		Integer index = startYear;
-		Calendar firstDayOfYear = null;
-		Calendar lastDayOfYear = null;
-		Double progressiveDays = 0D;
-
-		while (index <= endYear) {
-			firstDayOfYear = string2Calendar(index + "-01-01", "yyyy-MM-dd");
-			lastDayOfYear = string2Calendar(index + "-12-31", "yyyy-MM-dd");
-
-			startPeriod = getLastDate(startContract, firstDayOfYear);
-			endPeriod = getLessDate(endContract, lastDayOfYear);
-
-			Double diffDays = getProportionalDays(conn, endPeriod, startPeriod);
-
-			progressiveDays = getProgresiveDays(agreement.getMonthsQuoted(), index, startYear, progressiveDays);
-
-			/**
-			 * <code>
-
-			SET vNormalTaken = fGetTakenDays(vEmployee, vFirstDayYear, vLastDayYear, TRUE);
-			SET vProgressiveTaken = fGetTakenDays(vEmployee, vFirstDayYear, vLastDayYear, FALSE);
-			
-			SET vLastBalance = vLastBalance + vDiffDays+vProgressiveDays;
-			
-			INSERT INTO tempTable(	cYear, cNormal, 
-									cProgressive, cSum, cBalance, 
-									cNormalTaken, cProgressiveTaken, cBalanceTaken) 
-			VALUES(					i, vDiffDays, 
-									vProgressiveDays, vDiffDays+vProgressiveDays, vLastBalance, 
-									vNormalTaken, vProgressiveTaken, NULL);
-			</code>
-			 */
-			holidayDevelop = new HolidayDevelop();
-			holidayDevelop.setId(id++);
-			holidayDevelop.setYear(index);
-			holidayDevelop.setNormal(diffDays);
-			holidayDevelop.setProgressive(progressiveDays);
-			holidayDevelop.setSum(diffDays + progressiveDays);
-			holidayDevelop.setBalance(holidayDevelop.getSum() + getPrevioBalance(out, id));
-
-			holidayDevelop.setNormalTaken(getNormalTaken(holidays, index, startPeriod, endPeriod));
-			holidayDevelop.setProgressiveTaken(getProgressiveTaken(holidays, index, startPeriod, endPeriod));
-			holidayDevelop.setSumTaken(holidayDevelop.getNormalTaken() + holidayDevelop.getProgressiveTaken());
-
-			out.add(holidayDevelop);
-
-			index++;
-		}
-
-		return out;
+		return endContract;
 	}
 
 	private Double getProgressiveTaken(List<Holiday> holidays, Integer year, Calendar firstDayOfYear, Calendar lastDayOfYear) {
@@ -110,8 +157,6 @@ public class HolidayServiceImpl implements HolidayService {
 		Double out = 0D;
 		Long firstDay = firstDayOfYear.getTimeInMillis();
 		Long lastDay = lastDayOfYear.getTimeInMillis();
-
-		// BSCalendar cal = new BSCalendar();
 
 		for (Holiday holiday : holidays) {
 			from = date2Calendar(holiday.getFrom());
@@ -139,31 +184,25 @@ public class HolidayServiceImpl implements HolidayService {
 			}
 		}
 
-		// Holiday x = holidays.get(1);
-
-		/**
-		 * <code>
-ver si hay vacaciones tomadas en el año
-si tiene vacaciones tomadas
-
-	recorrer las vacaciones tomadas	
-		ver si el periodo de vacaciones tomadas son de uno o dos años.
-		si son de 1 año -> entonces
-			contar los días tomados por el rango de fechas
-		si no
-			recorrer los días seleccionados y contar cuantos son del año en curso.
-		fin
-	fin recorrido
-fin
-		  <code>
-		 */
-
 		return out;
 	}
 
-	private List<Holiday> getHolidayOfEmployee(Connection conn, Long employee) {
-		BSBeanUtils bu = new BSBeanUtils();
-		List<Holiday> out = (List<Holiday>) bu.list(conn, new Holiday(), "cEmployee=?", employee);
+	private Double[] getHolidaysOfEmployee(Connection conn, Long employee) {
+		Double[] out = new Double[2];
+		out[0] = 0D;
+		out[1] = 0D;
+
+		BSmySQL mysql = new BSmySQL();
+		ResultSet holidays = mysql.callSingleSP(conn, "pGetHolidayByEmployee", employee);
+		try {
+			if (holidays.next()) {
+				out[0] = holidays.getDouble("cTakenNormal");
+				out[1] = holidays.getDouble("cTakenCreeping");
+			}
+		} catch (SQLException e) {
+			throw new BSProgrammerException(e);
+		}
+
 		return out;
 	}
 
@@ -171,12 +210,12 @@ fin
 		Double out = 0D;
 		if (!id.equals(2)) {
 			HolidayDevelop hd = list.get(id - 3);
-			out = hd.getBalance();
+			// out = hd.getBalance();
 		}
 		return out;
 	}
 
-	private Double getProportionalDays(Connection conn, Calendar startPeriod, Calendar endPeriod) {
+	private Double getRatioDays(Connection conn, Calendar startPeriod, Calendar endPeriod) {
 		BSConfig config = new BSConfig();
 		Integer holidaysForYear = config.getInteger(conn, "DAYS_FOR_YEAR");
 		Integer daysOfYear = 364;

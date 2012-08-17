@@ -48,19 +48,19 @@ public class HolidayServiceTest extends AbstractTestUtil {
 	}
 
 	private void showList(List<HolidayDevelop> list) {
-		System.out.println("Id\tYear\tNormal\tProg.\tSum\tBalance\tNor T.\tProg T.\tSum T.\tBalance T.");
+		System.out.println("  \t    \tNormal\t     \t       \tCreeping      \t       \tTotal");
+		System.out.println("Id\tYear\tRatio \tTaken\tBalance\tRatio\tTaken \tBalance\tBalance");
 
 		for (HolidayDevelop hd : list) {
 			System.out.print(hd.getId() + "\t");
 			System.out.print(hd.getYear() + "\t");
-			System.out.print(formatNumber(hd.getNormal()) + "\t");
-			System.out.print(formatNumber(hd.getProgressive()) + "\t");
-			System.out.print(formatNumber(hd.getSum()) + "\t");
-			System.out.print(formatNumber(hd.getBalance()) + "\t");
+			System.out.print(formatNumber(hd.getNormalRatio()) + "\t");
 			System.out.print(formatNumber(hd.getNormalTaken()) + "\t");
-			System.out.print(formatNumber(hd.getProgressiveTaken()) + "\t");
-			System.out.print(formatNumber(hd.getSumTaken()) + "\t");
-			System.out.print(formatNumber(hd.getBalanceTaken()) + "\t");
+			System.out.print(formatNumber(hd.getNormalBalance()) + "\t");
+			System.out.print(formatNumber(hd.getCreepingRatio() ) + "\t");
+			System.out.print(formatNumber(hd.getCreepingTaken()) + "\t");
+			System.out.print(formatNumber(hd.getCreepingBalance()) + "\t");
+			System.out.print(formatNumber(hd.getTotalBalance()) + "\t");
 
 			System.out.println();
 		}
