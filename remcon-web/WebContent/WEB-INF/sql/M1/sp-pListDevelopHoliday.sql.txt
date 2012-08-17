@@ -106,8 +106,7 @@ BEGIN
 	DECLARE vFrom, vTo	DATE;
 	DECLARE curHolidays CURSOR FOR 
 			SELECT cId FROM tHoliday 
-			WHERE cEmployee = vEmployee AND YEAR(cFrom) = YEAR(vFirstDayYear) OR 
-				YEAR(cTo) = YEAR(vFirstDayYear);
+			WHERE cEmployee = vEmployee AND YEAR(cFrom) = YEAR(vFirstDayYear) ;
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET vDone = TRUE;
 	
 	OPEN curHolidays;
@@ -118,8 +117,8 @@ BEGIN
 			LEAVE curHolidays_loop;
 		END IF;	
 		
-		SELECT	cFrom, cTo, cNormal, cProgressive
-		INTO	vFrom, vTo, vNormal, vProgressive
+		SELECT	cFrom, cNormal, cProgressive
+		INTO	vFrom, vNormal, vProgressive
 		FROM	tHoliday
 		WHERE	cId = vId;
 		
@@ -161,12 +160,12 @@ OK			si son de 1 año -> entonces
 		SET vOut = (SELECT IFNULL(SUM(cNormal), 0) 
 					FROM tHoliday 
 					WHERE cEmployee = vEmployee AND
-						vFirstDayYear <= cFrom AND vLastDayYear >= cTo);
+						vFirstDayYear <= cFrom);
 	ELSE
 		SET vOut = (SELECT IFNULL(SUM(cProgressive), 0) 
 					FROM tHoliday 
 					WHERE cEmployee = vEmployee AND
-						vFirstDayYear <= cFrom AND vLastDayYear >= cTo);
+						vFirstDayYear <= cFrom );
 	END IF;
 	*/
 	

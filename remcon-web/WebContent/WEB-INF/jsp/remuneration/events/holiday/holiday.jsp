@@ -43,9 +43,9 @@
 
 <table border="0">
 	<tr>
-		<td class="cLabel">Fecha inicio</td>
+		<td class="cLabel">Inicio contrato</td>
 		<td class="cData"><%=BSWeb.date2String(request, agreement.getStartContract())%></td>
-		<td class="cLabel">Fecha termino</td>
+		<td class="cLabel">Término contrato</td>
 		<td class="cData"><%=getEndDateContract(request, agreement)%></td>
 	</tr>
 	<tr>
@@ -78,9 +78,9 @@
 				<caption>Vacaciones tomadas</caption>
 				<tr>
 					<td class='cHeadTD' align="center">Fecha Inicio</td>
-					<td class='cHeadTD' align="center">Fecha Termino</td>
 					<td class='cHeadTD' align="center">Días Normales</td>
 					<td class='cHeadTD' align="center">Días Progresivos</td>
+					<td class='cHeadTD' align="center">Fecha Termino</td>
 					<td class='cHeadTD' align="center">Certificado</td>
 				</tr>
 				<%
@@ -94,10 +94,10 @@
 				%>
 				<tr>
 					<td class='<%=color%>' align="center"><%=BSWeb.date2String(request, holidays.getDate("cFrom"))%></td>
-					<td class='<%=color%>' align="center"><%=BSWeb.date2String(request, holidays.getDate("cTo"))%></td>
 					<td class='<%=color%>' align="right"><%=holidays.getInt("cNormal")%></td>
 					<td class='<%=color%>' align="right"><%=holidays.getInt("cProgressive")%></td>
-					<td class='<%=color%>' align="center"><a href="#">Descargar</a></td>
+					<td class='<%=color%>' align="center"><%=BSWeb.date2String(request, holidays.getDate("cTo"))%></td>
+					<td class='<%=color%>' align="center"><a href="#">Ver</a></td>
 				</tr>
 				<%
 					}
@@ -117,7 +117,7 @@
 			<table class="cList" cellpadding="0" cellspacing="0">
 				<caption>Desarrollo de vacaciones</caption>
 				<tr>
-					<td class='cHeadTD'>Período</td>
+					<td class='cHeadTD'>Año</td>
 
 					<td class='cHeadTD'>Normales</td>
 					<td class='cHeadTD'>Progresivas</td>
