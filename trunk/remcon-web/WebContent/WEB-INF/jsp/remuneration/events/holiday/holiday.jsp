@@ -1,3 +1,5 @@
+<%@page import="cl.buildersoft.framework.util.BSConfig"%>
+<%@page import="cl.buildersoft.business.beans.HolidayDevelop"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.util.Date"%>
 <%@page
@@ -15,19 +17,22 @@
 	ResultSet holidays = (ResultSet) request.getAttribute("Holidays");
 	Agreement agreement = (Agreement) request.getAttribute("Agreement");
 	ResultSet holidayInfo = (ResultSet) request.getAttribute("HolidayInfo");
+	List<HolidayDevelop> holidayDevelop = (List<HolidayDevelop>) request.getAttribute("HolidayDevelop");
 	Boolean expiredContract = expiredContract(agreement);
+	BSmySQL mysql = new BSmySQL();
+	Connection conn = mysql.getConnection(request);
 
 	String totalDays = "";
 	String proportionalToday = "";
 	String normalDays = "";
-	String progressiveDays = "";
+	String creepingDays = "";
 	String balanceDays = "";
 
 	if (holidayInfo.next()) {
 		totalDays = getValueFormated(request, holidayInfo, "cTotalDays");
 		proportionalToday = getValueFormated(request, holidayInfo, "cProportionalToday");
 		normalDays = getValueFormated(request, holidayInfo, "cNormalDays");
-		progressiveDays = getValueFormated(request, holidayInfo, "cProgressiveDays");
+		creepingDays = getValueFormated(request, holidayInfo, "cCreepingDays");
 		balanceDays = getValueFormated(request, holidayInfo, "cBalanceDays");
 	}
 %>
@@ -57,7 +62,7 @@
 	</tr>
 	<tr>
 		<td class="cLabel">Días progresivos tomados</td>
-		<td class="cData"><%=progressiveDays%></td>
+		<td class="cData"><%=creepingDays%></td>
 
 		<td class="cLabel">Días normales tomados</td>
 		<td class="cData"><%=normalDays%></td>
@@ -85,24 +90,24 @@
 				</tr>
 				<%
 					Boolean haveHoliday = Boolean.FALSE;
-					String color = null;
-					Integer index = 0;
-					while (holidays.next()) {
-						index++;
-						haveHoliday = Boolean.TRUE;
-						color = index % 2 == 0 ? "cDataTD_odd" : "cDataTD";
+							String color = null;
+							Integer index = 0;
+							while (holidays.next()) {
+								index++;
+								haveHoliday = Boolean.TRUE;
+								color = index % 2 == 0 ? "cDataTD_odd" : "cDataTD";
 				%>
 				<tr>
 					<td class='<%=color%>' align="center"><%=BSWeb.date2String(request, holidays.getDate("cFrom"))%></td>
 					<td class='<%=color%>' align="right"><%=holidays.getInt("cNormal")%></td>
-					<td class='<%=color%>' align="right"><%=holidays.getInt("cProgressive")%></td>
+					<td class='<%=color%>' align="right"><%=holidays.getInt("cCreeping")%></td>
 					<td class='<%=color%>' align="center"><%=BSWeb.date2String(request, holidays.getDate("cTo"))%></td>
 					<td class='<%=color%>' align="center"><a href="#">Ver</a></td>
 				</tr>
 				<%
 					}
 
-					if (!haveHoliday) {
+							if (!haveHoliday) {
 				%>
 				<tr>
 					<td colspan="4" class="cDataTD">Vacaciones no registradas</td>
@@ -117,18 +122,42 @@
 			<table class="cList" cellpadding="0" cellspacing="0">
 				<caption>Desarrollo de vacaciones</caption>
 				<tr>
-					<td class='cHeadTD'>Año</td>
+					<td class='cHeadTD' rowspan="2">Año</td>
+					<td class='cHeadTD' colspan="3">Normales</td>
+					<td class='cHeadTD' colspan="3">Progresivas</td>
+					<td class='cHeadTD' rowspan="2">Saldo<br>Total
+					</td>
+				<tr>
+					<!-- 
+					<td class='cHeadTD'></td>
+ -->
+					<td class='cHeadTD'>Proporcional</td>
+					<td class='cHeadTD'>Tomadas</td>
+					<td class='cHeadTD'>Saldo</td>
 
-					<td class='cHeadTD'>Normales</td>
-					<td class='cHeadTD'>Progresivas</td>
-					<td class='cHeadTD'>Total</td>
-
-					<td class='cHeadTD'>Tomadas Normales</td>
-					<td class='cHeadTD'>Tomadas Progresivas</td>
+					<td class='cHeadTD'>Proporcional</td>
+					<td class='cHeadTD'>Tomadas</td>
 					<td class='cHeadTD'>Saldo</td>
 
 				</tr>
-
+				<%
+					BSConfig _config = new BSConfig();
+							String format = _config.getFormatDecimal(conn);
+							for (HolidayDevelop  hd : holidayDevelop) {
+				%>
+				<tr>
+					<td class="cDataTD" align="center"><%=hd.getYear()%>
+					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getNormalRatio(), format)%>
+					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getNormalTaken(), format)%>
+					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getNormalBalance(), format)%>
+					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getCreepingRatio(), format)%>
+					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getCreepingTaken(), format)%>
+					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getCreepingBalance(), format)%>
+					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getTotalBalance(), format)%>
+				</tr>
+				<%
+					}
+				%>
 			</table>
 
 		</td>
