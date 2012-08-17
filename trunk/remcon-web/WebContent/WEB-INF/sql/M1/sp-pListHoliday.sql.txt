@@ -3,7 +3,7 @@ DELIMITER $$
 
 CREATE PROCEDURE pListHoliday(IN vEmployee BIGINT)
 BEGIN
-	SELECT		cId, cFrom, cTo, cNormal, cProgressive
+	SELECT		cId, cFrom, cNormal, cProgressive, fBusinessDate(cFrom, cNormal + cProgressive) AS cTo
 	FROM 		tHoliday
 	WHERE		cEmployee = vEmployee;
 

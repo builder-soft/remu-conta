@@ -28,11 +28,11 @@ BEGIN
 	SET		vNormalDays = (	SELECT IFNULL(SUM(cNormal), 0) 
 							FROM tHoliday 
 							WHERE cEmployee = pEmployee AND
-								pFrom <= cFrom AND pTo >= cTo);
+								pFrom <= cFrom);
 	SET		vProgressiveDays = (SELECT IFNULL(SUM(cProgressive), 0) 
 								FROM tHoliday 
 								WHERE cEmployee = pEmployee AND
-									pFrom <= cFrom AND pTo >= cTo);
+									pFrom <= cFrom );
 								
 	SELECT	vProportional AS cTotalDays,
 			vProportionalToday AS cProportionalToday,
