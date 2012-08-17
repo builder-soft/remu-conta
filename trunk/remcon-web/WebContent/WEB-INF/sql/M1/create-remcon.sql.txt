@@ -460,7 +460,6 @@ create table tHoliday(
 	cEmployee			BIGINT(20) NOT NULL COMMENT 'Identificador del empleado quien tiene las horas extras',
 	cCreation			DATE NOT NULL COMMENT 'Fecha de ingreso de las vacaciones',
 	cFrom				DATE NOT NULL COMMENT 'Inicio de las vacaciones',
-	cTo					DATE NOT NULL COMMENT 'Fin de las vacaciones',
 	cNormal				INTEGER NOT NULL COMMENT 'Cantidad de días normales',
 	cProgressive		INTEGER NOT NULL COMMENT 'Cantidad de días progresivos',
 	PRIMARY KEY (cId)
@@ -468,8 +467,8 @@ create table tHoliday(
 
 CREATE TABLE tLicenseCause (
 	cId BIGINT UNIQUE AUTO_INCREMENT,
-	cKey	CHAR(5) UNIQUE NOT NULL COMMENT 'Llave irrepetiblehabran procesos que la usan', 
-	cName	VARCHAR(15) NOT NULL COMMENT 'Descripción de la causa',
+	cKey			CHAR(5) UNIQUE NOT NULL COMMENT 'Llave irrepetiblehabran procesos que la usan', 
+	cName			VARCHAR(15) NOT NULL COMMENT 'Descripción de la causa',
 	cFileCategory	BIGINT COMMENT 'Tipo del archivo asociado a la categoría',
 	PRIMARY KEY(cId)
 ) ENGINE=InnoDB;
