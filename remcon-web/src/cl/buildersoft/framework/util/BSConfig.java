@@ -25,6 +25,10 @@ public class BSConfig extends BSDataUtils {
 		return seperator.toCharArray()[0];
 	}
 
+	public String getFormatDecimal(Connection conn) { 
+		return getValue(conn, "FORMAT_DECIMAL");
+	}
+	
 	public Integer getRecordsPerPage(Connection conn) {
 		return getInteger(conn, "RECORDS_PER_PAGE");
 	}

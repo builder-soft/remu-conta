@@ -29,7 +29,7 @@ BEGIN
 							FROM tHoliday 
 							WHERE cEmployee = pEmployee AND
 								pFrom <= cFrom);
-	SET		vProgressiveDays = (SELECT IFNULL(SUM(cProgressive), 0) 
+	SET		vProgressiveDays = (SELECT IFNULL(SUM(cCreeping), 0) 
 								FROM tHoliday 
 								WHERE cEmployee = pEmployee AND
 									pFrom <= cFrom );
@@ -37,7 +37,7 @@ BEGIN
 	SELECT	vProportional AS cTotalDays,
 			vProportionalToday AS cProportionalToday,
 			vNormalDays AS cNormalDays,
-			vProgressiveDays AS cProgressiveDays,
+			vProgressiveDays AS cCreepingDays,
 			vProportionalToday - (vNormalDays+vProgressiveDays) AS cBalanceDays;
 
 END$$

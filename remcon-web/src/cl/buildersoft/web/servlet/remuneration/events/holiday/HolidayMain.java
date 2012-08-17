@@ -15,10 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.business.beans.Agreement;
 import cl.buildersoft.business.beans.Employee;
+import cl.buildersoft.business.beans.HolidayDevelop;
 import cl.buildersoft.business.service.AgreementService;
 import cl.buildersoft.business.service.EmployeeService;
+import cl.buildersoft.business.service.HolidayService;
 import cl.buildersoft.business.service.impl.AgreementServiceImpl;
 import cl.buildersoft.business.service.impl.EmployeeServiceImpl;
+import cl.buildersoft.business.service.impl.HolidayServiceImpl;
 import cl.buildersoft.framework.database.BSmySQL;
 
 @WebServlet("/servlet/remuneration/events/holiday/HolidayMain")
@@ -35,7 +38,9 @@ public class HolidayMain extends HttpServlet {
 
 		List<Object> params = getParameters(employee, agreement);
 		ResultSet holidayInfo = mysql.callSingleSP(conn, "pGetHolidayInfo", params);
-
+		List<HolidayDevelop> holidayDevelop = getHolidayDevelop(conn, employee);
+		
+		
 		// List<Holiday> holidays = (List<Holiday>) bu.list(conn, new Holiday(),
 		// "cEmployee=?", employee.getId());
 
@@ -43,8 +48,15 @@ public class HolidayMain extends HttpServlet {
 		request.setAttribute("Employee", employee);
 		request.setAttribute("Holidays", holidays);
 		request.setAttribute("HolidayInfo", holidayInfo);
+		request.setAttribute("HolidayDevelop", holidayDevelop);
 
 		request.getRequestDispatcher("/WEB-INF/jsp/remuneration/events/holiday/holiday.jsp").forward(request, response);
+	}
+
+	private List<HolidayDevelop> getHolidayDevelop(Connection conn, Employee employee) {
+		HolidayService hs = new HolidayServiceImpl();
+		List<HolidayDevelop> out = hs .listDevelop(conn, employee.getId());
+		return out;
 	}
 
 	private List<Object> getParameters(Employee employee, Agreement agreement) {

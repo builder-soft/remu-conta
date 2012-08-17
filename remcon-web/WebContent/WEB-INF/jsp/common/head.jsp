@@ -93,7 +93,7 @@
 			
 			
 			
-			<%!private String getDomainName(HttpSession session) {
+	<%!private String getDomainName(HttpSession session) {
 		return ((Domain) session.getAttribute("Domain")).getAlias();
 	}
 
