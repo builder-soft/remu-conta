@@ -39,8 +39,10 @@
 </head>
 
 <body marginwidth="25px" marginheight="5px"
-	onload="javaScript:loadFormat();try{onLoadPage();}catch(e){}">
-
+	onload="javaScript:try{onLoadPage();}catch(e){}">
+	<!-- 
+loadFormat();
+ -->
 	<div id="TOOLTIP_CONTAINER"
 		style="display:none;position:absolute;top:0;left:0;height:0;width:0;background-color:#C3C3C2;opacity:0.5;z-index:1;"
 		align="center">
