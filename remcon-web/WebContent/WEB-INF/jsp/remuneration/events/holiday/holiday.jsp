@@ -1,3 +1,6 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="cl.buildersoft.framework.util.BSUtils"%>
+<%@page import="cl.buildersoft.framework.type.BSDouble"%>
 <%@page import="cl.buildersoft.framework.util.BSConfig"%>
 <%@page import="cl.buildersoft.business.beans.HolidayDevelop"%>
 <%@page import="java.sql.SQLException"%>
@@ -18,6 +21,10 @@
 	Agreement agreement = (Agreement) request.getAttribute("Agreement");
 	ResultSet holidayInfo = (ResultSet) request.getAttribute("HolidayInfo");
 	List<HolidayDevelop> holidayDevelop = (List<HolidayDevelop>) request.getAttribute("HolidayDevelop");
+	Double normalBalance = (Double) request.getAttribute("NormalBalance");
+	Double creepingBalance = (Double) request.getAttribute("CreepingBalance");
+	String defaultHoliday = (String)request.getAttribute("DefaultHoliday");
+
 	Boolean expiredContract = expiredContract(agreement);
 	BSmySQL mysql = new BSmySQL();
 	Connection conn = mysql.getConnection(request);
@@ -39,7 +46,10 @@
 
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
-
+<script
+	src="${pageContext.request.contextPath}/js/remuneration/events/holiday/holiday.js?<%=Math.random()%>">
+	
+</script>
 <h1 class="cTitle">Vacaciones de empleado</h1>
 
 <br>
@@ -90,12 +100,12 @@
 				</tr>
 				<%
 					Boolean haveHoliday = Boolean.FALSE;
-							String color = null;
-							Integer index = 0;
-							while (holidays.next()) {
-								index++;
-								haveHoliday = Boolean.TRUE;
-								color = index % 2 == 0 ? "cDataTD_odd" : "cDataTD";
+					String color = null;
+					Integer index = 0;
+					while (holidays.next()) {
+						index++;
+						haveHoliday = Boolean.TRUE;
+						color = index % 2 == 0 ? "cDataTD_odd" : "cDataTD";
 				%>
 				<tr>
 					<td class='<%=color%>' align="center"><%=BSWeb.date2String(request, holidays.getDate("cFrom"))%></td>
@@ -107,15 +117,24 @@
 				<%
 					}
 
-							if (!haveHoliday) {
+					if (!haveHoliday) {
 				%>
 				<tr>
-					<td colspan="4" class="cDataTD">Vacaciones no registradas</td>
+					<td colspan="5" class="cDataTD">Vacaciones no registradas</td>
 				</tr>
 				<%
 					}
 				%>
-			</table>
+			</table> <br> <input type="Button" value="Solicitar vacaciones"
+			onclick="javascript:showTooltip('divRetrieveHoliday');loadFormat();"
+			<%=expiredContract ? "disabled" : ""%>> <a
+			href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
+			<%
+				if (expiredContract) {
+					out.println("<br><span class='cWarning' style='width:100%;'>&nbsp;&nbsp;&nbsp;El contrato ya expiró&nbsp;&nbsp;&nbsp;</span>");
+				}
+			%>
+
 		</td>
 		<td>&nbsp;&nbsp;</td>
 		<td valign="top">
@@ -142,18 +161,21 @@
 				</tr>
 				<%
 					BSConfig _config = new BSConfig();
-							String format = _config.getFormatDecimal(conn);
-							for (HolidayDevelop  hd : holidayDevelop) {
+					String format = _config.getFormatDecimal(conn);
+					index = 0;
+					for (HolidayDevelop hd : holidayDevelop) {
+						index++;
+						color = index % 2 == 0 ? "cDataTD_odd" : "cDataTD";
 				%>
 				<tr>
-					<td class="cDataTD" align="center"><%=hd.getYear()%>
-					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getNormalRatio(), format)%>
-					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getNormalTaken(), format)%>
-					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getNormalBalance(), format)%>
-					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getCreepingRatio(), format)%>
-					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getCreepingTaken(), format)%>
-					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getCreepingBalance(), format)%>
-					<td class="cDataTD" align="right"><%=BSWeb.number2String(hd.getTotalBalance(), format)%>
+					<td class="<%=color%>" align="center"><%=hd.getYear()%>
+					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getNormalRatio(), format)%>
+					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getNormalTaken(), format)%>
+					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getNormalBalance(), format)%>
+					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getCreepingRatio(), format)%>
+					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getCreepingTaken(), format)%>
+					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getCreepingBalance(), format)%>
+					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getTotalBalance(), format)%>
 				</tr>
 				<%
 					}
@@ -167,17 +189,6 @@
 
 <br>
 
-<input type="Button" value="Solicitar vacaciones"
-	onclick="javascript:showTooltip('divRetrieveHoliday');"
-	<%=expiredContract ? "disabled" : ""%>>
-
-<a
-	href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
-<%
-	if (expiredContract) {
-		out.println("<br><span class='cWarning' style='width:100%;'>&nbsp;&nbsp;&nbsp;El contrato ya expiró&nbsp;&nbsp;&nbsp;</span>");
-	}
-%>
 <div id="divRetrieveHoliday" style="display: none">
 	<h2 class="cTitle2">Solicitud de vacaciones</h2>
 
@@ -185,46 +196,36 @@
 	<table>
 		<tr>
 			<td class="cLabel">Fecha Inicio:</td>
-			<td><input></td>
-		</tr>
-
-		<tr>
-			<td class="cLabel">Fecha Final:</td>
-			<td><input></td>
+			<td><input size="10"
+				value="<%=BSWeb.date2String(request, new Date())%>"
+				onblur="javascript:calculateEndDate();"> <span class="cLabel">(Use
+					el formato <%=BSWeb.getFormatDate(request)%>)
+			</span></td>
 		</tr>
 
 		<tr>
 			<td class="cLabel">Días normales:</td>
-			<td><input></td>
+			<td><input size="3" value="<%=defaultHoliday%>"><span
+				class="cLabel">(máximo <%=Math.round(normalBalance)%>)
+			</span></td>
 		</tr>
 
 		<tr>
 			<td class="cLabel">Días progresivos:</td>
-			<td><input></td>
+			<td><input size="3" value="0"><span class="cLabel">(máximo
+					<%=Math.round(creepingBalance)%>)
+			</span></td>
+		</tr>
+		<tr>
+			<td class="cLabel">Fecha Final:</td>
+			<td><input size="10" disabled></td>
 		</tr>
 
 	</table>
 
 	<br>
-	<button disabled>Aceptar y descargar comprobante</button>
+	<button onclick="javascript:acceptHoliday()">Aceptar</button>
 	<button onclick="javascript:closeTooltip()">Cancelar</button>
-
-
-	<!-- 
-	<div class="contentScroll">
-		<table class="cList" cellpadding="0" cellspacing="0" id="movesTable">
-			<tr>
-				<td class="cHeadTD">Detalle</td>
-				<td class="cHeadTD">Comentario</td>
-				<td class="cHeadTD">Tipo</td>
-				<td class="cHeadTD">Monto</td>
-			</tr>
-		</table>
-	</div>
-	
-	<br /> <input type="button" value="Aceptar" disabled
-		onclick="javascript:closeTooltip()" />
-	-->
 
 </div>
 
