@@ -33,7 +33,9 @@ a
     FONT-FAMILY: Arial;
     TEXT-DECORATION: none
 }
-
+/*
+html { overflow-x:hidden; }
+*/
 BODY
 {
     FONT-FAMILY: msam10, Symbol, OpenSymbol, 'MT Extra', Marlett, 'Courier New';
