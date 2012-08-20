@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="cl.buildersoft.framework.beans.BSCss"%>
 <%@page import="cl.buildersoft.framework.beans.BSScript"%>
 <%@page import="cl.buildersoft.framework.beans.BSHeadConfig"%>
@@ -106,15 +107,15 @@
 					
 				} else if (type.equals(BSFieldType.Date)) {
 					maxlength = 10;
-					format = BSWeb.getFormatDate(request);
-					value = BSWeb.date2String(value, format);
+					format = BSDateTimeUtil.getFormatDate(request);
+					value = BSDateTimeUtil.date2String(value, format);
 					size = maxlength;
 					afterInput = "(formato: " + format + ")";
 					
 				} else if (type.equals(BSFieldType.Timestamp)) {
 					maxlength = 16;
-					format = BSWeb.getFormatDatetime(request);
-					value = BSWeb.date2String(value, format);
+					format = BSDateTimeUtil.getFormatDatetime(request);
+					value = BSDateTimeUtil.date2String(value, format);
 					size = maxlength;
 					afterInput = "(formato: " + format + ")";
 				} else if (type.equals(BSFieldType.Double)) {

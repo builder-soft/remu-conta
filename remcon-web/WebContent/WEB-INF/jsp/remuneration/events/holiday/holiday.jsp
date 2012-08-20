@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="cl.buildersoft.framework.util.BSUtils"%>
 <%@page import="cl.buildersoft.framework.type.BSDouble"%>
@@ -59,12 +60,12 @@
 <table border="0">
 	<tr>
 		<td class="cLabel">Inicio contrato</td>
-		<td class="cData"><%=BSWeb.date2String(request, agreement.getStartContract())%></td>
+		<td class="cData"><%=BSDateTimeUtil.date2String(request, agreement.getStartContract())%></td>
 		<td class="cLabel">Término contrato</td>
 		<td class="cData"><%=getEndDateContract(request, agreement)%></td>
 	</tr>
 	<tr>
-		<td class="cLabel">Días a la fecha (<%=BSWeb.date2String(request, new Date())%>)
+		<td class="cLabel">Días a la fecha (<%=BSDateTimeUtil.date2String(request, new Date())%>)
 		</td>
 		<td class="cData"><%=proportionalToday%></td>
 		<td class="cLabel">Total días</td>
@@ -108,10 +109,10 @@
 						color = index % 2 == 0 ? "cDataTD_odd" : "cDataTD";
 				%>
 				<tr>
-					<td class='<%=color%>' align="center"><%=BSWeb.date2String(request, holidays.getDate("cFrom"))%></td>
+					<td class='<%=color%>' align="center"><%=BSDateTimeUtil.date2String(request, holidays.getDate("cFrom"))%></td>
 					<td class='<%=color%>' align="right"><%=holidays.getInt("cNormal")%></td>
 					<td class='<%=color%>' align="right"><%=holidays.getInt("cCreeping")%></td>
-					<td class='<%=color%>' align="center"><%=BSWeb.date2String(request, holidays.getDate("cTo"))%></td>
+					<td class='<%=color%>' align="center"><%=BSDateTimeUtil.date2String(request, holidays.getDate("cTo"))%></td>
 					<td class='<%=color%>' align="center"><a href="#">Ver</a></td>
 				</tr>
 				<%
@@ -126,7 +127,7 @@
 					}
 				%>
 			</table> <br> <input type="Button" value="Solicitar vacaciones"
-			onclick="javascript:showTooltip('divRetrieveHoliday');loadFormat();"
+			onclick="javascript:showTooltip('divRetrieveHoliday');calculateEndDate();"
 			<%=expiredContract ? "disabled" : ""%>> <a
 			href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
 			<%
@@ -147,9 +148,6 @@
 					<td class='cHeadTD' rowspan="2">Saldo<br>Total
 					</td>
 				<tr>
-					<!-- 
-					<td class='cHeadTD'></td>
- -->
 					<td class='cHeadTD'>Proporcional</td>
 					<td class='cHeadTD'>Tomadas</td>
 					<td class='cHeadTD'>Saldo</td>
@@ -189,42 +187,54 @@
 
 <br>
 
+
+
 <div id="divRetrieveHoliday" style="display: none">
 	<h2 class="cTitle2">Solicitud de vacaciones</h2>
 
+	<form
+		action="${pageContext.request.contextPath}/servlet/remuneration/events/holiday/AddHoliday"
+		id="frm">
 
-	<table>
-		<tr>
-			<td class="cLabel">Fecha Inicio:</td>
-			<td><input size="10" name="cFrom" id="cFrom"
-				value="<%=BSWeb.date2String(request, new Date())%>"
-				onblur="javascript:calculateEndDate();"> <span
-				class="cLabel">(Use el formato <%=BSWeb.getFormatDate(request)%>)
-			</span> <span id="dateMessage"
-				class="cLabel"> </span></td>
-		</tr>
+		<!-- 	<form
+		action="${pageContext.request.contextPath}/servlet/ShowParameters"
+		id="frm">
+		 -->
+		<input type="hidden" Name="cId" value="<%=employee.getId()%>">
 
-		<tr>
-			<td class="cLabel">Días normales:</td>
-			<td><input name="cNormal" id="cNormal" size="3"
-				value="<%=defaultHoliday%>" onblur="javascript:calculateEndDate();"><span class="cLabel">(máximo
-					<%=Math.round(normalBalance)%>)
-			</span></td>
-		</tr>
+		<table>
+			<tr>
+				<td class="cLabel">Fecha Inicio:</td>
+				<td><input size="10" name="cFrom" id="cFrom"
+					value="<%=BSDateTimeUtil.date2String(request, new Date())%>"
+					onblur="javascript:calculateEndDate();"> <span
+					class="cLabel">(Use el formato <%=BSDateTimeUtil.getFormatDate(request)%>)
+				</span> <span id="dateMessage" class="cLabel"> </span></td>
+			</tr>
 
-		<tr>
-			<td class="cLabel">Días progresivos:</td>
-			<td><input name="cCreeping" id="cCreeping" size="3" value="0" onblur="javascript:calculateEndDate();"><span
-				class="cLabel">(máximo <%=Math.round(creepingBalance)%>)
-			</span></td>
-		</tr>
-		<tr>
-			<td class="cLabel">Fecha Final:</td>
-			<td><input size="10" id="cTo" disabled></td>
-		</tr>
+			<tr>
+				<td class="cLabel">Días normales:</td>
+				<td><input name="cNormal" id="cNormal" size="3" onblur="javascript:calculateEndDate();"
+					value="<%=defaultHoliday%>"> <span class="cLabel">(máximo
+						<%=Math.round(normalBalance)%>)
+				</span></td>
+			</tr>
 
-	</table>
+			<tr>
+				<td class="cLabel">Días progresivos:</td>
+				<td><input name="cCreeping" id="cCreeping"
+					<%=creepingBalance > 0 ? "" : "disabled"%> size="3" value="0"
+					onblur="javascript:calculateEndDate();"><span
+					class="cLabel">(máximo <%=Math.round(creepingBalance)%>)
+				</span></td>
+			</tr>
+			<tr>
+				<td class="cLabel">Fecha Final:</td>
+				<td><input size="10" id="cTo" disabled></td>
+			</tr>
 
+		</table>
+	</form>
 	<br>
 	<button onclick="javascript:acceptHoliday()">Aceptar</button>
 	<button onclick="javascript:closeTooltip()">Cancelar</button>
@@ -245,7 +255,7 @@
 			out = ageementService.getContractTypeName(conn, agreement);
 
 		} else {
-			out = BSWeb.date2String(request, agreement.getEndContract());
+			out = BSDateTimeUtil.date2String(request, agreement.getEndContract());
 		}
 		return out;
 	}

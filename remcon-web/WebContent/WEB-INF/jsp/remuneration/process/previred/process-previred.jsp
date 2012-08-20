@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
 <%@page import="java.util.Date"%>
 <%@page import="cl.buildersoft.business.beans.Period"%>
@@ -23,8 +24,8 @@
 						for (Period period : periods) {
 							date = period.getDate();
 					%>
-					<option value='<%=period.getId()%>'><%=BSWeb.month2Word(date)%>
-						de <%=BSWeb.getYear(date)%></option>
+					<option value='<%=period.getId()%>'><%=BSDateTimeUtil.month2Word(date)%>
+						de <%=BSDateTimeUtil.getYear(date)%></option>
 					<%
 						}
 					%>

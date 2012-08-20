@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="java.util.Date,cl.buildersoft.framework.util.BSWeb"%>
 <%@page import="cl.buildersoft.business.beans.Period"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -19,7 +20,7 @@
 	<table>
 		<tr>
 			<td class='cLabel'>Período:</td>
-			<td class='cData'><%=BSWeb.month2Word(date)%> de <%=BSWeb.getYear(date)%></td>
+			<td class='cData'><%=BSDateTimeUtil.month2Word(date)%> de <%=BSDateTimeUtil.getYear(date)%></td>
 		</tr>
 		<!-- 
 <tr>

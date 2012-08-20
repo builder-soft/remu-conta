@@ -15,9 +15,6 @@ import cl.buildersoft.business.beans.Overtime;
 import cl.buildersoft.business.beans.Period;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.framework.type.BSFieldDataType;
-import cl.buildersoft.framework.type.BSFieldType;
-import cl.buildersoft.framework.type.BSTypeFactory;
 
 @WebServlet("/servlet/remuneration/events/overtime/AddOvertime")
 public class AddOvertime extends HttpServlet {

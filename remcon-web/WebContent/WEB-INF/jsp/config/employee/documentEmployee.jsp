@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="cl.buildersoft.business.beans.FileCategory"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
@@ -40,7 +41,7 @@
 			<tr>
 				<td class='<%=color%>'><a href="javascript:$('#Method').val('downloadFile');$('#idDocument').val('<%=filesEmployee.getLong("cID")%>');$('#editForm').submit();"><%=filesEmployee.getString("cFileName")%></a></td>
 				<td class='<%=color%>'><%=filesEmployee.getString("cDesc")%></td>
-				<td class='<%=color%>'><%=BSWeb.dateTime2String(request,filesEmployee.getTimestamp("cDateTime"))%></td>
+				<td class='<%=color%>'><%=BSDateTimeUtil.dateTime2String(request,filesEmployee.getTimestamp("cDateTime"))%></td>
 				<td class='<%=color%>'><%=filesEmployee.getString("cCategoryName")%></td>
 				<td class='<%=color%>'><%=filesEmployee.getLong("cSize")%>kb</td>
 				<td class='<%=color%>'><a href="javascript:$('#Method').val('delete');$('#idDocument').val('<%=filesEmployee.getLong("cID")%>');$('#editForm').submit();">Eliminar</a></td>
