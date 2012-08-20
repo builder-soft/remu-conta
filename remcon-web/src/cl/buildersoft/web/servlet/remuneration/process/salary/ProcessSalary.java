@@ -2,6 +2,7 @@ package cl.buildersoft.web.servlet.remuneration.process.salary;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -33,8 +34,10 @@ public class ProcessSalary extends HttpServlet implements Servlet {
 		period.setId(periodId);
 		bu.search(conn, period);
 
-		request.setAttribute("Period", period);
+		ResultSet book = mysql.callSingleSP(conn, "pListBook", null);
 
+		request.setAttribute("Period", period);
+		request.setAttribute("Book", book);
 		request.getRequestDispatcher("/WEB-INF/jsp/remuneration/process/salary/process-salary.jsp").forward(request, response);
 	}
 }

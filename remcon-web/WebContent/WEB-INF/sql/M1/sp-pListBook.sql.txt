@@ -1,8 +1,111 @@
+
 DROP PROCEDURE if exists pListBook;
 DELIMITER $$
 
 CREATE PROCEDURE pListBook()
 BEGIN
+
+	SELECT	cDate,
+cStartContract,
+cEndContract,
+cLastName1,
+cUF,
+cUTM,
+cWorkDays,
+cPensionary,
+cDaysForYear,
+cContractType,
+cMinSalary,
+cSalaryRoot,
+cSalaryReceived,
+cGratificationType,
+cLimitGratification,
+cGratificationAmount,
+cGratificationFactor,
+cOvertime,
+cOvertimeAmount,
+cParticipation,
+cB01,
+cB02,
+cB03,
+cB04,
+cB05,
+cB06,
+cB07,
+cB08,
+cB09,
+cB10,
+cExtraPay,
+cTotalIncomeTaxable,
+cLimitTaxableForecast,
+cLimitTaxableDismissInsurance,
+cLimitInsurance,
+cLimitIPS,
+cIncome,
+cFamilyAssignmentStretch,
+cFamilyAssignmentCount,
+cFamilyAssignmentAmount,
+cFamilyRetroactive,
+cFeeding,
+cMobilization,
+cBounty,
+cHorary,
+cRewardAmount,
+cMonthNotification,
+cIAS,
+cProportionalHoliday,
+cTotalIncomeNotTaxable,
+cVoluntaryIndenmization,
+cDiscountsId,
+cPFMHistory,
+cExBoxSystem,
+cObligatoryQuote,
+cAPVAmount,
+cAccount2,
+cHealthHistory,
+cHealthCurrency,
+cHealthAmount,
+cHealthCLP,
+cAdditionalHealth,
+cHealthLegalQuote,
+cAdditionalPFMCurrency,
+cAdditionalPFMAmount,
+cAdditionalPFMCLP,
+cLimitHealth,
+cHealthQuote,
+cInsuranceFactorEmployee,
+cInsuranceFactorEnterprise,
+cUnemploymentInsuranceAmount,
+cUniqueTax,
+cSubtotalLawfulDiscounts,
+cAdvance,
+cLoanEnterprise,
+cD01,
+cD02,
+cD03,
+cD04,
+cD05,
+cLoanCompensationFund,
+cSavingCompensationFund,
+cJudicialRetention,
+cSubtotalOtherDiscounts,
+cTotalDiscounts,
+cNetPaymentScope,
+cTotalIncome,
+cToPayEmployee,
+cInsuranceAmountEnterprise,
+cMutualFactor,
+cPayToMutulEnterprise,
+cFamilyAssignmentEnterprise,
+cCostEnterprise,
+cSimpleLoads,
+cDisabilityBurdens,
+cMaternalLoads,
+cSimpleAdjustment 
+	FROM	vBook 
+	WHERE	cPeriod = fGetOpenedPeriod();
+	
+/**
 	DECLARE vIndex INTEGER;
 	DECLARE vId BIGINT;
 	DECLARE vDone BOOLEAN DEFAULT FALSE;
@@ -33,11 +136,11 @@ BEGIN
 						'PRIMARY KEY (cId)',
 						') ENGINE=InnoDB');
 	
-/* 
-	SET @BookSQL = 'SELECT a.cId AS cId, a.cPeriod, d.cDate, f.cStartContract, f.cEndContract, a.cEmployee, ';
-	SET @BookSQL = CONCAT(@BookSQL, 'f.cId AS cAgreement, e.cLastName1, d.cUF, d.cUTM, a.cWorkDays, a.cPensionary, ');
-	SET @BookSQL = CONCAT(@BookSQL, 'd.cDaysForYear, a.cContractType, d.cMinSalary, a.cSalaryRoot, a.cSalaryReceived, b.cGratificationType, d.cLimitGratification, b.cGratificationAmount, d.cGratificationFactor, a.cOvertime, b.cOvertimeAmount, b.cParticipation, b.cB01, b.cB02, b.cB03, b.cB04, b.cB05, b.cB06, b.cB07, b.cB08, b.cB09, b.cB10, b.cExtraPay, b.cTotalIncomeTaxable, c.cLimitTaxableForecast, c.cLimitTaxableDismissInsurance, d.cLimitInsurance, d.cLimitIPS, b.cIncome,  b.cFamilyAssignmentStretch, b.cFamilyAssignmentCount, b.cFamilyAssignmentAmount, b.cFamilyRetroactive,  b.cFeeding, b.cMobilization, b.cBounty,  a.cHorary, b.cRewardAmount,  b.cMonthNotification, b.cIAS,  b.cProportionalHoliday, b.cTotalIncomeNotTaxable, b.cVoluntaryIndenmization, c.cId AS cDiscountsId, c.cPFMHistory, c.cExBoxSystem, c.cObligatoryQuote, c.cAPVAmount, c.cAccount2,  c.cHealthHistory, c.cHealthCurrency, c.cHealthAmount, c.cHealthCLP, c.cAdditionalHealth, c.cHealthLegalQuote,  c.cAdditionalPFMCurrency, c.cAdditionalPFMAmount, c.cAdditionalPFMCLP,  d.cLimitHealth,  c.cHealthQuote,  a.cInsuranceFactorEmployee, a.cInsuranceFactorEnterprise, c.cUnemploymentInsuranceAmount,  c.cUniqueTax,  c.cSubtotalLawfulDiscounts, c.cAdvance, c.cLoanEnterprise, c.cLoanCompensationFund, c.cSavingCompensationFund, c.cJudicialRetention, c.cSubtotalOtherDiscounts, c.cTotalDiscounts, a.cNetPaymentScope, b.cTotalIncome, a.cToPayEmployee, a.cInsuranceAmountEnterprise, a.cMutualFactor, a.cPayToMutulEnterprise, a.cFamilyAssignmentEnterprise,  a.cCostEnterprise, b.cSimpleLoads,  b.cDisabilityBurdens,  b.cMaternalLoads, a.cSimpleAdjustment FROM tBook AS a LEFT JOIN tBookAssets AS b ON b.cBook = a.cId LEFT JOIN tBookDiscounts AS c ON c.cBook = a.cId LEFT JOIN tPeriod AS d ON a.cPeriod = d.cId LEFT JOIN tEmployee AS e ON a.cEmployee = e.cId LEFT JOIN tAgreement AS f ON e.cId = f.cEmployee ORDER BY a.cId;');
-*/
+ 
+--	SET @BookSQL = 'SELECT a.cId AS cId, a.cPeriod, d.cDate, f.cStartContract, f.cEndContract, a.cEmployee, ';
+--	SET @BookSQL = CONCAT(@BookSQL, 'f.cId AS cAgreement, e.cLastName1, d.cUF, d.cUTM, a.cWorkDays, a.cPensionary, ');
+--	SET @BookSQL = CONCAT(@BookSQL, 'd.cDaysForYear, a.cContractType, d.cMinSalary, a.cSalaryRoot, a.cSalaryReceived, b.cGratificationType, d.cLimitGratification, b.cGratificationAmount, d.cGratificationFactor, a.cOvertime, b.cOvertimeAmount, b.cParticipation, b.cB01, b.cB02, b.cB03, b.cB04, b.cB05, b.cB06, b.cB07, b.cB08, b.cB09, b.cB10, b.cExtraPay, b.cTotalIncomeTaxable, c.cLimitTaxableForecast, c.cLimitTaxableDismissInsurance, d.cLimitInsurance, d.cLimitIPS, b.cIncome,  b.cFamilyAssignmentStretch, b.cFamilyAssignmentCount, b.cFamilyAssignmentAmount, b.cFamilyRetroactive,  b.cFeeding, b.cMobilization, b.cBounty,  a.cHorary, b.cRewardAmount,  b.cMonthNotification, b.cIAS,  b.cProportionalHoliday, b.cTotalIncomeNotTaxable, b.cVoluntaryIndenmization, c.cId AS cDiscountsId, c.cPFMHistory, c.cExBoxSystem, c.cObligatoryQuote, c.cAPVAmount, c.cAccount2,  c.cHealthHistory, c.cHealthCurrency, c.cHealthAmount, c.cHealthCLP, c.cAdditionalHealth, c.cHealthLegalQuote,  c.cAdditionalPFMCurrency, c.cAdditionalPFMAmount, c.cAdditionalPFMCLP,  d.cLimitHealth,  c.cHealthQuote,  a.cInsuranceFactorEmployee, a.cInsuranceFactorEnterprise, c.cUnemploymentInsuranceAmount,  c.cUniqueTax,  c.cSubtotalLawfulDiscounts, c.cAdvance, c.cLoanEnterprise, c.cLoanCompensationFund, c.cSavingCompensationFund, c.cJudicialRetention, c.cSubtotalOtherDiscounts, c.cTotalDiscounts, a.cNetPaymentScope, b.cTotalIncome, a.cToPayEmployee, a.cInsuranceAmountEnterprise, a.cMutualFactor, a.cPayToMutulEnterprise, a.cFamilyAssignmentEnterprise,  a.cCostEnterprise, b.cSimpleLoads,  b.cDisabilityBurdens,  b.cMaternalLoads, a.cSimpleAdjustment FROM tBook AS a LEFT JOIN tBookAssets AS b ON b.cBook = a.cId LEFT JOIN tBookDiscounts AS c ON c.cBook = a.cId LEFT JOIN tPeriod AS d ON a.cPeriod = d.cId LEFT JOIN tEmployee AS e ON a.cEmployee = e.cId LEFT JOIN tAgreement AS f ON e.cId = f.cEmployee ORDER BY a.cId;');
+
 
 	select @BookSQL ;
 							
@@ -48,8 +151,6 @@ BEGIN
 	insert into temp (cBook) values(1);
 	
 	select * from temp;
-/*
-	
 */
 END$$
 

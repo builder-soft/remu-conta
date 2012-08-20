@@ -1,12 +1,17 @@
 package cl.buildersoft.framework.util;
 
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +22,7 @@ import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.Option;
 import cl.buildersoft.framework.beans.Rol;
 import cl.buildersoft.framework.database.BSmySQL;
+import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.framework.services.BSMenuService;
 import cl.buildersoft.framework.services.impl.BSMenuServiceImpl;
@@ -25,10 +31,6 @@ import cl.buildersoft.framework.type.BSFieldType;
 import cl.buildersoft.framework.type.BSTypeFactory;
 
 public class BSWeb {
-	// public static String month2Word(Date date) {
-	// return BSDateTimeUtil.month2Word(date);
-	// }
-
 	public static Object value2Object(Connection conn, HttpServletRequest request, BSField field, boolean fromWebPage) {
 		Object out = null;
 		String name = field.getName();
@@ -173,4 +175,60 @@ public class BSWeb {
 		return out;
 	}
 
+	public static String showResultSet(ResultSet rs, String[] colNames) throws IOException {
+		StringBuffer out = new StringBuffer(1024);
+
+		Boolean haveInfo = Boolean.FALSE;
+
+		out.append("<table class='cList' cellpadding='0' cellspacing='0'>");
+		out.append("<tr>");
+		for (String colName : colNames) {
+			out.append("<td class='cHeadTD'>" + colName + "</td>");
+		}
+		out.append("</tr>");
+
+		try {
+			Integer index = 1;
+			while (rs.next()) {
+				out.append("<tr>");
+				index = 1;
+
+				ResultSetMetaData metaData = rs.getMetaData();
+				// colCount = metaData.getColumnCount();
+				// colNames = new String[colCount];
+				// for (i = 1; i <= colCount; i++) {
+				// colNames[i - 1] = metaData.getColumnName(i);
+				// }
+				String type = null;
+				for (String colName : colNames) {
+					type = metaData.getColumnTypeName(index);
+					out.append("<td class='cDataTD' nowrap>" + formatData(rs.getString(index++), type) + "</td>");
+				}
+
+				haveInfo = Boolean.TRUE;
+				out.append("</tr>");
+			}
+		} catch (SQLException e) {
+			throw new BSDataBaseException(e);
+		}
+
+		if (!haveInfo) {
+			out.append("<tr><td class='cDataTD'>No hay información</td></tr>");
+		}
+
+		out.append("</tr>");
+		return out.toString();
+	}
+
+	private static String formatData(String data, String type) {
+		String out = type+" - "+data;
+if(type.equalsIgnoreCase("date")){
+Calendar cal =	BSDateTimeUtil.string2Calendar(data, "yyyy-MM-dd");
+//String format = BSDateTimeUtil.
+//out = BSDateTimeUtil.
+}
+		
+		
+		return out;
+	}
 }
