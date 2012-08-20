@@ -196,29 +196,31 @@
 	<table>
 		<tr>
 			<td class="cLabel">Fecha Inicio:</td>
-			<td><input size="10"
+			<td><input size="10" name="cFrom" id="cFrom"
 				value="<%=BSWeb.date2String(request, new Date())%>"
-				onblur="javascript:calculateEndDate();"> <span class="cLabel">(Use
-					el formato <%=BSWeb.getFormatDate(request)%>)
-			</span></td>
+				onblur="javascript:calculateEndDate();"> <span
+				class="cLabel">(Use el formato <%=BSWeb.getFormatDate(request)%>)
+			</span> <span id="dateMessage"
+				class="cLabel"> </span></td>
 		</tr>
 
 		<tr>
 			<td class="cLabel">Días normales:</td>
-			<td><input size="3" value="<%=defaultHoliday%>"><span
-				class="cLabel">(máximo <%=Math.round(normalBalance)%>)
+			<td><input name="cNormal" id="cNormal" size="3"
+				value="<%=defaultHoliday%>" onblur="javascript:calculateEndDate();"><span class="cLabel">(máximo
+					<%=Math.round(normalBalance)%>)
 			</span></td>
 		</tr>
 
 		<tr>
 			<td class="cLabel">Días progresivos:</td>
-			<td><input size="3" value="0"><span class="cLabel">(máximo
-					<%=Math.round(creepingBalance)%>)
+			<td><input name="cCreeping" id="cCreeping" size="3" value="0" onblur="javascript:calculateEndDate();"><span
+				class="cLabel">(máximo <%=Math.round(creepingBalance)%>)
 			</span></td>
 		</tr>
 		<tr>
 			<td class="cLabel">Fecha Final:</td>
-			<td><input size="10" disabled></td>
+			<td><input size="10" id="cTo" disabled></td>
 		</tr>
 
 	</table>

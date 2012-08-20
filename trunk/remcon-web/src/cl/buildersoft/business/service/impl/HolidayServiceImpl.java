@@ -41,7 +41,7 @@ public class HolidayServiceImpl implements HolidayService {
 		Double balanceNormalTaken = holidays[0];
 		Double balanceCreepingTaken = holidays[1];
 
-		System.out.println("balanceNormalTaken:" + balanceNormalTaken + "\nbalanceCreepingTaken:" + balanceCreepingTaken);
+//		System.out.println("balanceNormalTaken:" + balanceNormalTaken + "\nbalanceCreepingTaken:" + balanceCreepingTaken);
 
 		Integer year = startYear;
 		// Calendar firstDayOfYear = null;
