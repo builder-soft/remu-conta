@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="cl.buildersoft.business.beans.AssetDiscount"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
@@ -11,7 +12,7 @@
 	ResultSet assetDiscountData = (ResultSet) request.getAttribute("AssetDiscountData");
 	Boolean haveData = assetDiscountData.next();
 
-	String periodName = BSWeb.month2Word(period.getDate()) + " de " + BSWeb.getYear(period.getDate());
+	String periodName = BSDateTimeUtil.month2Word(period.getDate()) + " de " + BSDateTimeUtil.getYear(period.getDate());
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>

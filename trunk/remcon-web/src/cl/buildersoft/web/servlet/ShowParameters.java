@@ -70,22 +70,22 @@ public class ShowParameters extends HttpServlet {
 			out.print("</ul></li>");
 
 		}
-		out.print("</ul><hr>");
-
-		names = request.getAttributeNames();
-
-		out.print("<ul class='cLabel'>");
-		while (names.hasMoreElements()) {
-			String name = (String) names.nextElement();
-
-			out.println("<li>" + name);
-			Object value = request.getAttribute(name);
-
-			out.print("<ul>");
-			out.println("<li class='cData'>" + value.toString() + "</li>");
-			out.print("</ul></li>");
-		}
 		out.print("</ul>");
+
+//		names = request.getAttributeNames();
+//
+//		out.print("<ul class='cLabel'>");
+//		while (names.hasMoreElements()) {
+//			String name = (String) names.nextElement();
+//
+//			out.println("<li>" + name);
+//			Object value = request.getAttribute(name);
+//
+//			out.print("<ul>");
+//			out.println("<li class='cData'>" + value.toString() + "</li>");
+//			out.print("</ul></li>");
+//		}
+//		out.print("</ul>");
 	}
 
 }

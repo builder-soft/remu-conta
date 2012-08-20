@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="cl.buildersoft.business.service.impl.PeriodServiceImpl"%>
 <%@page import="cl.buildersoft.business.service.PeriodService"%>
@@ -12,7 +13,7 @@
 	List<LicenseCause> licenseCauses = (List<LicenseCause>) request.getAttribute("LicenseCauses");
 	ResultSet licenses = (ResultSet) request.getAttribute("Licenses");
 
-	String periodName = BSWeb.month2Word(period.getDate()) + " de " + BSWeb.getYear(period.getDate());
+	String periodName = BSDateTimeUtil.month2Word(period.getDate()) + " de " + BSDateTimeUtil.getYear(period.getDate());
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
@@ -147,7 +148,7 @@
 </div>
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 <%!private String write_date(Period period, String id) {
-		String periodName = BSWeb.month2Word(period.getDate()) + " de " + BSWeb.getYear(period.getDate());
+		String periodName = BSDateTimeUtil.month2Word(period.getDate()) + " de " + BSDateTimeUtil.getYear(period.getDate());
 		String html = "<select name='" + id + "' id='" + id + "' onchange='javascript:changeDay();'>";
 		for (Integer i = 1; i <= lastDayMonth(period); i++) {
 			html += "<option value='" + i + "'>" + i + "</option>";

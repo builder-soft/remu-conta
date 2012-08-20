@@ -25,17 +25,9 @@ import cl.buildersoft.framework.type.BSFieldType;
 import cl.buildersoft.framework.type.BSTypeFactory;
 
 public class BSWeb {
-
-	public static String month2Word(Date date) {
-		String[] out = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre",
-				"Noviembre", "Diciembre" };
-		return out[date.getMonth()];
-	}
-	
-	public static String getYear(Date date) {
-		SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy");
-		return simpleDateformat.format(date);
-	}
+	// public static String month2Word(Date date) {
+	// return BSDateTimeUtil.month2Word(date);
+	// }
 
 	public static Object value2Object(Connection conn, HttpServletRequest request, BSField field, boolean fromWebPage) {
 		Object out = null;
@@ -61,7 +53,7 @@ public class BSWeb {
 		} else if (type.equals(BSFieldType.Boolean)) {
 			out = Boolean.parseBoolean(value);
 		} else if (type.equals(BSFieldType.Date)) {
-			String formatDate = getFormatDate(request);
+			String formatDate = BSDateTimeUtil.getFormatDate(request);
 
 			// String formatDate = "yyyy-MM-dd";
 			DateFormat formatter = new SimpleDateFormat(formatDate);
@@ -73,7 +65,7 @@ public class BSWeb {
 			}
 
 		} else if (type.equals(BSFieldType.Timestamp)) {
-			String formatDate = getFormatDatetime(conn);
+			String formatDate = BSDateTimeUtil.getFormatDatetime(conn);
 			SimpleDateFormat dateFormat = new SimpleDateFormat(formatDate);
 			java.util.Date parsedDate;
 			try {
@@ -96,35 +88,6 @@ public class BSWeb {
 			}
 		}
 		return out;
-	}
-
-	public static String getFormatDatetime(Connection conn) {
-		BSConfig config = new BSConfig();
-		return config.getString(conn, "FORMAT_DATETIME");
-	}
-
-	public static String getFormatDatetime(HttpServletRequest request) {
-		BSmySQL mysql = new BSmySQL();
-
-		Connection conn = mysql.getConnection(request);
-		return getFormatDatetime(conn);
-		/*
-		 * String out = request.getServletContext().getInitParameter(
-		 * "bsframework.datetimeFormat"); if (out == null) { out =
-		 * "dd/MM/yyyy HH:mm:ss"; } return out;
-		 */
-	}
-
-	public static String getFormatDate(Connection conn) {
-		BSConfig config = new BSConfig();
-		return config.getString(conn, "FORMAT_DATE");
-	}
-
-	public static String getFormatDate(HttpServletRequest request) {
-		BSmySQL mysql = new BSmySQL();
-
-		Connection conn = mysql.getConnection(request);
-		return getFormatDate(conn);
 	}
 
 	public static String getFormatDecimal(Connection conn) {
@@ -159,35 +122,6 @@ public class BSWeb {
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 		return getFormatNumber(conn);
-	}
-
-	public static String date2String(Object value, String format) {
-		String out = "";
-		if (value != null) {
-			DateFormat formatter = new SimpleDateFormat(format);
-			out = formatter.format((Date) value);
-		}
-		return out;
-	}
-
-	public static String date2String(HttpServletRequest request, Object value) {
-		String out = "";
-		if (value != null) {
-			String format = getFormatDate(request);
-			DateFormat formatter = new SimpleDateFormat(format);
-			out = formatter.format((Date) value);
-		}
-		return out;
-	}
-
-	public static String dateTime2String(HttpServletRequest request, Object value) {
-		String out = "";
-		if (value != null) {
-			String format = getFormatDatetime(request);
-			DateFormat formatter = new SimpleDateFormat(format);
-			out = formatter.format((Date) value);
-		}
-		return out;
 	}
 
 	public static String number2String(Object value, String format) {

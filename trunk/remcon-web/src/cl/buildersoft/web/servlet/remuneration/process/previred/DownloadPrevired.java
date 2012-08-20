@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.framework.util.BSConfig;
+import cl.buildersoft.framework.util.BSDateTimeUtil;
 import cl.buildersoft.framework.util.BSWeb;
 import cl.buildersoft.web.servlet.csv.CsvWriter;
 import cl.buildersoft.web.servlet.table.AbstractServletUtil;
@@ -199,7 +200,7 @@ public class DownloadPrevired extends AbstractServletUtil {
 		 </code>
 		 */
 		csv.write("01");
-		String period = BSWeb.date2String(rs.getDate("cDate"), "MMyyyy");
+		String period = BSDateTimeUtil.date2String(rs.getDate("cDate"), "MMyyyy");
 		csv.write(period);
 		csv.write(period); /* 10 */
 
@@ -209,9 +210,9 @@ public class DownloadPrevired extends AbstractServletUtil {
 		lineType(rs, csv); /* 14 */
 		movingType(rs, csv); /* 15 */
 
-		period = BSWeb.date2String(rs.getDate("cDate"), "dd-MM-yyyy");
+		period = BSDateTimeUtil.date2String(rs.getDate("cDate"), "dd-MM-yyyy");
 		csv.write(period);
-		period = BSWeb.date2String(rs.getDate("cLastDay"), "dd-MM-yyyy");
+		period = BSDateTimeUtil.date2String(rs.getDate("cLastDay"), "dd-MM-yyyy");
 		csv.write(period); /* 17 */
 		csv.write(rs.getString("cFamilyAssignmentStretch")); /* 18 */
 		csv.write(rs.getString("cSimpleLoads"));/* 19 */

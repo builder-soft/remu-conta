@@ -10,45 +10,47 @@ public class Holiday extends BSBean {
 	private Long employee = null;
 	private Date creation = null;
 	private Date from = null;
-	private Date to = null;
 	private Integer normal = null;
-	private Integer progressive = null;
-	
+	private Integer creeping = null;
+
 	public Long getEmployee() {
 		return employee;
 	}
+
 	public void setEmployee(Long employee) {
 		this.employee = employee;
 	}
+
 	public Date getCreation() {
 		return creation;
 	}
+
 	public void setCreation(Date creation) {
 		this.creation = creation;
 	}
+
 	public Date getFrom() {
 		return from;
 	}
+
 	public void setFrom(Date from) {
 		this.from = from;
 	}
-	public Date getTo() {
-		return to;
-	}
-	public void setTo(Date to) {
-		this.to = to;
-	}
+
 	public Integer getNormal() {
 		return normal;
 	}
+
 	public void setNormal(Integer normal) {
 		this.normal = normal;
 	}
-	public Integer getProgressive() {
-		return progressive;
+
+	public Integer getCreeping() {
+		return creeping;
 	}
-	public void setProgressive(Integer progressive) {
-		this.progressive = progressive;
+
+	public void setCreeping(Integer creeping) {
+		this.creeping = creeping;
 	}
- 
+
 }

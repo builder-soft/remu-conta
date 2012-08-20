@@ -1,5 +1,5 @@
 function acceptHoliday(){
-	alert(1);
+	document.getElementById("frm").submit();
 }
 
 function calculateEndDate(){
@@ -11,6 +11,7 @@ function calculateEndDate(){
 	var data = {cFrom:from, cNormal:normal, cCreeping:creeping};
 	$.ajax({url:url,type:"post", data:data, error:error, success:success});
 	
+	return true;
 }
 
 function error(jqXHR, textStatus, errorThrown){

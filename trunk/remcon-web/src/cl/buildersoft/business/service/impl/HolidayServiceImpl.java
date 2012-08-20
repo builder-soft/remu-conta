@@ -1,7 +1,7 @@
 package cl.buildersoft.business.service.impl;
 
-import static cl.buildersoft.framework.util.BSUtils.date2Calendar;
-import static cl.buildersoft.framework.util.BSUtils.string2Calendar;
+import static cl.buildersoft.framework.util.BSDateTimeUtil.date2Calendar;
+import static cl.buildersoft.framework.util.BSDateTimeUtil.string2Calendar;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 import cl.buildersoft.business.beans.Agreement;
-import cl.buildersoft.business.beans.Holiday;
 import cl.buildersoft.business.beans.HolidayDevelop;
 import cl.buildersoft.business.service.AgreementService;
 import cl.buildersoft.business.service.HolidayService;
@@ -141,7 +140,7 @@ public class HolidayServiceImpl implements HolidayService {
 		}
 		return endContract;
 	}
-
+/**<code>
 	private Double getProgressiveTaken(List<Holiday> holidays, Integer year, Calendar firstDayOfYear, Calendar lastDayOfYear) {
 		return getTaken(holidays, year, firstDayOfYear, lastDayOfYear, false);
 	}
@@ -186,7 +185,7 @@ public class HolidayServiceImpl implements HolidayService {
 
 		return out;
 	}
-
+</code>*/
 	private Double[] getHolidaysOfEmployee(Connection conn, Long employee) {
 		Double[] out = new Double[2];
 		out[0] = 0D;
@@ -205,7 +204,7 @@ public class HolidayServiceImpl implements HolidayService {
 
 		return out;
 	}
-
+/**<code>
 	private Double getPrevioBalance(List<HolidayDevelop> list, Integer id) {
 		Double out = 0D;
 		if (!id.equals(2)) {
@@ -214,7 +213,8 @@ public class HolidayServiceImpl implements HolidayService {
 		}
 		return out;
 	}
-
+</code>*/
+	
 	private Double getRatioDays(Connection conn, Calendar startPeriod, Calendar endPeriod) {
 		BSConfig config = new BSConfig();
 		Integer holidaysForYear = config.getInteger(conn, "DAYS_FOR_YEAR");

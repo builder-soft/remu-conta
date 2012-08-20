@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="cl.buildersoft.business.service.impl.PeriodServiceImpl"%>
@@ -16,7 +17,7 @@
 	Double overtimePercent = (Double)request.getAttribute("OvertimePercent");
 	
 	Integer lastDayMonth = lastDayMonth(period);
-	String periodName = BSWeb.month2Word(period.getDate()) + " de " +  BSWeb.getYear(period.getDate());
+	String periodName = BSDateTimeUtil.month2Word(period.getDate()) + " de " +  BSDateTimeUtil.getYear(period.getDate());
 %>
 <%!private Integer lastDayMonth(Period period) {
 		PeriodService ps = new PeriodServiceImpl();
@@ -61,7 +62,7 @@ for(Overtime overtime : overtimes){
 	<tr>
 		<td class='<%=color%>'><input name="overtimeId" type="radio" value="<%=overtime.getId() %>" <%=index==1?"checked":""%> 
 										onclick="javascript:selectRadio(<%=index%>, <%=overtime.getId() %>)"></td>
-		<td class='<%=color%>'><%=BSWeb.date2String(request, overtime.getDate()) %></td>
+		<td class='<%=color%>'><%=BSDateTimeUtil.date2String(request, overtime.getDate()) %></td>
 		<td class='<%=color%>'><%=overtime.getPercent() %></td>
 		<td class='<%=color%>'><%=overtime.getAmount() %></td>
 	</tr>

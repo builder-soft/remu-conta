@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="cl.buildersoft.framework.util.BSBeanUtilsSP"%>
 <%@page	import="cl.buildersoft.business.service.impl.AgreementServiceImpl"%>
 <%@page	import="cl.buildersoft.business.service.AgreementService"%>
@@ -91,10 +92,10 @@ Employee employee = (Employee) request.getAttribute("Employee");
 		<tr>
 			<td class="cLabel">Inicio Contrato:</td>
 			<td class="cData"><input type="text" name="cStartContract"
-				value="<%=BSWeb.date2String(request, agreement.getStartContract())%>">(<%=dateFormat%>)</td>
+				value="<%=BSDateTimeUtil.date2String(request, agreement.getStartContract())%>">(<%=dateFormat%>)</td>
 			<td class="cLabel">Término Contrato:</td>
 			<td class="cData"><input type="text" name="cEndContract"
-				value="<%=BSWeb.date2String(request, agreement.getEndContract())%>">(<%=dateFormat%>)</td>
+				value="<%=BSDateTimeUtil.date2String(request, agreement.getEndContract())%>">(<%=dateFormat%>)</td>
 		</tr>
 		<tr>
 			<td class="cLabel">Gratificación:</td>

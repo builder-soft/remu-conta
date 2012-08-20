@@ -1059,4 +1059,8 @@ VALUES (		   1, 			'Archivo de prueba', 'archivo_de_prueba.xsl', 'file_test_2012
 INSERT INTO tFiscalDate(cDate) VALUES('2011-08-01');
 INSERT INTO tFiscalDate(cDate) VALUES('2011-08-02');
 
+INSERT INTO tFiscalDate(cDate) VALUES('2012-09-17');
+INSERT INTO tFiscalDate(cDate) VALUES('2012-09-18');
+INSERT INTO tFiscalDate(cDate) VALUES('2012-09-19');
+
 
