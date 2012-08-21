@@ -175,7 +175,7 @@ public class BSWeb {
 		return out;
 	}
 
-	public static String showResultSet(ResultSet rs, String[] colNames) throws IOException {
+	public static String showResultSet(Connection conn, ResultSet rs, String[] colNames) throws IOException {
 		StringBuffer out = new StringBuffer(1024);
 
 		Boolean haveInfo = Boolean.FALSE;
@@ -202,7 +202,7 @@ public class BSWeb {
 				String type = null;
 				for (String colName : colNames) {
 					type = metaData.getColumnTypeName(index);
-					out.append("<td class='cDataTD' nowrap>" + formatData(rs.getString(index++), type) + "</td>");
+					out.append("<td class='cDataTD' nowrap>" + formatData(conn, rs.getString(index++), type) + "</td>");
 				}
 
 				haveInfo = Boolean.TRUE;
@@ -220,15 +220,14 @@ public class BSWeb {
 		return out.toString();
 	}
 
-	private static String formatData(String data, String type) {
-		String out = type+" - "+data;
-if(type.equalsIgnoreCase("date")){
-Calendar cal =	BSDateTimeUtil.string2Calendar(data, "yyyy-MM-dd");
-//String format = BSDateTimeUtil.
-//out = BSDateTimeUtil.
-}
-		
-		
+	private static String formatData(Connection conn, String data, String type) {
+		String out = "";//type + " - " + data;
+		if (type.equalsIgnoreCase("date")) {
+			Calendar cal = BSDateTimeUtil.string2Calendar(data, "yyyy-MM-dd");
+			 String format = BSDateTimeUtil.getFormatDate(conn);
+//			 out = BSDateTimeUtil.cal
+		}
+
 		return out;
 	}
 }

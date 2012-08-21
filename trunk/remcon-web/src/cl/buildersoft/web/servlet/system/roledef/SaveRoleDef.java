@@ -26,7 +26,6 @@ public class SaveRoleDef extends HttpServlet {
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		String[] options = request.getParameterValues("Option");
 		Long rol = Long.parseLong(request.getParameter("Rol"));
 

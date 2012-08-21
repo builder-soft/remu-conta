@@ -66,7 +66,7 @@ function onLoadPage(){
 </script>
 
 <div id="divScroll" style="display: none;overflow: auto;position: relative;" >
-<%=BSWeb.showResultSet(book, colNames)%>
+<%=BSWeb.showResultSet(null,book, colNames)%>
 </div>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

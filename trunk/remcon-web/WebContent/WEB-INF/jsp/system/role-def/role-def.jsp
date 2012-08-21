@@ -30,11 +30,14 @@
     </script>
 
 <h1 class="cTitle">Definición de Roles</h1>
- 
+
+  
 <form action="${pageContext.request.contextPath}/servlet/system/roledef/SaveRoleDef" id="frm" method="post">
-<!--  
+ 
+  <!-- 
 <form action="${pageContext.request.contextPath}/servlet/ShowParameters" method="post">
- -->
+  -->
+ 
  <div style="overflow: scroll; width: 1080px; height: 400px">
 	<table border="0" width="50%">
 		<tr>
