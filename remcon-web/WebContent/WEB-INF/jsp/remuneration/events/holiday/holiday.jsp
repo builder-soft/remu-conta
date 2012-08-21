@@ -12,11 +12,11 @@
 <%@page import="cl.buildersoft.business.beans.Agreement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
-<%@page import="cl.buildersoft.business.beans.Period"%>
+< % @page import="cl.buildersoft.business.beans.Period" % >
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%
-	Period period = (Period) request.getAttribute("Period");
+//	Period period = (Period) request.getAttribute("Period");
 	Employee employee = (Employee) request.getAttribute("Employee");
 	ResultSet holidays = (ResultSet) request.getAttribute("Holidays");
 	Agreement agreement = (Agreement) request.getAttribute("Agreement");

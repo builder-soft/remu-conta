@@ -1,3 +1,5 @@
+<%@page import="java.sql.Connection"%>
+<%@page import="cl.buildersoft.framework.database.BSmySQL"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="java.util.Date,cl.buildersoft.framework.util.BSWeb"%>
@@ -10,24 +12,8 @@
 
 	ResultSet book = (ResultSet) request.getAttribute("Book");
 
-	String[] colNames = { "Fecha", "Inicio Contrato", "Fin Contrato", "Apellido", "UF",
-			"UTM", "Días trabajados", "Pensionado", "cDaysForYear", "cContractType", "cMinSalary", "cSalaryRoot",
-			"cSalaryReceived", "cGratificationType", "cLimitGratification", "cGratificationAmount",
-			"cGratificationFactor", "cOvertime", "cOvertimeAmount", "cParticipation", "cB01", "cB02", "cB03", "cB04",
-			"cB05", "cB06", "cB07", "cB08", "cB09", "cB10", "cExtraPay", "cTotalIncomeTaxable", "cLimitTaxableForecast",
-			"cLimitTaxableDismissInsurance", "cLimitInsurance", "cLimitIPS", "cIncome", "cFamilyAssignmentStretch",
-			"cFamilyAssignmentCount", "cFamilyAssignmentAmount", "cFamilyRetroactive", "cFeeding", "cMobilization",
-			"cBounty", "cHorary", "cRewardAmount", "cMonthNotification", "cIAS", "cProportionalHoliday",
-			"cTotalIncomeNotTaxable", "cVoluntaryIndenmization", "cDiscountsId", "cPFMHistory", "cExBoxSystem",
-			"cObligatoryQuote", "cAPVAmount", "cAccount2", "cHealthHistory", "cHealthCurrency", "cHealthAmount",
-			"cHealthCLP", "cAdditionalHealth", "cHealthLegalQuote", "cAdditionalPFMCurrency", "cAdditionalPFMAmount",
-			"cAdditionalPFMCLP", "cLimitHealth", "cHealthQuote", "cInsuranceFactorEmployee",
-			"cInsuranceFactorEnterprise", "cUnemploymentInsuranceAmount", "cUniqueTax", "cSubtotalLawfulDiscounts",
-			"cAdvance", "cLoanEnterprise", "cD01", "cD02", "cD03", "cD04", "cD05", "cLoanCompensationFund",
-			"cSavingCompensationFund", "cJudicialRetention", "cSubtotalOtherDiscounts", "cTotalDiscounts",
-			"cNetPaymentScope", "cTotalIncome", "cToPayEmployee", "cInsuranceAmountEnterprise", "cMutualFactor",
-			"cPayToMutulEnterprise", "cFamilyAssignmentEnterprise", "cCostEnterprise", "cSimpleLoads",
-			"cDisabilityBurdens", "cMaternalLoads", "cSimpleAdjustment" };
+	BSmySQL mysql = new BSmySQL();
+	Connection conn = mysql.getConnection(request);
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
@@ -49,24 +35,32 @@
 </tr>
 -->
 	</table>
-	<button type="submit" >Calcular</button>	
-	<button type="button">Descargar como CSV</button>
+	<button type="submit">Calcular</button>
+	<button type="button" onclick="javascript:$('#downloadAsFile').submit();">Descargar como archivo</button>
+
+</form>
+
+<form id="downloadAsFile"
+	action="${pageContext.request.contextPath}/servlet/remuneration/process/salary/DownloadAsFile"
+	method="post">
 	
 </form>
 
 <script type="text/javascript">
 <!--
-function onLoadPage(){
-	document.getElementById("divScroll").style.height = (screen.availHeight-350) + "px";
-	document.getElementById("divScroll").style.width = (screen.availWidth-50)+ "px";
-	$("#divScroll").fadeIn(speed);
-		
-}
+	function onLoadPage() {
+		document.getElementById("divScroll").style.height = (screen.availHeight - 350)
+				+ "px";
+		document.getElementById("divScroll").style.width = (screen.availWidth - 50)
+				+ "px";
+		//	$("#divScroll").fadeIn(speed);
+
+	}
 //-->
 </script>
 
-<div id="divScroll" style="display: none;overflow: auto;position: relative;" >
-<%=BSWeb.showResultSet(null,book, colNames)%>
+<div id="divScroll" style="overflow: auto; position: relative;">
+	<%=BSWeb.showResultSet(conn, book)%>
 </div>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

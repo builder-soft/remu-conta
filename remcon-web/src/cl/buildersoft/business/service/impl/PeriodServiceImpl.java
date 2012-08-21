@@ -7,6 +7,7 @@ import cl.buildersoft.business.beans.Period;
 import cl.buildersoft.business.service.PeriodService;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
+import cl.buildersoft.framework.util.BSDateTimeUtil;
 
 public class PeriodServiceImpl implements PeriodService {
 
@@ -64,6 +65,16 @@ public class PeriodServiceImpl implements PeriodService {
 		calendar.setTimeInMillis(period.getDate().getTime());
 		Integer out = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 		return out;
+	}
+
+	@Override
+	public String periodAsString(Period period) {
+		return BSDateTimeUtil.month2Word(period.getDate()) + " de " + BSDateTimeUtil.getYear(period.getDate());
+	}
+
+	@Override
+	public String periodAsShortString(Period period) {
+		return BSDateTimeUtil.getMonth(period.getDate()) + "-" + BSDateTimeUtil.getYear(period.getDate());
 	}
 
 }

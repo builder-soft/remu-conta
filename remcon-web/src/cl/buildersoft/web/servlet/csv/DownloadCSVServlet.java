@@ -68,7 +68,7 @@ public abstract class DownloadCSVServlet extends HttpServlet {
 				csv.endRecord();
 			}
 		} catch (SQLException e) {
-			throw new BSDataBaseException("0300", e.getMessage());
+			throw new BSDataBaseException(e);
 		}
 
 		csv.flush();
