@@ -22,7 +22,7 @@
 	
 </script>
 
-<h1 class="cTitle">Licencias de empleado</h1>
+<h1 class="cTitle">Movimiento de personal</h1>
 
 <span class="cLabel">Período:&nbsp;&nbsp;</span>
 <span class="cData"><%=periodName%></span>
