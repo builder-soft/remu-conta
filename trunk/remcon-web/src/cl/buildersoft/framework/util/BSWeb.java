@@ -175,59 +175,80 @@ public class BSWeb {
 		return out;
 	}
 
-	public static String showResultSet(Connection conn, ResultSet rs, String[] colNames) throws IOException {
+	public static String showResultSet(Connection conn, ResultSet rs) throws IOException {
 		StringBuffer out = new StringBuffer(1024);
-
+		String style = null;
 		Boolean haveInfo = Boolean.FALSE;
-
-		out.append("<table class='cList' cellpadding='0' cellspacing='0'>");
-		out.append("<tr>");
-		for (String colName : colNames) {
-			out.append("<td class='cHeadTD'>" + colName + "</td>");
-		}
-		out.append("</tr>");
-
 		try {
-			Integer index = 1;
+			ResultSetMetaData metaData = rs.getMetaData();
+			out.append("<table class='cList' cellpadding='0' cellspacing='0'>");
+			out.append("<tr>");
+			Integer index = 1, indexRow = 1;
+			for (index = 1; index <= metaData.getColumnCount(); index++) {
+				out.append("<td class='cHeadTD' nowrap align='center'>" + metaData.getColumnLabel(index) + "</td>");
+			}
+			out.append("</tr>\n");
+
 			while (rs.next()) {
 				out.append("<tr>");
-				index = 1;
 
-				ResultSetMetaData metaData = rs.getMetaData();
-				// colCount = metaData.getColumnCount();
-				// colNames = new String[colCount];
-				// for (i = 1; i <= colCount; i++) {
-				// colNames[i - 1] = metaData.getColumnName(i);
-				// }
+				style = (indexRow++ % 2 == 1 ? "cDataTD" : "cDataTD_odd");
 				String type = null;
-				for (String colName : colNames) {
+				for (index = 1; index <= metaData.getColumnCount(); index++) {
 					type = metaData.getColumnTypeName(index);
-					out.append("<td class='cDataTD' nowrap>" + formatData(conn, rs.getString(index++), type) + "</td>");
+					String[] value = formatData(conn, rs.getString(index), type);
+					out.append("<td class='" + style + "' nowrap align='" + value[1] + "'>" + value[0] + "</td>");
 				}
 
 				haveInfo = Boolean.TRUE;
-				out.append("</tr>");
+				out.append("</tr>\n");
+
+			}
+			if (!haveInfo) {
+				out.append("<tr><td class='cDataTD' colspan='" + metaData.getColumnCount() + "'>No hay información</td></tr>");
 			}
 		} catch (SQLException e) {
 			throw new BSDataBaseException(e);
-		}
-
-		if (!haveInfo) {
-			out.append("<tr><td class='cDataTD'>No hay información</td></tr>");
 		}
 
 		out.append("</tr>");
 		return out.toString();
 	}
 
-	private static String formatData(Connection conn, String data, String type) {
-		String out = "";//type + " - " + data;
-		if (type.equalsIgnoreCase("date")) {
+	private static String[] formatData(Connection conn, String data, String type) {
+		String[] out = { "", "" };// type + " - " + data;
+		String format = null;
+
+		if ("date".equalsIgnoreCase(type)) {
 			Calendar cal = BSDateTimeUtil.string2Calendar(data, "yyyy-MM-dd");
-			 String format = BSDateTimeUtil.getFormatDate(conn);
-//			 out = BSDateTimeUtil.cal
+			format = BSDateTimeUtil.getFormatDate(conn);
+			out[0] = BSDateTimeUtil.calendar2String(cal, format);
+			out[1] = "center";
+		} else if ("double".equalsIgnoreCase(type)) {
+			format = getFormatDecimal(conn);
+			Double dataDouble = Double.parseDouble(data);
+			out[0] = number2String(dataDouble, format);
+			out[1] = "right";
+		} else if ("int".equalsIgnoreCase(type)) {
+			format = getFormatInteger(conn);
+			Integer dataInteger = Integer.parseInt(data);
+			out[0] = number2String(dataInteger, format);
+			out[1] = "right";
+		} else if ("bit".equalsIgnoreCase(type)) {
+			if ("1".equals(data)) {
+				out[0] = "Si";
+			} else {
+				out[0] = "No";
+			}
+			out[1] = "center";
+		} else {
+			out[0] = data; // + "(" + type + ")";
+			out[1] = "left";
 		}
 
+		if (data == null) {
+			out[0] = "";
+		}
 		return out;
 	}
 }

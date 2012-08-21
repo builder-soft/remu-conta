@@ -76,6 +76,11 @@ public class BSDateTimeUtil {
 		return simpleDateformat.format(date);
 	}
 
+	public static String getMonth(Date date) {
+		SimpleDateFormat simpleDateformat = new SimpleDateFormat("MM");
+		return simpleDateformat.format(date);
+	}
+
 	public static String getFormatDatetime(Connection conn) {
 		BSConfig config = new BSConfig();
 		return config.getString(conn, "FORMAT_DATETIME");
