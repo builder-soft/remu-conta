@@ -207,6 +207,13 @@ ALTER TABLE tHoliday
 ADD INDEX Holiday_index_Employee (cEmployee ASC),
 ADD CONSTRAINT tHolidayToEmployee FOREIGN KEY (cEmployee) REFERENCES tEmployee(cId);
 
+/*tHolidayDetail*/
+ALTER TABLE tHolidayDetail
+ADD INDEX HolidayDetail_index_Holiday (cHoliday ASC),
+ADD INDEX HolidayDetail_index_HolidayType (cHolidayDetailType ASC),
+ADD CONSTRAINT tHolidayDetailToHoliday FOREIGN KEY (cHoliday) REFERENCES tHoliday(cId),
+ADD CONSTRAINT tHolidayDetailToHolidayDetailType FOREIGN KEY (cHolidayDetailType) REFERENCES tHolidayDetailType(cId);
+
 
 /* TRIGERS */
 DROP TRIGGER IF EXISTS create_record;

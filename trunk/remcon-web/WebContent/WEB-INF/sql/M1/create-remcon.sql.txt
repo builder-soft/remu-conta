@@ -465,6 +465,21 @@ create table tHoliday(
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 
+create table tHolidayDetail(
+	cId				BIGINT(20) NOT NULL auto_increment,
+	cHoliday		BIGINT(20) NOT NULL COMMENT 'Identificador de las vacaciones asociadas',
+	cDays			INTEGER NOT NULL COMMENT 'Cantidad de días normales y progresivos',
+	cYear			INTEGER NOT NULL COMMENT 'Año del período',
+	cHolidayDetailType	BIGINT(20) NOT NULL COMMENT 'Tipo del detalle: T=Días tomados, D=Días disponibles',
+	PRIMARY KEY (cId)
+) ENGINE=InnoDB;
+
+CREATE TABLE tHolidayDetailType (
+	cId 			BIGINT UNIQUE AUTO_INCREMENT,
+	cName			VARCHAR(15) NOT NULL COMMENT 'Descripción del detalle',
+	PRIMARY KEY(cId)
+) ENGINE=InnoDB;
+
 CREATE TABLE tLicenseCause (
 	cId BIGINT UNIQUE AUTO_INCREMENT,
 	cKey			CHAR(5) UNIQUE NOT NULL COMMENT 'Llave irrepetiblehabran procesos que la usan', 

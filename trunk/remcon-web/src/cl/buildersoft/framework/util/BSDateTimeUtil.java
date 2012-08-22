@@ -13,6 +13,7 @@ import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSProgrammerException;
 
 public class BSDateTimeUtil {
+	public static final String SQL_FORMAT = "yyyy-MM-dd";
 	private static String formatDate = null;
 
 	public static String month2Word(Date date) {

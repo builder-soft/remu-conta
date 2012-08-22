@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS tProgressive;
+DROP TABLE IF EXISTS tHolidayDetail;
+DROP TABLE IF EXISTS tHolidayDetailType;
 DROP TABLE IF EXISTS tHoliday;
 DROP TABLE IF EXISTS tLicense;
 DROP TABLE IF EXISTS tLicenseCause;

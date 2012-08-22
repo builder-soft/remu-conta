@@ -1,7 +1,10 @@
 package cl.buildersoft.business.service.impl;
 
+import static cl.buildersoft.framework.util.BSDateTimeUtil.date2Calendar;
+
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -119,5 +122,13 @@ public class AgreementServiceImpl implements AgreementService {
 
 		return contractType.getName();
 	}
-
+	public Calendar getEndContract(Agreement agreement) {
+		Calendar endContract;
+		if (agreement.getContractType().equals(1L)) {
+			endContract = Calendar.getInstance();
+		} else {
+			endContract = date2Calendar(agreement.getEndContract());
+		}
+		return endContract;
+	}
 }
