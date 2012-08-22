@@ -134,6 +134,12 @@ public class BSDateTimeUtil {
 		return out;
 	}
 
+	public static String date2LongString(Date date) {
+		Calendar calendar = date2Calendar(date);
+		String out = calendar.get(Calendar.DAY_OF_MONTH) + " de " + month2Word(date) + " de " + calendar.get(Calendar.YEAR);
+		return out;
+	}
+
 	public static String dateTime2String(HttpServletRequest request, Object value) {
 		String out = "";
 		if (value != null) {

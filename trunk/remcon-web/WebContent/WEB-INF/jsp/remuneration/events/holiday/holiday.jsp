@@ -12,7 +12,6 @@
 <%@page import="cl.buildersoft.business.beans.Agreement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
-< % @page import="cl.buildersoft.business.beans.Period" % >
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%
@@ -113,7 +112,7 @@
 					<td class='<%=color%>' align="right"><%=holidays.getInt("cNormal")%></td>
 					<td class='<%=color%>' align="right"><%=holidays.getInt("cCreeping")%></td>
 					<td class='<%=color%>' align="center"><%=BSDateTimeUtil.date2String(request, holidays.getDate("cTo"))%></td>
-					<td class='<%=color%>' align="center"><a href="#">Ver</a></td>
+					<td class='<%=color%>' align="center"><a href="#" onclick="javascript:showCertificate(<%=holidays.getLong("cId")%>);">Ver</a></td>
 				</tr>
 				<%
 					}
