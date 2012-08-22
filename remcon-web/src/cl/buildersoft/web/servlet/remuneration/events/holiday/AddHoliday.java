@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.business.beans.Holiday;
+import cl.buildersoft.business.service.HolidayService;
+import cl.buildersoft.business.service.impl.HolidayServiceImpl;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSDateTimeUtil;
@@ -22,22 +24,15 @@ public class AddHoliday extends HttpServlet {
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long employeeId = getEmployeeId(request);
-		Date from = BSDateTimeUtil.calendar2Date(getFromCalendar(request));
+		Date from = BSDateTimeUtil.calendar2Date(getFrom(request));
 		Integer normal = getNormal(request);
 		Integer creeping = getCreeping(request);
 
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 
-		Holiday holiday = new Holiday();
-		holiday.setCreation(new Date());
-		holiday.setEmployee(employeeId);
-		holiday.setFrom(from);
-		holiday.setNormal(normal);
-		holiday.setCreeping(creeping);
-
-		BSBeanUtils bu = new BSBeanUtils();
-		bu.save(conn, holiday);
+		HolidayService hs = new HolidayServiceImpl();
+		hs.commitHoliday(conn, employeeId, from, normal, creeping);
 
 		request.setAttribute("cId", employeeId);
 		request.getRequestDispatcher("/servlet/remuneration/events/holiday/HolidayMain").forward(request, response);
@@ -57,15 +52,13 @@ public class AddHoliday extends HttpServlet {
 		return Integer.parseInt(parameter);
 	}
 
-	private Calendar getFromCalendar(HttpServletRequest request) {
+	private Calendar getFrom(HttpServletRequest request) {
 		String date = request.getParameter("cFrom");
 		return BSDateTimeUtil.string2Calendar(request, date);
 	}
 
 	private Long getEmployeeId(HttpServletRequest request) {
 		String id = request.getParameter("cId");
-
 		return Long.parseLong(id);
 	}
-
 }

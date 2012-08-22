@@ -12,20 +12,52 @@ import java.util.Date;
 import java.util.List;
 
 import cl.buildersoft.business.beans.Agreement;
+import cl.buildersoft.business.beans.Holiday;
 import cl.buildersoft.business.beans.HolidayDevelop;
 import cl.buildersoft.business.service.AgreementService;
 import cl.buildersoft.business.service.HolidayService;
+import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSException;
 import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.framework.util.BSConfig;
+import cl.buildersoft.framework.util.BSDateTimeUtil;
+import cl.buildersoft.framework.util.BSUtils;
 
 public class HolidayServiceImpl implements HolidayService {
-
 	private static final int MILLISECONDS_ON_DAY = 1000 * 60 * 60 * 24;
 
 	@Override
+	public Holiday getHoliday(Connection conn, Long id) {
+		BSBeanUtils bu = new BSBeanUtils();
+		Holiday holiday = new Holiday();
+		holiday.setId(id);
+		bu.search(conn, holiday);
+		return holiday;
+	}
+
+	@Override
+	public void commitHoliday(Connection conn, Long employeeId, Date from, Integer normal, Integer creeping) {
+		Holiday holiday = new Holiday();
+		holiday.setCreation(new Date());
+		holiday.setEmployee(employeeId);
+		holiday.setFrom(from);
+		holiday.setNormal(normal);
+		holiday.setCreeping(creeping);
+
+		BSBeanUtils bu = new BSBeanUtils();
+		bu.save(conn, holiday);
+
+		developAndCommit(conn, holiday.getEmployee(), holiday.getNormal(), holiday.getCreeping());
+	}
+
+	@Override
 	public List<HolidayDevelop> listDevelop(Connection conn, Long employee) throws BSException {
+		return developAndCommit(conn, employee, null, null);
+	}
+
+	private List<HolidayDevelop> developAndCommit(Connection conn, Long employee, Integer normalTakenDays,
+			Integer creepingTakenDays) throws BSException {
 		List<HolidayDevelop> out = new ArrayList<HolidayDevelop>();
 		HolidayDevelop holidayDevelop = null;
 		Agreement agreement = getAgreement(conn, employee);
@@ -40,11 +72,7 @@ public class HolidayServiceImpl implements HolidayService {
 		Double balanceNormalTaken = holidays[0];
 		Double balanceCreepingTaken = holidays[1];
 
-//		System.out.println("balanceNormalTaken:" + balanceNormalTaken + "\nbalanceCreepingTaken:" + balanceCreepingTaken);
-
 		Integer year = startYear;
-		// Calendar firstDayOfYear = null;
-		// Calendar lastDayOfYear = null;
 		Double ratioDays = null;
 		Calendar startPeriod = null;
 		Calendar endPeriod = null;
@@ -70,11 +98,17 @@ public class HolidayServiceImpl implements HolidayService {
 			holidayDevelop.setTotalBalance(holidayDevelop.getNormalBalance() + holidayDevelop.getCreepingBalance());
 
 			out.add(holidayDevelop);
+			saveDetail(conn, holidayDevelop, normalTakenDays, creepingTakenDays);
 			year++;
 			id++;
 		}
-
 		return out;
+	}
+
+	private void saveDetail(Connection conn, HolidayDevelop holidayDevelop, Integer normalTakenDays, Integer creepingTakenDays) {
+		if (normalTakenDays != null && creepingTakenDays != null) {
+			System.out.println(holidayDevelop.getTotalBalance());
+		}
 	}
 
 	private HolidayDevelop getHolidayDevelopInstance(Integer year, Long id) {
@@ -103,6 +137,7 @@ public class HolidayServiceImpl implements HolidayService {
 			Double creepingPastBalace) {
 		holidayDevelop.setCreepingRatio(ratioDays);
 
+		// Valida que si se puede descontar.
 		if (balanceCreepeingTaken >= ratioDays) {
 			holidayDevelop.setCreepingTaken(ratioDays);
 			balanceCreepeingTaken -= ratioDays;
@@ -132,60 +167,10 @@ public class HolidayServiceImpl implements HolidayService {
 	}
 
 	private Calendar getEndContract(Agreement agreement) {
-		Calendar endContract;
-		if (agreement.getContractType().equals(1L)) {
-			endContract = date2Calendar(new Date());
-		} else {
-			endContract = date2Calendar(agreement.getEndContract());
-		}
-		return endContract;
-	}
-/**<code>
-	private Double getProgressiveTaken(List<Holiday> holidays, Integer year, Calendar firstDayOfYear, Calendar lastDayOfYear) {
-		return getTaken(holidays, year, firstDayOfYear, lastDayOfYear, false);
+		AgreementService as = new AgreementServiceImpl();
+		return as.getEndContract(agreement);
 	}
 
-	private Double getNormalTaken(List<Holiday> holidays, Integer year, Calendar firstDayOfYear, Calendar lastDayOfYear) {
-		return getTaken(holidays, year, firstDayOfYear, lastDayOfYear, true);
-	}
-
-	private Double getTaken(List<Holiday> holidays, Integer year, Calendar firstDayOfYear, Calendar lastDayOfYear,
-			Boolean isNormal) {
-		Calendar from, to = null;
-		Integer yearFrom, yearTo = null;
-		Double out = 0D;
-		Long firstDay = firstDayOfYear.getTimeInMillis();
-		Long lastDay = lastDayOfYear.getTimeInMillis();
-
-		for (Holiday holiday : holidays) {
-			from = date2Calendar(holiday.getFrom());
-			to = date2Calendar(holiday.getTo());
-			yearFrom = from.get(Calendar.YEAR);
-			yearTo = to.get(Calendar.YEAR);
-
-			// vacaciones en el año en curso
-			if (yearFrom.equals(year) || yearTo.equals(year)) {
-				// Doble año
-				if (yearFrom.equals(yearTo)) {
-					out += Double.parseDouble("" + (isNormal ? holiday.getNormal() : holiday.getProgressive()));
-				} else {
-					Calendar currentDate = from;
-
-					while (currentDate.getTimeInMillis() <= to.getTimeInMillis()) {
-						Long current = currentDate.getTimeInMillis();
-
-						if (current >= firstDay && current <= lastDay) {
-							out++;
-						}
-						currentDate.add(Calendar.DAY_OF_MONTH, 1);
-					}
-				}
-			}
-		}
-
-		return out;
-	}
-</code>*/
 	private Double[] getHolidaysOfEmployee(Connection conn, Long employee) {
 		Double[] out = new Double[2];
 		out[0] = 0D;
@@ -204,17 +189,7 @@ public class HolidayServiceImpl implements HolidayService {
 
 		return out;
 	}
-/**<code>
-	private Double getPrevioBalance(List<HolidayDevelop> list, Integer id) {
-		Double out = 0D;
-		if (!id.equals(2)) {
-			HolidayDevelop hd = list.get(id - 3);
-			// out = hd.getBalance();
-		}
-		return out;
-	}
-</code>*/
-	
+
 	private Double getRatioDays(Connection conn, Calendar startPeriod, Calendar endPeriod) {
 		BSConfig config = new BSConfig();
 		Integer holidaysForYear = config.getInteger(conn, "DAYS_FOR_YEAR");
@@ -275,4 +250,22 @@ public class HolidayServiceImpl implements HolidayService {
 		}
 		return out;
 	}
+
+	@Override
+	public Date getEndDate(Connection conn, Long holidayId) {
+		Holiday holiday = new Holiday();
+		BSBeanUtils bu = new BSBeanUtils();
+		holiday.setId(holidayId);
+		bu.search(conn, holiday);
+		return getEndDate(conn, holiday);
+	}
+
+	@Override
+	public Date getEndDate(Connection conn, Holiday holiday) {
+		BSmySQL mysql = new BSmySQL();
+		List<Object> params = BSUtils.array2List(holiday.getFrom(), holiday.getNormal() + holiday.getCreeping());
+		String to = mysql.callFunction(conn, "fBusinessDate", params);
+		return BSDateTimeUtil.calendar2Date(BSDateTimeUtil.string2Calendar(to, BSDateTimeUtil.SQL_FORMAT));
+	}
+
 }

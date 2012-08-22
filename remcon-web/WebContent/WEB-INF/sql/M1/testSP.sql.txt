@@ -26,9 +26,10 @@ call pListBook;
 select * from temp;
 */
 	
-	
-delete from tHoliday;
 
+
+delete from tHoliday;
+/*
 insert into tHoliday (cEmployee, cCreation, cFrom, cNormal, cCreeping) 
 VALUES(2, now(), '2012-05-10', 3, 0);
 insert into tHoliday (cEmployee, cCreation, cFrom, cNormal, cCreeping) 
@@ -41,9 +42,9 @@ VALUES(2, now(), '2004-12-27', 8, 0);
 
 call pGetHolidayByEmployee(1);
 call pGetHolidayByEmployee(2);
-/*
+
 call pGetHolidayInfo(2, '2000-12-01', NOW());
-*/
+
 
 /*
 call pListDevelopHoliday(1);

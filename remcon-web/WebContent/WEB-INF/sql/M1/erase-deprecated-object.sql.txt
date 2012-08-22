@@ -1,4 +1,3 @@
-
 drop table if exists tBond;
 
 drop table if exists tPFMAttribute;

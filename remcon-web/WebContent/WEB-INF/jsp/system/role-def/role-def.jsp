@@ -14,53 +14,59 @@
 	List<Submenu> rolMenu = menuAux.list();
 %>
 
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/system/role-def/role-def.js"></script>
-	<!-- "WebContent/js/common/checkboxtree/jquery.checkboxtree.js"
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/system/role-def/role-def.js"></script>
+<!-- "WebContent/js/common/checkboxtree/jquery.checkboxtree.js"
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/jquery-1.4.4.js"></script>
      -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/common/checkboxtree/jquery-ui-1.8.12.custom.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/common/checkboxtree/jquery.checkboxtree.js"></script>
-	
-    <script type="text/javascript">
-        //<!--
-        $(document).ready(function() {
-           $('#tree1').checkboxTree();
-        });
-        //-->
-    </script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/common/checkboxtree/jquery-ui-1.8.12.custom.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/common/checkboxtree/jquery.checkboxtree.js"></script>
+
+<script type="text/javascript">
+	//<!--
+	$(document).ready(function() {
+		$('#tree1').checkboxTree();
+	});
+//-->
+</script>
 
 <h1 class="cTitle">Definición de Roles</h1>
 
-  
-<form action="${pageContext.request.contextPath}/servlet/system/roledef/SaveRoleDef" id="frm" method="post">
- 
-  <!-- 
+
+<form
+	action="${pageContext.request.contextPath}/servlet/system/roledef/SaveRoleDef"
+	id="frm" method="post">
+
+	<!-- 
 <form action="${pageContext.request.contextPath}/servlet/ShowParameters" method="post">
   -->
- 
- <div style="overflow: scroll; width: 1080px; height: 400px">
-	<table border="0" width="50%">
-		<tr>
-			<td class="cLabel">Roles:</td>
-			<td><select name="Rol" onchange="javascript:changeSelect(this);">
-					<%
-						for (Object[] row : rols) {
-					%>
-					<option value="<%=row[0]%>" <%=getSelected(row, request)%>><%=row[1]%></option>
-					<%
-						}
-					%>
-			</select></td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<ul id="tree1">
-					<%=write(fullMenu, rolMenu)%>
-				</ul>
 
-			</td>
-		</tr>
-	</table>
+	<div style="overflow: auto; width: 100%; height: 400px">
+		<table border="0" width="50%">
+			<tr>
+				<td class="cLabel">Roles:</td>
+				<td><select name="Rol"
+					onchange="javascript:changeSelect(this);">
+						<%
+							for (Object[] row : rols) {
+						%>
+						<option value="<%=row[0]%>" <%=getSelected(row, request)%>><%=row[1]%></option>
+						<%
+							}
+						%>
+				</select></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<ul id="tree1">
+						<%=write(fullMenu, rolMenu)%>
+					</ul>
+
+				</td>
+			</tr>
+		</table>
 	</div>
 	<input type="submit" value="Grabar">
 </form>
@@ -69,7 +75,7 @@
 
 <%!private String getSelected(Object[] row, HttpServletRequest request) {
 		Long id = (Long) request.getAttribute("cId");
-		return ((Long)row[0]).equals(id) ? "selected" : "";
+		return ((Long) row[0]).equals(id) ? "selected" : "";
 	}
 
 	private String write(List<Submenu> fullMenu, List<Submenu> rolMenu) {
@@ -77,9 +83,8 @@
 		Option option = null;
 		for (Submenu menu : fullMenu) {
 			option = menu.getOption();
-			out += "<li class='cLabel' type='none'>"
-					+ drowCheckbox(option, rolMenu)
-					+ menu.getOption().getLabel() + writeSubOption(menu, rolMenu) +"</li>";
+			out += "<li class='cLabel' type='none'>" + drowCheckbox(option, rolMenu) + menu.getOption().getLabel()
+					+ writeSubOption(menu, rolMenu) + "</li>";
 
 		}
 
@@ -126,12 +131,10 @@
 			Option option = null;
 			for (Submenu sub : main) {
 				option = sub.getOption();
-				out += "<li class='cLabel' type='none'>"
-						+ drowCheckbox(option, rolMenu) + option.getLabel()
-						+ writeSubOption(sub, rolMenu) +"</li>";
+				out += "<li class='cLabel' type='none'>" + drowCheckbox(option, rolMenu) + option.getLabel()
+						+ writeSubOption(sub, rolMenu) + "</li>";
 			}
 			out += "</ul>";
 		}
 		return out;
 	}%>
-	
