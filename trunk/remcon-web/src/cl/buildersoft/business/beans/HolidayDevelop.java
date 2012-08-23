@@ -65,5 +65,11 @@ public class HolidayDevelop {
 	public void setTotalBalance(Double totalBalance) {
 		this.totalBalance = totalBalance;
 	}
+	@Override
+	public String toString() {
+		return "HolidayDevelop [id=" + id + ", year=" + year + ", normalRatio=" + normalRatio + ", normalTaken=" + normalTaken
+				+ ", normalBalance=" + normalBalance + ", creepingRatio=" + creepingRatio + ", creepingTaken=" + creepingTaken
+				+ ", creepingBalance=" + creepingBalance + ", totalBalance=" + totalBalance + "]";
+	}
 
 }

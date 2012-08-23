@@ -27,6 +27,10 @@ import cl.buildersoft.framework.util.BSUtils;
 public class HolidayServiceImpl implements HolidayService {
 	private static final int MILLISECONDS_ON_DAY = 1000 * 60 * 60 * 24;
 
+	// private Double daysDiscounted = 0D;
+	// private Boolean discountedNormal = false;
+	// private Boolean discountedCreeping = false;
+
 	@Override
 	public Holiday getHoliday(Connection conn, Long id) {
 		BSBeanUtils bu = new BSBeanUtils();
@@ -46,18 +50,55 @@ public class HolidayServiceImpl implements HolidayService {
 		holiday.setCreeping(creeping);
 
 		BSBeanUtils bu = new BSBeanUtils();
+
+		List<HolidayDevelop> preCommit = listDevelop(conn, holiday.getEmployee());
+		showDevelop(preCommit);
+
 		bu.save(conn, holiday);
 
-		developAndCommit(conn, holiday.getEmployee(), holiday.getNormal(), holiday.getCreeping());
+		List<HolidayDevelop> postCommit = listDevelop(conn, holiday.getEmployee());
+		showDevelop(postCommit);
+
+		saveDetail(conn, preCommit, postCommit);
+
+	}
+
+	private void saveDetail(Connection conn, List<HolidayDevelop> preDevelopList, List<HolidayDevelop> postDevelopList) {
+		Integer index = 0;
+		Integer size = preDevelopList.size();
+
+		HolidayDevelop pre = null;
+		HolidayDevelop post = null;
+
+		for (index = 0; index < size; index++) {
+			pre = preDevelopList.get(index);
+			post = postDevelopList.get(index);
+
+			if (discountedTaken(pre, post)) {
+				// Save as saldo
+			} else {
+				// Save as taken
+			}
+
+		}
+	}
+
+	private boolean discountedTaken(HolidayDevelop pre, HolidayDevelop post) {
+		return pre.getNormalTaken().equals(post.getNormalTaken()) || pre.getCreepingTaken().equals(post.getCreepingTaken());
+	}
+
+	private void showDevelop(List<HolidayDevelop> preDevelopList) {
+		Integer index = 0;
+		Integer size = preDevelopList.size();
+
+		for (index = 0; index < size; index++) {
+			System.out.println(preDevelopList.get(index).toString());
+		}
+
 	}
 
 	@Override
 	public List<HolidayDevelop> listDevelop(Connection conn, Long employee) throws BSException {
-		return developAndCommit(conn, employee, null, null);
-	}
-
-	private List<HolidayDevelop> developAndCommit(Connection conn, Long employee, Integer normalTakenDays,
-			Integer creepingTakenDays) throws BSException {
 		List<HolidayDevelop> out = new ArrayList<HolidayDevelop>();
 		HolidayDevelop holidayDevelop = null;
 		Agreement agreement = getAgreement(conn, employee);
@@ -98,17 +139,10 @@ public class HolidayServiceImpl implements HolidayService {
 			holidayDevelop.setTotalBalance(holidayDevelop.getNormalBalance() + holidayDevelop.getCreepingBalance());
 
 			out.add(holidayDevelop);
-			saveDetail(conn, holidayDevelop, normalTakenDays, creepingTakenDays);
 			year++;
 			id++;
 		}
 		return out;
-	}
-
-	private void saveDetail(Connection conn, HolidayDevelop holidayDevelop, Integer normalTakenDays, Integer creepingTakenDays) {
-		if (normalTakenDays != null && creepingTakenDays != null) {
-			System.out.println(holidayDevelop.getTotalBalance());
-		}
 	}
 
 	private HolidayDevelop getHolidayDevelopInstance(Integer year, Long id) {
@@ -122,9 +156,12 @@ public class HolidayServiceImpl implements HolidayService {
 	private Double calculateNormalValues(HolidayDevelop holidayDevelop, Double balanceNormalTaken, Double ratioDays,
 			Double normalPastBalace) {
 		holidayDevelop.setNormalRatio(ratioDays);
+
+		// Valida que si se puede descontar.
 		if (balanceNormalTaken >= ratioDays) {
 			holidayDevelop.setNormalTaken(ratioDays);
 			balanceNormalTaken -= ratioDays;
+
 		} else {
 			holidayDevelop.setNormalTaken(balanceNormalTaken);
 			balanceNormalTaken -= balanceNormalTaken;
@@ -183,6 +220,7 @@ public class HolidayServiceImpl implements HolidayService {
 				out[0] = holidays.getDouble("cTakenNormal");
 				out[1] = holidays.getDouble("cTakenCreeping");
 			}
+
 		} catch (SQLException e) {
 			throw new BSProgrammerException(e);
 		}
