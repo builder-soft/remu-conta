@@ -13,6 +13,7 @@ import java.util.List;
 
 import cl.buildersoft.business.beans.Agreement;
 import cl.buildersoft.business.beans.Holiday;
+import cl.buildersoft.business.beans.HolidayDetail;
 import cl.buildersoft.business.beans.HolidayDevelop;
 import cl.buildersoft.business.service.AgreementService;
 import cl.buildersoft.business.service.HolidayService;
@@ -26,10 +27,6 @@ import cl.buildersoft.framework.util.BSUtils;
 
 public class HolidayServiceImpl implements HolidayService {
 	private static final int MILLISECONDS_ON_DAY = 1000 * 60 * 60 * 24;
-
-	// private Double daysDiscounted = 0D;
-	// private Boolean discountedNormal = false;
-	// private Boolean discountedCreeping = false;
 
 	@Override
 	public Holiday getHoliday(Connection conn, Long id) {
@@ -52,49 +49,86 @@ public class HolidayServiceImpl implements HolidayService {
 		BSBeanUtils bu = new BSBeanUtils();
 
 		List<HolidayDevelop> preCommit = listDevelop(conn, holiday.getEmployee());
-		showDevelop(preCommit);
+		// showDevelop(preCommit);
 
 		bu.save(conn, holiday);
 
 		List<HolidayDevelop> postCommit = listDevelop(conn, holiday.getEmployee());
-		showDevelop(postCommit);
+		// showDevelop(postCommit);
 
-		saveDetail(conn, preCommit, postCommit);
+		saveDetail(conn, preCommit, postCommit, holiday);
 
 	}
 
-	private void saveDetail(Connection conn, List<HolidayDevelop> preDevelopList, List<HolidayDevelop> postDevelopList) {
+	/**
+	 * <code>
+	 
+	private void showDevelop(List<HolidayDevelop> preDevelopList) {
+		Integer index = 0;
+		Integer size = preDevelopList.size();
+		for (index = 0; index < size; index++) {
+			System.out.println(preDevelopList.get(index).toString());
+		}
+	}
+	 * </code>
+	 */
+
+	private void saveDetail(Connection conn, List<HolidayDevelop> preDevelopList, List<HolidayDevelop> postDevelopList,
+			Holiday holiday) {
+		System.out.println(holiday);
 		Integer index = 0;
 		Integer size = preDevelopList.size();
 
 		HolidayDevelop pre = null;
 		HolidayDevelop post = null;
 
+		HolidayDetail holidayDetail = null;
+		BSBeanUtils bu = new BSBeanUtils();
+		Double days = 0D;
+		Boolean doSave;
+
 		for (index = 0; index < size; index++) {
+			doSave = true;
 			pre = preDevelopList.get(index);
 			post = postDevelopList.get(index);
 
-			if (discountedTaken(pre, post)) {
-				// Save as saldo
+			holidayDetail = new HolidayDetail();
+
+			if (ignored(pre, post)) {
+				doSave = false;
 			} else {
-				// Save as taken
+				holidayDetail.setHoliday(holiday.getId());
+				holidayDetail.setYear(pre.getYear());
+				if (discountedTaken(pre, post)) {
+					// Save as taken
+					holidayDetail.setHolidayDetailType(1L);
+					Double normalTaken = post.getNormalTaken() - pre.getNormalTaken();
+					Double creepingTaken = +post.getCreepingTaken() - pre.getCreepingTaken();
+					days = normalTaken + creepingTaken;
+					holidayDetail.setDays(days);
+
+				} else {
+					// Save as balance
+					holidayDetail.setHolidayDetailType(2L);
+					days = post.getNormalRatio() + post.getCreepingRatio();
+					holidayDetail.setDays(days);
+				}
 			}
 
+			if (doSave) {
+				bu.save(conn, holidayDetail);
+			}
 		}
+	}
+
+	private boolean ignored(HolidayDevelop pre, HolidayDevelop post) {
+		return pre.getTotalBalance().equals(0D) && post.getTotalBalance().equals(0D);
 	}
 
 	private boolean discountedTaken(HolidayDevelop pre, HolidayDevelop post) {
-		return pre.getNormalTaken().equals(post.getNormalTaken()) || pre.getCreepingTaken().equals(post.getCreepingTaken());
-	}
-
-	private void showDevelop(List<HolidayDevelop> preDevelopList) {
-		Integer index = 0;
-		Integer size = preDevelopList.size();
-
-		for (index = 0; index < size; index++) {
-			System.out.println(preDevelopList.get(index).toString());
-		}
-
+		Double preTaken = pre.getNormalTaken() + pre.getCreepingTaken();
+		Double postTaken = post.getNormalTaken() + post.getCreepingTaken();
+		return !preTaken.equals(postTaken);
 	}
 
 	@Override
@@ -306,4 +340,9 @@ public class HolidayServiceImpl implements HolidayService {
 		return BSDateTimeUtil.calendar2Date(BSDateTimeUtil.string2Calendar(to, BSDateTimeUtil.SQL_FORMAT));
 	}
 
+	@Override
+	public List<HolidayDetail> getHolidayDetail(Connection conn, Long holidayId) {
+		BSBeanUtils bu = new BSBeanUtils();
+		return (List<HolidayDetail>) bu.list(conn, new HolidayDetail(), "cHoliday=?", holidayId);
+	}
 }

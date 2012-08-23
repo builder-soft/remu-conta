@@ -53,4 +53,10 @@ public class Holiday extends BSBean {
 		this.creeping = creeping;
 	}
 
+	@Override
+	public String toString() {
+		return "Holiday [employee=" + employee + ", creation=" + creation + ", from=" + from + ", normal=" + normal
+				+ ", creeping=" + creeping + "]";
+	}
+
 }

@@ -191,7 +191,7 @@
 <div id="divRetrieveHoliday" style="display: none">
 	<h2 class="cTitle2">Solicitud de vacaciones</h2>
 
-	<form
+	<form method="post"
 		action="${pageContext.request.contextPath}/servlet/remuneration/events/holiday/AddHoliday"
 		id="frm">
 

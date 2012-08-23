@@ -971,6 +971,13 @@ INSERT INTO tUnemploymentInsurance(cName) VALUES ('Indefinido');
 INSERT INTO tUnemploymentInsurance(cName) VALUES ('Plazo fijo');
 INSERT INTO tUnemploymentInsurance(cName) VALUES ('Sin seguro');
 */
+
+INSERT INTO tHolidayDetailType(cName) VALUES('Tomados');
+INSERT INTO tHolidayDetailType(cName) VALUES('Saldo');
+/*
+INSERT INTO tHolidayDetailType(cName) VALUES('Ignorado');
+*/
+
 /** DATOS DE PRUEBA */
 
 select fInsertPeriod('2012-05-01')

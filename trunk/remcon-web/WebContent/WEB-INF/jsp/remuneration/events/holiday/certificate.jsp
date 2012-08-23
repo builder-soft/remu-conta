@@ -1,3 +1,7 @@
+<%@page import="cl.buildersoft.framework.util.BSWeb"%>
+<%@page import="cl.buildersoft.framework.util.BSUtils"%>
+<%@page import="cl.buildersoft.business.beans.HolidayDetail"%>
+<%@page import="java.util.List"%>
 <%@page import="java.util.Date"%>
 <%@page import="cl.buildersoft.business.beans.Holiday"%>
 <%@page import="cl.buildersoft.business.beans.Agreement"%>
@@ -11,6 +15,7 @@
 	Holiday holiday = (Holiday) request.getAttribute("Holiday");
 	Integer days = (Integer) request.getAttribute("Days");
 	Date to = (Date) request.getAttribute("To");
+	List<HolidayDetail> holidayDetails = (List<HolidayDetail>) request.getAttribute("HolidayDetails");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -22,17 +27,49 @@ h1 {
 	text-family: Verdana;
 }
 
-p,td {
+p {
 	text-indent: 50px;
 	text-align: justify;
 	text-family: Verdana;
 	letter-spacing: 3px;
 }
+
+td {
+	text-align: center;
+	text-family: Verdana;
+	letter-spacing: 3px;
+}
+
+table.info {
+	border-width: 1px;
+	border-spacing: 0px;
+	border-style: outset;
+	border-color: gray;
+	border-collapse: separate;
+	background-color: white;
+} /*
+table.info th {
+	border-width: 1px;
+	padding: 0px;
+	border-style: inset;
+	border-color: gray;
+	background-color: white;
+	-moz-border-radius: ;
+}
+*/
+table.info td {
+	width: 100%;
+	border-width: 1px;
+	padding: 0px;
+	border-style: inset;
+	border-color: gray;
+	background-color: white;
+}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Certificado</title>
 </head>
-<body>
+<body onload="javascript:print()">
 
 	<h1>Comprobante de feraido legal</h1>
 	<p>
@@ -49,18 +86,18 @@ p,td {
 		y
 		<%=BSDateTimeUtil.date2LongString(to)%>, ambos inclusive.
 	</p>
-	<p>
-		Correspondientes al siguiente periodo: <br>1,1 días
-		correspondientes al periodo 2008 <br> 0,9 días correspondientes
-		al periodo 2009 <br> <br> Saldo de vacaciones a esta fecha:
-		<br> 14,1 días correspondientes al periodo 2009 <br> 15,0
-		días correspondientes al periodo 2010 <br>15,0 días
-		correspondientes al periodo 2011 <br> 9,2 días correspondientes
-		al periodo 2012 <br> <br>
-	</p>
 
+	<center>
+		<table border="0" style="width: 50%;">
+			<tr>
+				<%=writeCellWithTable(request, holidayDetails, 1L, "Detalle períodos")%>
+				<%=writeCellWithTable(request, holidayDetails, 2L, "Detalle saldo")%>
+			</tr>
+		</table>
+	</center>
+	
 	<p>
-	<table width="100%">
+	<table width="100%" border="0">
 		<tr>
 			<td align="center">______________________</td>
 			<td align="center">______________________</td>
@@ -70,7 +107,28 @@ p,td {
 			<td align="center">Recursos Humanos</td>
 		</tr>
 	</table>
-	<br> SANTIAGO, 10 de Agosto de 2012
+	</p>
+	<p>SANTIAGO, <%=BSDateTimeUtil.date2LongString(new Date()) %>
 	</p>
 </body>
 </html>
+
+
+<%!private String writeCellWithTable( HttpServletRequest request, List <HolidayDetail> holidayDetails, Long type, String title){
+	String out = "<td style='width:50%;align:center;' valign='top'>";
+	out += "<table class='info'>";
+	out += "<caption>"+title+"</caption>";
+	out += "<tr>";
+	out += "<td>Días</td>";
+	out += "<td>Año</td>";
+	out += "</tr>";
+	for (HolidayDetail holidayDetail : holidayDetails) {
+		if (holidayDetail.getHolidayDetailType().equals(type)) {
+	out += "<tr>";
+	out += "<td>"+BSWeb.formatDecimal(request, holidayDetail.getDays())+"</td>";
+	out += "<td>"+holidayDetail.getYear()+"</td>";
+	out += "</tr>";}
+	}
+	out += "</table></td>";
+	return out;
+}%>
