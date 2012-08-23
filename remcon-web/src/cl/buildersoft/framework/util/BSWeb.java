@@ -251,4 +251,11 @@ public class BSWeb {
 		}
 		return out;
 	}
+
+	public static String formatDecimal(HttpServletRequest request, Double value) {
+		String out = null;
+		String format = getFormatDecimal(request);
+		out = number2String(value, format);
+		return out;
+	}
 }

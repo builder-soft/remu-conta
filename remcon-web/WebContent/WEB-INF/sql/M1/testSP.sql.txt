@@ -26,9 +26,9 @@ call pListBook;
 select * from temp;
 */
 	
-
-
+delete from tHolidayDetail;
 delete from tHoliday;
+
 /*
 insert into tHoliday (cEmployee, cCreation, cFrom, cNormal, cCreeping) 
 VALUES(2, now(), '2012-05-10', 3, 0);

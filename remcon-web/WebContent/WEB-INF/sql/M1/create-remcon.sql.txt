@@ -468,7 +468,7 @@ create table tHoliday(
 create table tHolidayDetail(
 	cId				BIGINT(20) NOT NULL auto_increment,
 	cHoliday		BIGINT(20) NOT NULL COMMENT 'Identificador de las vacaciones asociadas',
-	cDays			INTEGER NOT NULL COMMENT 'Cantidad de días normales y progresivos',
+	cDays			DOUBLE NOT NULL COMMENT 'Cantidad de días normales y progresivos',
 	cYear			INTEGER NOT NULL COMMENT 'Año del período',
 	cHolidayDetailType	BIGINT(20) NOT NULL COMMENT 'Tipo del detalle: T=Días tomados, D=Días disponibles',
 	PRIMARY KEY (cId)
