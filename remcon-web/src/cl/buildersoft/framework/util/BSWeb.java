@@ -196,7 +196,10 @@ public class BSWeb {
 				String type = null;
 				for (index = 1; index <= metaData.getColumnCount(); index++) {
 					type = metaData.getColumnTypeName(index);
-					String[] value = formatData(conn, rs.getString(index), type);
+					String[] value = null;
+					String data = null;
+					data = rs.getString(index);
+					value = formatData(conn, data, type);
 					out.append("<td class='" + style + "' nowrap align='" + value[1] + "'>" + value[0] + "</td>");
 				}
 
@@ -218,37 +221,37 @@ public class BSWeb {
 	private static String[] formatData(Connection conn, String data, String type) {
 		String[] out = { "", "" };// type + " - " + data;
 		String format = null;
-
-		if ("date".equalsIgnoreCase(type)) {
-			Calendar cal = BSDateTimeUtil.string2Calendar(data, "yyyy-MM-dd");
-			format = BSDateTimeUtil.getFormatDate(conn);
-			out[0] = BSDateTimeUtil.calendar2String(cal, format);
-			out[1] = "center";
-		} else if ("double".equalsIgnoreCase(type)) {
-			format = getFormatDecimal(conn);
-			Double dataDouble = Double.parseDouble(data);
-			out[0] = number2String(dataDouble, format);
-			out[1] = "right";
-		} else if ("int".equalsIgnoreCase(type)) {
-			format = getFormatInteger(conn);
-			Integer dataInteger = Integer.parseInt(data);
-			out[0] = number2String(dataInteger, format);
-			out[1] = "right";
-		} else if ("bit".equalsIgnoreCase(type)) {
-			if ("1".equals(data)) {
-				out[0] = "Si";
-			} else {
-				out[0] = "No";
-			}
-			out[1] = "center";
-		} else {
-			out[0] = data; // + "(" + type + ")";
-			out[1] = "left";
-		}
-
 		if (data == null) {
 			out[0] = "";
+		} else {
+			if ("date".equalsIgnoreCase(type)) {
+				Calendar cal = BSDateTimeUtil.string2Calendar(data, "yyyy-MM-dd");
+				format = BSDateTimeUtil.getFormatDate(conn);
+				out[0] = BSDateTimeUtil.calendar2String(cal, format);
+				out[1] = "center";
+			} else if ("double".equalsIgnoreCase(type)) {
+				format = getFormatDecimal(conn);
+				Double dataDouble = Double.parseDouble(data);
+				out[0] = number2String(dataDouble, format);
+				out[1] = "right";
+			} else if ("int".equalsIgnoreCase(type)) {
+				format = getFormatInteger(conn);
+				Integer dataInteger = Integer.parseInt(data);
+				out[0] = number2String(dataInteger, format);
+				out[1] = "right";
+			} else if ("bit".equalsIgnoreCase(type)) {
+				if ("1".equals(data)) {
+					out[0] = "Si";
+				} else {
+					out[0] = "No";
+				}
+				out[1] = "center";
+			} else {
+				out[0] = data; // + "(" + type + ")";
+				out[1] = "left";
+			}
 		}
+
 		return out;
 	}
 

@@ -39,69 +39,62 @@ public class ValidateLoginServlet extends HttpServlet {
 		super();
 	}
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String mail = request.getParameter("mail");
 		String password = request.getParameter("password");
+		String page = "/";
+		if (mail != null && password != null) {
+			BSUserServiceImpl userService = new BSUserServiceImpl();
+			BSDataUtils dau = new BSDataUtils();
 
-		BSUserServiceImpl userService = new BSUserServiceImpl();
-		BSDataUtils dau = new BSDataUtils();
+			User user = null;
+			List<Rol> rols = null;
+			Connection connBSframework = null;
+			Connection connDomain = null;
 
-		User user = null;
-		List<Rol> rols = null;
-		Connection connBSframework = null;
-		Connection connDomain = null;
+			connBSframework = dau.getConnection(getServletContext(), "bsframework");
+			user = userService.login(connBSframework, mail, password);
 
-		connBSframework = dau.getConnection(getServletContext(), "bsframework");
-		user = userService.login(connBSframework, mail, password);
+			List<Domain> domains = null;
+			Domain defaultDomain = null;
+			Map<String, DomainAttribute> domainAttribute = null;
+			if (user != null) {
+				domains = getDomains(connBSframework, user);
+				if (domains.size() == 0) {
+					throw new BSUserException("", "El usuario '" + user.getMail() + "' no esta completamente configurado");
+				}
+				defaultDomain = domains.get(0);
+				domainAttribute = getDomainAttribute(connBSframework, defaultDomain);
+				connDomain = dau.getConnection(domainAttribute);
 
-		List<Domain> domains = null;
-		Domain defaultDomain = null;
-		Map<String, DomainAttribute> domainAttribute = null;
-		if (user != null) {
-			domains = getDomains(connBSframework, user);
-			if (domains.size() == 0) {
-				throw new BSUserException("", "El usuario '" + user.getMail()
-						+ "' no esta completamente configurado");
+				rols = userService.getRols(connDomain, user);
+				if (rols.size() == 0) {
+					throw new BSUserException("0001", "Usuario no tiene roles configurados");
+				}
 			}
-			defaultDomain = domains.get(0);
-			domainAttribute = getDomainAttribute(connBSframework, defaultDomain);
-			connDomain = dau.getConnection(domainAttribute);
 
-			rols = userService.getRols(connDomain, user);
-			if (rols.size() == 0) {
-				throw new BSUserException("0001",
-						"Usuario no tiene roles configurados");
+			if (user != null) {
+				HttpSession session = request.getSession(true);
+				synchronized (session) {
+					session.setAttribute("User", user);
+					session.setAttribute("Rol", rols);
+					session.setAttribute("Menu", true);
+					session.setAttribute("Domains", domains);
+					session.setAttribute("Domain", defaultDomain);
+					session.setAttribute("DomainAttribute", domainAttribute);
+				}
+				page = "/servlet/login/GetMenuServlet";
+			} else {
+				page = "/WEB-INF/jsp/login/not-found.jsp";
 			}
 		}
-
-		String page = null;
-
-		if (user != null) {
-			HttpSession session = request.getSession(true);
-			synchronized (session) {
-				session.setAttribute("User", user);
-				session.setAttribute("Rol", rols);
-				session.setAttribute("Menu", true);
-				session.setAttribute("Domains", domains);
-				session.setAttribute("Domain", defaultDomain);
-				session.setAttribute("DomainAttribute", domainAttribute);
-			}
-			page = "/servlet/login/GetMenuServlet";
-		} else {
-			page = "/WEB-INF/jsp/login/not-found.jsp";
-		}
-
 		request.getRequestDispatcher(page).forward(request, response);
 	}
 
-	private Map<String, DomainAttribute> getDomainAttribute(Connection conn,
-			Domain defaultDomain) {
+	private Map<String, DomainAttribute> getDomainAttribute(Connection conn, Domain defaultDomain) {
 
 		BSmySQL mysql = new BSmySQL();
-		ResultSet rs = mysql.callSingleSP(conn, "pListDomainAttributes",
-				defaultDomain.getId());
+		ResultSet rs = mysql.callSingleSP(conn, "pListDomainAttributes", defaultDomain.getId());
 
 		BSBeanUtils bu = new BSBeanUtils();
 		Map<String, DomainAttribute> out = new HashMap<String, DomainAttribute>();
@@ -127,8 +120,7 @@ public class ValidateLoginServlet extends HttpServlet {
 	private List<Domain> getDomains(Connection conn, User user) {
 		BSmySQL mysql = new BSmySQL();
 
-		ResultSet rs = mysql.callSingleSP(conn, "pListDomainsForUser",
-				user.getId());
+		ResultSet rs = mysql.callSingleSP(conn, "pListDomainsForUser", user.getId());
 
 		BSBeanUtils bu = new BSBeanUtils();
 		List<Domain> out = new ArrayList<Domain>();
