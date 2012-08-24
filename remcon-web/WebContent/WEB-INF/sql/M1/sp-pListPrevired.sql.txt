@@ -5,7 +5,7 @@ CREATE PROCEDURE pListPrevired (IN pPeriod BIGINT)
 BEGIN
 	SELECT		b.cRut, b.cLastName1, b.cLastName2, b.cName, c.cKey AS cGenere,
 				b.cCountry, a.cDate, LAST_DAY(a.cDate) AS cLastDay,  a.cPFMHistory AS cPFM, a.cExBoxSystem,
-				fGetAge(b.cBirthDate) AS cAge, a.cPensionary, a.cWorkDays, e.cKey AS cFamilyAssignmentStretch,
+				fGetAge(b.cBirthDate) AS cAge, a.cPensionary, a.cWorkedDays, e.cKey AS cFamilyAssignmentStretch,
 				a.cSimpleLoads, a.cDisabilityBurdens, a.cMaternalLoads, a.cFamilyAssignmentAmount, cFamilyRetroactive,
 				f.cKey AS cPFMKey, ROUND(a.cIncome) AS cIncome, 
                 f.cFactor as cObligatoryQuote,

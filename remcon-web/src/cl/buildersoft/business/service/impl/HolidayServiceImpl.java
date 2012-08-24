@@ -138,7 +138,7 @@ public class HolidayServiceImpl implements HolidayService {
 		Agreement agreement = getAgreement(conn, employee);
 
 		Calendar startContract = date2Calendar(agreement.getStartContract());
-		Calendar endContract = getEndContract(agreement);
+		Calendar endContract = getEndContract(conn, agreement);
 
 		Integer startYear = startContract.get(Calendar.YEAR);
 		Integer endYear = endContract.get(Calendar.YEAR);
@@ -237,9 +237,9 @@ public class HolidayServiceImpl implements HolidayService {
 		return startPeriod;
 	}
 
-	private Calendar getEndContract(Agreement agreement) {
+	private Calendar getEndContract(Connection conn, Agreement agreement) {
 		AgreementService as = new AgreementServiceImpl();
-		return as.getEndContract(agreement);
+		return as.getEndContract(conn, agreement);
 	}
 
 	private Double[] getHolidaysOfEmployee(Connection conn, Long employee) {

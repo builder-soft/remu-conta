@@ -206,7 +206,7 @@ public class DownloadPrevired extends AbstractServletUtil {
 
 		pensionRegime(rs, csv); /* 11 */
 		workerType(rs, csv); /* 12 */
-		csv.write("" + rs.getInt("cWorkDays")); /* 13 */
+		csv.write("" + rs.getInt("cWorkedDays")); /* 13 */
 		lineType(rs, csv); /* 14 */
 		movingType(rs, csv); /* 15 */
 

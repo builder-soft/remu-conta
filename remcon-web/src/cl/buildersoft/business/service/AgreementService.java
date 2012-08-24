@@ -12,5 +12,5 @@ public interface AgreementService {
 
 	public String getContractTypeName(Connection conn, Agreement agreement);
 
-	public Calendar getEndContract(Agreement agreement);
+	public Calendar getEndContract(Connection conn, Agreement agreement);
 }

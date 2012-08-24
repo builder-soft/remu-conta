@@ -544,7 +544,7 @@ create table tBook(
 	cPeriod						BIGINT(20) NOT NULL COMMENT 'Enlace con la tabla tPeriod - 01/Mes/Año',
 	cEmployee					BIGINT(20) NOT NULL COMMENT 'Empleado - tEmployee.cId',
 	cHorary						BIGINT(20) NOT NULL COMMENT 'Tipo de jornada: part-time / full-time - tAgreement.cHoray',
-	cWorkDays					INTEGER NOT NULL DEFAULT '30' COMMENT 'Días trabajados - Ingresa por el período',
+	cWorkedDays					INTEGER NOT NULL DEFAULT '30' COMMENT 'Días trabajados - Ingresa por el período',
 	cSalaryRoot					DOUBLE NOT NULL COMMENT 'Sueldo Base - cp from tAgreement.cSalaryRoot',
 	cOvertime					INTEGER	NOT NULL DEFAULT '0' COMMENT 'Cantidad Horas Extras - Sumar tabla tOvertime',
 	/*
@@ -726,13 +726,13 @@ SELECT	a.cId AS cId,
 		e.cLastName1,
 		d.cUF,
 		d.cUTM,
-		a.cWorkDays,
+		a.cWorkedDays,
 		a.cPensionary,						/* indica si es pencionado */
 		d.cDaysForYear,
 		a.cContractType,
 		d.cMinSalary,
 		a.cSalaryRoot,
-		a.cSalaryReceived,					/* (cSalaryRoot / 30) * cWorkDays */
+		a.cSalaryReceived,					/* (cSalaryRoot / 30) * cWorkedDays */
 		b.cGratificationType,				/* From tAgreement */
 		d.cLimitGratification,				/* 4.75 Ingresos mínimos */
 		b.cGratificationAmount,				/* 25% Impo. (Tope 4,75imm/12) */
