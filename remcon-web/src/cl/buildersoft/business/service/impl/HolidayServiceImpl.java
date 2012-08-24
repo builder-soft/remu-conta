@@ -75,7 +75,7 @@ public class HolidayServiceImpl implements HolidayService {
 
 	private void saveDetail(Connection conn, List<HolidayDevelop> preDevelopList, List<HolidayDevelop> postDevelopList,
 			Holiday holiday) {
-		System.out.println(holiday);
+//		System.out.println(holiday);
 		Integer index = 0;
 		Integer size = preDevelopList.size();
 
@@ -103,7 +103,7 @@ public class HolidayServiceImpl implements HolidayService {
 					// Save as taken
 					holidayDetail.setHolidayDetailType(1L);
 					Double normalTaken = post.getNormalTaken() - pre.getNormalTaken();
-					Double creepingTaken = +post.getCreepingTaken() - pre.getCreepingTaken();
+					Double creepingTaken = post.getCreepingTaken() - pre.getCreepingTaken();
 					days = normalTaken + creepingTaken;
 					holidayDetail.setDays(days);
 
