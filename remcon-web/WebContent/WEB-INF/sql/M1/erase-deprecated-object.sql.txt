@@ -51,6 +51,7 @@ DROP PROCEDURE IF EXISTS getGratificationAmount;
 DROP PROCEDURE IF EXISTS pListBoardByType;
 DROP PROCEDURE IF EXISTS fInsertPeriod;
 DROP PROCEDURE IF EXISTS pSaveAssetBond;
+DROP PROCEDURE IF EXISTS pListDevelopHoliday;
 
 DROP FUNCTION IF EXISTS fSalaryReceived;
 DROP FUNCTION IF EXISTS fGetGratificationAmount;
@@ -60,3 +61,6 @@ DROP FUNCTION IF EXISTS fGetLimitTaxableForecast;
 DROP FUNCTION IF EXISTS fGetLimitTaxableDismissInsurance;
 DROP FUNCTION IF EXISTS fGetObligatoryQuote;
 DROP FUNCTION IF EXISTS fGetLimitGratification;
+
+DROP FUNCTION IF EXISTS fGetProgresiveDays;
+DROP FUNCTION IF EXISTS fGetTakenDays;

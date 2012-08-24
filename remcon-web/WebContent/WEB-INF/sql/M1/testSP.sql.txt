@@ -16,10 +16,8 @@ select * from remcon.vBook;
 call remcon.pGetEnterpriseConfig(1);
 */
 
+
 /*
-call pCalculateAllSalary;
-
-
 INSERT INTO tAssetDiscountValue(cAssetDiscount, cBook, cValue) VALUES(1, 1, 10000);
 call pListBook;
 
@@ -44,13 +42,7 @@ call pGetHolidayByEmployee(1);
 call pGetHolidayByEmployee(2);
 
 call pGetHolidayInfo(2, '2000-12-01', NOW());
+*/
 
 
-/*
-call pListDevelopHoliday(1);
-
-call pListDevelopHoliday(2);
-
-   */
-
-
+call pCalculateAllSalary;
