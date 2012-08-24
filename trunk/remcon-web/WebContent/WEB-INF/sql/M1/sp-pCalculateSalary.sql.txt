@@ -27,12 +27,13 @@ DROP PROCEDURE IF EXISTS pFamilyAssignmentEnterprise;
 DROP PROCEDURE IF EXISTS pCostEnterprise;
 DROP PROCEDURE IF EXISTS pAdditionalPFM;
 DROP PROCEDURE IF EXISTS pSimpleAdjustment;
+DROP PROCEDURE IF EXISTS pSetWorkedDays;
 
 DROP FUNCTION IF exists fSaveBookForEmployee;
 DROP FUNCTION IF EXISTS fGetPFMForBook;
 DROP FUNCTION IF EXISTS fGetHealthForBook;
 DROP FUNCTION IF EXISTS fSalaryDaily;
-
+DROP FUNCTION IF EXISTS fWorkedDays;
 DELIMITER $$
 
 /************************/
@@ -46,6 +47,8 @@ BEGIN
 	WHERE	cDate = pDate;
 */
 	SET vBook = fSaveBookForEmployee(vPeriod, pEmployee);
+	
+	CALL pSetWorkedDays(vBook);
 	
 	CALL pSaveOvertime(vBook, pEmployee, vPeriod);
 	CALL pSalaryReceived(vBook);
@@ -86,6 +89,13 @@ BEGIN
 	CALL pSimpleAdjustment(vBook);
 	
 END$$
+
+CREATE PROCEDURE pSetWorkedDays(vBook BIGINT)
+BEGIN
+	UPDATE	tBook
+	SET		cWorkedDays = fWorkedDays(vBook)
+	WHERE	cId = vBook;
+END$$ 
 
 CREATE PROCEDURE pSimpleAdjustment(pBook BIGINT)
 BEGIN
@@ -285,7 +295,7 @@ BEGIN
 	DECLARE vDailyFactor, vDateDiff, vIndemnify, vIndemnifyDays DOUBLE DEFAULT 0;
 	DECLARE vStartContract, vEndContract, vDate, vBusinessDate DATE;
 	
-	SELECT	cDaysForYear, cStartContract, cEndContract, cDate
+	SELECT	cDaysForYear, cStartContract, fGetEndContract(cEmployee), cDate
 	INTO	vDaysForYear, vStartContract, vEndContract, vDate
 	FROM	vBook
 	WHERE	cId = pBook;
@@ -296,8 +306,9 @@ BEGIN
 	SET vIndemnify = vDailyFactor * vDateDiff;
 	SET vBusinessDate = fBusinessDate(vEndContract, vIndemnify);
 	SET vIndemnifyDays = (vIndemnify - FLOOR(vIndemnify)) + DateDiff(vBusinessDate, vEndContract);
-	
-	/*select vEndContract, FLOOR(vIndemnify), vIndemnify, vBusinessDate, vIndemnifyDays;*/
+
+/**/
+select vIndemnifyDays, fSalaryDaily(pBook), vIndemnifyDays * fSalaryDaily(pBook);
 	
 	UPDATE	tBookAssets 
 	SET		cProportionalHoliday = vIndemnifyDays * fSalaryDaily(pBook)
@@ -305,11 +316,12 @@ BEGIN
 
 END$$
 
+
 CREATE FUNCTION fSalaryDaily(pBook BIGINT) RETURNS DOUBLE
 BEGIN
 	DECLARE vOut DOUBLE DEFAULT 0;
 	
-	SELECT	cSalaryRoot / 30
+	SELECT	cSalaryRoot / fWorkedDays(pBook)
 	INTO	vOut
 	FROM	vBook
 	WHERE	cId = pBook;
@@ -433,20 +445,13 @@ END$$
 /************************/
 CREATE PROCEDURE pHealth(pBook BIGINT)
 BEGIN
-/*
-	cHealthCurrency
-	cHealthAmount
-	cHealthCLP
-	cAdditionalHealth
-	cHealthQuote
-*/	
 	DECLARE vHealthCurrency, vAgreement, vHealthHistory BIGINT DEFAULT 0;
 	DECLARE vHealthAmount, vUF, vHealthCLP, vHealthLegalQuote, vLimitTaxableForecast,
 			vLimitHealth, vAdditionalHealth, vSevenPercent, vSum DOUBLE DEFAULT 0;
 	DECLARE vKey VARCHAR(3) DEFAULT '';
 	
-	SELECT	cAgreement, cUF, cLimitHealth, cHealthHistory, cLimitTaxableForecast /*, vHealthAmount, vHealthCurrency, vHealthCLP, vAdditionalHealth*/
-	INTO	vAgreement, vUF, vLimitHealth, vHealthHistory, vLimitTaxableForecast /*, cHealthAmount, cHealthCurrency, cHealthCLP, cAdditionalHealth*/
+	SELECT	cAgreement, cUF, cLimitHealth, cHealthHistory, cLimitTaxableForecast
+	INTO	vAgreement, vUF, vLimitHealth, vHealthHistory, vLimitTaxableForecast
 	FROM	vBook
 	WHERE	cId = pBook;
 	
@@ -510,10 +515,35 @@ END$$
 CREATE PROCEDURE pSalaryReceived(pBook BIGINT)
 BEGIN
 	UPDATE	tBook 
-	SET		cSalaryReceived = cSalaryRoot / 30 * cWorkDays 
+	SET		cSalaryReceived = cSalaryRoot / fWorkedDays(pBook) * cWorkedDays 
 	WHERE	cId = pBook;
 	
 END$$
+
+/************************/
+CREATE FUNCTION fWorkedDays(vBook BIGINT) RETURNS INTEGER
+BEGIN
+	DECLARE vStartContract, vEndContract, vDate DATE;
+	DECLARE vEmployee BIGINT;
+	DECLARE vOut INTEGER DEFAULT 30;
+
+	SELECT	cEmployee, cStartContract, cDate
+	INTO	vEmployee, vStartContract, vDate
+	FROM	vBook
+	WHERE	cId = vBook;
+	
+	SET vEndContract = fGetEndContract(vEmployee);
+	
+	IF( MONTH(vDate) = MONTH(vStartContract)) THEN
+		SET vOut = DATEDIFF(LAST_DAY(vDate), vStartContract);
+	END IF;
+	IF( MONTH(vDate) = MONTH(vEndContract)) THEN
+		SET vOut = DATEDIFF(LAST_DAY(vDate), vEndContract);
+	END IF;
+
+	RETURN vOut;
+END$$
+
 
 /************************/
 CREATE FUNCTION fSaveBookForEmployee(pPeriod BIGINT, pEmployee BIGINT) RETURNS BIGINT

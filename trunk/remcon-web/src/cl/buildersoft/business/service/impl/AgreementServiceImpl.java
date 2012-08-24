@@ -1,7 +1,5 @@
 package cl.buildersoft.business.service.impl;
 
-import static cl.buildersoft.framework.util.BSDateTimeUtil.date2Calendar;
-
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,8 +15,10 @@ import cl.buildersoft.business.beans.PaymentType;
 import cl.buildersoft.business.beans.Profile;
 import cl.buildersoft.business.service.AgreementService;
 import cl.buildersoft.framework.database.BSBeanUtils;
+import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
 import cl.buildersoft.framework.util.BSConfig;
+import cl.buildersoft.framework.util.BSDateTimeUtil;
 
 public class AgreementServiceImpl implements AgreementService {
 
@@ -40,7 +40,7 @@ public class AgreementServiceImpl implements AgreementService {
 			agreement.setProfile(getProfile(conn, bu));
 			agreement.setPfm(getPFM(conn, bu));
 			agreement.setMonthsQuoted(0);
-			
+
 			agreement.setHealth(getHealth(conn, bu));
 			agreement.setGratificationType(getGratificationType(conn, bu));
 			agreement.setPaymentType(getPaymentType(conn, bu));
@@ -122,13 +122,12 @@ public class AgreementServiceImpl implements AgreementService {
 
 		return contractType.getName();
 	}
-	public Calendar getEndContract(Agreement agreement) {
-		Calendar endContract;
-		if (agreement.getContractType().equals(1L)) {
-			endContract = Calendar.getInstance();
-		} else {
-			endContract = date2Calendar(agreement.getEndContract());
-		}
-		return endContract;
+
+	@Override
+	public Calendar getEndContract(Connection conn, Agreement agreement) {
+		BSmySQL mysql = new BSmySQL();
+		String endContract = mysql.callFunction(conn, "fGetEndContract", agreement.getEmployee());
+		Calendar out = BSDateTimeUtil.string2Calendar(endContract, BSDateTimeUtil.SQL_FORMAT);
+		return out;
 	}
 }

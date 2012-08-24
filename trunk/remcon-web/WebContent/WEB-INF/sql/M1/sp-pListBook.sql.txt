@@ -50,7 +50,7 @@ BEGIN
 	SET @sql = CONCAT(@sql, 'a.cLastName1 AS \'Apellido Paterno\', ');
 	SET @sql = CONCAT(@sql, 'a.cUF AS \'U.F.\', ');
 	SET @sql = CONCAT(@sql, 'a.cUTM AS \'U.T.M.\', ');
-	SET @sql = CONCAT(@sql, 'a.cWorkDays AS \'Días trabajado\', ');
+	SET @sql = CONCAT(@sql, 'a.cWorkedDays AS \'Días trabajado\', ');
 	SET @sql = CONCAT(@sql, 'a.cPensionary AS \'Pensionado\', ');
 	SET @sql = CONCAT(@sql, 'a.cDaysForYear AS \'Vacaciones por año\', ');
 	SET @sql = CONCAT(@sql, 'c.cName AS \'Tipo de contrato\', ');
@@ -167,7 +167,7 @@ BEGIN
 			a.cLastName1,
 			a.cUF,
 			a.cUTM,
-			a.cWorkDays,
+			a.cWorkedDays,
 			a.cPensionary,
 			a.cDaysForYear,
 			c.cName AS 'Tipo de contrato',
