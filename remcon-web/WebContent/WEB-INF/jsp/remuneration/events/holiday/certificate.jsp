@@ -47,16 +47,8 @@ table.info {
 	border-color: gray;
 	border-collapse: separate;
 	background-color: white;
-} /*
-table.info th {
-	border-width: 1px;
-	padding: 0px;
-	border-style: inset;
-	border-color: gray;
-	background-color: white;
-	-moz-border-radius: ;
 }
-*/
+
 table.info td {
 	width: 100%;
 	border-width: 1px;
@@ -81,10 +73,21 @@ table.info td {
 		<%=BSDateTimeUtil.date2LongString(agreement.getStartContract())%>,
 		hará uso de
 		<%=days%>
+		<%
+			if (days.equals(1)) {
+		%>
+		día habil de su Feriado Legal el día
+		<%=BSDateTimeUtil.date2LongString(holiday.getFrom())%>.
+		<%
+			} else {
+		%>
 		días hábiles de su Feriado Legal entre los días
 		<%=BSDateTimeUtil.date2LongString(holiday.getFrom())%>
 		y
 		<%=BSDateTimeUtil.date2LongString(to)%>, ambos inclusive.
+		<%
+			}
+		%>
 	</p>
 
 	<center>
@@ -95,7 +98,7 @@ table.info td {
 			</tr>
 		</table>
 	</center>
-	
+
 	<p>
 	<table width="100%" border="0">
 		<tr>
@@ -108,27 +111,30 @@ table.info td {
 		</tr>
 	</table>
 	</p>
-	<p>SANTIAGO, <%=BSDateTimeUtil.date2LongString(new Date()) %>
+	<p>
+		SANTIAGO,
+		<%=BSDateTimeUtil.date2LongString(new Date())%>
 	</p>
 </body>
 </html>
 
 
-<%!private String writeCellWithTable( HttpServletRequest request, List <HolidayDetail> holidayDetails, Long type, String title){
-	String out = "<td style='width:50%;align:center;' valign='top'>";
-	out += "<table class='info'>";
-	out += "<caption>"+title+"</caption>";
-	out += "<tr>";
-	out += "<td>Días</td>";
-	out += "<td>Año</td>";
-	out += "</tr>";
-	for (HolidayDetail holidayDetail : holidayDetails) {
-		if (holidayDetail.getHolidayDetailType().equals(type)) {
-	out += "<tr>";
-	out += "<td>"+BSWeb.formatDecimal(request, holidayDetail.getDays())+"</td>";
-	out += "<td>"+holidayDetail.getYear()+"</td>";
-	out += "</tr>";}
-	}
-	out += "</table></td>";
-	return out;
-}%>
+<%!private String writeCellWithTable(HttpServletRequest request, List<HolidayDetail> holidayDetails, Long type, String title) {
+		String out = "<td style='width:50%;align:center;' valign='top'>";
+		out += "<table class='info'>";
+		out += "<caption>" + title + "</caption>";
+		out += "<tr>";
+		out += "<td>Días</td>";
+		out += "<td>Año</td>";
+		out += "</tr>";
+		for (HolidayDetail holidayDetail : holidayDetails) {
+			if (holidayDetail.getHolidayDetailType().equals(type)) {
+				out += "<tr>";
+				out += "<td>" + BSWeb.formatDecimal(request, holidayDetail.getDays()) + "</td>";
+				out += "<td>" + holidayDetail.getYear() + "</td>";
+				out += "</tr>";
+			}
+		}
+		out += "</table></td>";
+		return out;
+	}%>

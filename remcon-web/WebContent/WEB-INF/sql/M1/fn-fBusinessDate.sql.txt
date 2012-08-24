@@ -10,6 +10,8 @@ BEGIN
 	DECLARE vIndex INTEGER DEFAULT 0;
 	DECLARE vDayOfWeek INTEGER DEFAULT -1;
 	
+	SET vCountDays = vCountDays - 1;
+	
 	SET vIndexDay = vStartDay;
 	WHILE vIndex < vCountDays DO
 		SET vIndexDay = vIndexDay + INTERVAL 1 DAY;
