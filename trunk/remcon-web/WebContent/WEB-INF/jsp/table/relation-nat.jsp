@@ -67,10 +67,10 @@ action="${pageContext.request.contextPath}/servlet/table/SaveRelation"
 					%>
 			</select></td>
 
-			<td style="width: 10%" align="center"><input type="button"
-				value="->" onclick="javascript:add();" style="width: 100%"><br>
-				<br> <br> <input type="button" value="<-"
-				onclick="javascript:remove();" style="width: 100%"></td>
+			<td style="width: 10%" align="center"><button type="button"
+				 onclick="javascript:add();" style="width: 100%">-></button><br>
+				<br> <br> <button type="button" 
+				onclick="javascript:remove();" style="width: 100%"><-</button></td>
 
 			<td style="width: 30%" align="center"><span class="cLabel"
 				align="center">Seleccionados</span><br> <select name="Relation"
@@ -85,8 +85,8 @@ action="${pageContext.request.contextPath}/servlet/table/SaveRelation"
 			</select></td>
 		</tr>
 		<tr>
-			<td align="center"><input type="button" value="Aceptar"
-				onclick="javascript:save();"></td>
+			<td align="center"><button type="button" 
+				onclick="javascript:save();">Aceptar</button></td>
 			<td>&nbsp;</td>
 			<td align="center"><a href="<%=ctxPath + table.getUri()%>">Cancelar</a></td>
 		</tr>

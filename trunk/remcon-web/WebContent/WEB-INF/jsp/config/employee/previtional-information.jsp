@@ -341,10 +341,10 @@ function changeExBox(o){
 	</table>
 </form>
 <br>
-<input type="button" value="Aceptar"
-	onclick="javascript:$('#editForm').submit();">
+<button type="button"
+	onclick="javascript:$('#editForm').submit();">Aceptar</button>
 &nbsp;&nbsp;&nbsp;
-<input type="button" value="Agregar APV" onclick="javascript:addApv()">
+<button type="button" onclick="javascript:addApv()">Agregar APV</button>
 &nbsp;&nbsp;&nbsp;
 <a href="${pageContext.request.contextPath}/servlet/table/LoadTable">Cancelar</a>&nbsp;&nbsp;&nbsp;
 

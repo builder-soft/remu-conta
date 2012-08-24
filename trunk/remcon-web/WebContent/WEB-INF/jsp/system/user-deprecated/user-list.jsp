@@ -64,26 +64,23 @@
 </form>
 <br>
 <div style='float: left;'>
-	<input type='button' value='Nuevo...'
-		onclick="javascript:window.location.href='${pageContext.request.contextPath}/servlet/system/user/UserNew'">
+	<button type='button' 
+		onclick="javascript:window.location.href='${pageContext.request.contextPath}/servlet/system/user/UserNew'">Nuevo...</button>
 </div>
 <div id='MultirecordActions' style='float: left; display: none;'>
-	<input type='button' value='Borrar' id='oDelete'
-		onclick='javascript:fDelete();'>
+	<button type='button'  id='oDelete'
+		onclick='javascript:fDelete();'>Borrar</button>
 </div>
 
 <div id='RecordActions' style='float: left; display: none;'>
-	<input type='button' value='Modificar' id='oEdit'
-		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/user/UserEdit", "EDIT");'>
+	<button type='button' id='oEdit'
+		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/user/UserEdit", "EDIT");'>Modificar</button>
 		
-	<input type='button' value='Cambiar Clave' id='oCh_pass'
-		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/changepassword/SearchPassword", "CH_PASS");'>
+	<button type='button' id='oCh_pass'
+		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/changepassword/SearchPassword", "CH_PASS");'>Cambiar Clave</button>
 
-	<input type='button' value='Roles de Usuario' id='oRoldef'
-		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/roleDef/RoleDef", "ROL_DEF");'>
-		
+	<button type='button' id='oRoldef'
+		onclick='javascript:doAction("${pageContext.request.contextPath}/servlet/system/roleDef/RoleDef", "ROL_DEF");'>Roles de Usuario</button>		
 </div>
-
-
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

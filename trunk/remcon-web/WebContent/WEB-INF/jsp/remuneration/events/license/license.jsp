@@ -71,12 +71,9 @@
 </table>
 <br>
 <div id="defaultButtons">
-	<input type="Button" value="Agregar" onclick="javascript:showForm();">
-	<!-- 
-	<input type="Button" value="Modificar" id="modify"
-		onclick="javascript:editOvertime();"> -->
-	<input type="Button" value="Eliminar" id="erase"
-		onclick="javascript:eraseLicense();"> <a
+	<button type="Button" onclick="javascript:showForm();">Agregar</button>
+	<button type="Button" id="erase"
+		onclick="javascript:eraseLicense();">Eliminar</button> <a
 		href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
 </div>
 <form id="EraseLicense" action="${pageContext.request.contextPath}/servlet/remuneration/events/license/EraseLicense" method="post">
@@ -142,8 +139,8 @@
 			</tr>
 		</table>
 
-		<br /> <input type="submit" value="Aceptar" /> <input type="button"
-			value="Cancelar" onclick="javascript:closeTooltip()" />
+		<br /> <input type="submit" value="Aceptar" /> <button type="button"
+			 onclick="javascript:closeTooltip()" >Cancelar</button>
 	</form>
 </div>
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

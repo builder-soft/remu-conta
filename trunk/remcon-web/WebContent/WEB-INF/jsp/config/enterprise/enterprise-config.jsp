@@ -84,7 +84,7 @@
 			</tr>		
 	</table>
 	
-<input type="button" value="Aceptar" onclick="javascript:$('#editForm').submit();">	
+<button type="button" onclick="javascript:$('#editForm').submit();">Aceptar</button>	
 <a href="${pageContext.request.contextPath}/servlet/table/LoadTable">Cancelar</a>&nbsp;&nbsp;&nbsp;
 </form>
 <br>

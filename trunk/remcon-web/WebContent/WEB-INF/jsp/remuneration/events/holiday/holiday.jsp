@@ -125,9 +125,9 @@
 				<%
 					}
 				%>
-			</table> <br> <input type="Button" value="Solicitar vacaciones"
+			</table> <br> <button type="Button" 
 			onclick="javascript:showTooltip('divRetrieveHoliday');calculateEndDate();"
-			<%=expiredContract ? "disabled" : ""%>> <a
+			<%=expiredContract ? "disabled" : ""%>>Solicitar vacaciones</button> <a
 			href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
 			<%
 				if (expiredContract) {
