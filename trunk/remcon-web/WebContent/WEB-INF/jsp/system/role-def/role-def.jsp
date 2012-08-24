@@ -73,7 +73,9 @@
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 
-<%!private String getSelected(Object[] row, HttpServletRequest request) {
+<%!String idCheckbox = "";
+
+	private String getSelected(Object[] row, HttpServletRequest request) {
 		Long id = (Long) request.getAttribute("cId");
 		return ((Long) row[0]).equals(id) ? "selected" : "";
 	}
@@ -83,8 +85,8 @@
 		Option option = null;
 		for (Submenu menu : fullMenu) {
 			option = menu.getOption();
-			out += "<li class='cLabel' type='none'>" + drowCheckbox(option, rolMenu) + menu.getOption().getLabel()
-					+ writeSubOption(menu, rolMenu) + "</li>";
+			out += "<li class='cLabel' type='none'>" + drowCheckbox(option, rolMenu) + "<label for='" + idCheckbox + "'>"
+					+ menu.getOption().getLabel() + "</label>" + writeSubOption(menu, rolMenu) + "</li>";
 
 		}
 
@@ -94,9 +96,10 @@
 	private String drowCheckbox(Option option, List<Submenu> rolMenu) {
 		String out = "<input type='checkbox' ";
 		out += "value='" + option.getId() + "' ";
-		out += "name='Option' ";
+		out += "name='Option' id='opt" + option.getId() + "'";
 		out += getChecked(option, rolMenu);
 		out += ">";
+		idCheckbox = "opt" + option.getId();
 		return out;
 	}
 
@@ -131,8 +134,8 @@
 			Option option = null;
 			for (Submenu sub : main) {
 				option = sub.getOption();
-				out += "<li class='cLabel' type='none'>" + drowCheckbox(option, rolMenu) + option.getLabel()
-						+ writeSubOption(sub, rolMenu) + "</li>";
+				out += "<li class='cLabel' type='none'>" + drowCheckbox(option, rolMenu) + "<label for='" + idCheckbox + "'>"
+						+ option.getLabel() + "</label>" + writeSubOption(sub, rolMenu) + "</li>";
 			}
 			out += "</ul>";
 		}
