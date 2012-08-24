@@ -15,21 +15,17 @@
 	pageEncoding="ISO-8859-1"%>
 <%
 	ResultSet rs = (ResultSet) request.getAttribute("Data");
-	BSTableConfig table = (BSTableConfig) session
-			.getAttribute("BSTable");
+	BSTableConfig table = (BSTableConfig) session.getAttribute("BSTable");
 	String ctxPath = request.getContextPath();
 
 	BSAction[] tableActions = table.getActions(BSActionType.Table);
 	BSAction[] recordActions = table.getActions(BSActionType.Record);
-	BSAction[] multirecordActions = table
-			.getActions(BSActionType.MultiRecord);
+	BSAction[] multirecordActions = table.getActions(BSActionType.MultiRecord);
 
-	Integer selectorType = getSelectorType(tableActions, recordActions,
-			multirecordActions, request);
+	Integer selectorType = getSelectorType(tableActions, recordActions, multirecordActions, request);
 %>
 
-<%!private Integer getSelectorType(BSAction[] tableActions,
-			BSAction[] recordActions, BSAction[] multirecordActions,
+<%!private Integer getSelectorType(BSAction[] tableActions, BSAction[] recordActions, BSAction[] multirecordActions,
 			HttpServletRequest request) {
 
 		Integer selectorType = 0;
@@ -93,8 +89,7 @@
 				String type = selectorType == 1 ? "radio" : "CHECKBOX";
 				out.print("<td  align='center' class='cHeadTD'>");
 				if (selectorType >= 2) {
-					out.print("<input id='mainCheck' type='" + type
-							+ "' onclick='javascript:swapAllCheck(this);'>");
+					out.print("<input id='mainCheck' type='" + type + "' onclick='javascript:swapAllCheck(this);'>");
 				}
 				out.print("</td>");
 			}
@@ -116,8 +111,7 @@
 			while (rs.next()) {
 				values = values2Array(rs, pkName, fields);
 
-				out.println(writeValues(values, fields, rowCount, ctxPath,
-						request, selectorType));
+				out.println(writeValues(values, fields, rowCount, ctxPath, request, selectorType));
 				rowCount++;
 			}
 
@@ -134,14 +128,12 @@
 		for (BSAction action : tableActions) {
 			if (BSWeb.canUse(action.getCode(), request)) {
 				String id = capitalize(action.getCode());
-				out.print("<input type='button' ");
-				out.print("value='" + action.getLabel() + "' ");
+				out.print("<button type='button' ");
 				out.print("id='o" + id + "' ");
-				out.print(action.getDisabled() ? "disabled":"");
+				out.print(action.getDisabled() ? "disabled" : "");
 
-				out.print(" onclick='javascript:window.location.href=\""
-						+ ctxPath + action.getUrl() + "\"'");
-				out.print(">");
+				out.print(" onclick='javascript:window.location.href=\"" + ctxPath + action.getUrl() + "\"'");
+				out.print(">" + action.getLabel() + "</button>");
 			}
 
 		}
@@ -151,14 +143,12 @@
 		for (BSAction action : multirecordActions) {
 			if (BSWeb.canUse(action.getCode(), request)) {
 				String id = capitalize(action.getDefaultCode());
-				out.print("<input type='button' ");
-				out.print("value='" + action.getLabel() + "' ");
+				out.print("<button type='button' ");
 				out.print("id='o" + id + "' ");
-				
-				out.print(action.getDisabled() ? "disabled":"");
-				
+				out.print(action.getDisabled() ? "disabled" : "");
+
 				out.print(" onclick='javascript:f" + id + "();'");
-				out.print(">");
+				out.print(">" + action.getLabel() + "</button>");
 			}
 		}
 		out.print("</div>");
@@ -167,18 +157,16 @@
 		for (BSAction action : recordActions) {
 			if (BSWeb.canUse(action.getCode(), request)) {
 				String id = capitalize(action.getCode());
-				String method = action.getMethod() != null ? "&Method="+action.getMethod() : "";
-				out.print("<input type='button' ");
-				out.print("value='" + action.getLabel() + "' ");
+				String method = action.getMethod() != null ? "&Method=" + action.getMethod() : "";
+				out.print("<button type='button' ");
 				out.print("id='o" + id + "' ");
-				
-				out.print(action.getDisabled() ? "disabled":"");
-				
-				out.print(" onclick='javascript:doAction(\"" + ctxPath
-						+ action.getUrl() + "\", \"" + action.getCode() + method
-						+ "\");'");
 
-				out.print(">");
+				out.print(action.getDisabled() ? "disabled" : "");
+
+				out.print(" onclick='javascript:doAction(\"" + ctxPath + action.getUrl() + "\", \"" + action.getCode()
+						+ method + "\");'");
+
+				out.print(">" + action.getLabel() + "</button>");
 			}
 		}
 		out.print("</div>");
@@ -187,8 +175,7 @@
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 
-<%!private String writeValues(Object[] values, BSField[] fields,
-			Integer rowCount, String ctxPath, HttpServletRequest request,
+<%!private String writeValues(Object[] values, BSField[] fields, Integer rowCount, String ctxPath, HttpServletRequest request,
 			Integer selectorType) {
 		String out = "<tr>";
 		Object value = null;
@@ -233,8 +220,7 @@
 							out += "No";
 						}
 
-					} else if (type.equals(BSFieldType.Date)
-							|| type.equals(BSFieldType.Double)) {
+					} else if (type.equals(BSFieldType.Date) || type.equals(BSFieldType.Double)) {
 						BSFieldDataType dataType = BSTypeFactory.create(field);
 						BSmySQL mysql = new BSmySQL();
 						Connection conn = mysql.getConnection(request);
@@ -274,8 +260,7 @@
 		return out;
 	}
 
-	private Object[] values2Array(ResultSet rs, String pkName, BSField[] fields)
-			throws Exception {
+	private Object[] values2Array(ResultSet rs, String pkName, BSField[] fields) throws Exception {
 		String name = null;
 		Object value = null;
 		int i = pkName == null ? 0 : 1;

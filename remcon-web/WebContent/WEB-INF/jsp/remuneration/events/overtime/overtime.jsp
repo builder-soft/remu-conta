@@ -74,17 +74,17 @@ for(Overtime overtime : overtimes){
 </table>
 <br>
 <div id="defaultButtons">
-	<input type="Button" value="Agregar" onclick="javascript:add(<%=lastDayMonth%>, <%=overtimePercent%>, '<%=periodName%>');"> 
+	<button type="Button" onclick="javascript:add(<%=lastDayMonth%>, <%=overtimePercent%>, '<%=periodName%>');">Agregar</button> 
 	
-	<input type="Button" value="Modificar" id="modify" onclick="javascript:editOvertime(<%=lastDayMonth%>, <%=overtimePercent%>, '<%=periodName%>');">
+	<button type="Button" id="modify" onclick="javascript:editOvertime(<%=lastDayMonth%>, <%=overtimePercent%>, '<%=periodName%>');">Modificar </button>
 	 
-	<input type="Button" value="Eliminar" id="erase" onclick="javascript:eraseOvertime();"> 
+	<button type="Button" id="erase" onclick="javascript:eraseOvertime();">Eliminar</button> 
 	
 	<a href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
 </div>
 <div id="commitButtons" style="float: left; display: none;">
-	<input type="Button" value="Aceptar" onclick="javascript:commit();">
-	<input type="Button" value="Cancelar" onclick="javascript:cancel();">
+	<button type="Button" onclick="javascript:commit();">Aceptar</button>
+	<button type="Button" onclick="javascript:cancel();">Cancelar</button>
 </div>
 
 <form id="frm" method="post">
