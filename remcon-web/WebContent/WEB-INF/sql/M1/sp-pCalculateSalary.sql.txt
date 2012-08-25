@@ -295,25 +295,23 @@ BEGIN
 	DECLARE vDailyFactor, vDateDiff, vIndemnify, vIndemnifyDays DOUBLE DEFAULT 0;
 	DECLARE vStartContract, vEndContract, vDate, vBusinessDate DATE;
 	
-	SELECT	cDaysForYear, cStartContract, fGetEndContract(cEmployee), cDate
-	INTO	vDaysForYear, vStartContract, vEndContract, vDate
+	SELECT	cDaysForYear, cStartContract, cDate, fGetEndContract(cEmployee) 
+	INTO	vDaysForYear, vStartContract, vDate, vEndContract
 	FROM	vBook
 	WHERE	cId = pBook;
 	
-	SET vDateDiff = DateDiff(vEndContract, vStartContract);
-	SET vDailyFactor = ROUND((vDaysForYear / 12) / 30, 5);
+	IF(MONTH(vDate) <= MONTH(vEndContract)) THEN
+		SET vDateDiff = DateDiff(vEndContract, vStartContract);
+		SET vDailyFactor = ROUND((vDaysForYear / 12) / 30, 5);
+		
+		SET vIndemnify = vDailyFactor * vDateDiff;
+		SET vBusinessDate = fBusinessDate(vEndContract, vIndemnify);
+		SET vIndemnifyDays = (vIndemnify - FLOOR(vIndemnify)) + DateDiff(vBusinessDate, vEndContract);
 	
-	SET vIndemnify = vDailyFactor * vDateDiff;
-	SET vBusinessDate = fBusinessDate(vEndContract, vIndemnify);
-	SET vIndemnifyDays = (vIndemnify - FLOOR(vIndemnify)) + DateDiff(vBusinessDate, vEndContract);
-
-/**/
-select vIndemnifyDays, fSalaryDaily(pBook), vIndemnifyDays * fSalaryDaily(pBook);
-	
-	UPDATE	tBookAssets 
-	SET		cProportionalHoliday = vIndemnifyDays * fSalaryDaily(pBook)
-	WHERE	cBook = pBook;
-
+		UPDATE	tBookAssets 
+		SET		cProportionalHoliday = vIndemnifyDays * fSalaryDaily(pBook)
+		WHERE	cBook = pBook;
+	END IF;
 END$$
 
 
@@ -540,7 +538,10 @@ BEGIN
 	IF( MONTH(vDate) = MONTH(vEndContract)) THEN
 		SET vOut = DATEDIFF(LAST_DAY(vDate), vEndContract);
 	END IF;
-
+	IF( MONTH(vDate) = MONTH(vStartContract) AND MONTH(vDate) = MONTH(vEndContract)) THEN
+		SET vOut = DATEDIFF(vEndContract, vStartContract);
+	END IF;
+	
 	RETURN vOut;
 END$$
 
