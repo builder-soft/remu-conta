@@ -757,22 +757,17 @@ SELECT	a.cId AS cId,
 		d.cLimitInsurance,					/* Tope de Seguro de cesantia */
 		d.cLimitIPS,						/* Tope imponible para afiliados al IPS (ex INP) en UFs */
 		b.cIncome,							/* Renta Afecta */
-		
 		b.cFamilyAssignmentStretch,			/* Tramo asignacion familiar */
 		b.cFamilyAssignmentCount,			/* Cantidad de cargas familiares */
 		b.cFamilyAssignmentAmount,			/* Monto por cargas familiares */
 		b.cFamilyRetroactive,				/* Retroactivo familiar, esto se asigna mes a mes */
-		
 		b.cFeeding,
 		b.cMobilization,
 		b.cBounty,
-		
 		a.cHorary,
 		b.cRewardAmount,
-		
 		b.cMonthNotification,
 		b.cIAS,
-
 		b.cProportionalHoliday,				/* Feriado proporcional */
 		b.cTotalIncomeNotTaxable,			/* Total haberes no imponibles */
 		b.cVoluntaryIndenmization,			/* Indemnisación voluntaria */
@@ -782,28 +777,21 @@ SELECT	a.cId AS cId,
 		c.cObligatoryQuote,					/* Monto que se le paga a la AFP de manera obligatoria */
 		c.cAPVAmount,						/* Suma de todos los fondos en CLP */
 		c.cAccount2,
-		
 		c.cHealthHistory,					/* Código de sistema de salud contratado */
 		c.cHealthCurrency,					/* Moneda del complementario de salud */
 		c.cHealthAmount,					/* Monto del complementario de salud */
 		c.cHealthCLP,						/* Monto de salud siempre en pesos */
 		c.cAdditionalHealth,				/* Monto de salud siempre en pesos */
 		c.cHealthLegalQuote,				/* Es el monto legal del 7 porciento, no más */
-		
 		c.cAdditionalPFMCurrency,			/* Moneda Ahorro de AFP */
 		c.cAdditionalPFMAmount,				/* Monto Ahorro de AFP */
 		c.cAdditionalPFMCLP,				/* Monto Ahorro de AFP en pesos*/
-		
 		d.cLimitHealth,						/* Límite de salud, expresado en UF, proviene de la tabla tPeriod */
-		
 		c.cHealthQuote,						/* Cotizacion de salud, corresponde al valor filan que paga por salud */
-		
 		a.cInsuranceFactorEmployee,			/* Factor para cálculo de seguro de cesantía de empleado*/
 		a.cInsuranceFactorEnterprise,		/* Factor para cálculo de seguro de cesantía de empresa*/		
 		c.cUnemploymentInsuranceAmount,		/* Monto Seguro Cesantia en pesos */
-		
 		c.cUniqueTax,						/* Impuesto único */
-		
 		c.cSubtotalLawfulDiscounts,		
 		c.cAdvance,							/* Anticipo de sueldo, se agrega por período */
 		c.cLoanEnterprise,					/* Prestamo de empresa */
@@ -823,8 +811,7 @@ SELECT	a.cId AS cId,
 		a.cInsuranceAmountEnterprise,		/* Monto que tiene que cancelar la empresa por consepto de seguro */
 		a.cMutualFactor,					/* El factor de lo que la empresa le paga a la Mutual */
 		a.cPayToMutulEnterprise,			/* El monto de lo que la empresa le paga a la mutual */
-		a.cFamilyAssignmentEnterprise,		/* Monto que paga la empresa por asignaciones familiares */
-		
+		a.cFamilyAssignmentEnterprise,		/* Monto que paga la empresa por asignaciones familiares */		
 		a.cCostEnterprise,
 		b.cSimpleLoads, 
 		b.cDisabilityBurdens, 
