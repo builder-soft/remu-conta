@@ -76,7 +76,7 @@ Employee employee = (Employee) request.getAttribute("Employee");
 						}
 					%>
 			</select></td>
-			<td class="cLabel">Tipo Contrato:</td>
+			<td class="cLabel">Contrato:</td>
 			<td><select name="cContractType">
 					<%
 						for (ContractType contractType : contractTypes) {

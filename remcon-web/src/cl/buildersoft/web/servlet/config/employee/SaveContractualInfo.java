@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.business.beans.Agreement;
+import cl.buildersoft.business.beans.ContractType;
+import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.type.BSFieldDataType;
 import cl.buildersoft.framework.type.BSFieldType;
@@ -21,8 +23,7 @@ import cl.buildersoft.framework.util.BSBeanUtilsSP;
 public class SaveContractualInfo extends HttpServlet {
 	private static final long serialVersionUID = 5316369008384063620L;
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Long id = Long.parseLong(request.getParameter("cId"));
 
@@ -36,25 +37,20 @@ public class SaveContractualInfo extends HttpServlet {
 		BSFieldDataType doubleType = BSTypeFactory.create(BSFieldType.Double);
 
 		Long profile = Long.parseLong(request.getParameter("cProfile"));
-		Long contractType = Long.parseLong(request
-				.getParameter("cContractType"));
-		Date startContract = (Date) dateType.parse(conn,
-				request.getParameter("cStartContract"));
-		Date endContract = contractType.equals(1L) ? null : (Date) dateType
-				.parse(conn, request.getParameter("cEndContract"));
-		Long gratificationType = Long.parseLong(request
-				.getParameter("cGratificationType"));
+		Long contractTypeId = Long.parseLong(request.getParameter("cContractType"));
+		ContractType contractType = getContractType(conn, contractTypeId);
+
+		Date startContract = (Date) dateType.parse(conn, request.getParameter("cStartContract"));
+		Date endContract = contractType.getKey().equals("UND") ? null : (Date) dateType.parse(conn, request.getParameter("cEndContract"));
+		Long gratificationType = Long.parseLong(request.getParameter("cGratificationType"));
 		Long horary = Long.parseLong(request.getParameter("cHorary"));
 
-		Double mobilization = (Double) doubleType.parse(conn,
-				request.getParameter("cMobilization"));
-		Double feeding = (Double) doubleType.parse(conn,
-				request.getParameter("cFeeding"));
-		Double salaryRoot = (Double) doubleType.parse(conn,
-				request.getParameter("cSalaryRoot"));
+		Double mobilization = (Double) doubleType.parse(conn, request.getParameter("cMobilization"));
+		Double feeding = (Double) doubleType.parse(conn, request.getParameter("cFeeding"));
+		Double salaryRoot = (Double) doubleType.parse(conn, request.getParameter("cSalaryRoot"));
 
 		agreement.setProfile(profile);
-		agreement.setContractType(contractType);
+		agreement.setContractType(contractTypeId);
 		agreement.setStartContract(startContract);
 		agreement.setEndContract(endContract);
 		agreement.setGratificationType(gratificationType);
@@ -65,12 +61,18 @@ public class SaveContractualInfo extends HttpServlet {
 
 		bu.save(conn, agreement);
 
-		request.getRequestDispatcher("/servlet/config/employee/EmployeeManager").forward(
-				request, response);
+		request.getRequestDispatcher("/servlet/config/employee/EmployeeManager").forward(request, response);
 	}
 
-	private Agreement getAgreement(Connection conn, BSBeanUtilsSP bu,
-			Long idEmployee) {
+	private ContractType getContractType(Connection conn, Long contractTypeId) {
+		BSBeanUtils bu = new BSBeanUtils();
+		ContractType out = new ContractType();
+		out.setId(contractTypeId);
+		bu.search(conn, out);
+		return out;
+	}
+
+	private Agreement getAgreement(Connection conn, BSBeanUtilsSP bu, Long idEmployee) {
 		ContractualInfo ci = new ContractualInfo();
 		return ci.getAgreement(conn, bu, idEmployee);
 	}

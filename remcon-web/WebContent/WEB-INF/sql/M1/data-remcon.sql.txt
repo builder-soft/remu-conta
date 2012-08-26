@@ -51,8 +51,12 @@ SELECT cId INTO @userId FROM bsframework.tUser WHERE cMail = 'admin';
 INSERT INTO tR_UserRol(cUser, cRol) VALUES(@userId, @rolId);
 
 /*INSERT INTO tContractType (cName, cBody) VALUES('Sin Seguro', '');*/
-INSERT INTO tContractType (cName, cBody, cInsuranceFactorEmployee, cInsuranceFactorEnterprise) VALUES('Indefinido', '', 0.006, 0.024);
-INSERT INTO tContractType (cName, cBody, cInsuranceFactorEmployee, cInsuranceFactorEnterprise) VALUES('Plazo fijo', '', 0.000, 0.030);
+INSERT INTO tContractType (cKey, cName, cBody, cInsuranceFactorEmployee, cInsuranceFactorEnterprise) 
+VALUES('UND', 'Indefinido', '', 0.006, 0.024);
+INSERT INTO tContractType (cKey, cName, cBody, cInsuranceFactorEmployee, cInsuranceFactorEnterprise) 
+VALUES('FIX', 'A plazo fijo', '', 0.000, 0.030);
+INSERT INTO tContractType (cKey, cName, cBody, cInsuranceFactorEmployee, cInsuranceFactorEnterprise) 
+VALUES('FIN', 'Finiquitado', '', 0.000, 0.000);
 
 INSERT INTO tGratificationType(cName) VALUES('Sin Gratificación');
 INSERT INTO tGratificationType(cName) VALUES('25% Imp. (Tope 4,75imm/12)');
