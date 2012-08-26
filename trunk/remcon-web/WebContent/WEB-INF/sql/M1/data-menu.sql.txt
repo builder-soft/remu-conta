@@ -94,69 +94,32 @@ SET @menuIdReport = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('STATISTICS', 'Estadísticas', NULL, @menuIdReport);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('FINANCIAL_NEWS', 'Noticias financieras', NULL, @menuIdReport);
 
-/**------------------ Opciones de tablas del sistema ------------------*/
-/*
-INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('COMMON', 'Tablas', NULL, @menuIdSystem);
-SET @menuIdTables = LAST_INSERT_ID();
+/** Creacion de usuario contador del sistema, con las opciones desarrolladas 
+hasta ahora */
 
-SET @menuIdSysparam = LAST_INSERT_ID();
 
-*/
+SELECT	cId
+INTO	@domainId 
+FROM	bsframework.tDomain
+LIMIT 0,1;
 
-/** Opciones (ejemplo) de Sistema de remuneraciones */
-/*
+INSERT INTO bsframework.tUser(cMail, cName, cPassword) VALUES('conta', 'Contador Principal', md5('conta'));
+SET @userId = LAST_INSERT_ID();
+INSERT INTO bsframework.tR_UserDomain(cUser, cDomain) VALUES(@userId, @domainId);
 
-INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('FILES', 'Archivos', '/jsp/file/upload.jsp', @menuIdRemu);
-*/
-/**
-	Sistema
-		Usuarios
-		Permisos
-		Contraseña
-		Roles / Perfil
-	Configuracion
-		Empresas
-			Avisos
-			Logo
-		Empleados
-			Log	
-		Haberes y descuentos (CRUD)
-		Centros de costo (CRUD)
-		Cargos de empleados (Roles) (CRUD)
-		Tipos de contratos (CRUD)
-		Horarios (CRUD)
-		Gratificación (CRUD)
-		Indicadores
-			Períodos (actual, ultimo día del periodo(pago previred), dia de cierre)
-			Último día del período.
-			Factores (UF, UTM, IPC, Ingreso mínimo, tope grtificación)
-		Comisiones AFP
-		Seguro Cesantía
-		Impuesto único
-		Asignaciones Familiar y Maternal
-		Soporte
-	Remuneraciones
-		Eventos
-			Haberes y Descuentos
-			Horas Extras
-			Licencias
-			Vacaciones
-		Procesos
-			Sueldos
-			Nóminas
-			Previred
-			Centralización
-		Archivos
-			Empleados
-			Remuneraciones
-			Horas extras.
-			Días.		
-	Reportes
-		Favoritos (los 12)
-		Informe Personalizado
-		Gráfico
-		Períodos
-		Estadísticas
-		Noticias financieras
-		
-*/
+INSERT INTO tRol(cName) VALUES('Contador');
+SET @rolId = LAST_INSERT_ID();
+
+INSERT INTO tR_UserRol(cUser, cRol) VALUES(@userId, @rolId);
+
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,6);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,7);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,11);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,13);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,16);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,33);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,34);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,35);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,36);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,38);
+
