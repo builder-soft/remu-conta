@@ -88,7 +88,7 @@ BEGIN
 	SET @sql = CONCAT(@sql, 'a.cRewardAmount AS \'Gratificación\', ');
 	SET @sql = CONCAT(@sql, 'a.cMonthNotification AS \'Mes de aviso\', ');
 	SET @sql = CONCAT(@sql, 'a.cIAS AS \'Años de servicio\', ');
-	SET @sql = CONCAT(@sql, 'a.cProportionalHoliday AS \'Feriado Proporcional\', ');
+	SET @sql = CONCAT(@sql, 'a.cProportionalHoliday AS \'Vacaciones Proporcional\', ');
 	SET @sql = CONCAT(@sql, 'a.cTotalIncomeNotTaxable AS \'Total haberes no imponibles\', ');
 	SET @sql = CONCAT(@sql, 'a.cVoluntaryIndenmization AS \'Indemnisacion voluntaira\', ');
 	SET @sql = CONCAT(@sql, 'f.cName AS \'A.F.P.\', ');

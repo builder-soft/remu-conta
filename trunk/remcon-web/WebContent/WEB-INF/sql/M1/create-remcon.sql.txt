@@ -312,6 +312,7 @@ create table tCostCenter(
 
 create table tContractType(
 	cId 						BIGINT(20) NOT NULL auto_increment, 
+	cKey						CHAR(3) NOT NULL UNIQUE,
 	cName						VARCHAR(20) NOT NULL,
 	cInsuranceFactorEmployee	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Factor que aporta el empleado por seguro de cesantía',
 	cInsuranceFactorEnterprise	DOUBLE NOT NULL DEFAULT '0' COMMENT 'Factor que aporta la empresa',

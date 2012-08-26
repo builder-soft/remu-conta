@@ -1,6 +1,6 @@
-DROP PROCEDURE if exists pCalculateSalary;
-DROP PROCEDURE if exists pSaveOvertime;
-DROP PROCEDURE if exists pGratificationAmount;
+DROP PROCEDURE IF EXISTS pCalculateSalary;
+DROP PROCEDURE IF EXISTS pSaveOvertime;
+DROP PROCEDURE IF EXISTS pGratificationAmount;
 DROP PROCEDURE IF EXISTS pSalaryReceived;
 DROP PROCEDURE IF EXISTS pTotalIncomeTaxable;
 DROP PROCEDURE IF EXISTS pOvertimeAmount;
@@ -29,7 +29,7 @@ DROP PROCEDURE IF EXISTS pAdditionalPFM;
 DROP PROCEDURE IF EXISTS pSimpleAdjustment;
 DROP PROCEDURE IF EXISTS pSetWorkedDays;
 
-DROP FUNCTION IF exists fSaveBookForEmployee;
+DROP FUNCTION IF EXISTS fSaveBookForEmployee;
 DROP FUNCTION IF EXISTS fGetPFMForBook;
 DROP FUNCTION IF EXISTS fGetHealthForBook;
 DROP FUNCTION IF EXISTS fSalaryDaily;
@@ -39,13 +39,8 @@ DELIMITER $$
 /************************/
 CREATE PROCEDURE pCalculateSalary(IN pEmployee BIGINT, IN vPeriod BIGINT)
 BEGIN
-	DECLARE vBook BIGINT DEFAULT 0; 
-/*
-	SELECT	cId
-	INTO	vPeriod
-	FROM	tPeriod
-	WHERE	cDate = pDate;
-*/
+	DECLARE vBook BIGINT DEFAULT 0;
+
 	SET vBook = fSaveBookForEmployee(vPeriod, pEmployee);
 	
 	CALL pSetWorkedDays(vBook);
@@ -58,17 +53,13 @@ BEGIN
 	CALL pLimitTaxableForecast(vBook);
 	CALL pLimitTaxableDismissInsurance(vBook);
 	CALL pObligatoryQuote(vBook);
-	/*
-	CALL pLawfulQuote(vBook);
-	*/
+
 	CALL pAPV(vBook);
 	CALL pAdditionalPFM(vBook);
 	CALL pHealth(vBook);
 	CALL pUnemploymentInsuranceAmount(vBook);
 	CALL pFamilyAssignment(vBook);
-	
-/*	=SI(+AY13+AZ13<=(4,2*PARAMETROS!$D$10);AY13+AZ13;4,2*PARAMETROS!$D$10)*/
-	
+
 	CALL pIncome(vBook);
 	CALL pUniqueTax(vBook);
 	CALL pProportionalHoliday(vBook);
@@ -107,13 +98,7 @@ BEGIN
 	WHERE	cId = pBook;
 	
 	IF(vNetPaymentScope % 10 != 0) THEN
-		/*SET vSimpleAdjustment = CAST(CONCAT(FLOOR(vNetPaymentScope*0.1),'0') AS SIGNED);*/
 		SET vSimpleAdjustment = vNetPaymentScope % 10;
-		
-		/*
-		SELECT vSimpleAdjustment, vNetPaymentScope%10, vNetPaymentScope, vNetPaymentScope*0.1, FLOOR(vNetPaymentScope*0.1), 
-			CONCAT(FLOOR(vNetPaymentScope*0.1),'0'), CAST(CONCAT(FLOOR(vNetPaymentScope*0.1),'0') AS SIGNED);
-		*/
 	END IF;
 	
 	UPDATE	tBook
@@ -191,12 +176,7 @@ BEGIN
 			cInsuranceFactorEmployee = vInsuranceFactorEmployee,
 			cInsuranceFactorEnterprise = vInsuranceFactorEnterprise
 	WHERE	cId = pBook;
-	
-/*
-	UPDATE	tBook
-	SET		cToPayEmployee = vToPayEmployee
-	WHERE	cId = pBook;
-*/
+
 END$$
 
 
@@ -294,13 +274,26 @@ BEGIN
 	DECLARE vDaysForYear INTEGER DEFAULT 15;
 	DECLARE vDailyFactor, vDateDiff, vIndemnify, vIndemnifyDays DOUBLE DEFAULT 0;
 	DECLARE vStartContract, vEndContract, vDate, vBusinessDate DATE;
+	DECLARE vContractKey VARCHAR(3);
 	
-	SELECT	cDaysForYear, cStartContract, cDate, fGetEndContract(cEmployee) 
-	INTO	vDaysForYear, vStartContract, vDate, vEndContract
-	FROM	vBook
-	WHERE	cId = pBook;
+	SELECT	a.cDaysForYear, a.cStartContract, a.cDate, b.cKey, fGetEndContract(a.cEmployee) 
+	INTO	vDaysForYear, vStartContract, vDate, vContractKey, vEndContract
+	FROM	vBook AS a
+	LEFT JOIN tContractType AS b ON a.cContractType = b.cId
+	WHERE	a.cId = pBook;
+
+/*
+SELECT	a.cDaysForYear, a.cStartContract, a.cDate, b.cKey, fGetEndContract(a.cEmployee) 
+FROM	vBook AS a
+LEFT JOIN tContractType AS b ON a.cContractType = b.cId
+WHERE	a.cId = pBook;
+*/
 	
-	IF(MONTH(vDate) <= MONTH(vEndContract)) THEN
+/*	IF(MONTH(vDate) <= MONTH(vEndContract) AND ) THEN*/
+	
+select vContractKey='FIN' AND MONTH(vDate) = MONTH(vEndContract);
+
+	IF(vContractKey='FIN' AND MONTH(vDate) = MONTH(vEndContract)) THEN
 		SET vDateDiff = DateDiff(vEndContract, vStartContract);
 		SET vDailyFactor = ROUND((vDaysForYear / 12) / 30, 5);
 		
@@ -310,6 +303,10 @@ BEGIN
 	
 		UPDATE	tBookAssets 
 		SET		cProportionalHoliday = vIndemnifyDays * fSalaryDaily(pBook)
+		WHERE	cBook = pBook;
+	ELSE
+		UPDATE	tBookAssets 
+		SET		cProportionalHoliday = 0
 		WHERE	cBook = pBook;
 	END IF;
 END$$
