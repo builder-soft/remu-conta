@@ -14,7 +14,7 @@ public class PeriodManager extends BSHttpServlet implements Servlet {
 	@Override
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
 		BSTableConfig table = super.initTable(request, "tPeriod");
-		
+		table.setTitle("Períodos");
 		table.removeAction("DELETE");
 		
 		return table;
