@@ -1,0 +1,26 @@
+DROP PROCEDURE if exists pListPrevired;
+DELIMITER $$
+
+CREATE PROCEDURE pListPrevired (IN pPeriod BIGINT)
+BEGIN
+	SELECT		b.cRut, b.cLastName1, b.cLastName2, b.cName, c.cKey AS cGenere,
+				b.cCountry, a.cDate, LAST_DAY(a.cDate) AS cLastDay,  a.cPFMHistory AS cPFM, a.cExBoxSystem,
+				fGetAge(b.cBirthDate) AS cAge, a.cPensionary, a.cWorkedDays, e.cKey AS cFamilyAssignmentStretch,
+				a.cSimpleLoads, a.cDisabilityBurdens, a.cMaternalLoads, a.cFamilyAssignmentAmount, cFamilyRetroactive,
+				f.cKey AS cPFMKey, ROUND(a.cIncome) AS cIncome, 
+                f.cFactor as cObligatoryQuote,
+                f.cSIS as cEmployerDisabilityInsurance,
+                g.cAPVAmount
+	FROM 		vBook		AS a
+	LEFT JOIN	tEmployee	AS b ON a.cEmployee = b.cId
+	LEFT JOIN	tGenere		AS c ON b.cGenere = c.cId
+	LEFT JOIN	tAgreement	AS d ON a.cAgreement = d.cId
+	LEFT JOIN	tFamilyAssignmentStretch AS e ON d.cFamilyAssignmentStretch = e.cId
+	LEFT JOIN	tPFMHistory AS f ON a.cPFMHistory = f.cId /*--AND f.cPeriodo = pPeriod*/
+    LEFT JOIN   tBookDiscounts As g ON g.cBook = a.cId
+	WHERE		a.cPeriod = pPeriod;
+
+END$$
+
+DELIMITER ;
+ 

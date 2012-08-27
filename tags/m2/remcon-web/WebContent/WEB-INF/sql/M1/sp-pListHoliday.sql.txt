@@ -1,0 +1,14 @@
+DROP PROCEDURE IF EXISTS pListHoliday;
+DELIMITER $$
+
+CREATE PROCEDURE pListHoliday(IN vEmployee BIGINT)
+BEGIN
+	SELECT		cId, cFrom, cNormal, cCreeping, fBusinessDate(cFrom, cNormal + cCreeping) AS cTo
+	FROM 		tHoliday
+	WHERE		cEmployee = vEmployee
+	ORDER BY	cFrom;
+
+END$$
+
+DELIMITER ;
+

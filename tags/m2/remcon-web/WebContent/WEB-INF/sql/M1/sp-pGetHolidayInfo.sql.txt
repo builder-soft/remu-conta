@@ -1,0 +1,47 @@
+DROP FUNCTION IF EXISTS fGetHolydayDays;
+DROP PROCEDURE IF EXISTS fGetHolydayInfo;
+DROP PROCEDURE IF EXISTS pGetHolydayInfo;
+DROP PROCEDURE IF EXISTS pGetHolidayInfo;
+
+DELIMITER $$
+
+CREATE PROCEDURE pGetHolidayInfo(IN pEmployee BIGINT, IN pFrom DATE, IN pTo DATE)
+/* 
+Cálculo de días de vacaciones
+*/
+BEGIN
+	DECLARE vDaysForYear INTEGER DEFAULT 15;
+	DECLARE vDaysDiff, vDaysDiffToday, vProportional, vProportionalToday, 
+			vNormalDays, vProgressiveDays, vOut DOUBLE DEFAULT 0;
+	
+	SELECT	cValue
+	INTO	vDaysForYear
+	FROM	tParameter
+	WHERE	cKey = 'DAYS_FOR_YEAR';
+	
+	SET		vDaysDiff = DateDiff(pTo, pFrom);
+	SET		vDaysDiffToday = DateDiff(CURRENT_DATE(), pFrom);
+	
+	SET		vProportional = (vDaysDiff * vDaysForYear) / 365;
+	SET		vProportionalToday = (vDaysDiffToday * vDaysForYear) / 365;
+	
+	SET		vNormalDays = (	SELECT IFNULL(SUM(cNormal), 0) 
+							FROM tHoliday 
+							WHERE cEmployee = pEmployee AND
+								pFrom <= cFrom);
+	SET		vProgressiveDays = (SELECT IFNULL(SUM(cCreeping), 0) 
+								FROM tHoliday 
+								WHERE cEmployee = pEmployee AND
+									pFrom <= cFrom );
+								
+	SELECT	vProportional AS cTotalDays,
+			vProportionalToday AS cProportionalToday,
+			vNormalDays AS cNormalDays,
+			vProgressiveDays AS cCreepingDays,
+			vProportionalToday - (vNormalDays+vProgressiveDays) AS cBalanceDays;
+
+END$$
+
+
+DELIMITER ;
+

@@ -1,0 +1,33 @@
+DROP PROCEDURE if exists pCalculateAllSalary;
+
+DELIMITER $$
+
+/************************/
+CREATE PROCEDURE pCalculateAllSalary()
+BEGIN
+	DECLARE vId, vPeriod BIGINT DEFAULT 0;
+	DECLARE vDone BOOLEAN DEFAULT FALSE;
+	DECLARE cursorEmployee CURSOR FOR
+		SELECT	cId
+		FROM	tEmployee;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET vDone = TRUE;
+	
+	SET vPeriod = fGetOpenedPeriod();
+	
+	OPEN cursorEmployee;
+	cursorEmployee_loop: LOOP
+		FETCH cursorEmployee INTO vId;
+		
+		IF(vDone) THEN 
+			LEAVE cursorEmployee_loop;
+		END IF;
+
+	    CALL pCalculateSalary(vId, vPeriod);
+		
+	END LOOP cursorEmployee_loop;
+	CLOSE cursorEmployee;
+			
+END $$
+
+DELIMITER ;
+
