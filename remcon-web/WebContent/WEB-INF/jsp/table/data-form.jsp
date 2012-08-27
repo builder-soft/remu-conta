@@ -10,8 +10,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%
-	BSTableConfig table = (BSTableConfig) session
-			.getAttribute("BSTable");
+	BSTableConfig table = (BSTableConfig) session.getAttribute("BSTable");
 	BSField[] fields = table.getFields();
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
@@ -21,13 +20,11 @@
 		BSScript script = head.getScript();
 		BSCss css = head.getCss();
 		for (String oneScript : script.getListScriptNames()) {
-			out.print("<script src='" + request.getContextPath()
-					+ script.getPath() + oneScript + ".js'></script>");
+			out.print("<script src='" + request.getContextPath() + script.getPath() + oneScript + ".js'></script>");
 		}
 
 		for (String oneCss : css.getListCssNames()) {
-			out.print("<LINK rel='stylesheet' type='text/css' src='"
-					+ request.getContextPath() + css.getPath() + oneCss
+			out.print("<LINK rel='stylesheet' type='text/css' src='" + request.getContextPath() + css.getPath() + oneCss
 					+ ".css'/>");
 		}
 	}
@@ -59,8 +56,7 @@
 		%>
 	</table>
 </form>
-<button type="button"
-	onclick="javascript:$('#editForm').submit();">Aceptar</button>
+<button type="button" onclick="javascript:$('#editForm').submit();">Aceptar</button>
 &nbsp;&nbsp;&nbsp;
 <a href="${pageContext.request.contextPath}/servlet/table/LoadTable">Cancelar</a>
 
@@ -81,8 +77,7 @@
 		Boolean isPk = field.isPK();
 		//Boolean isNew = Boolean.FALSE;
 		Boolean isReadOnly = isPk ? Boolean.TRUE : field.isReadonly();
-		String validationOnBlur = field.getValidationOnBlur() != null ? field
-				.getValidationOnBlur() : "";
+		String validationOnBlur = field.getValidationOnBlur() != null ? field.getValidationOnBlur() : "";
 
 		if (isFK(field)) {
 			out += getFKSelect(field);
@@ -104,14 +99,14 @@
 					if (size > 75) {
 						size = 75;
 					}
-					
+
 				} else if (type.equals(BSFieldType.Date)) {
 					maxlength = 10;
 					format = BSDateTimeUtil.getFormatDate(request);
 					value = BSDateTimeUtil.date2String(value, format);
 					size = maxlength;
 					afterInput = "(formato: " + format + ")";
-					
+
 				} else if (type.equals(BSFieldType.Timestamp)) {
 					maxlength = 16;
 					format = BSDateTimeUtil.getFormatDatetime(request);
@@ -135,14 +130,12 @@
 						value = NEW;
 						//isNew = Boolean.TRUE;
 					} else {
-						value = value == null ? "" : BSWeb.number2String(value,
-								format);
+						value = value == null ? "" : BSWeb.number2String(value, format);
 					}
 					size = maxlength;
 				}
 
-				out += drawInputText("text", name, maxlength, isReadOnly,
-						value, size, afterInput, validationOnBlur, isPk);
+				out += drawInputText("text", name, maxlength, isReadOnly, value, size, afterInput, validationOnBlur, isPk);
 			}
 		}
 		return out;
@@ -150,8 +143,7 @@
 
 	private String writeOptionHTML(String option, String display, Object value) {
 		String out = "<OPTION value='" + option + "'";
-		out += (value != null && value.toString().equals(option) ? " selected"
-				: "");
+		out += (value != null && value.toString().equals(option) ? " selected" : "");
 		out += ">" + display + "</OPTION>";
 		return out;
 	}
@@ -163,9 +155,8 @@
 		return out;
 	}
 
-	private String drawInputText(String type, String name, Integer maxlength,
-			Boolean isReadonly, Object value, Integer size, String afterInput,
-			String validationOnBlur, Boolean isPk) {
+	private String drawInputText(String type, String name, Integer maxlength, Boolean isReadonly, Object value, Integer size,
+			String afterInput, String validationOnBlur, Boolean isPk) {
 		String out = "";
 
 		if (isPk) {
@@ -183,7 +174,9 @@
 		out += isReadonly ? "READONLY " : "";
 		out += "value='" + (value.equals(NEW) ? "0" : value) + "' ";
 		out += "size='" + size + "px' ";
-		out += "onBlur='javascript:" + validationOnBlur + "(this)'";
+		if (!"".equals(validationOnBlur)) {
+			out += "onBlur='javascript:" + validationOnBlur + "(this)'";
+		}
 		out += ">&nbsp;" + afterInput;
 
 		return out;
