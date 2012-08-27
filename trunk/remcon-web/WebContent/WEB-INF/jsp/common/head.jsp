@@ -39,7 +39,7 @@
 </head>
 
 <body marginwidth="25px" marginheight="5px"
-	onload="javaScript:try{onLoadPage();}catch(e){}">
+	onload="javaScript:loadFormat();try{onLoadPage();}catch(e){}">
 	<!-- 
 loadFormat();
  -->

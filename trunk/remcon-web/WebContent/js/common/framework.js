@@ -24,8 +24,11 @@ function setClass(element, focus){
 
 //-------------------------------------------------
     function loadFormat(theDocument){
-    	return;
 		var elements = $('input:text,input:password,textarea,select');
+//		alert(elements.get(0).tagName);
+		$(elements.get(0)).focus();
+		
+    	return;
 		
 		var formatElement = function(){
 			this.onfocus = new Function("javascript:setClass(this,true)");

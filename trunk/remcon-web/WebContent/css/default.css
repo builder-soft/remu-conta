@@ -9,7 +9,7 @@ input:focus, textarea:focus, select:focus
     BACKGROUND-COLOR: lemonchiffon
 }
 
-input.text
+input, textarea, select
 {
 	BORDER-RIGHT: black 1px solid;
     BORDER-TOP: black 1px solid;
@@ -17,7 +17,7 @@ input.text
     COLOR: black;
     BORDER-BOTTOM: black 1px solid;
     FONT-FAMILY: Tahoma;
-    BACKGROUND-COLOR: #c8c8c8
+    BACKGROUND-COLOR: #F0F0F0   
 }
 
 /*

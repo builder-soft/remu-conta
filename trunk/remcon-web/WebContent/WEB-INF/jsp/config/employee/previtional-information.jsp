@@ -118,40 +118,7 @@ function changeExBox(o){
 
 <br>
 
-<div style="display: none" id="divHide">
-<table id="tableHide">
-<tr id="apvHide">
-			<td class="cLabel" valign='top'>APV:</td>
-			<td class="cData">
-			<select id="apvCurrency" name="apvCurrency">
-					<%
-					for (Currency bsCurrency : listadoCurrency) {
-				%>
-					<OPTION value="<%=bsCurrency.getId()%>"><%=bsCurrency.getName()%></OPTION>
-				<%
-					}
-				%>
-		</select>
-		</td>
-		<td class="cData"><input id="apvAmount" name="apvAmount" value="0"></td>
-		<td class="cLabel" valign='top'>Institucion:</td>
-		<td class="cData">
-		<select id="apvInstitution" name="apvInstitution">
-				<%
-					for (APV bsApv : listadoApv) {
-				%>
-					<OPTION value="<%=bsApv.getId()%>"><%=bsApv.getName()%></OPTION>
-				<%
-					}
-				%>	
-		</select>
-		</td>
-		<td id="eliminarHide">
-		<a href="javascript:delApv(0)">Eliminar</a>
-		</td>
-</tr>
-</table>						
-</div>
+
 <form action="${pageContext.request.contextPath}/servlet/config/employee/SavePrevitionalInfo" method="post" id="editForm">
 	<input type="hidden" name="cId" value="<%=request.getParameter("cId")%>">
 
@@ -348,4 +315,39 @@ function changeExBox(o){
 &nbsp;&nbsp;&nbsp;
 <a href="${pageContext.request.contextPath}/servlet/table/LoadTable">Cancelar</a>&nbsp;&nbsp;&nbsp;
 
+
+<div style="display: none" id="divHide">
+<table id="tableHide">
+<tr id="apvHide">
+			<td class="cLabel" valign='top'>APV:</td>
+			<td class="cData">
+			<select id="apvCurrency" name="apvCurrency">
+					<%
+					for (Currency bsCurrency : listadoCurrency) {
+				%>
+					<OPTION value="<%=bsCurrency.getId()%>"><%=bsCurrency.getName()%></OPTION>
+				<%
+					}
+				%>
+		</select>
+		</td>
+		<td class="cData"><input id="apvAmount" name="apvAmount" value="0"></td>
+		<td class="cLabel" valign='top'>Institucion:</td>
+		<td class="cData">
+		<select id="apvInstitution" name="apvInstitution">
+				<%
+					for (APV bsApv : listadoApv) {
+				%>
+					<OPTION value="<%=bsApv.getId()%>"><%=bsApv.getName()%></OPTION>
+				<%
+					}
+				%>	
+		</select>
+		</td>
+		<td id="eliminarHide">
+		<a href="javascript:delApv(0)">Eliminar</a>
+		</td>
+</tr>
+</table>						
+</div>
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
