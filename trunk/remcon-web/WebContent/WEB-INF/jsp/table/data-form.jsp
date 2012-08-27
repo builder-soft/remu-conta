@@ -135,7 +135,7 @@
 					size = maxlength;
 				}
 
-				out += drawInputText("text", name, maxlength, isReadOnly, value, size, afterInput, validationOnBlur, isPk);
+				out += drawInputText("text", name, maxlength, isReadOnly, value, size, afterInput, validationOnBlur, isPk, type);
 			}
 		}
 		return out;
@@ -156,16 +156,13 @@
 	}
 
 	private String drawInputText(String type, String name, Integer maxlength, Boolean isReadonly, Object value, Integer size,
-			String afterInput, String validationOnBlur, Boolean isPk) {
+			String afterInput, String validationOnBlur, Boolean isPk, BSFieldType dataType) {
 		String out = "";
 
 		if (isPk) {
 			out += "<span class='cData'>" + value + "</span>";
 			type = isPk ? "hidden" : type;
-			//			value = value.equals(NEW) ? "" : value;
 		}
-
-		// isPk && value == null
 
 		out += "<input type='" + type + "' name='";
 		out += name;
@@ -174,6 +171,7 @@
 		out += isReadonly ? "READONLY " : "";
 		out += "value='" + (value.equals(NEW) ? "0" : value) + "' ";
 		out += "size='" + size + "px' ";
+		//out += onFocus(dataType);
 		if (!"".equals(validationOnBlur)) {
 			out += "onBlur='javascript:" + validationOnBlur + "(this)'";
 		}

@@ -126,7 +126,7 @@ Employee employee = (Employee) request.getAttribute("Employee");
 		</tr>
 		<tr>
 			<td class="cLabel">Colación:</td>
-			<td><input type="text" name="cFeeding"
+			<td><input type="text" name="cFeeding" onfocus="javascript:this.value=double2writable(this);"
 				value="<%=agreement.getFeeding()%>"></td>
 			<td class="cLabel">Movilización:</td>
 			<td><input type="text" name="cMobilization"
@@ -139,7 +139,7 @@ Employee employee = (Employee) request.getAttribute("Employee");
 		</tr>
 
 	</table>
-	<br> <input type="submit" value="Aceptar">&nbsp;&nbsp;<a class="cCancel"
+	<br> <button type="submit" >Aceptar</button>&nbsp;&nbsp;<a class="cCancel"
 		href="${pageContext.request.contextPath}/servlet/config/employee/EmployeeManager">Cancelar</a>
 </form>
 
