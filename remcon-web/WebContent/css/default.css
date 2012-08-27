@@ -26,11 +26,11 @@ A:hover
     TEXT-DECORATION: none 
 }
 */
-a
+a.cCancel
 {
-/*    FONT-SIZE: 10pt;*/
+    FONT-SIZE: 10pt;
     COLOR: #000e78;
-    FONT-FAMILY: Arial;
+    FONT-FAMILY: Tahoma;
     TEXT-DECORATION: none
 }
 /*

@@ -80,7 +80,7 @@ for(Overtime overtime : overtimes){
 	 
 	<button type="Button" id="erase" onclick="javascript:eraseOvertime();">Eliminar</button> 
 	
-	<a href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
+	<a class="cCancel" href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
 </div>
 <div id="commitButtons" style="float: left; display: none;">
 	<button type="Button" onclick="javascript:commit();">Aceptar</button>

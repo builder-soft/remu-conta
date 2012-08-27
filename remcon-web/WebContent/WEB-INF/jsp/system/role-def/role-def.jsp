@@ -68,7 +68,7 @@
 			</tr>
 		</table>
 	</div>
-	<input type="submit" value="Grabar">
+	<button type="submit" >Grabar</button>
 </form>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

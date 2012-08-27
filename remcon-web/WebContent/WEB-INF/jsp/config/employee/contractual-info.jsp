@@ -139,7 +139,7 @@ Employee employee = (Employee) request.getAttribute("Employee");
 		</tr>
 
 	</table>
-	<br> <input type="submit" value="Aceptar">&nbsp;&nbsp;<a
+	<br> <input type="submit" value="Aceptar">&nbsp;&nbsp;<a class="cCancel"
 		href="${pageContext.request.contextPath}/servlet/config/employee/EmployeeManager">Cancelar</a>
 </form>
 

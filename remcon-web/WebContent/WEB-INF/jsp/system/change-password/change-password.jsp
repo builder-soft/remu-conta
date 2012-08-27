@@ -42,7 +42,7 @@
 			<td><input type="password" name="CommitPassword"></td>
 		</tr>
 	</table>
-	<input type="submit" value="Confirmar"> <a
+	<button type="submit" >Confirmar</button> <a class="cCancel"
 		href="${pageContext.request.contextPath}<%=cancelAction%>">Cancelar</a>
 </form>
 

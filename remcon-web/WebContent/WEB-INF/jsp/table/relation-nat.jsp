@@ -88,7 +88,7 @@ action="${pageContext.request.contextPath}/servlet/table/SaveRelation"
 			<td align="center"><button type="button" 
 				onclick="javascript:save();">Aceptar</button></td>
 			<td>&nbsp;</td>
-			<td align="center"><a href="<%=ctxPath + table.getUri()%>">Cancelar</a></td>
+			<td align="center"><a class="cCancel" href="<%=ctxPath + table.getUri()%>">Cancelar</a></td>
 		</tr>
 	</table>
 </form>
