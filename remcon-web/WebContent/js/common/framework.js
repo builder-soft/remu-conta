@@ -12,6 +12,36 @@
 	function toNumber(valorNumber): convierte el valor a un valor numerico para poder realizar cálculos
 	validaFecha(string)
 */
+function double2writable(o){
+	var url = contextPath + '/open/Double2writable';
+	var out = o.value;
+	
+	/*
+	var data = {
+		Value : o.value
+		};
+	$.ajax({
+		url : url,
+		type : "post",
+		data : data,
+		error : error,
+		success : success,
+		async : false
+	});
+	*/
+	 $.ajax({
+	        type: "GET",
+	        url: url,
+	        data: {Value : o.value},
+	        async: false,
+	        success : function(data) {
+	            out = data;
+	        }
+	    });
+	
+	return out;
+}
+
 function setClass(element, focus){
 	$(element).removeClass();
 	var name = "c";
