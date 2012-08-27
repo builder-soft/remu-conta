@@ -72,13 +72,15 @@
 <br>
 <div id="defaultButtons">
 	<button type="Button" onclick="javascript:showForm();">Agregar</button>
-	<button type="Button" id="erase"
-		onclick="javascript:eraseLicense();">Eliminar</button> <a
+	<button type="Button" id="erase" onclick="javascript:eraseLicense();">Eliminar</button>
+	<a class="cCancel"
 		href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
 </div>
-<form id="EraseLicense" action="${pageContext.request.contextPath}/servlet/remuneration/events/license/EraseLicense" method="post">
-	<input type="hidden" name="cLicense" id="cLicense">
-	<input type="hidden" value="<%=employee.getId()%>" name="cId">
+<form id="EraseLicense"
+	action="${pageContext.request.contextPath}/servlet/remuneration/events/license/EraseLicense"
+	method="post">
+	<input type="hidden" name="cLicense" id="cLicense"> <input
+		type="hidden" value="<%=employee.getId()%>" name="cId">
 
 </form>
 <div id="divShowDetail" style="display: none">
@@ -139,8 +141,8 @@
 			</tr>
 		</table>
 
-		<br /> <input type="submit" value="Aceptar" /> <button type="button"
-			 onclick="javascript:closeTooltip()" >Cancelar</button>
+		<br /> <input type="submit" value="Aceptar" />
+		<button type="button" onclick="javascript:closeTooltip()">Cancelar</button>
 	</form>
 </div>
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

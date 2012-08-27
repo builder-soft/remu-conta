@@ -33,7 +33,7 @@
 		</tr>
 
 	</table>
-	<input type="submit" value="Descargar">
+	<button type="submit">Descargar</button>
 </form>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

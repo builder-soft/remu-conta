@@ -93,7 +93,7 @@
 						
 			<tr>
 				<td><input type="submit"></td>
-				<td colspan="3"><a href="javascript:window.location.href='${pageContext.request.contextPath}/servlet/table/LoadTable'">Volver</a></td>
+				<td colspan="3"><a class="cCancel" href="javascript:window.location.href='${pageContext.request.contextPath}/servlet/table/LoadTable'">Cancelar</a></td>
 			</tr>
 			</table>
 </form>
