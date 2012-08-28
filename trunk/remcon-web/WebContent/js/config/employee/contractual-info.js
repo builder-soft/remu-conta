@@ -2,8 +2,9 @@ function validateAndSubmit() {
 	var feeding = formated2double(document.getElementById("cFeeding").value);
 	var mobilization = formated2double(document.getElementById("cMobilization").value);
 	var salaryRoot = formated2integer(document.getElementById("cSalaryRoot").value);
+	var starContract = isDate(document.getElementById("cStartContract").value);
 
-	var msg = '';
+	var msg = null;
 	if (feeding == null) {
 		msg = "El campo Colacion no es valido";
 	}
@@ -13,8 +14,11 @@ function validateAndSubmit() {
 	if (salaryRoot == null) {
 		msg = "El Sueldo base no es valido";
 	}
-
-	if (msg.length > 0) {
+	if (!starContract) {
+		msg = "La fecha de inicio de contrato no corresponde";
+	}
+	
+	if (msg != null) {
 		alert(msg);
 	} else {
 		document.getElementById("cFeeding").value = feeding;

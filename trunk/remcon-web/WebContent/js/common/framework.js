@@ -53,13 +53,18 @@ function ajaxForValidate(url, value) {
 	return out;
 }
 
-function formatIfValid(obj, value){
+function formatIfValid(obj, value) {
 	if (value == null) {
 		obj.setAttribute("class", "cError");
 	} else {
 		obj.setAttribute("class", "");
 		obj.value = value;
 	}
+}
+
+function dateBlur(obj) {
+	var thereIsDate = isDate(obj.value);
+	formatIfValid(obj, thereIsDate ? obj.value : null);
 }
 
 function doubleBlur(obj) {
@@ -99,12 +104,17 @@ function formated2integer(value) {
 }
 
 function isDouble(value) {
-	return ajaxForValidate('/servlet/ajax/IsDouble', value);
+	return ajaxForValidate('/servlet/ajax/IsDouble', value) == 'true';
 }
 
 function isInteger(value) {
-	return ajaxForValidate('/servlet/ajax/IsInteger', value);
+	return ajaxForValidate('/servlet/ajax/IsInteger', value) == 'true';
 }
+
+function isDate(value) {
+	return ajaxForValidate('/servlet/ajax/IsDate', value) == 'true';
+}
+
 /** ***************************** */
 function setClass(element, focus) {
 	$(element).removeClass();
@@ -243,9 +253,9 @@ function isNumber(valorNumber) {
 		valorString = valorString.replace(',', signoDecimal());
 
 		out = !isNaN(parseFloat(valorString)); // (valorNumber ==
-												// parseFloat(valorString) ?
-												// parseFloat(valorNumber) :
-												// parseFloat(valorString));
+		// parseFloat(valorString) ?
+		// parseFloat(valorNumber) :
+		// parseFloat(valorString));
 	}
 	return out;
 }
