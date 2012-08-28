@@ -56,8 +56,6 @@ public class BSWeb {
 			out = Boolean.parseBoolean(value);
 		} else if (type.equals(BSFieldType.Date)) {
 			String formatDate = BSDateTimeUtil.getFormatDate(request);
-
-			// String formatDate = "yyyy-MM-dd";
 			DateFormat formatter = new SimpleDateFormat(formatDate);
 
 			try {
@@ -261,4 +259,11 @@ public class BSWeb {
 		out = number2String(value, format);
 		return out;
 	}
+	public static String formatInteger(HttpServletRequest request, Double value) {
+		String out = null;
+		String format = getFormatInteger(request);
+		out = number2String(value, format);
+		return out;
+	}
+	
 }

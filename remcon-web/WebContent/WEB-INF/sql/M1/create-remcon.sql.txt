@@ -245,7 +245,6 @@ create table tAgreement(
 	cFamilyAssignmentStretch	BIGINT(20) NOT NULL		COMMENT 'Tramo de asignación familiar',
 	cPensionary			BIT NOT NULL DEFAULT 0			COMMENT 'Indica si es pensionado',
 	
-	
 	PRIMARY KEY (cId)
 )ENGINE=InnoDB;
 

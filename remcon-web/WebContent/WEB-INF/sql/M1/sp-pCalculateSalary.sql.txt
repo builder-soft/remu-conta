@@ -34,6 +34,7 @@ DROP FUNCTION IF EXISTS fGetPFMForBook;
 DROP FUNCTION IF EXISTS fGetHealthForBook;
 DROP FUNCTION IF EXISTS fSalaryDaily;
 DROP FUNCTION IF EXISTS fWorkedDays;
+DROP FUNCTION IF EXISTS fDateToPeriod;
 DELIMITER $$
 
 /************************/
@@ -83,6 +84,7 @@ END$$
 
 CREATE PROCEDURE pSetWorkedDays(vBook BIGINT)
 BEGIN
+	
 	UPDATE	tBook
 	SET		cWorkedDays = fWorkedDays(vBook)
 	WHERE	cId = vBook;
@@ -289,10 +291,9 @@ LEFT JOIN tContractType AS b ON a.cContractType = b.cId
 WHERE	a.cId = pBook;
 */
 	
-/*	IF(MONTH(vDate) <= MONTH(vEndContract) AND ) THEN*/
-	
+/*	IF(MONTH(vDate) <= MONTH(vEndContract) AND ) THEN
 select vContractKey='FIN' AND MONTH(vDate) = MONTH(vEndContract);
-
+*/
 	IF(vContractKey='FIN' AND MONTH(vDate) = MONTH(vEndContract)) THEN
 		SET vDateDiff = DateDiff(vEndContract, vStartContract);
 		SET vDailyFactor = ROUND((vDaysForYear / 12) / 30, 5);
@@ -518,24 +519,34 @@ END$$
 /************************/
 CREATE FUNCTION fWorkedDays(vBook BIGINT) RETURNS INTEGER
 BEGIN
-	DECLARE vStartContract, vEndContract, vDate DATE;
+	DECLARE vStartContract, vEndContract, vPeriod DATE;
 	DECLARE vEmployee BIGINT;
 	DECLARE vOut INTEGER DEFAULT 30;
+	DECLARE vContractKey VARCHAR(3);
+	DECLARE vCurrentPeriod, vStartPeriod, vEndPeriod VARCHAR(6);
 
-	SELECT	cEmployee, cStartContract, cDate
-	INTO	vEmployee, vStartContract, vDate
-	FROM	vBook
-	WHERE	cId = vBook;
+	SELECT	a.cEmployee, a.cStartContract, a.cDate, b.cKey
+	INTO	vEmployee, vStartContract, vPeriod, vContractKey
+	FROM	vBook AS a
+	LEFT JOIN tContractType AS b ON a.cContractType = b.cId
+	WHERE	a.cId = vBook;
 	
 	SET vEndContract = fGetEndContract(vEmployee);
+	IF(vContractKey='IND' /*AND MONTH(vDate) = MONTH(vEndContract)*/) THEN
+		SET vEndContract = vEndContract + INTERVAL 1 YEAR;
+	END IF;
+
+	SET vCurrentPeriod = fDateToPeriod(vPeriod);
+	SET vStartPeriod = fDateToPeriod(vStartContract);
+	SET vEndPeriod = fDateToPeriod(vEndContract);
 	
-	IF( MONTH(vDate) = MONTH(vStartContract)) THEN
-		SET vOut = DATEDIFF(LAST_DAY(vDate), vStartContract);
+	IF( vCurrentPeriod = vStartPeriod AND vEndPeriod > vCurrentPeriod) THEN
+		SET vOut = DATEDIFF(LAST_DAY(vPeriod), vStartContract);
 	END IF;
-	IF( MONTH(vDate) = MONTH(vEndContract)) THEN
-		SET vOut = DATEDIFF(LAST_DAY(vDate), vEndContract);
+	IF( MONTH(vPeriod) = MONTH(vEndContract) AND MONTH(vStartContract) < MONTH(vPeriod)) THEN
+		SET vOut = DATEDIFF(LAST_DAY(vPeriod), vEndContract);
 	END IF;
-	IF( MONTH(vDate) = MONTH(vStartContract) AND MONTH(vDate) = MONTH(vEndContract)) THEN
+	IF( MONTH(vPeriod) = MONTH(vStartContract) AND MONTH(vPeriod) = MONTH(vEndContract)) THEN
 		SET vOut = DATEDIFF(vEndContract, vStartContract);
 	END IF;
 	
@@ -544,6 +555,26 @@ END$$
 
 
 /************************/
+CREATE FUNCTION fDateToPeriod(vDate DATE) RETURNS VARCHAR(6)
+BEGIN
+	DECLARE vOut VARCHAR(6);
+	DECLARE vMonth VARCHAR(2);
+	
+	SET vMonth = IF(MONTH(vDate)<10, CONCAT('0',MONTH(vDate)), MONTH(vDate));
+	
+	SET vOut = CONCAT(YEAR(vDate),
+					vMonth);
+
+/*	SET vOut = CONCAT(YEAR(vDate), 
+				IF(MONTH(vDate)<10, 
+					CONCAT('0',MONTH(vDate)),
+					MONTH(vDate)
+				);*/
+
+				
+	RETURN vOut;
+END$$
+
 CREATE FUNCTION fSaveBookForEmployee(pPeriod BIGINT, pEmployee BIGINT) RETURNS BIGINT
 BEGIN
 	DECLARE vOut, vHorary, vGratificationType, vPFM, vHealth, vUnemploymentInsurance,
@@ -706,7 +737,6 @@ BEGIN
 			SET vOut = vLimitGratification;
 		ELSE
 			SET vOut = vSumGratificaion * 0.25;
-
 		END IF;
 				
 	ELSE /* Por antiguedad */

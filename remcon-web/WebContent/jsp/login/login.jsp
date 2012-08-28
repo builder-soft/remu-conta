@@ -18,7 +18,7 @@
 		method="post">
 		<span class="cLabel">Mail:</span> <input type="text" name="mail"><br>
 		<span class="cLabel">Clave: </span> <input type="password"
-			name="password"><br><input type="submit" value="Acceder...">
+			name="password"><br><button type="submit">Acceder...</button>
 	</form>
 
 </body>
