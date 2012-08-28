@@ -1,7 +1,8 @@
 <%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="cl.buildersoft.framework.util.BSBeanUtilsSP"%>
-<%@page	import="cl.buildersoft.business.service.impl.AgreementServiceImpl"%>
-<%@page	import="cl.buildersoft.business.service.AgreementService"%>
+<%@page
+	import="cl.buildersoft.business.service.impl.AgreementServiceImpl"%>
+<%@page import="cl.buildersoft.business.service.AgreementService"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="cl.buildersoft.framework.database.BSmySQL"%>
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
@@ -17,26 +18,20 @@
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 
 <%
-Employee employee = (Employee) request.getAttribute("Employee");
+	Employee employee = (Employee) request.getAttribute("Employee");
 	Agreement agreement = (Agreement) request.getAttribute("Agreement");
 	if (agreement == null) {
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 
 		AgreementService agreementService = new AgreementServiceImpl();
-		agreement = agreementService.getDefaultAgreement(conn,
-				employee.getId());
+		agreement = agreementService.getDefaultAgreement(conn, employee.getId());
 	}
 
-
-	List<Profile> profiles = (List<Profile>) request
-			.getAttribute("Profiles");
-	List<ContractType> contractTypes = (List<ContractType>) request
-			.getAttribute("ContractTypes");
-	List<GratificationType> gratificationTypes = (List<GratificationType>) request
-			.getAttribute("GratificationType");
-	List<Horary> horaries = (List<Horary>) request
-			.getAttribute("Horary");
+	List<Profile> profiles = (List<Profile>) request.getAttribute("Profiles");
+	List<ContractType> contractTypes = (List<ContractType>) request.getAttribute("ContractTypes");
+	List<GratificationType> gratificationTypes = (List<GratificationType>) request.getAttribute("GratificationType");
+	List<Horary> horaries = (List<Horary>) request.getAttribute("Horary");
 
 	String dateFormat = (String) request.getAttribute("DateFormat");
 %>
@@ -44,21 +39,10 @@ Employee employee = (Employee) request.getAttribute("Employee");
 <h1 class="cTitle">Información Contractual</h1>
 <%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
 
-<!-- 
-<table>
-	<tr>
-		<td class="cLabel">RUT:</td>
-		<td class="cData"><%=employee.getRut()%></td>
-	</tr>
-	<tr>
-		<td class="cLabel">Empleado:</td>
-		<td class="cData"><%=employee.getName() + " " + employee.getLastName1() + " "
-					+ employee.getLastName2()%></td>
-	</tr>
-</table>
--->
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/config/employee/contractual-info.js">
+</script>
 <br>
-<form
+<form id="frmContractualInfo"
 	action="${pageContext.request.contextPath}/servlet/config/employee/SaveContractualInfo">
 	<input type="hidden" name="cId" value="<%=employee.getId()%>">
 
@@ -70,8 +54,7 @@ Employee employee = (Employee) request.getAttribute("Employee");
 						for (Profile profile : profiles) {
 					%>
 					<option value="<%=profile.getId()%>"
-						<%=profile.getId().equals(agreement.getProfile()) ? "selected"
-						: ""%>><%=profile.getName()%></option>
+						<%=profile.getId().equals(agreement.getProfile()) ? "selected" : ""%>><%=profile.getName()%></option>
 					<%
 						}
 					%>
@@ -82,8 +65,7 @@ Employee employee = (Employee) request.getAttribute("Employee");
 						for (ContractType contractType : contractTypes) {
 					%>
 					<option value="<%=contractType.getId()%>"
-						<%=contractType.getId().equals(
-						agreement.getContractType()) ? "selected" : ""%>><%=contractType.getName()%></option>
+						<%=contractType.getId().equals(agreement.getContractType()) ? "selected" : ""%>><%=contractType.getName()%></option>
 					<%
 						}
 					%>
@@ -104,8 +86,7 @@ Employee employee = (Employee) request.getAttribute("Employee");
 						for (GratificationType gratificationType : gratificationTypes) {
 					%>
 					<option value="<%=gratificationType.getId()%>"
-						<%=gratificationType.getId().equals(
-						agreement.getGratificationType()) ? "selected" : ""%>><%=gratificationType.getName()%></option>
+						<%=gratificationType.getId().equals(agreement.getGratificationType()) ? "selected" : ""%>><%=gratificationType.getName()%></option>
 					<%
 						}
 					%>
@@ -117,8 +98,7 @@ Employee employee = (Employee) request.getAttribute("Employee");
 						for (Horary horary : horaries) {
 					%>
 					<option value="<%=horary.getId()%>"
-						<%=horary.getId().equals(agreement.getHorary()) ? "selected"
-						: ""%>><%=horary.getName()%></option>
+						<%=horary.getId().equals(agreement.getHorary()) ? "selected" : ""%>><%=horary.getName()%></option>
 					<%
 						}
 					%>
@@ -126,21 +106,30 @@ Employee employee = (Employee) request.getAttribute("Employee");
 		</tr>
 		<tr>
 			<td class="cLabel">Colación:</td>
-			<td><input type="text" name="cFeeding" onfocus="javascript:this.value=double2writable(this);"
-				value="<%=agreement.getFeeding()%>"></td>
+			<td>				
+			<input type="text" name="cFeeding" id="cFeeding"
+				onfocus="javascript:doubleFocus(this);" 
+				onblur="javascript:doubleBlur(this);"
+				value="<%=BSWeb.formatDecimal(request, agreement.getFeeding())%>"></td>
 			<td class="cLabel">Movilización:</td>
-			<td><input type="text" name="cMobilization"
-				value="<%=agreement.getMobilization()%>"></td>
+			<td><input type="text" name="cMobilization" id="cMobilization"
+				onfocus="javascript:doubleFocus(this);" 
+				onblur="javascript:doubleBlur(this);"
+				value="<%=BSWeb.formatDecimal(request, agreement.getMobilization())%>"></td>
 		</tr>
 		<tr>
 			<td class="cLabel">Sueldo Base:</td>
-			<td colspan="3"><input type="text" name="cSalaryRoot"
-				value="<%=agreement.getSalaryRoot()%>"></td>
+			<td colspan="3"><input type="text" name="cSalaryRoot" id="cSalaryRoot"
+				onfocus="javascript:integerFocus(this);" 
+				onblur="javascript:integerBlur(this);"
+				value="<%=BSWeb.formatInteger(request, agreement.getSalaryRoot())%>"></td>
 		</tr>
 
 	</table>
-	<br> <button type="submit" >Aceptar</button>&nbsp;&nbsp;<a class="cCancel"
+	<br>
+	<button type="button" onclick="javascript:validateAndSubmit()">Aceptar</button>
+	&nbsp;&nbsp;<a class="cCancel"
 		href="${pageContext.request.contextPath}/servlet/config/employee/EmployeeManager">Cancelar</a>
 </form>
-
+<span id="ErrorMessage" class="cError"></span>
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

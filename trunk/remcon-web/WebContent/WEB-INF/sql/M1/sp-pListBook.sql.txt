@@ -114,7 +114,7 @@ BEGIN
 	SET @sql = CONCAT(@sql, 'a.cSubtotalLawfulDiscounts AS \'Descuentos legales\', ');
 	SET @sql = CONCAT(@sql, 'a.cAdvance AS \'Anticipo\', ');
 	SET @sql = CONCAT(@sql, 'a.cLoanEnterprise AS \'Prestamo empresa\', ');
-	
+		
 	SET vIndex = 1;
 	WHILE vIndex<6 DO
 		SET @sql = CONCAT(@sql, fGetAliasField(vIndex, 'DES'));
