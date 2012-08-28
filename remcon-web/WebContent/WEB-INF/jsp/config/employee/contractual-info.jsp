@@ -39,7 +39,9 @@
 <h1 class="cTitle">Información Contractual</h1>
 <%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/config/employee/contractual-info.js">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/config/employee/contractual-info.js">
+	
 </script>
 <br>
 <form id="frmContractualInfo"
@@ -73,7 +75,8 @@
 		</tr>
 		<tr>
 			<td class="cLabel">Inicio Contrato:</td>
-			<td class="cData"><input type="text" name="cStartContract"
+			<td class="cData"><input type="text" name="cStartContract" id="cStartContract"
+				onblur="javascript:dateBlur(this);"
 				value="<%=BSDateTimeUtil.date2String(request, agreement.getStartContract())%>">(<%=dateFormat%>)</td>
 			<td class="cLabel">Término Contrato:</td>
 			<td class="cData"><input type="text" name="cEndContract"
@@ -106,21 +109,20 @@
 		</tr>
 		<tr>
 			<td class="cLabel">Colación:</td>
-			<td>				
-			<input type="text" name="cFeeding" id="cFeeding"
-				onfocus="javascript:doubleFocus(this);" 
+			<td><input type="text" name="cFeeding" id="cFeeding"
+				onfocus="javascript:doubleFocus(this);"
 				onblur="javascript:doubleBlur(this);"
 				value="<%=BSWeb.formatDecimal(request, agreement.getFeeding())%>"></td>
 			<td class="cLabel">Movilización:</td>
 			<td><input type="text" name="cMobilization" id="cMobilization"
-				onfocus="javascript:doubleFocus(this);" 
+				onfocus="javascript:doubleFocus(this);"
 				onblur="javascript:doubleBlur(this);"
 				value="<%=BSWeb.formatDecimal(request, agreement.getMobilization())%>"></td>
 		</tr>
 		<tr>
 			<td class="cLabel">Sueldo Base:</td>
-			<td colspan="3"><input type="text" name="cSalaryRoot" id="cSalaryRoot"
-				onfocus="javascript:integerFocus(this);" 
+			<td colspan="3"><input type="text" name="cSalaryRoot"
+				id="cSalaryRoot" onfocus="javascript:integerFocus(this);"
 				onblur="javascript:integerBlur(this);"
 				value="<%=BSWeb.formatInteger(request, agreement.getSalaryRoot())%>"></td>
 		</tr>
