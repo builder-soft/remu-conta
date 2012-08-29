@@ -75,12 +75,16 @@
 		</tr>
 		<tr>
 			<td class="cLabel">Inicio Contrato:</td>
-			<td class="cData"><input type="text" name="cStartContract" id="cStartContract"
+			<td><input type="text" name="cStartContract" id="cStartContract"
 				onblur="javascript:dateBlur(this);"
-				value="<%=BSDateTimeUtil.date2String(request, agreement.getStartContract())%>">(<%=dateFormat%>)</td>
+				value="<%=BSDateTimeUtil.date2String(request, agreement.getStartContract())%>"><span
+				class="cLabel">(<%=dateFormat%>)
+			</span></td>
 			<td class="cLabel">Término Contrato:</td>
-			<td class="cData"><input type="text" name="cEndContract"
-				value="<%=BSDateTimeUtil.date2String(request, agreement.getEndContract())%>">(<%=dateFormat%>)</td>
+			<td><input type="text" name="cEndContract"
+				value="<%=BSDateTimeUtil.date2String(request, agreement.getEndContract())%>"><span
+				class="cLabel">(<%=dateFormat%>)
+			</span></td>
 		</tr>
 		<tr>
 			<td class="cLabel">Gratificación:</td>
@@ -112,19 +116,19 @@
 			<td><input type="text" name="cFeeding" id="cFeeding"
 				onfocus="javascript:doubleFocus(this);"
 				onblur="javascript:doubleBlur(this);"
-				value="<%=BSWeb.formatDecimal(request, agreement.getFeeding())%>"></td>
+				value="<%=BSWeb.formatDouble(request, agreement.getFeeding())%>"></td>
 			<td class="cLabel">Movilización:</td>
 			<td><input type="text" name="cMobilization" id="cMobilization"
 				onfocus="javascript:doubleFocus(this);"
 				onblur="javascript:doubleBlur(this);"
-				value="<%=BSWeb.formatDecimal(request, agreement.getMobilization())%>"></td>
+				value="<%=BSWeb.formatDouble(request, agreement.getMobilization())%>"></td>
 		</tr>
 		<tr>
 			<td class="cLabel">Sueldo Base:</td>
 			<td colspan="3"><input type="text" name="cSalaryRoot"
 				id="cSalaryRoot" onfocus="javascript:integerFocus(this);"
 				onblur="javascript:integerBlur(this);"
-				value="<%=BSWeb.formatInteger(request, agreement.getSalaryRoot())%>"></td>
+				value="<%=BSWeb.formatInteger(request, agreement.getSalaryRoot().intValue())%>"></td>
 		</tr>
 
 	</table>

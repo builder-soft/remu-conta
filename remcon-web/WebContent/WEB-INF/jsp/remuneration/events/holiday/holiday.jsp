@@ -157,8 +157,10 @@
 
 				</tr>
 				<%
+				/*
 					BSConfig _config = new BSConfig();
 					String format = _config.getFormatDecimal(conn);
+					*/
 					index = 0;
 					for (HolidayDevelop hd : holidayDevelop) {
 						index++;
@@ -166,13 +168,13 @@
 				%>
 				<tr>
 					<td class="<%=color%>" align="center"><%=hd.getYear()%>
-					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getNormalRatio(), format)%>
-					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getNormalTaken(), format)%>
-					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getNormalBalance(), format)%>
-					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getCreepingRatio(), format)%>
-					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getCreepingTaken(), format)%>
-					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getCreepingBalance(), format)%>
-					<td class="<%=color%>" align="right"><%=BSWeb.number2String(hd.getTotalBalance(), format)%>
+					<td class="<%=color%>" align="right"><%=BSWeb.formatDouble(request, hd.getNormalRatio())%>
+					<td class="<%=color%>" align="right"><%=BSWeb.formatDouble(request, hd.getNormalTaken())%>
+					<td class="<%=color%>" align="right"><%=BSWeb.formatDouble(request, hd.getNormalBalance())%>
+					<td class="<%=color%>" align="right"><%=BSWeb.formatDouble(request, hd.getCreepingRatio())%>
+					<td class="<%=color%>" align="right"><%=BSWeb.formatDouble(request, hd.getCreepingTaken())%>
+					<td class="<%=color%>" align="right"><%=BSWeb.formatDouble(request, hd.getCreepingBalance())%>
+					<td class="<%=color%>" align="right"><%=BSWeb.formatDouble(request, hd.getTotalBalance())%>
 				</tr>
 				<%
 					}
@@ -265,7 +267,8 @@
 
 		valueAsDouble = rs.getDouble(fieldName);
 
-		valueFormated = BSWeb.number2String(valueAsDouble, BSWeb.getFormatDecimal(request));
+//		valueFormated = BSWeb.number2String(valueAsDouble, BSWeb.getFormatDecimal(request));
+		valueFormated = BSWeb.formatDouble(request, valueAsDouble); //, BSWeb.getFormatDecimal(request));
 		return valueFormated;
 	}
 
