@@ -67,11 +67,6 @@ function getApvSelected(){
 	apvs.find('#apvCurrency').each(function(){currencies.push($(this).val());});
 	apvs.find('#apvAmount').each(function(){amounts.push($(this).val());});
 	apvs.find('#apvInstitution').each(function(){institutions.push($(this).val());});
-	/*
-	alert("currencies seleccionadas= " + currencies);
-	alert("amounts seleccionadas= " + amounts);
-	alert("institutions seleccionadas= " + institutions);
-	*/
 }
 
 function changePFM(o){
@@ -112,8 +107,6 @@ function changeExBox(o){
 		nextServlet = "UpdateRecord";
 	}
 %>
-<!--config/employee/SavePrevitionalInfo-->
-
 <%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
 
 <br>
@@ -137,8 +130,12 @@ function changeExBox(o){
 					%>
 			</select></td>
 			<td class="cLabel">Monto Cuenta 2</td>
-			<td><Input type="text" name="AmountAccount2"
-				value="<%=agreementEmp.getAmountAccount2()%>"></td>
+			<td>
+			<Input type="text" name="AmountAccount2"
+				onfocus="javascript:integerFocus(this);"
+				onblur="javascript:integerBlur(this);"
+				value="<%=BSWeb.formatInteger(request, agreementEmp.getAmountAccount2().intValue())%>">
+			</td>
 		</tr>
 		<tr><td colspan="4">&nbsp;</td></tr>
 		<tr>
