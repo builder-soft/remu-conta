@@ -115,22 +115,23 @@
 					afterInput = "(formato: " + format + ")";
 				} else if (type.equals(BSFieldType.Double)) {
 					maxlength = 15;
-					format = BSWeb.getFormatDecimal(request);
-					value = BSWeb.number2String(value, format);
+//					format = BSWeb.getFormatDecimal(request);
+					value = BSWeb.formatDouble(request, (Double)value); // number2String(value, format);
 					size = maxlength;
 				} else if (type.equals(BSFieldType.Integer)) {
 					maxlength = 8;
-					format = BSWeb.getFormatInteger(request);
-					value = BSWeb.number2String(value, format);
+//					format = BSWeb.getFormatInteger(request);
+//					value = BSWeb.number2String(value, format);
+					value = BSWeb.formatInteger(request,(Integer) value);
 					size = maxlength;
 				} else if (type.equals(BSFieldType.Long)) {
 					maxlength = 10;
-					format = BSWeb.getFormatInteger(request);
+//					format = BSWeb.getFormatInteger(request);
 					if (isPk && value == null) {
 						value = NEW;
 						//isNew = Boolean.TRUE;
 					} else {
-						value = value == null ? "" : BSWeb.number2String(value, format);
+						value = value == null ? "" : BSWeb.formatNumber(request, value);  // BSWeb.number2String(value, format);
 					}
 					size = maxlength;
 				}

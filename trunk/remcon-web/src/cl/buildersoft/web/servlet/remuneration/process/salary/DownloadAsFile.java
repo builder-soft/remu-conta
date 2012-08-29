@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.Calendar;
 
 import javax.servlet.ServletException;
@@ -21,7 +23,6 @@ import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.util.BSConfig;
 import cl.buildersoft.framework.util.BSDateTimeUtil;
-import cl.buildersoft.framework.util.BSWeb;
 import cl.buildersoft.web.servlet.csv.CsvWriter;
 import cl.buildersoft.web.servlet.table.AbstractServletUtil;
 
@@ -80,11 +81,11 @@ public class DownloadAsFile extends AbstractServletUtil {
 		} else if ("double".equalsIgnoreCase(type)) {
 			format = "########0.00";
 			Double dataDouble = Double.parseDouble(data);
-			out = BSWeb.number2String(dataDouble, format);
+			out = number2String(dataDouble, format);
 		} else if ("int".equalsIgnoreCase(type)) {
 			format = "########0";
 			Integer dataInteger = Integer.parseInt(data);
-			out = BSWeb.number2String(dataInteger, format);
+			out = number2String(dataInteger, format);
 		} else if ("bit".equalsIgnoreCase(type)) {
 			if ("1".equals(data)) {
 				out = "Si";
@@ -96,6 +97,15 @@ public class DownloadAsFile extends AbstractServletUtil {
 		}
 		if (data == null) {
 			out = "";
+		}
+		return out;
+	}
+
+	private String number2String(Object value, String format) {
+		String out = "";
+		if (value != null) {
+			Format formatter = new DecimalFormat(format);
+			out = formatter.format(value);
 		}
 		return out;
 	}

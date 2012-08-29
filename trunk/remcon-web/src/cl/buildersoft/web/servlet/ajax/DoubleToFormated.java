@@ -16,11 +16,12 @@ public class DoubleToFormated extends AbstractFormatServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String value = request.getParameter("Value");
 		String out = null;
-		String format = BSWeb.getFormatDecimal(request);
+//		String format = BSWeb.getFormatDecimal(request);
 		Double valueDouble = null;
 		try {
 			valueDouble = Double.parseDouble(value);
-			out = BSWeb.number2String(valueDouble, format);
+//			out = BSWeb.number2String(valueDouble, format);
+			out = BSWeb.formatDouble(request, valueDouble);
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			out = "NaN";

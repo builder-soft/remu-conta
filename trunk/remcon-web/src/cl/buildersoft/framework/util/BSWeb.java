@@ -6,14 +6,14 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.Format;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -90,6 +90,96 @@ public class BSWeb {
 		return out;
 	}
 
+	/********************/
+
+	private static Connection requestToConnection(HttpServletRequest request) {
+		BSmySQL mysql = new BSmySQL();
+		return mysql.getConnection(request);
+	}
+
+	public static String getFormatNumber(Connection conn) {
+		BSConfig config = new BSConfig();
+		return config.getString(conn, "FORMAT_NUMBER");
+	}
+
+	public static String getFormatNumber(HttpServletRequest request) {
+		return getFormatNumber(requestToConnection(request));
+	}
+
+	public static String formatDouble(Connection conn, Double value) {
+		return formatNumber(conn, value);
+	}
+
+	public static String formatDouble(HttpServletRequest request, Double value) {
+		return formatDouble(requestToConnection(request), value);
+	}
+
+	public static String formatInteger(HttpServletRequest request, Integer value) {
+		return formatInteger(requestToConnection(request), value);
+	}
+
+	public static String formatInteger(Connection conn, Integer value) {
+		return formatNumber(conn, value);
+	}
+
+	public static String formatNumber(HttpServletRequest request, Object value) {
+		return formatNumber(requestToConnection(request), value);
+	}
+
+	public static String formatNumber(Connection conn, Object value) {
+		String out = null;
+		Locale locale = new Locale(getFormatNumber(conn));
+		NumberFormat format = NumberFormat.getNumberInstance(locale);
+		out = format.format(value);
+		return out;
+	}
+
+	public static Double parseDouble(Connection conn, String value) {
+		Locale locale = new Locale(getFormatNumber(conn));
+		NumberFormat formatNumber = NumberFormat.getNumberInstance(locale);
+		Double out;
+		try {
+			Object number = formatNumber.parse(value);
+			if (number instanceof Long) {
+				out = ((Long) number).doubleValue();
+			} else {
+				out = ((Double) number);
+			}
+		} catch (ParseException e) {
+			throw new BSProgrammerException(e);
+		}
+		return out;
+
+	}
+
+	public static Integer parseInteger(Connection conn, String value) {
+		Locale locale = new Locale(getFormatNumber(conn));
+		NumberFormat formatNumber = NumberFormat.getNumberInstance(locale);
+		Integer out;
+		try {
+			Object number = formatNumber.parse(value);
+			if (number instanceof Long) {
+				out = ((Long) number).intValue();
+			} else {
+				out = ((Integer) number);
+			}
+		} catch (ParseException e) {
+			throw new BSProgrammerException(e);
+		}
+		return out;
+
+	}
+
+	public static Integer parseInteger(HttpServletRequest request, String value) {
+		return parseInteger(requestToConnection(request), value);
+	}
+
+	public static Double parseDouble(HttpServletRequest request, String value) {
+		return parseDouble(requestToConnection(request), value);
+	}
+
+	/**
+	 * <code>
 	public static String getFormatDecimal(Connection conn) {
 		BSConfig config = new BSConfig();
 		return config.getString(conn, "FORMAT_DECIMAL");
@@ -112,18 +202,6 @@ public class BSWeb {
 		return getFormatInteger(conn);
 	}
 
-	/** @deprecated */
-	public static String getFormatNumber(Connection conn) {
-		BSConfig config = new BSConfig();
-		return config.getString(conn, "FORMAT_INTEGER");
-	}
-
-	public static String getFormatNumber(HttpServletRequest request) {
-		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request);
-		return getFormatNumber(conn);
-	}
-
 	public static String number2String(Object value, String format) {
 		String out = "";
 		if (value != null) {
@@ -132,7 +210,10 @@ public class BSWeb {
 		}
 		return out;
 	}
+</code>
+	 */
 
+	/********************/
 	public static Boolean canUse(String optionKey, HttpServletRequest request) {
 		Boolean out = Boolean.TRUE;
 
@@ -228,14 +309,14 @@ public class BSWeb {
 				out[0] = BSDateTimeUtil.calendar2String(cal, format);
 				out[1] = "center";
 			} else if ("double".equalsIgnoreCase(type)) {
-				format = getFormatDecimal(conn);
+				// format = getFormatDecimal(conn);
 				Double dataDouble = Double.parseDouble(data);
-				out[0] = number2String(dataDouble, format);
+				out[0] = formatNumber(conn, dataDouble);
 				out[1] = "right";
 			} else if ("int".equalsIgnoreCase(type)) {
-				format = getFormatInteger(conn);
+				// format = getFormatInteger(conn);
 				Integer dataInteger = Integer.parseInt(data);
-				out[0] = number2String(dataInteger, format);
+				out[0] = formatInteger(conn, dataInteger);
 				out[1] = "right";
 			} else if ("bit".equalsIgnoreCase(type)) {
 				if ("1".equals(data)) {
@@ -253,17 +334,4 @@ public class BSWeb {
 		return out;
 	}
 
-	public static String formatDecimal(HttpServletRequest request, Double value) {
-		String out = null;
-		String format = getFormatDecimal(request);
-		out = number2String(value, format);
-		return out;
-	}
-	public static String formatInteger(HttpServletRequest request, Double value) {
-		String out = null;
-		String format = getFormatInteger(request);
-		out = number2String(value, format);
-		return out;
-	}
-	
 }

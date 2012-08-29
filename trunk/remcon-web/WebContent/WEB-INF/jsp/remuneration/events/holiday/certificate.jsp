@@ -130,7 +130,7 @@ table.info td {
 		for (HolidayDetail holidayDetail : holidayDetails) {
 			if (holidayDetail.getHolidayDetailType().equals(type)) {
 				out += "<tr>";
-				out += "<td>" + BSWeb.formatDecimal(request, holidayDetail.getDays()) + "</td>";
+				out += "<td>" + BSWeb.formatDouble(request, holidayDetail.getDays()) + "</td>";
 				out += "<td>" + holidayDetail.getYear() + "</td>";
 				out += "</tr>";
 			}
