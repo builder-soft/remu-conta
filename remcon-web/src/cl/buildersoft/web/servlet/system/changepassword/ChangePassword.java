@@ -62,7 +62,7 @@ public class ChangePassword extends HttpServlet {
 		user.setPassword(newPassword);
 		bu.update(conn, user);
 
-		String next = "/servlet/table/LoadTable";
+		String next = "/servlet/common/LoadTable";
 		next = "/servlet/system/user/UserManager";
 		if (goHome != null) {
 			next = "/servlet/Home";

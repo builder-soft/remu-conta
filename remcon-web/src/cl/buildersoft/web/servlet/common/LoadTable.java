@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.table;
+package cl.buildersoft.web.servlet.common;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -17,17 +17,17 @@ import cl.buildersoft.framework.util.BSPaging;
 /**
  * Servlet implementation class LoadTable
  */
-@WebServlet("/servlet/table/LoadTable")
+@WebServlet("/servlet/common/LoadTable")
 public class LoadTable extends AbstractServletUtil {
 	private static final long serialVersionUID = 1L;
-	private static final String BSFRAMEWORK = "bsframework";
+
+	// private static final String BSFRAMEWORK = "bsframework";
 
 	public LoadTable() {
 		super();
 	}
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
 		BSTableConfig table = null;
@@ -37,14 +37,7 @@ public class LoadTable extends AbstractServletUtil {
 
 		Connection conn = null;
 		BSmySQL mySQL = new BSmySQL();
-/**
-		if (table.getDatabase().toLowerCase().equals(BSFRAMEWORK)) {
-			conn = mySQL
-					.getConnection(request.getServletContext(), BSFRAMEWORK);
-		} else {
-			conn = mySQL.getConnection(request);
-		}
-		*/
+
 		conn = mySQL.getConnection(request);
 
 		table.configFields(conn, mySQL);
@@ -60,8 +53,7 @@ public class LoadTable extends AbstractServletUtil {
 			session.setAttribute("BSTable", table);
 		}
 
-		request.getRequestDispatcher("/WEB-INF/jsp/table/main.jsp").forward(
-				request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/table/main.jsp").forward(request, response);
 	}
 
 }

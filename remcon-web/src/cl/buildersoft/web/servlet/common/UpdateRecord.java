@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.table;
+package cl.buildersoft.web.servlet.common;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,7 +16,7 @@ import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSWeb;
 
-@WebServlet("/servlet/table/UpdateRecord")
+@WebServlet("/servlet/common/UpdateRecord")
 public class UpdateRecord extends AbstractServletUtil {
 	private static final long serialVersionUID = 1L;
 
@@ -54,7 +54,7 @@ public class UpdateRecord extends AbstractServletUtil {
 
 		mySQL.update(conn, sql, params);
 
-		request.getRequestDispatcher("/servlet/table/LoadTable").forward(
+		request.getRequestDispatcher("/servlet/common/LoadTable").forward(
 				request, response);
 	}
 

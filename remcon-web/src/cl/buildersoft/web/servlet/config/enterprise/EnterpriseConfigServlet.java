@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import cl.buildersoft.business.beans.EnterpriseConfig;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.web.servlet.table.AbstractServletUtil;
+import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 
 /**
  * Servlet implementation class EditRecord

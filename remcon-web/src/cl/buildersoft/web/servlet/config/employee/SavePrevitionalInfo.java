@@ -12,7 +12,7 @@ import cl.buildersoft.business.beans.Agreement;
 import cl.buildersoft.business.beans.RagreementAPV;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
-import cl.buildersoft.web.servlet.table.AbstractServletUtil;
+import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 
 @WebServlet("/servlet/config/employee/SavePrevitionalInfo")
 public class SavePrevitionalInfo extends AbstractServletUtil {

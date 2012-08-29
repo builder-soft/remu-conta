@@ -71,7 +71,7 @@
 	<%=table.getTitle()%>
 </h1>
 <form method="post"
-	action="${pageContext.request.contextPath}/servlet/table/DeleteRecords"
+	action="${pageContext.request.contextPath}/servlet/common/DeleteRecords"
 	id='frm'>
 
 	<%@ include file="/WEB-INF/jsp/table/search.jsp"%>

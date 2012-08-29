@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.beans.Domain;
-import cl.buildersoft.web.servlet.BSHttpServlet;
+import cl.buildersoft.web.servlet.common.BSHttpServlet;
 
 @WebServlet("/servlet/config/health/HealthManager")
 public class HealthManager extends BSHttpServlet {

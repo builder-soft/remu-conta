@@ -30,7 +30,7 @@ import cl.buildersoft.framework.exception.BSConfigurationException;
 import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.framework.util.BSConfig;
 import cl.buildersoft.framework.util.BSFileUtil;
-import cl.buildersoft.web.servlet.table.AbstractServletUtil;
+import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 
 @WebServlet("/servlet/config/employee/DocumentEmployee")
 public class DocumentEmployee extends AbstractServletUtil {

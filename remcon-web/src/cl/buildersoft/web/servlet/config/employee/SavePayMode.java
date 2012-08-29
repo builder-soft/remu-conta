@@ -14,7 +14,7 @@ import cl.buildersoft.business.service.AgreementService;
 import cl.buildersoft.business.service.impl.AgreementServiceImpl;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
-import cl.buildersoft.web.servlet.table.AbstractServletUtil;
+import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 
 @WebServlet("/servlet/config/employee/SavePayMode")
 public class SavePayMode extends AbstractServletUtil {

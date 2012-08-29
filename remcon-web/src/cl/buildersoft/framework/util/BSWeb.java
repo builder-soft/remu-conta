@@ -99,7 +99,7 @@ public class BSWeb {
 
 	public static String getFormatNumber(Connection conn) {
 		BSConfig config = new BSConfig();
-		return config.getString(conn, "FORMAT_NUMBER");
+		return config.getString(conn, "FORMAT_NUMBER").toLowerCase();
 	}
 
 	public static String getFormatNumber(HttpServletRequest request) {
@@ -127,10 +127,12 @@ public class BSWeb {
 	}
 
 	public static String formatNumber(Connection conn, Object value) {
-		String out = null;
-		Locale locale = new Locale(getFormatNumber(conn));
-		NumberFormat format = NumberFormat.getNumberInstance(locale);
-		out = format.format(value);
+		String out = "";
+		if (value != null) {
+			Locale locale = new Locale(getFormatNumber(conn));
+			NumberFormat format = NumberFormat.getNumberInstance(locale);
+			out = format.format(value);
+		}
 		return out;
 	}
 
@@ -149,7 +151,6 @@ public class BSWeb {
 			throw new BSProgrammerException(e);
 		}
 		return out;
-
 	}
 
 	public static Integer parseInteger(Connection conn, String value) {

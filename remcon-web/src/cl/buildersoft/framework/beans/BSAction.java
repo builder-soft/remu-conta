@@ -80,7 +80,7 @@ public class BSAction {
 		this.natTable[2] = otherDatabase;
 		this.natTable[3] = otherTable;
 		this.setActionType(BSActionType.Record);
-		this.setUrl("/servlet/table/NatTable");
+		this.setUrl("/servlet/common/NatTable");
 	}
 
 	public Boolean getDisabled() {
