@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet;
+package cl.buildersoft.web.servlet.common;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,20 +16,19 @@ import cl.buildersoft.framework.database.BSmySQL;
 
 public abstract class BSHttpServlet extends HttpServlet {
 	private static final long serialVersionUID = 713819586332712332L;
+
 	protected abstract BSTableConfig getBSTableConfig(HttpServletRequest request);
 
 	public BSHttpServlet() {
 		super();
 	}
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		// BSHeadConfig head = getBSHeadConfig();
 		BSTableConfig table = getBSTableConfig(request);
 
-		String uri = request.getRequestURI().substring(
-				request.getContextPath().length());
+		String uri = request.getRequestURI().substring(request.getContextPath().length());
 
 		table.setUri(uri);
 
@@ -39,12 +38,10 @@ public abstract class BSHttpServlet extends HttpServlet {
 			// session.setAttribute("BSHead", head);
 		}
 
-		request.getRequestDispatcher("/servlet/table/LoadTable").forward(
-				request, response);
+		request.getRequestDispatcher("/servlet/common/LoadTable").forward(request, response);
 	}
 
-	protected BSTableConfig initTable(HttpServletRequest request,
-			String tableName) {
+	protected BSTableConfig initTable(HttpServletRequest request, String tableName) {
 		Domain domain = (Domain) request.getSession().getAttribute("Domain");
 
 		BSTableConfig table = new BSTableConfig(domain.getAlias(), tableName);
@@ -59,5 +56,5 @@ public abstract class BSHttpServlet extends HttpServlet {
 			table.getField(fieldName).setVisible(false);
 		}
 	}
-	
+
 }

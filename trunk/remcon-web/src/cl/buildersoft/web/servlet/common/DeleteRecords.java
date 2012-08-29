@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.table;
+package cl.buildersoft.web.servlet.common;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
 
-@WebServlet("/servlet/table/DeleteRecords")
+@WebServlet("/servlet/common/DeleteRecords")
 public class DeleteRecords extends AbstractServletUtil {
 
 	private static final long serialVersionUID = -2340853411641380529L;
@@ -57,7 +57,7 @@ public class DeleteRecords extends AbstractServletUtil {
 
 			}
 		}
-		request.getRequestDispatcher("/servlet/table/LoadTable").forward(
+		request.getRequestDispatcher("/servlet/common/LoadTable").forward(
 				request, response);
 	}
 

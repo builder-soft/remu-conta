@@ -43,10 +43,10 @@
  -->
 <!--
 action="${pageContext.request.contextPath}/servlet/ShowParameters"
-action="${pageContext.request.contextPath}/servlet/table/SaveRelation"
+action="${pageContext.request.contextPath}/servlet/common/SaveRelation"
   -->
 <form 
-	action="${pageContext.request.contextPath}/servlet/table/SaveRelation"
+	action="${pageContext.request.contextPath}/servlet/common/SaveRelation"
 	id="frm" method="post">
 	<input type="hidden" name="cId"
 		value="<%=request.getParameter("cId")%>">

@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.table;
+package cl.buildersoft.web.servlet.common;
 
 import java.io.IOException;
 import java.util.ArrayList;

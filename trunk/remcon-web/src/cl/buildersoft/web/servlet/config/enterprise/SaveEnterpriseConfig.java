@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import cl.buildersoft.business.beans.EnterpriseConfig;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
-import cl.buildersoft.web.servlet.table.AbstractServletUtil;
+import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 
 @WebServlet("/servlet/config/employee/SaveEnterpriseConfig")
 public class SaveEnterpriseConfig extends AbstractServletUtil {

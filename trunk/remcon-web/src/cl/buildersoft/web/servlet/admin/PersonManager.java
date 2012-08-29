@@ -10,7 +10,7 @@ import cl.buildersoft.framework.beans.BSAction;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.type.BSActionType;
-import cl.buildersoft.web.servlet.BSHttpServlet;
+import cl.buildersoft.web.servlet.common.BSHttpServlet;
 
 @WebServlet("/servlet/admin/PersonManager")
 public class PersonManager extends BSHttpServlet implements Servlet {

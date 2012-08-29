@@ -28,7 +28,7 @@ import cl.buildersoft.business.service.impl.EmployeeServiceImpl;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.util.BSBeanUtilsSP;
-import cl.buildersoft.web.servlet.table.AbstractServletUtil;
+import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 
 @WebServlet("/servlet/config/employee/InformationPrevitional")
 public class InformationPrevitional extends AbstractServletUtil {

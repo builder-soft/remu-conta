@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.table;
+package cl.buildersoft.web.servlet.common;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,7 +16,7 @@ import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSWeb;
 
-@WebServlet("/servlet/table/InsertRecord")
+@WebServlet("/servlet/common/InsertRecord")
 public class InsertRecord extends AbstractServletUtil {
 
 	private static final long serialVersionUID = 947236230190327847L;
@@ -58,7 +58,7 @@ public class InsertRecord extends AbstractServletUtil {
 			mySQL.callSingleSP(conn, saveSP, params);
 		}
 
-		request.getRequestDispatcher("/servlet/table/LoadTable").forward(
+		request.getRequestDispatcher("/servlet/common/LoadTable").forward(
 				request, response);
 	}
 

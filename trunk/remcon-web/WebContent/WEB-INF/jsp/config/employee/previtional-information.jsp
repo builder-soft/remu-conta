@@ -310,7 +310,7 @@ function changeExBox(o){
 &nbsp;&nbsp;&nbsp;
 <button type="button" onclick="javascript:addApv()">Agregar APV</button>
 &nbsp;&nbsp;&nbsp;
-<a class="cCancel" href="${pageContext.request.contextPath}/servlet/table/LoadTable">Cancelar</a>&nbsp;&nbsp;&nbsp;
+<a class="cCancel" href="${pageContext.request.contextPath}/servlet/common/LoadTable">Cancelar</a>&nbsp;&nbsp;&nbsp;
 
 
 <div style="display: none" id="divHide">

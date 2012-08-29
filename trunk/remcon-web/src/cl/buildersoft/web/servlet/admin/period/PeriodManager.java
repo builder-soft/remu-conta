@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.web.servlet.BSHttpServlet;
+import cl.buildersoft.web.servlet.common.BSHttpServlet;
 
 @WebServlet("/servlet/admin/period/PeriodManager")
 public class PeriodManager extends BSHttpServlet implements Servlet {
@@ -15,7 +15,7 @@ public class PeriodManager extends BSHttpServlet implements Servlet {
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
 		BSTableConfig table = super.initTable(request, "tPeriod");
 		table.setTitle("Períodos");
-		table.removeAction("DELETE");
+//		table.removeAction("DELETE");
 		
 		return table;
 	}

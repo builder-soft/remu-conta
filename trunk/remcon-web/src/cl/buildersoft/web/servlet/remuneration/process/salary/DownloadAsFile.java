@@ -23,8 +23,8 @@ import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.util.BSConfig;
 import cl.buildersoft.framework.util.BSDateTimeUtil;
+import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 import cl.buildersoft.web.servlet.csv.CsvWriter;
-import cl.buildersoft.web.servlet.table.AbstractServletUtil;
 
 @WebServlet("/servlet/remuneration/process/salary/DownloadAsFile")
 /**

@@ -18,7 +18,7 @@ import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.type.BSData;
 import cl.buildersoft.framework.type.BSFieldDataType;
 import cl.buildersoft.framework.type.BSTypeFactory;
-import cl.buildersoft.web.servlet.table.AbstractServletUtil;
+import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 
 @WebServlet("/servlet/csv/ConfirmCSV")
 public class ConfirmCSV extends AbstractServletUtil {

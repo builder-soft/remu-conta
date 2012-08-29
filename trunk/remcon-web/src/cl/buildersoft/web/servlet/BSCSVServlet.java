@@ -29,8 +29,8 @@ import cl.buildersoft.framework.type.BSData;
 import cl.buildersoft.framework.type.BSFieldDataType;
 import cl.buildersoft.framework.type.BSTypeFactory;
 import cl.buildersoft.framework.util.BSConfig;
+import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 import cl.buildersoft.web.servlet.csv.CsvReader;
-import cl.buildersoft.web.servlet.table.AbstractServletUtil;
 
 public abstract class BSCSVServlet extends AbstractServletUtil {
 	private static final long serialVersionUID = 1L;

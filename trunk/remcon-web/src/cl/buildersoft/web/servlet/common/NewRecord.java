@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.table;
+package cl.buildersoft.web.servlet.common;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.BSTableConfig;
 
-@WebServlet("/servlet/table/NewRecord")
+@WebServlet("/servlet/common/NewRecord")
 public class NewRecord extends AbstractServletUtil {
 	private static final long serialVersionUID = 1L;
 

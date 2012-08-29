@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.table;
+package cl.buildersoft.web.servlet.common;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -20,7 +20,7 @@ import cl.buildersoft.framework.database.BSmySQL;
 /**
  * Servlet implementation class NatTable
  */
-@WebServlet("/servlet/table/NatTable")
+@WebServlet("/servlet/common/NatTable")
 public class NatTable extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

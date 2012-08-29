@@ -93,21 +93,21 @@ public class BSTableConfig {
 	private void createInsert() {
 		BSAction insert = new BSAction("INSERT", BSActionType.Table);
 		insert.setLabel("Nuevo");
-		insert.setUrl("/servlet/table/NewRecord");
+		insert.setUrl("/servlet/common/NewRecord");
 		this.addAction(insert);
 	}
 
 	private void createEdit() {
 		BSAction edit = new BSAction("EDIT", BSActionType.Record);
 		edit.setLabel("Modificar");
-		edit.setUrl("/servlet/table/SearchRecord");
+		edit.setUrl("/servlet/common/SearchRecord");
 		this.addAction(edit);
 	}
 
 	private void createDelete() {
 		BSAction delete = new BSAction("DELETE", BSActionType.MultiRecord);
 		delete.setLabel("Borrar");
-		delete.setUrl("/servlet/table/DeleteRecords");
+		delete.setUrl("/servlet/common/DeleteRecords");
 		this.addAction(delete);
 	}
 
