@@ -29,6 +29,55 @@
 		}
 	}
 %>
+<script type="text/javascript">
+<!--
+function sendForm(){
+	var msg = null;
+	<%
+	String fieldName=null;
+	String html = "";
+	BSFieldType type=null;
+	for (BSField field : fields) {
+		type = field.getType();
+		fieldName = field.getName();
+		
+		if(type.equals(BSFieldType.Double)|| type.equals(BSFieldType.Integer)|| type.equals(BSFieldType.Date)){		
+			if(type.equals(BSFieldType.Double)){
+				html = "var " + fieldName + " = formated2double(document.getElementById('"+fieldName+"').value);\n";
+			}
+			if(type.equals(BSFieldType.Integer)){
+				html = "var " + fieldName + " = formated2integer(document.getElementById('"+fieldName+"').value);\n";
+			}
+			if(type.equals(BSFieldType.Date)){
+				html = "var " + fieldName + " = isDate(document.getElementById('"+fieldName+"').value);\n";
+				html += fieldName + " = " + fieldName +"?"+fieldName +":null;\n";
+			}
+
+			html += "if (" + fieldName + " == null) {\n";
+			html += "   msg = 'El campo "+ field.getLabel() + " no es valido';\n";
+			html += "}\n";
+}
+%>
+	<%=html%>
+	<%}%>
+if (msg != null) {
+	alert(msg);
+} else {
+<%
+html = "";
+for (BSField field : fields) {
+		type = field.getType();
+		fieldName = field.getName();
+		if(type.equals(BSFieldType.Double)|| type.equals(BSFieldType.Integer)){
+			html += "document.getElementById('"+fieldName+"').value = "+fieldName+";\n";
+		}
+		%>	
+	<%}%>
+	<%=html%>
+		document.getElementById("editForm").submit();
+	}
+}
+</script>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 <h1 class="cTitle">Detalle de información</h1>
 <%
@@ -49,14 +98,14 @@
 		%>
 		<tr>
 			<td class="cLabel" valign='top'><%=field.getLabel()%>:</td>
-			<td class="cData"><%=writeHTMLField(field, request)%></td>
+			<td><%=writeHTMLField(field, request)%></td>
 		</tr>
 		<%
 			}
 		%>
 	</table>
 </form>
-<button type="button" onclick="javascript:$('#editForm').submit();">Aceptar</button>
+<button type="button" onclick="javascript:sendForm()">Aceptar</button>
 &nbsp;&nbsp;&nbsp;
 <a class="cCancel" href="${pageContext.request.contextPath}/servlet/common/LoadTable">Cancelar</a>
 
@@ -99,7 +148,6 @@
 					if (size > 75) {
 						size = 75;
 					}
-
 				} else if (type.equals(BSFieldType.Date)) {
 					maxlength = 10;
 					format = BSDateTimeUtil.getFormatDate(request);
@@ -131,7 +179,7 @@
 						value = NEW;
 						//isNew = Boolean.TRUE;
 					} else {
-						value = value == null ? "" : BSWeb.formatNumber(request, value);  // BSWeb.number2String(value, format);
+						value = value == null ? "" : BSWeb.formatLong(request, (Long)value);  // BSWeb.number2String(value, format);
 					}
 					size = maxlength;
 				}
@@ -168,16 +216,34 @@
 		out += "<input type='" + type + "' name='";
 		out += name;
 		out += "' ";
+		out += "id='" + name + "' ";
 		out += "maxlength='" + maxlength + "' ";
 		out += isReadonly ? "READONLY " : "";
 		out += "value='" + (value.equals(NEW) ? "0" : value) + "' ";
 		out += "size='" + size + "px' ";
-		//out += onFocus(dataType);
+		
+		out+=addScript(dataType);
+		
 		if (!"".equals(validationOnBlur)) {
 			out += "onBlur='javascript:" + validationOnBlur + "(this)'";
 		}
-		out += ">&nbsp;" + afterInput;
+		
+		
+		out += ">&nbsp;<span class='cLabel'>" + afterInput+"</span>";
 
+		return out;}
+
+	private String addScript(BSFieldType dataType) {
+		String out = "";
+		if (dataType.equals(BSFieldType.Double)) {
+			out = "onfocus='javascript:doubleFocus(this);' ";
+			out += "onblur='javascript:doubleBlur(this);' ";
+		} else if (dataType.equals(BSFieldType.Integer)) {
+			out = "onfocus='javascript:integerFocus(this);' ";
+			out += "onblur='javascript:integerBlur(this);' ";
+		}else if (dataType.equals(BSFieldType.Date)) {
+			out += "onblur='javascript:dateBlur(this);' ";
+		}
 		return out;
 	}
 

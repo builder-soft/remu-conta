@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="com.mysql.jdbc.MySQLConnection"%>
 <%@page import="cl.buildersoft.framework.database.BSmySQL"%>
@@ -199,7 +200,6 @@
 			out += "</td>";
 		}
 		BSFieldType type = null;
-
 		for (BSField field : fields) {
 			type = field.getType();
 
@@ -219,15 +219,15 @@
 						} else {
 							out += "No";
 						}
+					} else if (type.equals(BSFieldType.Double)) {
+						out += BSWeb.formatDouble(request, (Double) value);
+					} else if (type.equals(BSFieldType.Date)) {
+						out += BSDateTimeUtil.date2String(request, value);
+					} else if (type.equals(BSFieldType.Integer)) {
+						out += BSWeb.formatInteger(request, (Integer) value);
+					}
 
-					} else if (type.equals(BSFieldType.Date) || type.equals(BSFieldType.Double)) {
-						BSFieldDataType dataType = BSTypeFactory.create(field);
-						BSmySQL mysql = new BSmySQL();
-						Connection conn = mysql.getConnection(request);
-
-						out += dataType.format(conn, value);
-
-					} else {
+					else {
 						out += value;
 					}
 

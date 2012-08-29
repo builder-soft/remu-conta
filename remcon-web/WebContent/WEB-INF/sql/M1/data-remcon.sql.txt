@@ -14,10 +14,12 @@ SET @longId = LAST_INSERT_ID();
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_DATE', 'Formato de Fecha', 'dd/MM/yyyy', @stringId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_DATETIME', 'Formado de fecha/hora', 'dd/MM/yyyy HH:mm', @stringId);
 
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_NUMBER', 'Formato para números (ISO-639)', 'cl', @stringId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LOCALE', 'Región, afecta a formato de números(ISO-639)', 'ES', @stringId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('PATTERN_INTEGER', 'Formato para montos enteros', '###.###.##0', @stringId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('PATTERN_DECIMAL', 'Formato para montos con decimales', '###.###.##0,00###', @stringId);
+
+
 /*
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_INTEGER', 'Formato para montos', '#,###,###,##0', @stringId);
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_DECIMAL', 'Formato para montos', '###,##0.00', @stringId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('DECIMAL_SEPARATOR', 'Separador de decimales', ',', @stringId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('GROUP_SEPARATOR', 'Separador de grupos numéricos', '.', @stringId);
 */

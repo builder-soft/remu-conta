@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +33,10 @@ import cl.buildersoft.framework.type.BSFieldType;
 import cl.buildersoft.framework.type.BSTypeFactory;
 
 public class BSWeb {
+	private static final String LOCALE = "LOCALE";
+	private static final String PATTERN_DECIMAL = "PATTERN_DECIMAL";
+	private static final String PATTERN_INTEGER = "PATTERN_INTEGER";
+
 	public static Object value2Object(Connection conn, HttpServletRequest request, BSField field, boolean fromWebPage) {
 		Object out = null;
 		String name = field.getName();
@@ -97,21 +103,33 @@ public class BSWeb {
 		return mysql.getConnection(request);
 	}
 
-	public static String getFormatNumber(Connection conn) {
+	private static String getConfig(Connection conn, String key) {
 		BSConfig config = new BSConfig();
-		return config.getString(conn, "FORMAT_NUMBER").toLowerCase();
+		return config.getString(conn, key);
 	}
 
-	public static String getFormatNumber(HttpServletRequest request) {
-		return getFormatNumber(requestToConnection(request));
+	public static String getLocale(Connection conn) {
+		return getConfig(conn, LOCALE).toLowerCase();
+	}
+
+	public static String getLocale(HttpServletRequest request) {
+		return getLocale(requestToConnection(request));
 	}
 
 	public static String formatDouble(Connection conn, Double value) {
-		return formatNumber(conn, value);
+		return formatNumber(conn, value, getConfig(conn, PATTERN_DECIMAL));
 	}
 
 	public static String formatDouble(HttpServletRequest request, Double value) {
 		return formatDouble(requestToConnection(request), value);
+	}
+
+	public static String formatLong(HttpServletRequest request, Long value) {
+		return formatLong(requestToConnection(request), value);
+	}
+
+	public static String formatLong(Connection conn, Long value) {
+		return formatNumber(conn, value, getConfig(conn, PATTERN_INTEGER));
 	}
 
 	public static String formatInteger(HttpServletRequest request, Integer value) {
@@ -119,64 +137,82 @@ public class BSWeb {
 	}
 
 	public static String formatInteger(Connection conn, Integer value) {
-		return formatNumber(conn, value);
+		return formatNumber(conn, value, getConfig(conn, PATTERN_INTEGER));
 	}
 
-	public static String formatNumber(HttpServletRequest request, Object value) {
-		return formatNumber(requestToConnection(request), value);
+	public static String formatNumber(HttpServletRequest request, Object value, String pattern) {
+		return formatNumber(requestToConnection(request), value, pattern);
 	}
 
-	public static String formatNumber(Connection conn, Object value) {
+	public static String formatNumber(Connection conn, Object value, String pattern) {
 		String out = "";
 		if (value != null) {
-			Locale locale = new Locale(getFormatNumber(conn));
-			NumberFormat format = NumberFormat.getNumberInstance(locale);
-			out = format.format(value);
+			Locale locale = new Locale(getLocale(conn));
+
+			if (pattern != null && pattern.length() > 0) {
+				DecimalFormat format = (DecimalFormat) NumberFormat.getNumberInstance(locale);
+				format.applyLocalizedPattern(pattern);
+				out = format.format(value);
+			} else {
+				NumberFormat format = NumberFormat.getNumberInstance(locale);
+				out = format.format(value);
+			}
+		}
+		return out;
+	}
+
+	private static Object parseNumber(Connection conn, String value, String pattern, Class clax) {
+		Locale locale = new Locale(getLocale(conn));
+		Object out = null;
+
+		ParsePosition parsePosition = new ParsePosition(0);
+
+		if (pattern != null && pattern.length() > 0) {
+			DecimalFormat format = (DecimalFormat) NumberFormat.getNumberInstance(locale);
+			format.applyLocalizedPattern(pattern);
+
+			Number num = format.parse(value, parsePosition);
+
+			if (clax.equals(Integer.class)) {
+				out = num.intValue();
+			} else if (clax.equals(Double.class)) {
+				out = num.doubleValue();
+			} else {
+				out = num.longValue();
+			}
+
+		} else {
+			NumberFormat formatNumber = NumberFormat.getNumberInstance(locale);
+			out = formatNumber.parse(value, parsePosition);
+		}
+		if (parsePosition.getIndex() < value.length()) {
+			throw new BSProgrammerException("Number isn't correct " + value);
 		}
 		return out;
 	}
 
 	public static Double parseDouble(Connection conn, String value) {
-		Locale locale = new Locale(getFormatNumber(conn));
-		NumberFormat formatNumber = NumberFormat.getNumberInstance(locale);
-		Double out;
-		try {
-			Object number = formatNumber.parse(value);
-			if (number instanceof Long) {
-				out = ((Long) number).doubleValue();
-			} else {
-				out = ((Double) number);
-			}
-		} catch (ParseException e) {
-			throw new BSProgrammerException(e);
-		}
-		return out;
+		return (Double) parseNumber(conn, value, getConfig(conn, PATTERN_DECIMAL), Double.class);
+	}
+
+	public static Double parseDouble(HttpServletRequest request, String value) {
+		return parseDouble(requestToConnection(request), value);
 	}
 
 	public static Integer parseInteger(Connection conn, String value) {
-		Locale locale = new Locale(getFormatNumber(conn));
-		NumberFormat formatNumber = NumberFormat.getNumberInstance(locale);
-		Integer out;
-		try {
-			Object number = formatNumber.parse(value);
-			if (number instanceof Long) {
-				out = ((Long) number).intValue();
-			} else {
-				out = ((Integer) number);
-			}
-		} catch (ParseException e) {
-			throw new BSProgrammerException(e);
-		}
-		return out;
-
+		return (Integer) parseNumber(conn, value, getConfig(conn, PATTERN_INTEGER), Integer.class);
 	}
 
 	public static Integer parseInteger(HttpServletRequest request, String value) {
 		return parseInteger(requestToConnection(request), value);
 	}
 
-	public static Double parseDouble(HttpServletRequest request, String value) {
-		return parseDouble(requestToConnection(request), value);
+	public static Long parseLong(Connection conn, String value) {
+		return (Long) parseNumber(conn, value, getConfig(conn, PATTERN_INTEGER), Long.class);
+	}
+
+	public static Long parseLong(HttpServletRequest request, String value) {
+		return parseLong(requestToConnection(request), value);
 	}
 
 	/**
@@ -312,7 +348,7 @@ public class BSWeb {
 			} else if ("double".equalsIgnoreCase(type)) {
 				// format = getFormatDecimal(conn);
 				Double dataDouble = Double.parseDouble(data);
-				out[0] = formatNumber(conn, dataDouble);
+				out[0] = formatDouble(conn, dataDouble);
 				out[1] = "right";
 			} else if ("int".equalsIgnoreCase(type)) {
 				// format = getFormatInteger(conn);
