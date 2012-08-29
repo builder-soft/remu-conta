@@ -3,9 +3,7 @@ package cl.buildersoft.web.servlet.config.pfm;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
-import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.framework.beans.Domain;
 import cl.buildersoft.web.servlet.common.BSHttpServlet;
 
 @WebServlet("/servlet/config/pfm/PFMManager")
@@ -14,33 +12,14 @@ public class PFMManager extends BSHttpServlet {
 
 	@Override
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
-		Domain domain = (Domain) request.getSession().getAttribute("Domain");
-		BSTableConfig table = new BSTableConfig(domain.getAlias(), "tBoard",
-				"vPFM");
-		table.setTitle("Listado de AFP");
-		table.setSaveSP("pSavePFM");
-		table.setDeleteSP("pDelPFM");
+		BSTableConfig table = super.initTable(request, "tPFM");
 
-		BSField field = null;
-		field = new BSField("cId", "Identificador");
-		field.setPK(Boolean.TRUE);
-		table.addField(field);
+		table.setTitle("Administradores de Fondos de Pensión");
 
-		field = new BSField("cKey", "Código");
-		table.addField(field);
-
-		field = new BSField("cName", "Nombre");
-		table.addField(field);
-
-		field = new BSField("cEnable", "Habilitado");
-		table.addField(field);
-
-		field = new BSField("cFactor", "Factor");
-		table.addField(field);
-
-		field = new BSField("cSIS", "SIS");
-		table.addField(field);
-		
+		 table.getField("cKey").setLabel("Llave de integración");
+		 table.getField("cName").setLabel("Nombre");
+		 table.getField("cFactor").setLabel("Factor descuento");
+		 table.getField("cSIS").setLabel("Seguro de Invalidez y Sobrevivencia");
 
 		return table;
 	}
