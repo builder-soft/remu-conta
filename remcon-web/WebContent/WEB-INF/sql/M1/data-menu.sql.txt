@@ -43,7 +43,7 @@ SET @menuIdConfig = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PERIODS', 'Periodos', NULL, @menuIdIndicators);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('FACTORS', 'Factores (UF, UTM, IPC, etc)', NULL, @menuIdIndicators);
 
-	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('HEALTH', 'Isapres', '/servlet/config/health/HealthManager', @menuIdConfig);
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('HEALTH', 'Sistemas de salud', '/servlet/config/health/HealthManager', @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PFM', 'AFP', '/servlet/config/pfm/PFMManager', @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('INSURANCE', 'Seguro Cesantia', NULL, @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('SINGLE_TAX', 'Impuesto único', NULL, @menuIdConfig);
