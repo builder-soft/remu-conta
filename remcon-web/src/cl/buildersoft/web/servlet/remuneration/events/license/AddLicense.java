@@ -60,7 +60,7 @@ public class AddLicense extends HttpServlet {
 		}
 
 		saveLicense(conn, causeLong, values, employeeId, periodId, fileId);
-
+		mysql.closeConnection(conn);
 		request.setAttribute("cId", employeeId);
 		request.getRequestDispatcher("/servlet/remuneration/events/license/LicenseMain").forward(request, response);
 	}

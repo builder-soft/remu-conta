@@ -22,7 +22,7 @@ public abstract class AbstractFormatServlet extends HttpServlet {
 		response.setHeader("Pragma", "no-cache");
 		response.setContentType("text/plain");
 	}
-
+/**<code>
 	protected Connection getConnection(HttpServletRequest request) {
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
@@ -38,6 +38,7 @@ public abstract class AbstractFormatServlet extends HttpServlet {
 		BSConfig config = new BSConfig();
 		return config.getString(conn, "GROUP_SEPARATOR");
 	}
+</code>	*/
 
 	protected PrintWriter writeToBrowser(HttpServletResponse response, String out) throws IOException {
 		PrintWriter writer = response.getWriter();

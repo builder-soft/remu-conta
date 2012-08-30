@@ -20,8 +20,7 @@ import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 public class SavePayMode extends AbstractServletUtil {
 	private static final long serialVersionUID = -5817512346998187995L;
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long employeeId = Long.parseLong(request.getParameter("cId"));
 
 		BSmySQL mysql = new BSmySQL();
@@ -42,22 +41,19 @@ public class SavePayMode extends AbstractServletUtil {
 		agreement.setCurrencyAccount2(getCurrencyCLP(conn, bu));
 
 		bu.save(conn, agreement);
-
-		request.getRequestDispatcher("/servlet/config/employee/EmployeeManager").forward(
-				request, response);
+		mysql.closeConnection(conn);
+		request.getRequestDispatcher("/servlet/config/employee/EmployeeManager").forward(request, response);
 	}
 
 	private Long getCurrencyCLP(Connection conn, BSBeanUtilsSP bu) {
-		Currency currency = (Currency) bu.get(conn, new Currency(),
-				"pGetCurrencyByKey", "CLP");
+		Currency currency = (Currency) bu.get(conn, new Currency(), "pGetCurrencyByKey", "CLP");
 		return currency.getId();
 
 	}
 
 	private Agreement getAgreement(Connection conn, Long idEmployee) {
 		AgreementService agreementService = new AgreementServiceImpl();
-		Agreement out = agreementService.getAgreementByEmployee(conn,
-				idEmployee);
+		Agreement out = agreementService.getAgreementByEmployee(conn, idEmployee);
 		return out;
 	}
 }

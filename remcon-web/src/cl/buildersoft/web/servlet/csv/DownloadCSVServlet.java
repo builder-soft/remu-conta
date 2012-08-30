@@ -69,6 +69,9 @@ public abstract class DownloadCSVServlet extends HttpServlet {
 			}
 		} catch (SQLException e) {
 			throw new BSDataBaseException(e);
+		} finally {
+			mysql.closeSQL(rs);
+			mysql.closeConnection(conn);
 		}
 
 		csv.flush();

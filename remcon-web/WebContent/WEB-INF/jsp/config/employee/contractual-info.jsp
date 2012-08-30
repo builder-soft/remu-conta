@@ -26,6 +26,7 @@
 
 		AgreementService agreementService = new AgreementServiceImpl();
 		agreement = agreementService.getDefaultAgreement(conn, employee.getId());
+		mysql.closeConnection(conn);
 	}
 
 	List<Profile> profiles = (List<Profile>) request.getAttribute("Profiles");

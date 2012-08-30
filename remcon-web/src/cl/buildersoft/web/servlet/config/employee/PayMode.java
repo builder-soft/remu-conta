@@ -24,8 +24,7 @@ import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 public class PayMode extends AbstractServletUtil {
 	private static final long serialVersionUID = -7622439846904256208L;
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long employeeId = Long.parseLong(request.getParameter("cId"));
 
 		BSmySQL mysql = new BSmySQL();
@@ -33,10 +32,8 @@ public class PayMode extends AbstractServletUtil {
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
 
 		List<Bank> banks = (List<Bank>) bu.list(conn, new Bank(), "pListBank");
-		List<AccountType> accountTypes = (List<AccountType>) bu.list(conn,
-				new AccountType(), "pListAccountType");
-		List<PaymentType> paymentTypes = (List<PaymentType>) bu.list(conn,
-				new PaymentType(), "pListPaymentType");
+		List<AccountType> accountTypes = (List<AccountType>) bu.list(conn, new AccountType(), "pListAccountType");
+		List<PaymentType> paymentTypes = (List<PaymentType>) bu.list(conn, new PaymentType(), "pListPaymentType");
 
 		// RagreementAPV account = getAccount(conn, bu, employeeId);
 
@@ -46,9 +43,9 @@ public class PayMode extends AbstractServletUtil {
 		request.setAttribute("Employee", getEmployee(conn, bu, employeeId));
 		request.setAttribute("Agreement", getAgreement(conn, bu, employeeId));
 
-		request.getRequestDispatcher(
-				"/WEB-INF/jsp/config/employee/pay-mode.jsp").forward(request,
-				response);
+		mysql.closeConnection(conn);
+
+		request.getRequestDispatcher("/WEB-INF/jsp/config/employee/pay-mode.jsp").forward(request, response);
 	}
 
 	private Employee getEmployee(Connection conn, BSBeanUtilsSP bu, Long id) {
@@ -58,11 +55,9 @@ public class PayMode extends AbstractServletUtil {
 		return out;
 	}
 
-	public Agreement getAgreement(Connection conn, BSBeanUtilsSP bu,
-			Long idEmployee) {
+	public Agreement getAgreement(Connection conn, BSBeanUtilsSP bu, Long idEmployee) {
 		AgreementService agreementService = new AgreementServiceImpl();
-		Agreement out = agreementService.getAgreementByEmployee(conn,
-				idEmployee);
+		Agreement out = agreementService.getAgreementByEmployee(conn, idEmployee);
 		return out;
 	}
 

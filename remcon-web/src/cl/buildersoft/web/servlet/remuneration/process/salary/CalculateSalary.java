@@ -21,6 +21,7 @@ public class CalculateSalary extends HttpServlet {
 
 		mysql.callSingleSP(conn, "pCalculateAllSalary", null);
 		mysql.closeSQL();
+		mysql.closeConnection(conn);
 
 		request.getRequestDispatcher("/servlet/Home").forward(request, response);
 	}

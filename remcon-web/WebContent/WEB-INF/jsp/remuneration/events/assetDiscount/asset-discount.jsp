@@ -108,10 +108,17 @@
 					<%=write_asset_discount(2L, assetDiscounts, assetDiscountData, haveData)%>
 				</table>
 	</table>
-	<button type="submit">Aceptar</button>&nbsp;&nbsp;<a class="cCancel"
+	<button type="submit">Aceptar</button>
+	&nbsp;&nbsp;<a class="cCancel"
 		href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver...</a>
 
 </form>
+
+<%
+	Connection conn = (Connection) request.getAttribute("Conn");
+	new BSmySQL().closeConnection(conn);
+	new BSmySQL().closeSQL(assetDiscountData);
+%>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 

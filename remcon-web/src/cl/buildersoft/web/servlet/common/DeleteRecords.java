@@ -35,8 +35,8 @@ public class DeleteRecords extends AbstractServletUtil {
 		synchronized (session) {
 			table = (BSTableConfig) session.getAttribute("BSTable");
 		}
-		BSmySQL mySQL = new BSmySQL();
-		Connection  conn = mySQL.getConnection(request);
+		BSmySQL mysql = new BSmySQL();
+		Connection  conn = mysql.getConnection(request);
 		
 		String idField = table.getIdField().getName();
 		String[] values = request.getParameterValues(idField);
@@ -45,7 +45,7 @@ public class DeleteRecords extends AbstractServletUtil {
 		if (table.getDeleteSP() != null) {
 			for (String value : values) {
 				Long id = Long.parseLong(value);
-				mySQL.callSingleSP(conn, table.getDeleteSP() , id);
+				mysql.callSingleSP(conn, table.getDeleteSP() , id);
 			}
 
 		} else {
@@ -53,10 +53,12 @@ public class DeleteRecords extends AbstractServletUtil {
 
 			for (String value : values) {
 				Long id = Long.parseLong(value);
-				mySQL.update(conn, sql, array2List(id));
+				mysql.update(conn, sql, array2List(id));
 
 			}
 		}
+		mysql.closeConnection(conn);
+
 		request.getRequestDispatcher("/servlet/common/LoadTable").forward(
 				request, response);
 	}

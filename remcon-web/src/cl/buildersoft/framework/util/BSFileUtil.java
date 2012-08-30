@@ -24,7 +24,8 @@ public class BSFileUtil {
 
 		BSConfig config = new BSConfig();
 		String tempPath = fixPath(config.getString(conn, "EMPLOYEE_FILES"));
-
+		mysql.closeConnection(conn);
+		
 		String fileName = "" + System.currentTimeMillis();
 		Map<String, String> values = (HashMap<String, String>) uploadFile(request, tempPath, fileName);
 

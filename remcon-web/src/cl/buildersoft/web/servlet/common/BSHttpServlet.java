@@ -48,6 +48,7 @@ public abstract class BSHttpServlet extends HttpServlet {
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 		table.configFields(conn, mysql);
+		mysql.closeConnection(conn);
 		return table;
 	}
 

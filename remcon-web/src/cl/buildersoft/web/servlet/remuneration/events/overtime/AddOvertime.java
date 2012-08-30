@@ -42,6 +42,7 @@ public class AddOvertime extends HttpServlet {
 
 		BSBeanUtils bu = new BSBeanUtils();
 		bu.save(conn, overtime);
+		mysql.closeConnection(conn);
 
 		request.setAttribute("cId", employeeId);
 		request.getRequestDispatcher("/servlet/remuneration/events/overtime/OvertimeMain").forward(request, response);

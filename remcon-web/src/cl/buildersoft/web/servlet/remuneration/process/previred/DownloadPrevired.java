@@ -62,6 +62,9 @@ public class DownloadPrevired extends AbstractServletUtil {
 			csv.close();
 		} catch (SQLException e) {
 			throw new BSProgrammerException("", e.getMessage());
+		} finally {
+			mysql.closeSQL(rs);
+			mysql.closeConnection(conn);
 		}
 	}
 
@@ -127,7 +130,7 @@ public class DownloadPrevired extends AbstractServletUtil {
 		csv.write("0"); /* 71 */
 		csv.write("0"); /* 72 */
 		csv.write("0"); /* 73 */
-	  	csv.write("0"); /* 74 */ 
+		csv.write("0"); /* 74 */
 	}
 
 	private void affiliateData_50_61(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
@@ -164,9 +167,21 @@ public class DownloadPrevired extends AbstractServletUtil {
 	private void pfmData_26_39(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
 		csv.write(rs.getString("cPFMKey")); /* 26 - Código de la AFP */
 		csv.write(rs.getString("cIncome")); /* 27 */
-		csv.write(rs.getString("cObligatoryQuote")); /* 28 - Monto Cotizacion Obligatoria */
-		csv.write(rs.getString("cEmployerDisabilityInsurance")); /* 29 - Monto Seguro invalidez y sobrevivencia empleador */
-		csv.write(rs.getString("cAPVAmount")); /* 30 - depósito en cuenta de ahorro voluntario */
+		csv.write(rs.getString("cObligatoryQuote")); /*
+													 * 28 - Monto Cotizacion
+													 * Obligatoria
+													 */
+		csv.write(rs.getString("cEmployerDisabilityInsurance")); /*
+																 * 29 - Monto
+																 * Seguro
+																 * invalidez y
+																 * sobrevivencia
+																 * empleador
+																 */
+		csv.write(rs.getString("cAPVAmount")); /*
+												 * 30 - depósito en cuenta de
+												 * ahorro voluntario
+												 */
 		csv.write("0"); /* 31 */
 		csv.write("0"); /* 32 */
 		csv.write("0"); /* 33 */

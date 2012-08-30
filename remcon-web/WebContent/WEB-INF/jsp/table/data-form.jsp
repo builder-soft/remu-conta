@@ -11,7 +11,9 @@
 	pageEncoding="ISO-8859-1"%>
 <%
 	BSTableConfig table = (BSTableConfig) session.getAttribute("BSTable");
-	BSField[] fields = table.getFields();
+//Connection conn = (Connection) request.getAttribute("Conn");
+
+BSField[] fields = table.getFields();
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%

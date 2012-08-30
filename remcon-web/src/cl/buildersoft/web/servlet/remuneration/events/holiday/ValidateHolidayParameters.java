@@ -38,6 +38,7 @@ public class ValidateHolidayParameters extends HttpServlet {
 			
 			Calendar date = BSDateTimeUtil.string2Calendar(from, formatDate);
 			String newDate = mysql.callFunction(conn, "fBusinessDate", BSUtils.array2List(date, days));
+			mysql.closeConnection(conn);
 			date = BSDateTimeUtil.string2Calendar(newDate, "yyyy-MM-dd");
 			response.getWriter().print(BSDateTimeUtil.calendar2String(date, formatDate));
 

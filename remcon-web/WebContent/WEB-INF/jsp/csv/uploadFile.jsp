@@ -8,12 +8,13 @@
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 <%
 	BSmySQL mysql = new BSmySQL();
-	Connection conn = mysql.getConnection(request.getServletContext(),
-	"bsframework");
+	Connection conn = mysql.getConnection(request.getServletContext(), "bsframework");
 	BSConfig myConfig = new BSConfig();
 	char separator = myConfig.getCSVSeparator(conn);
 	String formatDate = myConfig.getString(conn, "FORMAT_DATE");
 	String formatDateTime = myConfig.getString(conn, "FORMAT_DATETIME");
+	
+	mysql.closeConnection(conn);
 %>
 
 <h1 class="cTitle">Carga de personas</h1>
@@ -25,13 +26,16 @@
 </form>
 <br>
 <br>
-<span class="cLabel">
-Considere estos formatos para los archivos:
+<span class="cLabel"> Considere estos formatos para los archivos:
 </span>
 <ul>
-	<li><span class="cLabel">Separador csv: </span> <span class="cData">"<%=separator%>"</span>
-	<li><span class="cLabel">Formato de fechas:</span> <span class="cData"><%=formatDate%></span>
-	<li><span class="cLabel">Formato de fechas/hora:</span> <span class="cData"><%=formatDateTime%></span>
+	<li><span class="cLabel">Separador csv: </span> <span
+		class="cData">"<%=separator%>"
+	</span>
+	<li><span class="cLabel">Formato de fechas:</span> <span
+		class="cData"><%=formatDate%></span>
+	<li><span class="cLabel">Formato de fechas/hora:</span> <span
+		class="cData"><%=formatDateTime%></span>
 </ul>
 
 <!-- 

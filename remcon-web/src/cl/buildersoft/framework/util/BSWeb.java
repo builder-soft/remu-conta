@@ -113,7 +113,10 @@ public class BSWeb {
 	}
 
 	public static String getLocale(HttpServletRequest request) {
-		return getLocale(requestToConnection(request));
+		Connection conn = requestToConnection(request);
+		String out = getLocale(conn);
+		new BSmySQL().closeConnection(conn);
+		return out;
 	}
 
 	public static String formatDouble(Connection conn, Double value) {
@@ -121,11 +124,17 @@ public class BSWeb {
 	}
 
 	public static String formatDouble(HttpServletRequest request, Double value) {
-		return formatDouble(requestToConnection(request), value);
+		Connection conn = requestToConnection(request);
+		String out = formatDouble(conn, value);
+		new BSmySQL().closeConnection(conn);
+		return out;
 	}
 
 	public static String formatLong(HttpServletRequest request, Long value) {
-		return formatLong(requestToConnection(request), value);
+		Connection conn = requestToConnection(request);
+		String out = formatLong(conn, value);
+		new BSmySQL().closeConnection(conn);
+		return out;
 	}
 
 	public static String formatLong(Connection conn, Long value) {
@@ -133,7 +142,10 @@ public class BSWeb {
 	}
 
 	public static String formatInteger(HttpServletRequest request, Integer value) {
-		return formatInteger(requestToConnection(request), value);
+		Connection conn = requestToConnection(request);
+		String out = formatInteger(conn, value);
+		new BSmySQL().closeConnection(conn);
+		return out;
 	}
 
 	public static String formatInteger(Connection conn, Integer value) {
@@ -141,7 +153,10 @@ public class BSWeb {
 	}
 
 	public static String formatNumber(HttpServletRequest request, Object value, String pattern) {
-		return formatNumber(requestToConnection(request), value, pattern);
+		Connection conn = requestToConnection(request);
+		String out = formatNumber(conn, value, pattern);
+		new BSmySQL().closeConnection(conn);
+		return out;
 	}
 
 	public static String formatNumber(Connection conn, Object value, String pattern) {
@@ -161,7 +176,7 @@ public class BSWeb {
 		return out;
 	}
 
-	private static Object parseNumber(Connection conn, String value, String pattern, Class clax) {
+	private static Object parseNumber(Connection conn, String value, String pattern, Class claz) {
 		Locale locale = new Locale(getLocale(conn));
 		Object out = null;
 
@@ -173,9 +188,9 @@ public class BSWeb {
 
 			Number num = format.parse(value, parsePosition);
 
-			if (clax.equals(Integer.class)) {
+			if (claz.equals(Integer.class)) {
 				out = num.intValue();
-			} else if (clax.equals(Double.class)) {
+			} else if (claz.equals(Double.class)) {
 				out = num.doubleValue();
 			} else {
 				out = num.longValue();
@@ -196,7 +211,10 @@ public class BSWeb {
 	}
 
 	public static Double parseDouble(HttpServletRequest request, String value) {
-		return parseDouble(requestToConnection(request), value);
+		Connection conn = requestToConnection(request);
+		Double out = parseDouble(conn, value);
+		new BSmySQL().closeConnection(conn);
+		return out;
 	}
 
 	public static Integer parseInteger(Connection conn, String value) {
@@ -204,7 +222,11 @@ public class BSWeb {
 	}
 
 	public static Integer parseInteger(HttpServletRequest request, String value) {
-		return parseInteger(requestToConnection(request), value);
+		Connection conn = requestToConnection(request);
+		Integer out = parseInteger(conn, value);
+		new BSmySQL().closeConnection(conn);
+		return out;
+
 	}
 
 	public static Long parseLong(Connection conn, String value) {
@@ -212,7 +234,10 @@ public class BSWeb {
 	}
 
 	public static Long parseLong(HttpServletRequest request, String value) {
-		return parseLong(requestToConnection(request), value);
+		Connection conn = requestToConnection(request);
+		Long out = parseLong(conn, value);
+		new BSmySQL().closeConnection(conn);
+		return out;
 	}
 
 	/**

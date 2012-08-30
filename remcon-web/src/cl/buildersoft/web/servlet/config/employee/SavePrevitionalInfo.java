@@ -56,7 +56,7 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		Integer disabilityBurdens = Integer.valueOf(request.getParameter("disabilityBurdens"));
 		Integer maternalLoad = Integer.valueOf(request.getParameter("maternalLoad"));
 		Long afpEmp = Long.valueOf(request.getParameter("afpEmp"));
-		Integer monthsQuoted=Integer.parseInt(request.getParameter("MonthsQuoted"));
+		Integer monthsQuoted = Integer.parseInt(request.getParameter("MonthsQuoted"));
 		Long healthCurrency = Long.valueOf(request.getParameter("HealthCurrency"));
 
 		Long health = Long.valueOf(request.getParameter("health"));
@@ -88,7 +88,7 @@ public class SavePrevitionalInfo extends AbstractServletUtil {
 		agreement.setAdditionalPFMCurrency(additionalPFMCurrency);
 
 		bu.save(conn, agreement);
-
+		mysql.closeConnection(conn);
 		request.getRequestDispatcher("/servlet/config/employee/EmployeeManager").forward(request, response);
 	}
 

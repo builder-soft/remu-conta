@@ -26,23 +26,21 @@ public class UserEdit extends HttpServlet {
 
 	}
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long id = Long.parseLong(request.getParameter("cId"));
 
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request.getServletContext(),
-				"bsframework");
+		Connection conn = mysql.getConnection(request.getServletContext(), "bsframework");
 
 		BSBeanUtils bu = new BSBeanUtils();
 		User user = new User();
 		user.setId(id);
 		bu.search(conn, user);
+		mysql.closeConnection(conn);
 
 		request.setAttribute("User", user);
 
-		request.getRequestDispatcher("/WEB-INF/jsp/system/user/user-form.jsp")
-				.forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/system/user/user-form.jsp").forward(request, response);
 
 	}
 

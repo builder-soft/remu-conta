@@ -36,6 +36,7 @@ public class OvertimeMain extends HttpServlet {
 		Employee employee = getEmployee(conn, request);
 		List<Overtime> overtimes = getOvertimes(conn, employee, period);
 		Double overtimePercent = getOvertimePercent(conn);
+		mysql.closeConnection(conn);
 
 		request.setAttribute("Period", period);
 		request.setAttribute("Employee", employee);

@@ -28,22 +28,20 @@ public class ConfirmCSV extends AbstractServletUtil {
 		super();
 	}
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		BSTableConfig table = null;
 		List<Map<String, BSData>> allData = null;
 		synchronized (session) {
 			table = (BSTableConfig) session.getAttribute("BSTable");
-			allData = (List<Map<String, BSData>>) session
-					.getAttribute("respCSV");
+			allData = (List<Map<String, BSData>>) session.getAttribute("respCSV");
 		}
 
 		String sqlInsert = getSQLInsert(table);
 		String sqlUpdate = getSQLUpdate(table);
 
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request );
+		Connection conn = mysql.getConnection(request);
 
 		List<Object> prms = null;
 		String sql = null;
@@ -67,19 +65,18 @@ public class ConfirmCSV extends AbstractServletUtil {
 			mysql.rollback(conn);
 		}
 		mysql.setAutoCommit(conn, true);
-
+		mysql.closeConnection(conn);
+		
 		String page = "/servlet/Home";
 		request.getRequestDispatcher(page).forward(request, response);
 
 	}
 
-	private Long exists(Connection conn, BSmySQL mysql,
-			Map<String, BSData> row, BSTableConfig table) {
+	private Long exists(Connection conn, BSmySQL mysql, Map<String, BSData> row, BSTableConfig table) {
 		BSField keyField = table.getKeyField(conn);
 		BSData data = row.get(keyField.getName());
 
-		String sql = "SELECT cId FROM " + table.getDatabase() + "."
-				+ table.getTableName();
+		String sql = "SELECT cId FROM " + table.getDatabase() + "." + table.getTableName();
 		sql += " WHERE " + keyField.getName() + "=?";
 
 		String idString = mysql.queryField(conn, sql, data.getValue());
@@ -93,16 +90,14 @@ public class ConfirmCSV extends AbstractServletUtil {
 	// 17 + 13
 	private String getSQLInsert(BSTableConfig table) {
 		BSField[] fields = table.deleteId();
-		String sql = "INSERT INTO " + table.getDatabase() + "."
-				+ table.getTableName();
+		String sql = "INSERT INTO " + table.getDatabase() + "." + table.getTableName();
 		sql += "(" + unSplit(fields, ",") + ") ";
 		sql += " VALUES (" + getCommas(fields) + ")";
 		return sql;
 	}
 
 	private String getSQLUpdate(BSTableConfig table) {
-		String sql = "UPDATE " + table.getDatabase() + "."
-				+ table.getTableName();
+		String sql = "UPDATE " + table.getDatabase() + "." + table.getTableName();
 		sql += " SET " + unSplit(table.deleteId(), "=?,");
 		sql += " WHERE " + table.getIdField().getName() + "=?";
 		return sql;
@@ -133,8 +128,7 @@ public class ConfirmCSV extends AbstractServletUtil {
 	</code>
 	 */
 
-	private List<Object> getValues4Insert(Connection conn, BSTableConfig table,
-			Map<String, BSData> row) {
+	private List<Object> getValues4Insert(Connection conn, BSTableConfig table, Map<String, BSData> row) {
 		List<Object> out = new ArrayList<Object>();
 		BSData data = null;
 		for (BSField field : table.deleteId()) {
@@ -148,8 +142,7 @@ public class ConfirmCSV extends AbstractServletUtil {
 		return out;
 	}
 
-	private List<Object> getValues4Update(Connection conn, BSTableConfig table,
-			Map<String, BSData> row) {
+	private List<Object> getValues4Update(Connection conn, BSTableConfig table, Map<String, BSData> row) {
 		List<Object> out = new ArrayList<Object>();
 		String valueString = null;
 		Object value = null;

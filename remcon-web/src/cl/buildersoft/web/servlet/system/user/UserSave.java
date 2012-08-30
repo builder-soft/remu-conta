@@ -47,7 +47,7 @@ public class UserSave extends HttpServlet {
 		user.setMail(request.getParameter("cMail"));
 		user.setName(request.getParameter("cName"));
 		bu.save(conn, user);
-
+		mysql.closeConnection(conn);
 		/**
 		 * <code>	
 		List<Object> prms = new ArrayList<Object>();

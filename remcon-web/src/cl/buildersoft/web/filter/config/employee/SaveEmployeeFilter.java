@@ -26,9 +26,8 @@ public class SaveEmployeeFilter implements Filter {
 		// TODO Auto-generated method stub
 	}
 
-	public void doFilter(ServletRequest servletRequest,
-			ServletResponse servletResponse, FilterChain chain)
-			throws IOException, ServletException {
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException,
+			ServletException {
 		// System.out.println("EN EL FILTRO DE GRABADO");
 
 		chain.doFilter(servletRequest, servletResponse);
@@ -52,6 +51,7 @@ public class SaveEmployeeFilter implements Filter {
 			AgreementService agreementService = new AgreementServiceImpl();
 			agreementService.getDefaultAgreement(conn, employeeId);
 			
+			mysql.closeConnection(conn);
 		}
 	}
 

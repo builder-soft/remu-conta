@@ -66,8 +66,10 @@ public class DownloadAsFile extends AbstractServletUtil {
 
 		} catch (SQLException e) {
 			throw new BSDataBaseException(e);
+		} finally {
+			mysql.closeSQL(rs);
+			mysql.closeConnection(conn);
 		}
-
 	}
 
 	private String formatData(Connection conn, String data, String type) {

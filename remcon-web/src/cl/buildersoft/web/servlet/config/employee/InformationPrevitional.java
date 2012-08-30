@@ -38,10 +38,8 @@ public class InformationPrevitional extends AbstractServletUtil {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long employeeId = Long.parseLong(request.getParameter("cId"));
 
-		Connection conn = null;
-
 		BSmySQL mysql = new BSmySQL();
-		conn = mysql.getConnection(request);
+		Connection conn = mysql.getConnection(request);
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
 
 		EmployeeService service = new EmployeeServiceImpl();
@@ -58,6 +56,8 @@ public class InformationPrevitional extends AbstractServletUtil {
 		List<RagreementAPV> listadoApvEmp = listAPVForEmployee(conn, mysql, employeeId);
 
 		Agreement agreementEmp = getAgreement(conn, new BSBeanUtilsSP(), employeeId);
+
+		mysql.closeConnection(conn);
 
 		request.setAttribute("listadoAfp", listadoAfp);
 		request.setAttribute("listadoApv", listadoApv);

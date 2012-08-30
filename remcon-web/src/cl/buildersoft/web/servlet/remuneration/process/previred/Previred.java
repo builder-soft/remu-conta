@@ -23,16 +23,18 @@ public class Previred extends HttpServlet {
 		Connection conn = mysql.getConnection(request);
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
 
-		List<Period> periods=		(List<Period> )bu.list(conn, new Period(), "pListPeriod");
-		
-//		List<Period> periods = mysql.callSingleSP(conn, , null);
+		List<Period> periods = (List<Period>) bu.list(conn, new Period(), "pListPeriod");
 
-//		Period period = new Period();
-//		period.setId(periodId);
-//		bu.search(conn, period);
+		// List<Period> periods = mysql.callSingleSP(conn, , null);
+
+		// Period period = new Period();
+		// period.setId(periodId);
+		// bu.search(conn, period);
 
 		request.setAttribute("Periods", periods);
-		
-		request.getRequestDispatcher("/WEB-INF/jsp/remuneration/process/previred/process-previred.jsp").forward(request, response);
+		mysql.closeConnection(conn);
+
+		request.getRequestDispatcher("/WEB-INF/jsp/remuneration/process/previred/process-previred.jsp")
+				.forward(request, response);
 	}
 }

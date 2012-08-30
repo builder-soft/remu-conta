@@ -38,7 +38,7 @@ public class EraseLicense extends HttpServlet {
 			efs.removeFile(conn, fileId);
 
 		}
-
+		mysql.closeConnection(conn);
 		request.setAttribute("cId", employeeId);
 
 		request.getRequestDispatcher("/servlet/remuneration/events/license/LicenseMain").forward(request, response);

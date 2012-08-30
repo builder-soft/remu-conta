@@ -61,7 +61,8 @@ public class ChangePassword extends HttpServlet {
 		newPassword = md5(newPassword);
 		user.setPassword(newPassword);
 		bu.update(conn, user);
-
+		mysql.closeConnection(conn);
+		
 		String next = "/servlet/common/LoadTable";
 		next = "/servlet/system/user/UserManager";
 		if (goHome != null) {

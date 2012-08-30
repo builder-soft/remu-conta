@@ -47,13 +47,14 @@ public class UpdateRecord extends AbstractServletUtil {
 		List<Object> params;
 
 		Connection conn = null;
-		BSmySQL mySQL = new BSmySQL();
+		BSmySQL mysql = new BSmySQL();
 
-		conn = mySQL.getConnection(request);
+		conn = mysql.getConnection(request);
 		params = getParams(conn, request, fieldsWidthoutId, idField);
 
-		mySQL.update(conn, sql, params);
-
+		mysql.update(conn, sql, params);
+		mysql.closeConnection(conn);
+		
 		request.getRequestDispatcher("/servlet/common/LoadTable").forward(
 				request, response);
 	}

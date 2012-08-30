@@ -30,9 +30,10 @@ public class SaveAssetDiscount extends HttpServlet {
 		saveDiscount(request, mysql, conn, period, employee);
 		saveAssetAndDiscount(request, mysql, conn, period, employee,2L);
 
+		mysql.closeConnection(conn);
+		
 		request.setAttribute("cId", employee);
 		request.getRequestDispatcher("/servlet/remuneration/events/EventsEmployeeServlet").forward(request, response);
-
 	}
 
 	private void saveAssetAndDiscount(HttpServletRequest request, BSmySQL mysql, Connection conn, Long period, Long employee,

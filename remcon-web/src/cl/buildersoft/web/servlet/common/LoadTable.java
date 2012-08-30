@@ -28,26 +28,28 @@ public class LoadTable extends AbstractServletUtil {
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		HttpSession session = request.getSession();
 		BSTableConfig table = null;
 		synchronized (session) {
 			table = (BSTableConfig) session.getAttribute("BSTable");
 		}
 
-		Connection conn = null;
-		BSmySQL mySQL = new BSmySQL();
+		// Connection conn = null;
+		BSmySQL mysql = new BSmySQL();
 
-		conn = mySQL.getConnection(request);
+		Connection conn = mysql.getConnection(request);
 
-		table.configFields(conn, mySQL);
+		table.configFields(conn, mysql);
 
-		BSPaging paging = new BSPaging(conn, mySQL, table, request);
-		ResultSet rs = mySQL.queryResultSet(conn, table, paging);
+		BSPaging paging = new BSPaging(conn, mysql, table, request);
+		ResultSet rs = mysql.queryResultSet(conn, table, paging);
 
 		request.setAttribute("Data", rs);
+		request.setAttribute("Conn", conn);
 		request.setAttribute("Paging", paging);
 		request.setAttribute("Search", paging.getSearchValue(request));
+//		mysql.closeConnection(conn);
+		
 
 		synchronized (session) {
 			session.setAttribute("BSTable", table);

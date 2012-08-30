@@ -45,6 +45,7 @@ public class ReadCertificate extends HttpServlet {
 		request.setAttribute("Days", holiday.getNormal() + holiday.getCreeping());
 		request.setAttribute("To", hs.getEndDate(conn, holiday));
 		request.setAttribute("HolidayDetails", holidayDetails);
+		mysql.closeConnection(conn);
 		
 		request.getRequestDispatcher("/WEB-INF/jsp/remuneration/events/holiday/certificate.jsp").forward(request, response);
 	}

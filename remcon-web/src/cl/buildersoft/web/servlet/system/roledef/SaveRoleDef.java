@@ -42,6 +42,7 @@ public class SaveRoleDef extends HttpServlet {
 			throw new ServletException(e);
 		} finally {
 			mysql.closeSQL();
+			mysql.closeConnection(conn);
 		}
 
 		String nextServlet = "/servlet/system/roleDef/RoleDef";

@@ -53,7 +53,8 @@ public class HolidayMain extends HttpServlet {
 		request.setAttribute("HolidayInfo", holidayInfo);
 		request.setAttribute("HolidayDevelop", holidayDevelop);
 		request.setAttribute("DefaultHoliday", defaultHoliday);
-
+		request.setAttribute("Conn", conn);
+		
 		request.getRequestDispatcher("/WEB-INF/jsp/remuneration/events/holiday/holiday.jsp").forward(request, response);
 	}
 

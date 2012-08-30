@@ -12,9 +12,7 @@
 
 	ResultSet book = (ResultSet) request.getAttribute("Book");
 
-	BSmySQL mysql = new BSmySQL();
-	Connection conn = mysql.getConnection(request);
-%>
+	Connection conn = (Connection) request.getAttribute("Conn");%>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 
@@ -62,6 +60,8 @@
 <div id="divScroll" style="overflow: auto; position: relative;">
 	<%=BSWeb.showResultSet(conn, book)%>
 </div>
-
+<%
+new BSmySQL().closeConnection(conn);
+%>
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 

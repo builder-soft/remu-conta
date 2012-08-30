@@ -226,40 +226,6 @@ public class BSTableConfig {
 	}
 
 	private void configFKFields(Connection conn, BSmySQL mySQL) {
-		/**
-		 * <code>
-			IMPORTED KEYS:
-			--------------------
-			PKTABLE_CAT=bscommon
-			PKTABLE_SCHEM=null
-			PKTABLE_NAME=tboard
-			PKCOLUMN_NAME=cId
-			FKTABLE_CAT=remu
-			FKTABLE_SCHEM=null
-			FKTABLE_NAME=tPerson
-			FKCOLUMN_NAME=cSexo
-			KEY_SEQ=1
-			UPDATE_RULE=3
-			DELETE_RULE=3
-			FK_NAME=withSexo
-			PK_NAME=null
-			--------------------
-			PKTABLE_CAT=bscommon
-			PKTABLE_SCHEM=null
-			PKTABLE_NAME=tcomuna
-			PKCOLUMN_NAME=cId
-			FKTABLE_CAT=remu
-			FKTABLE_SCHEM=null
-			FKTABLE_NAME=tPerson
-			FKCOLUMN_NAME=cComuna
-			KEY_SEQ=1
-			UPDATE_RULE=3
-			DELETE_RULE=3
-			FK_NAME=withComuna
-			PK_NAME=null
-		</code>
-		 */
-
 		BSField[] fields = getFields();
 
 		String databaseFK = null;
