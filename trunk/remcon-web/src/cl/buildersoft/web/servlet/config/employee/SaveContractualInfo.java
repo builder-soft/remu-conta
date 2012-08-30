@@ -41,7 +41,8 @@ public class SaveContractualInfo extends HttpServlet {
 		ContractType contractType = getContractType(conn, contractTypeId);
 
 		Date startContract = (Date) dateType.parse(conn, request.getParameter("cStartContract"));
-		Date endContract = contractType.getKey().equals("UND") ? null : (Date) dateType.parse(conn, request.getParameter("cEndContract"));
+		Date endContract = contractType.getKey().equals("UND") ? null : (Date) dateType.parse(conn,
+				request.getParameter("cEndContract"));
 		Long gratificationType = Long.parseLong(request.getParameter("cGratificationType"));
 		Long horary = Long.parseLong(request.getParameter("cHorary"));
 
@@ -60,6 +61,8 @@ public class SaveContractualInfo extends HttpServlet {
 		agreement.setSalaryRoot(salaryRoot);
 
 		bu.save(conn, agreement);
+
+		mysql.closeConnection(conn);
 
 		request.getRequestDispatcher("/servlet/config/employee/EmployeeManager").forward(request, response);
 	}

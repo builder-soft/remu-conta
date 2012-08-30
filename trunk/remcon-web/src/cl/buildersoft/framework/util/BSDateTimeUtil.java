@@ -89,9 +89,10 @@ public class BSDateTimeUtil {
 
 	public static String getFormatDatetime(HttpServletRequest request) {
 		BSmySQL mysql = new BSmySQL();
-
 		Connection conn = mysql.getConnection(request);
-		return getFormatDatetime(conn);
+		String out = getFormatDatetime(conn);
+		mysql.closeConnection(conn);
+		return out;
 		/*
 		 * String out = request.getServletContext().getInitParameter(
 		 * "bsframework.datetimeFormat"); if (out == null) { out =
@@ -112,6 +113,7 @@ public class BSDateTimeUtil {
 			BSmySQL mysql = new BSmySQL();
 			Connection conn = mysql.getConnection(request);
 			formatDate = getFormatDate(conn);
+			mysql.closeConnection(conn);
 		}
 		return formatDate;
 	}

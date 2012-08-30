@@ -43,6 +43,8 @@
 
 		out += "</table>";
 
+		mysql.closeConnection(conn);
+		
 		return out;
 	}
 

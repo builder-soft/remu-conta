@@ -38,6 +38,8 @@ public class ProcessSalary extends HttpServlet implements Servlet {
 
 		request.setAttribute("Period", period);
 		request.setAttribute("Book", book);
+		request.setAttribute("Conn", conn);
+		
 		request.getRequestDispatcher("/WEB-INF/jsp/remuneration/process/salary/process-salary.jsp").forward(request, response);
 	}
 }

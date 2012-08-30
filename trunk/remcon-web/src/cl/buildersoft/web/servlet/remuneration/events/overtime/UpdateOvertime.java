@@ -38,13 +38,13 @@ public class UpdateOvertime extends HttpServlet {
 		Overtime overtime = new Overtime();
 		overtime.setId(overtimeId);
 		bu.search(conn, overtime);
-		
+
 		overtime.setAmount(amount);
 		overtime.setDate(date);
 		overtime.setPercent(percent);
 
 		bu.update(conn, overtime);
-
+		mysql.closeConnection(conn);
 		request.setAttribute("cId", employeeId);
 		request.getRequestDispatcher("/servlet/remuneration/events/overtime/OvertimeMain").forward(request, response);
 

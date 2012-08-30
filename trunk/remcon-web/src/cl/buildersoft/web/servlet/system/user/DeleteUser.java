@@ -20,20 +20,18 @@ public class DeleteUser extends HttpServlet {
 
 	}
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String[] ids = request.getParameterValues("cId");
 
 		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request.getServletContext(),
-				"bsframework");
+		Connection conn = mysql.getConnection(request.getServletContext(), "bsframework");
 
 		for (String id : ids) {
 			mysql.callSingleSP(conn, "pDelUser", id);
 		}
 		mysql.closeSQL();
-		request.getRequestDispatcher("/servlet/system/user/UserManager")
-				.forward(request, response);
+		mysql.closeConnection(conn);
+		request.getRequestDispatcher("/servlet/system/user/UserManager").forward(request, response);
 	}
 
 }

@@ -1,3 +1,4 @@
+<%@page import="java.sql.Connection"%>
 <%@page import="cl.buildersoft.framework.database.BSmySQL"%>
 <%@page import="cl.buildersoft.framework.beans.BSField"%>
 <%@page import="java.util.Arrays"%>
@@ -14,9 +15,9 @@
 	String ctxPath = request.getContextPath();
 	ResultSet relation = (ResultSet) request.getAttribute("Relation");
 	ResultSet list = (ResultSet) request.getAttribute("List");
+	Connection conn = (Connection) request.getAttribute("Conn");
 
-	BSTableConfig table = (BSTableConfig) session
-			.getAttribute("BSTable");
+	BSTableConfig table = (BSTableConfig) session.getAttribute("BSTable");
 	BSField[] fields = table.getFields();
 
 	BSmySQL mysql = new BSmySQL();
@@ -25,6 +26,9 @@
 
 	List<Object[]> relationArray = mysql.resultSet2Matrix(relation);
 	relation.close();
+	
+	new BSmySQL().closeConnection(conn);
+
 %>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/table/relation.js?<%=Math.random()%>"></script>
@@ -45,14 +49,14 @@
 action="${pageContext.request.contextPath}/servlet/ShowParameters"
 action="${pageContext.request.contextPath}/servlet/common/SaveRelation"
   -->
-<form 
+<form
 	action="${pageContext.request.contextPath}/servlet/common/SaveRelation"
 	id="frm" method="post">
 	<input type="hidden" name="cId"
-		value="<%=request.getParameter("cId")%>">
-		<input type="hidden" name="CodeAction" value="<%=request.getParameter("CodeAction")%>">
-		
-	<table border="0"  width="50%">
+		value="<%=request.getParameter("cId")%>"> <input type="hidden"
+		name="CodeAction" value="<%=request.getParameter("CodeAction")%>">
+
+	<table border="0" width="50%">
 		<tr>
 			<td style="width: 30%" align="center"><span class="cLabel">Disponibles</span><br>
 				<select SIZE="10" id="left" style="width: 100%">
@@ -68,9 +72,10 @@ action="${pageContext.request.contextPath}/servlet/common/SaveRelation"
 			</select></td>
 
 			<td style="width: 10%" align="center"><button type="button"
-				 onclick="javascript:add();" style="width: 100%">-></button><br>
-				<br> <br> <button type="button" 
-				onclick="javascript:remove();" style="width: 100%"><-</button></td>
+					onclick="javascript:add();" style="width: 100%">-></button> <br>
+				<br> <br>
+				<button type="button" onclick="javascript:remove();"
+					style="width: 100%"><-</button></td>
 
 			<td style="width: 30%" align="center"><span class="cLabel"
 				align="center">Seleccionados</span><br> <select name="Relation"
@@ -85,10 +90,11 @@ action="${pageContext.request.contextPath}/servlet/common/SaveRelation"
 			</select></td>
 		</tr>
 		<tr>
-			<td align="center"><button type="button" 
-				onclick="javascript:save();">Aceptar</button></td>
+			<td align="center"><button type="button"
+					onclick="javascript:save();">Aceptar</button></td>
 			<td>&nbsp;</td>
-			<td align="center"><a class="cCancel" href="<%=ctxPath + table.getUri()%>">Cancelar</a></td>
+			<td align="center"><a class="cCancel"
+				href="<%=ctxPath + table.getUri()%>">Cancelar</a></td>
 		</tr>
 	</table>
 </form>
@@ -140,8 +146,7 @@ action="${pageContext.request.contextPath}/servlet/common/SaveRelation"
 	}
 
 	private void showCompares(Object[] a, Object[] b) {
-		System.out.println(Arrays.toString(a) + " == " + Arrays.toString(b)
-				+ "->" + Arrays.equals(a, b));
+		System.out.println(Arrays.toString(a) + " == " + Arrays.toString(b) + "->" + Arrays.equals(a, b));
 	}
 
 	private String showList(List<Object[]> l) {

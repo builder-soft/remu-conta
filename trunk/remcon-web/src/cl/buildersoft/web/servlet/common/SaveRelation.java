@@ -64,6 +64,7 @@ public class SaveRelation extends HttpServlet {
 			throw new BSDataBaseException("0300", e.getMessage());
 		} finally {
 			mysql.closeSQL();
+			mysql.closeConnection(conn);
 		}
 		String uri = table.getUri();
 		request.getRequestDispatcher(uri).forward(request, response);

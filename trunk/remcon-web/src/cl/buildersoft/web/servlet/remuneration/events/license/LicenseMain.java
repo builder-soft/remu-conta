@@ -39,6 +39,8 @@ public class LicenseMain extends HttpServlet {
 		request.setAttribute("Employee", employee);
 		request.setAttribute("LicenseCauses", licenseCause);
 		request.setAttribute("Licenses", licenses);
+		request.setAttribute("Conn", conn);
+		
 		request.getRequestDispatcher("/WEB-INF/jsp/remuneration/events/license/license.jsp").forward(request, response);
 	}
 

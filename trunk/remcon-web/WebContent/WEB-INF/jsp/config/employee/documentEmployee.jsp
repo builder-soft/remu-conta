@@ -48,6 +48,10 @@
 			<tr/>
 <%
 		}
+
+		Connection conn = (Connection) request.getAttribute("Conn");
+		new BSmySQL().closeConnection(conn);
+
 		if(!haveRecords){
 %>
 			<tr>

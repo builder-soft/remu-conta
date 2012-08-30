@@ -41,6 +41,7 @@ public class ContractualInfo extends HttpServlet {
 		List<BSBean> contractTypes = getList(conn, bu, new ContractType(), "pListContractType");
 		List<BSBean> gratificationType = getList(conn, bu, new GratificationType(), "pListGratificationType");
 		List<BSBean> horary = getList(conn, bu, new Horary(), "pListHorary");
+		mysql.closeConnection(conn);
 
 		request.setAttribute("Horary", horary);
 		request.setAttribute("GratificationType", gratificationType);
@@ -49,6 +50,7 @@ public class ContractualInfo extends HttpServlet {
 		request.setAttribute("Agreement", agreement);
 		request.setAttribute("Profiles", profiles);
 		request.setAttribute("ContractTypes", contractTypes);
+		mysql.closeConnection(conn);
 		request.getRequestDispatcher("/WEB-INF/jsp/config/employee/contractual-info.jsp").forward(request, response);
 	}
 

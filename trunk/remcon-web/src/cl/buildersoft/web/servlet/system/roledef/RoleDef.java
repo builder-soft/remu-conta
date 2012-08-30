@@ -46,7 +46,8 @@ public class RoleDef extends HttpServlet {
 
 		Menu fullMenu = menuService.getMenu(conn, null);
 		Menu rolMenu = menuService.getMenu(conn, rols);
-
+		mysql.closeConnection(conn);
+		
 //		System.out.println(rolMenu.list().toString());
 		
 		request.setAttribute("Rols", rolsArray);

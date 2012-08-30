@@ -21,8 +21,7 @@ public class SearchPassword extends HttpServlet {
 		super();
 	}
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Long id;
 
@@ -41,10 +40,10 @@ public class SearchPassword extends HttpServlet {
 		User user = new User();
 		user.setId(id);
 		bu.search(conn, user);
+		mysql.closeConnection(conn);
 
 		request.setAttribute("PASS_IS_NULL", user.getPassword() == null);
 
-		request.getRequestDispatcher("/WEB-INF/jsp/system/change-password/change-password.jsp")
-				.forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/system/change-password/change-password.jsp").forward(request, response);
 	}
 }

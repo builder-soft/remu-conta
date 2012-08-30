@@ -31,6 +31,7 @@ public class AddHoliday extends HttpServlet {
 
 		HolidayService hs = new HolidayServiceImpl();
 		hs.commitHoliday(conn, employeeId, from, normal, creeping);
+		mysql.closeConnection(conn);
 
 		request.setAttribute("cId", employeeId);
 		request.getRequestDispatcher("/servlet/remuneration/events/holiday/HolidayMain").forward(request, response);

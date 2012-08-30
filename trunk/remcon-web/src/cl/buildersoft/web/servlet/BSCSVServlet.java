@@ -45,14 +45,13 @@ public abstract class BSCSVServlet extends AbstractServletUtil {
 	 * Lee archivo csv pasado desde la pagina como un inputstream, y realiza
 	 * validaciones con cada fila del archivo
 	 */
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Integer rowCount = 0;
-		BSmySQL mySQL = new BSmySQL();
-		Connection conn = mySQL.getConnection(request);
+		BSmySQL mysql = new BSmySQL();
+		Connection conn = mysql.getConnection(request);
 
 		BSTableConfig table = getBSTableConfig();
-		table.configFields(conn, mySQL);
+		table.configFields(conn, mysql);
 
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload(factory);
@@ -67,13 +66,11 @@ public abstract class BSCSVServlet extends AbstractServletUtil {
 			if (!item.isFormField()) {
 				char separator = getSeparator(conn);
 
-				CsvReader fileContent = new CsvReader(item.getInputStream(),
-						separator, Charset.forName("ISO-8859-1"));
+				CsvReader fileContent = new CsvReader(item.getInputStream(), separator, Charset.forName("ISO-8859-1"));
 				fileContent.readHeaders();
 				String[] headers = fileContent.getHeaders();
 				if (headers.length == 1) {
-					throw new BSUserException(
-							"",
+					throw new BSUserException("",
 							"Aparentemente el archivo no está correctamente definido, puede verificar el caracter de separaci�n cvs, debe ser '"
 									+ separator + "'");
 				}
@@ -86,8 +83,7 @@ public abstract class BSCSVServlet extends AbstractServletUtil {
 						BSField field = new BSField(headers[i], "");
 						field.setValue(fileContent.get(headers[i]));
 
-						dataRow.put(headers[i],
-								new BSData(fileContent.get(headers[i])));
+						dataRow.put(headers[i], new BSData(fileContent.get(headers[i])));
 					}
 					dataRow.put("result", new BSData(""));
 					allData.add(dataRow);
@@ -95,9 +91,9 @@ public abstract class BSCSVServlet extends AbstractServletUtil {
 				}
 				fileContent.close();
 
-				Integer rightCount = compareDataType(conn, table.deleteIdMap(),
-						allData);
-
+				Integer rightCount = compareDataType(conn, table.deleteIdMap(), allData);
+				mysql.closeConnection(conn);
+				
 				HttpSession session = request.getSession();
 				request.setAttribute("Headers", headers);
 				request.setAttribute("RightCount", rightCount);
@@ -107,9 +103,7 @@ public abstract class BSCSVServlet extends AbstractServletUtil {
 					session.setAttribute("BSTable", table);
 				}
 
-				request.getRequestDispatcher(
-						"/WEB-INF/jsp/table/csvResponse.jsp").forward(request,
-						response);
+				request.getRequestDispatcher("/WEB-INF/jsp/table/csvResponse.jsp").forward(request, response);
 			}
 		}
 	}
@@ -120,8 +114,7 @@ public abstract class BSCSVServlet extends AbstractServletUtil {
 		return seperator.toCharArray()[0];
 	}
 
-	private Integer compareDataType(Connection conn,
-			Map<String, BSField> fields, List<Map<String, BSData>> fieldList) {
+	private Integer compareDataType(Connection conn, Map<String, BSField> fields, List<Map<String, BSData>> fieldList) {
 		Integer rightCount = 0;
 		Boolean typeRight = Boolean.FALSE;
 		Boolean fkRight = Boolean.FALSE;
@@ -136,8 +129,7 @@ public abstract class BSCSVServlet extends AbstractServletUtil {
 
 			isRowRight = Boolean.TRUE;
 			while (it.hasNext()) {
-				Map.Entry<String, BSData> entry = (Map.Entry<String, BSData>) it
-						.next();
+				Map.Entry<String, BSData> entry = (Map.Entry<String, BSData>) it.next();
 				if (!entry.getKey().toString().equalsIgnoreCase("result")) {
 					String key = entry.getKey();
 					field = fields.get(key);

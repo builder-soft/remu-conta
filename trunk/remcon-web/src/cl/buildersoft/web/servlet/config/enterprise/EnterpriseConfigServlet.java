@@ -35,6 +35,7 @@ public class EnterpriseConfigServlet extends AbstractServletUtil {
 		EnterpriseConfig enterpriseConfig = new EnterpriseConfig();
 		enterpriseConfig.setId(enterpriseId);
 		bu.search(conn, enterpriseConfig);
+		mysql.closeConnection(conn);
 		request.setAttribute("EnterpriseConfig", enterpriseConfig);
 
 		request.getRequestDispatcher("/WEB-INF/jsp/config/enterprise/enterprise-config.jsp").forward(request, response);

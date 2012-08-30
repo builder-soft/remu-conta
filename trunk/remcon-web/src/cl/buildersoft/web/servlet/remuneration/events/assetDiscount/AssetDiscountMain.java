@@ -40,6 +40,8 @@ public class AssetDiscountMain extends HttpServlet {
 		request.setAttribute("Employee", employee);
 		request.setAttribute("AssetDiscount", assetDiscount);
 		request.setAttribute("AssetDiscountData", assetDiscountData);
+		request.setAttribute("Conn", conn);
+		
 		request.getRequestDispatcher("/WEB-INF/jsp/remuneration/events/assetDiscount/asset-discount.jsp").forward(request,
 				response);
 	}

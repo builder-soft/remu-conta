@@ -15,7 +15,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%
-//	Period period = (Period) request.getAttribute("Period");
+	//	Period period = (Period) request.getAttribute("Period");
 	Employee employee = (Employee) request.getAttribute("Employee");
 	ResultSet holidays = (ResultSet) request.getAttribute("Holidays");
 	Agreement agreement = (Agreement) request.getAttribute("Agreement");
@@ -26,8 +26,7 @@
 	String defaultHoliday = (String)request.getAttribute("DefaultHoliday");
 
 	Boolean expiredContract = expiredContract(agreement);
-	BSmySQL mysql = new BSmySQL();
-	Connection conn = mysql.getConnection(request);
+	Connection conn = (Connection) request.getAttribute("Conn");
 
 	String totalDays = "";
 	String proportionalToday = "";
@@ -61,7 +60,7 @@
 		<td class="cLabel">Inicio contrato</td>
 		<td class="cData"><%=BSDateTimeUtil.date2String(request, agreement.getStartContract())%></td>
 		<td class="cLabel">Término contrato</td>
-		<td class="cData"><%=getEndDateContract(request, agreement)%></td>
+		<td class="cData"><%=getEndDateContract(conn, request, agreement)%></td>
 	</tr>
 	<tr>
 		<td class="cLabel">Días a la fecha (<%=BSDateTimeUtil.date2String(request, new Date())%>)
@@ -112,7 +111,8 @@
 					<td class='<%=color%>' align="right"><%=holidays.getInt("cNormal")%></td>
 					<td class='<%=color%>' align="right"><%=holidays.getInt("cCreeping")%></td>
 					<td class='<%=color%>' align="center"><%=BSDateTimeUtil.date2String(request, holidays.getDate("cTo"))%></td>
-					<td class='<%=color%>' align="center"><a href="#" onclick="javascript:showCertificate(<%=holidays.getLong("cId")%>);">Ver</a></td>
+					<td class='<%=color%>' align="center"><a href="#"
+						onclick="javascript:showCertificate(<%=holidays.getLong("cId")%>);">Ver</a></td>
 				</tr>
 				<%
 					}
@@ -125,9 +125,11 @@
 				<%
 					}
 				%>
-			</table> <br> <button type="Button" 
-			onclick="javascript:showTooltip('divRetrieveHoliday');calculateEndDate();"
-			<%=expiredContract ? "disabled" : ""%>>Solicitar vacaciones</button> <a class="cCancel"
+			</table> <br>
+			<button type="Button"
+				onclick="javascript:showTooltip('divRetrieveHoliday');calculateEndDate();"
+				<%=expiredContract ? "disabled" : ""%>>Solicitar vacaciones</button>
+			<a class="cCancel"
 			href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Volver</a>
 			<%
 				if (expiredContract) {
@@ -157,10 +159,10 @@
 
 				</tr>
 				<%
-				/*
-					BSConfig _config = new BSConfig();
-					String format = _config.getFormatDecimal(conn);
-					*/
+					/*
+						BSConfig _config = new BSConfig();
+						String format = _config.getFormatDecimal(conn);
+					 */
 					index = 0;
 					for (HolidayDevelop hd : holidayDevelop) {
 						index++;
@@ -215,9 +217,9 @@
 
 			<tr>
 				<td class="cLabel">Días normales:</td>
-				<td><input name="cNormal" id="cNormal" size="3" onblur="javascript:calculateEndDate();"
-					value="<%=defaultHoliday%>"> <span class="cLabel">(máximo
-						<%=Math.round(normalBalance)%>)
+				<td><input name="cNormal" id="cNormal" size="3"
+					onblur="javascript:calculateEndDate();" value="<%=defaultHoliday%>">
+					<span class="cLabel">(máximo <%=Math.round(normalBalance)%>)
 				</span></td>
 			</tr>
 
@@ -242,15 +244,17 @@
 
 </div>
 
-
+<%
+	new BSmySQL().closeConnection(conn);
+%>
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 
-<%!private String getEndDateContract(HttpServletRequest request, Agreement agreement) {
+<%!private String getEndDateContract(Connection conn, HttpServletRequest request, Agreement agreement) {
 		String out = "";
 		if (agreement.getContractType().equals(1L)) {
 
-			BSmySQL mysql = new BSmySQL();
-			Connection conn = mysql.getConnection(request);
+//			BSmySQL mysql = new BSmySQL();
+//			Connection conn = mysql.getConnection(request);
 
 			AgreementService ageementService = new AgreementServiceImpl();
 			out = ageementService.getContractTypeName(conn, agreement);
@@ -267,7 +271,7 @@
 
 		valueAsDouble = rs.getDouble(fieldName);
 
-//		valueFormated = BSWeb.number2String(valueAsDouble, BSWeb.getFormatDecimal(request));
+		//		valueFormated = BSWeb.number2String(valueAsDouble, BSWeb.getFormatDecimal(request));
 		valueFormated = BSWeb.formatDouble(request, valueAsDouble); //, BSWeb.getFormatDecimal(request));
 		return valueFormated;
 	}

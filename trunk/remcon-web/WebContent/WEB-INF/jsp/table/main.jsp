@@ -1,6 +1,5 @@
 <%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="java.sql.Connection"%>
-<%@page import="com.mysql.jdbc.MySQLConnection"%>
 <%@page import="cl.buildersoft.framework.database.BSmySQL"%>
 <%@page import="cl.buildersoft.framework.type.BSFieldDataType"%>
 <%@page import="cl.buildersoft.framework.type.BSTypeFactory"%>
@@ -16,6 +15,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%
 	ResultSet rs = (ResultSet) request.getAttribute("Data");
+	Connection conn = (Connection) request.getAttribute("Conn");
 	BSTableConfig table = (BSTableConfig) session.getAttribute("BSTable");
 	String ctxPath = request.getContextPath();
 
@@ -117,6 +117,7 @@
 			}
 
 			rs.close();
+			new BSmySQL().closeConnection(conn);
 		%>
 	</table>
 

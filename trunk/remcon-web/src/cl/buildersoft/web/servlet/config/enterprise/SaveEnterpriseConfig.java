@@ -21,8 +21,6 @@ public class SaveEnterpriseConfig extends AbstractServletUtil {
 
 		Long enterpriseId = Long.parseLong(request.getParameter("cId"));
 
-		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request);
 		BSBeanUtilsSP bu = new BSBeanUtilsSP();
 
 		EnterpriseConfig enterpriseConfig = new EnterpriseConfig();
@@ -40,7 +38,11 @@ public class SaveEnterpriseConfig extends AbstractServletUtil {
 		enterpriseConfig.setMailNotice(request.getParameter("email"));
 		enterpriseConfig.setViewLastSettlements(Integer.parseInt(request.getParameter("cViewLastSettlements")));
 
+		BSmySQL mysql = new BSmySQL();
+		Connection conn = mysql.getConnection(request);
 		bu.update(conn, enterpriseConfig);
+		mysql.closeConnection(conn);
+
 		request.getRequestDispatcher("/servlet/config/enterprise/EnterpriseManager").forward(request, response);
 	}
 

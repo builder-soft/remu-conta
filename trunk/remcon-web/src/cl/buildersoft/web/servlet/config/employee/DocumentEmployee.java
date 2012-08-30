@@ -53,6 +53,7 @@ public class DocumentEmployee extends AbstractServletUtil {
 		List<FileCategory> category = (List<FileCategory>) bu.listAll(conn, new FileCategory());
 
 		request.setAttribute("filesEmployee", files);
+		request.setAttribute("Conn", conn);
 		request.setAttribute("Employee", employee);
 		request.setAttribute("Category", category);
 		request.getRequestDispatcher("/WEB-INF/jsp/config/employee/documentEmployee.jsp").forward(request, response);
@@ -75,6 +76,7 @@ public class DocumentEmployee extends AbstractServletUtil {
 			String path = fu.fixPath(fu.fixPath(config.getString(conn, "EMPLOYEE_FILES")) + employeeFile.getFileCategory());
 
 			writeFileToBrowser(response, employeeFile, path);
+			mysql.closeConnection(conn);
 
 		} catch (Exception e) {
 			throw new BSProgrammerException(e);
@@ -100,9 +102,11 @@ public class DocumentEmployee extends AbstractServletUtil {
 				BSBeanUtils bu = new BSBeanUtils();
 				bu.delete(conn, employeeFile);
 			}
+			mysql.closeConnection(conn);
 		} catch (Exception e) {
 			throw new BSProgrammerException(e);
 		}
+
 		request.getRequestDispatcher("/servlet/config/employee/DocumentEmployee?Method=listDocuments&cId=" + idEmployee).forward(
 				request, response);
 	}
@@ -161,7 +165,8 @@ public class DocumentEmployee extends AbstractServletUtil {
 			throw new BSConfigurationException("Can't move file from " + tempPath + " to " + newPath);
 		}
 		saveFileToDatabase(conn, values, newFileName);
-
+		mysql.closeConnection(conn);
+		
 		request.getRequestDispatcher("/servlet/config/employee/DocumentEmployee?Method=listDocuments&cId=" + idEmployee).forward(
 				request, response);
 	}
@@ -182,7 +187,5 @@ public class DocumentEmployee extends AbstractServletUtil {
 		bu.insert(conn, employeeFile);
 
 	}
-
-	
 
 }

@@ -53,6 +53,7 @@ public class NatTable extends HttpServlet {
 		ResultSet list = getList(action, mysql, conn);
 
 		request.setAttribute("List", list);
+		request.setAttribute("Conn", conn);
 
 		request.getRequestDispatcher("/WEB-INF/jsp/table/relation-nat.jsp")
 				.forward(request, response);

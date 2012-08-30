@@ -28,8 +28,7 @@ public class SearchRecord extends AbstractServletUtil {
 		super();
 	}
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		BSTableConfig table = null;
 		synchronized (session) {
@@ -41,17 +40,19 @@ public class SearchRecord extends AbstractServletUtil {
 		Long id = Long.parseLong(request.getParameter(idField));
 
 		Connection conn = null;
-		BSmySQL mySQL = new BSmySQL();
+		BSmySQL mysql = new BSmySQL();
 
-		conn = mySQL.getConnection(request);
-		ResultSet rs = mySQL.queryResultSet(conn, sql, array2List(id));
+		conn = mysql.getConnection(request);
+		ResultSet rs = mysql.queryResultSet(conn, sql, array2List(id));
 		resultset2Table(rs, table);
 
-		request.setAttribute("Data", rs);
+		mysql.closeConnection(conn);
+		
+//		request.setAttribute("Data", rs);
+//		request.setAttribute("Conn", conn);
 
 		request.setAttribute("Action", "Update");
-		request.getRequestDispatcher("/WEB-INF/jsp/table/data-form.jsp")
-				.forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/table/data-form.jsp").forward(request, response);
 	}
 
 	private void resultset2Table(ResultSet rs, BSTableConfig table) {
@@ -63,7 +64,7 @@ public class SearchRecord extends AbstractServletUtil {
 				}
 			}
 		} catch (SQLException e) {
-			throw new BSDataBaseException("0300", e.getMessage());
+			throw new BSDataBaseException(e);
 		}
 	}
 
