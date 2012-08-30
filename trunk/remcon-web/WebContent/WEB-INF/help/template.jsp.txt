@@ -25,7 +25,7 @@ value="<%=BSWeb.formatDouble(request, 1234.567)%>">
 	
 </table>
 
-<a href="${pageContext.request.contextPath}/servlet/...">Volver</a>
+<a class="cCancel" href="${pageContext.request.contextPath}/servlet/...">Cancelar</a>
 
 <div id="divShowDetail" style="display: none">
 	<h2 class="cTitle2">Detalle de valores</h2>

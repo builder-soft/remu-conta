@@ -28,8 +28,7 @@ import cl.buildersoft.framework.util.BSWeb;
 public class ContractualInfo extends HttpServlet {
 	private static final long serialVersionUID = -8599267568451620681L;
 
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long id = Long.parseLong(request.getParameter("cId"));
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
@@ -38,12 +37,9 @@ public class ContractualInfo extends HttpServlet {
 		Employee emp = getEmployee(conn, bu, id);
 		Agreement agreement = getAgreement(conn, bu, id);
 
-		List<BSBean> profiles = getList(conn, bu, new Profile(),
-				"pListProfile");
-		List<BSBean> contractTypes = getList(conn, bu, new ContractType(),
-				"pListContractType");
-		List<BSBean> gratificationType = getList(conn, bu,
-				new GratificationType(), "pListGratificationType");
+		List<BSBean> profiles = getList(conn, bu, new Profile(), "pListProfile");
+		List<BSBean> contractTypes = getList(conn, bu, new ContractType(), "pListContractType");
+		List<BSBean> gratificationType = getList(conn, bu, new GratificationType(), "pListGratificationType");
 		List<BSBean> horary = getList(conn, bu, new Horary(), "pListHorary");
 
 		request.setAttribute("Horary", horary);
@@ -53,22 +49,18 @@ public class ContractualInfo extends HttpServlet {
 		request.setAttribute("Agreement", agreement);
 		request.setAttribute("Profiles", profiles);
 		request.setAttribute("ContractTypes", contractTypes);
-		request.getRequestDispatcher(
-				"/WEB-INF/jsp/config/employee/contractual-info.jsp").forward(
-				request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/config/employee/contractual-info.jsp").forward(request, response);
 	}
 
-	private List<BSBean> getList(Connection conn, BSBeanUtilsSP bu,
-			BSBean object, String spName) {
-		List<BSBean> out = (List<BSBean>) bu.listAll(conn, object); //, spName, null);
+	private List<BSBean> getList(Connection conn, BSBeanUtilsSP bu, BSBean object, String spName) {
+		List<BSBean> out = (List<BSBean>) bu.listAll(conn, object); // , spName,
+																	// null);
 		return out;
 	}
 
-	public Agreement getAgreement(Connection conn, BSBeanUtilsSP bu,
-			Long idEmployee) {
+	public Agreement getAgreement(Connection conn, BSBeanUtilsSP bu, Long idEmployee) {
 		AgreementService agreementService = new AgreementServiceImpl();
-		Agreement out = agreementService.getAgreementByEmployee(conn,
-				idEmployee);
+		Agreement out = agreementService.getAgreementByEmployee(conn, idEmployee);
 		return out;
 	}
 

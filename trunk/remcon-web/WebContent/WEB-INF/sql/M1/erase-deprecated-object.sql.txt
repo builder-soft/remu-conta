@@ -21,6 +21,7 @@ DROP VIEW IF EXISTS vCompensationFound;
 DROP VIEW IF EXISTS vCompensationFund;
 DROP VIEW IF EXISTS vAPV;
 
+DROP PROCEDURE if exists pSavePeriod;
 DROP PROCEDURE if exists pGetPrefiredFileByPeriod;
 DROP PROCEDURE if exists pDelAccount;
 DROP PROCEDURE if exists pDelAccountsByEmployeeAndType;

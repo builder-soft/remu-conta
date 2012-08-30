@@ -952,7 +952,7 @@ SET @des = LAST_INSERT_ID();
 */
 
 INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Bono Producción', true, 0, 1, @bon, 1);
-INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Aguinaldo', true, 0, 2, @bon, 2);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Bono de Aguinaldo', true, 0, 2, @bon, 2);
 INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Bono fin de año', true, 0, 3, @bon, 3);
 
 /*
@@ -967,19 +967,6 @@ INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, c
 
 
 /*
-INSERT INTO tBond(cName) VALUES('Bono 1');
-INSERT INTO tBond(cName) VALUES('Bono 2');
-INSERT INTO tBond(cName) VALUES('Bono 3');
-INSERT INTO tBond(cName) VALUES('Bono 4');
-INSERT INTO tBond(cName) VALUES('Bono 5');
-INSERT INTO tBond(cName) VALUES('Bono 6');
-INSERT INTO tBond(cName) VALUES('Bono 7');
-INSERT INTO tBond(cName) VALUES('Bono 8');
-INSERT INTO tBond(cName) VALUES('Bono 9');
-INSERT INTO tBond(cName) VALUES('Bono 10');
-*/
-
-/*
 INSERT INTO tUnemploymentInsurance(cName) VALUES ('Indefinido');
 INSERT INTO tUnemploymentInsurance(cName) VALUES ('Plazo fijo');
 INSERT INTO tUnemploymentInsurance(cName) VALUES ('Sin seguro');
@@ -991,18 +978,9 @@ INSERT INTO tHolidayDetailType(cName) VALUES('Saldo');
 INSERT INTO tHolidayDetailType(cName) VALUES('Ignorado');
 */
 
-/** DATOS DE PRUEBA */
-
-select fInsertPeriod('2012-05-01')
+select fInsertPeriod('2012-01-01')
 INTO @Period1;
-select fInsertPeriod('2012-06-01')
-INTO @Period2;
 call pOpenPeriod(@Period1);
-/*
-call pSavePeriod('2012-05-01', @Period1);
-call pSavePeriod('2012-06-01', @Period2);
-
-*/
 
 INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('-', 0);
 INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('A', 5393);
@@ -1031,7 +1009,54 @@ INSERT INTO tHealth(cKey, cName, cFactor) VALUES('18', 'Normédica', 7);
 INSERT INTO tHealth(cKey, cName, cFactor) VALUES('22', 'Sfera', 7);
 INSERT INTO tHealth(cKey, cName, cFactor) VALUES('3', 'Vida Tres', 7);
 
-call pOpenPeriod(@Period2);
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-01-01', 'Año nuevo');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-04-06', 'Viernes santo');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-04-07', 'Sabado santo');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-05-01', 'Día Nacional del Trabajo');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-05-21', 'Día de las Glorias Navales');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-07-02', 'San Pedro y San Pablo');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-07-16', 'Día de la Virgen del Carmen');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-08-15', 'Asunción de la Virgen');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-09-17', 'Fiestas Patrias');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-09-18', 'Independencia Nacional');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-09-19', 'Día de las Glorias del Ejército');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-10-15', 'Encuentro de Dos Mundos');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-10-28', 'Elecciones Municipales');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-11-01', 'Día de Todos los Santos');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-11-02', 'Día de las Iglesias Evangélicas y Protestantes');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-12-08', 'Inmaculada Concepción');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2012-12-25', 'Navidad');
+
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-01-01', 'Año nuevo');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-03-29', 'Viernes santo');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-03-30', 'Sabado santo');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-05-01', 'Día Nacional del Trabajo');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-05-21', 'Día de las Glorias Navales');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-06-29', 'San Pedro y San Pablo');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-07-16', 'Día de la Virgen del Carmen');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-08-15', 'Asunción de la Virgen');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-09-18', 'Independencia Nacional');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-09-19', 'Día de las Glorias del Ejército');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-09-20', 'Fiestas Patrias');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-10-12', 'Encuentro de Dos Mundos');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-10-31', 'Día de las Iglesias Evangélicas y Protestantes');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-11-01', 'Día de Todos los Santos');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-11-17', 'Elecciones Presidenciales y Parlamentarias');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-12-08', 'Inmaculada Concepción');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-12-15', 'Segunda Vuelta Elecciones Presidenciales');
+INSERT INTO tFiscalDate(cDate, cReason) VALUES('2013-12-25', 'Navidad');
+
+
+/** DATOS DE PRUEBA */
+
+/*
+select fInsertPeriod('2012-06-01')
+INTO @Period2;
+*/
+
+
+/*
+call pOpenPeriod(@Period1);
 
 UPDATE	tPFM 
 SET		cFactor=1.41
@@ -1040,46 +1065,16 @@ WHERE	cId = 3;
 UPDATE	tHealth 
 SET		cFactor=7.01
 WHERE	cId = 3;
-
-
-INSERT INTO tEnterprise(cRut, cName, cLegalRep, cRutLegalRep, cCategory, cAddress, cComuna, cPhone, cMutual, cMutualFactor, cCompensationFund)
-VALUES('1-9', 'Buildersoft Ltda.', 'Juan Perez', '1-9', 'Servicios profesionales', 'Avenida X, numero 88', 3, '2345678', 1, 0.0231, 1);
-
-INSERT INTO tBranch(cName, cEnterprise, cAddress, cComuna, cPhone) 
-VALUES('Matriz', LAST_INSERT_ID(), 'Avenida X, numero 88', 3, '2345678');	
-
-INSERT INTO tCostCenter(cName, cBranch) VALUES('Oficina', LAST_INSERT_ID());
-SET @cc = LAST_INSERT_ID();
-
-INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Administrativo', @cc, 180000);
-INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Informatico', @cc, 185000);
-
-INSERT INTO tEmployee(cRut,		cName,	cLastName1,	cLastName2,	cBirthDate,		cAddress,						cGenere,	cComuna,	cCountry,	cMaritalStatus,	cPhone, cMovil, cEmail) 
-VALUES(			'10809246-7',	'Patricio',	'Aranguiz',	'Torres',	'1966-08-28',	'Fray Camilo Henriquez 2063',	2,			3,			1,			@single,				'', 	'',		'');
-SET @employeeId = LAST_INSERT_ID();
-INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cHealthCurrency,	cHealthAmount,	cFamilyAssignmentStretch,	cMaternalLoads,	cAdditionalPFMCurrency)
-VALUES(					@employeeId,	2,				'2012-06-09',	'2012-06-27',	1,			6,		1,			2,					3,				580,			395,		1,			185000, 		@prc,				7,				2,							3,				1);
-SET @agreementId = LAST_INSERT_ID();
-
-
-INSERT INTO tR_AgreementAPV(cAgreement, cAPV, cCurrency, cAmount)
-VALUES(@agreementId, @APV1, @clp, 12000);
-
-
-INSERT INTO tEmployee(cRut,		cName,		cLastName1,	cLastName2,	cBirthDate,		cAddress,	cGenere,	cComuna,	cCountry,	cMaritalStatus,	cPhone, cMovil, cEmail) 
-VALUES(			'12870668-2',	'Claudio',	'Moscoso',	'Howard',	'1975-05-29',	'xxx',		2,			3,			1,			@single,		'', 	'',		'');
-SET @employeeId = LAST_INSERT_ID();
-INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cHealthCurrency,	cHealthAmount,	cFamilyAssignmentStretch,	cAdditionalPFMCurrency, cAdditionalPFMAmount,	cMonthsQuoted)
-VALUES(					@employeeId,	1,				'2012-06-17',	'2012-12-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000,			@uf,				10,				2,							1,						3,						120);
+*/
 
 
 
-
+/*
 INSERT INTO tFiscalDate(cDate) VALUES('2011-08-01');
 INSERT INTO tFiscalDate(cDate) VALUES('2011-08-02');
 
 INSERT INTO tFiscalDate(cDate) VALUES('2012-09-17');
 INSERT INTO tFiscalDate(cDate) VALUES('2012-09-18');
 INSERT INTO tFiscalDate(cDate) VALUES('2012-09-19');
-
+*/
 
