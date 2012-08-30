@@ -37,6 +37,8 @@ BEGIN
 	
 		IF (vId > -1 AND vPeriodStatus = 2) THEN
 			SET vId = vId; 
+			/*TODO: refresh period */
+			
 		ELSE
 			INSERT INTO tPeriod(cDate, cUF, cOvertimeFactor, cGratificationFactor, cMinSalary,
 					cLimitGratification, cLimitIPS, cLimitInsurance, cLimitHealth,

@@ -19,7 +19,6 @@ import cl.buildersoft.framework.type.BSActionType;
 import cl.buildersoft.framework.type.BSFieldType;
 
 import com.mysql.jdbc.DatabaseMetaData;
-import com.sun.xml.internal.ws.developer.UsesJAXBContext;
 
 public class BSTableConfig {
 	private String database = null;
@@ -547,10 +546,6 @@ public class BSTableConfig {
 			} else {
 				this.fieldsMap.remove(code);
 			}
-
-			/**
-			 * if (!action.getCode().equals(code)) { target[i++] = action; }
-			 */
 		}
 		this.fields = target;
 	}

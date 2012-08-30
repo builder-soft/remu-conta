@@ -23,4 +23,7 @@ public interface PeriodService {
 	public String periodAsString(Period period);
 
 	public String periodAsShortString(Period period);
+
+	public String getStatusName(Connection conn, Period period);
+
 }

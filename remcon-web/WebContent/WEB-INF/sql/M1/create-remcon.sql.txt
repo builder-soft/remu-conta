@@ -438,6 +438,7 @@ create table tOvertime(
 create table tFiscalDate(
 	cId			BIGINT(20) NOT NULL auto_increment,
 	cDate		DATE NOT NULL UNIQUE,
+	cReason		VARCHAR(50) DEFAULT '',
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 

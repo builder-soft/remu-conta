@@ -38,6 +38,7 @@ function ajaxForValidate(url, value) {
 
 	$.ajax({
 		type : "GET",
+		cache:false,
 		url : urlPath,
 		data : {
 			Value : out
@@ -130,7 +131,7 @@ function setClass(element, focus) {
 function loadFormat(theDocument) {
 	var elements = $('input:text,input:password,textarea,select');
 	// alert(elements.get(0).tagName);
-	$(elements.get(0)).focus();
+//	$(elements.get(0)).focus();
 	return;
 
 	var formatElement = function() {

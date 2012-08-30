@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.Calendar;
 
 import cl.buildersoft.business.beans.Period;
+import cl.buildersoft.business.beans.PeriodStatus;
 import cl.buildersoft.business.service.PeriodService;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
@@ -75,6 +76,15 @@ public class PeriodServiceImpl implements PeriodService {
 	@Override
 	public String periodAsShortString(Period period) {
 		return BSDateTimeUtil.getMonth(period.getDate()) + "-" + BSDateTimeUtil.getYear(period.getDate());
+	}
+
+	@Override
+	public String getStatusName(Connection conn, Period period) {
+		BSBeanUtils bu = new BSBeanUtils();
+		PeriodStatus periodStatus = new PeriodStatus();
+		periodStatus.setId(period.getPeriodStatus());
+		bu.search(conn, periodStatus);
+		return periodStatus.getName();
 	}
 
 }
