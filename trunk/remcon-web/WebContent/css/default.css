@@ -75,10 +75,9 @@ SPAN.cMessage
 {
     FONT-WEIGHT: bold; 
     FONT-SIZE: smaller;
-    
     FONT-FAMILY: Tahoma;
-    COLOR: #F4FA58;
-    background-color:#BDBDBD;
+    COLOR: #303030 ;
+    background-color:#FFFF99 ;
 }
 
 .cError

@@ -15,11 +15,15 @@ import cl.buildersoft.framework.exception.BSProgrammerException;
 public class BSDateTimeUtil {
 	public static final String SQL_FORMAT = "yyyy-MM-dd";
 	private static String formatDate = null;
+	private static String[] months = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
+			"Octubre", "Noviembre", "Diciembre" };
+
+	public static String month2Word(Integer month) {
+		return months[month];
+	}
 
 	public static String month2Word(Date date) {
-		String[] out = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre",
-				"Noviembre", "Diciembre" };
-		return out[date.getMonth()];
+		return months[date.getMonth()];
 	}
 
 	public static String calendar2String(Calendar calendar, String format) {

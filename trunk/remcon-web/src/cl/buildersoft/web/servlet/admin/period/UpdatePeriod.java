@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import cl.buildersoft.business.beans.Period;
 import cl.buildersoft.business.service.PeriodService;
 import cl.buildersoft.business.service.impl.PeriodServiceImpl;
-import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 
 @WebServlet("/servlet/admin/period/UpdatePeriod")
@@ -21,6 +20,8 @@ public class UpdatePeriod extends HttpServlet {
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long id = Long.parseLong(request.getParameter("cId"));
+
+		String url = "/WEB-INF/jsp/config/period/period-edit.jsp";
 
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
@@ -32,8 +33,12 @@ public class UpdatePeriod extends HttpServlet {
 		request.setAttribute("PeriodName", ps.periodAsString(period));
 		request.setAttribute("StatusName", ps.getStatusName(conn, period));
 		
+		if (!period.getPeriodStatus().equals(2L)) {
+			url = "/WEB-INF/jsp/config/period/period-cant-change.jsp";
+		}
+		mysql.closeConnection(conn);
 
-		request.getRequestDispatcher("/WEB-INF/jsp/config/period/period-edit.jsp").forward(request, response);
+		request.getRequestDispatcher(url).forward(request, response);
 	}
 
 }

@@ -6,7 +6,7 @@
 	Period period = (Period) request.getAttribute("Period");
 	String periodName = (String) request.getAttribute("PeriodName");
 	String statusName = (String) request.getAttribute("StatusName");
-	Boolean canEdit = period.getPeriodStatus() == 2L;
+	Boolean canEdit = true; //period.getPeriodStatus() == 2L;
 	final String DISABLED = canEdit ? "" : "disabled";
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
@@ -15,11 +15,8 @@
 	src="${pageContext.request.contextPath}/js/config/period/period.js?<%=Math.random()%>">
 	
 </script>
-<h1 class="cTitle">Modificación de datos del período</h1>
+<h1 class="cTitle">Duplicando período</h1>
 
-<table border="0">
-	<tr>
-		<td valign="top">
 			<!-- 
 				action="${pageContext.request.contextPath}/servlet/admin/period/SavePeriod"
 				action="${pageContext.request.contextPath}/servlet/ShowParameters"
@@ -27,15 +24,15 @@
 			<form
 				action="${pageContext.request.contextPath}/servlet/admin/period/SavePeriod"
 				method="post" id="form">
-				<input type="hidden" name="cId" value="<%=period.getId()%>">
+				
 				<table>
 					<tr>
 						<td class="cLabel">Id:</td>
 						<td class="cData"><%=period.getId()%></td>
 					</tr>
 					<tr>
-						<td class="cLabel">Período:</td>
-						<td class="cData"><%=periodName%></td>
+						<td class="cLabel">Período origen <%=periodName%>:</td>
+						<td><%@ include file="/WEB-INF/jsp/config/period/period-select.jsp"%></td>
 					</tr>
 					<tr>
 						<td class="cLabel">Estado:</td>
@@ -121,18 +118,9 @@
 					</tr>
 				</table>
 			</form>
-		</td>
-		</tr><tr>
-		
-		<td valign="top" style="width:50%" class="cWarning"><p style="border:1px solid #000000;">Considere que estos datos
-				serán actualizados en los parametros del sistema. Por otro lado
-				tendrá que ejecutar el proceso de calculo nuevamente para que estos
-				valores tengan efecto en las remuneraciones.</p></td>
-	</tr>
-</table>
 
 
-<button onclick="javascript:submitPeriod()">Aceptar</button>
+<button onclick="javascript:submitPeriod_()">Aceptar</button>
 &nbsp;&nbsp;&nbsp;
 <a class="cCancel"
 	href="${pageContext.request.contextPath}/servlet/admin/period/PeriodManager">Cancelar</a>

@@ -143,7 +143,7 @@
 			</tr>
 		</table>
 
-		<br /> <input type="submit" value="Aceptar" />
+		<br /> <button type="button" onclick="javascript:submit()">Aceptar</button>
 		<button type="button" onclick="javascript:closeTooltip()">Cancelar</button>
 	</form>
 </div>

@@ -43,6 +43,9 @@ public class ValidateLoginServlet extends HttpServlet {
 		String mail = request.getParameter("mail");
 		String password = request.getParameter("password");
 		String page = "/";
+
+		mail = "".equals(mail) ? null : mail;
+		password = "".equals(password) ? null : password;
 		if (mail != null && password != null) {
 			BSUserServiceImpl userService = new BSUserServiceImpl();
 			BSDataUtils dau = new BSDataUtils();
