@@ -116,6 +116,51 @@ function isDate(value) {
 	return ajaxForValidate('/servlet/ajax/IsDate', value) == 'true';
 }
 
+
+function severalValidationsAndSubmit(elements, formId) {
+	/**
+	 * <code>
+	 elements = [
+	 			{name:'campo1',desc:'Campo de prueba',type:'Double',value:0},
+	 			{name:'campo2',desc:'Segundo Campo',type:'Double',value:0}
+	 			] 
+	 </code>
+	 */
+	var name = null;
+	var type = null;
+	var value = null;
+	var isValid = true;
+	for ( var i in elements) {
+		name = elements[i].name;
+		type = elements[i].type;
+
+		value = document.getElementById(name).value;
+
+		if (type == 'Double') {
+			elements[i].value = formated2double(value);
+		} else if (type == 'Integer') {
+			elements[i].value = formated2integer(value);
+		}
+
+		if (elements[i].value == null) {
+			alert('El campo ' + elements[i].desc + ' no es válido');
+			isValid = false;
+			break;
+		}
+	}
+
+	if (isValid) {
+		for ( var i in elements) {
+			name = elements[i].name;
+			document.getElementById(name).value = elements[i].value;
+		}
+		document.getElementById(formId).submit();
+	}
+
+	return isValid;
+}
+
+
 /** ***************************** */
 function setClass(element, focus) {
 	$(element).removeClass();

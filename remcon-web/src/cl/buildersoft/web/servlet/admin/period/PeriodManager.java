@@ -21,6 +21,10 @@ public class PeriodManager extends BSHttpServlet implements Servlet {
 		table.removeAction("INSERT");
 		table.removeAction("DELETE");
 		table.getAction("EDIT").setUrl("/servlet/admin/period/UpdatePeriod");
+		table.addAction(newAction("DUPLICATE", "Duplicar", "/servlet/admin/period/ReadPeriod"));
+//		table.addAction(newAction("DUPLICATE", "Duplicar", "/servlet/ShowParameters"));
+		table.addAction(newAction("OPEN", "Abrir", ""));
+		table.addAction(newAction("CLOSE", "Cerrar", ""));
 
 		table.getField("cDate").setLabel("Fecha período");
 		table.getField("cPeriodStatus").setLabel("Estado");
@@ -35,10 +39,6 @@ public class PeriodManager extends BSHttpServlet implements Servlet {
 		table.getField("cUTM").setLabel("U.T.M.");
 		table.getField("cDaysForYear").setLabel("Días de vacaciones por año");
 		
-//		table.addAction(newAction("EDIT", "Modificar", "/servlet/admin/period/Update"));
-		table.addAction(newAction("DUPLICATE", "Duplicar", ""));
-		table.addAction(newAction("OPEN", "Abrir", ""));
-		table.addAction(newAction("CLOSE", "Cerrar", ""));
 
 		return table;
 	}
