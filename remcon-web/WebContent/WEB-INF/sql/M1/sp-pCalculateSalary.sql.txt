@@ -9,6 +9,7 @@ DROP PROCEDURE IF EXISTS pLimitTaxableDismissInsurance;
 DROP PROCEDURE IF EXISTS pIncome;
 DROP PROCEDURE IF EXISTS pAPV;
 DROP PROCEDURE IF EXISTS pObligatoryQuote;
+DROP PROCEDURE IF EXISTS pFeedingAndMoving;
 DROP PROCEDURE IF EXISTS pLawfulQuote;
 DROP PROCEDURE IF EXISTS pHealth;
 DROP PROCEDURE IF EXISTS pUnemploymentInsuranceAmount;
@@ -54,6 +55,8 @@ BEGIN
 	CALL pLimitTaxableForecast(vBook);
 	CALL pLimitTaxableDismissInsurance(vBook);
 	CALL pObligatoryQuote(vBook);
+	
+	CALL pFeedingAndMoving(vBook);
 
 	CALL pAPV(vBook);
 	CALL pAdditionalPFM(vBook);
@@ -111,7 +114,7 @@ END$$
 	
 CREATE PROCEDURE pCostEnterprise(pBook BIGINT)
 BEGIN
-	DECLARE	vCostEnterprise DOUBLE DEFAULT 0;
+	DECLARE vCostEnterprise DOUBLE DEFAULT 0;
 
 	SELECT	cTotalIncome + cInsuranceAmountEnterprise + cPayToMutulEnterprise + 
 			cPayToMutulEnterprise + cFamilyAssignmentEnterprise
@@ -123,6 +126,23 @@ BEGIN
 	SET		cCostEnterprise	= vCostEnterprise
 	WHERE	cId = pBook;
 
+END$$
+
+CREATE PROCEDURE pFeedingAndMoving(pBook BIGINT)
+BEGIN
+	DECLARE vCostEnterprise DOUBLE DEFAULT 0;
+
+	SELECT	cTotalIncome + cInsuranceAmountEnterprise + cPayToMutulEnterprise + 
+			cPayToMutulEnterprise + cFamilyAssignmentEnterprise
+	INTO	vCostEnterprise
+	FROM	vBook
+	WHERE	cId = pBook;
+
+	/*
+	UPDATE	tBook
+	SET		cCostEnterprise	= vCostEnterprise
+	WHERE	cId = pBook;
+	*/
 END$$
 
 CREATE PROCEDURE pFamilyAssignmentEnterprise(pBook BIGINT)
@@ -199,7 +219,7 @@ END$$
 
 CREATE PROCEDURE pTotalIncomeNotTaxable(pBook BIGINT)
 BEGIN
-	DECLARE	vTotalIncomeNotTaxable DOUBLE DEFAULT 0;
+	DECLARE vTotalIncomeNotTaxable DOUBLE DEFAULT 0;
 	
 	SELECT	cFamilyAssignmentAmount + cFamilyRetroactive + cFeeding + 
 			cMobilization + cBounty + cMonthNotification + cIAS + 
