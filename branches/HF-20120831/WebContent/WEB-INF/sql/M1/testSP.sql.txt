@@ -1,5 +1,5 @@
 call pCalculateAllSalary;
 
 
-select cId, cProportionalHoliday 
+select cId, cMobilization, cFeeding 
 from remcon.vBook;

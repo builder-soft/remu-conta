@@ -9,6 +9,7 @@ DROP PROCEDURE IF EXISTS pLimitTaxableDismissInsurance;
 DROP PROCEDURE IF EXISTS pIncome;
 DROP PROCEDURE IF EXISTS pAPV;
 DROP PROCEDURE IF EXISTS pObligatoryQuote;
+DROP PROCEDURE IF EXISTS pFeedingAndMoving;
 DROP PROCEDURE IF EXISTS pLawfulQuote;
 DROP PROCEDURE IF EXISTS pHealth;
 DROP PROCEDURE IF EXISTS pUnemploymentInsuranceAmount;
@@ -53,6 +54,8 @@ BEGIN
 	CALL pLimitTaxableForecast(vBook);
 	CALL pLimitTaxableDismissInsurance(vBook);
 	CALL pObligatoryQuote(vBook);
+	
+	CALL pFeedingAndMoving(vBook);
 
 	CALL pAPV(vBook);
 	CALL pAdditionalPFM(vBook);
@@ -119,6 +122,24 @@ BEGIN
 
 	UPDATE	tBook
 	SET		cCostEnterprise	= vCostEnterprise
+	WHERE	cId = pBook;
+
+END$$
+
+CREATE PROCEDURE pFeedingAndMoving(pBook BIGINT)
+BEGIN
+	DECLARE vMobilization, vFeeding DOUBLE DEFAULT 0;
+	
+	/* cMobilization, cFeeding */
+	SELECT	b.cMobilization, b.cFeeding
+	INTO	vMobilization, vFeeding
+	FROM	vBook AS a 
+	LEFT JOIN tAgreement AS b ON a.cAgreement = b.cId
+	WHERE	a.cId = pBook;
+
+	UPDATE	tBookAssets
+	SET		cMobilization = vMobilization, 
+			cFeeding = vFeeding			
 	WHERE	cId = pBook;
 
 END$$
@@ -289,10 +310,10 @@ LEFT JOIN tContractType AS b ON a.cContractType = b.cId
 WHERE	a.cId = pBook;
 */
 	
-/*	IF(MONTH(vDate) <= MONTH(vEndContract) AND ) THEN*/
+/*	IF(MONTH(vDate) <= MONTH(vEndContract) AND ) THEN
 	
 select vContractKey='FIN' AND MONTH(vDate) = MONTH(vEndContract);
-
+*/
 	IF(vContractKey='FIN' AND MONTH(vDate) = MONTH(vEndContract)) THEN
 		SET vDateDiff = DateDiff(vEndContract, vStartContract);
 		SET vDailyFactor = ROUND((vDaysForYear / 12) / 30, 5);
