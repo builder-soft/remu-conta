@@ -28,11 +28,11 @@
 				<table>
 					<tr>
 						<td class="cLabel">Id:</td>
-						<td class="cData"><%=period.getId()%></td>
+						<td class="cData">[Nuevo]</td>
 					</tr>
 					<tr>
-						<td class="cLabel">Período origen <%=periodName%>:</td>
-						<td><%@ include file="/WEB-INF/jsp/config/period/period-select.jsp"%></td>
+						<td class="cLabel">Período:</td>
+						<td><%@ include file="/WEB-INF/jsp/config/period/period-selector.jsp"%></td>
 					</tr>
 					<tr>
 						<td class="cLabel">Estado:</td>
@@ -120,7 +120,7 @@
 			</form>
 
 
-<button onclick="javascript:submitPeriod_()">Aceptar</button>
+<button onclick="javascript:submitPeriod()">Aceptar</button>
 &nbsp;&nbsp;&nbsp;
 <a class="cCancel"
 	href="${pageContext.request.contextPath}/servlet/admin/period/PeriodManager">Cancelar</a>

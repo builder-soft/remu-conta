@@ -18,13 +18,15 @@ public class PeriodManager extends BSHttpServlet implements Servlet {
 		BSTableConfig table = super.initTable(request, "tPeriod");
 		table.setTitle("Períodos");
 
+		table.setSortField("cDate");
+		
 		table.removeAction("INSERT");
 		table.removeAction("DELETE");
 		table.getAction("EDIT").setUrl("/servlet/admin/period/UpdatePeriod");
 		table.addAction(newAction("DUPLICATE", "Duplicar", "/servlet/admin/period/ReadPeriod"));
 //		table.addAction(newAction("DUPLICATE", "Duplicar", "/servlet/ShowParameters"));
-		table.addAction(newAction("OPEN", "Abrir", ""));
-		table.addAction(newAction("CLOSE", "Cerrar", ""));
+		table.addAction(newAction("OPEN", "Abrir", "/servlet/admin/period/OpenPeriod"));
+		table.addAction(newAction("CLOSE", "Cerrar", "/servlet/admin/period/ClosePeriod"));
 
 		table.getField("cDate").setLabel("Fecha período");
 		table.getField("cPeriodStatus").setLabel("Estado");
