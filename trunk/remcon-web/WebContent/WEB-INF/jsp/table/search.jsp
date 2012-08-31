@@ -37,7 +37,7 @@
 
 		//	 BSPaging paging = (BSPaging) request.getAttribute("Paging");
 
-		String out = "<input name='Search' size='20' type='search' placeholder='busqueda...' onkeypress='return keyPressSearch(this, \""
+		String out = "<input name='Search' size='30' maxlength='50' type='search' placeholder='busqueda...' onkeypress='return keyPressSearch(this, \""
 				+ path + "\");' value='" + request.getAttribute("Search") + "'>";
 		return out;
 	}%>

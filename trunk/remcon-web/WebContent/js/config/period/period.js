@@ -52,6 +52,5 @@ function submitPeriod() {
 	} ];
 
 	severalValidationsAndSubmit(elements, 'form');
-
 }
 

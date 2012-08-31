@@ -15,8 +15,7 @@
 
 <%
 	ServletContext ctx = request.getServletContext();
-	InputStream in = ctx
-			.getResourceAsStream("/WEB-INF/errors.properties");
+	InputStream in = ctx.getResourceAsStream("/WEB-INF/errors.properties");
 	Properties properties = new Properties();
 	properties.load(in);
 
@@ -74,6 +73,8 @@
 </td>
 <td>
  -->
-	<h1 class="cTitle" style="color: red"><%=title%></h1> <pre>
+<h1 class="cTitle" style="color: red"><%=title%></h1>
+<pre>
   <%=desc%>
-  </pre> <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
+  </pre>
+<%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
