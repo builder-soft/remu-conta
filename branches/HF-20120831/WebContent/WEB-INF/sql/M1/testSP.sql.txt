@@ -1,0 +1,5 @@
+call pCalculateAllSalary;
+
+
+select cId, cProportionalHoliday 
+from remcon.vBook;

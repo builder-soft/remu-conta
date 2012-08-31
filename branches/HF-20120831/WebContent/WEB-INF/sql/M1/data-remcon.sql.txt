@@ -1,0 +1,1076 @@
+INSERT INTO tDataType(cKey, cName) VALUES('STRING', 'String');
+SET @stringId = LAST_INSERT_ID();
+INSERT INTO tDataType(cKey, cName) VALUES('DOUBLE', 'Double');
+SET @doubleId = LAST_INSERT_ID();
+INSERT INTO tDataType(cKey, cName) VALUES('INTEGER', 'Integer');
+SET @integerId = LAST_INSERT_ID();
+INSERT INTO tDataType(cKey, cName) VALUES('TIMESTAMP', 'Timestamp');
+SET @timestampId = LAST_INSERT_ID();
+INSERT INTO tDataType(cKey, cName) VALUES('BOOLEAN', 'Boolean');
+SET @booleanId = LAST_INSERT_ID();
+INSERT INTO tDataType(cKey, cName) VALUES('LONG', 'Long');
+SET @longId = LAST_INSERT_ID();
+
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_DATE', 'Formato de Fecha', 'dd/MM/yyyy', @stringId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_DATETIME', 'Formado de fecha/hora', 'dd/MM/yyyy HH:mm', @stringId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_INTEGER', 'Formato para montos', '#,###,###,###', @stringId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('FORMAT_DECIMAL', 'Formato para montos', '###,###.##', @stringId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CSV_SEPARATOR', 'Separador de archivos csv', ';', @stringId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('RECORDS_PER_PAGE', 'Registros por p&aacute;gina', '15', @integerId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('EMPLOYEE_FILES', 'Ubicación de archivos de empleados (en server)', 'D:\\temp\\remcon', @stringId);
+
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('BASE_SALARY', 'Sueldo Base', '185000', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('OVERTIME_FACTOR', 'Factor para cálculo de horas extras', '0.0077777', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('OVERTIME_PERCENT', 'Porcentaje de gratificación de horas extras', '50', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('GRATIFICATION_FACTOR', 'Factor grtificacion x sueldos minímos', '4.75', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_IPS', 'Tope imponible para afiliados al IPS (ex INP) en UFs', '64.7', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_INSURANCE', 'Tope imponible seguro de cesantia en UF', '97.1', @doubleId);
+
+/*INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('INSURANCE_FACTOR', 'Factor para cálculo de seguro de cesantía', '0.006', @doubleId);*/
+
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CURRENT_UF', 'Valor actual de la UF', '21031.5', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LIMIT_HEALTH', 'Tope cotizacion de salud, en UF', '4.2', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('UTM', 'Valor de una UTM', '36862', @doubleId);
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('DAYS_FOR_YEAR', 'Días de vacaciones por año trabajado', '15', @integerId);
+
+INSERT INTO tFileCategory( cName ) VALUES('Curriculums');
+INSERT INTO tFileCategory( cName ) VALUES('Licencia médica');
+INSERT INTO tFileCategory( cName ) VALUES('Certificados de título');
+INSERT INTO tFileCategory( cName ) VALUES('Otros archivos');
+
+INSERT INTO tLicenseCause(cKey, cName, cFileCategory) VALUES('ENFER', 'Enfermedad', 2);
+INSERT INTO tLicenseCause(cKey, cName) VALUES('ACCID', 'Accidente');
+INSERT INTO tLicenseCause(cKey, cName) VALUES('PERMI', 'Permiso');
+INSERT INTO tLicenseCause(cKey, cName) VALUES('AUSEN', 'Ausentismo');
+
+INSERT INTO tRol(cName) VALUES('Administrador');
+SET @rolId = LAST_INSERT_ID();
+
+SELECT cId INTO @userId FROM bsframework.tUser WHERE cMail = 'admin';
+
+INSERT INTO tR_UserRol(cUser, cRol) VALUES(@userId, @rolId);
+
+/*INSERT INTO tContractType (cName, cBody) VALUES('Sin Seguro', '');*/
+INSERT INTO tContractType (cKey, cName, cBody, cInsuranceFactorEmployee, cInsuranceFactorEnterprise) 
+VALUES('UND', 'Indefinido', '', 0.006, 0.024);
+INSERT INTO tContractType (cKey, cName, cBody, cInsuranceFactorEmployee, cInsuranceFactorEnterprise) 
+VALUES('FIX', 'A plazo fijo', '', 0.000, 0.030);
+INSERT INTO tContractType (cKey, cName, cBody, cInsuranceFactorEmployee, cInsuranceFactorEnterprise) 
+VALUES('FIN', 'Finiquitado', '', 0.000, 0.000);
+
+INSERT INTO tGratificationType(cName) VALUES('Sin Gratificación');
+INSERT INTO tGratificationType(cName) VALUES('25% Imp. (Tope 4,75imm/12)');
+INSERT INTO tGratificationType(cName) VALUES('Gratificacion por antiguedad de años trabajados');
+
+INSERT INTO tHorary(cName) VALUES('Lun-Vie 9:00-19:00, colación 60 min.');
+
+INSERT INTO tPaymentType (cKey, cName) VALUES ('EFECTIVO', 'Efectivo');
+INSERT INTO tPaymentType (cKey, cName) VALUES ('CHEQUE', 'Cheque');
+INSERT INTO tPaymentType (cKey, cName) VALUES ('ABONO_CUENTA', 'Abono Cuenta');
+INSERT INTO tPaymentType (cKey, cName) VALUES ('VALE_VISTA', 'Vale Vista');
+INSERT INTO tPaymentType (cKey, cName) VALUES ('SERVIPAG', 'Servipag'); 
+
+/* Caja de compensaciones */
+INSERT INTO tCompensationFund (cName) VALUES ('Los Andes');
+INSERT INTO tCompensationFund (cName) VALUES ('La Araucana');
+INSERT INTO tCompensationFund (cName) VALUES ('Los Heroes');
+INSERT INTO tCompensationFund (cName) VALUES ('Gabriela Mistral');
+INSERT INTO tCompensationFund (cName) VALUES ('18 de Septiembre');
+
+/* Mutual */
+INSERT INTO tMutual(cKey, cName) VALUES ('00','Sin Mutual - Empresa entrega aporte Accidentes del Trabajo al ISL' );
+INSERT INTO tMutual(cKey, cName) VALUES ('01','Asociación Chilena de Seguridad (ACHS)' );
+INSERT INTO tMutual(cKey, cName) VALUES ('02','Mutual de Seguridad CCHC' );
+INSERT INTO tMutual(cKey, cName) VALUES ('03','Instituto de Seguridad del Trabajo I.S.T.' );
+
+/* Genero */
+INSERT INTO tGenere(cKey, cName) VALUES('F', 'Femenino');
+INSERT INTO tGenere(cKey, cName) VALUES('M', 'Masculino');
+
+/* Estado civil */
+INSERT INTO tMaritalStatus(cKey, cName) VALUES('MARRIED', 'Casado');
+INSERT INTO tMaritalStatus(cKey, cName) VALUES('SINGLE', 'Soltero');
+SET @single = LAST_INSERT_ID();
+
+/* Tipos de Monedas */
+INSERT INTO tCurrency(cKey, cName) VALUES('UF', 'UF (Unidad de Fomento)');
+SET @uf = LAST_INSERT_ID();
+INSERT INTO tCurrency(cKey, cName) VALUES('CLP', '$ (Pesos Chilenos)');
+SET @clp = LAST_INSERT_ID();
+INSERT INTO tCurrency(cKey, cName) VALUES('PRC', '% (Porcentaje)');
+SET @prc = LAST_INSERT_ID();
+
+/* PFM */
+
+/**
+Tipos de cuentas donde van a dar los fondos.
+APV 
+ACCT2
+COMPL_HEALTH
+
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('INSTITUTION', 'APV', 'Ahorro Previsional Voluntario');
+SET @apvType = LAST_INSERT_ID();
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('INSTITUTION', 'ACCT2', 'Cuenta 2');
+INSERT INTO tBoard(cType, cKey, cValue) VALUES('INSTITUTION', 'COMPL_HEALTH', 'Seguro complementario');
+*/
+
+/** Tipos de cuenta bancaria */
+INSERT INTO tAccountType(cKey, cName) VALUES('CTA_CTE', 'Cuenta Corriente');
+SET @accountType = LAST_INSERT_ID();
+INSERT INTO tAccountType(cKey, cName) VALUES('SAVING', 'Cuenta Ahorro');
+SET @acct2 = LAST_INSERT_ID();
+INSERT INTO tAccountType(cKey, cName) VALUES('SIGHT', 'Cuenta Vista');
+
+/* APV */
+INSERT INTO tAPV(cKey, cName) VALUES('100', 'ABN AMRO (CHILE) SEGUROS DE VIDA S.A.');
+SET @APV1 = LAST_INSERT_ID();
+INSERT INTO tAPV(cKey, cName) VALUES('136', 'ACE SEGUROS S.A.');
+SET @APV2 = LAST_INSERT_ID();
+INSERT INTO tAPV(cKey, cName) VALUES('218', 'ADMINISTRADORA GENERAL DE FONDOS SECURITY S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('33', 'AFP Capital');
+INSERT INTO tAPV(cKey, cName) VALUES('3', 'AFP Cuprum');
+INSERT INTO tAPV(cKey, cName) VALUES('5', 'AFP Habitat');
+INSERT INTO tAPV(cKey, cName) VALUES('34', 'AFP Modelo');
+INSERT INTO tAPV(cKey, cName) VALUES('29', 'AFP Planvital');
+INSERT INTO tAPV(cKey, cName) VALUES('8', 'AFP Provida');
+INSERT INTO tAPV(cKey, cName) VALUES('101', 'AGF ALLIANZ CHILE COMPAÑIA DE SEGUROS VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('222', 'BANCHILE CORREDORES DE BOLSA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('104', 'BANCHILE SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('319', 'BANCO RIPLEY');
+INSERT INTO tAPV(cKey, cName) VALUES('321', 'BANCO SANTANDER SANTIAGO');
+INSERT INTO tAPV(cKey, cName) VALUES('320', 'BANCO SCOTIABANK');
+INSERT INTO tAPV(cKey, cName) VALUES('229', 'BANCOESTADO S.A. ADMINISTRADORA GENERAL DE FONDOS');
+INSERT INTO tAPV(cKey, cName) VALUES('201', 'BANDESARROLLO ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('203', 'BBVA ASSET MANAGEMENT ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('303', 'BBVA BANCO BHIF');
+INSERT INTO tAPV(cKey, cName) VALUES('105', 'BBVA SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('204', 'BCI ASSET MANAGEMENT ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('103', 'BCI SEGUROS VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('205', 'BICE INVERSIONES ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('232', 'BICE INVERSIONES CORREDORES DE BOLSA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('106', 'BICE VIDA COMPAÑIA DE SEGUROS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('400', 'CAJA DE COMPENSACION LOS ANDES');
+INSERT INTO tAPV(cKey, cName) VALUES('208', 'CELFIN CAPITAL S.A. ADMINISTRADORA GRAL. DE FONDOS');
+INSERT INTO tAPV(cKey, cName) VALUES('228', 'CELFIN CAPITAL S.A. CORREDORES DE BOLSA');
+INSERT INTO tAPV(cKey, cName) VALUES('107', 'CHILENA CONSOLIDADA SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('111', 'CIA DE SEG. DE VIDA CONSORCIO NACIONAL DE SEG S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('108', 'CIGNA COMPAÑIA DE SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('109', 'CN LIFE, COMPAÑIA DE SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('116', 'COMPAÑIA DE SEGUROS CORPVIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('110', 'COMPAÑIA DE SEGUROS DE VIDA CARDIF S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('112', 'COMPAÑIA DE SEGUROS DE VIDA CRUZ DEL SUR S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('113', 'COMPAÑIA DE SEGUROS DE VIDA HUELEN S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('114', 'COMPAÑIA DE SEGUROS DE VIDA LA CONSTRUCCION S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('115', 'COMPAÑIA DE SEGUROS DE VIDA VITALIS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('134', 'COMPAÑIA DE SEGUROS GENERALES PENTA-SECURITY S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('210', 'CORPBANCA ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('404', 'CRUZ DEL SUR ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('219', 'CRUZ DEL SUR CORREDORA DE BOLSA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('600', 'EUROAMERICA ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('117', 'EUROAMERICA SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('227', 'ING AGENCIA DE VALORES S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('118', 'ING SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('225', 'ITAU CHILE ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('121', 'LA INTERAMERICANA COMPAÑIA DE SEG. DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('601', 'LARRAIN VIAL ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('213', 'LARRAIN VIAL S.A. CORREDORA DE BOLSA');
+INSERT INTO tAPV(cKey, cName) VALUES('123', 'MAPFRE COMPAÑIA DE SEGUROS DE VIDA DE CHILE S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('124', 'METLIFE CHILE SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('125', 'MUTUAL DE SEGUROS DE CHILE');
+INSERT INTO tAPV(cKey, cName) VALUES('126', 'MUTUALIDAD DE CARABINEROS');
+INSERT INTO tAPV(cKey, cName) VALUES('127', 'MUTUALIDAD DEL EJERCITO Y AVIACION');
+INSERT INTO tAPV(cKey, cName) VALUES('128', 'OHIO NATIONAL SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('226', 'PENTA ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('135', 'PENTA VIDA COMPAÑIA DE SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('214', 'PRINCIPAL ADMINISTRADORA GENERAL DE FONDOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('129', 'PRINCIPAL COMPAÑIA DE SEGUROS DE VIDA CHILE S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('130', 'RENTA NACIONAL COMPAÑIA DE SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('215', 'SANTANDER ASSET MANAGEMENT S.A. ADM. GENERAL DE FONDOS');
+INSERT INTO tAPV(cKey, cName) VALUES('102', 'SANTANDER SEGUROS DE VIDA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('217', 'SCOTIA SUD AMERICANO ADMINISTRADORA DE FONDOS MUTUOS S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('231', 'SCOTIA SUD AMERICANO CORREDORES DE BOLSA S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('131', 'SEGUROS DE VIDA SECURITY PREVISION S.A.');
+INSERT INTO tAPV(cKey, cName) VALUES('224', 'ZURICH ADMINISTRADORA GENERAL DE FONDOS S.A.');
+
+/** Caja Ex-Régimen */
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0000','No pertenece al IPS');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0201','Bancaria - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0202','Bancaria - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0203','Bancaria - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0214','Bancaria - Régimen 14');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0221','Bancaria - Régimen 21');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0234','Bancaria - Régimen 34');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2201','Caja de Previsión de Gildemeister - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2202','Caja de Previsión de Gildemeister - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1601','Caja de Previsión Social de los EE - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1602','Caja de Previsión Social de los EE - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1202','Caja Ferro - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1203','Caja Ferro - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1204','Caja Ferro - Régimen 4');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1205','Caja Ferro - Régimen 5');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1207','Caja Ferro - Régimen 7');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('03','Caja Prev. y Est. de los Empl. del Bco. de Chile');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1401','Canaempu: Periodistas - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1402','Canaempu: Periodistas - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1403','Canaempu: Periodistas - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1404','Canaempu: Periodistas - Régimen 4');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1405','Canaempu: Periodistas - Régimen 5');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1406','Canaempu: Periodistas - Régimen 6');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1407','Canaempu: Periodistas - Régimen 7');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1408','Canaempu: Periodistas - Régimen 8');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1411','Canaempu: Periodistas - Régimen 11');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1412','Canaempu: Periodistas - Régimen 12');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1413','Canaempu: Periodistas - Régimen 13');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1414','Canaempu: Periodistas - Régimen 14');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1415','Canaempu: Periodistas - Régimen 15');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1416','Canaempu: Periodistas - Régimen 16');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1417','Canaempu: Periodistas - Régimen 17');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1418','Canaempu: Periodistas - Régimen 18');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1421','Canaempu: Periodistas - Régimen 21');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1422','Canaempu: Periodistas - Régimen 22');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1423','Canaempu: Periodistas - Régimen 23');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1424','Canaempu: Periodistas - Régimen 24');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1425','Canaempu: Periodistas - Régimen 25');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1426','Canaempu: Periodistas - Régimen 26');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1431','Canaempu: Periodistas - Régimen 31');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1432','Canaempu: Periodistas - Régimen 32');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1433','Canaempu: Periodistas - Régimen 33');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1434','Canaempu: Periodistas - Régimen 34');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1301','Canaempu: Públicos - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1302','Canaempu: Públicos - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1303','Canaempu: Públicos - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1305','Canaempu: Públicos - Régimen 5');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1306','Canaempu: Públicos - Régimen 6');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1308','Canaempu: Públicos - Régimen 8');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1309','Canaempu: Públicos - Régimen 9');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1310','Canaempu: Públicos - Régimen 10');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1311','Canaempu: Públicos - Régimen 11');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1312','Canaempu: Públicos - Régimen 12');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1321','Canaempu: Públicos - Régimen 21');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1322','Canaempu: Públicos - Régimen 22');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1323','Canaempu: Públicos - Régimen 23');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1325','Canaempu: Públicos - Régimen 25');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1326','Canaempu: Públicos - Régimen 26');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1328','Canaempu: Públicos - Régimen 28');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1329','Canaempu: Públicos - Régimen 29');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1330','Canaempu: Públicos - Régimen 30');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1331','Canaempu: Públicos - Régimen 31');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1332','Canaempu: Públicos - Régimen 32');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1338','Canaempu: Públicos - Régimen 38');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0501','Caprebech - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0503','Caprebech - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0514','Caprebech - Régimen 14');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0521','Caprebech - Régimen 21');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0534','Caprebech - Régimen 34');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0601','Capremer - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0602','Capremer - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0603','Capremer - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0604','Capremer - Régimen 4');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0605','Capremer - Régimen 5');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0606','Capremer - Régimen 6');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0608','Capremer - Régimen 8');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1501','Copremusa EE - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1502','Copremusa EE - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1503','Copremusa EE - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1901','Diomp - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1701','EE Municipales de la Republica - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1702','EE Municipales de la Republica - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1703','EE Municipales de la Republica - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1704','EE Municipales de la Republica - Régimen 4');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2001','EE Salitre - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2002','EE Salitre - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0101','Empart - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0102','Empart - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0103','Empart - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0104','Empart - Régimen 4');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0106','Empart - Régimen 6');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1001','Empleados de Emos - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0801','Hípica Nacional - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0802','Hípica Nacional - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0803','Hípica Nacional - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0804','Hípica Nacional - Régimen 4');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2301','Mauricio, Hochschild - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2302','Mauricio, Hochschild - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1101','Obreros de Emos - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1801','OO Municipales de la Republica - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1802','OO Municipales de la Republica - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('1803','OO Municipales de la Republica - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2101','Sección Esp.Previsión Empleados - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2102','Sección Esp.Previsión Empleados - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('04','Sección Prev. del Bco. Central de Chile');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2401','Secgasco - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('2402','Secgasco - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0901','Servicios de Seguro Social - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0902','Servicios de Seguro Social - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0701','Triomar - Régimen 1');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0702','Triomar - Régimen 2');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0703','Triomar - Régimen 3');
+INSERT INTO tExBoxSystem(cKey, cName) VALUES('0704','Triomar - Régimen 4');
+
+/** Bancos */
+INSERT INTO tBank(cKey,cName)VALUES('46','ABNAMRO');
+INSERT INTO tBank(cKey,cName)VALUES('504','BBVA');
+INSERT INTO tBank(cKey,cName)VALUES('16','BCI');
+INSERT INTO tBank(cKey,cName)VALUES('28','BICE');
+INSERT INTO tBank(cKey,cName)VALUES('1','CHILE');
+INSERT INTO tBank(cKey,cName)VALUES('33','CITIBANK,N.A.');
+INSERT INTO tBank(cKey,cName)VALUES('734','CONOSUR');
+INSERT INTO tBank(cKey,cName)VALUES('27','CORPBANCA');
+INSERT INTO tBank(cKey,cName)VALUES('43','DELANACIONARGENTINA');
+INSERT INTO tBank(cKey,cName)VALUES('507','DESARROLLO');
+INSERT INTO tBank(cKey,cName)VALUES('52','DEUTSCHEBANK');
+INSERT INTO tBank(cKey,cName)VALUES('17','DOBRASIL');
+INSERT INTO tBank(cKey,cName)VALUES('29','EDWARDS');
+INSERT INTO tBank(cKey,cName)VALUES('12','ESTADO');
+INSERT INTO tBank(cKey,cName)VALUES('51','FALABELLA');
+INSERT INTO tBank(cKey,cName)VALUES('54','HNS');
+INSERT INTO tBank(cKey,cName)VALUES('31','HSBCBANKCHILE');
+INSERT INTO tBank(cKey,cName)VALUES('9','INTERNACIONAL');
+INSERT INTO tBank(cKey,cName)VALUES('39','ITAU');
+INSERT INTO tBank(cKey,cName)VALUES('41','JPMORGANCHASEBANK');
+INSERT INTO tBank(cKey,cName)VALUES('55','MONEX');
+INSERT INTO tBank(cKey,cName)VALUES('57','PARIS');
+INSERT INTO tBank(cKey,cName)VALUES('56','PENTA');
+INSERT INTO tBank(cKey,cName)VALUES('53','RIPLEY');
+INSERT INTO tBank(cKey,cName)VALUES('37','SANTANDER-CHILE');
+INSERT INTO tBank(cKey,cName)VALUES('14','SCOTIABANKSUDAMERICANO');
+INSERT INTO tBank(cKey,cName)VALUES('49','SECURITY');
+INSERT INTO tBank(cKey,cName)VALUES('45','THEBANKOFTOKYO-MITSUBISHIUFJ,LTD.');
+
+INSERT INTO tComuna (cName,cRegion) VALUES ('Alto Hospicio',1);
+INSERT INTO tComuna (cName,cRegion) VALUES ('Camina',1);
+INSERT INTO tComuna (cName,cRegion) VALUES ('Colchane',1);
+INSERT INTO tComuna (cName,cRegion) VALUES ('Huara',1);
+INSERT INTO tComuna (cName,cRegion) VALUES ('Iquique',1);
+
+/*
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (6,'Pica',1);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (7,'Pozo Almonte',1);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (8,'Antofagasta',2);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (9,'Calama',2);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (10,'Maria Elena',2);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (11,'Mejillones',2);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (12,'Ollagne',2);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (13,'San Pedro de Atacama',2);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (14,'Sierra Gorda',2);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (15,'Taltal',2);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (16,'Tocopilla',2);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (17,'Alto del Carmen',3);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (18,'Caldera',3);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (19,'Chanaral',3);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (20,'Copiapo',3);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (21,'Diego de Almagro',3);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (22,'Freirina',3);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (23,'Huasco',3);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (24,'Tierra Amarilla',3);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (25,'Vallenar',3);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (26,'Andacollo',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (27,'Canela',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (28,'Combarbala',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (29,'Coquimbo',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (30,'Illapel',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (31,'La Higuera',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (32,'La Serena',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (33,'Los Vilos',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (34,'Monte Patria',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (35,'Ovalle',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (36,'Paihuano',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (37,'PunitaquI',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (38,'Rio Hurtado',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (39,'Salamanca',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (40,'Vicuna',4);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (41,'Algarrobo',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (42,'Cabildo',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (43,'Calle Larga',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (44,'Cartagena',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (45,'Casablanca',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (46,'Catemu',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (47,'Concon',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (48,'El Quisco',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (49,'El Tabo',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (50,'Hijuelas',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (51,'Isla de Pascua',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (52,'Juan Fernandez',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (53,'La Calera',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (54,'La Cruz',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (55,'La Ligua',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (56,'Limache',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (57,'Llay llay',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (58,'Los Andes',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (59,'Nogales',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (60,'Olmue',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (61,'Panquehue',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (62,'Papudo',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (63,'Petorca',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (64,'Puchuncavi',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (65,'Putaendo',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (66,'Quillota',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (67,'Quilpue',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (68,'Quintero',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (69,'Rinconada',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (70,'San Antonio',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (71,'San Esteban',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (72,'San Felipe',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (73,'Santa Maria',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (74,'Santo Domingo',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (75,'Valparaiso',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (76,'Villa Alemana',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (77,'Vina del Mar',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (78,'Zapallar',5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (80,'Chimbarongo',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (81,'Codegua',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (82,'Coinco',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (83,'Coltauco',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (84,'Donihue',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (85,'Graneros',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (86,'La Estrella',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (87,'Las Cabras',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (88,'Litueche',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (89,'Lolol',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (90,'Machali',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (91,'Malloa',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (92,'Marchigne',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (93,'Mostazal',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (94,'Nancagua',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (95,'Navidad',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (96,'Olivar',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (97,'Palmilla',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (98,'Paredones',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (99,'Peralillo',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (100,'Peumo',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (101,'Pichidegua',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (102,'Pichilemu',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (103,'Placilla',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (104,'Pumanque',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (105,'Quinta de Tilcoco',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (106,'Rancagua',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (107,'Rengo',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (108,'Requinoa',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (109,'San Fernando',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (110,'San Vicente de Tagua Tagua',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (111,'Santa Cruz',6);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (112,'Cauquenes',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (113,'Chanco',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (114,'Colbun',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (115,'Constitucion',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (116,'Curepto',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (117,'Curico',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (118,'Empedrado',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (119,'Hualane',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (120,'Licanten',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (121,'Linares',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (122,'Longavi',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (123,'Maule',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (124,'Molina',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (125,'Parral',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (126,'Pelarco',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (127,'Pelluhue',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (128,'Pencahue',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (129,'Rauco',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (130,'Retiro',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (131,'Rio Claro',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (132,'Romeral',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (133,'Sagrada Familia',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (134,'San Clemente',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (135,'San Javier',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (136,'San Rafael',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (137,'Talca',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (138,'Teno',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (139,'Vichuquen',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (140,'Villa Alegre',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (141,'Yerbas Buenas',7);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (142,'Alto Bio Bio',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (143,'Antuco',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (144,'Arauco',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (145,'Bulnes',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (146,'Cabrero',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (147,'Canete',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (148,'Chiguayante',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (149,'Chillan',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (150,'Chillan Viejo',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (151,'Cobquecura',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (152,'Coelemu',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (153,'Coihueco',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (154,'Concepcion',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (155,'Contulmo',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (156,'Coronel',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (157,'Curanilahue',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (158,'El Carmen',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (159,'Florida',8,1);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (160,'Hualpen',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (161,'Hualqui',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (162,'Laja',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (163,'Lebu',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (164,'Los Alamos',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (165,'Los Angeles',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (166,'Lota',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (167,'Mulchen',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (168,'Nacimiento',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (169,'Negrete',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (170,'Ninhue',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (171,'Niquen',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (172,'Pemuco',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (173,'Penco',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (174,'Pinto',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (175,'Portezuelo',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (176,'Quilaco',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (177,'Quilleco',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (178,'Quillon',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (179,'Quirihue',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (180,'Ranquil',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (181,'San Carlos',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (182,'San Fabian',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (183,'San Ignacio',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (184,'San Nicolas',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (185,'San Pedro de la Paz',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (186,'San Rosendo',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (187,'Santa Barbara',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (188,'Santa Juana',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (189,'Talcahuano',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (190,'Tirua',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (191,'Tome',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (192,'Trehuaco',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (193,'Tucapel',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (194,'Yumbel',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (195,'Yungay',8);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (196,'Angol',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (197,'Carahue',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (198,'Cholchol',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (199,'CollipullI',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (200,'Cunco',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (201,'Curacautin',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (202,'Curarrehue',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (203,'Ercilla',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (204,'Freire',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (205,'Galvarino',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (206,'Gorbea',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (207,'Lautaro',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (208,'Loncoche',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (209,'Lonquimay',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (210,'Los Sauces',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (211,'Lumaco',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (212,'Melipeuco',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (213,'Nueva Imperial',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (214,'Padre Las Casas',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (215,'Perquenco',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (216,'Pitrufquen',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (217,'Pucon',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (218,'Puren',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (219,'Renaico',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (220,'Saavedra',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (221,'Temuco',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (222,'Teodoro Schmidt',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (223,'Tolten',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (224,'Traiguen',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (225,'Victoria',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (226,'Vilcun',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (227,'Villarrica',9);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (228,'Ancud',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (229,'Calbuco',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (230,'Castro',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (231,'Chaiten',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (232,'ChonchI',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (233,'Cochamo',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (234,'Curaco de Velez',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (235,'Dalcahue',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (236,'Fresia',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (237,'Frutillar',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (238,'Futaleufu',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (239,'Hualaihue',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (240,'Llanquihue',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (241,'Los Muermos',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (242,'Maullin',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (243,'Osorno',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (244,'Palena',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (245,'Puerto Montt',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (246,'Puerto Octay',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (247,'Puerto Varas',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (248,'Puqueldon',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (249,'Purranque',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (250,'Puyehue',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (251,'Queilen',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (252,'Quellon',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (253,'QuemchI',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (254,'Quinchao',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (255,'Rio Negro',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (256,'San Juan de la Costa',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (257,'San Pablo',10);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (258,'Aysen',11);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (259,'Chile Chico',11);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (260,'Cisnes',11);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (261,'Cochrane',11);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (262,'Coyhaique',11);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (263,'Guaitecas',11);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (264,'Lago Verde',11);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (265,'O Higgins',11);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (266,'Rio Ibanez',11);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (267,'Tortel',11);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (268,'Cabo de Hornos',12);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (269,'Laguna Blanca',12);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (270,'Porvenir',12);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (271,'Primavera',12);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (272,'Puerto Natales',12);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (273,'Punta Arenas',12);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (274,'Rio Verde',12);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (275,'San Gregorio',12);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (276,'Timaukel',12);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (277,'Torres del Paine',12);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (278,'Alhue',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (279,'Buin',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (280,'Calera de Tango',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (281,'Cerillos',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (282,'Cerro Navia',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (283,'Colina',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (284,'Conchali',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (285,'Curacavi',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (286,'El Bosque',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (287,'El Monte',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (288,'Estacion Central',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (289,'Huechuraba',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (290,'Independencia',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (291,'Isla de Maipo',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (292,'La Cisterna',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (293,'La Florida',13,5);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (294,'La Granja',13,1);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (295,'La Pintana',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (296,'La Reina',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (297,'Lampa',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (298,'Las Condes',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (299,'Lo Barnechea',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (300,'Lo Espejo',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (301,'Lo Prado',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (302,'Macul',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (303,'Maipu',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (304,'Maria Pinto',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (305,'Melipilla',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (306,'Nunoa',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (307,'Padre Hurtado',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (308,'Paine',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (309,'Pedro Aguirre Cerda',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (310,'Penaflor',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (311,'Penalolen',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (312,'Pirque',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (313,'Providencia',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (314,'Pudahuel',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (315,'Puente Alto',13,153);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (316,'Quilicura',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (317,'Quinta Normal',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (318,'Recoleta',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (319,'Renca',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (320,'San Bernardo',13,1);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (321,'San Joaquin',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (322,'San Jose de Maipo',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (323,'San Miguel',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (324,'San Pedro',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (325,'San Ramon',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (326,'Santiago',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (327,'Talagante',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (328,'Til-Til',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (329,'Vitacura',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (330,'Arica',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (331,'Camarones',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (332,'General Lagos',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (333,'Putre',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (334,'Corral',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (335,'Futrono',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (336,'Lago Ranco',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (337,'Lanco',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (338,'Los Lagos',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (339,'Mafil',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (340,'Paillaco',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (341,'PanguipullI',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (342,'Rio Bueno',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (343,'San Jose de la Mariquina',13);
+INSERT INTO tComuna (cID,cName,cRegion) VALUES (344,'Valdivia',13);
+*/
+
+INSERT INTO tCountry (cKey,cName) VALUES ('CHL','Chile');
+INSERT INTO tCountry (cKey,cName) VALUES ('ABW','Aruba');
+INSERT INTO tCountry (cKey,cName) VALUES ('AFG','Afghanistan');
+INSERT INTO tCountry (cKey,cName) VALUES ('AGO','Angola');
+INSERT INTO tCountry (cKey,cName) VALUES ('AIA','Anguilla');
+INSERT INTO tCountry (cKey,cName) VALUES ('ALB','Albania');
+INSERT INTO tCountry (cKey,cName) VALUES ('AND','Andorra');
+INSERT INTO tCountry (cKey,cName) VALUES ('ANT','Netherlands Antilles');
+INSERT INTO tCountry (cKey,cName) VALUES ('ARE','United Arab Emirates');
+INSERT INTO tCountry (cKey,cName) VALUES ('ARG','Argentina');
+INSERT INTO tCountry (cKey,cName) VALUES ('ARM','Armenia');
+INSERT INTO tCountry (cKey,cName) VALUES ('ASM','American Samoa');
+INSERT INTO tCountry (cKey,cName) VALUES ('ATA','Antarctica');
+INSERT INTO tCountry (cKey,cName) VALUES ('ATF','French Southern territories');
+INSERT INTO tCountry (cKey,cName) VALUES ('ATG','Antigua and Barbuda');
+INSERT INTO tCountry (cKey,cName) VALUES ('AUS','Australia');
+INSERT INTO tCountry (cKey,cName) VALUES ('AUT','Austria');
+INSERT INTO tCountry (cKey,cName) VALUES ('AZE','Azerbaijan');
+INSERT INTO tCountry (cKey,cName) VALUES ('BDI','Burundi');
+INSERT INTO tCountry (cKey,cName) VALUES ('BEL','Belgium');
+INSERT INTO tCountry (cKey,cName) VALUES ('BEN','Benin');
+INSERT INTO tCountry (cKey,cName) VALUES ('BFA','Burkina Faso');
+INSERT INTO tCountry (cKey,cName) VALUES ('BGD','Bangladesh');
+INSERT INTO tCountry (cKey,cName) VALUES ('BGR','Bulgaria');
+INSERT INTO tCountry (cKey,cName) VALUES ('BHR','Bahrain');
+INSERT INTO tCountry (cKey,cName) VALUES ('BHS','Bahamas');
+INSERT INTO tCountry (cKey,cName) VALUES ('BIH','Bosnia and Herzegovina');
+INSERT INTO tCountry (cKey,cName) VALUES ('BLR','Belarus');
+INSERT INTO tCountry (cKey,cName) VALUES ('BLZ','Belize');
+INSERT INTO tCountry (cKey,cName) VALUES ('BMU','Bermuda');
+INSERT INTO tCountry (cKey,cName) VALUES ('BOL','Bolivia');
+INSERT INTO tCountry (cKey,cName) VALUES ('BRA','Brazil');
+INSERT INTO tCountry (cKey,cName) VALUES ('BRB','Barbados');
+INSERT INTO tCountry (cKey,cName) VALUES ('BRN','Brunei');
+INSERT INTO tCountry (cKey,cName) VALUES ('BTN','Bhutan');
+INSERT INTO tCountry (cKey,cName) VALUES ('BVT','Bouvet Island');
+INSERT INTO tCountry (cKey,cName) VALUES ('BWA','Botswana');
+INSERT INTO tCountry (cKey,cName) VALUES ('CAF','Central African Republic');
+INSERT INTO tCountry (cKey,cName) VALUES ('CAN','Canada');
+INSERT INTO tCountry (cKey,cName) VALUES ('CCK','Cocos (Keeling) Islands');
+INSERT INTO tCountry (cKey,cName) VALUES ('CHE','Switzerland');
+INSERT INTO tCountry (cKey,cName) VALUES ('CHN','China');
+INSERT INTO tCountry (cKey,cName) VALUES ('CIV','Costa de Marfil');
+INSERT INTO tCountry (cKey,cName) VALUES ('CMR','Cameroon');
+INSERT INTO tCountry (cKey,cName) VALUES ('COD','Congo, The Democratic Republic of the');
+INSERT INTO tCountry (cKey,cName) VALUES ('COG','Congo');
+INSERT INTO tCountry (cKey,cName) VALUES ('COK','Cook Islands');
+INSERT INTO tCountry (cKey,cName) VALUES ('COL','Colombia');
+INSERT INTO tCountry (cKey,cName) VALUES ('COM','Comoros');
+INSERT INTO tCountry (cKey,cName) VALUES ('CPV','Cape Verde');
+INSERT INTO tCountry (cKey,cName) VALUES ('CRI','Costa Rica');
+INSERT INTO tCountry (cKey,cName) VALUES ('CUB','Cuba');
+INSERT INTO tCountry (cKey,cName) VALUES ('CXR','Christmas Island');
+INSERT INTO tCountry (cKey,cName) VALUES ('CYM','Cayman Islands');
+INSERT INTO tCountry (cKey,cName) VALUES ('CYP','Cyprus');
+INSERT INTO tCountry (cKey,cName) VALUES ('CZE','Czech Republic');
+INSERT INTO tCountry (cKey,cName) VALUES ('DEU','Germany');
+INSERT INTO tCountry (cKey,cName) VALUES ('DJI','Djibouti');
+INSERT INTO tCountry (cKey,cName) VALUES ('DMA','Dominica');
+INSERT INTO tCountry (cKey,cName) VALUES ('DNK','Denmark');
+INSERT INTO tCountry (cKey,cName) VALUES ('DOM','Dominican Republic');
+INSERT INTO tCountry (cKey,cName) VALUES ('DZA','Algeria');
+INSERT INTO tCountry (cKey,cName) VALUES ('ECU','Ecuador');
+INSERT INTO tCountry (cKey,cName) VALUES ('EGY','Egypt');
+INSERT INTO tCountry (cKey,cName) VALUES ('ERI','Eritrea');
+INSERT INTO tCountry (cKey,cName) VALUES ('ESH','Western Sahara');
+INSERT INTO tCountry (cKey,cName) VALUES ('ESP','Spain');
+INSERT INTO tCountry (cKey,cName) VALUES ('EST','Estonia');
+INSERT INTO tCountry (cKey,cName) VALUES ('ETH','Ethiopia');
+INSERT INTO tCountry (cKey,cName) VALUES ('FIN','Finland');
+INSERT INTO tCountry (cKey,cName) VALUES ('FJI','Fiji Islands');
+INSERT INTO tCountry (cKey,cName) VALUES ('FLK','Falkland Islands');
+INSERT INTO tCountry (cKey,cName) VALUES ('FRA','France');
+INSERT INTO tCountry (cKey,cName) VALUES ('FRO','Faroe Islands');
+INSERT INTO tCountry (cKey,cName) VALUES ('FSM','Micronesia, Federated States of');
+INSERT INTO tCountry (cKey,cName) VALUES ('GAB','Gabon');
+INSERT INTO tCountry (cKey,cName) VALUES ('GBR','United Kingdom');
+INSERT INTO tCountry (cKey,cName) VALUES ('GEO','Georgia');
+INSERT INTO tCountry (cKey,cName) VALUES ('GHA','Ghana');
+INSERT INTO tCountry (cKey,cName) VALUES ('GIB','Gibraltar');
+INSERT INTO tCountry (cKey,cName) VALUES ('GIN','Guinea');
+INSERT INTO tCountry (cKey,cName) VALUES ('GLP','Guadeloupe');
+INSERT INTO tCountry (cKey,cName) VALUES ('GMB','Gambia');
+INSERT INTO tCountry (cKey,cName) VALUES ('GNB','Guinea-Bissau');
+INSERT INTO tCountry (cKey,cName) VALUES ('GNQ','Equatorial Guinea');
+INSERT INTO tCountry (cKey,cName) VALUES ('GRC','Greece');
+INSERT INTO tCountry (cKey,cName) VALUES ('GRD','Grenada');
+INSERT INTO tCountry (cKey,cName) VALUES ('GRL','Greenland');
+INSERT INTO tCountry (cKey,cName) VALUES ('GTM','Guatemala');
+INSERT INTO tCountry (cKey,cName) VALUES ('GUF','French Guiana');
+INSERT INTO tCountry (cKey,cName) VALUES ('GUM','Guam');
+INSERT INTO tCountry (cKey,cName) VALUES ('GUY','Guyana');
+INSERT INTO tCountry (cKey,cName) VALUES ('HKG','Hong Kong');
+INSERT INTO tCountry (cKey,cName) VALUES ('HMD','Heard Island and McDonald Islands');
+INSERT INTO tCountry (cKey,cName) VALUES ('HND','Honduras');
+INSERT INTO tCountry (cKey,cName) VALUES ('HRV','Croatia');
+INSERT INTO tCountry (cKey,cName) VALUES ('HTI','Haiti');
+INSERT INTO tCountry (cKey,cName) VALUES ('HUN','Hungary');
+INSERT INTO tCountry (cKey,cName) VALUES ('IDN','Indonesia');
+INSERT INTO tCountry (cKey,cName) VALUES ('IND','India');
+INSERT INTO tCountry (cKey,cName) VALUES ('IOT','British Indian Ocean Territory');
+INSERT INTO tCountry (cKey,cName) VALUES ('IRL','Ireland');
+INSERT INTO tCountry (cKey,cName) VALUES ('IRN','Iran');
+INSERT INTO tCountry (cKey,cName) VALUES ('IRQ','Iraq');
+INSERT INTO tCountry (cKey,cName) VALUES ('ISL','Iceland');
+INSERT INTO tCountry (cKey,cName) VALUES ('ISR','Israel');
+INSERT INTO tCountry (cKey,cName) VALUES ('ITA','Italy');
+INSERT INTO tCountry (cKey,cName) VALUES ('JAM','Jamaica');
+INSERT INTO tCountry (cKey,cName) VALUES ('JOR','Jordan');
+INSERT INTO tCountry (cKey,cName) VALUES ('JPN','Japan');
+INSERT INTO tCountry (cKey,cName) VALUES ('KAZ','Kazakstan');
+INSERT INTO tCountry (cKey,cName) VALUES ('KEN','Kenya');
+INSERT INTO tCountry (cKey,cName) VALUES ('KGZ','Kyrgyzstan');
+INSERT INTO tCountry (cKey,cName) VALUES ('KHM','Cambodia');
+INSERT INTO tCountry (cKey,cName) VALUES ('KIR','Kiribati');
+INSERT INTO tCountry (cKey,cName) VALUES ('KNA','Saint Kitts and Nevis');
+INSERT INTO tCountry (cKey,cName) VALUES ('KOR','South Korea');
+INSERT INTO tCountry (cKey,cName) VALUES ('KWT','Kuwait');
+INSERT INTO tCountry (cKey,cName) VALUES ('LAO','Laos');
+INSERT INTO tCountry (cKey,cName) VALUES ('LBN','Lebanon');
+INSERT INTO tCountry (cKey,cName) VALUES ('LBR','Liberia');
+INSERT INTO tCountry (cKey,cName) VALUES ('LBY','Libyan Arab Jamahiriya');
+INSERT INTO tCountry (cKey,cName) VALUES ('LCA','Saint Lucia');
+INSERT INTO tCountry (cKey,cName) VALUES ('LIE','Liechtenstein');
+INSERT INTO tCountry (cKey,cName) VALUES ('LKA','Sri Lanka');
+INSERT INTO tCountry (cKey,cName) VALUES ('LSO','Lesotho');
+INSERT INTO tCountry (cKey,cName) VALUES ('LTU','Lithuania');
+INSERT INTO tCountry (cKey,cName) VALUES ('LUX','Luxembourg');
+INSERT INTO tCountry (cKey,cName) VALUES ('LVA','Latvia');
+INSERT INTO tCountry (cKey,cName) VALUES ('MAC','Macao');
+INSERT INTO tCountry (cKey,cName) VALUES ('MAR','Morocco');
+INSERT INTO tCountry (cKey,cName) VALUES ('MCO','Monaco');
+INSERT INTO tCountry (cKey,cName) VALUES ('MDA','Moldova');
+INSERT INTO tCountry (cKey,cName) VALUES ('MDG','Madagascar');
+INSERT INTO tCountry (cKey,cName) VALUES ('MDV','Maldives');
+INSERT INTO tCountry (cKey,cName) VALUES ('MEX','Mexico');
+INSERT INTO tCountry (cKey,cName) VALUES ('MHL','Marshall Islands');
+INSERT INTO tCountry (cKey,cName) VALUES ('MKD','Macedonia');
+INSERT INTO tCountry (cKey,cName) VALUES ('MLI','Mali');
+INSERT INTO tCountry (cKey,cName) VALUES ('MLT','Malta');
+INSERT INTO tCountry (cKey,cName) VALUES ('MMR','Myanmar');
+INSERT INTO tCountry (cKey,cName) VALUES ('MNG','Mongolia');
+INSERT INTO tCountry (cKey,cName) VALUES ('MNP','Northern Mariana Islands');
+INSERT INTO tCountry (cKey,cName) VALUES ('MOZ','Mozambique');
+INSERT INTO tCountry (cKey,cName) VALUES ('MRT','Mauritania');
+INSERT INTO tCountry (cKey,cName) VALUES ('MSR','Montserrat');
+INSERT INTO tCountry (cKey,cName) VALUES ('MTQ','Martinique');
+INSERT INTO tCountry (cKey,cName) VALUES ('MUS','Mauritius');
+INSERT INTO tCountry (cKey,cName) VALUES ('MWI','Malawi');
+INSERT INTO tCountry (cKey,cName) VALUES ('MYS','Malaysia');
+INSERT INTO tCountry (cKey,cName) VALUES ('MYT','Mayotte');
+INSERT INTO tCountry (cKey,cName) VALUES ('NAM','Namibia');
+INSERT INTO tCountry (cKey,cName) VALUES ('NCL','New Caledonia');
+INSERT INTO tCountry (cKey,cName) VALUES ('NER','Niger');
+INSERT INTO tCountry (cKey,cName) VALUES ('NFK','Norfolk Island');
+INSERT INTO tCountry (cKey,cName) VALUES ('NGA','Nigeria');
+INSERT INTO tCountry (cKey,cName) VALUES ('NIC','Nicaragua');
+INSERT INTO tCountry (cKey,cName) VALUES ('NIU','Niue');
+INSERT INTO tCountry (cKey,cName) VALUES ('NLD','Netherlands');
+INSERT INTO tCountry (cKey,cName) VALUES ('NOR','Norway');
+INSERT INTO tCountry (cKey,cName) VALUES ('NPL','Nepal');
+INSERT INTO tCountry (cKey,cName) VALUES ('NRU','Nauru');
+INSERT INTO tCountry (cKey,cName) VALUES ('NZL','New Zealand');
+INSERT INTO tCountry (cKey,cName) VALUES ('OMN','Oman');
+INSERT INTO tCountry (cKey,cName) VALUES ('PAK','Pakistan');
+INSERT INTO tCountry (cKey,cName) VALUES ('PAN','Panama');
+INSERT INTO tCountry (cKey,cName) VALUES ('PCN','Pitcairn');
+INSERT INTO tCountry (cKey,cName) VALUES ('PER','Peru');
+INSERT INTO tCountry (cKey,cName) VALUES ('PHL','Philippines');
+INSERT INTO tCountry (cKey,cName) VALUES ('PLW','Palau');
+INSERT INTO tCountry (cKey,cName) VALUES ('PNG','Papua New Guinea');
+INSERT INTO tCountry (cKey,cName) VALUES ('POL','Poland');
+INSERT INTO tCountry (cKey,cName) VALUES ('PRI','Puerto Rico');
+INSERT INTO tCountry (cKey,cName) VALUES ('PRK','North Korea');
+INSERT INTO tCountry (cKey,cName) VALUES ('PRT','Portugal');
+INSERT INTO tCountry (cKey,cName) VALUES ('PRY','Paraguay');
+INSERT INTO tCountry (cKey,cName) VALUES ('PSE','Palestine');
+INSERT INTO tCountry (cKey,cName) VALUES ('PYF','French Polynesia');
+INSERT INTO tCountry (cKey,cName) VALUES ('QAT','Qatar');
+INSERT INTO tCountry (cKey,cName) VALUES ('REU','Reunión');
+INSERT INTO tCountry (cKey,cName) VALUES ('ROM','Romania');
+INSERT INTO tCountry (cKey,cName) VALUES ('RUS','Russian Federation');
+INSERT INTO tCountry (cKey,cName) VALUES ('RWA','Rwanda');
+INSERT INTO tCountry (cKey,cName) VALUES ('SAU','Saudi Arabia');
+INSERT INTO tCountry (cKey,cName) VALUES ('SDN','Sudan');
+INSERT INTO tCountry (cKey,cName) VALUES ('SEN','Senegal');
+INSERT INTO tCountry (cKey,cName) VALUES ('SGP','Singapore');
+INSERT INTO tCountry (cKey,cName) VALUES ('SGS','South Georgia and the South Sandwich Islands');
+INSERT INTO tCountry (cKey,cName) VALUES ('SHN','Saint Helena');
+INSERT INTO tCountry (cKey,cName) VALUES ('SJM','Svalbard and Jan Mayen');
+INSERT INTO tCountry (cKey,cName) VALUES ('SLB','Solomon Islands');
+INSERT INTO tCountry (cKey,cName) VALUES ('SLE','Sierra Leone');
+INSERT INTO tCountry (cKey,cName) VALUES ('SLV','El Salvador');
+INSERT INTO tCountry (cKey,cName) VALUES ('SMR','San Marino');
+INSERT INTO tCountry (cKey,cName) VALUES ('SOM','Somalia');
+INSERT INTO tCountry (cKey,cName) VALUES ('SPM','Saint Pierre and Miquelon');
+INSERT INTO tCountry (cKey,cName) VALUES ('STP','Sao Tome and Principe');
+INSERT INTO tCountry (cKey,cName) VALUES ('SUR','Suriname');
+INSERT INTO tCountry (cKey,cName) VALUES ('SVK','Slovakia');
+INSERT INTO tCountry (cKey,cName) VALUES ('SVN','Slovenia');
+INSERT INTO tCountry (cKey,cName) VALUES ('SWE','Sweden');
+INSERT INTO tCountry (cKey,cName) VALUES ('SWZ','Swaziland');
+INSERT INTO tCountry (cKey,cName) VALUES ('SYC','Seychelles');
+INSERT INTO tCountry (cKey,cName) VALUES ('SYR','Syria');
+INSERT INTO tCountry (cKey,cName) VALUES ('TCA','Turks and Caicos Islands');
+INSERT INTO tCountry (cKey,cName) VALUES ('TCD','Chad');
+INSERT INTO tCountry (cKey,cName) VALUES ('TGO','Togo');
+INSERT INTO tCountry (cKey,cName) VALUES ('THA','Thailand');
+INSERT INTO tCountry (cKey,cName) VALUES ('TJK','Tajikistan');
+INSERT INTO tCountry (cKey,cName) VALUES ('TKL','Tokelau');
+INSERT INTO tCountry (cKey,cName) VALUES ('TKM','Turkmenistan');
+INSERT INTO tCountry (cKey,cName) VALUES ('TMP','East Timor');
+INSERT INTO tCountry (cKey,cName) VALUES ('TON','Tonga');
+INSERT INTO tCountry (cKey,cName) VALUES ('TTO','Trinidad and Tobago');
+INSERT INTO tCountry (cKey,cName) VALUES ('TUN','Tunisia');
+INSERT INTO tCountry (cKey,cName) VALUES ('TUR','Turkey');
+INSERT INTO tCountry (cKey,cName) VALUES ('TUV','Tuvalu');
+INSERT INTO tCountry (cKey,cName) VALUES ('TWN','Taiwan');
+INSERT INTO tCountry (cKey,cName) VALUES ('TZA','Tanzania');
+INSERT INTO tCountry (cKey,cName) VALUES ('UGA','Uganda');
+INSERT INTO tCountry (cKey,cName) VALUES ('UKR','Ukraine');
+INSERT INTO tCountry (cKey,cName) VALUES ('UMI','United States Minor Outlying Islands');
+INSERT INTO tCountry (cKey,cName) VALUES ('URY','Uruguay');
+INSERT INTO tCountry (cKey,cName) VALUES ('USA','United States');
+INSERT INTO tCountry (cKey,cName) VALUES ('UZB','Uzbekistan');
+INSERT INTO tCountry (cKey,cName) VALUES ('VAT','Holy See (Vatican City State)');
+INSERT INTO tCountry (cKey,cName) VALUES ('VCT','Saint Vincent and the Grenadines');
+INSERT INTO tCountry (cKey,cName) VALUES ('VEN','Venezuela');
+INSERT INTO tCountry (cKey,cName) VALUES ('VGB','Virgin Islands, British');
+INSERT INTO tCountry (cKey,cName) VALUES ('VIR','Virgin Islands, U.S.');
+INSERT INTO tCountry (cKey,cName) VALUES ('VNM','Vietnam');
+INSERT INTO tCountry (cKey,cName) VALUES ('VUT','Vanuatu');
+INSERT INTO tCountry (cKey,cName) VALUES ('WLF','Wallis and Futuna');
+INSERT INTO tCountry (cKey,cName) VALUES ('WSM','Samoa');
+INSERT INTO tCountry (cKey,cName) VALUES ('YEM','Yemen');
+INSERT INTO tCountry (cKey,cName) VALUES ('YUG','Yugoslavia');
+INSERT INTO tCountry (cKey,cName) VALUES ('ZAF','South Africa');
+INSERT INTO tCountry (cKey,cName) VALUES ('ZMB','Zambia');
+INSERT INTO tCountry (cKey,cName) VALUES ('ZWE','Zimbabwe');
+
+INSERT INTO tPeriodStatus(cName) VALUES ('Iniciado');
+INSERT INTO tPeriodStatus(cName) VALUES ('Abierto');
+INSERT INTO tPeriodStatus(cName) VALUES ('Cerrado');
+
+INSERT INTO tAssetDiscountType(cKey, cName) VALUES('BON', 'Bonos');
+SET @bon = LAST_INSERT_ID();
+INSERT INTO tAssetDiscountType(cKey, cName) VALUES('DES', 'Descuentos');
+SET @des = LAST_INSERT_ID();
+
+/*
+INSERT INTO tAssetDiscountType(cKey, cName) VALUES('HIM', 'Haberes Imponibles');
+SET @him = LAST_INSERT_ID();
+INSERT INTO tAssetDiscountType(cKey, cName) VALUES('HNI', 'Haberes no imponibles');
+SET @hni = LAST_INSERT_ID();
+INSERT INTO tAssetDiscountType(cKey, cName) VALUES('DES', 'Otros Descuentos');
+SET @des = LAST_INSERT_ID();
+*/
+
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Bono Producción', true, 0, 1, @bon, 1);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Aguinaldo', true, 0, 2, @bon, 2);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Bono fin de año', true, 0, 3, @bon, 3);
+
+/*
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Alimentación', true, 0, 1, @hni, 1);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Movilización', true, 0, 2, @hni, 2);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Viaticos', true, 0, 3, @hni, 3);
+*/
+
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Convenio telefonía celular', true, 0, 1, @des, 1);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Descuento eventual', true, 0, 2, @des, 2);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Descuento final', true, 0, 3, @des, 3);
+
+
+/*
+INSERT INTO tBond(cName) VALUES('Bono 1');
+INSERT INTO tBond(cName) VALUES('Bono 2');
+INSERT INTO tBond(cName) VALUES('Bono 3');
+INSERT INTO tBond(cName) VALUES('Bono 4');
+INSERT INTO tBond(cName) VALUES('Bono 5');
+INSERT INTO tBond(cName) VALUES('Bono 6');
+INSERT INTO tBond(cName) VALUES('Bono 7');
+INSERT INTO tBond(cName) VALUES('Bono 8');
+INSERT INTO tBond(cName) VALUES('Bono 9');
+INSERT INTO tBond(cName) VALUES('Bono 10');
+*/
+
+/*
+INSERT INTO tUnemploymentInsurance(cName) VALUES ('Indefinido');
+INSERT INTO tUnemploymentInsurance(cName) VALUES ('Plazo fijo');
+INSERT INTO tUnemploymentInsurance(cName) VALUES ('Sin seguro');
+*/
+
+INSERT INTO tHolidayDetailType(cName) VALUES('Tomados');
+INSERT INTO tHolidayDetailType(cName) VALUES('Saldo');
+/*
+INSERT INTO tHolidayDetailType(cName) VALUES('Ignorado');
+*/
+
+/** DATOS DE PRUEBA */
+
+select fInsertPeriod('2012-05-01')
+INTO @Period1;
+select fInsertPeriod('2012-06-01')
+INTO @Period2;
+call pOpenPeriod(@Period1);
+/*
+call pSavePeriod('2012-05-01', @Period1);
+call pSavePeriod('2012-06-01', @Period2);
+
+*/
+
+INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('-', 0);
+INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('A', 5393);
+INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('B', 4223);
+INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('C', 1375);
+INSERT INTO tFamilyAssignmentStretch(cKey, cAmount) VALUES('D', 0);
+
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('0', 'Sin AFP/Jubilado', 0, 0);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('33', 'Capital', 11.44, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('3', 'Cuprum', 11.48, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('5', 'Habitat', 11.36, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('34', 'Modelo', 11.14, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('29', 'Planvital', 12.36, 1.49);
+INSERT INTO tPFM(cKey, cName, cFactor, cSIS) VALUES('8', 'Provida', 11.54, 1.49);
+ 
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('7', 'Fonasa', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('1', 'Banmédica', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('4', 'Colmena', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('2', 'Consalud', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('5', 'Cruz Blanca', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('10', 'Ferrosalud', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('12', 'Fundación', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('11', 'Fusat', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('17', 'Mas Vida', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('18', 'Normédica', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('22', 'Sfera', 7);
+INSERT INTO tHealth(cKey, cName, cFactor) VALUES('3', 'Vida Tres', 7);
+
+call pOpenPeriod(@Period2);
+
+UPDATE	tPFM 
+SET		cFactor=1.41
+WHERE	cId = 3;
+
+UPDATE	tHealth 
+SET		cFactor=7.01
+WHERE	cId = 3;
+
+
+INSERT INTO tEnterprise(cRut, cName, cLegalRep, cRutLegalRep, cCategory, cAddress, cComuna, cPhone, cMutual, cMutualFactor, cCompensationFund)
+VALUES('1-9', 'Buildersoft Ltda.', 'Juan Perez', '1-9', 'Servicios profesionales', 'Avenida X, numero 88', 3, '2345678', 1, 0.0231, 1);
+
+INSERT INTO tBranch(cName, cEnterprise, cAddress, cComuna, cPhone) 
+VALUES('Matriz', LAST_INSERT_ID(), 'Avenida X, numero 88', 3, '2345678');	
+
+INSERT INTO tCostCenter(cName, cBranch) VALUES('Oficina', LAST_INSERT_ID());
+SET @cc = LAST_INSERT_ID();
+
+INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Administrativo', @cc, 180000);
+INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Informatico', @cc, 185000);
+
+INSERT INTO tEmployee(cRut,		cName,	cLastName1,	cLastName2,	cBirthDate,		cAddress,						cGenere,	cComuna,	cCountry,	cMaritalStatus,	cPhone, cMovil, cEmail) 
+VALUES(			'10809246-7',	'Patricio',	'Aranguiz',	'Torres',	'1966-08-28',	'Fray Camilo Henriquez 2063',	2,			3,			1,			@single,				'', 	'',		'');
+SET @employeeId = LAST_INSERT_ID();
+INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cHealthCurrency,	cHealthAmount,	cFamilyAssignmentStretch,	cMaternalLoads,	cAdditionalPFMCurrency)
+VALUES(					@employeeId,	2,				'2012-06-09',	'2012-06-27',	1,			6,		1,			2,					3,				580,			395,		1,			185000, 		@prc,				7,				2,							3,				1);
+SET @agreementId = LAST_INSERT_ID();
+
+
+INSERT INTO tR_AgreementAPV(cAgreement, cAPV, cCurrency, cAmount)
+VALUES(@agreementId, @APV1, @clp, 12000);
+
+
+INSERT INTO tEmployee(cRut,		cName,		cLastName1,	cLastName2,	cBirthDate,		cAddress,	cGenere,	cComuna,	cCountry,	cMaritalStatus,	cPhone, cMovil, cEmail) 
+VALUES(			'12870668-2',	'Claudio',	'Moscoso',	'Howard',	'1975-05-29',	'xxx',		2,			3,			1,			@single,		'', 	'',		'');
+SET @employeeId = LAST_INSERT_ID();
+INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cHealthCurrency,	cHealthAmount,	cFamilyAssignmentStretch,	cAdditionalPFMCurrency, cAdditionalPFMAmount,	cMonthsQuoted)
+VALUES(					@employeeId,	1,				'2012-06-17',	'2012-12-01',	1,			6,		1,			2,					3,				580,			395,		1,			185000,			@uf,				10,				2,							1,						3,						120);
+
+
+
+
+INSERT INTO tFiscalDate(cDate) VALUES('2011-08-01');
+INSERT INTO tFiscalDate(cDate) VALUES('2011-08-02');
+
+INSERT INTO tFiscalDate(cDate) VALUES('2012-09-17');
+INSERT INTO tFiscalDate(cDate) VALUES('2012-09-18');
+INSERT INTO tFiscalDate(cDate) VALUES('2012-09-19');
+
+
