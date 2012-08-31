@@ -974,9 +974,6 @@ INSERT INTO tUnemploymentInsurance(cName) VALUES ('Sin seguro');
 
 INSERT INTO tHolidayDetailType(cName) VALUES('Tomados');
 INSERT INTO tHolidayDetailType(cName) VALUES('Saldo');
-/*
-INSERT INTO tHolidayDetailType(cName) VALUES('Ignorado');
-*/
 
 select fInsertPeriod('2012-01-01')
 INTO @Period1;
