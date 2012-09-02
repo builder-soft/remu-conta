@@ -69,6 +69,6 @@ drop procedure if exists data_test;
 /*
 call pCalculateAllSalary;
 
-select cId, cProportionalHoliday 
+select cId, cMobilization, cFeeding 
 from remcon.vBook;
 */

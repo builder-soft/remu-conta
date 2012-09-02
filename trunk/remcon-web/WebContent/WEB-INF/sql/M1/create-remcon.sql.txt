@@ -606,7 +606,7 @@ el trabajor, No se calcula
 	cDisabilityBurdens			INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Invalidez',
 	cMaternalLoads				INTEGER	NOT NULL DEFAULT '0'	COMMENT 'Cargas Maternales',
 
-	cFeeding					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Colación - Se ingresa por período',
+	cFeeding					DOUBLE NOT NULL DEFAULT '0' COMMENT 'Colaci�n - Se ingresa por período',
 	cMobilization				DOUBLE NOT NULL DEFAULT '0' COMMENT 'Movilización - Se ingresa por período',
 	cBounty               		DOUBLE NOT NULL DEFAULT '0' COMMENT 'Viaticos - Se ingresa por período',
 	cMonthNotification			DOUBLE NOT NULL DEFAULT '0' COMMENT 'Mes De Aviso - Se ingresa por período',

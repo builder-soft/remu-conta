@@ -87,7 +87,6 @@ END$$
 
 CREATE PROCEDURE pSetWorkedDays(vBook BIGINT)
 BEGIN
-	
 	UPDATE	tBook
 	SET		cWorkedDays = fWorkedDays(vBook)
 	WHERE	cId = vBook;
@@ -130,19 +129,20 @@ END$$
 
 CREATE PROCEDURE pFeedingAndMoving(pBook BIGINT)
 BEGIN
-	DECLARE vCostEnterprise DOUBLE DEFAULT 0;
+	DECLARE vMobilization, vFeeding DOUBLE DEFAULT 0;
+	
+	/* cMobilization, cFeeding */
+	SELECT	b.cMobilization, b.cFeeding
+	INTO	vMobilization, vFeeding
+	FROM	vBook AS a 
+	LEFT JOIN tAgreement AS b ON a.cAgreement = b.cId
+	WHERE	a.cId = pBook;
 
-	SELECT	cTotalIncome + cInsuranceAmountEnterprise + cPayToMutulEnterprise + 
-			cPayToMutulEnterprise + cFamilyAssignmentEnterprise
-	INTO	vCostEnterprise
-	FROM	vBook
+	UPDATE	tBookAssets
+	SET		cMobilization = vMobilization, 
+			cFeeding = vFeeding			
 	WHERE	cId = pBook;
 
-	/*
-	UPDATE	tBook
-	SET		cCostEnterprise	= vCostEnterprise
-	WHERE	cId = pBook;
-	*/
 END$$
 
 CREATE PROCEDURE pFamilyAssignmentEnterprise(pBook BIGINT)
