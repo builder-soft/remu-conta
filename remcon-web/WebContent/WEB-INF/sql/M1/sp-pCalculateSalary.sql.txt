@@ -36,6 +36,7 @@ DROP FUNCTION IF EXISTS fGetHealthForBook;
 DROP FUNCTION IF EXISTS fSalaryDaily;
 DROP FUNCTION IF EXISTS fWorkedDays;
 DROP FUNCTION IF EXISTS fDateToPeriod;
+DROP FUNCTION IF EXISTS fContractActive;
 DELIMITER $$
 
 /************************/
@@ -84,6 +85,19 @@ BEGIN
 	CALL pSimpleAdjustment(vBook);
 	
 END$$
+
+CREATE FUNCTION fContractActive(vEmployee BIGINT) RETURNS BOOLEAN
+BEGIN
+	DECLARE vOut BOOLEAN DEFAULT FALSE;
+	DECLARE vContractType BIGINT
+	DECLARE vStartContract
+	
+	SELECT	cContractType, cStartContract 
+	FROM	tAgreement
+	WHERE	cEmpleoyee = vEmployee;
+	
+	RETURN vOut;
+END$$ 
 
 CREATE PROCEDURE pSetWorkedDays(vBook BIGINT)
 BEGIN
