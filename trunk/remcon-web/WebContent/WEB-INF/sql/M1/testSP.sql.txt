@@ -51,7 +51,7 @@ begin
 
 	IF (NOT EXISTS(select cId from tAgreement where cEmployee=@employeeId)) THEN
 		INSERT INTO tAgreement(	cEmployee, 		cContractType,	cStartContract,	cEndContract,	cProfile,	cPFM,	cHealth,	cGratificationType,	cPaymentType,	cMobilization,	cFeeding,	cHorary,	cSalaryRoot,	cHealthCurrency,	cHealthAmount,	cFamilyAssignmentStretch,	cAdditionalPFMCurrency, cAdditionalPFMAmount,	cMonthsQuoted)
-		VALUES(					@employeeId,	1,				'2012-06-17',	'2012-12-01',	1,			6,		1,			2,					3,				57000,			40000,		1,			185000,			@uf,				10,				2,							1,						3,						120);
+		VALUES(					@employeeId,	1,				'2012-07-17',	'2012-12-01',	1,			6,		1,			2,					3,				57000,			40000,		1,			185000,			@uf,				10,				2,							1,						3,						120);
 	END IF;
 
 
@@ -65,10 +65,12 @@ drop procedure if exists data_test;
 
 /********************************/
 
+delete from tBookAssets;
+delete from tBookDiscounts;
+delete from tBook;
 
-/*
 call pCalculateAllSalary;
 
-select cId, cMobilization, cFeeding 
-from remcon.vBook;
-*/
+select a.cId, a.cPeriod, a.cDate, a.cStartContract, a.cEndContract, a.cLastName1, b.cKey
+from vBook as a
+LEFT JOIN	tContractType AS b ON a.cContractType = b.cId;
