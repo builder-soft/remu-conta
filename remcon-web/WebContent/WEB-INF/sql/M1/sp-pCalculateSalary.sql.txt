@@ -44,57 +44,118 @@ CREATE PROCEDURE pCalculateSalary(IN pEmployee BIGINT, IN vPeriod BIGINT)
 BEGIN
 	DECLARE vBook BIGINT DEFAULT 0;
 
-	SET vBook = fSaveBookForEmployee(vPeriod, pEmployee);
+select pEmployee, vPeriod, fContractActive(pEmployee, vPeriod);
 	
-	CALL pSetWorkedDays(vBook);
+	IF (fContractActive(pEmployee, vPeriod)) THEN
+		SET vBook = fSaveBookForEmployee(vPeriod, pEmployee);
+		
+		CALL pSetWorkedDays(vBook);
+		
+		CALL pSaveOvertime(vBook, pEmployee, vPeriod);
+		CALL pSalaryReceived(vBook);
+		CALL pGratificationAmount(vBook);
+		CALL pOvertimeAmount(vBook);
+		CALL pTotalIncomeTaxable(vBook);
+		CALL pLimitTaxableForecast(vBook);
+		CALL pLimitTaxableDismissInsurance(vBook);
+		CALL pObligatoryQuote(vBook);
+		
+		CALL pFeedingAndMoving(vBook);
 	
-	CALL pSaveOvertime(vBook, pEmployee, vPeriod);
-	CALL pSalaryReceived(vBook);
-	CALL pGratificationAmount(vBook);
-	CALL pOvertimeAmount(vBook);
-	CALL pTotalIncomeTaxable(vBook);
-	CALL pLimitTaxableForecast(vBook);
-	CALL pLimitTaxableDismissInsurance(vBook);
-	CALL pObligatoryQuote(vBook);
+		CALL pAPV(vBook);
+		CALL pAdditionalPFM(vBook);
+		CALL pHealth(vBook);
+		CALL pUnemploymentInsuranceAmount(vBook);
+		CALL pFamilyAssignment(vBook);
 	
-	CALL pFeedingAndMoving(vBook);
-
-	CALL pAPV(vBook);
-	CALL pAdditionalPFM(vBook);
-	CALL pHealth(vBook);
-	CALL pUnemploymentInsuranceAmount(vBook);
-	CALL pFamilyAssignment(vBook);
-
-	CALL pIncome(vBook);
-	CALL pUniqueTax(vBook);
-	CALL pProportionalHoliday(vBook);
-	CALL pSubtotalLawfulDiscounts(vBook);
-	CALL pSubtotalOtherDiscounts(vBook);
-
-	CALL pTotalIncomeNotTaxable(vBook);
-	CALL pTotalIncome(vBook);
+		CALL pIncome(vBook);
+		CALL pUniqueTax(vBook);
+		CALL pProportionalHoliday(vBook);
+		CALL pSubtotalLawfulDiscounts(vBook);
+		CALL pSubtotalOtherDiscounts(vBook);
 	
-	CALL pNetPaymentScope(vBook);
-	
-	CALL pToPayEmployee(vBook);
-	
-	CALL pInsuranceAmountEnterprise(vBook);
-	CALL pPayToMutulEnterprise(vBook);
-	CALL pFamilyAssignmentEnterprise(vBook);
-	CALL pCostEnterprise(vBook);
-	CALL pSimpleAdjustment(vBook);
+		CALL pTotalIncomeNotTaxable(vBook);
+		CALL pTotalIncome(vBook);
+		
+		CALL pNetPaymentScope(vBook);
+		
+		CALL pToPayEmployee(vBook);
+		
+		CALL pInsuranceAmountEnterprise(vBook);
+		CALL pPayToMutulEnterprise(vBook);
+		CALL pFamilyAssignmentEnterprise(vBook);
+		CALL pCostEnterprise(vBook);
+		CALL pSimpleAdjustment(vBook);
+	END IF;
 	
 END$$
 
-CREATE FUNCTION fContractActive(vEmployee BIGINT) RETURNS BOOLEAN
+CREATE FUNCTION fContractActive(vEmployee BIGINT, vPeriod BIGINT) RETURNS varchar(1000)
 BEGIN
-	DECLARE vOut BOOLEAN DEFAULT FALSE;
-	DECLARE vContractType BIGINT
-	DECLARE vStartContract
+	DECLARE vOut BOOLEAN DEFAULT TRUE;
+	DECLARE vContractType VARCHAR(3);
+	DECLARE vAgreement BIGINT;
+	DECLARE vStartContract, vEndContract, vPeriodDate DATE;
 	
-	SELECT	cContractType, cStartContract 
-	FROM	tAgreement
-	WHERE	cEmpleoyee = vEmployee;
+	SELECT	a.cContractType, a.cStartContract, a.cEndContract, a.cId 
+	INTO	vContractType, vStartContract, vEndContract, vAgreement
+	FROM	tAgreement AS a
+	LEFT JOIN	tContractType AS b ON a.cContractType = b.cId
+	WHERE	a.cEmployee = vEmployee;
+	
+/*	SET vEndContract = LAST_DAY(vEndContract);*/
+	
+	SELECT	cDate
+	INTO	vPeriodDate
+	FROM	tPeriod
+	WHERE	cId = vPeriod;
+	
+/*
+	return CONCAT (vStartContract , ' >= ', vPeriodDate, ' = ', 
+			(DATE(vStartContract) >= DATE(vPeriodDate)), ' -- ', 
+			datediff(vStartContract,vPeriodDate));
+	
+ if (! iniciado)
+    false;
+ else
+    if(finiquitado)
+       false;
+    else
+       if(indefinido)
+          true
+       else
+          if(last_day(period)<encontract) then
+             update tAgreement set contractType = fin;
+             false
+          endif
+       endif
+    endif
+ endif 
+ * */
+	
+	IF(!(vStartContract >= vPeriodDate)) THEN /* No iniciado? */
+		SET vOut = FALSE;
+	ELSE
+		IF(vContractType = 'FIN') THEN
+			SET vOut = FALSE;
+		ELSE
+			IF(vContractType = 'UND') THEN
+				SET vOut = TRUE;
+			ELSE /* Contrato a plazo fijo */
+						/*
+return CONCAT(LAST_DAY(vPeriod), ' < ', vEndContract, ' = ', 
+						LAST_DAY(vPeriod) < vEndContract);
+*/
+				IF(LAST_DAY(vPeriodDate) < vEndContract) THEN
+					UPDATE	tAgreement
+					SET		cContractType = 3 /*(SELECT cId FROM tContractType WHERE cKey = 'FIN')*/
+					WHERE	cId = vAgreement;
+					
+					SET vOut = FALSE;
+				END IF;
+			END IF;
+		END IF;
+	END IF;
 	
 	RETURN vOut;
 END$$ 
