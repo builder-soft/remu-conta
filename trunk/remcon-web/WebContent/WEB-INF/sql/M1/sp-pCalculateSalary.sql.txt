@@ -43,8 +43,9 @@ DELIMITER $$
 CREATE PROCEDURE pCalculateSalary(IN pEmployee BIGINT, IN vPeriod BIGINT)
 BEGIN
 	DECLARE vBook BIGINT DEFAULT 0;
-
+/*
 select pEmployee, vPeriod, fContractActive(pEmployee, vPeriod);
+*/
 	
 	IF (fContractActive(pEmployee, vPeriod)) THEN
 		SET vBook = fSaveBookForEmployee(vPeriod, pEmployee);
@@ -921,6 +922,8 @@ BEGIN
 		WHERE	c.cId = pBook AND a.cAgreement = c.cAgreement;
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET vDone = TRUE;
 	
+	
+	
 	SET vUF = (SELECT cUF FROM vBook WHERE cId = pBook);
 	OPEN cursorAPV;
 	cursorAPV_loop: LOOP
@@ -938,6 +941,8 @@ BEGIN
 	END LOOP cursorAPV_loop;
 	CLOSE cursorAPV;
 
+select vSum;
+	
 	UPDATE	tBookDiscounts
 	SET		cAPVAmount = vSum
 	WHERE	cBook = pBook;
