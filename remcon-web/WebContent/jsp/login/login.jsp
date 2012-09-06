@@ -13,7 +13,7 @@
 
 <title>Ingreso de usuario</title>
 <script>
-	function posImage() {
+	function posImage() {return;
 		var img = document.getElementById("html5");
 		img.style.position= 'absolute';
 		img.style.pixelTop = (screen.height-300);
@@ -30,8 +30,9 @@
 
 		<button type="submit">Acceder...</button>
 	</form>
-		
+<!-- 		
 	<img src="${pageContext.request.contextPath}/img/html5-icon.png" 
 		width="80px" id="html5" alt="Pensando en HTML5 como estandar" />
+		 -->
 </body>
 </html>

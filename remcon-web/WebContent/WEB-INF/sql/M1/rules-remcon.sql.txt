@@ -222,9 +222,10 @@ DROP TRIGGER IF EXISTS InsertOnPFM;
 DROP TRIGGER IF EXISTS UpdateOnPFM;
 DROP TRIGGER IF EXISTS InsertOnHealth;
 DROP TRIGGER IF EXISTS UpdateOnHealth;
-DROP TRIGGER IF EXISTS DeleteOnAgreementPFM;
-DROP TRIGGER IF EXISTS InsertOnAgreementPFM;
+DROP TRIGGER IF EXISTS DeleteOnAgreementAPV;
+DROP TRIGGER IF EXISTS InsertOnAgreementAPV;
 DROP TRIGGER IF EXISTS InsertOnPeriod;
+DROP TRIGGER IF EXISTS UpdateOnPeriod;
  
 DELIMITER $$
 
@@ -279,7 +280,7 @@ BEGIN
 END$$
 
 /* tR_AgreementAPV */
-CREATE TRIGGER DeleteOnAgreementPFM AFTER DELETE ON tR_AgreementAPV
+CREATE TRIGGER DeleteOnAgreementAPV AFTER DELETE ON tR_AgreementAPV
 FOR EACH ROW
 BEGIN
 	DECLARE vPeriod BIGINT DEFAULT 0;
@@ -293,7 +294,7 @@ BEGIN
 			cCurrency=OLD.cCurrency;
 END$$
 
-CREATE TRIGGER InsertOnAgreementPFM AFTER INSERT ON tR_AgreementAPV
+CREATE TRIGGER InsertOnAgreementAPV AFTER INSERT ON tR_AgreementAPV
 FOR EACH ROW
 BEGIN
 	DECLARE vPeriod BIGINT DEFAULT 0;
@@ -351,6 +352,16 @@ BEGIN
 		FROM	tUniqueTax 
 		WHERE	cPeriod = vLastPeriod;
 			
+	END IF;
+END$$
+
+
+CREATE TRIGGER UpdateOnPeriod AFTER UPDATE ON tPeriod
+FOR EACH ROW
+BEGIN
+	IF(NEW.cPeriodStatus = 2) THEN
+		INSERT INTO tR_AgreementAPVHistory(cPeriod, cAgreement, cAPV, cCurrency, cAmount)
+		SELECT NEW.cId, cAgreement, cAPV, cCurrency, cAmount FROM tR_AgreementAPV;
 	END IF;
 END$$
 

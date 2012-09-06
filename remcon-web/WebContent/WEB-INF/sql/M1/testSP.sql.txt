@@ -77,6 +77,6 @@ LEFT JOIN	tContractType AS b ON a.cContractType = b.cId;
 
 
 select * from tBookDiscounts;
-*/
 
 call pListBook;
+*/
