@@ -43,9 +43,9 @@ DELIMITER $$
 CREATE PROCEDURE pCalculateSalary(IN pEmployee BIGINT, IN vPeriod BIGINT)
 BEGIN
 	DECLARE vBook BIGINT DEFAULT 0;
-/*
+
 select pEmployee, vPeriod, fContractActive(pEmployee, vPeriod);
-*/
+
 	
 	IF (fContractActive(pEmployee, vPeriod)) THEN
 		SET vBook = fSaveBookForEmployee(vPeriod, pEmployee);
@@ -91,7 +91,7 @@ select pEmployee, vPeriod, fContractActive(pEmployee, vPeriod);
 	
 END$$
 
-CREATE FUNCTION fContractActive(vEmployee BIGINT, vPeriod BIGINT) RETURNS varchar(1000)
+CREATE FUNCTION fContractActive(vEmployee BIGINT, vPeriod BIGINT) RETURNS BOOLEAN /* varchar(1000)*/
 BEGIN
 	DECLARE vOut BOOLEAN DEFAULT TRUE;
 	DECLARE vContractType VARCHAR(3);
@@ -110,12 +110,11 @@ BEGIN
 	INTO	vPeriodDate
 	FROM	tPeriod
 	WHERE	cId = vPeriod;
-	
+
 /*
-	return CONCAT (vStartContract , ' >= ', vPeriodDate, ' = ', 
-			(DATE(vStartContract) >= DATE(vPeriodDate)), ' -- ', 
-			datediff(vStartContract,vPeriodDate));
-	
+	return CONCAT ('!',MONTH(vStartContract) , ' > ', MONTH(vPeriodDate), ' = ', 
+			(!(MONTH(vStartContract) > MONTH(vPeriodDate))));
+
  if (! iniciado)
     false;
  else
@@ -134,7 +133,8 @@ BEGIN
  endif 
  * */
 	
-	IF(!(vStartContract >= vPeriodDate)) THEN /* No iniciado? */
+	IF((MONTH(vStartContract) > MONTH(vPeriodDate))) THEN /* No iniciado? */
+/*return 'no valido';*/
 		SET vOut = FALSE;
 	ELSE
 		IF(vContractType = 'FIN') THEN
@@ -147,7 +147,7 @@ BEGIN
 return CONCAT(LAST_DAY(vPeriod), ' < ', vEndContract, ' = ', 
 						LAST_DAY(vPeriod) < vEndContract);
 */
-				IF(LAST_DAY(vPeriodDate) < vEndContract) THEN
+				IF(LAST_DAY(vPeriodDate) > vEndContract) THEN
 					UPDATE	tAgreement
 					SET		cContractType = 3 /*(SELECT cId FROM tContractType WHERE cKey = 'FIN')*/
 					WHERE	cId = vAgreement;
@@ -922,8 +922,6 @@ BEGIN
 		WHERE	c.cId = pBook AND a.cAgreement = c.cAgreement;
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET vDone = TRUE;
 	
-	
-	
 	SET vUF = (SELECT cUF FROM vBook WHERE cId = pBook);
 	OPEN cursorAPV;
 	cursorAPV_loop: LOOP
@@ -940,9 +938,9 @@ BEGIN
 		
 	END LOOP cursorAPV_loop;
 	CLOSE cursorAPV;
-
-select vSum;
-	
+/*
+select pBook, vSum;
+*/
 	UPDATE	tBookDiscounts
 	SET		cAPVAmount = vSum
 	WHERE	cBook = pBook;

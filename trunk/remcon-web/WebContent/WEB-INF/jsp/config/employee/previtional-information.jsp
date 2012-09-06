@@ -24,34 +24,35 @@
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <script>
-function addApv(idCurrency,idApv,monto)
-{
+function addApv(idCurrency,idApv,monto){
 
 	var rowCount = $("#apvs tr").length;
-	if(rowCount == 0)
-		{
-			cloneApv = $('#apvHide').clone();
-			cloneApv.attr('id','apv'+rowCount);
-			$('#apvs').append(cloneApv);
-			
-			$('#apv'+rowCount).find("select[id='apvCurrency']").val(idCurrency);
-			$('#apv'+rowCount).find("select[id='apvInstitution']").val(idApv);
-			$('#apv'+rowCount).find("input[id='apvAmount']").val(monto);			
-			return;
-		}
+//	alert(rowCount);
+	if(rowCount == 0){
+		cloneApv = $('#apvHide').clone();
 		
-	
-	var clon = $('#apvHide').clone();
-	clon.attr('id','apv'+rowCount);
-	clon.find('#eliminarHide').remove();
-	newTD = "<td><a href='javascript:delApv("+rowCount+")'>Eliminar</a></td>";
-	clon.append(newTD);
-	apvId = rowCount == 1 ? "#"+$('#apvs tr:first').attr('id') : '#apv'+(rowCount-1);	
-	$(apvId).after(clon);
+		//alert(cloneApv.tagName);
+		
+		cloneApv.attr('id','apv'+rowCount);
+		$('#apvs').append(cloneApv);
+		
+		$('#apv'+rowCount).find("select[id='apvCurrency']").val(idCurrency);
+		$('#apv'+rowCount).find("select[id='apvInstitution']").val(idApv);
+		$('#apv'+rowCount).find("input[id='apvAmount']").val(monto);			
+		//return;
+	}else{
+		var clon = $('#apvHide').clone();
+		clon.attr('id','apv'+rowCount);
+		clon.find('#eliminarHide').remove();
+		newTD = "<td><a class='cCancel' href='javascript:delApv("+rowCount+")'>Eliminar</a></td>";
+		clon.append(newTD);
+		apvId = rowCount == 1 ? "#"+$('#apvs tr:first').attr('id') : '#apv'+(rowCount-1);	
+		$(apvId).after(clon);
 	
 		$('#apv'+rowCount).find("select[id='apvCurrency']").val(idCurrency);
 		$('#apv'+rowCount).find("select[id='apvInstitution']").val(idApv);
 		$('#apv'+rowCount).find("input[id='apvAmount']").val(monto);
+	}
 }
 
 function delApv(idApv)
@@ -110,7 +111,40 @@ function changeExBox(o){
 <%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
 
 <br>
-
+<div style="display: none" id="divHide">
+<table id="tableHide">
+<tr id="apvHide">
+			<td class="cLabel" valign='top'>APV:</td>
+			<td class="cData">
+			<select id="apvCurrency" name="apvCurrency">
+					<%
+					for (Currency bsCurrency : listadoCurrency) {
+				%>
+					<OPTION value="<%=bsCurrency.getId()%>"><%=bsCurrency.getName()%></OPTION>
+				<%
+					}
+				%>
+		</select>
+		</td>
+		<td class="cData"><input id="apvAmount" name="apvAmount" value="0"></td>
+		<td class="cLabel" valign='top'>Institucion:</td>
+		<td class="cData">
+		<select id="apvInstitution" name="apvInstitution">
+				<%
+					for (APV bsApv : listadoApv) {
+				%>
+					<OPTION value="<%=bsApv.getId()%>"><%=bsApv.getName()%></OPTION>
+				<%
+					}
+				%>	
+		</select>
+		</td>
+		<td id="eliminarHide">
+		<a class="cCancel" href="javascript:delApv(0)">Eliminar</a>
+		</td>
+</tr>
+</table>						
+</div>
 
 <form action="${pageContext.request.contextPath}/servlet/config/employee/SavePrevitionalInfo" method="post" id="editForm">
 	<input type="hidden" name="cId" value="<%=request.getParameter("cId")%>">
@@ -288,6 +322,7 @@ function changeExBox(o){
 
 			<tr>
 				<td colspan="4">
+
 					<table id="apvs">
 					<%
 						int contador = 0;
@@ -313,38 +348,5 @@ function changeExBox(o){
 <a class="cCancel" href="${pageContext.request.contextPath}/servlet/common/LoadTable">Cancelar</a>&nbsp;&nbsp;&nbsp;
 
 
-<div style="display: none" id="divHide">
-<table id="tableHide">
-<tr id="apvHide">
-			<td class="cLabel" valign='top'>APV:</td>
-			<td class="cData">
-			<select id="apvCurrency" name="apvCurrency">
-					<%
-					for (Currency bsCurrency : listadoCurrency) {
-				%>
-					<OPTION value="<%=bsCurrency.getId()%>"><%=bsCurrency.getName()%></OPTION>
-				<%
-					}
-				%>
-		</select>
-		</td>
-		<td class="cData"><input id="apvAmount" name="apvAmount" value="0"></td>
-		<td class="cLabel" valign='top'>Institucion:</td>
-		<td class="cData">
-		<select id="apvInstitution" name="apvInstitution">
-				<%
-					for (APV bsApv : listadoApv) {
-				%>
-					<OPTION value="<%=bsApv.getId()%>"><%=bsApv.getName()%></OPTION>
-				<%
-					}
-				%>	
-		</select>
-		</td>
-		<td id="eliminarHide">
-		<a href="javascript:delApv(0)">Eliminar</a>
-		</td>
-</tr>
-</table>						
-</div>
+
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

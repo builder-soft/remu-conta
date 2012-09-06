@@ -96,7 +96,7 @@ BEGIN
 	SET @sql = CONCAT(@sql, 'f.cName AS \'A.F.P.\', ');
 	SET @sql = CONCAT(@sql, 'g.cName AS \'ex-caja\', ');
 	SET @sql = CONCAT(@sql, 'a.cObligatoryQuote AS \'Cotizacion Obligatoria\', ');
-	SET @sql = CONCAT(@sql, 'a.cAPVAmount, '); /* AS \'Monto APV\', ');*/
+	SET @sql = CONCAT(@sql, 'a.cAPVAmount AS \'Monto APV\', ');
 	SET @sql = CONCAT(@sql, 'a.cAccount2 AS \'Cuenta 2\', ');
 	SET @sql = CONCAT(@sql, 'h.cName AS \'Salud\', ');
 	SET @sql = CONCAT(@sql, 'i.cName AS \'Moneda Salud\', ');
