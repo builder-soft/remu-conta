@@ -20,6 +20,8 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.util.Base64;
+
 import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.Option;
 import cl.buildersoft.framework.beans.Rol;
@@ -395,5 +397,10 @@ public class BSWeb {
 
 		return out;
 	}
-
+	static public String randomString(){
+		long l = System.currentTimeMillis();
+		String out = String.valueOf(l);
+		out = Base64.encode(out.getBytes());
+		return out;
+	}
 }

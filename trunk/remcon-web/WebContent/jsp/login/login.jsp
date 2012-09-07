@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.util.BSWeb"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
@@ -22,7 +23,7 @@
 </head>
 <body onload="javascript:posImage()">
 	<form
-		action="${pageContext.request.contextPath}/login/ValidateLoginServlet"
+		action="${pageContext.request.contextPath}/login/ValidateLoginServlet?<%=BSWeb.randomString() %>"
 		method="post">
 		<span class="cLabel">Mail:</span> <input type="text" name="mail" required
 			placeholder="Correo personal"><br> <span class="cLabel">Clave:
