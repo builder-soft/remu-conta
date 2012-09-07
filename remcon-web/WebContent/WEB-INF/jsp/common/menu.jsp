@@ -1,18 +1,19 @@
+<%@page import="cl.buildersoft.framework.util.BSWeb"%>
 <%@ page import="cl.buildersoft.framework.beans.Menu"%>
 <%@ page import="cl.buildersoft.framework.beans.Submenu"%>
 <%@ page import="cl.buildersoft.framework.beans.Option"%>
 <%@ page import="java.util.List"%>
 
 
-	<ul class="jd_menu" style="z-index:1">
-		<li><a href="${pageContext.request.contextPath}/servlet/Home">Inicio</a></li>	
-		<%=write_menu_in_menu_jsp(session, request)%>
-		<li><a href="${pageContext.request.contextPath}/jsp/login/logout.jsp">Salir</a></li>
-	</ul>
+<ul class="jd_menu" style="z-index: 1">
+	<li><a href="${pageContext.request.contextPath}/servlet/Home">Inicio</a></li>
+	<%=write_menu_in_menu_jsp(session, request)%>
+	<li><a
+		href="${pageContext.request.contextPath}/jsp/login/logout.jsp">Salir</a></li>
+</ul>
 
 
-<%!private String write_menu_in_menu_jsp(HttpSession session,
-			HttpServletRequest request) {
+<%!private String write_menu_in_menu_jsp(HttpSession session, HttpServletRequest request) {
 		Menu menuUser = (Menu) session.getAttribute("Menu");
 		String out = "";
 		//Boolean haveMore = null;
@@ -50,7 +51,7 @@
 				endTag = "</a>";
 			}
 			out += startTag;
-			out += "href=\"" + url + "\">";
+			out += "href='" + url + "?" + BSWeb.randomString() + "'>";
 			endTag = "</a>";
 			/**<code>
 			} else {
