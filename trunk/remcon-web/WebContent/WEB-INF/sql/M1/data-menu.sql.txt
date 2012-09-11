@@ -33,7 +33,7 @@ SET @menuIdConfig = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('LOG', 'Log', NULL, LAST_INSERT_ID());
 	
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CC', 'Centros de Costo', NULL, @menuIdConfig);
-	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('HyD_CRUD', 'Haberes y descuentos', NULL, @menuIdConfig);
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('HyD_CRUD', 'Haberes y descuentos', '/servlet/config/assetDiscount/AssetDiscountManager', @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CHARGES', 'Cargos de Empleados', NULL, @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CONTRACT_TYPES', 'Tipos de contratos', NULL, @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('HOURS', 'Horarios', NULL, @menuIdConfig);

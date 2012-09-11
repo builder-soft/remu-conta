@@ -955,6 +955,15 @@ INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, c
 INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Bono de Aguinaldo', true, 0, 2, @bon, 2);
 INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Bono fin de año', true, 0, 3, @bon, 3);
 
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('-Sin definir-', false, 0, 4, @bon, 4);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('-Sin definir-', false, 0, 5, @bon, 5);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('-Sin definir-', false, 0, 6, @bon, 6);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('-Sin definir-', false, 0, 7, @bon, 7);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('-Sin definir-', false, 0, 8, @bon, 8);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('-Sin definir-', false, 0, 9, @bon, 9);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('-Sin definir-', false, 0, 10, @bon, 10);
+
+
 /*
 INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Alimentación', true, 0, 1, @hni, 1);
 INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Movilización', true, 0, 2, @hni, 2);
@@ -964,6 +973,9 @@ INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, c
 INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Convenio telefonía celular', true, 0, 1, @des, 1);
 INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Descuento eventual', true, 0, 2, @des, 2);
 INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('Descuento final', true, 0, 3, @des, 3);
+
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('-Sin definir-', false, 0, 4, @des, 4);
+INSERT INTO tAssetDiscount(cName, cEnable, cLimit, cOrder, cAssetDiscountType, cIndex) VALUES('-Sin definir-', false, 0, 5, @des, 5);
 
 
 /*
