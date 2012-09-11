@@ -1,3 +1,4 @@
+<%@page import="java.sql.SQLException"%>
 <%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="cl.buildersoft.business.beans.AssetDiscount"%>
@@ -128,16 +129,33 @@
 		String preFix = type.equals(1L) ? "cB" : "cD";
 		String nameField = null;
 		for (AssetDiscount assetDiscount : assetDiscounts) {
-			if (assetDiscount.getAssetDiscountType().equals(type)) {
-				nameField = preFix + "0" + assetDiscount.getIndex();
+			if (assetDiscount.getAssetDiscountType().equals(type) && assetDiscount.getEnable()) {
+				if (assetDiscount.getIndex() < 10) {
+					nameField = preFix + "0" + assetDiscount.getIndex();
+				} else {
+					nameField = preFix + assetDiscount.getIndex();
+				}
 				out += "<tr>";
 				out += "<td class='cLabel'>" + assetDiscount.getName() + ":</td>";
 
-				out += "<td><input type='text' name='" + nameField + "' value='" + assetDiscountData.getObject(nameField)
+				out += "<td><input type='text' name='" + nameField + "' value='" + getValue(assetDiscountData, nameField)
 						+ "'></td>";
 
 				out += "</tr>";
 			}
 		}
 		return out;
+	}
+	
+	private String  getValue(ResultSet assetDiscountData, String nameField){
+		String out =null;
+	
+		try {
+			out = assetDiscountData.getString(nameField);
+		} catch (SQLException e) {
+			out = "";
+		}
+
+		return out;
+
 	}%>
