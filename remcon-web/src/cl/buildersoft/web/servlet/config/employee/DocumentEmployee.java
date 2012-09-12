@@ -149,6 +149,10 @@ public class DocumentEmployee extends AbstractServletUtil {
 		BSConfig config = new BSConfig();
 		String tempPath = fu.fixPath(config.getString(conn, "EMPLOYEE_FILES"));
 
+		if (!exists(tempPath)) {
+			throw new BSConfigurationException("La ruta '" + tempPath + "' no fue encontrada.");
+		}
+
 		String tempFileName = "" + System.currentTimeMillis();
 		Map<String, String> values = (HashMap<String, String>) fu.uploadFile(request, tempPath, tempFileName);
 
@@ -166,9 +170,14 @@ public class DocumentEmployee extends AbstractServletUtil {
 		}
 		saveFileToDatabase(conn, values, newFileName);
 		mysql.closeConnection(conn);
-		
+
 		request.getRequestDispatcher("/servlet/config/employee/DocumentEmployee?Method=listDocuments&cId=" + idEmployee).forward(
 				request, response);
+	}
+
+	private boolean exists(String tempPath) {
+		File directory = new File(tempPath);
+		return directory.exists();
 	}
 
 	public void saveFileToDatabase(Connection conn, Map<String, String> values, String newFileName) {

@@ -78,8 +78,8 @@ loadFormat();
 
 	<table border="0" style="width: 100%">
 		<tr>
-			<td align="right"><span class="cLabel">Dominio:</span><span
-				class="cData">&nbsp;<%=getDomainName(session)%></span>&nbsp;&nbsp;|&nbsp;&nbsp;
+			<td align="right"><!-- <span class="cLabel">Dominio:</span><span
+				class="cData">&nbsp;<%=getDomainName(session)%></span>&nbsp;&nbsp;|&nbsp;&nbsp;-->
 				<span class="cLabel">Usuario:</span><span class="cData">&nbsp;<%=getUserName(session)%>
 					- <%=getUserMail(session)%></span></td>
 		<tr>
