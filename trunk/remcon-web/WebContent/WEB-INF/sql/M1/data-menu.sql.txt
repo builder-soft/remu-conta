@@ -26,13 +26,16 @@ SET @menuIdConfig = LAST_INSERT_ID();
 
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ENTERPRISE', 'Empresas', '/servlet/config/enterprise/EnterpriseManager', @menuIdConfig);
 	SET @menuIdEnterprise = LAST_INSERT_ID();
-		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('ADS', 'Avisos', NULL, @menuIdEnterprise);
-		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('LOGO', 'Logo', NULL, @menuIdEnterprise);
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('BRANCH', 'Sucursales', '/servlet/config/enterprise/branch/BranchManager', @menuIdEnterprise);
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('COST_CENTER', 'Centro de costo', '/servlet/config/enterprise/costCenter/CostCenterManager', @menuIdEnterprise);
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PROFILE', 'Perfiles', '/servlet/config/enterprise/profile/ProfileManager', @menuIdEnterprise);
 	
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('EMPLOYEE', 'Empleados', '/servlet/config/employee/EmployeeManager', @menuIdConfig);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('LOG', 'Log', NULL, LAST_INSERT_ID());
 	
+	/*
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CC', 'Centros de Costo', NULL, @menuIdConfig);
+	*/
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('HyD_CRUD', 'Haberes y descuentos', '/servlet/config/assetDiscount/AssetDiscountManager', @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CHARGES', 'Cargos de Empleados', NULL, @menuIdConfig);
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('CONTRACT_TYPES', 'Tipos de contratos', NULL, @menuIdConfig);

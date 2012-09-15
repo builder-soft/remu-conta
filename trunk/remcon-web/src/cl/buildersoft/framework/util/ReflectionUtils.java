@@ -1,5 +1,6 @@
 ﻿package cl.buildersoft.framework.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class ReflectionUtils {
 		return method.invoke(subject, objects);
 	}
 
-	public static Object execute(String nameMethod, Object subject, Object[] parameters) throws Exception, IllegalAccessException {
+	public static Object execute(String nameMethod, Object subject, Object[] parameters) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Class[] classes = ReflectionUtils.getTypes(parameters);
 		Class clazz = subject.getClass();
 		// Method method = clazz.getMethod(nameMethod, classes );
