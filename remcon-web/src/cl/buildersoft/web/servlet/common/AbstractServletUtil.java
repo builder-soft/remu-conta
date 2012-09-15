@@ -1,6 +1,7 @@
 package cl.buildersoft.web.servlet.common;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,12 +77,27 @@ public class AbstractServletUtil extends HttpServlet {
 		String servletName = "cl.buildersoft.web." + request.getRequestURI().substring(12).replaceAll("/", ".");
 		String methodName = request.getParameter("Method");
 		Object servletClazz;
+
 		try {
 			servletClazz = Class.forName(servletName).newInstance();
 			ReflectionUtils.execute(methodName, servletClazz, parameters);
-		} catch (Exception e) {
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			throw new BSProgrammerException(e);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			throw new BSProgrammerException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			throw new BSProgrammerException(e);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			throw new BSProgrammerException(e);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
 			throw new BSProgrammerException(e);
 		}
+
 	}
 
 	protected ServletOutputStream configHeaderAsCSV(HttpServletResponse response, String fileName) throws IOException {

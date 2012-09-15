@@ -96,7 +96,7 @@
 			</tr>
 						
 			<tr>
-				<td><input type="submit"></td>
+				<td><button type="submit">Aceptar</button></td>
 				<td colspan="3"><a class="cCancel" href="javascript:window.location.href='${pageContext.request.contextPath}/servlet/common/LoadTable'">Cancelar</a></td>
 			</tr>
 			</table>
