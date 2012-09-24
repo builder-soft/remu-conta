@@ -168,7 +168,7 @@ function changeExBox(o){
 			<Input type="text" name="AmountAccount2"
 				onfocus="javascript:integerFocus(this);"
 				onblur="javascript:integerBlur(this);"
-				value="<%=BSWeb.formatInteger(request, agreementEmp.getAmountAccount2().intValue())%>">
+				value="<%=BSWeb.formatInteger(request, agreementEmp.getAmountAccount2()==null?0:agreementEmp.getAmountAccount2().intValue())%>">
 			</td>
 		</tr>
 		<tr><td colspan="4">&nbsp;</td></tr>
@@ -187,7 +187,7 @@ function changeExBox(o){
 			</select></td>
 			<td class="cLabel">Monto Ahorro adicional</td>
 			<td><Input type="text" name="AdditionalPFMAmount"
-			   value="<%=agreementEmp.getAdditionalPFMAmount()%>"></td>
+			   value="<%=agreementEmp.getAdditionalPFMAmount()==null?0:agreementEmp.getAdditionalPFMAmount()%>"></td>
 		</tr>
 		
 		<tr><td colspan="4">&nbsp;</td></tr>
