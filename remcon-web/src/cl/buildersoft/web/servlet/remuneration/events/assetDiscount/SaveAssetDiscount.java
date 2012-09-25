@@ -1,5 +1,7 @@
 package cl.buildersoft.web.servlet.remuneration.events.assetDiscount;
 
+import static cl.buildersoft.framework.util.BSUtils.array2List;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.framework.database.BSmySQL;
+import cl.buildersoft.framework.exception.BSException;
+import cl.buildersoft.framework.exception.BSProgrammerException;
 
 @WebServlet("/servlet/remuneration/events/assetDiscount/SaveAssetDiscount")
 public class SaveAssetDiscount extends HttpServlet {
@@ -21,19 +25,37 @@ public class SaveAssetDiscount extends HttpServlet {
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 
+		mysql.setAutoCommit(conn, Boolean.FALSE);
+
 		Long period = Long.parseLong(request.getParameter("cPeriod"));
 		Long employee = Long.parseLong(request.getParameter("cEmployee"));
+		Long book = null;
 
-		saveAsset(request, mysql, conn, period, employee);
-		saveAssetAndDiscount(request, mysql, conn, period, employee,1L);
+		try {
+			book = createBookIfNotExists(conn, period, employee);
 
-		saveDiscount(request, mysql, conn, period, employee);
-		saveAssetAndDiscount(request, mysql, conn, period, employee,2L);
+			saveAsset(request, mysql, conn, period, employee);
+			saveAssetAndDiscount(request, mysql, conn, period, employee, 1L);
 
-		mysql.closeConnection(conn);
-		
+			saveDiscount(request, mysql, conn, period, employee);
+			saveAssetAndDiscount(request, mysql, conn, period, employee, 2L);
+
+			mysql.commit(conn);
+		} catch (Exception e) {
+			mysql.rollback(conn);
+			throw new BSProgrammerException(e);
+		} finally {
+			mysql.closeConnection(conn);
+		}
+
 		request.setAttribute("cId", employee);
 		request.getRequestDispatcher("/servlet/remuneration/events/EventsEmployeeServlet").forward(request, response);
+	}
+
+	private Long createBookIfNotExists(Connection conn, Long period, Long employee) {
+		BSmySQL mysql = new BSmySQL();
+		String book = mysql.callFunction(conn, "fSaveBookForEmployee", array2List(period, employee));
+		return Long.parseLong(book);
 	}
 
 	private void saveAssetAndDiscount(HttpServletRequest request, BSmySQL mysql, Connection conn, Long period, Long employee,
@@ -48,7 +70,10 @@ public class SaveAssetDiscount extends HttpServlet {
 		for (int i = 1; i < 11; i++) {
 			fieldName = preFix + (i < 10 ? "0" + i : i);
 			fieldValue = request.getParameter(fieldName);
-			if (fieldValue != null) {
+			
+			fieldValue = "".equals(fieldValue)?"0":fieldValue;
+			
+			if (fieldValue != null ) {
 				value = Double.parseDouble(fieldValue);
 				params.add(fieldName);
 				params.add(value);
