@@ -359,7 +359,7 @@ END$$
 CREATE TRIGGER UpdateOnPeriod AFTER UPDATE ON tPeriod
 FOR EACH ROW
 BEGIN
-	IF(NEW.cPeriodStatus = 2) THEN
+	IF(NEW.cPeriodStatus = 2 AND OLD.cPeriodStatus = 1) THEN
 		INSERT INTO tR_AgreementAPVHistory(cPeriod, cAgreement, cAPV, cCurrency, cAmount)
 		SELECT NEW.cId, cAgreement, cAPV, cCurrency, cAmount FROM tR_AgreementAPV;
 	END IF;
