@@ -70,6 +70,7 @@ delete from tBookDiscounts;
 delete from tBook;
 
 call pCalculateAllSalary;
+
 /*
 select a.cId, a.cPeriod, a.cDate, a.cStartContract, a.cEndContract, a.cLastName1, b.cKey
 from vBook as a

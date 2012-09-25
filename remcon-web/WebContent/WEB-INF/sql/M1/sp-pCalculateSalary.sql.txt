@@ -44,12 +44,13 @@ CREATE PROCEDURE pCalculateSalary(IN pEmployee BIGINT, IN vPeriod BIGINT)
 BEGIN
 	DECLARE vBook BIGINT DEFAULT 0;
 
-select pEmployee, vPeriod, fContractActive(pEmployee, vPeriod);
-
+/*
+	select pEmployee, vPeriod, fContractActive(pEmployee, vPeriod);
+*/
 	
 	IF (fContractActive(pEmployee, vPeriod)) THEN
 		SET vBook = fSaveBookForEmployee(vPeriod, pEmployee);
-		
+
 		CALL pSetWorkedDays(vBook);
 		
 		CALL pSaveOvertime(vBook, pEmployee, vPeriod);
@@ -597,6 +598,13 @@ BEGIN
 	FROM	vBook
 	WHERE	cId = pBook;
 
+select cB01, cB02, cB03, cB04, cB05,
+			cB06, cB07, cB08, cB09, cB10,
+			cSalaryReceived, cGratificationAmount, cOvertimeAmount 
+				FROM	vBook
+	WHERE	cId = pBook;
+
+	
 	UPDATE	tBookAssets 
 	SET		cTotalIncomeTaxable = vOut
 	WHERE	cBook = pBook;
@@ -606,6 +614,12 @@ END$$
 /************************/
 CREATE PROCEDURE pSalaryReceived(pBook BIGINT)
 BEGIN
+	
+select cSalaryRoot / fWorkedDays(pBook) * cWorkedDays, cSalaryRoot, fWorkedDays(pBook), cWorkedDays 
+from tBook 
+where cId = pBook;	
+	
+ 
 	UPDATE	tBook 
 	SET		cSalaryReceived = cSalaryRoot / fWorkedDays(pBook) * cWorkedDays 
 	WHERE	cId = pBook;

@@ -26,7 +26,7 @@
 </span>
  -->
 
-<form
+<form id="frm"
 	action="${pageContext.request.contextPath}/servlet/config/employee/SavePayMode">
 	<!-- 
 	action="${pageContext.request.contextPath}/servlet/ShowParameters">
@@ -85,7 +85,7 @@
 			</select>(Pesos Chilenos)</td>
 		</tr>
 	</table>
-	<br> <input type="submit" value="Aceptar">&nbsp;&nbsp; <a class="cCancel"
+	<br> <button type="button" onclick="javascript:$('#frm').submit();">Aceptar</button>&nbsp;&nbsp; <a class="cCancel"
 		href="${pageContext.request.contextPath}/servlet/config/employee/EmployeeManager">Cancelar</a>
 
 </form>
