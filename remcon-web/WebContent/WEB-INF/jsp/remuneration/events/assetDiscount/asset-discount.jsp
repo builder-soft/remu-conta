@@ -17,6 +17,9 @@
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
+<script
+	src="${pageContext.request.contextPath}/js/remuneration/events/assetDiscount/asset-discount.js?<%=Math.random()%>">
+</script>
 
 <h1 class="cTitle">Haberes y descuentos para empleado</h1>
 
@@ -30,7 +33,7 @@
 <form method="post" action="${pageContext.request.contextPath}/servlet/ShowParameters">
  -->
 <hr>
-<form method="post"
+<form method="post" id="frm"
 	action="${pageContext.request.contextPath}/servlet/remuneration/events/assetDiscount/SaveAssetDiscount">
 
 	<input name="cPeriod" type="hidden" value="<%=period.getId()%>">
@@ -42,56 +45,56 @@
 					<caption>Abonos</caption>
 					<tr>
 						<td class='cLabel'>Participación:</td>
-						<td><input name="cParticipation"
+						<td><input name="cParticipation" id="cParticipation"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cParticipation") : 0D)%>"></td>
 					</tr>
 					<tr>
 						<td class='cLabel'>Aguinaldo:</td>
-						<td><input name="cExtraPay"
+						<td><input name="cExtraPay" id="cExtraPay"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cExtraPay") : 0D)%>"></td>
 					</tr>
 					<tr>
 						<td class='cLabel'>Familiar Retroactivo:</td>
-						<td><input name="cFamilyRetroactive"
+						<td><input name="cFamilyRetroactive" id="cFamilyRetroactive"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cFamilyRetroactive") : 0D)%>"></td>
 					</tr>
 					<tr>
 						<td class='cLabel'>Alimentación:</td>
-						<td><input name="cFeeding"
+						<td><input name="cFeeding" id="cFeeding"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cFeeding") : 0D)%>"></td>
 					</tr>
 					<tr>
 						<td class='cLabel'>Movilización:</td>
-						<td><input name="cMobilization"
+						<td><input name="cMobilization" id="cMobilization"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cMobilization") : 0D)%>"></td>
 					</tr>
 					<tr>
 						<td class='cLabel'>Viaticos:</td>
-						<td><input name="cBounty"
+						<td><input name="cBounty" id="cBounty"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cBounty") : 0D)%>"></td>
 					</tr>
 					<tr>
 						<td class='cLabel'>Mes de aviso:</td>
-						<td><input name="cMonthNotification"
+						<td><input name="cMonthNotification" id="cMonthNotification"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cMonthNotification") : 0D)%>"></td>
 					</tr>
 					<tr>
 						<td class='cLabel'>Indemnización años de servicio:</td>
-						<td><input name="cIAS"
+						<td><input name="cIAS" id="cIAS"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cIAS") : 0D)%>"></td>
@@ -104,28 +107,28 @@
 					<caption>Descuentos</caption>
 					<tr>
 						<td class='cLabel'>Prestamo de empresa:</td>
-						<td><input name="cLoanEnterprise"
+						<td><input name="cLoanEnterprise" id="cLoanEnterprise"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cLoanEnterprise") : 0D)%>"></td>
 					</tr>
 					<tr>
 						<td class='cLabel'>Prestamo Caja compensación:</td>
-						<td><input name="cLoanCompensationFund"
+						<td><input name="cLoanCompensationFund" id="cLoanCompensationFund"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cLoanCompensationFund") : 0D)%>"></td>
 					</tr>
 					<tr>
 						<td class='cLabel'>Ahorro Caja compesación:</td>
-						<td><input name="cSavingCompensationFund"
+						<td><input name="cSavingCompensationFund" id="cSavingCompensationFund"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cSavingCompensationFund") : 0D)%>"></td>
 					</tr>
 					<tr>
 						<td class='cLabel'>Retención Judicial:</td>
-						<td><input name="cJudicialRetention"
+						<td><input name="cJudicialRetention" id="cJudicialRetention"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cJudicialRetention") : 0D)%>"></td>
@@ -133,10 +136,9 @@
 					<%=write_asset_discount(request, 2L, assetDiscounts, assetDiscountData, haveData)%>
 				</table>
 	</table>
-	<button type="submit">Aceptar</button>
+	<button type="button" onclick="javascript:sendForm()">Aceptar</button>
 	&nbsp;&nbsp;<a class="cCancel"
 		href="${pageContext.request.contextPath}/servlet/remuneration/events/EventsEmployeeServlet">Cancelar</a>
-
 </form>
 
 <%
@@ -165,10 +167,12 @@
 				out += "<td><input type='text' " + 
 						"onfocus='javascript:doubleFocus(this);' " +
 						"onblur='javascript:doubleBlur(this);' " +
-						"name='" + nameField + "' value='" + getValue(request, assetDiscountData, nameField)
-						+ "'></td>";
-
-				out += "</tr>";
+						"id='" + nameField + "' " + 
+						"name='" + nameField + "' " + 
+						"value='" + getValue(request, assetDiscountData, nameField)
+						+ "'>";
+				out+="<script>elements[elements.length] = {name:'"+nameField+"',desc:'"+assetDiscount.getName()+"',type:'Double',value:0};</script>";
+				out += "</td></tr>";
 			}
 		}
 		return out;
