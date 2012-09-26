@@ -123,7 +123,7 @@ function severalValidationsAndSubmit(elements, formId) {
 	 elements = [
 	 			{name:'campo1',desc:'Campo de prueba',type:'Double',value:0},
 	 			{name:'campo2',desc:'Segundo Campo',type:'Double',value:0}
-	 			] 
+	 			];
 	 </code>
 	 */
 	var name = null;
