@@ -19,6 +19,7 @@
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 <script
 	src="${pageContext.request.contextPath}/js/remuneration/events/assetDiscount/asset-discount.js?<%=Math.random()%>">
+	
 </script>
 
 <h1 class="cTitle">Haberes y descuentos para empleado</h1>
@@ -114,14 +115,16 @@
 					</tr>
 					<tr>
 						<td class='cLabel'>Prestamo Caja compensación:</td>
-						<td><input name="cLoanCompensationFund" id="cLoanCompensationFund"
+						<td><input name="cLoanCompensationFund"
+							id="cLoanCompensationFund"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cLoanCompensationFund") : 0D)%>"></td>
 					</tr>
 					<tr>
 						<td class='cLabel'>Ahorro Caja compesación:</td>
-						<td><input name="cSavingCompensationFund" id="cSavingCompensationFund"
+						<td><input name="cSavingCompensationFund"
+							id="cSavingCompensationFund"
 							onfocus="javascript:doubleFocus(this);"
 							onblur="javascript:doubleBlur(this);"
 							value="<%=BSWeb.formatDouble(request, haveData ? assetDiscountData.getDouble("cSavingCompensationFund") : 0D)%>"></td>
@@ -149,8 +152,8 @@
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 
-<%!private String write_asset_discount(HttpServletRequest request, Long type, List<AssetDiscount> assetDiscounts, ResultSet assetDiscountData,
-			Boolean haveData) throws Exception {
+<%!private String write_asset_discount(HttpServletRequest request, Long type, List<AssetDiscount> assetDiscounts,
+			ResultSet assetDiscountData, Boolean haveData) throws Exception {
 		String out = "";
 		String preFix = type.equals(1L) ? "cB" : "cD";
 		String nameField = null;
@@ -164,28 +167,25 @@
 				out += "<tr>";
 				out += "<td class='cLabel'>" + assetDiscount.getName() + ":</td>";
 
-				out += "<td><input type='text' " + 
-						"onfocus='javascript:doubleFocus(this);' " +
-						"onblur='javascript:doubleBlur(this);' " +
-						"id='" + nameField + "' " + 
-						"name='" + nameField + "' " + 
-						"value='" + getValue(request, assetDiscountData, nameField)
-						+ "'>";
-				out+="<script>elements[elements.length] = {name:'"+nameField+"',desc:'"+assetDiscount.getName()+"',type:'Double',value:0};</script>";
+				out += "<td><input type='text' " + "onfocus='javascript:doubleFocus(this);' "
+						+ "onblur='javascript:doubleBlur(this);' " + "id='" + nameField + "' " + "name='" + nameField + "' "
+						+ "value='" + getValue(request, assetDiscountData, nameField) + "'>";
+				out += "<script>elements[elements.length] = {name:'" + nameField + "',desc:'" + assetDiscount.getName()
+						+ "',type:'Double',value:0};</script>";
 				out += "</td></tr>";
 			}
 		}
 		return out;
 	}
-	
+
 	private String getValue(HttpServletRequest request, ResultSet assetDiscountData, String nameField) {
 		String out = null;
 
 		try {
-			Double dbl = assetDiscountData.getDouble(nameField);
-			out = BSWeb.formatDouble(request, dbl);
+			String dbl = assetDiscountData.getString(nameField);
+			out = BSWeb.formatDouble(request, Double.valueOf(dbl));
 		} catch (SQLException e) {
-			out = "";
+			out = BSWeb.formatDouble(request, 0D);
 		}
 
 		return out;
