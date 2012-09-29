@@ -57,7 +57,7 @@ loadFormat();
 			<tr>
 				<td align="center" width="10">&nbsp;</td>
 				<td>&nbsp;</td>
-				<td align="center" width="10"><a
+				<td align="center" width="10"><a class="cLabel" style="cursor:pointer"
 					href="javascript:closeTooltip()"
 					onmousemove="javascript:window.status='Cerrar'"> (X) </a></td>
 			</tr>
