@@ -164,6 +164,9 @@ END$$
 
 CREATE PROCEDURE pSetWorkedDays(vBook BIGINT)
 BEGIN
+	
+select fWorkedDays(vBook);	
+
 	UPDATE	tBook
 	SET		cWorkedDays = fWorkedDays(vBook)
 	WHERE	cId = vBook;
@@ -598,12 +601,13 @@ BEGIN
 	FROM	vBook
 	WHERE	cId = pBook;
 
+/*
 select cB01, cB02, cB03, cB04, cB05,
 			cB06, cB07, cB08, cB09, cB10,
 			cSalaryReceived, cGratificationAmount, cOvertimeAmount 
 				FROM	vBook
 	WHERE	cId = pBook;
-
+*/
 	
 	UPDATE	tBookAssets 
 	SET		cTotalIncomeTaxable = vOut
@@ -614,11 +618,11 @@ END$$
 /************************/
 CREATE PROCEDURE pSalaryReceived(pBook BIGINT)
 BEGIN
-	
+/*	
 select cSalaryRoot / fWorkedDays(pBook) * cWorkedDays, cSalaryRoot, fWorkedDays(pBook), cWorkedDays 
 from tBook 
 where cId = pBook;	
-	
+*/	
  
 	UPDATE	tBook 
 	SET		cSalaryReceived = cSalaryRoot / fWorkedDays(pBook) * cWorkedDays 
@@ -627,7 +631,7 @@ where cId = pBook;
 END$$
 
 /************************/
-CREATE FUNCTION fWorkedDays(vBook BIGINT) RETURNS INTEGER
+CREATE FUNCTION fWorkedDays(vBook BIGINT) RETURNS varchar(500)
 BEGIN
 	DECLARE vStartContract, vEndContract, vPeriod DATE;
 	DECLARE vEmployee BIGINT;
@@ -642,21 +646,25 @@ BEGIN
 	WHERE	a.cId = vBook;
 	
 	SET vEndContract = fGetEndContract(vEmployee);
-	IF(vContractKey='IND' /*AND MONTH(vDate) = MONTH(vEndContract)*/) THEN
+	IF(vContractKey='UND' /*AND MONTH(vDate) = MONTH(vEndContract)*/) THEN
 		SET vEndContract = vEndContract + INTERVAL 1 YEAR;
 	END IF;
 
 	SET vCurrentPeriod = fDateToPeriod(vPeriod);
 	SET vStartPeriod = fDateToPeriod(vStartContract);
 	SET vEndPeriod = fDateToPeriod(vEndContract);
+
+/*
+return concat(vCurrentPeriod, " ", vStartPeriod, " ", vEndPeriod, " ", vCurrentPeriod = vStartPeriod, " ", vContractKey);
+*/
 	
 	IF( vCurrentPeriod = vStartPeriod AND vEndPeriod > vCurrentPeriod) THEN
 		SET vOut = DATEDIFF(LAST_DAY(vPeriod), vStartContract);
 	END IF;
-	IF( MONTH(vPeriod) = MONTH(vEndContract) AND MONTH(vStartContract) < MONTH(vPeriod)) THEN
+	IF( vCurrentPeriod = vEndPeriod AND vStartPeriod < vCurrentPeriod) THEN
 		SET vOut = DATEDIFF(LAST_DAY(vPeriod), vEndContract);
 	END IF;
-	IF( MONTH(vPeriod) = MONTH(vStartContract) AND MONTH(vPeriod) = MONTH(vEndContract)) THEN
+	IF( vCurrentPeriod = vStartPeriod AND vCurrentPeriod = vEndPeriod) THEN
 		SET vOut = DATEDIFF(vEndContract, vStartContract);
 	END IF;
 	
@@ -672,14 +680,14 @@ BEGIN
 	
 	SET vMonth = IF(MONTH(vDate)<10, CONCAT('0',MONTH(vDate)), MONTH(vDate));
 	
-	SET vOut = CONCAT(YEAR(vDate),
-					vMonth);
+	SET vOut = CONCAT(YEAR(vDate), vMonth);
 
 /*	SET vOut = CONCAT(YEAR(vDate), 
 				IF(MONTH(vDate)<10, 
 					CONCAT('0',MONTH(vDate)),
 					MONTH(vDate)
-				);*/
+				);
+*/
 
 				
 	RETURN vOut;
