@@ -1,0 +1,32 @@
+SET @systemId = (SELECT cId FROM tOption WHERE cKey = 'SYSTEM');
+SET @configId = (SELECT cId FROM tOption WHERE cKey = 'CONFIG');
+SET @remuId = (SELECT cId FROM tOption WHERE cKey = 'REMU');
+SET @reportId = (SELECT cId FROM tOption WHERE cKey = 'REPORT');
+
+SELECT count(cId)
+INTO @menuIdConta 
+FROM tOption 
+WHERE cKey = 'CONTA'
+
+/*
+IF(@temp > 0) THEN
+	DELETE FROM tOption WHERE cKey = 'CONTA';
+END IF;
+
+DELETE FROM tOption WHERE cKey = 'CONTA';
+
+INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('CONTA', 'Contabilidad', NULL, NULL, 4);
+SET @menuIdConta = LAST_INSERT_ID();
+*/
+
+
+UPDATE tOption SET cOrder = 1 WHERE cId = @systemId;
+UPDATE tOption SET cOrder = 2 WHERE cId = @configId;
+UPDATE tOption SET cOrder = 3 WHERE cId = @remuId;
+UPDATE tOption SET cOrder = 5 WHERE cId = @reportId;
+
+
+INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('CHART_ACCOUNT', 'Plan de cuentas', NULL, @menuIdConta, 1);
+INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('VOUCHER', 'Comprobantes', NULL, @menuIdConta, 2);
+INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('LEDGER', 'Libro Mayor', NULL, @menuIdConta, 3);
+INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('JOURNAL', 'Libro Diario', NULL, @menuIdConta, 4);

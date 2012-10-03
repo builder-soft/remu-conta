@@ -3,5 +3,5 @@ CREATE TABLE tChartAccount (
 	cKey VARCHAR (20) NOT NULL,
 	cName VARCHAR (50) NOT NULL,
 	cParent BIGINT,
-	cEnable BOOLEAN NOT NULL DEFAULT 'TRUE'
-	)
+	cEnable BOOLEAN NOT NULL DEFAULT true
+) ENGINE=innoDB;
