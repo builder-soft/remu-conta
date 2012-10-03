@@ -3,22 +3,44 @@ SET @configId = (SELECT cId FROM tOption WHERE cKey = 'CONFIG');
 SET @remuId = (SELECT cId FROM tOption WHERE cKey = 'REMU');
 SET @reportId = (SELECT cId FROM tOption WHERE cKey = 'REPORT');
 
-SELECT count(cId)
-INTO @menuIdConta 
-FROM tOption 
-WHERE cKey = 'CONTA'
+DROP PROCEDURE if exists pCreateData;
 
-/*
-IF(@temp > 0) THEN
-	DELETE FROM tOption WHERE cKey = 'CONTA';
-END IF;
+DELIMITER $$
 
-DELETE FROM tOption WHERE cKey = 'CONTA';
+CREATE PROCEDURE pCreateData()
+BEGIN
+	SELECT cId
+	INTO @menuIdConta 
+	FROM tOption 
+	WHERE cKey = 'CONTA';
+	
+	IF(@menuIdConta IS NULL) THEN
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('CONTA', 'Contabilidad', NULL, NULL, 4);
+		SET @menuIdConta = LAST_INSERT_ID();
+	END IF;
 
-INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('CONTA', 'Contabilidad', NULL, NULL, 4);
-SET @menuIdConta = LAST_INSERT_ID();
-*/
+	IF(NOT EXISTS(SELECT cId FROM tOption WHERE cKey = 'CHART_ACCOUNT')) THEN
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('CHART_ACCOUNT', 'Plan de cuentas', NULL, @menuIdConta, 1);
+	END IF;
+	
+	IF(NOT EXISTS(SELECT cId FROM tOption WHERE cKey = 'VOUCHER')) THEN
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('VOUCHER', 'Comprobantes', NULL, @menuIdConta, 2);
+	END IF;
+	
+	IF(NOT EXISTS(SELECT cId FROM tOption WHERE cKey = 'LEDGER')) THEN
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('LEDGER', 'Libro Mayor', NULL, @menuIdConta, 3);
+	END IF;
 
+	IF(NOT EXISTS(SELECT cId FROM tOption WHERE cKey = 'JOURNAL')) THEN
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('JOURNAL', 'Libro Diario', NULL, @menuIdConta, 4);
+	END IF;
+
+END$$
+
+DELIMITER ;
+
+CALL pCreateData();
+DROP PROCEDURE pCreateData;
 
 UPDATE tOption SET cOrder = 1 WHERE cId = @systemId;
 UPDATE tOption SET cOrder = 2 WHERE cId = @configId;
@@ -26,7 +48,3 @@ UPDATE tOption SET cOrder = 3 WHERE cId = @remuId;
 UPDATE tOption SET cOrder = 5 WHERE cId = @reportId;
 
 
-INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('CHART_ACCOUNT', 'Plan de cuentas', NULL, @menuIdConta, 1);
-INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('VOUCHER', 'Comprobantes', NULL, @menuIdConta, 2);
-INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('LEDGER', 'Libro Mayor', NULL, @menuIdConta, 3);
-INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('JOURNAL', 'Libro Diario', NULL, @menuIdConta, 4);
