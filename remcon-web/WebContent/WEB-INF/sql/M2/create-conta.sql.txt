@@ -6,3 +6,8 @@ CREATE TABLE tChartAccount (
 	cEnable BOOLEAN NOT NULL DEFAULT true
 ) ENGINE=innoDB;
 
+CREATE TABLE tVoucher(
+	cId				BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	cVoucherType	BIGINT NOT NULL COMMENT 'Tipo del comprobante',
+	cDate			DATE NOT NULL COMMENT 'Fecha del comprobante'
+) ENGINE=innoDB;
