@@ -5,3 +5,4 @@ CREATE TABLE tChartAccount (
 	cParent BIGINT,
 	cEnable BOOLEAN NOT NULL DEFAULT true
 ) ENGINE=innoDB;
+
