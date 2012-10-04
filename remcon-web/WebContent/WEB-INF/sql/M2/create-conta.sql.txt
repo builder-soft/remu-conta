@@ -3,11 +3,29 @@ CREATE TABLE tChartAccount (
 	cKey VARCHAR (20) NOT NULL,
 	cName VARCHAR (50) NOT NULL,
 	cParent BIGINT,
+	cLevel INTEGER NOT NULL DEFAULT '0',
 	cEnable BOOLEAN NOT NULL DEFAULT true
 ) ENGINE=innoDB;
 
 CREATE TABLE tVoucher(
+	cId						BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	cVoucherType			BIGINT NOT NULL COMMENT 'Tipo del comprobante',
+	cDateContabilizacion	DATE NOT NULL COMMENT 'Fecha del comprobante',
+	cNumber
+	cStatus	pendiente, grabado
+	cUser
+) ENGINE=innoDB;
+
+
+CREATE TABLE tVoucherDetail(
 	cId				BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-	cVoucherType	BIGINT NOT NULL COMMENT 'Tipo del comprobante',
-	cDate			DATE NOT NULL COMMENT 'Fecha del comprobante'
+	cVoucher		BIGINT NOT NULL COMMENT 'Tipo del comprobante',
+	cRUT
+	cDocumentNumber
+	cDocumentType
+	cMontoNeto
+	cImpuesto
+	
+	cAccount
+	
 ) ENGINE=innoDB;
