@@ -12,41 +12,41 @@ public class Voucher extends BSBean {
 	private Date accountingDate = null;
 	private Integer number = null;
 	private Long user = null;
-	
-	public Long getcVoucherType() {
+	public Long getVoucherType() {
 		return voucherType;
 	}
-	public void setcVoucherType(Long cVoucherType) {
-		this.voucherType = cVoucherType;
+	public void setVoucherType(Long voucherType) {
+		this.voucherType = voucherType;
 	}
-	public Long getcVoucherStatus() {
+	public Long getVoucherStatus() {
 		return voucherStatus;
 	}
-	public void setcVoucherStatus(Long cVoucherStatus) {
-		this.voucherStatus = cVoucherStatus;
+	public void setVoucherStatus(Long voucherStatus) {
+		this.voucherStatus = voucherStatus;
 	}
-	public Date getcAccountingDate() {
+	public Date getAccountingDate() {
 		return accountingDate;
 	}
-	public void setcAccountingDate(Date cAccountingDate) {
-		this.accountingDate = cAccountingDate;
+	public void setAccountingDate(Date accountingDate) {
+		this.accountingDate = accountingDate;
 	}
-	public Integer getcNumber() {
+	public Integer getNumber() {
 		return number;
 	}
-	public void setcNumber(Integer cNumber) {
-		this.number = cNumber;
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
-	public Long getcUser() {
+	public Long getUser() {
 		return user;
 	}
-	public void setcUser(Long cUser) {
-		this.user = cUser;
+	public void setUser(Long user) {
+		this.user = user;
 	}
 	@Override
 	public String toString() {
-		return "Voucher [cVoucherType=" + voucherType + ", cVoucherStatus=" + voucherStatus + ", cAccountingDate="
-				+ accountingDate + ", cNumber=" + number + ", cUser=" + user + "]";
+		return "Voucher [voucherType=" + voucherType + ", voucherStatus=" + voucherStatus + ", accountingDate=" + accountingDate
+				+ ", number=" + number + ", user=" + user + "]";
 	}
+	
 	 
 }
