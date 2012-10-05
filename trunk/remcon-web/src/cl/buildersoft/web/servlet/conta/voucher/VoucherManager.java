@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.business.beans.Voucher;
+import cl.buildersoft.business.beans.VoucherType;
 import cl.buildersoft.business.service.VoucherService;
 import cl.buildersoft.business.service.impl.VoucherServiceImpl;
 import cl.buildersoft.framework.beans.User;
+import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 
 @WebServlet("/servlet/conta/voucher/VoucherManager")
@@ -26,7 +28,7 @@ public class VoucherManager extends HttpServlet {
 
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
-		User user = (User) request.getSession(). getAttribute("User");
+		User user = (User) request.getSession().getAttribute("User");
 
 		List<Voucher> voucherList = vs.listPending(conn, user.getId());
 
@@ -34,7 +36,16 @@ public class VoucherManager extends HttpServlet {
 			request.setAttribute("VoucherList", voucherList);
 			url = "/WEB-INF/jsp/conta/voucher/voucher-list.jsp";
 		} else {
-			url = "/WEB-INF/jsp/conta/voucher/new-voucher.jsp";
+			BSBeanUtils bu = new BSBeanUtils();
+
+			List<VoucherType> voucherTypeList = (List<VoucherType>) bu.listAll(conn, new VoucherType());
+
+			Voucher voucher = vs.create(conn, user.getId());
+			vs.save(conn, voucher);
+			
+			request.setAttribute("VoucherTypeList", voucherTypeList);
+			request.setAttribute("Voucher", voucher );
+			url = "/WEB-INF/jsp/conta/voucher/edit-voucher.jsp";
 		}
 
 		request.getRequestDispatcher(url).forward(request, response);

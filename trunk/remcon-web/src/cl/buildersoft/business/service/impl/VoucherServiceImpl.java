@@ -1,6 +1,7 @@
 package cl.buildersoft.business.service.impl;
 
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,17 +11,19 @@ import cl.buildersoft.business.service.VoucherService;
 import cl.buildersoft.framework.database.BSBeanUtils;
 
 public class VoucherServiceImpl implements VoucherService {
+	private static final long PENDING = 1L;
+	private static final long DONE = 2L;
 
 	@Override
 	public List<Voucher> listPending(Connection conn, Long userId) {
 		BSBeanUtils bu = new BSBeanUtils();
-		List<Voucher> out = (List<Voucher>) bu.list(conn, new Voucher(), "cVoucherStatus=1 AND cUser=?", userId);
+		List<Voucher> out = (List<Voucher>) bu.list(conn, new Voucher(), "cVoucherStatus=? AND cUser=?", PENDING, userId);
 		return out;
 	}
 
 	@Override
 	public Boolean save(Connection conn, Voucher voucher) {
-		Boolean canSave = voucher.getVoucherStatus().equals(1L);
+		Boolean canSave = voucher.getVoucherStatus().equals(PENDING);
 		if (canSave) {
 			BSBeanUtils bu = new BSBeanUtils();
 			bu.save(conn, voucher);
@@ -39,14 +42,12 @@ public class VoucherServiceImpl implements VoucherService {
 		Boolean found = bu.search(conn, voucher);
 		if (found) {
 			if (isPending(voucher)) {
-				voucher.setVoucherStatus(2L);
+				voucher.setVoucherStatus(DONE);
 				bu.save(conn, voucher);
 				commited = Boolean.TRUE;
 			}
 		}
-
 		return found && commited;
-
 	}
 
 	@Override
@@ -68,12 +69,16 @@ public class VoucherServiceImpl implements VoucherService {
 	}
 
 	private Boolean isPending(Voucher voucher) {
-		return voucher.getVoucherStatus().equals(1L);
+		return voucher.getVoucherStatus().equals(PENDING);
 	}
 
+	/**
+	 * <code>
 	private Boolean isDone(Voucher voucher) {
-		return voucher.getVoucherStatus().equals(2L);
+		return voucher.getVoucherStatus().equals(DONE);
 	}
+</code>
+	 */
 
 	@Override
 	public Voucher get(Connection conn, Long voucherId) {
@@ -90,6 +95,18 @@ public class VoucherServiceImpl implements VoucherService {
 	public List<VoucherDetail> getDetail(Connection conn, Long voucherId) {
 		List<VoucherDetail> list = new ArrayList<VoucherDetail>();
 		return list;
+	}
+
+	@Override
+	public Voucher create(Connection conn, Long userId) {
+		Voucher voucher = new Voucher();
+		voucher.setAccountingDate(null);
+		voucher.setCreationTime(new Timestamp(System.currentTimeMillis()));
+		voucher.setNumber(null);
+		voucher.setUser(userId);
+		voucher.setVoucherStatus(PENDING);
+		voucher.setVoucherType(1L);
+		return voucher;
 	}
 
 }

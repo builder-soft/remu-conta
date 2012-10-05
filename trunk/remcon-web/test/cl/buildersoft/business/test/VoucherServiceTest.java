@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -104,10 +105,12 @@ public class VoucherServiceTest extends AbstractTestUtil {
 	private Voucher getVoucher() {
 		Voucher voucher = new Voucher();
 		voucher.setAccountingDate(new Date());
+		voucher.setCreationTime(new Timestamp(System.currentTimeMillis()));
 		voucher.setNumber(432);
 		voucher.setUser(1L);
 		voucher.setVoucherStatus(1L);
 		voucher.setVoucherType(1L);
+		System.out.println(voucher.toString());
 		return voucher;
 	}
 }

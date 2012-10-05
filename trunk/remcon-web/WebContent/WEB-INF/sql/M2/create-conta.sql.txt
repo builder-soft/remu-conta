@@ -2,8 +2,9 @@ CREATE TABLE tVoucher(
 	cId				BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	cVoucherType	BIGINT NOT NULL COMMENT 'Tipo del comprobante',
 	cVoucherStatus	BIGINT NOT NULL DEFAULT '1' COMMENT 'Pendiente, Listo',
-	cAccountingDate	DATE NOT NULL COMMENT 'Fecha de contabilizacion',
-	cNumber			INTEGER NOT NULL COMMENT 'Correlativo que lee el SII',
+	cAccountingDate	DATE NULL COMMENT 'Fecha de contabilizacion',
+	cCreationTime	TIMESTAMP NOT NULL COMMENT 'Fecha y hora de creación',
+	cNumber			INTEGER NULL COMMENT 'Correlativo que lee el SII',
 	cUser			BIGINT NOT NULL COMMENT 'Usuario que digito'
 ) ENGINE=innoDB;
 
@@ -48,6 +49,6 @@ CREATE TABLE tChartAccount (
 	cKey VARCHAR (20) NOT NULL,
 	cName VARCHAR (50) NOT NULL,
 	cParent BIGINT,
-	cLevel INTEGER NOT NULL DEFAULT '0',
+	cLevel INTEGER NOT NULL DEFAULT '0',	
 	cEnable BOOLEAN NOT NULL DEFAULT true
 ) ENGINE=innoDB;
