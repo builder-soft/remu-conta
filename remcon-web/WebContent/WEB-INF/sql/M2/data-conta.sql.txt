@@ -167,4 +167,6 @@ INSERT INTO tDocumentType(cKey, cName) VALUES('CREDIT_NOTE', 'Nota de crédito')
 INSERT INTO tDocumentType(cKey, cName) VALUES('E-CREDIT_NOTE', 'Nota de crédito electrónica');
 INSERT INTO tDocumentType(cKey, cName) VALUES('DEBIT_NOTE', 'Nota de débito');
 INSERT INTO tDocumentType(cKey, cName) VALUES('E-DEBIT_NOTE', 'Nota de débito electrónica');
+INSERT INTO tDocumentType(cKey, cName) VALUES('FREE_INVOICE', 'Factura Exenta');
+INSERT INTO tDocumentType(cKey, cName) VALUES('E-FREE_INVOICE', 'Factura Exenta Electrónica');
 
