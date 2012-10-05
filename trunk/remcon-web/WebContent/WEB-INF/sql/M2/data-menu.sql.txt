@@ -9,6 +9,7 @@ DELIMITER $$
 
 CREATE PROCEDURE pCreateData()
 BEGIN
+	DECLARE vKey VARCHAR(20);
 	SELECT cId
 	INTO @menuIdConta 
 	FROM tOption 
@@ -19,21 +20,33 @@ BEGIN
 		SET @menuIdConta = LAST_INSERT_ID();
 	END IF;
 
-	IF(NOT EXISTS(SELECT cId FROM tOption WHERE cKey = 'CHART_ACCOUNT')) THEN
-		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('CHART_ACCOUNT', 'Plan de cuentas', NULL, @menuIdConta, 1);
+	SET vKey = 'CHART_ACCOUNT';
+	IF(EXISTS(SELECT cId FROM tOption WHERE cKey = vKey)) THEN
+		DELETE FROM tR_RolOption WHERE cOption = (SELECT cId FROM tOption WHERE cKey = vKey);
+		DELETE FROM tOption WHERE cKey = vKey;
 	END IF;
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES(vKey, 'Plan de cuentas', NULL, @menuIdConta, 1);
 	
-	IF(NOT EXISTS(SELECT cId FROM tOption WHERE cKey = 'VOUCHER')) THEN
-		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('VOUCHER', 'Comprobantes', NULL, @menuIdConta, 2);
+	SET vKey = 'VOUCHER';
+	IF(EXISTS(SELECT cId FROM tOption WHERE cKey = vKey)) THEN
+		DELETE FROM tR_RolOption WHERE cOption = (SELECT cId FROM tOption WHERE cKey = vKey);
+		DELETE FROM tOption WHERE cKey = vKey;
 	END IF;
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES(vKey, 'Comprobantes', '/servlet/conta/voucher/VoucherManager', @menuIdConta, 2);
 	
-	IF(NOT EXISTS(SELECT cId FROM tOption WHERE cKey = 'LEDGER')) THEN
-		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('LEDGER', 'Libro Mayor', NULL, @menuIdConta, 3);
+	SET vKey = 'LEDGER';
+	IF(EXISTS(SELECT cId FROM tOption WHERE cKey = vKey)) THEN
+		DELETE FROM tR_RolOption WHERE cOption = (SELECT cId FROM tOption WHERE cKey = vKey);
+		DELETE FROM tOption WHERE cKey = vKey;
 	END IF;
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES(vKey, 'Libro Mayor', NULL, @menuIdConta, 3);
 
-	IF(NOT EXISTS(SELECT cId FROM tOption WHERE cKey = 'JOURNAL')) THEN
-		INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('JOURNAL', 'Libro Diario', NULL, @menuIdConta, 4);
+	SET vKey = 'JOURNAL';
+	IF(EXISTS(SELECT cId FROM tOption WHERE cKey = vKey)) THEN
+		DELETE FROM tR_RolOption WHERE cOption = (SELECT cId FROM tOption WHERE cKey = vKey);
+		DELETE FROM tOption WHERE cKey = vKey;
 	END IF;
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES(vKey, 'Libro Diario', NULL, @menuIdConta, 4);
 
 END$$
 
