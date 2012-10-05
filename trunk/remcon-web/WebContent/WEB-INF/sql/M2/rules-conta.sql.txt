@@ -1,4 +1,20 @@
-DELIMITER $$
+ALTER TABLE tVoucherDetail
+ADD INDEX tVoucherDetail_cVoucher (cVoucher ASC),
+ADD INDEX tVoucherDetail_cDocumentType (cDocumentType ASC),
+ADD INDEX tVoucherDetail_cCostCenter (cCostCenter ASC),
+ADD INDEX tVoucherDetail_cChartAccount (cChartAccount ASC),
+ADD CONSTRAINT VoucherDetail_To_Voucher FOREIGN KEY (cVoucher) REFERENCES tVoucher(cId),
+ADD CONSTRAINT VoucherDetail_To_DocumentType FOREIGN KEY (cDocumentType) REFERENCES tDocumentType(cId),
+ADD CONSTRAINT VoucherDetail_To_CostCenter FOREIGN KEY (cCostCenter) REFERENCES tCostCenter(cId),
+ADD CONSTRAINT VoucherDetail_To_ChartAccount FOREIGN KEY (cChartAccount) REFERENCES tChartAccount(cId);
+
+ALTER TABLE tVoucher
+ADD INDEX tVoucher_cVoucherStatus (cVoucherStatus ASC),
+ADD INDEX tVoucher_cVoucherType (cVoucherType ASC),
+ADD CONSTRAINT VoucherDetail_To_VoucherStatus FOREIGN KEY (cVoucherStatus) REFERENCES tVoucherStatus(cId),
+ADD CONSTRAINT VoucherDetail_To_VoucherType FOREIGN KEY (cVoucherType) REFERENCES tVoucherType(cId);
 
 
-DELIMITER ;
+
+
+ 

@@ -13,7 +13,7 @@ if [ -n "$1" ]; then
 	mysql -D$1 -t -u root -padmin --default-character-set=utf8 < data-menu.sql.txt
 	mysql -D$1 -t -u root -padmin --default-character-set=utf8 < data-conta.sql.txt
 
-#	mysql -D$1 -t -u root -padmin --default-character-set=utf8 -t < testSP.sql.txt
+##	mysql -D$1 -t -u root -padmin --default-character-set=utf8 -t < testSP.sql.txt
 else
 	echo "Error, falta indicar la base de datos por parámetro..."
 fi

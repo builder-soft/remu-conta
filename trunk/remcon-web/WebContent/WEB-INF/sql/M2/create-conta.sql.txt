@@ -1,3 +1,48 @@
+CREATE TABLE tVoucher(
+	cId				BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	cVoucherType	BIGINT NOT NULL COMMENT 'Tipo del comprobante',
+	cVoucherStatus	BIGINT NOT NULL DEFAULT '1' COMMENT 'Pendiente, Listo',
+	cAccountingDate	DATE NOT NULL COMMENT 'Fecha de contabilizacion',
+	cNumber			INTEGER NOT NULL COMMENT 'Correlativo que lee el SII',
+	cUser			BIGINT NOT NULL COMMENT 'Usuario que digito'
+) ENGINE=innoDB;
+
+CREATE TABLE tVoucherType(
+	cId				BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	cKey			VARCHAR(6) NOT NULL COMMENT 'INPUT, OUTPUT or SWAP',
+	cName			VARCHAR(20) NOT NULL COMMENT 'Descripcion'
+) ENGINE=innoDB;
+
+CREATE TABLE tVoucherStatus(
+	cId				BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	cKey			VARCHAR(7) NOT NULL COMMENT 'PENDING or DONE',
+	cName			VARCHAR(20) NOT NULL COMMENT 'Descripcion'
+) ENGINE=innoDB;
+
+CREATE TABLE tVoucherDetail(
+	cId				BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	cVoucher		BIGINT NOT NULL COMMENT 'Tipo del comprobante',
+	cRUT			VARCHAR(11) NOT NULL COMMENT 'Rut, creo que esto depende de la cuenta',
+	cDocumentType	BIGINT NOT NULL COMMENT 'Tipo del documento',
+	cDocumentNumber	INTEGER NOT NULL COMMENT 'Numero del documento',
+	cMontoNeto		DOUBLE NOT NULL COMMENT 'Monto del detalle',
+	cImpuesto		DOUBLE NOT NULL COMMENT 'Impuesto, IVA, Honorarios, PMP, etc.',
+	cBusinessCenter	BIGINT NOT NULL COMMENT 'Centro de negocios',
+	cCostCenter		BIGINT NOT NULL COMMENT 'Centro de costo',
+	cChartAccount	BIGINT NOT NULL COMMENT 'Cuenta'
+) ENGINE=innoDB;
+
+CREATE TABLE tDocumentType(
+	cId				BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	cKey			VARCHAR(15) NOT NULL COMMENT 'Factura, Boleta, Nota de Credito/debito',
+	cName			VARCHAR(30) NOT NULL COMMENT 'Descripcion'
+) ENGINE=innoDB;
+
+CREATE TABLE tBusinessCenter(
+	cId				BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	cName			VARCHAR(20) NOT NULL COMMENT 'Descripcion'
+) ENGINE=innoDB;
+
 CREATE TABLE tChartAccount (
 	cId BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	cKey VARCHAR (20) NOT NULL,
@@ -5,27 +50,4 @@ CREATE TABLE tChartAccount (
 	cParent BIGINT,
 	cLevel INTEGER NOT NULL DEFAULT '0',
 	cEnable BOOLEAN NOT NULL DEFAULT true
-) ENGINE=innoDB;
-
-CREATE TABLE tVoucher(
-	cId						BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-	cVoucherType			BIGINT NOT NULL COMMENT 'Tipo del comprobante',
-	cDateContabilizacion	DATE NOT NULL COMMENT 'Fecha del comprobante',
-	cNumber
-	cStatus	pendiente, grabado
-	cUser
-) ENGINE=innoDB;
-
-
-CREATE TABLE tVoucherDetail(
-	cId				BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-	cVoucher		BIGINT NOT NULL COMMENT 'Tipo del comprobante',
-	cRUT
-	cDocumentNumber
-	cDocumentType
-	cMontoNeto
-	cImpuesto
-	
-	cAccount
-	
 ) ENGINE=innoDB;
