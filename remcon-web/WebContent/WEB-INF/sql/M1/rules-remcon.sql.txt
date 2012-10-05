@@ -94,8 +94,8 @@ ADD CONSTRAINT withCostCenter FOREIGN KEY (cCostCenter) REFERENCES tCostCenter(c
 ALTER TABLE tR_RolOption
 ADD INDEX index_rol (cRol ASC),
 ADD INDEX index_option (cOption ASC),
-ADD CONSTRAINT r_RolOptionToRol FOREIGN KEY (cRol) REFERENCES tRol(cId),
-ADD CONSTRAINT r_RolOptionToOption FOREIGN KEY (cOption) REFERENCES tOption(cId);
+ADD CONSTRAINT RolOption_To_Rol FOREIGN KEY (cRol) REFERENCES tRol(cId),
+ADD CONSTRAINT RolOption_To_Option FOREIGN KEY (cOption) REFERENCES tOption(cId);
 
 /** USER-ROL */
 ALTER TABLE tR_UserRol
