@@ -2,6 +2,7 @@
 
 if [ -n "$1" ]; then
 	mysql -D$1 -t -u root -padmin --default-character-set=utf8 < erase-tables.sql.txt
+	mysql -D$1 -t -u root -padmin --default-character-set=utf8 < ../M2/erase-tables.sql.txt
 	mysql -D$1 -t -u root -padmin --default-character-set=utf8 < erase-deprecated-object.sql.txt
 	mysql -D$1 -t -u root -padmin --default-character-set=utf8 < create-bsframework.sql.txt
 	mysql -D$1 -t -u root -padmin --default-character-set=utf8 < create-remcon.sql.txt
