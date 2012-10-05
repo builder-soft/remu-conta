@@ -1,8 +1,3 @@
-/*
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('DECIMAL_SEPARATOR', 'Separador de decimales', ',', @stringId);
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('GROUP_SEPARATOR', 'Separador de grupos numéricos', '.', @stringId);
-*/
-
 INSERT INTO tChartAccount(cKey, cName, cParent, cEnable) VALUES('1000000', 'ACTIVO', 			NULL, true); SET @1000000 = LAST_INSERT_ID();
 INSERT INTO tChartAccount(cKey, cName, cParent, cEnable) VALUES('1100000', 'ACTIVO CIRCULANTE', 	@1000000, true); SET @1100000 = LAST_INSERT_ID();
 INSERT INTO tChartAccount(cKey, cName, cParent, cEnable) VALUES('1101000', 'CAJA Y CANJE',	 	@1100000, true); SET @1101000 = LAST_INSERT_ID();
@@ -156,4 +151,20 @@ INSERT INTO tChartAccount(cKey, cName, cParent, cEnable) VALUES('4302003', 'COST
 INSERT INTO tChartAccount(cKey, cName, cParent, cEnable) VALUES('4400000', 'IMPUESTO A LA RENTA', 	@4000000, true); SET @4400000 = LAST_INSERT_ID();
 INSERT INTO tChartAccount(cKey, cName, cParent, cEnable) VALUES('4401000', 'IMPUESTO A LA RENTA', 	@4400000, true); SET @4401000 = LAST_INSERT_ID();
 INSERT INTO tChartAccount(cKey, cName, cParent, cEnable) VALUES('4401001', 'IMPUESTO 1a. CATEGORIA', 	@4401000, true); SET @4401001 = LAST_INSERT_ID();
+
+INSERT INTO tVoucherType(cKey, cName) VALUES('INPUT', 'Ingreso');
+INSERT INTO tVoucherType(cKey, cName) VALUES('OUTPUT', 'Egreso');
+INSERT INTO tVoucherType(cKey, cName) VALUES('SWAP', 'Traspaso');
+
+INSERT INTO tVoucherStatus(cKey, cName) VALUES('PENDING', 'Pendiente');
+INSERT INTO tVoucherStatus(cKey, cName) VALUES('DONE', 'Listo, contabilizado');
+
+INSERT INTO tDocumentType(cKey, cName) VALUES('INVOICE', 'Factura');
+INSERT INTO tDocumentType(cKey, cName) VALUES('E-INVOICE', 'Factura Electrónica');
+INSERT INTO tDocumentType(cKey, cName) VALUES('TICKET', 'Boleta');
+INSERT INTO tDocumentType(cKey, cName) VALUES('E-TICKET', 'Boleta Electrónica');
+INSERT INTO tDocumentType(cKey, cName) VALUES('CREDIT_NOTE', 'Nota de crédito');
+INSERT INTO tDocumentType(cKey, cName) VALUES('E-CREDIT_NOTE', 'Nota de crédito electrónica');
+INSERT INTO tDocumentType(cKey, cName) VALUES('DEBIT_NOTE', 'Nota de débito');
+INSERT INTO tDocumentType(cKey, cName) VALUES('E-DEBIT_NOTE', 'Nota de débito electrónica');
 

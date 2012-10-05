@@ -1,2 +1,9 @@
+DROP TABLE IF EXISTS tVoucherDetail;
+DROP TABLE IF EXISTS tDocumentType;
 DROP TABLE IF EXISTS tChartAccount;
+
 DROP TABLE IF EXISTS tVoucher;
+DROP TABLE IF EXISTS tVoucherStatus;
+DROP TABLE IF EXISTS tVoucherType;
+
+DROP TABLE IF EXISTS tBusinessCenter;

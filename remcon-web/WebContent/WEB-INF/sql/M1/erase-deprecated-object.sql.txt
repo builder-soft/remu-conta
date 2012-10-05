@@ -1,10 +1,10 @@
 drop table if exists tBond;
-
 drop table if exists tPFMAttribute;
 drop table if exists tHealthAttribute;
 drop table if exists tBoard;
 drop table if exists tMonthlyParameter;
 drop table if exists tAccount;
+drop table if exists tempTable;
 
 DROP VIEW IF EXISTS vDataType;
 DROP VIEW IF EXISTS vType;
