@@ -11,6 +11,8 @@ public interface VoucherService {
 
 	public Boolean save(Connection conn, Voucher voucher);
 
+	public Voucher create(Connection conn, Long userId);
+
 	public Boolean commit(Connection conn, Long voucherId);
 
 	public Boolean delete(Connection conn, Long voucherId);
