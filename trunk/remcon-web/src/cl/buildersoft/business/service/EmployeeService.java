@@ -8,8 +8,7 @@ import cl.buildersoft.business.beans.Employee;
 
 public interface EmployeeService {
 	public Employee getEmployee(Connection conn, Long id);
-public Employee getEmployee(Connection conn, HttpServletRequest request);
-	 
 
- 
+	public Employee getEmployee(Connection conn, HttpServletRequest request);
+
 }

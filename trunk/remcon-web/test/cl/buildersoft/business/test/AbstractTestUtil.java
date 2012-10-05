@@ -8,4 +8,8 @@ public class AbstractTestUtil {
 	protected Connection getConnection(BSmySQL mysql) {
 		return mysql.getConnection("org.gjt.mm.mysql.Driver", "localhost", "remcon", "admin", "root");
 	}
+	
+	protected Connection getConnection() {
+		return getConnection(new BSmySQL());
+	}
 }
