@@ -13,7 +13,7 @@ public interface VoucherService {
 
 	public Boolean commit(Connection conn, Long voucherId);
 
-	public void delete(Connection conn, Long voucherId);
+	public Boolean delete(Connection conn, Long voucherId);
 
 	public Voucher get(Connection conn, Long voucherId);
 
