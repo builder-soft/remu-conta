@@ -4,7 +4,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%
 	Voucher voucher = (Voucher) request.getAttribute("Voucher");
-	List<VoucherType> voucherTypeList= (List<VoucherType> ) request.getAttribute("VoucherTypeList");
+	List<VoucherType> voucherTypeList = (List<VoucherType>) request.getAttribute("VoucherTypeList");
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
@@ -33,7 +33,6 @@
 	onfocus="javascript:doubleFocus(this);"
 	onblur="javascript:doubleBlur(this);"
 	value="<%=BSWeb.formatDouble(request, 1234.567)%>">
- -->
 
 <table class="cList" cellpadding="0" cellspacing="0">
 	<tr>
@@ -48,6 +47,7 @@
 	</tr>
 
 </table>
+ -->
 
 <a class="cCancel"
 	href="${pageContext.request.contextPath}/servlet/conta/voucher/VoucherManager">Cancelar</a>

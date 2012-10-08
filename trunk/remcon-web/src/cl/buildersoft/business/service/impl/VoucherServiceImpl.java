@@ -17,7 +17,8 @@ public class VoucherServiceImpl implements VoucherService {
 	@Override
 	public List<Voucher> listPending(Connection conn, Long userId) {
 		BSBeanUtils bu = new BSBeanUtils();
-		List<Voucher> out = (List<Voucher>) bu.list(conn, new Voucher(), "cVoucherStatus=? AND cUser=?", PENDING, userId);
+		List<Voucher> out = (List<Voucher>) bu.list(conn, new Voucher(), "cVoucherStatus=? AND cUser=? ORDER BY cCreationTime",
+				PENDING, userId);
 		return out;
 	}
 
