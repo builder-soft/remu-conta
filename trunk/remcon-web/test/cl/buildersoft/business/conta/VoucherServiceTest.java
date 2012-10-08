@@ -1,4 +1,4 @@
-package cl.buildersoft.business.test;
+package cl.buildersoft.business.conta;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -16,6 +16,7 @@ import org.junit.Test;
 import cl.buildersoft.business.beans.Voucher;
 import cl.buildersoft.business.service.VoucherService;
 import cl.buildersoft.business.service.impl.VoucherServiceImpl;
+import cl.buildersoft.business.test.AbstractTestUtil;
 import cl.buildersoft.framework.database.BSmySQL;
 
 public class VoucherServiceTest extends AbstractTestUtil {
