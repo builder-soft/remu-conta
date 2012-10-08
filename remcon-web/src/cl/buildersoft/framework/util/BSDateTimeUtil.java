@@ -1,6 +1,7 @@
 package cl.buildersoft.framework.util;
 
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -160,5 +161,11 @@ public class BSDateTimeUtil {
 	public static Calendar string2Calendar(HttpServletRequest request, String date) {
 		String format = getFormatDate(request);
 		return string2Calendar(date, format);
+	}
+	                       
+	public static Calendar timestamp2Calendar(Timestamp timestamp) {
+		Calendar out = Calendar.getInstance();
+		out.setTimeInMillis(timestamp.getTime());
+		return out;
 	}
 }
