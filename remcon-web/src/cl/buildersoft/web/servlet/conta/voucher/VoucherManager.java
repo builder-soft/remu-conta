@@ -26,25 +26,32 @@ public class VoucherManager extends HttpServlet {
 		VoucherService vs = new VoucherServiceImpl();
 		String url = null;
 
+		Boolean force = Boolean.FALSE;
+		String forceString = request.getParameter("Force");
+		if (forceString != null) {
+			force = forceString.equals("1");
+		}
+
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 		User user = (User) request.getSession().getAttribute("User");
 
 		List<Voucher> voucherList = vs.listPending(conn, user.getId());
 
-		if (voucherList.size() > 0) {BSBeanUtils bu = new BSBeanUtils();
-			List<VoucherType> voucherTypeList = (List<VoucherType>) bu.listAll(conn, new VoucherType());
-
-			request.setAttribute("VoucherTypeList", voucherTypeList);
-			request.setAttribute("VoucherList", voucherList);
-			url = "/WEB-INF/jsp/conta/voucher/voucher-list.jsp";
-		} else {
+		if (voucherList.size() == 0 || force) {
 			Voucher voucher = vs.create(conn, user.getId());
 			vs.save(conn, voucher);
 
 			request.setAttribute("VoucherId", voucher.getId());
 
 			url = "/servlet/conta/voucher/ReadVoucher";
+		} else {
+			BSBeanUtils bu = new BSBeanUtils();
+			List<VoucherType> voucherTypeList = (List<VoucherType>) bu.listAll(conn, new VoucherType());
+
+			request.setAttribute("VoucherTypeList", voucherTypeList);
+			request.setAttribute("VoucherList", voucherList);
+			url = "/WEB-INF/jsp/conta/voucher/voucher-list.jsp";
 		}
 		mysql.closeConnection(conn);
 		request.getRequestDispatcher(url).forward(request, response);
