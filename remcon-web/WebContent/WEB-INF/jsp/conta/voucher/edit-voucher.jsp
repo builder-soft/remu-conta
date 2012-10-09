@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="cl.buildersoft.business.beans.VoucherType"%>
 <%@page import="cl.buildersoft.business.beans.Voucher"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -8,31 +9,44 @@
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
-<!-- 
+ 
 <script
-	src="${pageContext.request.contextPath}/js/...FILE.js?<%=Math.random()%>">	
+	src="${pageContext.request.contextPath}/js/conta/voucher/edit-voucher.js?<%=Math.random()%>">	
 </script>
- -->
+
 <h1 class="cTitle">Comprobante</h1>
 
-<table>
+<table border="1">
 	<tr>
 		<td class="cLabel">Tipo:</td>
-		<td><select name="cVoucherType">
+		<td><select name="cVoucherType" onchange="saveVoucher()">
 				<%
-				Boolean selected = Boolean.FALSE;
+					Boolean selected = Boolean.FALSE;
 					for (VoucherType voucherType : voucherTypeList) {
 						selected = voucherType.getId().equals(voucher.getVoucherType());
-						
 				%>
-				<option value="<%=voucherType.getId()%>"
-					<%=selected?"selected":""%>><%=voucherType.getName()%></option>
+				<option value="<%=voucherType.getId()%>" <%=selected ? "selected" : ""%>><%=voucherType.getName()%></option>
 				<%
 					}
 				%>
 		</select></td>
+		<td class="cLabel">Número:</td>
+		<td><input type="text" Name="cNumber"></td>
 	</tr>
+	<tr>
+		<td class="cLabel">Fecha Creación:</td>
+		<td class="cData"><%=BSDateTimeUtil.dateTime2String(request, voucher.getCreationTime())%></td>
+		<td class="cLabel">Estado:</td>
+		<td class="cData"><%=voucher.getVoucherStatus()%></td>
+	</tr>
+	<tr>
+		<td class="cLabel">Usuario:</td>
+		<td class="cData"><%= voucher.getUser()%></td>
+		<td colspan="2"></td>
+	</tr>
+	
 </table>
+<br>
 <!-- 
 <input type="text" name="SomeObject" id="SomeObject"
 	onfocus="javascript:doubleFocus(this);"
