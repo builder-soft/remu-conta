@@ -40,20 +40,34 @@ value="<%=BSWeb.formatDouble(request, 1234.567)%>">
 			color = index % 2 == 0 ? "cDataTD" : "cDataTD_odd";
 	%>
 	<tr>
-		<td class='<%=color%>'><input type="radio"></td>
+		<td class='<%=color%>'><input type="radio" name="VoucherId" value="<%=voucher.getId() %>"
+			onclick="javascript:document.getElementById('VoucherId').value = this.value;$('#RecordActions').show(speed);"></td>
 		<td class='<%=color%>'><%=BSDateTimeUtil.dateTime2String(request, voucher.getCreationTime())%></td>
 		<td class='<%=color%>'><%=getVoucherType(voucher, voucherTypeList)%></td>
-		<td class='<%=color%>'><%=voucher.getNumber()==null?"-Sin número-":voucher.getNumber()%></td>
+		<td class='<%=color%>'><%=voucher.getNumber() == null ? "-Sin número-" : voucher.getNumber()%></td>
 	</tr>
 	<%
 		index++;
 		}
 	%>
 </table>
+
+<br>
+<div id='TableActions' style='float: left;'>
+	<button type="button" onclick="javascript:sendForm('frm', '${pageContext.request.contextPath}/servlet/conta/voucher/VoucherManager?<%=BSWeb.randomString()%>');">Nuevo</button>
+</div>
+<div id="RecordActions" style="float: left; display: none;">
+	<button type="button" onclick="javascript:document.getElementById('Force').value=0;sendForm('frm', '${pageContext.request.contextPath}/servlet/conta/voucher/ReadVoucher?<%=BSWeb.randomString()%>')">Retomar</button>
+</div>
+
+<form method="post" id="frm">
+	<input name="Force" id="Force" type="hidden" value="1">
+	<input name="VoucherId" id="VoucherId" type="hidden">
+</form>
+
 <!-- 
 <a class="cCancel"
 	href="${pageContext.request.contextPath}/servlet/conta/voucher/VoucherManager">Cancelar</a>
- -->
 
 <div id="divShowDetail" style="display: none">
 	<h2 class="cTitle2">Detalle de valores</h2>
@@ -70,11 +84,12 @@ value="<%=BSWeb.formatDouble(request, 1234.567)%>">
 	</div>
 	<br /> <input type="button" value="Cancelar"
 		onclick="javascript:closeTooltip()" />
-
 </div>
+ -->
 
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
+
 <%!private String getVoucherType(Voucher voucher, List<VoucherType> voucherTypeList) {
 		String out = "";
 		for (VoucherType voucherType : voucherTypeList) {

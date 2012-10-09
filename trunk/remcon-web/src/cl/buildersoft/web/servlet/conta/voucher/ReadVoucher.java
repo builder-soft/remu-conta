@@ -28,14 +28,13 @@ public class ReadVoucher extends HttpServlet {
 		String url = "/WEB-INF/jsp/conta/voucher/edit-voucher.jsp";
 		VoucherService vs = new VoucherServiceImpl();
 		BSBeanUtils bu = new BSBeanUtils();
-		
+
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 
-		Long voucherId = (Long) request.getAttribute("VoucherId");
+		Long voucherId = getVoucherId(request);
 		Voucher voucher = vs.get(conn, voucherId);
 
-	
 		List<VoucherType> voucherTypeList = (List<VoucherType>) bu.listAll(conn, new VoucherType());
 
 		request.setAttribute("VoucherTypeList", voucherTypeList);
@@ -43,6 +42,17 @@ public class ReadVoucher extends HttpServlet {
 
 		mysql.closeConnection(conn);
 		request.getRequestDispatcher(url).forward(request, response);
+	}
+
+	private Long getVoucherId(HttpServletRequest request) {
+		Long out = null;
+		String voucherId = request.getParameter("VoucherId");
+		if (voucherId == null) {
+			out = (Long) request.getAttribute("VoucherId");
+		} else {
+			out = Long.parseLong(voucherId);
+		}
+		return out;
 	}
 
 }

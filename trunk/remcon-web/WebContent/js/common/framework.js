@@ -160,6 +160,12 @@ function severalValidationsAndSubmit(elements, formId) {
 	return isValid;
 }
 
+function sendForm(formId, url){
+	var formObject = document.getElementById(formId);
+	formObject.action = url;
+	formObject.submit();
+}
+
 
 /** ***************************** */
 function setClass(element, focus) {

@@ -8,25 +8,30 @@
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
+<!-- 
 <script
-	src="${pageContext.request.contextPath}/js/...FILE.js?<%=Math.random()%>">
-	
+	src="${pageContext.request.contextPath}/js/...FILE.js?<%=Math.random()%>">	
 </script>
-
+ -->
 <h1 class="cTitle">Comprobante</h1>
 
 <table>
 	<tr>
 		<td class="cLabel">Tipo:</td>
-		<td><select>
+		<td><select name="cVoucherType">
 				<%
+				Boolean selected = Boolean.FALSE;
 					for (VoucherType voucherType : voucherTypeList) {
+						selected = voucherType.getId().equals(voucher.getVoucherType());
+						
 				%>
-				<option value="<%=voucherType.getId()%>"><%=voucherType.getName()%></option>
+				<option value="<%=voucherType.getId()%>"
+					<%=selected?"selected":""%>><%=voucherType.getName()%></option>
 				<%
 					}
 				%>
-		</select>
+		</select></td>
+	</tr>
 </table>
 <!-- 
 <input type="text" name="SomeObject" id="SomeObject"
@@ -51,6 +56,7 @@
 
 <a class="cCancel"
 	href="${pageContext.request.contextPath}/servlet/conta/voucher/VoucherManager">Cancelar</a>
+
 <!-- 
 <div id="divShowDetail" style="display: none">
 	<h2 class="cTitle2">Detalle de valores</h2>
