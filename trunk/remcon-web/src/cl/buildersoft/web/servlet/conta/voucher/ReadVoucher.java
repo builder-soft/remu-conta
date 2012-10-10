@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cl.buildersoft.business.beans.Voucher;
+import cl.buildersoft.business.beans.VoucherStatus;
 import cl.buildersoft.business.beans.VoucherType;
 import cl.buildersoft.business.service.VoucherService;
 import cl.buildersoft.business.service.impl.VoucherServiceImpl;
+import cl.buildersoft.framework.beans.User;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 
@@ -39,9 +41,29 @@ public class ReadVoucher extends HttpServlet {
 
 		request.setAttribute("VoucherTypeList", voucherTypeList);
 		request.setAttribute("Voucher", voucher);
+		request.setAttribute("VoucherStatus", getVoucherStatus(conn, voucher));
+		request.setAttribute("UserVoucher", getUserVoucher(conn, voucher));
 
 		mysql.closeConnection(conn);
 		request.getRequestDispatcher(url).forward(request, response);
+	}
+
+	private Object getUserVoucher(Connection conn, Voucher voucher) {
+		BSBeanUtils bu = new BSBeanUtils();
+		User user = new User();
+		user.setId(voucher.getUser());
+		bu.search(conn, user);
+
+		return user.getName();
+	}
+
+	private String getVoucherStatus(Connection conn, Voucher voucher) {
+		BSBeanUtils bu = new BSBeanUtils();
+		VoucherStatus voucherStatus = new VoucherStatus();
+		voucherStatus.setId(voucher.getVoucherStatus());
+		bu.search(conn, voucherStatus);
+
+		return voucherStatus.getName();
 	}
 
 	private Long getVoucherId(HttpServletRequest request) {
