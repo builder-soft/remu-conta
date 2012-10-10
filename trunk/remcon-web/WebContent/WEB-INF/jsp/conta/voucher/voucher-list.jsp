@@ -54,10 +54,10 @@ value="<%=BSWeb.formatDouble(request, 1234.567)%>">
 
 <br>
 <div id='TableActions' style='float: left;'>
-	<button type="button" onclick="javascript:sendForm('frm', '${pageContext.request.contextPath}/servlet/conta/voucher/VoucherManager?<%=BSWeb.randomString()%>');">Nuevo</button>
+	<button type="button" onclick="javascript:document.getElementById('Force').value=1;sendForm('frm', '${pageContext.request.contextPath}/servlet/conta/voucher/VoucherManager?<%=BSWeb.randomString()%>');">Nuevo</button>
 </div>
 <div id="RecordActions" style="float: left; display: none;">
-	<button type="button" onclick="javascript:document.getElementById('Force').value=0;sendForm('frm', '${pageContext.request.contextPath}/servlet/conta/voucher/ReadVoucher?<%=BSWeb.randomString()%>')">Retomar</button>
+	<button type="button" onclick="javascript:sendForm('frm', '${pageContext.request.contextPath}/servlet/conta/voucher/ReadVoucher?<%=BSWeb.randomString()%>')">Retomar</button>
 </div>
 
 <form method="post" id="frm">
