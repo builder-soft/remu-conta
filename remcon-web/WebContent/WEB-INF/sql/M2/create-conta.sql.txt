@@ -28,7 +28,6 @@ CREATE TABLE tVoucherDetail(
 	cDocumentNumber	INTEGER NOT NULL COMMENT 'Numero del documento',
 	cNetAmount		DOUBLE NOT NULL COMMENT 'Monto del detalle',
 	cTax			DOUBLE NOT NULL COMMENT 'Impuesto, IVA, Honorarios, PMP, etc.',
-	cBusinessCenter	BIGINT NOT NULL COMMENT 'Centro de negocios',
 	cCostCenter		BIGINT NOT NULL COMMENT 'Centro de costo',
 	cChartAccount	BIGINT NOT NULL COMMENT 'Cuenta'
 ) ENGINE=innoDB;
