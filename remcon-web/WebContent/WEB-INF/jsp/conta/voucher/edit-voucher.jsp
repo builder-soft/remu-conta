@@ -40,7 +40,7 @@
 				%>
 		</select></td>
 		<td class="cLabel">Número:</td>
-		<td><input type="number" id="cNumber" value="<%=voucher.getNumber() %>"
+		<td><input type="number" id="cNumber" value="<%=voucher.getNumber()==null?"":voucher.getNumber() %>"
 			onchange="javascript:saveVoucher()"></td>
 	</tr>
 	<tr>
