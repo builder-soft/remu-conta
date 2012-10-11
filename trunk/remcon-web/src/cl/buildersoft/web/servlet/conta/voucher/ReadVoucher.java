@@ -68,11 +68,19 @@ public class ReadVoucher extends HttpServlet {
 
 	private Long getVoucherId(HttpServletRequest request) {
 		Long out = null;
-		String voucherId = request.getParameter("VoucherId");
-		if (voucherId == null) {
-			out = (Long) request.getAttribute("VoucherId");
-		} else {
-			out = Long.parseLong(voucherId);
+
+		try {
+			Object voucherObject = request.getAttribute("VoucherId");
+
+			if (voucherObject != null) {
+				out = (Long) voucherObject;
+			} else {
+				String voucherId = request.getParameter("VoucherId");
+				out = Long.parseLong(voucherId);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return out;
 	}
