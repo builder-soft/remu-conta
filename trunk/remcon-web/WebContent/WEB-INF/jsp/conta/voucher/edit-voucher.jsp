@@ -57,7 +57,7 @@
 </table>
 
 <br>
-<table class="cList" cellpadding="0" cellspacing="0">
+<table class="cList" cellpadding="0" cellspacing="0" id="voucherDetail">
 	<tr>
 		<td class="cHeadTD" rowspan="2" style="text-align: center">Rut</td>
 		<td class="cHeadTD" colspan="2" style="text-align: center">Documento</td>
@@ -100,7 +100,7 @@
 </table>
  -->
 <br> 
-<button type="button">Nueva Cuenta</button>
+<button type="button" onclick="javascript:addNewRow()">Nuevo Item</button>
 <br><br>
 <button type="button" onclick="javascript:confirm('Esta seguro de confirmar este comprobante?')">Grabar y Contabilizar</button>&nbsp;&nbsp;&nbsp;
 <a class="cCancel"

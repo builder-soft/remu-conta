@@ -1,15 +1,10 @@
 function saveVoucher() {
-//	document.getElementById("frm").submit();
-
 	var url = contextPath + "/servlet/conta/voucher/SaveVoucher";
 
 	var id = document.getElementById("cId").value;
 	var voucherType = document.getElementById("cVoucherType").value;
 	var number = document.getElementById("cNumber").value;
-	/**
-	 * var normal = document.getElementById("cNormal").value; var creeping =
-	 * document.getElementById("cCreeping").value;
-	 */
+
 	var data = {
 		cId : id,
 		cVoucherType : voucherType,
@@ -35,4 +30,13 @@ function success(response) {
 	if(response != "OK"){
 		alert('Ha ocurrido un error inesperado');
 	}
+}
+
+function addNewRow(){
+	var table = document.getElementById("voucherDetail");
+	var row = table.insertRow(-1);
+
+	var cell =	row.insertCell(-1);
+	cell.innerHTML = "hola mundo";
+	cell.className = "cDataTD";
 }
