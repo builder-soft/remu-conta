@@ -27,16 +27,36 @@ function error(jqXHR, textStatus, errorThrown) {
 }
 
 function success(response) {
-	if(response != "OK"){
+	if (response != "OK") {
 		alert('Ha ocurrido un error inesperado');
 	}
 }
 
-function addNewRow(){
+function addNewRow() {
 	var table = document.getElementById("voucherDetail");
 	var row = table.insertRow(-1);
 
-	var cell =	row.insertCell(-1);
-	cell.innerHTML = "hola mundo";
+	var cell = row.insertCell(-1);
+	cell.innerHTML = "<input type='text' id='cRUT' size='10px' maxlength='10'>";
 	cell.className = "cDataTD";
+
+	cell = row.insertCell(-1);
+	cell.innerHTML = getVoucherTypeListAsSelect();
+	cell.className = "cDataTD";
+	
+	cell = row.insertCell(-1);
+	cell.innerHTML = "<input type='text' id='cDocumentNumber' size='6px' maxlength='10'>";
+	cell.className = "cDataTD";
+	
+}
+
+function getVoucherTypeListAsSelect() {
+	var out = "<select id='cDocumentType'>";
+	for ( var index in voucherTypeList) {
+		out += "<option value='" + voucherTypeList[index].id + "'>" + voucherTypeList[index].name + "</option>";
+	}
+
+	out += "</select>";
+	return out;
+	// voucherTypeList
 }

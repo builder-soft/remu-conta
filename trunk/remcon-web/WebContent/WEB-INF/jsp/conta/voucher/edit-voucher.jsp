@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.business.beans.DocumentType"%>
 <%@page import="cl.buildersoft.business.beans.VoucherStatus"%>
 <%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="cl.buildersoft.business.beans.VoucherType"%>
@@ -7,6 +8,7 @@
 <%
 	Voucher voucher = (Voucher) request.getAttribute("Voucher");
 	List<VoucherType> voucherTypeList = (List<VoucherType>) request.getAttribute("VoucherTypeList");
+	List<DocumentType> documentTypeList	= (List<DocumentType>) request.getAttribute("DocumentTypeList");
 	String voucherStatus = (String)request.getAttribute("VoucherStatus");
 	String userVoucher = (String)request.getAttribute("UserVoucher");
 %>
@@ -17,6 +19,14 @@
 	src="${pageContext.request.contextPath}/js/conta/voucher/edit-voucher.js?<%=Math.random()%>">
 	
 </script>
+<script>
+	var voucherTypeList = [
+	    {id : 1, name : 'xxyy'}, 
+	    {id : 2, name : 'abc'} 
+	    ];
+</script>
+
+
 
 <h1 class="cTitle">Comprobante</h1>
 <!-- 
@@ -40,7 +50,8 @@
 				%>
 		</select></td>
 		<td class="cLabel">Número:</td>
-		<td><input type="number" id="cNumber" value="<%=voucher.getNumber()==null?"":voucher.getNumber() %>"
+		<td><input type="number" id="cNumber"
+			value="<%=voucher.getNumber() == null ? "" : voucher.getNumber()%>"
 			onchange="javascript:saveVoucher()"></td>
 	</tr>
 	<tr>
@@ -63,12 +74,15 @@
 		<td class="cHeadTD" colspan="2" style="text-align: center">Documento</td>
 		<td class="cHeadTD" rowspan="2" style="text-align: right">Monto</td>
 		<td class="cHeadTD" rowspan="2" style="text-align: right">Impuesto</td>
-		<td class="cHeadTD" rowspan="2" style="text-align: center">Área de negocio</td>
-		<td class="cHeadTD" rowspan="2" style="text-align: center">Centro de Costo</td>
+		<td class="cHeadTD" rowspan="2" style="text-align: center">Área
+			de negocio</td>
+		<td class="cHeadTD" rowspan="2" style="text-align: center">Centro
+			de Costo</td>
 		<td class="cHeadTD" rowspan="2" style="text-align: center">Cuenta</td>
 	</tr>
 
-	<tr><!-- 
+	<tr>
+		<!-- 
 		<td class="cHeadTD">Rut</td> -->
 		<td class="cHeadTD" style="text-align: center">Tipo</td>
 		<td class="cHeadTD" style="text-align: center">Número</td>
@@ -99,10 +113,15 @@
 
 </table>
  -->
-<br> 
-<button type="button" onclick="javascript:addNewRow()">Nuevo Item</button>
-<br><br>
-<button type="button" onclick="javascript:confirm('Esta seguro de confirmar este comprobante?')">Grabar y Contabilizar</button>&nbsp;&nbsp;&nbsp;
+<br>
+<button type="button" onclick="javascript:addNewRow()">Nuevo
+	Movimiento</button>
+<br>
+<br>
+<button type="button"
+	onclick="javascript:confirm('Esta seguro de confirmar este comprobante?')">Grabar
+	y Contabilizar</button>
+&nbsp;&nbsp;&nbsp;
 <a class="cCancel"
 	href="${pageContext.request.contextPath}/servlet/conta/voucher/VoucherManager">Volver</a>
 
