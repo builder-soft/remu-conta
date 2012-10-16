@@ -21,8 +21,13 @@
 </script>
 <script>
 	var voucherTypeList = [
-	    {id : 1, name : 'xxyy'}, 
-	    {id : 2, name : 'abc'} 
+<%		Integer index = 0;
+		for(DocumentType documentType : documentTypeList){%>
+	    	{id : <%=documentType.getId()%>, name : '<%=documentType.getName()%>'}, 
+<%		if(!index.equals(documentTypeList.size())){%>,<%}
+	index++;
+	}
+	%>
 	    ];
 </script>
 

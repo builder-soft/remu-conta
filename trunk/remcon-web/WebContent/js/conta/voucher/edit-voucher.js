@@ -38,16 +38,55 @@ function addNewRow() {
 
 	var cell = row.insertCell(-1);
 	cell.innerHTML = "<input type='text' id='cRUT' size='10px' maxlength='10'>";
+	cell.style.cssText = "text-align: center";
 	cell.className = "cDataTD";
 
 	cell = row.insertCell(-1);
 	cell.innerHTML = getVoucherTypeListAsSelect();
+	cell.style.cssText = "text-align: center";	
 	cell.className = "cDataTD";
 	
 	cell = row.insertCell(-1);
-	cell.innerHTML = "<input type='text' id='cDocumentNumber' size='6px' maxlength='10'>";
+	cell.innerHTML = "<input type='text' id='cDocumentNumber' " +
+		"onfocus='javascript:integerFocus(this);' " + 
+		"onblur='javascript:integerBlur(this);' " +
+		"size='10px' maxlength='10' value='0'>";
+	cell.style.cssText = "text-align: center";	
 	cell.className = "cDataTD";
 	
+	cell = row.insertCell(-1);
+	cell.innerHTML = "<input type='text' id='cNetAmount' " +
+		"onfocus='javascript:doubleFocus(this);' " + 
+		"onblur='javascript:doubleBlur(this);' " +
+		"size='12px' maxlength='12' value='0' "+
+		"style='text-align:right'>";
+	cell.style.cssText = "text-align: right";
+	cell.className = "cDataTD";
+
+	cell = row.insertCell(-1);
+	cell.innerHTML = "<input type='text' id='cTax' " +
+		"onfocus='javascript:doubleFocus(this);' " + 
+		"onblur='javascript:doubleBlur(this);' " +
+		"size='12px' maxlength='12' value='0' " +
+		"style='text-align:right'>";
+	cell.style.cssText = "text-align: right";
+	cell.className = "cDataTD";
+	
+	
+	cell = row.insertCell(-1);
+	cell.innerHTML = "&nbsp;";
+	cell.style.cssText = "text-align: left";
+	cell.className = "cDataTD";
+
+	cell = row.insertCell(-1);
+	cell.innerHTML = "&nbsp;";
+	cell.style.cssText = "text-align: left";
+	cell.className = "cDataTD";
+
+	cell = row.insertCell(-1);
+	cell.innerHTML = "&nbsp;";
+	cell.style.cssText = "text-align: left";
+	cell.className = "cDataTD";
 }
 
 function getVoucherTypeListAsSelect() {
