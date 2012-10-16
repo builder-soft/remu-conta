@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cl.buildersoft.business.beans.DocumentType;
 import cl.buildersoft.business.beans.Voucher;
 import cl.buildersoft.business.beans.VoucherStatus;
 import cl.buildersoft.business.beans.VoucherType;
@@ -38,8 +39,10 @@ public class ReadVoucher extends HttpServlet {
 		Voucher voucher = vs.get(conn, voucherId);
 
 		List<VoucherType> voucherTypeList = (List<VoucherType>) bu.listAll(conn, new VoucherType());
+		List <DocumentType> documentTypeList =(List<DocumentType> )bu.listAll(conn, new DocumentType());
 
 		request.setAttribute("VoucherTypeList", voucherTypeList);
+		request.setAttribute("DocumentTypeList", documentTypeList);
 		request.setAttribute("Voucher", voucher);
 		request.setAttribute("VoucherStatus", getVoucherStatus(conn, voucher));
 		request.setAttribute("UserVoucher", getUserVoucher(conn, voucher));
