@@ -41,18 +41,7 @@ public class DownloadPrevired extends AbstractServletUtil {
 
 		try {
 			while (rs.next()) {
-				employeeData_1_25(rs, csv);
-				pfmData_26_39(rs, csv);
-				savingIndividualData_40_44(rs, csv);
-				savingCollectiveData_45_49(rs, csv);
-				affiliateData_50_61(rs, csv);
-				healthSystemData_62_74(rs, csv);
-				healthData_75_82(rs, csv);
-				compensationFoundData_83_95(rs, csv);
-				mutualData_96_99(rs, csv);
-				insuranceManagerData_100_102(rs, csv);
-				subsidyData_103_104(rs, csv);
-				otherEnterpriseData_105(rs, csv);
+				process(rs, csv);
 
 				// csv.write(rs.getString(1));
 
@@ -68,6 +57,22 @@ public class DownloadPrevired extends AbstractServletUtil {
 		}
 	}
 
+	private void process(ResultSet rs, CsvWriter csv) throws SQLException,
+			IOException {
+		employeeData_1_25(rs, csv);
+		pfmData_26_39(rs, csv);
+		savingIndividualData_40_44(rs, csv);
+		savingCollectiveData_45_49(rs, csv);
+		affiliateData_50_61(rs, csv);
+		healthSystemData_62_74(rs, csv);
+		healthData_75_82(rs, csv);
+		compensationFoundData_83_95(rs, csv);
+		mutualData_96_99(rs, csv);
+		insuranceManagerData_100_102(rs, csv);
+		subsidyData_103_104(rs, csv);
+		otherEnterpriseData_105(rs, csv);
+	}
+	
 	private void otherEnterpriseData_105(ResultSet rs, CsvWriter csv) throws SQLException, IOException {
 		csv.write("0"); /* 105 */
 	}

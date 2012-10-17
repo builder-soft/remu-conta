@@ -25,7 +25,7 @@ BEGIN
 		DELETE FROM tR_RolOption WHERE cOption = (SELECT cId FROM tOption WHERE cKey = vKey);
 		DELETE FROM tOption WHERE cKey = vKey;
 	END IF;
-	INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES(vKey, 'Plan de cuentas', NULL, @menuIdConta, 1);
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES(vKey, 'Plan de cuentas', '/servlet/conta/chartAccount/ChartAccountManager', @menuIdConta, 1);
 	
 	SET vKey = 'VOUCHER';
 	IF(EXISTS(SELECT cId FROM tOption WHERE cKey = vKey)) THEN
