@@ -74,7 +74,7 @@ function addNewRow() {
 	
 	
 	cell = row.insertCell(-1);
-	cell.innerHTML = "&nbsp;";
+	cell.innerHTML = getBusinessAreaListAsSelect();
 	cell.style.cssText = "text-align: left";
 	cell.className = "cDataTD";
 
@@ -97,5 +97,14 @@ function getVoucherTypeListAsSelect() {
 
 	out += "</select>";
 	return out;
-	// voucherTypeList
+}
+
+function getBusinessAreaListAsSelect(){
+	var out = "<select id='cBusinessArea'>";
+	for (var index in businessAreaList) {
+		out += "<option value='" + businessAreaList[index].id + "'>" + businessAreaList[index].name + "</option>";
+	}
+
+	out += "</select>";
+	return out;
 }

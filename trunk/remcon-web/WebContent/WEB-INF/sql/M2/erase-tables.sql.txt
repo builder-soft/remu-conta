@@ -6,4 +6,4 @@ DROP TABLE IF EXISTS tVoucher;
 DROP TABLE IF EXISTS tVoucherStatus;
 DROP TABLE IF EXISTS tVoucherType;
 
-DROP TABLE IF EXISTS tBusinessCenter;
+

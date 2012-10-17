@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS tHoliday;
 DROP TABLE IF EXISTS tLicense;
 DROP TABLE IF EXISTS tLicenseCause;
 
+
 DROP TABLE IF EXISTS tAssetDiscountValue;
 DROP TABLE IF EXISTS tAssetDiscount;
 DROP TABLE IF EXISTS tAssetDiscountType;
@@ -49,6 +50,7 @@ drop table if exists tHealth;
 drop table if exists tGratificationType;
 
 drop table if exists tExBoxSystem;
+DROP TABLE IF EXISTS tBusinessArea;
 drop table if exists tCostCenter;
 drop table if exists tBranch;
 drop table if exists tEnterpriseConfig;

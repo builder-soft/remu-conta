@@ -307,6 +307,7 @@ create table tCostCenter(
 	cId 				BIGINT(20) NOT NULL auto_increment, 
 	cName				VARCHAR(20) NOT NULL,
 	cBranch				BIGINT(20) NOT NULL,
+	cBusinessArea		BIGINT(20),
 	PRIMARY KEY (cId)
 ) ENGINE=InnoDB;
 

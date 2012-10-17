@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.business.beans.BusinessArea"%>
 <%@page import="cl.buildersoft.business.beans.DocumentType"%>
 <%@page import="cl.buildersoft.business.beans.VoucherStatus"%>
 <%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
@@ -9,6 +10,7 @@
 	Voucher voucher = (Voucher) request.getAttribute("Voucher");
 	List<VoucherType> voucherTypeList = (List<VoucherType>) request.getAttribute("VoucherTypeList");
 	List<DocumentType> documentTypeList	= (List<DocumentType>) request.getAttribute("DocumentTypeList");
+	List<BusinessArea> businessAreaList = (List<BusinessArea>)request.getAttribute("BusinessAreaList");
 	String voucherStatus = (String)request.getAttribute("VoucherStatus");
 	String userVoucher = (String)request.getAttribute("UserVoucher");
 %>
@@ -20,15 +22,20 @@
 	
 </script>
 <script>
-	var voucherTypeList = [
-<%		Integer index = 0;
+	var voucherTypeList = [<%Integer index = 1;
 		for(DocumentType documentType : documentTypeList){%>
-	    	{id : <%=documentType.getId()%>, name : '<%=documentType.getName()%>'}, 
-<%		if(!index.equals(documentTypeList.size())){%>,<%}
-	index++;
-	}
-	%>
-	    ];
+	    	{id : <%=documentType.getId()%>, name : '<%=documentType.getName()%>'}<%if(!index.equals(documentTypeList.size())){%>,<%}
+		index++;
+	}%>];
+	
+	var businessAreaList = [<%index = 1;
+		for(BusinessArea businessArea : businessAreaList){%>
+			{id : <%=businessArea.getId()%>, name : '<%=businessArea.getName()%>'}<%if(!index.equals(documentTypeList.size())){%>,<%}
+		index++;
+	}%>];
+	
+	
+	
 </script>
 
 
