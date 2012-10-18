@@ -50,15 +50,15 @@ drop table if exists tHealth;
 drop table if exists tGratificationType;
 
 drop table if exists tExBoxSystem;
-DROP TABLE IF EXISTS tBusinessArea;
 drop table if exists tCostCenter;
+DROP TABLE IF EXISTS tBusinessArea;
 drop table if exists tBranch;
 drop table if exists tEnterpriseConfig;
 drop table if exists tEnterprise;
 drop table if exists tComuna;
 drop table if exists tCompensationFund;
 
-/************** */
+/***************/
 drop table if exists tMutual;
 drop table if exists tAPV;
 drop table if exists tCurrency;

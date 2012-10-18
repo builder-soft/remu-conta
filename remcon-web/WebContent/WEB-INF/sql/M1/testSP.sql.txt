@@ -13,17 +13,19 @@ begin
 	END IF;
 
 	IF (NOT EXISTS(select cId from tBranch where cName='Matriz')) THEN
-		INSERT INTO tBranch(cName, cEnterprise, cAddress, cComuna, cPhone) 
-		VALUES('Matriz', LAST_INSERT_ID(), 'Avenida X, numero 88', 3, '2345678');
+		INSERT INTO tBranch(cName, cEnterprise, cAddress, cComuna, cPhone)
+			VALUES('Matriz', LAST_INSERT_ID(), 'Avenida X, numero 88', 3, '2345678');
+		SET @branchId = LAST_INSERT_ID();
 	END IF;	
+
+	IF (NOT EXISTS(select cId from tBusinessArea where cName='Administración')) THEN
+		INSERT INTO tBusinessArea(cName) VALUES('Administración');
+		SET @businessAreaId = LAST_INSERT_ID();
+	END IF;	
+
 	
 	IF (NOT EXISTS(select cId from tCostCenter where cName='Oficina')) THEN
-		INSERT INTO tBusinessArea(cName) VALUES('Administración');
-		
-		/*UPDATE tCostCenter SET cBusinessArea=LAST_INSERT_ID();*/
-		
-	
-		INSERT INTO tCostCenter(cName, cBranch) VALUES('Oficina', LAST_INSERT_ID());
+		INSERT INTO tCostCenter(cName, cBranch, cBusinessArea) VALUES('Oficina', @branchId, @businessAreaId);
 		SET @cc = LAST_INSERT_ID();
 	END IF;
 	

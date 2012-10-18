@@ -84,8 +84,9 @@ ADD CONSTRAINT ParameterToDataType FOREIGN KEY (cDataType) REFERENCES tDataType(
 ALTER TABLE tCostCenter
 ADD INDEX branch_index_costCenter (cBranch ASC),
 ADD INDEX tCostCenter_cBusinessArea(cBusinessArea ASC),
-ADD CONSTRAINT CostCenterToBranch FOREIGN KEY (cBranch) REFERENCES tBranch(cId),
-ADD CONSTRAINT CostCenter_To_BusinessArea FOREIGN KEY (cBusinessArea) REFERENCES tBusinessArea(cId);
+ADD CONSTRAINT CostCenter_To_BusinessArea FOREIGN KEY (cBusinessArea) REFERENCES tBusinessArea(cId),
+ADD CONSTRAINT CostCenterToBranch FOREIGN KEY (cBranch) REFERENCES tBranch(cId);
+
 
 /** PROFILE */
 ALTER TABLE tProfile
