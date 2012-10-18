@@ -18,6 +18,11 @@ begin
 	END IF;	
 	
 	IF (NOT EXISTS(select cId from tCostCenter where cName='Oficina')) THEN
+		INSERT INTO tBusinessArea(cName) VALUES('Administración');
+		
+		/*UPDATE tCostCenter SET cBusinessArea=LAST_INSERT_ID();*/
+		
+	
 		INSERT INTO tCostCenter(cName, cBranch) VALUES('Oficina', LAST_INSERT_ID());
 		SET @cc = LAST_INSERT_ID();
 	END IF;
