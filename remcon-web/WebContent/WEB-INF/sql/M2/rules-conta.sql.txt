@@ -14,14 +14,5 @@ ADD INDEX tVoucher_cVoucherType (cVoucherType ASC),
 ADD CONSTRAINT VoucherDetail_To_VoucherStatus FOREIGN KEY (cVoucherStatus) REFERENCES tVoucherStatus(cId),
 ADD CONSTRAINT VoucherDetail_To_VoucherType FOREIGN KEY (cVoucherType) REFERENCES tVoucherType(cId);
 
-INSERT INTO tBusinessArea(cName) VALUES('Administración');
-UPDATE tCostCenter SET cBusinessArea=LAST_INSERT_ID();
-
-ALTER TABLE tCostCenter
-MODIFY cBusinessArea BIGINT(20) NOT NULL,
-ADD INDEX tCostCenter_cBusinessArea(cBusinessArea ASC),
-ADD CONSTRAINT CostCenter_To_BusinessArea FOREIGN KEY (cBusinessArea) REFERENCES tBusinessArea(cId);
-
-
 
  

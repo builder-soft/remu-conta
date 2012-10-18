@@ -18,10 +18,7 @@ INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LOCALE', 'Regió
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('PATTERN_INTEGER', 'Formato para montos enteros', '###.###.##0', @stringId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('PATTERN_DECIMAL', 'Formato para montos con decimales', '###.###.##0,00###', @stringId);
 
-
 /*
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('DECIMAL_SEPARATOR', 'Separador de decimales', ',', @stringId);
-INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('GROUP_SEPARATOR', 'Separador de grupos numéricos', '.', @stringId);
 */
 
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CSV_SEPARATOR', 'Separador de archivos csv', ';', @stringId);
