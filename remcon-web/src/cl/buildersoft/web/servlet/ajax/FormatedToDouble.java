@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import cl.buildersoft.framework.util.BSWeb;
 
 @WebServlet("/servlet/ajax/FormatedToDouble")
-public class FormatedToDouble extends AbstractFormatServlet {
+public class FormatedToDouble extends AbstractAjaxServlet {
 	private static final long serialVersionUID = 899911377693045643L;
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

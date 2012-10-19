@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import cl.buildersoft.framework.util.BSWeb;
 
 @WebServlet("/servlet/ajax/IntegerToFormated")
-public class IntegerToFormated extends AbstractFormatServlet {
+public class IntegerToFormated extends AbstractAjaxServlet {
 	private static final long serialVersionUID = 1834335139177348807L;
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

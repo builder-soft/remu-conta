@@ -32,6 +32,7 @@ begin
 	IF (NOT EXISTS(select cId from tProfile where cName='Administrativo')) THEN
 		INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Administrativo', @cc, 250000);
 	END IF;
+	
 	IF (NOT EXISTS(select cId from tProfile where cName='Informatico')) THEN
 		INSERT INTO tProfile(cName, cCostCenter, cCompanyCost) VALUES('Informatico', @cc, 500000);
 	END IF;

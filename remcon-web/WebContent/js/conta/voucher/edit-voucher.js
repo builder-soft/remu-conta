@@ -84,20 +84,33 @@ function addNewRow() {
 
 function fillCostCenter() {
 	var businessArea = document.getElementById("cBusinessArea").value;
-	alert(businessArea);
+
+	$.ajax({
+		url : contextPath + "/servlet/config/enterprise/costCenter/ListByBusinessArea",
+		type : "post",
+		cache : false,
+		data : {cBusinessArea : businessArea},
+		success : function(response){
+            alert(response);
+        },
+        error : function(response){alert(response.responseText);},
+		async : false
+	});
+
 	
 	
 	
-	var costCenter = document.getElementById("cCostCenter");
-	var option = document.createElement("option");
-	option.text = "Kiwi";
-	try {
-		// for IE earlier than version 8
-		costCenter.add(option, costCenter.options[null]);
-	} catch (e) {
-		costCenter.add(option, null);
-	}
+	clearSelect("cCostCenter");
+	appendToSelect("cCostCenter", 1, "hola mundo 1");
+	appendToSelect("cCostCenter", 2, "hola mundo 2");
+	appendToSelect("cCostCenter", 3, "hola mundo 3");
+	appendToSelect("cCostCenter", 4, "hola mundo 4");
+	
+	
 }
+
+
+
 
 function getVoucherTypeListAsSelect() {
 	var out = "<select id='cDocumentType'>";
