@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/servlet/ajax/IsDouble")
-public class IsDouble extends AbstractFormatServlet {
+public class IsDouble extends AbstractAjaxServlet {
 	private static final long serialVersionUID = -6599087191525974198L;
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

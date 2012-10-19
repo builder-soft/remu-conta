@@ -4,13 +4,14 @@
 	loadFormat(document)
 	focusOut(inputElement)
 	focusIn(inputElement)
-	function rTrim(txtCadena)
-	function lTrim(txtCadena)
-	function allTrim(s)
-	function validaRUT(rut) : Valida el rut del parámetro, el formato tiene que ser 12345678-5, retorna un valor boolean
+	rTrim(txtCadena)
+	lTrim(txtCadena)
+	allTrim(s)
+	validaRUT(rut) : Valida el rut del parámetro, el formato tiene que ser 12345678-5, retorna un valor boolean
 	replaceAll(strCadena, strSearch, strReplace): Reemplaza caracteres.
-	function toNumber(valorNumber): convierte el valor a un valor numerico para poder realizar cálculos
+	toNumber(valorNumber): convierte el valor a un valor numerico para poder realizar cálculos
 	validaFecha(string)
+	
  */
 
 function closeTooltip() {
@@ -165,6 +166,28 @@ function sendForm(formId, url){
 	formObject.action = url;
 	formObject.submit();
 }
+
+function clearSelect(selectName){
+	var selectObject = document.getElementById(selectName);
+	
+	while(selectObject.options.length > 0) {
+		selectObject.remove(0);		
+	}
+	
+}
+function appendToSelect(selectName, key, value){
+	var selectObject = document.getElementById(selectName);
+	var option = document.createElement("option");
+	option.value = key;
+	option.text = value;
+	try {
+		// for IE earlier than version 8
+		selectObject.add(option, selectObject.options[null]);
+	} catch (e) {
+		selectObject.add(option, null);
+	}
+}
+
 
 
 /** ***************************** */

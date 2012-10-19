@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import cl.buildersoft.framework.util.BSWeb;
 
 @WebServlet("/servlet/ajax/FormatedToInteger")
-public class FormatedToInteger extends AbstractFormatServlet {
+public class FormatedToInteger extends AbstractAjaxServlet {
 	private static final long serialVersionUID = 139721871849042522L;
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

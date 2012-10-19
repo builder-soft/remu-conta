@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import cl.buildersoft.framework.util.BSDateTimeUtil;
 
 @WebServlet("/servlet/ajax/IsDate")
-public class IsDate extends AbstractFormatServlet {
+public class IsDate extends AbstractAjaxServlet {
 	private static final long serialVersionUID = -4907796524707494142L;
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -2,17 +2,12 @@ package cl.buildersoft.web.servlet.ajax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.util.Date;
 
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.framework.util.BSConfig;
-
-public abstract class AbstractFormatServlet extends HttpServlet {
+public abstract class AbstractAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 7962194037862243536L;
 
 	protected void setHeaders(HttpServletResponse response) {
@@ -22,23 +17,6 @@ public abstract class AbstractFormatServlet extends HttpServlet {
 		response.setHeader("Pragma", "no-cache");
 		response.setContentType("text/plain");
 	}
-/**<code>
-	protected Connection getConnection(HttpServletRequest request) {
-		BSmySQL mysql = new BSmySQL();
-		Connection conn = mysql.getConnection(request);
-		return conn;
-	}
-
-	protected String getDecimalSeparator(Connection conn) {
-		BSConfig config = new BSConfig();
-		return config.getString(conn, "DECIMAL_SEPARATOR");
-	}
-
-	protected String getGroupSeparator(Connection conn) {
-		BSConfig config = new BSConfig();
-		return config.getString(conn, "GROUP_SEPARATOR");
-	}
-</code>	*/
 
 	protected PrintWriter writeToBrowser(HttpServletResponse response, String out) throws IOException {
 		PrintWriter writer = response.getWriter();

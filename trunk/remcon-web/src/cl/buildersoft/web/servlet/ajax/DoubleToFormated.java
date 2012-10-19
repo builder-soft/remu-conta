@@ -10,17 +10,15 @@ import javax.servlet.http.HttpServletResponse;
 import cl.buildersoft.framework.util.BSWeb;
 
 @WebServlet("/servlet/ajax/DoubleToFormated")
-public class DoubleToFormated extends AbstractFormatServlet {
+public class DoubleToFormated extends AbstractAjaxServlet {
 	private static final long serialVersionUID = -1937146590122545659L;
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String value = request.getParameter("Value");
 		String out = null;
-//		String format = BSWeb.getFormatDecimal(request);
 		Double valueDouble = null;
 		try {
 			valueDouble = Double.parseDouble(value);
-//			out = BSWeb.number2String(valueDouble, format);
 			out = BSWeb.formatDouble(request, valueDouble);
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
