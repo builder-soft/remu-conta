@@ -91,7 +91,16 @@ function fillCostCenter() {
 		cache : false,
 		data : {cBusinessArea : businessArea},
 		success : function(response){
-            alert(response);
+			var elements response.responseText;
+			var name = null;
+			var id = null;
+			clearSelect("cCostCenter");
+			for ( var i in elements) {
+				name = elements[i].name;
+				id = elements[i].id;
+				
+				appendToSelect("cCostCenter", id, name);
+			}
         },
         error : function(response){alert(response.responseText);},
 		async : false
@@ -99,13 +108,13 @@ function fillCostCenter() {
 
 	
 	
-	
+	/*
 	clearSelect("cCostCenter");
 	appendToSelect("cCostCenter", 1, "hola mundo 1");
 	appendToSelect("cCostCenter", 2, "hola mundo 2");
 	appendToSelect("cCostCenter", 3, "hola mundo 3");
 	appendToSelect("cCostCenter", 4, "hola mundo 4");
-	
+	*/
 	
 }
 

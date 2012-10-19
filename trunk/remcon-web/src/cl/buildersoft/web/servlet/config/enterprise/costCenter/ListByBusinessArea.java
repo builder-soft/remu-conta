@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import cl.buildersoft.business.beans.CostCenter;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.framework.util.BSWeb;
 import cl.buildersoft.web.servlet.ajax.AbstractAjaxServlet;
 import flexjson.JSONSerializer;
 
@@ -22,7 +21,7 @@ public class ListByBusinessArea extends AbstractAjaxServlet {
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long businessArea = Long.parseLong(request.getParameter("cBusinessArea"));
-//		String out = null;
+		// String out = null;
 
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
@@ -31,11 +30,16 @@ public class ListByBusinessArea extends AbstractAjaxServlet {
 		StringBuffer json = new StringBuffer(1024);
 
 		List<CostCenter> costCenterList = (List<CostCenter>) bu.list(conn, new CostCenter(), "cBusinessArea=?", businessArea);
-
-		for (CostCenter cc : costCenterList) {
+		json.append("[");
+		for (Integer index = 0; index < costCenterList.size(); index++) {
+			CostCenter cc = costCenterList.get(index);
+			// for (CostCenter cc : costCenterList) {
 			json.append(jsonSerializer.exclude("class").serialize(cc));
+			if (index < costCenterList.size()-1) {
+				json.append(",");
+			}
 		}
-
+		json.append("]");
 
 		setHeaders(response);
 		json.trimToSize();
