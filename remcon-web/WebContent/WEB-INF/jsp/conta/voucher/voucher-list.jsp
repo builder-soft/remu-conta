@@ -12,10 +12,6 @@ List<VoucherType> voucherTypeList = (List<VoucherType> )request.getAttribute("Vo
 
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
-<script
-	src="${pageContext.request.contextPath}/js/...FILE.js?<%=Math.random()%>">
-	
-</script>
 
 <h1 class="cTitle">Comprobantes Pendientes</h1>
 
