@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import cl.buildersoft.business.beans.BusinessArea;
 import cl.buildersoft.business.beans.DocumentType;
 import cl.buildersoft.business.beans.Voucher;
+import cl.buildersoft.business.beans.VoucherDetail;
 import cl.buildersoft.business.beans.VoucherStatus;
 import cl.buildersoft.business.beans.VoucherType;
 import cl.buildersoft.business.service.VoucherService;
@@ -42,7 +43,9 @@ public class ReadVoucher extends HttpServlet {
 		List<VoucherType> voucherTypeList = (List<VoucherType>) bu.listAll(conn, new VoucherType());
 		List<DocumentType> documentTypeList = (List<DocumentType>) bu.listAll(conn, new DocumentType());
 		List<BusinessArea> businessAreaList = (List<BusinessArea>) bu.listAll(conn, new BusinessArea());
+		List<VoucherDetail> voucherDetailList = (List<VoucherDetail>) bu.list(conn, new VoucherDetail(), "cVoucher=?", voucherId);
 
+		request.setAttribute("VoucherDetailList", voucherDetailList);
 		request.setAttribute("VoucherTypeList", voucherTypeList);
 		request.setAttribute("DocumentTypeList", documentTypeList);
 		request.setAttribute("BusinessAreaList", businessAreaList);

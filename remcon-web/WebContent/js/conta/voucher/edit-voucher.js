@@ -1,3 +1,23 @@
+var currentRow = 0;
+function onLoadPage(){
+//	alert(voucherDetailList);
+	var rut = null;
+	var voucherId = null;
+	
+	currentRow = 1;
+	for (var i in voucherDetailList) {
+//		id = voucherDetailList[i].id;
+		voucherId = voucherDetailList[i].voucherId;
+		rut = voucherDetailList[i].rut;
+		
+		
+		//appendToSelect("cCostCenter" + currentRow, id, name);
+		addNewRow(voucherId);
+		currentRow++;
+	}
+	
+}
+
 function saveVoucher() {
 	var url = contextPath + "/servlet/conta/voucher/SaveVoucher";
 
@@ -31,8 +51,7 @@ function success(response) {
 		alert('Ha ocurrido un error inesperado');
 	}
 }
-var currentRow = 0;
-function addNewRow() {
+function addNewRow(idVoucher) {
 	var table = document.getElementById("voucherDetail");
 	var row = table.insertRow(-1);
 
@@ -87,11 +106,27 @@ function addNewRow() {
 	cell.className = "cDataTD";
 
 	fillCostCenter();
-	submitRow();
+	submitRow(idVoucher);
 }
 
-function submitRow(){
-	//SaveVoucherDetail
+function submitRow(idVoucher){
+	$.ajax({
+		url : contextPath + "/servlet/conta/voucher/SaveVoucherDetail",
+		type : "post",
+		cache : false,
+		async : true,
+		data : {
+			cId : idVoucher
+		},
+		success : function(response) {
+			if(response != "OK"){
+				alert(response);
+			}
+		},
+		error : function(response) {
+			alert(response.responseText);
+		}
+	});
 }
 
 function fillCostCenter() {
@@ -106,33 +141,17 @@ function fillCostCenter() {
 		},
 		success : function(response) {
 			var elements = JSON.parse(response);
-			// elements = [{branch:1,businessArea:1,id:1,name:'Oficina'}];
-			// alert(elements);
-			for ( var i in elements) {
+			for (var i in elements) {
 				id = elements[i].id;
 				name = elements[i].name;
 				appendToSelect("cCostCenter" + currentRow, id, name);
 			}
-			/*
-			 * var elements = response.responseText; alert(elements); var name =
-			 * null; var id = null; clearSelect("cCostCenter"); for (var i in
-			 * elements) { name = elements[i].name; id = elements[i].id;
-			 * 
-			 * appendToSelect("cCostCenter", id, name); }
-			 */
 		},
 		error : function(response) {
 			alert(response.responseText);
 		},
 		async : true
 	});
-
-	/*
-	 * clearSelect("cCostCenter"); appendToSelect("cCostCenter", 1, "hola mundo
-	 * 1"); appendToSelect("cCostCenter", 2, "hola mundo 2");
-	 * appendToSelect("cCostCenter", 3, "hola mundo 3");
-	 * appendToSelect("cCostCenter", 4, "hola mundo 4");
-	 */
 
 }
 
