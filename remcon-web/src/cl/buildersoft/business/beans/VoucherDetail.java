@@ -13,68 +13,77 @@ public class VoucherDetail extends BSBean {
 	private Integer documentNumber = null;
 	private BigDecimal netAmount = null;
 	private BigDecimal tax = null;
-	private Long businessCenter = null;
 	private Long costCenter = null;
 	private Long chartAccount = null;
-	
+
 	public Long getVoucher() {
 		return voucher;
 	}
+
 	public void setVoucher(Long voucher) {
 		this.voucher = voucher;
 	}
+
 	public String getRut() {
 		return rut;
 	}
+
 	public void setRut(String rut) {
 		this.rut = rut;
 	}
+
 	public Long getDocumentType() {
 		return documentType;
 	}
+
 	public void setDocumentType(Long documentType) {
 		this.documentType = documentType;
 	}
+
 	public Integer getDocumentNumber() {
 		return documentNumber;
 	}
+
 	public void setDocumentNumber(Integer documentNumber) {
 		this.documentNumber = documentNumber;
 	}
+
 	public BigDecimal getNetAmount() {
 		return netAmount;
 	}
+
 	public void setNetAmount(BigDecimal netAmount) {
 		this.netAmount = netAmount;
 	}
+
 	public BigDecimal getTax() {
 		return tax;
 	}
+
 	public void setTax(BigDecimal tax) {
 		this.tax = tax;
 	}
-	public Long getBusinessCenter() {
-		return businessCenter;
-	}
-	public void setBusinessCenter(Long businessCenter) {
-		this.businessCenter = businessCenter;
-	}
+
 	public Long getCostCenter() {
 		return costCenter;
 	}
+
 	public void setCostCenter(Long costCenter) {
 		this.costCenter = costCenter;
 	}
+
 	public Long getChartAccount() {
 		return chartAccount;
 	}
+
 	public void setChartAccount(Long chartAccount) {
 		this.chartAccount = chartAccount;
 	}
+
 	@Override
 	public String toString() {
 		return "VoucherDetail [voucher=" + voucher + ", rut=" + rut + ", documentType=" + documentType + ", documentNumber="
-				+ documentNumber + ", netAmount=" + netAmount + ", tax=" + tax + ", businessCenter=" + businessCenter
-				+ ", costCenter=" + costCenter + ", chartAccount=" + chartAccount + "]";
+				+ documentNumber + ", netAmount=" + netAmount + ", tax=" + tax + ", costCenter=" + costCenter + ", chartAccount="
+				+ chartAccount + "]";
 	}
 }

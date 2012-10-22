@@ -23,13 +23,13 @@ CREATE TABLE tVoucherStatus(
 CREATE TABLE tVoucherDetail(
 	cId				BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	cVoucher		BIGINT NOT NULL COMMENT 'Tipo del comprobante',
-	cRUT			VARCHAR(11) NOT NULL COMMENT 'Rut, creo que esto depende de la cuenta',
-	cDocumentType	BIGINT NOT NULL COMMENT 'Tipo del documento',
-	cDocumentNumber	INTEGER NOT NULL COMMENT 'Numero del documento',
-	cNetAmount		DOUBLE NOT NULL COMMENT 'Monto del detalle',
-	cTax			DOUBLE NOT NULL COMMENT 'Impuesto, IVA, Honorarios, PMP, etc.',
-	cCostCenter		BIGINT NOT NULL COMMENT 'Centro de costo',
-	cChartAccount	BIGINT NOT NULL COMMENT 'Cuenta'
+	cRUT			VARCHAR(11) NULL COMMENT 'Rut, creo que esto depende de la cuenta',
+	cDocumentType	BIGINT NULL COMMENT 'Tipo del documento',
+	cDocumentNumber	INTEGER NULL COMMENT 'Numero del documento',
+	cNetAmount		DOUBLE NULL COMMENT 'Monto del detalle',
+	cTax			DOUBLE NULL COMMENT 'Impuesto, IVA, Honorarios, PMP, etc.',
+	cCostCenter		BIGINT NULL COMMENT 'Centro de costo',
+	cChartAccount	BIGINT NULL COMMENT 'Cuenta'
 ) ENGINE=innoDB;
 
 CREATE TABLE tDocumentType(

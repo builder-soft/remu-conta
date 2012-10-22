@@ -91,6 +91,7 @@
 		<td class="cHeadTD" rowspan="2" style="text-align: center">Centro
 			de Costo</td>
 		<td class="cHeadTD" rowspan="2" style="text-align: center">Cuenta</td>
+		<td class="cHeadTD" rowspan="2" style="text-align: center">Acción</td>
 	</tr>
 
 	<tr>

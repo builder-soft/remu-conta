@@ -2,9 +2,11 @@ package cl.buildersoft.web.servlet.ajax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public abstract class AbstractAjaxServlet extends HttpServlet {
@@ -28,4 +30,32 @@ public abstract class AbstractAjaxServlet extends HttpServlet {
 		writer.flush();
 		writer.close();
 	}
+
+	protected Integer getParameterAsInteger(HttpServletRequest request, String name) {
+		String parameter = request.getParameter(name);
+		Integer out = null;
+		if (parameter != null) {
+			out = Integer.parseInt(parameter);
+		}
+		return out;
+	}
+
+	protected Long getParameterAsLong(HttpServletRequest request, String name) {
+		String parameter = request.getParameter(name);
+		Long out = null;
+		if (parameter != null) {
+			out = Long.parseLong(parameter);
+		}
+		return out;
+	}
+
+	protected BigDecimal getParameterAsBigDecimal(HttpServletRequest request, String name) {
+		String parameter = request.getParameter(name);
+		BigDecimal out = null;
+		if (parameter != null) {
+			out = new BigDecimal(parameter);
+		}
+		return out;
+	}
+
 }
