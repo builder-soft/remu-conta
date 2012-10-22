@@ -31,10 +31,12 @@ function success(response) {
 		alert('Ha ocurrido un error inesperado');
 	}
 }
-
+var currentRow = 0;
 function addNewRow() {
 	var table = document.getElementById("voucherDetail");
 	var row = table.insertRow(-1);
+
+	currentRow = table.rows.length - 2;
 
 	var cell = row.insertCell(-1);
 	cell.innerHTML = "<input type='text' id='cRUT' size='10px' maxlength='10'>";
@@ -70,59 +72,72 @@ function addNewRow() {
 	cell.className = "cDataTD";
 
 	cell = row.insertCell(-1);
-	cell.innerHTML = "<select id='cCostCenter'/>";
+	cell.innerHTML = "<select id='cCostCenter" + currentRow + "'/>";
 	cell.style.cssText = "text-align: left";
 	cell.className = "cDataTD";
 
 	cell = row.insertCell(-1);
-	cell.innerHTML = "&nbsp;";
+	cell.innerHTML = "<input size='10px' maxlength='10'/>";
 	cell.style.cssText = "text-align: left";
 	cell.className = "cDataTD";
 
+	cell = row.insertCell(-1);
+	cell.innerHTML = "<img width='20px' alt='Borrar' title='Borrar' src='" + contextPath + "/img/action/delete.png'>";
+	cell.style.cssText = "text-align: center";
+	cell.className = "cDataTD";
+
 	fillCostCenter();
+	submitRow();
+}
+
+function submitRow(){
+	//SaveVoucherDetail
 }
 
 function fillCostCenter() {
-	var businessArea = document.getElementById("cBusinessArea").value;
+	var businessArea = document.getElementById("cBusinessArea" + currentRow).value;
 
 	$.ajax({
 		url : contextPath + "/servlet/config/enterprise/costCenter/ListByBusinessArea",
 		type : "post",
 		cache : false,
-		data : {cBusinessArea : businessArea},
-		success : function(response){
-			var elements response.responseText;
-			var name = null;
-			var id = null;
-			clearSelect("cCostCenter");
+		data : {
+			cBusinessArea : businessArea
+		},
+		success : function(response) {
+			var elements = JSON.parse(response);
+			// elements = [{branch:1,businessArea:1,id:1,name:'Oficina'}];
+			// alert(elements);
 			for ( var i in elements) {
-				name = elements[i].name;
 				id = elements[i].id;
-				
-				appendToSelect("cCostCenter", id, name);
+				name = elements[i].name;
+				appendToSelect("cCostCenter" + currentRow, id, name);
 			}
-        },
-        error : function(response){alert(response.responseText);},
-		async : false
+			/*
+			 * var elements = response.responseText; alert(elements); var name =
+			 * null; var id = null; clearSelect("cCostCenter"); for (var i in
+			 * elements) { name = elements[i].name; id = elements[i].id;
+			 * 
+			 * appendToSelect("cCostCenter", id, name); }
+			 */
+		},
+		error : function(response) {
+			alert(response.responseText);
+		},
+		async : true
 	});
 
-	
-	
 	/*
-	clearSelect("cCostCenter");
-	appendToSelect("cCostCenter", 1, "hola mundo 1");
-	appendToSelect("cCostCenter", 2, "hola mundo 2");
-	appendToSelect("cCostCenter", 3, "hola mundo 3");
-	appendToSelect("cCostCenter", 4, "hola mundo 4");
-	*/
-	
+	 * clearSelect("cCostCenter"); appendToSelect("cCostCenter", 1, "hola mundo
+	 * 1"); appendToSelect("cCostCenter", 2, "hola mundo 2");
+	 * appendToSelect("cCostCenter", 3, "hola mundo 3");
+	 * appendToSelect("cCostCenter", 4, "hola mundo 4");
+	 */
+
 }
 
-
-
-
 function getVoucherTypeListAsSelect() {
-	var out = "<select id='cDocumentType'>";
+	var out = "<select id='cDocumentType" + currentRow + "'>";
 	for ( var index in voucherTypeList) {
 		out += "<option value='" + voucherTypeList[index].id + "'>" + voucherTypeList[index].name + "</option>";
 	}
@@ -132,7 +147,7 @@ function getVoucherTypeListAsSelect() {
 }
 
 function getBusinessAreaListAsSelect() {
-	var out = "<select id='cBusinessArea'>";
+	var out = "<select id='cBusinessArea" + currentRow + "'>";
 	for ( var index in businessAreaList) {
 		out += "<option value='" + businessAreaList[index].id + "'>" + businessAreaList[index].name + "</option>";
 	}
