@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.business.beans.VoucherDetail"%>
 <%@page import="cl.buildersoft.business.beans.BusinessArea"%>
 <%@page import="cl.buildersoft.business.beans.DocumentType"%>
 <%@page import="cl.buildersoft.business.beans.VoucherStatus"%>
@@ -11,6 +12,7 @@
 	List<VoucherType> voucherTypeList = (List<VoucherType>) request.getAttribute("VoucherTypeList");
 	List<DocumentType> documentTypeList	= (List<DocumentType>) request.getAttribute("DocumentTypeList");
 	List<BusinessArea> businessAreaList = (List<BusinessArea>)request.getAttribute("BusinessAreaList");
+	List<VoucherDetail> voucherDetailList = (List<VoucherDetail>) request.getAttribute("VoucherDetailList");
 	String voucherStatus = (String)request.getAttribute("VoucherStatus");
 	String userVoucher = (String)request.getAttribute("UserVoucher");
 %>
@@ -24,21 +26,27 @@
 <script>
 	var voucherTypeList = [<%Integer index = 1;
 		for(DocumentType documentType : documentTypeList){%>
-	    	{id : <%=documentType.getId()%>, name : '<%=documentType.getName()%>'}<%if(!index.equals(documentTypeList.size())){%>,<%}
+	    	{id : <%=documentType.getId()%>, name : '<%=documentType.getName()%>'}<%=index<documentTypeList.size()?",":""%><%
 		index++;
 	}%>];
 	
 	var businessAreaList = [<%index = 1;
 		for(BusinessArea businessArea : businessAreaList){%>
-			{id : <%=businessArea.getId()%>, name : '<%=businessArea.getName()%>'}<%if(!index.equals(documentTypeList.size())){%>,<%}
+			{id : <%=businessArea.getId()%>, name : '<%=businessArea.getName()%>'}<%=index<businessAreaList.size()?",":""%><%
 		index++;
 	}%>];
 	
-	
-	
+
+	var voucherDetailList = [<%index = 1;
+		for(VoucherDetail voucherDetail : voucherDetailList){%>
+			{id:'<%=voucherDetail.getId()%>', voucher:'<%=voucherDetail.getVoucher()%>', rut:'<%=voucherDetail.getRut()%>',	
+				documentType:'<%=voucherDetail.getDocumentType()%>', documentNumber:'<%=voucherDetail.getDocumentNumber()%>', 
+				netAmount:'<%=voucherDetail.getNetAmount()%>', tax:'<%=voucherDetail.getTax()%>', costCenter:'<%=voucherDetail.getCostCenter()%>', 
+				chartAccount:'<%=voucherDetail.getChartAccount()%>'}<%=index<voucherDetailList.size()?",":""%><%
+			index++;
+	    }%>];
+
 </script>
-
-
 
 <h1 class="cTitle">Comprobante</h1>
 <!-- 
@@ -95,39 +103,16 @@
 	</tr>
 
 	<tr>
-		<!-- 
-		<td class="cHeadTD">Rut</td> -->
 		<td class="cHeadTD" style="text-align: center">Tipo</td>
 		<td class="cHeadTD" style="text-align: center">Número</td>
 	</tr>
-
 </table>
 
-<!-- 
-</form> -->
 <br>
-<!-- 
-<input type="text" name="SomeObject" id="SomeObject"
-	onfocus="javascript:doubleFocus(this);"
-	onblur="javascript:doubleBlur(this);"
-	value="<%=BSWeb.formatDouble(request, 1234.567)%>">
-
-<table class="cList" cellpadding="0" cellspacing="0">
-	<tr>
-		<td class='cHeadTD'>encabezado</td>
-	</tr>
-
-	<tr>
-		<td class='cDataTD'>dato</td>
-	</tr>
-	<tr>
-		<td class='cDataTD_odd'>dato</td>
-	</tr>
-
-</table>
- -->
 <br>
-<button type="button" onclick="javascript:addNewRow()">Nuevo
+
+<button type="button"
+	onclick="javascript:addNewRow(<%=voucher.getId()%>)">Nuevo
 	Movimiento</button>
 <br>
 <br>
@@ -137,25 +122,6 @@
 &nbsp;&nbsp;&nbsp;
 <a class="cCancel"
 	href="${pageContext.request.contextPath}/servlet/conta/voucher/VoucherManager">Volver</a>
-
-<!-- 
-<div id="divShowDetail" style="display: none">
-	<h2 class="cTitle2">Detalle de valores</h2>
-
-	<div class="contentScroll">
-		<table class="cList" cellpadding="0" cellspacing="0" id="movesTable">
-			<tr>
-				<td class="cHeadTD">Detalle</td>
-				<td class="cHeadTD">Comentario</td>
-				<td class="cHeadTD">Tipo</td>
-				<td class="cHeadTD">Monto</td>
-			</tr>
-		</table>
-	</div>
-	<br /> <input type="button" value="Cancelar"
-		onclick="javascript:closeTooltip()" />
-</div>
- -->
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
 

@@ -20,7 +20,8 @@ public class SaveVoucherDetail extends AbstractAjaxServlet {
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long voucherId = Long.parseLong(request.getParameter("cId"));
-		Long voucherDetailId = Long.parseLong(request.getParameter("cVoucherDetailId"));
+		
+		Long voucherDetailId = getParameterAsLong(request, "cVoucherDetailId");
 
 		String rut = request.getParameter("cRUT");
 		Long documentType = getParameterAsLong(request, "cDocumentType");
@@ -43,10 +44,9 @@ public class SaveVoucherDetail extends AbstractAjaxServlet {
 
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
-
 		BSBeanUtils bu = new BSBeanUtils();
+		
 		bu.save(conn, voucherDetail);
-
 		mysql.closeConnection(conn);
 
 		endWrite(writeToBrowser(response, "OK"));
