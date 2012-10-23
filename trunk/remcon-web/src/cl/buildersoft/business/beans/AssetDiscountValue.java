@@ -8,7 +8,7 @@ public class AssetDiscountValue extends BSBean {
 	 * 
 	 */
 	private static final long serialVersionUID = 8549221650900239177L;
-	private String TABLE="tAssetDescountValue";
+	private String TABLE="tAssetDiscountValue";
 	private String assetdiscount = null;
 	private String book = null;
 	private String value = null;
