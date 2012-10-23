@@ -26,27 +26,26 @@
 <script>
 	var voucherTypeList = [<%Integer index = 1;
 		for(DocumentType documentType : documentTypeList){%>
-	    	{id : <%=documentType.getId()%>, name : '<%=documentType.getName()%>'}<%=index<documentTypeList.size()?",":""%><%
-		index++;
+	    	{id : <%=documentType.getId()%>, name : '<%=documentType.getName()%>'}<%=index<documentTypeList.size()?",":""%><%index++;
 	}%>];
 	
 	var businessAreaList = [<%index = 1;
 		for(BusinessArea businessArea : businessAreaList){%>
-			{id : <%=businessArea.getId()%>, name : '<%=businessArea.getName()%>'}<%=index<businessAreaList.size()?",":""%><%
-		index++;
+			{id : <%=businessArea.getId()%>, name : '<%=businessArea.getName()%>'}<%=index<businessAreaList.size()?",":""%><%index++;
 	}%>];
 	
 
 	var voucherDetailList = [<%index = 1;
 		for(VoucherDetail voucherDetail : voucherDetailList){%>
-			{id:'<%=voucherDetail.getId()%>', voucher:'<%=voucherDetail.getVoucher()%>', rut:'<%=voucherDetail.getRut()%>',	
-				documentType:'<%=voucherDetail.getDocumentType()%>', documentNumber:'<%=voucherDetail.getDocumentNumber()%>', 
-				netAmount:'<%=voucherDetail.getNetAmount()%>', tax:'<%=voucherDetail.getTax()%>', costCenter:'<%=voucherDetail.getCostCenter()%>', 
-				chartAccount:'<%=voucherDetail.getChartAccount()%>'}<%=index<voucherDetailList.size()?",":""%><%
-			index++;
+			{id:'<%=voucherDetail.getId()%>', voucher:'<%=voucherDetail.getVoucher()%>', rut:<%=fixNull(voucherDetail.getRut(), "''")%>,
+				documentType:<%=fixNull(voucherDetail.getDocumentType(), "1")%>, documentNumber:<%=fixNull(voucherDetail.getDocumentNumber(), "0")%>, 
+				netAmount:<%=fixNull(voucherDetail.getNetAmount(), "0")%>, tax:<%=fixNull(voucherDetail.getTax(), "0")%>, costCenter:<%=fixNull(voucherDetail.getCostCenter(),"1")%>, 
+				chartAccount:<%=fixNull(voucherDetail.getChartAccount(),"''")%>}<%=index<voucherDetailList.size()?",":""%><%index++;
 	    }%>];
-
 </script>
+<%!private String fixNull(Object value, String defaultValue) {
+		return value == null ? defaultValue : "'" + value + "'";
+	}%>
 
 <h1 class="cTitle">Comprobante</h1>
 <!-- 
@@ -112,7 +111,7 @@
 <br>
 
 <button type="button"
-	onclick="javascript:addNewRow(<%=voucher.getId()%>)">Nuevo
+	onclick="javascript:addNewRow(<%=voucher.getId()%>, true)">Nuevo
 	Movimiento</button>
 <br>
 <br>

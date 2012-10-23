@@ -19,7 +19,7 @@ public class SaveVoucherDetail extends AbstractAjaxServlet {
 	private static final long serialVersionUID = -6039113676579640546L;
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Long voucherId = Long.parseLong(request.getParameter("cId"));
+		Long voucherId = getParameterAsLong(request,"cId");
 		
 		Long voucherDetailId = getParameterAsLong(request, "cVoucherDetailId");
 
