@@ -38,13 +38,14 @@
 	var voucherDetailList = [<%index = 1;
 		for(VoucherDetail voucherDetail : voucherDetailList){%>
 			{id:'<%=voucherDetail.getId()%>', voucher:'<%=voucherDetail.getVoucher()%>', rut:<%=fixNull(voucherDetail.getRut(), "''")%>,
-				documentType:<%=fixNull(voucherDetail.getDocumentType(), "1")%>, documentNumber:<%=fixNull(voucherDetail.getDocumentNumber(), "0")%>, 
-				netAmount:<%=fixNull(voucherDetail.getNetAmount(), "0")%>, tax:<%=fixNull(voucherDetail.getTax(), "0")%>, costCenter:<%=fixNull(voucherDetail.getCostCenter(),"1")%>, 
+				documentType:<%=fixNull(voucherDetail.getDocumentType(), "''")%>, 
+				documentNumber:<%=fixNull(voucherDetail.getDocumentNumber(), "0")%>, netAmount:'<%=fixNull(voucherDetail.getNetAmount(), BSWeb.formatDouble(request, 0D))%>', 
+				tax:'<%=fixNull(voucherDetail.getTax(), BSWeb.formatDouble(request, 0D))%>', costCenter:<%=fixNull(voucherDetail.getCostCenter(),"1")%>, 
 				chartAccount:<%=fixNull(voucherDetail.getChartAccount(),"''")%>}<%=index<voucherDetailList.size()?",":""%><%index++;
 	    }%>];
 </script>
-<%!private String fixNull(Object value, String defaultValue) {
-		return value == null ? defaultValue : "'" + value + "'";
+<%!private String fixNull(Object value, Object defaultValue) {
+		return value == null ? ""+defaultValue : "'" + value + "'";
 	}%>
 
 <h1 class="cTitle">Comprobante</h1>
