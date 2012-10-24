@@ -1,17 +1,17 @@
 var currentRow = 0;
 function onLoadPage() {
 	// alert(voucherDetailList);
-	 
+
 	var voucherId = null;
 	var idRow = null;
 	// currentRow = 1;
 	for ( var i in voucherDetailList) {
 		// id = voucherDetailList[i].id;
 		voucherId = voucherDetailList[i].voucher;
-		
 
 		// appendToSelect("cCostCenter" + currentRow, id, name);
 		idRow = addNewRow(voucherId, false);
+		document.getElementById("id" + idRow).value = voucherDetailList[i].id;
 		document.getElementById("rut" + idRow).value = voucherDetailList[i].rut;
 		document.getElementById("documentType" + idRow).value = voucherDetailList[i].documentType;
 		document.getElementById("documentNumber" + idRow).value = voucherDetailList[i].documentNumber;
@@ -61,9 +61,12 @@ function addNewRow(idVoucher, save) {
 	var row = table.insertRow(-1);
 
 	currentRow = table.rows.length - 2;
+	var idInput = "<input type='_hidden' id='id" + currentRow + "'>";
 
 	var cell = row.insertCell(-1);
-	cell.innerHTML = "<input type='text' id='rut" + currentRow + "' size='10px' maxlength='10'>";
+
+	cell.innerHTML = idInput + "<input type='text' id='rut" + currentRow
+			+ "' size='10px' maxlength='10' onblur='javascript:submitRow(" + idVoucher + "," + currentRow + ")'>";
 	cell.style.cssText = "text-align: center";
 	cell.className = "cDataTD";
 
@@ -73,19 +76,19 @@ function addNewRow(idVoucher, save) {
 	cell.className = "cDataTD";
 
 	cell = row.insertCell(-1);
-	cell.innerHTML = "<input type='text' id='documentNumber"+currentRow+"' " + "onfocus='javascript:integerFocus(this);' "
+	cell.innerHTML = "<input type='text' id='documentNumber" + currentRow + "' " + "onfocus='javascript:integerFocus(this);' "
 			+ "onblur='javascript:integerBlur(this);' " + "size='10px' maxlength='10' value='0'>";
 	cell.style.cssText = "text-align: center";
 	cell.className = "cDataTD";
 
 	cell = row.insertCell(-1);
-	cell.innerHTML = "<input type='text' id='netAmount"+currentRow+"' " + "onfocus='javascript:doubleFocus(this);' "
+	cell.innerHTML = "<input type='text' id='netAmount" + currentRow + "' " + "onfocus='javascript:doubleFocus(this);' "
 			+ "onblur='javascript:doubleBlur(this);' " + "size='12px' maxlength='12' value='0' " + "style='text-align:right'>";
 	cell.style.cssText = "text-align: right";
 	cell.className = "cDataTD";
 
 	cell = row.insertCell(-1);
-	cell.innerHTML = "<input type='text' id='tax"+currentRow+"' " + "onfocus='javascript:doubleFocus(this);' "
+	cell.innerHTML = "<input type='text' id='tax" + currentRow + "' " + "onfocus='javascript:doubleFocus(this);' "
 			+ "onblur='javascript:doubleBlur(this);' " + "size='12px' maxlength='12' value='0' " + "style='text-align:right'>";
 	cell.style.cssText = "text-align: right";
 	cell.className = "cDataTD";
@@ -106,25 +109,37 @@ function addNewRow(idVoucher, save) {
 	cell.className = "cDataTD";
 
 	cell = row.insertCell(-1);
-	cell.innerHTML = "<img width='20px' alt='Borrar' title='Borrar' src='" + contextPath + "/img/action/delete.png'>";
+	cell.innerHTML = "<img width='20px' alt='Borrar' title='Borrar' style='cursor:pointer' src='" + contextPath
+			+ "/img/action/delete.png'>";
 	cell.style.cssText = "text-align: center";
 	cell.className = "cDataTD";
 
 	fillCostCenter();
 	if (save) {
-		submitRow(idVoucher);
+		submitRow(idVoucher, currentRow);
 	}
 	return currentRow;
 }
 
-function submitRow(idVoucher) {
+function submitRow(idVoucher, currentRow) {
+	/**
+	 * <code>
+	alert(currentRow);
+	return;
+	</code>
+	 */
 	$.ajax({
 		url : contextPath + "/servlet/conta/voucher/SaveVoucherDetail",
 		type : "post",
 		cache : false,
 		async : true,
 		data : {
-			cId : idVoucher
+			cId : idVoucher,
+			cVoucherDetailId : document.getElementById("id" + currentRow).value,
+			cRUT : document.getElementById("rut" + currentRow).value,
+			cDocumentType : document.getElementById("documentType" + currentRow).value,
+			cDocumentNumber : document.getElementById("documentNumber" + currentRow).value,
+			
 		},
 		success : function(response) {
 			if (response != "OK") {
@@ -139,33 +154,41 @@ function submitRow(idVoucher) {
 
 function fillCostCenter() {
 	var businessArea = document.getElementById("cBusinessArea" + currentRow).value;
-	
 
-	$.ajax({
-		url : contextPath + "/servlet/config/enterprise/costCenter/ListByBusinessArea",
-		type : "post",
-		cache : false,
-		data : {
-			cBusinessArea : businessArea
-		},
-		success : function(response) {
-			var elements = JSON.parse(response);
-			for ( var i in elements) {
-				id = elements[i].id;
-				name = elements[i].name;
-				appendToSelect("cCostCenter" + currentRow, id, name);
-			}
-		},
-		error : function(response) {
-			alert(response.responseText);
-		},
-		async : true
-	});
+	clearSelect("cCostCenter" + currentRow);
+	if (businessArea != "") {
 
+		$.ajax({
+			url : contextPath + "/servlet/config/enterprise/costCenter/ListByBusinessArea",
+			type : "post",
+			cache : false,
+			data : {
+				cBusinessArea : businessArea
+			},
+			success : function(response) {
+				var elements = JSON.parse(response);
+
+				appendToSelect("cCostCenter" + currentRow, "", "- Seleccionar -");
+				for ( var i in elements) {
+					id = elements[i].id;
+					name = elements[i].name;
+					appendToSelect("cCostCenter" + currentRow, id, name);
+				}
+			},
+			error : function(response) {
+				alert(response.responseText);
+			},
+			async : true
+		});
+	} else {
+		appendToSelect("cCostCenter" + currentRow, "", "- Seleccionar -");
+	}
 }
 
 function getVoucherTypeListAsSelect() {
 	var out = "<select id='documentType" + currentRow + "'>";
+	out += "<option value=''>- Seleccionar -</option>";
+
 	for ( var index in voucherTypeList) {
 		out += "<option value='" + voucherTypeList[index].id + "'>" + voucherTypeList[index].name + "</option>";
 	}
@@ -175,7 +198,8 @@ function getVoucherTypeListAsSelect() {
 }
 
 function getBusinessAreaListAsSelect() {
-	var out = "<select id='cBusinessArea" + currentRow + "'>";
+	var out = "<select id='cBusinessArea" + currentRow + "' onchange='javascript:fillCostCenter()'>";
+	out += "<option value=''>- Seleccionar -</option>";
 	for ( var index in businessAreaList) {
 		out += "<option value='" + businessAreaList[index].id + "'>" + businessAreaList[index].name + "</option>";
 	}
