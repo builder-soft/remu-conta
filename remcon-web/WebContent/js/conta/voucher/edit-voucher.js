@@ -88,7 +88,7 @@ function addNewRow(idVoucher, save) {
 	cell.className = "cDataTD";
 
 	cell = row.insertCell(-1);
-	cell.innerHTML = "<input type='text' id='tax" + currentRow + "' " + "onfocus='javascript:doubleFocus(this);' "
+	cell.innerHTML = "<input type='text' readonly id='tax" + currentRow + "' " + "onfocus='javascript:doubleFocus(this);' "
 			+ "onblur='javascript:doubleBlur(this);' " + "size='12px' maxlength='12' value='0' " + "style='text-align:right'>";
 	cell.style.cssText = "text-align: right";
 	cell.className = "cDataTD";

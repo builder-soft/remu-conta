@@ -26,6 +26,7 @@ CREATE TABLE tVoucherDetail(
 	cRUT			VARCHAR(11) NULL COMMENT 'Rut, creo que esto depende de la cuenta',
 	cDocumentType	BIGINT NULL COMMENT 'Tipo del documento',
 	cDocumentNumber	INTEGER NULL COMMENT 'Numero del documento',
+	cDocumentDate	DATE NULL COMMENT 'Fecha del documento',
 	cNetAmount		DECIMAL(20,4) NULL COMMENT 'Monto del detalle',
 	cTax			DECIMAL(20,4) NULL COMMENT 'Impuesto, IVA, Honorarios, PMP, etc.',
 	cCostCenter		BIGINT NULL COMMENT 'Centro de costo',
