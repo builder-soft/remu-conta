@@ -11,7 +11,7 @@ function onLoadPage() {
 
 		// appendToSelect("cCostCenter" + currentRow, id, name);
 		idRow = addNewRow(voucherId, false);
-		document.getElementById("id" + idRow).value = voucherDetailList[i].id;
+		document.getElementById("detailId" + idRow).value = voucherDetailList[i].detailId;
 		document.getElementById("rut" + idRow).value = voucherDetailList[i].rut;
 		document.getElementById("documentType" + idRow).value = voucherDetailList[i].documentType;
 		document.getElementById("documentNumber" + idRow).value = voucherDetailList[i].documentNumber;
@@ -61,7 +61,7 @@ function addNewRow(idVoucher, save) {
 	var row = table.insertRow(-1);
 
 	currentRow = table.rows.length - 2;
-	var idInput = "<input type='_hidden' id='id" + currentRow + "'>";
+	var idInput = "<input type='_hidden' id='detailId" + currentRow + "'>";
 
 	var cell = row.insertCell(-1);
 
@@ -135,7 +135,7 @@ function submitRow(idVoucher, currentRow) {
 		async : true,
 		data : {
 			cId : idVoucher,
-			cVoucherDetailId : document.getElementById("id" + currentRow).value,
+			cDetailId : document.getElementById("detailId" + currentRow).value,
 			cRUT : document.getElementById("rut" + currentRow).value,
 			cDocumentType : document.getElementById("documentType" + currentRow).value,
 			cDocumentNumber : document.getElementById("documentNumber" + currentRow).value,

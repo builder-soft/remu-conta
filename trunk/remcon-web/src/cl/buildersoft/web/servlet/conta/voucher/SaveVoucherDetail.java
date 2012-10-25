@@ -21,7 +21,7 @@ public class SaveVoucherDetail extends AbstractAjaxServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long voucherId = getParameterAsLong(request,"cId");
 		
-		Long voucherDetailId = getParameterAsLong(request, "cVoucherDetailId");
+		Long detailId = getParameterAsLong(request, "cDetailId");
 
 		String rut = request.getParameter("cRUT");
 		Long documentType = getParameterAsLong(request, "cDocumentType");
@@ -32,7 +32,7 @@ public class SaveVoucherDetail extends AbstractAjaxServlet {
 		Long chartAccount = getParameterAsLong(request, "cChartAccount");
 
 		VoucherDetail voucherDetail = new VoucherDetail();
-		voucherDetail.setId(voucherDetailId);
+		voucherDetail.setId(detailId);
 		voucherDetail.setChartAccount(chartAccount);
 		voucherDetail.setCostCenter(costCenter);
 		voucherDetail.setDocumentNumber(documentNumber);
