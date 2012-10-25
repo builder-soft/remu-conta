@@ -37,11 +37,12 @@
 
 	var voucherDetailList = [<%index = 1;
 		for(VoucherDetail voucherDetail : voucherDetailList){%>
-			{id:'<%=voucherDetail.getId()%>', voucher:'<%=voucherDetail.getVoucher()%>', rut:<%=fixNull(voucherDetail.getRut(), "''")%>,
+			{ detailId:<%=voucherDetail.getId()%>, voucher:'<%=voucherDetail.getVoucher()%>', rut:<%=fixNull(voucherDetail.getRut(), "''")%>,
 				documentType:<%=fixNull(voucherDetail.getDocumentType(), "''")%>, 
 				documentNumber:<%=fixNull(voucherDetail.getDocumentNumber(), "0")%>, netAmount:'<%=fixNull(voucherDetail.getNetAmount(), BSWeb.formatDouble(request, 0D))%>', 
 				tax:'<%=fixNull(voucherDetail.getTax(), BSWeb.formatDouble(request, 0D))%>', costCenter:<%=fixNull(voucherDetail.getCostCenter(),"1")%>, 
-				chartAccount:<%=fixNull(voucherDetail.getChartAccount(),"''")%>}<%=index<voucherDetailList.size()?",":""%><%index++;
+				chartAccount:<%=fixNull(voucherDetail.getChartAccount(),"''")%>}<%=index<voucherDetailList.size()?",":""%><%
+			index++;
 	    }%>];
 </script>
 <%!private String fixNull(Object value, Object defaultValue) {
