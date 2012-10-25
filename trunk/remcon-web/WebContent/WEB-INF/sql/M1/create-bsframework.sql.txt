@@ -19,7 +19,7 @@
 * BIT					java.lang.Boolean
 * INTEGER [UNSIGNED]	java.lang.Integer, if UNSIGNED java.lang.Long
 * BIGINT [UNSIGNED]		java.lang.Long, if UNSIGNED java.math.BigInteger
-* DECIMAL				java.math.BigDecimal
+* DECIMAL(20,4)			java.math.BigDecimal
 * DOUBLE				java.lang.Double
 * DATE					java.sql.Date
 * TIMESTAMP				java.sql.Timestamp
