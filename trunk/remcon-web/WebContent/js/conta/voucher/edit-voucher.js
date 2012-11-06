@@ -17,6 +17,7 @@ function onLoadPage() {
 		document.getElementById("documentNumber" + idRow).value = voucherDetailList[i].documentNumber;
 		document.getElementById("netAmount" + idRow).value = voucherDetailList[i].netAmount;
 		document.getElementById("tax" + idRow).value = voucherDetailList[i].tax;
+		document.getElementById("businessArea" + idRow).value = voucherDetailList[i].businessArea;
 
 		// currentRow++;
 	}
