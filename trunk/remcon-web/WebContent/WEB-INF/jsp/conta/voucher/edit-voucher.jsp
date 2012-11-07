@@ -15,6 +15,7 @@
 	List<VoucherDetail> voucherDetailList = (List<VoucherDetail>) request.getAttribute("VoucherDetailList");
 	String voucherStatus = (String)request.getAttribute("VoucherStatus");
 	String userVoucher = (String)request.getAttribute("UserVoucher");
+	Boolean selected = null;
 %>
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
@@ -28,12 +29,12 @@
 		for(DocumentType documentType : documentTypeList){%>
 	    	{id : <%=documentType.getId()%>, name : '<%=documentType.getName()%>'}<%=index<documentTypeList.size()?",":""%><%index++;
 	}%>];
-	
+	/**
 	var businessAreaList = [<%index = 1;
 		for(BusinessArea businessArea : businessAreaList){%>
 			{id : <%=businessArea.getId()%>, name : '<%=businessArea.getName()%>'}<%=index<businessAreaList.size()?",":""%><%index++;
 	}%>];
-	
+	*/
 
 	var voucherDetailList = [<%index = 1;
 		for(VoucherDetail voucherDetail : voucherDetailList){%>
@@ -55,12 +56,12 @@
 	action="${pageContext.request.contextPath}/servlet/conta/voucher/SaveVoucher?<%=BSWeb.randomString()%>">
 	 -->
 <input id="cId" type="hidden" value="<%=voucher.getId()%>">
-<table border="0">
+<table border="1">
 	<tr>
 		<td class="cLabel">Tipo:</td>
 		<td><select id="cVoucherType" onchange="javascript:saveVoucher()">
 				<%
-					Boolean selected = Boolean.FALSE;
+					selected = Boolean.FALSE;
 					for (VoucherType voucherType : voucherTypeList) {
 						selected = voucherType.getId().equals(voucher.getVoucherType());
 				%>
@@ -74,14 +75,37 @@
 		<td><input type="number" id="cNumber"
 			value="<%=voucher.getNumber() == null ? "" : voucher.getNumber()%>"
 			onchange="javascript:saveVoucher()"></td>
+			
+					<td class="cLabel">Área de Negocios:</td>
+		<td>
+		
+		<select id="cBusinessArea" onchange="javascript:saveVoucher()">
+				<%
+					selected = Boolean.FALSE;
+				for(BusinessArea businessArea : businessAreaList) {
+						selected = Boolean.FALSE; //businessArea.getId().equals(voucher.get);
+				%>
+				<option value="<%=businessArea.getId()%>"
+					<%=selected ? "selected" : ""%>><%=businessArea.getName()%></option>
+				<%
+					}
+				%>
+		</select>
+		
+		
+		</td>
+			
 	</tr>
 	<tr>
 		<td class="cLabel">Fecha Creación:</td>
 		<td class="cData"><%=BSDateTimeUtil.dateTime2String(request, voucher.getCreationTime())%></td>
-		<td class="cLabel">Estado:</td>
-		<td class="cData"><%=voucherStatus%></td>
+		<td class="cLabel">Fecha Contabilización:</td>
+		<td><input type="text" onblur='javascript:dateBlur(this)'></td>
+		<td colspan="2"/>
 	</tr>
 	<tr>
+		<td class="cLabel">Estado:</td>
+		<td class="cData"><%=voucherStatus%></td>
 		<td class="cLabel">Usuario:</td>
 		<td class="cData" colspan="3"><%=userVoucher%></td>
 	</tr>
@@ -89,17 +113,21 @@
 </table>
 
 <br>
+ 
 <table class="cList" cellpadding="0" cellspacing="0" id="voucherDetail">
 	<tr>
-		<td class="cHeadTD" rowspan="2" style="text-align: center">Rut</td>
+		<td class="cHeadTD" rowspan="2" style="text-align: center">Cuenta</td>
+
 		<td class="cHeadTD" colspan="2" style="text-align: center">Documento</td>
+		
 		<td class="cHeadTD" rowspan="2" style="text-align: right">Monto</td>
+		<!-- 
 		<td class="cHeadTD" rowspan="2" style="text-align: right">Impuesto</td>
 		<td class="cHeadTD" rowspan="2" style="text-align: center">Área
 			de negocio</td>
+		 -->
 		<td class="cHeadTD" rowspan="2" style="text-align: center">Centro
 			de Costo</td>
-		<td class="cHeadTD" rowspan="2" style="text-align: center">Cuenta</td>
 		<td class="cHeadTD" rowspan="2" style="text-align: center">Acción</td>
 	</tr>
 
@@ -108,6 +136,7 @@
 		<td class="cHeadTD" style="text-align: center">Número</td>
 	</tr>
 </table>
+
 
 <br>
 <br>
