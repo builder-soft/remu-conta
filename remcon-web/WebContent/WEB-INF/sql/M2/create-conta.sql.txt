@@ -2,10 +2,11 @@ CREATE TABLE tVoucher(
 	cId				BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	cVoucherType	BIGINT NOT NULL COMMENT 'Tipo del comprobante',
 	cVoucherStatus	BIGINT NOT NULL DEFAULT '1' COMMENT 'Pendiente, Listo',
-	cAccountingDate	DATE NULL COMMENT 'Fecha de contabilizacion',
 	cCreationTime	TIMESTAMP NOT NULL COMMENT 'Fecha y hora de creación',
+	cAccountingDate	DATE NULL COMMENT 'Fecha de contabilizacion',
 	cNumber			INTEGER NULL COMMENT 'Correlativo que lee el SII',
-	cUser			BIGINT NOT NULL COMMENT 'Usuario que digito'
+	cUser			BIGINT NOT NULL COMMENT 'Usuario que digito',
+	cBusinessArea	BIGINT NULL COMMENT 'Area de negocio'
 ) ENGINE=innoDB;
 
 CREATE TABLE tVoucherType(
@@ -23,14 +24,18 @@ CREATE TABLE tVoucherStatus(
 CREATE TABLE tVoucherDetail(
 	cId				BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	cVoucher		BIGINT NOT NULL COMMENT 'Tipo del comprobante',
+	cChartAccount	BIGINT NULL COMMENT 'Cuenta',
+	
+	/**
 	cRUT			VARCHAR(11) NULL COMMENT 'Rut, creo que esto depende de la cuenta',
+	*/
 	cDocumentType	BIGINT NULL COMMENT 'Tipo del documento',
 	cDocumentNumber	INTEGER NULL COMMENT 'Numero del documento',
+	/**
 	cDocumentDate	DATE NULL COMMENT 'Fecha del documento',
+	*/
 	cNetAmount		DECIMAL(20,4) NULL COMMENT 'Monto del detalle',
-	cTax			DECIMAL(20,4) NULL COMMENT 'Impuesto, IVA, Honorarios, PMP, etc.',
-	cCostCenter		BIGINT NULL COMMENT 'Centro de costo',
-	cChartAccount	BIGINT NULL COMMENT 'Cuenta'
+	cCostCenter		BIGINT NULL COMMENT 'Centro de costo'
 ) ENGINE=innoDB;
 
 CREATE TABLE tDocumentType(

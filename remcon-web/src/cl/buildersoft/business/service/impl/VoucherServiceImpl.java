@@ -9,6 +9,7 @@ import cl.buildersoft.business.beans.Voucher;
 import cl.buildersoft.business.beans.VoucherDetail;
 import cl.buildersoft.business.service.VoucherService;
 import cl.buildersoft.framework.database.BSBeanUtils;
+import cl.buildersoft.framework.database.BSmySQL;
 
 public class VoucherServiceImpl implements VoucherService {
 	private static final long PENDING = 1L;
@@ -73,14 +74,6 @@ public class VoucherServiceImpl implements VoucherService {
 		return voucher.getVoucherStatus().equals(PENDING);
 	}
 
-	/**
-	 * <code>
-	private Boolean isDone(Voucher voucher) {
-		return voucher.getVoucherStatus().equals(DONE);
-	}
-</code>
-	 */
-
 	@Override
 	public Voucher get(Connection conn, Long voucherId) {
 		Voucher voucher = new Voucher();
@@ -99,15 +92,25 @@ public class VoucherServiceImpl implements VoucherService {
 	}
 
 	@Override
-	public Voucher create(Connection conn, Long userId) {
+	public synchronized Voucher create(Connection conn, Long userId) {
 		Voucher voucher = new Voucher();
+		voucher.setVoucherType(1L);
 		voucher.setAccountingDate(null);
 		voucher.setCreationTime(new Timestamp(System.currentTimeMillis()));
-		voucher.setNumber(null);
+		voucher.setNumber(getLastNumber(conn, voucher) + 1);
 		voucher.setUser(userId);
 		voucher.setVoucherStatus(PENDING);
-		voucher.setVoucherType(1L);
 		return voucher;
 	}
 
+	private Integer getLastNumber(Connection conn, Voucher voucher) {
+		BSmySQL mysql = new BSmySQL();
+
+		String lastNumber = mysql.queryField(conn, "SELECT MAX(cNumber) FROM tVoucher WHERE cVoucherType = ?;",
+				voucher.getVoucherType());
+
+		Integer out = lastNumber == null ? 0 : Integer.parseInt(lastNumber);
+
+		return out;
+	}
 }

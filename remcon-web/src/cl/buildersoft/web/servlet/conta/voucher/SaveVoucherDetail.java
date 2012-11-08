@@ -38,8 +38,6 @@ public class SaveVoucherDetail extends AbstractAjaxServlet {
 		voucherDetail.setDocumentNumber(documentNumber);
 		voucherDetail.setDocumentType(documentType);
 		voucherDetail.setNetAmount(netAmount);
-		voucherDetail.setRut(rut);
-		voucherDetail.setTax(tax);
 		voucherDetail.setVoucher(voucherId);
 
 		BSmySQL mysql = new BSmySQL();

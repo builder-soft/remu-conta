@@ -10,10 +10,11 @@ public class Voucher extends BSBean {
 	private String TABLE = "tVoucher";
 	private Long voucherType = null;
 	private Long voucherStatus = null;
-	private Date accountingDate = null;
 	private Timestamp creationTime = null;
+	private Date accountingDate = null;
 	private Integer number = null;
 	private Long user = null;
+	private Long businessArea=null;
 
 	public Long getVoucherType() {
 		return voucherType;
@@ -63,10 +64,21 @@ public class Voucher extends BSBean {
 		this.creationTime = creationTime;
 	}
 
+	 
+
+	public Long getBusinessArea() {
+		return businessArea;
+	}
+
+	public void setBusinessArea(Long businessArea) {
+		this.businessArea = businessArea;
+	}
+
 	@Override
 	public String toString() {
-		return "Voucher [voucherType=" + voucherType + ", voucherStatus=" + voucherStatus + ", accountingDate=" + accountingDate
-				+ ", creationTime=" + creationTime + ", number=" + number + ", user=" + user + "]";
+		return "Voucher [TABLE=" + TABLE + ", voucherType=" + voucherType + ", voucherStatus=" + voucherStatus
+				+ ", creationTime=" + creationTime + ", accountingDate=" + accountingDate + ", number=" + number + ", user="
+				+ user + ", businessArea=" + businessArea + ", getId()=" + getId() + "]";
 	}
 
 }
