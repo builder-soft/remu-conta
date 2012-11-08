@@ -40,7 +40,7 @@ public class VoucherManager extends HttpServlet {
 
 		if (voucherList.size() == 0 || force) {
 			Voucher voucher = vs.create(conn, user.getId());
-			vs.save(conn, voucher);
+//			vs.save(conn, voucher);
 
 			request.setAttribute("VoucherId", voucher.getId());
 

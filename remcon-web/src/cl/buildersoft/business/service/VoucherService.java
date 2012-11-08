@@ -13,7 +13,7 @@ public interface VoucherService {
 
 	public Voucher create(Connection conn, Long userId);
 
-	public Boolean commit(Connection conn, Long voucherId);
+	public Boolean accounting(Connection conn, Long voucherId);
 
 	public Boolean delete(Connection conn, Long voucherId);
 
