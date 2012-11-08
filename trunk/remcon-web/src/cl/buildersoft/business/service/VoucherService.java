@@ -21,4 +21,5 @@ public interface VoucherService {
 
 	public List<VoucherDetail> getDetail(Connection conn, Long voucherId);
 
+//	public Long getLastNumber(Connection conn, Voucher voucher);
 }

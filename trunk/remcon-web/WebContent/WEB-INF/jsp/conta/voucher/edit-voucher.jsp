@@ -25,29 +25,23 @@
 	
 </script>
 <script>
-	var voucherTypeList = [<%Integer index = 1;
+	var documentTypeList = [<%Integer index = 1;
 		for(DocumentType documentType : documentTypeList){%>
 	    	{id : <%=documentType.getId()%>, name : '<%=documentType.getName()%>'}<%=index<documentTypeList.size()?",":""%><%index++;
 	}%>];
-	/**
-	var businessAreaList = [<%index = 1;
-		for(BusinessArea businessArea : businessAreaList){%>
-			{id : <%=businessArea.getId()%>, name : '<%=businessArea.getName()%>'}<%=index<businessAreaList.size()?",":""%><%index++;
-	}%>];
-	*/
-
+/**
 	var voucherDetailList = [<%index = 1;
 		for(VoucherDetail voucherDetail : voucherDetailList){%>
-			{ detailId:<%=voucherDetail.getId()%>, voucher:'<%=voucherDetail.getVoucher()%>', rut:<%=fixNull(voucherDetail.getRut(), "''")%>,
+			{ detailId:<%=voucherDetail.getId()%>, voucher:'<%=voucherDetail.getVoucher()%>', 
 				documentType:<%=fixNull(voucherDetail.getDocumentType(), "''")%>, 
-				documentNumber:<%=fixNull(voucherDetail.getDocumentNumber(), "0")%>, netAmount:'<%=fixNull(voucherDetail.getNetAmount(), BSWeb.formatDouble(request, 0D))%>', 
-				tax:'<%=fixNull(voucherDetail.getTax(), BSWeb.formatDouble(request, 0D))%>', costCenter:<%=fixNull(voucherDetail.getCostCenter(),"1")%>, 
-				chartAccount:<%=fixNull(voucherDetail.getChartAccount(),"''")%>}<%=index<voucherDetailList.size()?",":""%><%
-			index++;
+				documentNumber:<%=fixNull(voucherDetail.getDocumentNumber(), "0")%>, netAmount:'<%=fixNull(voucherDetail.getNetAmount(), 
+				BSWeb.formatDouble(request, 0D))%>', costCenter:<%=fixNull(voucherDetail.getCostCenter(),"1")%>, 
+				chartAccount:<%=fixNull(voucherDetail.getChartAccount(),"''")%>}<%=index<voucherDetailList.size()?",":""%><%index++;
 	    }%>];
+	    */
 </script>
 <%!private String fixNull(Object value, Object defaultValue) {
-		return value == null ? ""+defaultValue : "'" + value + "'";
+		return value == null ? "" + defaultValue : "'" + value + "'";
 	}%>
 
 <h1 class="cTitle">Comprobante</h1>
@@ -56,7 +50,7 @@
 	action="${pageContext.request.contextPath}/servlet/conta/voucher/SaveVoucher?<%=BSWeb.randomString()%>">
 	 -->
 <input id="cId" type="hidden" value="<%=voucher.getId()%>">
-<table border="1">
+<table border="0">
 	<tr>
 		<td class="cLabel">Tipo:</td>
 		<td><select id="cVoucherType" onchange="javascript:saveVoucher()">
@@ -72,17 +66,14 @@
 				%>
 		</select></td>
 		<td class="cLabel">Número:</td>
-		<td><input type="number" id="cNumber"
-			value="<%=voucher.getNumber() == null ? "" : voucher.getNumber()%>"
-			onchange="javascript:saveVoucher()"></td>
-			
-					<td class="cLabel">Área de Negocios:</td>
-		<td>
-		
-		<select id="cBusinessArea" onchange="javascript:saveVoucher()">
+		<td class="cData"><%=voucher.getNumber()%></td>
+
+		<td class="cLabel">Área de Negocios:</td>
+		<td><select id="cBusinessArea"
+			onchange="javascript:saveVoucher()">
 				<%
 					selected = Boolean.FALSE;
-				for(BusinessArea businessArea : businessAreaList) {
+					for (BusinessArea businessArea : businessAreaList) {
 						selected = Boolean.FALSE; //businessArea.getId().equals(voucher.get);
 				%>
 				<option value="<%=businessArea.getId()%>"
@@ -90,18 +81,16 @@
 				<%
 					}
 				%>
-		</select>
-		
-		
-		</td>
-			
+		</select></td>
+
 	</tr>
 	<tr>
 		<td class="cLabel">Fecha Creación:</td>
 		<td class="cData"><%=BSDateTimeUtil.dateTime2String(request, voucher.getCreationTime())%></td>
 		<td class="cLabel">Fecha Contabilización:</td>
 		<td><input type="text" onblur='javascript:dateBlur(this)'></td>
-		<td colspan="2"/>
+		<td colspan="2" class="cLabel">(<%=BSDateTimeUtil.getFormatDate(request)%>)
+		</td>
 	</tr>
 	<tr>
 		<td class="cLabel">Estado:</td>
@@ -113,13 +102,13 @@
 </table>
 
 <br>
- 
+
 <table class="cList" cellpadding="0" cellspacing="0" id="voucherDetail">
 	<tr>
 		<td class="cHeadTD" rowspan="2" style="text-align: center">Cuenta</td>
 
 		<td class="cHeadTD" colspan="2" style="text-align: center">Documento</td>
-		
+
 		<td class="cHeadTD" rowspan="2" style="text-align: right">Monto</td>
 		<!-- 
 		<td class="cHeadTD" rowspan="2" style="text-align: right">Impuesto</td>

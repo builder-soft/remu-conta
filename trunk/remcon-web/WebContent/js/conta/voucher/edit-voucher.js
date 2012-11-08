@@ -1,5 +1,6 @@
 var currentRow = 0;
 function onLoadPage() {
+	return;
 	// alert(voucherDetailList);
 
 	var voucherId = null;
@@ -62,23 +63,22 @@ function addNewRow(idVoucher, save) {
 	var row = table.insertRow(-1);
 
 	currentRow = table.rows.length - 2;
-	var idInput = "<input type='hidden' id='detailId" + currentRow + "'>";
-
 	var cell = row.insertCell(-1);
-
-	cell.innerHTML = idInput + "<input type='text' id='rut" + currentRow
+	
+	var idInput = "<input type='_hidden' id='detailId" + currentRow + "'>";
+	cell.innerHTML = idInput + "<input type='text' id='account" + currentRow
 			+ "' size='10px' maxlength='10' onblur='javascript:submitRow(" + idVoucher + "," + currentRow + ")'>";
 	cell.style.cssText = "text-align: center";
 	cell.className = "cDataTD";
 
 	cell = row.insertCell(-1);
-	cell.innerHTML = getVoucherTypeListAsSelect();
+	cell.innerHTML = getDocumentTypeListAsSelect();
 	cell.style.cssText = "text-align: center";
 	cell.className = "cDataTD";
 
 	cell = row.insertCell(-1);
-	cell.innerHTML = "<input type='text' id='documentNumber" + currentRow + "' " + "onfocus='javascript:integerFocus(this);' "
-			+ "onblur='javascript:integerBlur(this);' " + "size='10px' maxlength='10' value='0'>";
+	cell.innerHTML = "<input type='text' id='documentNumber" + currentRow + "' onfocus='javascript:integerFocus(this);' "
+			+ "onblur='javascript:integerBlur(this);' size='10px' maxlength='10' value='0'>";
 	cell.style.cssText = "text-align: center";
 	cell.className = "cDataTD";
 
@@ -89,23 +89,7 @@ function addNewRow(idVoucher, save) {
 	cell.className = "cDataTD";
 
 	cell = row.insertCell(-1);
-	cell.innerHTML = "<input type='text' id='tax" + currentRow + "' " + "onfocus='javascript:doubleFocus(this);' "
-			+ "onblur='javascript:doubleBlur(this);' " + "size='12px' maxlength='12' value='0' " + "style='text-align:right'>";
-	cell.style.cssText = "text-align: right";
-	cell.className = "cDataTD";
-
-	cell = row.insertCell(-1);
-	cell.innerHTML = getBusinessAreaListAsSelect();
-	cell.style.cssText = "text-align: left";
-	cell.className = "cDataTD";
-
-	cell = row.insertCell(-1);
 	cell.innerHTML = "<select id='cCostCenter" + currentRow + "'/>";
-	cell.style.cssText = "text-align: left";
-	cell.className = "cDataTD";
-
-	cell = row.insertCell(-1);
-	cell.innerHTML = "<input size='10px' maxlength='10'/>";
 	cell.style.cssText = "text-align: left";
 	cell.className = "cDataTD";
 
@@ -116,6 +100,7 @@ function addNewRow(idVoucher, save) {
 	cell.className = "cDataTD";
 
 	fillCostCenter();
+	return;
 	if (save) {
 		submitRow(idVoucher, currentRow);
 	}
@@ -129,6 +114,9 @@ function submitRow(idVoucher, currentRow) {
 	return;
 	</code>
 	 */
+	
+	return;
+	
 	$.ajax({
 		url : contextPath + "/servlet/conta/voucher/SaveVoucherDetail",
 		type : "post",
@@ -154,7 +142,7 @@ function submitRow(idVoucher, currentRow) {
 }
 
 function fillCostCenter() {
-	var businessArea = document.getElementById("cBusinessArea" + currentRow).value;
+	var businessArea = document.getElementById("cBusinessArea").value;
 
 	clearSelect("cCostCenter" + currentRow);
 	if (businessArea != "") {
@@ -186,12 +174,12 @@ function fillCostCenter() {
 	}
 }
 
-function getVoucherTypeListAsSelect() {
+function getDocumentTypeListAsSelect() {
 	var out = "<select id='documentType" + currentRow + "'>";
 	out += "<option value=''>- Seleccionar -</option>";
 
-	for ( var index in voucherTypeList) {
-		out += "<option value='" + voucherTypeList[index].id + "'>" + voucherTypeList[index].name + "</option>";
+	for ( var index in documentTypeList) {
+		out += "<option value='" + documentTypeList[index].id + "'>" + documentTypeList[index].name + "</option>";
 	}
 
 	out += "</select>";

@@ -21,6 +21,7 @@ import cl.buildersoft.business.service.impl.VoucherServiceImpl;
 import cl.buildersoft.framework.beans.User;
 import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
+import cl.buildersoft.framework.util.BSDateTimeUtil;
 
 /**
  * Servlet implementation class ReadVoucher
@@ -39,12 +40,14 @@ public class ReadVoucher extends HttpServlet {
 
 		Long voucherId = getVoucherId(request);
 		Voucher voucher = vs.get(conn, voucherId);
+		
 
 		List<VoucherType> voucherTypeList = (List<VoucherType>) bu.listAll(conn, new VoucherType());
 		List<DocumentType> documentTypeList = (List<DocumentType>) bu.listAll(conn, new DocumentType());
 		List<BusinessArea> businessAreaList = (List<BusinessArea>) bu.listAll(conn, new BusinessArea());
 		List<VoucherDetail> voucherDetailList = (List<VoucherDetail>) bu.list(conn, new VoucherDetail(), "cVoucher=?", voucherId);
-
+		
+		
 		request.setAttribute("VoucherDetailList", voucherDetailList);
 		request.setAttribute("VoucherTypeList", voucherTypeList);
 		request.setAttribute("DocumentTypeList", documentTypeList);
