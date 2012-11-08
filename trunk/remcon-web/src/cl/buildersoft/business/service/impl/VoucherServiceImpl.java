@@ -34,7 +34,7 @@ public class VoucherServiceImpl implements VoucherService {
 	}
 
 	@Override
-	public Boolean commit(Connection conn, Long voucherId) {
+	public Boolean accounting(Connection conn, Long voucherId) {
 		Voucher voucher = new Voucher();
 		BSBeanUtils bu = new BSBeanUtils();
 		Boolean commited = Boolean.FALSE;
@@ -45,6 +45,8 @@ public class VoucherServiceImpl implements VoucherService {
 		if (found) {
 			if (isPending(voucher)) {
 				voucher.setVoucherStatus(DONE);
+				voucher.setNumber(getLastNumber(conn, voucher) + 1);
+
 				bu.save(conn, voucher);
 				commited = Boolean.TRUE;
 			}
@@ -92,14 +94,15 @@ public class VoucherServiceImpl implements VoucherService {
 	}
 
 	@Override
-	public synchronized Voucher create(Connection conn, Long userId) {
+	public Voucher create(Connection conn, Long userId) {
 		Voucher voucher = new Voucher();
 		voucher.setVoucherType(1L);
 		voucher.setAccountingDate(null);
 		voucher.setCreationTime(new Timestamp(System.currentTimeMillis()));
-		voucher.setNumber(getLastNumber(conn, voucher) + 1);
+		voucher.setNumber(null);
 		voucher.setUser(userId);
 		voucher.setVoucherStatus(PENDING);
+		save(conn, voucher);
 		return voucher;
 	}
 

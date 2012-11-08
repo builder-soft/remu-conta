@@ -64,7 +64,7 @@ public class VoucherServiceTest extends AbstractTestUtil {
 
 		service.save(conn, voucher);
 
-		assertTrue(service.commit(conn, voucher.getId()));
+		assertTrue(service.accounting(conn, voucher.getId()));
 	}
 
 	@Test
