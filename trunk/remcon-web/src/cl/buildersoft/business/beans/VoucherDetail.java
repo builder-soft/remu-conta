@@ -13,6 +13,8 @@ public class VoucherDetail extends BSBean {
 	private Integer documentNumber = null;
 	private BigDecimal netAmount = null;
 	private Long costCenter = null;
+	
+	
 	public Long getVoucher() {
 		return voucher;
 	}

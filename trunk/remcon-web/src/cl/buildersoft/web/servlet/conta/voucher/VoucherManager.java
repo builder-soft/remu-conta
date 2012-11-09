@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cl.buildersoft.business.beans.BusinessArea;
 import cl.buildersoft.business.beans.Voucher;
 import cl.buildersoft.business.beans.VoucherType;
 import cl.buildersoft.business.service.VoucherService;
@@ -40,7 +41,7 @@ public class VoucherManager extends HttpServlet {
 
 		if (voucherList.size() == 0 || force) {
 			Voucher voucher = vs.create(conn, user.getId());
-//			vs.save(conn, voucher);
+			// vs.save(conn, voucher);
 
 			request.setAttribute("VoucherId", voucher.getId());
 
@@ -48,9 +49,11 @@ public class VoucherManager extends HttpServlet {
 		} else {
 			BSBeanUtils bu = new BSBeanUtils();
 			List<VoucherType> voucherTypeList = (List<VoucherType>) bu.listAll(conn, new VoucherType());
+			List<BusinessArea> businessAreaList = (List<BusinessArea>) bu.listAll(conn, new BusinessArea());
 
 			request.setAttribute("VoucherTypeList", voucherTypeList);
 			request.setAttribute("VoucherList", voucherList);
+			request.setAttribute("BusinessAreaList", businessAreaList);
 			url = "/WEB-INF/jsp/conta/voucher/voucher-list.jsp";
 		}
 		mysql.closeConnection(conn);

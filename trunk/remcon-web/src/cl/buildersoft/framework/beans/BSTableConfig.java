@@ -1,6 +1,7 @@
 package cl.buildersoft.framework.beans;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -18,7 +19,6 @@ import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.framework.type.BSActionType;
 import cl.buildersoft.framework.type.BSFieldType;
 
-import com.mysql.jdbc.DatabaseMetaData;
 
 public class BSTableConfig {
 	private String database = null;
