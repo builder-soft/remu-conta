@@ -43,7 +43,7 @@ public abstract class AbstractAjaxServlet extends HttpServlet {
 	protected Long getParameterAsLong(HttpServletRequest request, String name) {
 		String parameter = request.getParameter(name);
 		Long out = null;
-		if (parameter != null) {
+		if (parameter != null && !"".equals(parameter)) {
 			out = Long.parseLong(parameter);
 		}
 		return out;

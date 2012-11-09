@@ -22,23 +22,12 @@
 
 <script
 	src="${pageContext.request.contextPath}/js/conta/voucher/edit-voucher.js?<%=Math.random()%>">
-	
 </script>
 <script>
 	var documentTypeList = [<%Integer index = 1;
 		for(DocumentType documentType : documentTypeList){%>
 	    	{id : <%=documentType.getId()%>, name : '<%=documentType.getName()%>'}<%=index<documentTypeList.size()?",":""%><%index++;
 	}%>];
-/**
-	var voucherDetailList = [<%index = 1;
-		for(VoucherDetail voucherDetail : voucherDetailList){%>
-			{ detailId:<%=voucherDetail.getId()%>, voucher:'<%=voucherDetail.getVoucher()%>', 
-				documentType:<%=fixNull(voucherDetail.getDocumentType(), "''")%>, 
-				documentNumber:<%=fixNull(voucherDetail.getDocumentNumber(), "0")%>, netAmount:'<%=fixNull(voucherDetail.getNetAmount(), 
-				BSWeb.formatDouble(request, 0D))%>', costCenter:<%=fixNull(voucherDetail.getCostCenter(),"1")%>, 
-				chartAccount:<%=fixNull(voucherDetail.getChartAccount(),"''")%>}<%=index<voucherDetailList.size()?",":""%><%index++;
-	    }%>];
-	    */
 </script>
 <%!private String fixNull(Object value, Object defaultValue) {
 		return value == null ? "" + defaultValue : "'" + value + "'";
@@ -65,16 +54,15 @@
 					}
 				%>
 		</select></td>
-		<td class="cLabel">Número:</td>
-		<td class="cData"><%=voucher.getNumber()%></td>
 
 		<td class="cLabel">Área de Negocios:</td>
-		<td><select id="cBusinessArea"
-			onchange="javascript:saveVoucher()">
+		<td colspan="3"><select id="cBusinessArea"
+			onchange="javascript:saveVoucher();fillCostCenter();">
+				<option value="">-Seleccione-</option>
 				<%
 					selected = Boolean.FALSE;
 					for (BusinessArea businessArea : businessAreaList) {
-						selected = Boolean.FALSE; //businessArea.getId().equals(voucher.get);
+						selected = Boolean.FALSE;
 				%>
 				<option value="<%=businessArea.getId()%>"
 					<%=selected ? "selected" : ""%>><%=businessArea.getName()%></option>
@@ -88,7 +76,8 @@
 		<td class="cLabel">Fecha Creación:</td>
 		<td class="cData"><%=BSDateTimeUtil.dateTime2String(request, voucher.getCreationTime())%></td>
 		<td class="cLabel">Fecha Contabilización:</td>
-		<td><input type="text" onblur='javascript:dateBlur(this)'></td>
+		<td><input type="text" id="cAccountingDate" size="10"
+			maxLength="10" onblur='javascript:saveVoucher()'></td>
 		<td colspan="2" class="cLabel">(<%=BSDateTimeUtil.getFormatDate(request)%>)
 		</td>
 	</tr>
@@ -125,7 +114,6 @@
 		<td class="cHeadTD" style="text-align: center">Número</td>
 	</tr>
 </table>
-
 
 <br>
 <br>

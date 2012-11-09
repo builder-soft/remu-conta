@@ -19,17 +19,15 @@ public class SaveVoucherDetail extends AbstractAjaxServlet {
 	private static final long serialVersionUID = -6039113676579640546L;
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Long voucherId = getParameterAsLong(request,"cId");
-		
+		Long voucherId = getParameterAsLong(request, "cId");
+
 		Long detailId = getParameterAsLong(request, "cDetailId");
 
-		String rut = request.getParameter("cRUT");
+		Long chartAccount = getParameterAsLong(request, "cChartAccount");
 		Long documentType = getParameterAsLong(request, "cDocumentType");
 		Integer documentNumber = getParameterAsInteger(request, "cDocumentNumber");
 		BigDecimal netAmount = getParameterAsBigDecimal(request, "cNetAmount");
-		BigDecimal tax = getParameterAsBigDecimal(request, "cTax");
 		Long costCenter = getParameterAsLong(request, "cCostCenter");
-		Long chartAccount = getParameterAsLong(request, "cChartAccount");
 
 		VoucherDetail voucherDetail = new VoucherDetail();
 		voucherDetail.setId(detailId);
@@ -43,7 +41,7 @@ public class SaveVoucherDetail extends AbstractAjaxServlet {
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
 		BSBeanUtils bu = new BSBeanUtils();
-		
+
 		bu.save(conn, voucherDetail);
 		mysql.closeConnection(conn);
 

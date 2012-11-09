@@ -3,6 +3,7 @@ package cl.buildersoft.web.servlet.conta.voucher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,7 @@ import cl.buildersoft.business.beans.Voucher;
 import cl.buildersoft.business.service.VoucherService;
 import cl.buildersoft.business.service.impl.VoucherServiceImpl;
 import cl.buildersoft.framework.database.BSmySQL;
+import cl.buildersoft.framework.util.BSDateTimeUtil;
 
 @WebServlet("/servlet/conta/voucher/SaveVoucher")
 public class SaveVoucher extends HttpServlet {
@@ -22,9 +24,8 @@ public class SaveVoucher extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long voucherId = Long.parseLong(request.getParameter("cId"));
 		Long voucherType = Long.parseLong(request.getParameter("cVoucherType"));
-
-		String numberString = request.getParameter("cNumber");
-		Integer number = numberString == null || numberString.trim().length() == 0 ? null : Integer.parseInt(numberString);
+		Long businessArea = getBusinessArea(request);
+		Date accountingDate = getAccountingDate(request);
 
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
@@ -33,7 +34,8 @@ public class SaveVoucher extends HttpServlet {
 		Voucher voucher = vs.get(conn, voucherId);
 
 		voucher.setVoucherType(voucherType);
-		voucher.setNumber(number);
+		voucher.setBusinessArea(businessArea);
+		voucher.setAccountingDate(accountingDate);
 
 		vs.save(conn, voucher);
 
@@ -44,6 +46,20 @@ public class SaveVoucher extends HttpServlet {
 		writter.flush();
 		writter.close();
 
+	}
+
+	private Date getAccountingDate(HttpServletRequest request) {
+		String accountingDate = request.getParameter("cAccountingDate");
+		Date out = "".equals(accountingDate) ? null : BSDateTimeUtil.calendar2Date(BSDateTimeUtil.string2Calendar(request,
+				accountingDate));
+		return out;
+
+	}
+
+	private Long getBusinessArea(HttpServletRequest request) {
+		String businessArea = request.getParameter("cBusinessArea");
+		Long businessAreaId = "".equals(businessArea) ? null : Long.parseLong(businessArea);
+		return businessAreaId;
 	}
 
 }

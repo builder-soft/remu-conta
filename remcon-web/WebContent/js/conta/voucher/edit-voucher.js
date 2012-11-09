@@ -26,27 +26,34 @@ function onLoadPage() {
 }
 
 function saveVoucher() {
-	var url = contextPath + "/servlet/conta/voucher/SaveVoucher";
+	var dateObject = document.getElementById("cAccountingDate");
+	if (dateObject.value == '' || isDate(dateObject.value)) {
+		var url = contextPath + "/servlet/conta/voucher/SaveVoucher";
 
-	var id = document.getElementById("cId").value;
-	var voucherType = document.getElementById("cVoucherType").value;
-	var number = document.getElementById("cNumber").value;
+		var id = document.getElementById("cId").value;
+		var voucherType = document.getElementById("cVoucherType").value;
+		var businessArea = document.getElementById("cBusinessArea").value;
+		var accountingDate = dateObject.value;
 
-	var data = {
-		cId : id,
-		cVoucherType : voucherType,
-		cNumber : number
-	};
+		var data = {
+			cId : id,
+			cVoucherType : voucherType,
+			cBusinessArea : businessArea,
+			cAccountingDate : accountingDate
+		};
 
-	$.ajax({
-		url : url,
-		type : "post",
-		cache : false,
-		data : data,
-		error : error,
-		success : success,
-		async : false
-	});
+		$.ajax({
+			url : url,
+			type : "post",
+			cache : false,
+			data : data,
+			error : error,
+			success : success,
+			async : false
+		});
+	} else {
+		formatIfValid(dateObject, null);
+	}
 }
 
 function error(jqXHR, textStatus, errorThrown) {
@@ -64,9 +71,9 @@ function addNewRow(idVoucher, save) {
 
 	currentRow = table.rows.length - 2;
 	var cell = row.insertCell(-1);
-	
+
 	var idInput = "<input type='_hidden' id='detailId" + currentRow + "'>";
-	cell.innerHTML = idInput + "<input type='text' id='account" + currentRow
+	cell.innerHTML = idInput + "<input type='text' id='chartAccount" + currentRow
 			+ "' size='10px' maxlength='10' onblur='javascript:submitRow(" + idVoucher + "," + currentRow + ")'>";
 	cell.style.cssText = "text-align: center";
 	cell.className = "cDataTD";
@@ -89,7 +96,7 @@ function addNewRow(idVoucher, save) {
 	cell.className = "cDataTD";
 
 	cell = row.insertCell(-1);
-	cell.innerHTML = "<select id='cCostCenter" + currentRow + "'/>";
+	cell.innerHTML = "<select id='costCenter" + currentRow + "'/>";
 	cell.style.cssText = "text-align: left";
 	cell.className = "cDataTD";
 
@@ -108,35 +115,53 @@ function addNewRow(idVoucher, save) {
 }
 
 function submitRow(idVoucher, currentRow) {
-	/**
-	 * <code>
-	alert(currentRow);
-	return;
-	</code>
-	 */
-	
-	return;
-	
+	// alert("idVoucher, currentRow" + idVoucher +","+ currentRow);
+
+	var detailId = document.getElementById("detailId" + currentRow).value;
+	var chartAccount = document.getElementById("chartAccount" + currentRow).value;
+	var documentType = document.getElementById("documentType" + currentRow).value;
+	var documentNumber = document.getElementById("documentNumber" + currentRow).value;
+	var netAmount = document.getElementById("netAmount" + currentRow).value;
+	var costCenter = document.getElementById("costCenter" + currentRow).value;
+
+	var params = null;
+
+	if (detailId == '') {
+		params = {
+			cId : idVoucher,
+			cChartAccount : chartAccount,
+			cDocumentType : documentType,
+			cDocumentNumber : documentNumber,
+			cNetAmount : netAmount,
+			cCostCenter : costCenter
+		};
+	} else {
+		params = {
+			cId : idVoucher,
+			cDetailId : detailId,
+			cChartAccount : chartAccount,
+			cDocumentType : documentType,
+			cDocumentNumber : documentNumber,
+			cNetAmount : netAmount,
+			cCostCenter : costCenter
+		};
+	}
+	// ==''?null:document.getElementById("detailId" + currentRow).value;
+
+	// alert("datailId="+datailId);
 	$.ajax({
 		url : contextPath + "/servlet/conta/voucher/SaveVoucherDetail",
 		type : "post",
 		cache : false,
 		async : true,
-		data : {
-			cId : idVoucher,
-			cDetailId : document.getElementById("detailId" + currentRow).value,
-			cRUT : document.getElementById("rut" + currentRow).value,
-			cDocumentType : document.getElementById("documentType" + currentRow).value,
-			cDocumentNumber : document.getElementById("documentNumber" + currentRow).value,
-			
-		},
+		data : params,
 		success : function(response) {
 			if (response != "OK") {
 				alert(response);
 			}
 		},
 		error : function(response) {
-			alert(response.responseText);
+			alert("Se ha producido un error, intentelo nuevamente, si el error persiste, comuniquese con su administrador.");
 		}
 	});
 }
@@ -144,7 +169,7 @@ function submitRow(idVoucher, currentRow) {
 function fillCostCenter() {
 	var businessArea = document.getElementById("cBusinessArea").value;
 
-	clearSelect("cCostCenter" + currentRow);
+	clearSelect("costCenter" + currentRow);
 	if (businessArea != "") {
 
 		$.ajax({
@@ -157,11 +182,11 @@ function fillCostCenter() {
 			success : function(response) {
 				var elements = JSON.parse(response);
 
-				appendToSelect("cCostCenter" + currentRow, "", "- Seleccionar -");
+				appendToSelect("costCenter" + currentRow, "", "- Seleccionar -");
 				for ( var i in elements) {
 					id = elements[i].id;
 					name = elements[i].name;
-					appendToSelect("cCostCenter" + currentRow, id, name);
+					appendToSelect("costCenter" + currentRow, id, name);
 				}
 			},
 			error : function(response) {
@@ -170,7 +195,7 @@ function fillCostCenter() {
 			async : true
 		});
 	} else {
-		appendToSelect("cCostCenter" + currentRow, "", "- Seleccionar -");
+		appendToSelect("costCenter" + currentRow, "", "- Seleccionar -");
 	}
 }
 
