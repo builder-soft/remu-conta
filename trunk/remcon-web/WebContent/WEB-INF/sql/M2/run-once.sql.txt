@@ -1,0 +1,21 @@
+DELIMITER $$
+
+drop procedure if exists run_once;
+
+create procedure run_once()
+begin
+	DECLARE enterpriseId BIGINT DEFAULT 0;
+	
+	SELECT cId INTO enterpriseId FROM tOption WHERE cKey='ENTERPRISE';
+	INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('BUSINESS_AREA', 'Areas de Negocio', '/servlet/config/enterprise/businessArea/BusinessAreaManager', enterpriseId);
+	
+	
+	
+end$$
+
+delimiter ;
+
+call run_once();
+
+drop procedure if exists run_once;
+
