@@ -163,8 +163,11 @@ public class DocumentEmployee extends AbstractServletUtil {
 		Employee employee = employeeService.getEmployee(conn, idEmployee);
 
 		String newPath = fu.getPath(tempPath, idCategory);
-		String newFileName = fu.getFileName(employee, values.get("file.fileName"));
-
+		
+		EmployeeService es = new EmployeeServiceImpl();
+		String newFileName = es.getFileName(employee, values.get("file.fileName"));
+		
+		
 		if (!fu.moveFile(tempPath, tempFileName, fu.fixPath(newPath), newFileName)) {
 			throw new BSConfigurationException("Can't move file from " + tempPath + " to " + newPath);
 		}
