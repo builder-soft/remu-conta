@@ -11,4 +11,5 @@ public interface EmployeeService {
 
 	public Employee getEmployee(Connection conn, HttpServletRequest request);
 
+	public String getFileName(Employee employee, String fileName);
 }
