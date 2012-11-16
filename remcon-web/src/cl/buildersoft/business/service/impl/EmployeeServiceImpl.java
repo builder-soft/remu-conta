@@ -38,4 +38,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Long id = Long.parseLong(employeeId);
 		return getEmployee(conn, id);
 	}
+	
+	public String getFileName(Employee employee, String fileName) {
+		String rut = employee.getRut().replaceAll("-", "");
+		String out = rut + "-" + System.currentTimeMillis() + fileName.substring(fileName.lastIndexOf("."));
+		return out;
+	}
 }
