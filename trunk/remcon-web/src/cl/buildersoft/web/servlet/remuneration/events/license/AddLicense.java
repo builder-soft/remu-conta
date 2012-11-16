@@ -49,7 +49,7 @@ public class AddLicense extends HttpServlet {
 
 			EmployeeService employeeService = new EmployeeServiceImpl();
 			Employee employee = employeeService.getEmployee(conn, employeeId);
-			String fileName = fu.getFileName(employee, originalFileName);
+			String fileName = employeeService.getFileName(employee, originalFileName);
 			String oldPath = values.get("file.path");
 			String newPath = fu.fixPath(fu.getPath(oldPath, Long.parseLong(fileCategory)));
 			String oldName = values.get("file.fileRealName");
