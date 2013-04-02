@@ -14,5 +14,4 @@ BEGIN
 	RETURN vOut;
 END$$
 
-
 DELIMITER ;

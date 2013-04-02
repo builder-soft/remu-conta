@@ -44,7 +44,7 @@ CREATE PROCEDURE pCalculateSalary(IN pEmployee BIGINT, IN vPeriod BIGINT)
 BEGIN
 	DECLARE vBook BIGINT DEFAULT 0;
 
-/*
+/**
 	select pEmployee, vPeriod, fContractActive(pEmployee, vPeriod);
 */
 	
@@ -99,11 +99,14 @@ BEGIN
 	DECLARE vAgreement BIGINT;
 	DECLARE vStartContract, vEndContract, vPeriodDate DATE;
 	
-	SELECT	a.cContractType, a.cStartContract, a.cEndContract, a.cId 
+	SELECT	b.cKey, a.cStartContract, a.cEndContract, a.cId 
 	INTO	vContractType, vStartContract, vEndContract, vAgreement
 	FROM	tAgreement AS a
 	LEFT JOIN	tContractType AS b ON a.cContractType = b.cId
 	WHERE	a.cEmployee = vEmployee;
+	
+/**	return vContractType;*/
+	
 	
 /*	SET vEndContract = LAST_DAY(vEndContract);*/
 	
@@ -161,11 +164,13 @@ return CONCAT(LAST_DAY(vPeriod), ' < ', vEndContract, ' = ',
 	
 	RETURN vOut;
 END$$ 
-
+/*****************************************/
 CREATE PROCEDURE pSetWorkedDays(vBook BIGINT)
 BEGIN
 	
+	/**
 select fWorkedDays(vBook);	
+*/
 
 	UPDATE	tBook
 	SET		cWorkedDays = fWorkedDays(vBook)
