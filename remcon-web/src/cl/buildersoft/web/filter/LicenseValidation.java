@@ -42,44 +42,48 @@ public class LicenseValidation implements Filter {
 		HttpServletResponse response = (HttpServletResponse) rs;
 		Connection conn = mysql.getConnection(request);
 		String license = config.getString(conn, "LICENSE");
-		Boolean success = null;
+		Boolean success = true;
 
-		String failUrl = request.getContextPath() + "/jsp/error/system-fail.jsp";
-
-		// System.out.println(request.getLocalAddr());
-		// System.out.println(request.getLocalName());
-		// System.out.println(request.getServerName());
-		// System.out.println(request.getServerPort());
-		// System.out.println("-----------------");
+		// String failUrl = request.getContextPath() +
+		// "/jsp/error/system-fail.jsp";
+		// String failUrl = "/jsp/error/system-fail.jsp";
+		String failUrl = "/jsp/login/logout.jsp";
+		// String failUrl = "/WEB-INF/jsp/common/no-access.jsp";
 
 		try {
 			license = new BSSecurity().decript3des(license);
-			// System.out.println(license);
-			success = request.getLocalName().equalsIgnoreCase(license);
+			String hostName = request.getLocalName();
+			if (!hostName.equalsIgnoreCase("localhost")) {
+				success = hostName.equalsIgnoreCase(license);
+			}
 		} catch (Exception e) {
 			success = Boolean.FALSE;
 		}
 
-		// (success && validateLicense(license)))
-
 		if (success || validateLicense(license)) {
 			chain.doFilter(rq, rs);
 		} else {
-			response.sendRedirect(failUrl);
+			request.getSession().invalidate();
+			// response.sendRedirect(failUrl);
+			request.getRequestDispatcher(failUrl).forward(request, response);
 		}
-
 	}
 
 	private boolean validateLicense(String license) {
-		Double random = Math.random();
-		random *= 100;
-		Integer percent = random.intValue() + 1;
-		Calendar expireDate = license2Calendar(license.substring(0, 8));
-		Integer dateDiff = dateDiff(expireDate);
-		
-		
-		System.out.println("" + percent + " <= " + dateDiff + " = " + (percent <= dateDiff));
-		return percent <= dateDiff;
+		Boolean validLicense = null;
+		Double rnd = Math.random();
+		rnd *= 100;
+		Integer random = rnd.intValue() + 1;
+		if (license == null || license.length() < 8) {
+			validLicense = false;
+		} else {
+			Calendar expireDate = license2Calendar(license.substring(0, 8));
+			Integer dateDiff = dateDiff(expireDate);
+
+			validLicense = (random >= dateDiff);
+			System.out.println("random: " + random + " >= dateDiff: " + dateDiff + " = " + validLicense);
+		}
+		return validLicense;
 	}
 
 	private Calendar license2Calendar(String license) {
