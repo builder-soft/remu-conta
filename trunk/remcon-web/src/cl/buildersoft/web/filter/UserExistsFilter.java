@@ -17,8 +17,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class UserExists
  */
-@WebFilter(urlPatterns = { "/servlet/*" }, dispatcherTypes = {
-		DispatcherType.REQUEST, DispatcherType.FORWARD })
+@WebFilter(urlPatterns = { "/servlet/*" }, dispatcherTypes = { DispatcherType.REQUEST, DispatcherType.FORWARD })
 public class UserExistsFilter implements Filter {
 	public UserExistsFilter() {
 	}
@@ -26,14 +25,13 @@ public class UserExistsFilter implements Filter {
 	public void destroy() {
 	}
 
-	public void doFilter(ServletRequest servletRequest,
-			ServletResponse servletResponse, FilterChain chain)
-			throws IOException, ServletException {
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException,
+			ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		Boolean goHome = Boolean.FALSE;
 
-		//System.out.println(request.getRequestURI());
+		// System.out.println(request.getRequestURI());
 
 		HttpSession session = request.getSession(false);
 

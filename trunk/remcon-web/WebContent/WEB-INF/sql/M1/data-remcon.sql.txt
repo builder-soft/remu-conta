@@ -18,6 +18,8 @@ INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LOCALE', 'Regió
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('PATTERN_INTEGER', 'Formato para montos enteros', '###.###.##0', @stringId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('PATTERN_DECIMAL', 'Formato para montos con decimales', '###.###.##0,00###', @stringId);
 
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LICENSE', 'Código de licencia', 'EQ+Syir1ZxcbsLwA56Dqaw==', @stringId);
+
 /*
 */
 
