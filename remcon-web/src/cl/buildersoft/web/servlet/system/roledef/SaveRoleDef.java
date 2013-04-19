@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import cl.buildersoft.framework.beans.Rol;
 import cl.buildersoft.framework.database.BSmySQL;
+import cl.buildersoft.framework.util.BSConfig;
 
 @WebServlet("/servlet/system/roledef/SaveRoleDef")
 public class SaveRoleDef extends HttpServlet {
@@ -30,6 +31,7 @@ public class SaveRoleDef extends HttpServlet {
 
 		BSmySQL mysql = new BSmySQL();
 		Connection conn = mysql.getConnection(request);
+
 		try {
 			mysql.setAutoCommit(conn, false);
 
@@ -61,6 +63,9 @@ public class SaveRoleDef extends HttpServlet {
 	}
 
 	private void saveNewDef(Connection conn, BSmySQL mysql, String[] options, Long rol) {
+		BSConfig config = new BSConfig();
+		Boolean writeMenuConfig = Boolean.parseBoolean(config.getString(conn, "WRITE_MENUCONFIG"));
+
 		String sql = "INSERT INTO tR_RolOption(cRol, cOption) VALUES(?,?);";
 		List<Object> prms = new ArrayList<Object>();
 		prms.add(rol);
@@ -68,19 +73,22 @@ public class SaveRoleDef extends HttpServlet {
 		for (String option : options) {
 			prms.add(Long.parseLong(option));
 			mysql.update(conn, sql, prms);
-//			printSQL(sql, prms);
+			if (writeMenuConfig) {
+				printSQL(sql, prms);
+			}
 			prms.remove(1);
 		}
 	}
 
-	/**<code>
+	/** <code> */
 	private void printSQL(String sql, List<Object> prms) {
 		String s = sql;
 		s = s.replaceFirst("[?]", "@rolId");
 		s = s.replaceFirst("[?]", prms.get(1).toString());
 		System.out.println(s);
 	}
-</code>*/
+
+	/** </code> */
 	private void deleteRolDef(Connection conn, BSmySQL mysql, Long rol) {
 		String sql = "DELETE FROM tR_RolOption WHERE cRol=?";
 		List<Object> prms = new ArrayList<Object>();
