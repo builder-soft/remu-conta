@@ -20,8 +20,7 @@ INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('PATTERN_DECIMAL'
 
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('LICENSE', 'Código de licencia', 'EQ+Syir1ZxcbsLwA56Dqaw==', @stringId);
 
-/*
-*/
+INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('WRITE_MENUCONFIG', 'Deja en consola la configuracion al grabar Permisos', 'true', @booleanId);
 
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('CSV_SEPARATOR', 'Separador de archivos csv', ';', @stringId);
 INSERT INTO tParameter(cKey, cLabel, cValue, cDataType) VALUES('RECORDS_PER_PAGE', 'Registros por p&aacute;gina', '15', @integerId);

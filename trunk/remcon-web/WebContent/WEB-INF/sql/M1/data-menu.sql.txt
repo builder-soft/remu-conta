@@ -116,12 +116,23 @@ INSERT INTO tR_UserRol(cUser, cRol) VALUES(@userId, @rolId);
 
 INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,6);
 INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,7);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,8);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,9);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,10);
 INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,11);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,12);
 INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,13);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,14);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,15);
 INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,16);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,17);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,19);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,27);
+INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,28);
 INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,33);
 INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,34);
 INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,35);
 INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,36);
 INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId,38);
+
 
