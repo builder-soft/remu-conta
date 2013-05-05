@@ -35,5 +35,8 @@
 	<img src="${pageContext.request.contextPath}/img/html5-icon.png" 
 		width="80px" id="html5" alt="Pensando en HTML5 como estandar" />
 		 -->
+		 
+		 <a href="jsp/login/login2.jsp">Login 2</a>
+		 
 </body>
 </html>
