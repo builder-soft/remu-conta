@@ -94,7 +94,7 @@ SET @menuIdReport = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('GRAPH', 'Gráfico', NULL, @menuIdReport);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PERIODS_REPORT', 'Períodos', NULL, @menuIdReport);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('STATISTICS', 'Estadísticas', NULL, @menuIdReport);
-		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('FINANCIAL_NEWS', 'Noticias financieras', NULL, @menuIdReport);
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('FINANCIAL_NEWS', 'Noticias financieras', '/servlet/news/MainNews', @menuIdReport);
 
 /** Creacion de usuario contador del sistema, con las opciones desarrolladas 
 hasta ahora */

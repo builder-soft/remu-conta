@@ -26,8 +26,6 @@ public class ParameterManager extends BSHttpServlet implements Servlet {
 		table.renameAction("DELETE", "DEL_PARAMS");
 
 		return table;
-	}
-
-	 
+	} 
 
 }

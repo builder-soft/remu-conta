@@ -21,8 +21,6 @@ import cl.buildersoft.framework.util.BSPaging;
 public class LoadTable extends AbstractServletUtil {
 	private static final long serialVersionUID = 1L;
 
-	// private static final String BSFRAMEWORK = "bsframework";
-
 	public LoadTable() {
 		super();
 	}
@@ -34,7 +32,6 @@ public class LoadTable extends AbstractServletUtil {
 			table = (BSTableConfig) session.getAttribute("BSTable");
 		}
 
-		// Connection conn = null;
 		BSmySQL mysql = new BSmySQL();
 
 		Connection conn = mysql.getConnection(request);
@@ -48,8 +45,7 @@ public class LoadTable extends AbstractServletUtil {
 		request.setAttribute("Conn", conn);
 		request.setAttribute("Paging", paging);
 		request.setAttribute("Search", paging.getSearchValue(request));
-//		mysql.closeConnection(conn);
-		
+
 
 		synchronized (session) {
 			session.setAttribute("BSTable", table);
