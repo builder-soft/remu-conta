@@ -69,10 +69,11 @@ public class SaveContractualInfo extends HttpServlet {
 
 	private ContractType getContractType(Connection conn, Long contractTypeId) {
 		BSBeanUtils bu = new BSBeanUtils();
-		ContractType out = new ContractType();
-		out.setId(contractTypeId);
-		bu.search(conn, out);
-		return out;
+		ContractType contractType = new ContractType();
+		contractType.setId(contractTypeId);
+		bu.search(conn, contractType);
+		
+		return contractType;
 	}
 
 	private Agreement getAgreement(Connection conn, BSBeanUtilsSP bu, Long idEmployee) {
