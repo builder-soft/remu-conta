@@ -4,10 +4,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.web.servlet.common.BSHttpServlet;
+import cl.buildersoft.web.servlet.common.HttpServletCRUD;
 
 @WebServlet("/servlet/config/health/HealthManager")
-public class HealthManager extends BSHttpServlet {
+public class HealthManager extends HttpServletCRUD {
 	private static final long serialVersionUID = 4686868722586369145L;
 
 	@Override

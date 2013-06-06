@@ -4,13 +4,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.web.servlet.common.BSHttpServlet;
+import cl.buildersoft.web.servlet.common.HttpServletCRUD;
 
 /**
  * Servlet implementation class ProfileManager
  */
 @WebServlet("/servlet/config/enterprise/profile/ProfileManager")
-public class ProfileManager extends BSHttpServlet {
+public class ProfileManager extends HttpServletCRUD {
 	private static final long serialVersionUID = 6277545710620940766L;
 
 	@Override

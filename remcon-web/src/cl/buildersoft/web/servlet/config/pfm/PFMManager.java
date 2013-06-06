@@ -4,10 +4,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.web.servlet.common.BSHttpServlet;
+import cl.buildersoft.web.servlet.common.HttpServletCRUD;
 
 @WebServlet("/servlet/config/pfm/PFMManager")
-public class PFMManager extends BSHttpServlet {
+public class PFMManager extends HttpServletCRUD {
 	private static final long serialVersionUID = -913523455848692014L;
 
 	@Override
