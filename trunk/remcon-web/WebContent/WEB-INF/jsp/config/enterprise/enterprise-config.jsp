@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.web.servlet.common.crud.LoadTable"%>
 <%@page import="cl.buildersoft.business.beans.EnterpriseConfig"%>
 <%@page import="cl.buildersoft.business.beans.Health"%>
 <%@page import="cl.buildersoft.business.beans.ExBoxSystem"%>
@@ -85,7 +86,7 @@
 	</table>
 	
 <button type="button" onclick="javascript:$('#editForm').submit();">Aceptar</button>	
-<a class="cCancel" href="${pageContext.request.contextPath}/servlet/common/LoadTable">Cancelar</a>&nbsp;&nbsp;&nbsp;
+<a class="cCancel" href="${pageContext.request.contextPath}<%=LoadTable.URL%>">Cancelar</a>&nbsp;&nbsp;&nbsp;
 </form>
 <br>
 

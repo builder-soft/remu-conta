@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.web.servlet.common.crud.LoadTable"%>
 <%@page import="cl.buildersoft.business.beans.Health,cl.buildersoft.business.beans.ExBoxSystem,cl.buildersoft.business.beans.PFM"%>
 <%@page import="cl.buildersoft.business.beans.RagreementAPV,cl.buildersoft.business.beans.Currency,cl.buildersoft.business.beans.APV"%>
 <%@page import="cl.buildersoft.business.beans.Employee,cl.buildersoft.business.beans.Agreement,cl.buildersoft.framework.beans.BSCss"%>
@@ -100,6 +101,7 @@ function changeExBox(o){
 <%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
 <h1 class="cTitle">Informacion previsional</h1>
 <%
+/*
 	String nextServlet = (String) request.getAttribute("Action");
 
 	if ("insert".equalsIgnoreCase(nextServlet)) {
@@ -107,6 +109,7 @@ function changeExBox(o){
 	} else {
 		nextServlet = "UpdateRecord";
 	}
+*/
 %>
 <%@ include file="/WEB-INF/jsp/config/employee/employee-information.jsp"%>
 
@@ -345,7 +348,7 @@ function changeExBox(o){
 &nbsp;&nbsp;&nbsp;
 <button type="button" onclick="javascript:addApv()">Agregar APV</button>
 &nbsp;&nbsp;&nbsp;
-<a class="cCancel" href="${pageContext.request.contextPath}/servlet/common/LoadTable">Cancelar</a>&nbsp;&nbsp;&nbsp;
+<a class="cCancel" href="${pageContext.request.contextPath}<%=LoadTable.URL%>">Cancelar</a>&nbsp;&nbsp;&nbsp;
 
 
 

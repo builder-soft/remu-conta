@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.common;
+package cl.buildersoft.web.servlet.common.crud;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -36,7 +36,7 @@ public abstract class HttpServletCRUD extends HttpServlet {
 			// session.setAttribute("BSHead", head);
 		}
 
-		request.getRequestDispatcher("/servlet/common/LoadTable").forward(request, response);
+		request.getRequestDispatcher(LoadTable.URL).forward(request, response);
 	}
 
 	protected BSTableConfig initTable(HttpServletRequest request, String tableName) {

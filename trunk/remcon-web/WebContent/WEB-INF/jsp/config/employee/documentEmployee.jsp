@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.web.servlet.common.crud.LoadTable"%>
 <%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="cl.buildersoft.business.beans.FileCategory"%>
@@ -97,7 +98,7 @@
 						
 			<tr>
 				<td><button type="submit">Aceptar</button></td>
-				<td colspan="3"><a class="cCancel" href="javascript:window.location.href='${pageContext.request.contextPath}/servlet/common/LoadTable'">Cancelar</a></td>
+				<td colspan="3"><a class="cCancel" href="javascript:window.location.href='${pageContext.request.contextPath}<%=LoadTable.URL%>'">Cancelar</a></td>
 			</tr>
 			</table>
 </form>

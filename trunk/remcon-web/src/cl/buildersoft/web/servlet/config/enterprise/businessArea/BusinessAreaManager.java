@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.web.servlet.common.HttpServletCRUD;
+import cl.buildersoft.web.servlet.common.crud.HttpServletCRUD;
 
 @WebServlet("/servlet/config/enterprise/businessArea/BusinessAreaManager")
 public class BusinessAreaManager extends HttpServletCRUD implements Servlet {

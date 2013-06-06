@@ -19,7 +19,7 @@ import cl.buildersoft.business.service.impl.AgreementServiceImpl;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
 
-@WebFilter(urlPatterns = { "/servlet/common/InsertRecord" }, dispatcherTypes = { DispatcherType.REQUEST })
+@WebFilter(urlPatterns = { "/servlet/common/crud/InsertRecord" }, dispatcherTypes = { DispatcherType.REQUEST })
 public class SaveEmployeeFilter implements Filter {
 
 	public void destroy() {

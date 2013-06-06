@@ -47,10 +47,10 @@
  -->
 <!--
 action="${pageContext.request.contextPath}/servlet/ShowParameters"
-action="${pageContext.request.contextPath}/servlet/common/SaveRelation"
+action="${pageContext.request.contextPath}/servlet/common/crud/SaveRelation"
   -->
 <form
-	action="${pageContext.request.contextPath}/servlet/common/SaveRelation"
+	action="${pageContext.request.contextPath}/servlet/common/crud/SaveRelation"
 	id="frm" method="post">
 	<input type="hidden" name="cId"
 		value="<%=request.getParameter("cId")%>"> <input type="hidden"

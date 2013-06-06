@@ -14,6 +14,7 @@ import cl.buildersoft.framework.database.BSBeanUtils;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSUserException;
 import cl.buildersoft.framework.util.BSSecurity;
+import cl.buildersoft.web.servlet.common.crud.LoadTable;
 
 @WebServlet("/servlet/system/changepassword/ChangePassword")
 public class ChangePassword extends HttpServlet {
@@ -63,7 +64,7 @@ public class ChangePassword extends HttpServlet {
 		bu.update(conn, user);
 		mysql.closeConnection(conn);
 		
-		String next = "/servlet/common/LoadTable";
+		String next = LoadTable.URL;
 		next = "/servlet/system/user/UserManager";
 		if (goHome != null) {
 			next = "/servlet/Home";
