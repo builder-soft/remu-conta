@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.web.servlet.common.HttpServletCRUD;
+import cl.buildersoft.web.servlet.common.crud.HttpServletCRUD;
 
 /**
  * Servlet implementation class ChartAccountManager

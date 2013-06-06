@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.common;
+package cl.buildersoft.web.servlet.common.crud;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -13,13 +13,12 @@ import javax.servlet.http.HttpSession;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.util.BSPaging;
+import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 
-/**
- * Servlet implementation class LoadTable
- */
-@WebServlet("/servlet/common/LoadTable")
+@WebServlet("/servlet/common/crud/LoadTable")
 public class LoadTable extends AbstractServletUtil {
 	private static final long serialVersionUID = 1L;
+	public static String URL = "/servlet/common/crud/LoadTable";
 
 	public LoadTable() {
 		super();
@@ -45,7 +44,6 @@ public class LoadTable extends AbstractServletUtil {
 		request.setAttribute("Conn", conn);
 		request.setAttribute("Paging", paging);
 		request.setAttribute("Search", paging.getSearchValue(request));
-
 
 		synchronized (session) {
 			session.setAttribute("BSTable", table);

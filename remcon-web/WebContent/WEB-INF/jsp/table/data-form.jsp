@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.web.servlet.common.crud.LoadTable"%>
 <%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="cl.buildersoft.framework.beans.BSCss"%>
 <%@page import="cl.buildersoft.framework.beans.BSScript"%>
@@ -92,7 +93,7 @@ for (BSField field : fields) {
 %>
 
 <form
-	action="${pageContext.request.contextPath}/servlet/common/<%=nextServlet%>"
+	action="${pageContext.request.contextPath}/servlet/common/crud/<%=nextServlet%>"
 	method="post" id="editForm">
 	<table>
 		<%
@@ -109,7 +110,7 @@ for (BSField field : fields) {
 </form>
 <button type="button" onclick="javascript:sendForm()">Aceptar</button>
 &nbsp;&nbsp;&nbsp;
-<a class="cCancel" href="${pageContext.request.contextPath}/servlet/common/LoadTable">Cancelar</a>
+<a class="cCancel" href="${pageContext.request.contextPath}<%=LoadTable.URL%>">Cancelar</a>
 
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

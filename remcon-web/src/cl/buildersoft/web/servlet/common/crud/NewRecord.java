@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.common;
+package cl.buildersoft.web.servlet.common.crud;
 
 import java.io.IOException;
 
@@ -10,8 +10,9 @@ import javax.servlet.http.HttpSession;
 
 import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.BSTableConfig;
+import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 
-@WebServlet("/servlet/common/NewRecord")
+@WebServlet("/servlet/common/crud/NewRecord")
 public class NewRecord extends AbstractServletUtil {
 	private static final long serialVersionUID = 1L;
 

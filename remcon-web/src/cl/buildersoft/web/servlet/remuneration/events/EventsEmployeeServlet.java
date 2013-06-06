@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import cl.buildersoft.framework.beans.BSAction;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.type.BSActionType;
-import cl.buildersoft.web.servlet.common.HttpServletCRUD;
+import cl.buildersoft.web.servlet.common.crud.HttpServletCRUD;
 
 @WebServlet("/servlet/remuneration/events/EventsEmployeeServlet")
 public class EventsEmployeeServlet extends HttpServletCRUD {

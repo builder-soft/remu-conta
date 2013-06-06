@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.common;
+package cl.buildersoft.web.servlet.common.crud;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -15,11 +15,12 @@ import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
+import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 
 /**
  * Servlet implementation class EditRecord
  */
-@WebServlet("/servlet/common/SearchRecord")
+@WebServlet("/servlet/common/crud/SearchRecord")
 public class SearchRecord extends AbstractServletUtil {
 
 	private static final long serialVersionUID = -5785656616097922095L;

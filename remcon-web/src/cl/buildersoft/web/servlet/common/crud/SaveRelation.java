@@ -1,4 +1,4 @@
-package cl.buildersoft.web.servlet.common;
+package cl.buildersoft.web.servlet.common.crud;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -20,7 +20,7 @@ import cl.buildersoft.framework.exception.BSDataBaseException;
 /**
  * Servlet implementation class SaveRelation
  */
-@WebServlet("/servlet/common/SaveRelation")
+@WebServlet("/servlet/common/crud/SaveRelation")
 public class SaveRelation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
