@@ -11,8 +11,7 @@
 <%@page import="cl.buildersoft.framework.beans.BSField"%>
 <%@page import="cl.buildersoft.framework.beans.BSTableConfig"%>
 <%@page import="java.sql.ResultSet"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+
 <%
 	ResultSet rs = (ResultSet) request.getAttribute("Data");
 	Connection conn = (Connection) request.getAttribute("Conn");
@@ -62,20 +61,25 @@
 		return selectorType;
 	}%>
 
-<%@ include file="/WEB-INF/jsp/common/head.jsp"%>
-<%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/header2.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/menu2.jsp"%>
+
 <%@ include file="/WEB-INF/jsp/table/functions.jsp"%>
 
-<script
-	src="${pageContext.request.contextPath}/js/table/table.js?<%=Math.random()%>"></script>
-<h1 class="cTitle">
-	<%=table.getTitle()%>
-</h1>
+
+<script src="${pageContext.request.contextPath}/js/table/table.js?<%=Math.random()%>"></script>
+
+<div class="row-fluid">
+	<div class="span12">
+		<h1><%=table.getTitle()%></h1>
+	</div>
+</div>
+
+
 
 <%@ include file="/WEB-INF/jsp/table/search.jsp"%>
-<form method="post"
-	action="${pageContext.request.contextPath}/servlet/common/crud/DeleteRecords"
-	id='frm'>
+
+<form method="post" action="${pageContext.request.contextPath}/servlet/common/crud/DeleteRecords" id='frm'>
 
 	<table class="cList" cellpadding="0" cellspacing="0">
 		<%
@@ -176,7 +180,7 @@
 	%>
 </form>
 
-<%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/footer2.jsp"%>
 
 <%!private String writeValues(Object[] values, BSField[] fields, Integer rowCount, String ctxPath, HttpServletRequest request,
 			Integer selectorType) {
