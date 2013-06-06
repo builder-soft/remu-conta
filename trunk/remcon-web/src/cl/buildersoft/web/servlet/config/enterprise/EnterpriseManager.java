@@ -6,13 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 import cl.buildersoft.framework.beans.BSAction;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.type.BSActionType;
-import cl.buildersoft.web.servlet.common.BSHttpServlet;
+import cl.buildersoft.web.servlet.common.HttpServletCRUD;
 
 /**
  * Servlet implementation class EmployeeManager
  */
 @WebServlet("/servlet/config/enterprise/EnterpriseManager")
-public class EnterpriseManager extends BSHttpServlet {
+public class EnterpriseManager extends HttpServletCRUD {
 	private static final long serialVersionUID = 1L;
 
 	@Override

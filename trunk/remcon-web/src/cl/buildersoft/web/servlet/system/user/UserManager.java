@@ -10,13 +10,13 @@ import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.beans.Domain;
 import cl.buildersoft.framework.beans.User;
 import cl.buildersoft.framework.type.BSActionType;
-import cl.buildersoft.web.servlet.common.BSHttpServlet;
+import cl.buildersoft.web.servlet.common.HttpServletCRUD;
 
 /**
  * Servlet implementation class UserManager
  */
 @WebServlet("/servlet/system/user/UserManager")
-public class UserManager extends BSHttpServlet {
+public class UserManager extends HttpServletCRUD {
 	private static final long serialVersionUID = -3497399350893131897L;
 
 	@Override

@@ -5,13 +5,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.web.servlet.common.BSHttpServlet;
+import cl.buildersoft.web.servlet.common.HttpServletCRUD;
 
 /**
  * Servlet implementation class ChartAccountManager
  */
 @WebServlet("/servlet/conta/chartAccount/ChartAccountManager")
-public class ChartAccountManager extends BSHttpServlet {
+public class ChartAccountManager extends HttpServletCRUD {
 	private static final long serialVersionUID = 1L;
        
     /**

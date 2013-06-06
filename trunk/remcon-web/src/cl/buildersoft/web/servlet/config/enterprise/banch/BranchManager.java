@@ -4,10 +4,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.web.servlet.common.BSHttpServlet;
+import cl.buildersoft.web.servlet.common.HttpServletCRUD;
 
 @WebServlet("/servlet/config/enterprise/branch/BranchManager")
-public class BranchManager extends BSHttpServlet {
+public class BranchManager extends HttpServletCRUD {
 	private static final long serialVersionUID = -2048068668878392177L;
 
  

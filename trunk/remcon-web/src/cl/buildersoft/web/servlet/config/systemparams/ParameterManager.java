@@ -5,10 +5,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.web.servlet.common.BSHttpServlet;
+import cl.buildersoft.web.servlet.common.HttpServletCRUD;
 
 @WebServlet("/servlet/config/systemparams/ParameterManager")
-public class ParameterManager extends BSHttpServlet implements Servlet {
+public class ParameterManager extends HttpServletCRUD implements Servlet {
 	private static final long serialVersionUID = 1L;
 
 	public ParameterManager() {

@@ -13,12 +13,12 @@ import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.beans.Domain;
 import cl.buildersoft.framework.database.BSmySQL;
 
-public abstract class BSHttpServlet extends HttpServlet {
+public abstract class HttpServletCRUD extends HttpServlet {
 	private static final long serialVersionUID = 713819586332712332L;
 
 	protected abstract BSTableConfig getBSTableConfig(HttpServletRequest request);
 
-	public BSHttpServlet() {
+	public HttpServletCRUD() {
 		super();
 	}
 

@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import cl.buildersoft.framework.beans.BSAction;
 import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.type.BSActionType;
-import cl.buildersoft.web.servlet.common.BSHttpServlet;
+import cl.buildersoft.web.servlet.common.HttpServletCRUD;
 
 @WebServlet("/servlet/admin/period/PeriodManager")
-public class PeriodManager extends BSHttpServlet implements Servlet {
+public class PeriodManager extends HttpServletCRUD implements Servlet {
 	private static final long serialVersionUID = -5347446304866453415L;
 
 	@Override
