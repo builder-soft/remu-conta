@@ -80,14 +80,45 @@
 								<ul class="nav">
 									<li><a href="/remcon-web/servlet/Home">Inicio</a></li>
 
-									<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Sistema</a>
+									<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Sistema o configuración global de la aplicacion</a>
 										<ul class="dropdown-menu">
 											<li><a href="/remcon-web/servlet/system/user/UserManager?MTM3MDQ3MDQzMjI4Mw==">Usuarios</a></li>
 											<li><a href="/remcon-web/servlet/system/role/RolManager?MTM3MDQ3MDQzMjI4NA==">Definición de Roles</a></li>
 											<li><a href="/remcon-web/servlet/system/roleDef/RoleDef?MTM3MDQ3MDQzMjI4NA==">Permisos de roles</a></li>
 											<li><a href="/remcon-web/servlet/system/changepassword/SearchPassword?MTM3MDQ3MDQzMjI4NA==">Cambio de clave</a></li>
+											<li><a href="/remcon-web/servlet/system/changepassword/SearchPassword?MTM3MDQ3MDQzMjI4NA==">Configuración del sistema experto</a></li>
 										</ul></li>
+										
+<!-- 										
+									<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Reportes</a>
+										<ul class="dropdown-menu">
+											<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Favoritos</a>
+												<ul class="dropdown-menu">
+													<li><a href="#">Favoritos 01</a></li>
+													<li>Favoritos 02</li>
+													<li>Favoritos 03</li>
+													<li>Favoritos 04 &gt;
+														<ul class="dropdown-menu">
+															<li>Informe 01</li>
+															<li>Informe 02</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+											<li>Informe Personalizado</li>
+											<li>Gráfico</li>
+											<li>Períodos</li>
+											<li>Estadísticas</li>
+											<li><a href="/remcon-web/servlet/news/MainNews?MTM3MDUzNTYyNzMzNw==">Noticias financieras</a></li>
+										</ul>
+									</li>
+	 -->									
+										
 								</ul>
+								
+								
+								
+								
 							</div>
 						</div>
 					</div>
