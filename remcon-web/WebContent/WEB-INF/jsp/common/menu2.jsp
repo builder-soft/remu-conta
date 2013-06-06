@@ -1,16 +1,58 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page import="cl.buildersoft.framework.beans.Option"%>
+<%@page import="cl.buildersoft.framework.beans.Submenu"%>
+<%@page import="java.util.List"%>
+<%@page import="cl.buildersoft.framework.beans.Menu"%>
+<%@page import="cl.buildersoft.framework.util.BSWeb"%>
+
+<div class="row-fluid">
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<!-- Boton para moviles -->
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-tasks icon-white" />
+				</a>
+
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><a href="${pageContext.request.contextPath}/servlet/Home?<%=BSWeb.randomString()%>">Inicio</a></li>
+
+						<%=write_menu_in_menu_jsp(session, request)%>
+
+						<li><a href="${pageContext.request.contextPath}/jsp/login/logout.jsp?<%=BSWeb.randomString()%>">Salir</a></li>
+					</ul>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+</div>
+</header>
 
 <!-- 
-Help:
+<ul class="jd_menu" style="z-index: 1">
+	<li><a href="${pageContext.request.contextPath}/servlet/Home">Inicio</a></li>
+	< % =write_menu_in_menu_jsp(session, request) % >
+	<li><a href="${pageContext.request.contextPath}/jsp/login/logout.jsp">Salir</a></li>
+</ul>
+-->
 
-http://www.w3resource.com/twitter-bootstrap/navbar-tutorial.php
+<!--  
+		<div class="row-fluid">
+				<div class="navbar navbar-inverse">
+					<div class="navbar-inner">
+						<div class="container-fluid">
+							<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+								class="icon-bar"></span> <span class="icon-bar"></span>
+							</a>
+							<div class="nav-collapse collapse">
 
+								<ul class="nav">
+									<li class="active"><a href="#"><i class="icon-home icon-white"></i> Home</a></li>
+-->
 
-
- -->
-
-
+<!-- 
 <ul class="nav pull-right">
   <li class="dropdown">
 <ul class="dropdown-menu">
@@ -28,3 +70,81 @@ http://www.w3resource.com/twitter-bootstrap/navbar-tutorial.php
 		</ul></li>
 </ul>
 </li></ul>
+ -->
+
+
+
+<%!private String write_menu_in_menu_jsp(HttpSession session, HttpServletRequest request) {
+		Menu menuUser = (Menu) session.getAttribute("Menu");
+		String out = "";
+		//Boolean haveMore = null;
+		if (menuUser != null) {
+			String ctxPath = request.getContextPath();
+			List<Submenu> main = menuUser.list();
+			Option opt = null;
+			String url = null;
+			String label = null;
+			for (Submenu submenu : main) {
+				opt = submenu.getOption();
+				out += "<li" + (submenu.list().size() > 0 ? " class='dropdown'" : "") + ">";
+				out += option2String(opt, ctxPath, true);
+				out += writeSubMenu(submenu, ctxPath);
+				out += "</li>\n";
+			}
+		}
+		return out;
+	}
+
+	private String option2String(Option opt, String contextPath, Boolean isRoot) {
+		String out = "";
+		String url = opt.getUrl();
+		String label = opt.getLabel();
+		//String urlPath = "";
+		String endTag = "</a>";
+		//String startTag = "";
+
+		//System.out.println("url: "+ url);
+
+		url = url == null ? "" : url;
+
+		if (url.length() > 0) {
+			out = "<a ";
+			if (url.startsWith("/")) {
+				url = contextPath + url;
+			}
+			//out += startTag;
+			out += "href='" + url + "?" + BSWeb.randomString() + "'";
+			//endTag = "</a>";
+
+		} else {
+			out = "<a href=\"#\" ";
+		}
+
+		if (isRoot) {
+			out += " class=\'dropdown-toggle\' data-toggle=\'dropdown\'";
+		}
+		out += ">";
+
+		out += label +  (isRoot? "<b class='caret'></b>":"")+ endTag;
+		return out;
+	}
+
+	private String writeSubMenu(Submenu menu, String contextPath) {
+		Option opt = null;
+		String url = null;
+		String label = null;
+		List<Submenu> menuList = menu.list();
+		Integer count = menuList.size();
+
+		String out = count > 0 ? "\n<ul class='dropdown-menu'>" : "";
+
+		for (Submenu submenu : menuList) {
+			out += "<li>";
+			out += option2String(submenu.getOption(), contextPath, false);
+			//out += writeSubMenu(submenu, contextPath);
+			out += "</li>\n";
+		}
+		out += count > 0 ? "</ul>\n" : "\n";
+		return out;
+	}%>
+

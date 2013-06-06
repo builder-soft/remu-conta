@@ -14,17 +14,25 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<header>
-			<h2>Menu</h2>
 
-
+		<div class="row-fluid">
+			<div class="span10">
+			<h2>
+				Menu
+				</h2>
+				<div class="span1">hola</div>
+				<div class="span1">mundo</div>
+			</div>
+			<!-- 
 			<div class="row-fluid">
 				<div class="navbar navbar-inverse">
 					<div class="navbar-inner">
 						<div class="container-fluid">
+
 							<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span
 								class="icon-bar"></span> <span class="icon-bar"></span>
 							</a>
+
 							<div class="nav-collapse collapse">
 
 
@@ -34,7 +42,8 @@
 
 									<li><a href="#">Features</a></li>
 									<li><a href="">Pricing</a></li>
-									<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Products<b class="caret"></b></a>
+									<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Products <b class="caret"></b>
+									</a>
 										<ul class="dropdown-menu">
 											<li><a href="#">Latest Products</a></li>
 											<li><a href="#">Popular Products</a></li>
@@ -55,17 +64,17 @@
 										</ul></li>
 								</ul>
 							</div>
-							<!-- /.nav-collapse -->
+							 
 						</div>
-						<!-- /.container -->
+						 
 					</div>
-					<!-- /.navbar-inner -->
+					 
 				</div>
-				<!-- /.navbar -->
+				 
 			</div>
+ -->
 
-
-
+			<!-- 
 			<div class="row-fluid">
 				<div class="navbar navbar-inverse">
 					<div class="navbar-inner">
@@ -80,56 +89,45 @@
 								<ul class="nav">
 									<li><a href="/remcon-web/servlet/Home">Inicio</a></li>
 
-									<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Sistema o configuración global de la aplicacion</a>
+									<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Sistema o configuración global
+											de la aplicacion</a>
 										<ul class="dropdown-menu">
 											<li><a href="/remcon-web/servlet/system/user/UserManager?MTM3MDQ3MDQzMjI4Mw==">Usuarios</a></li>
 											<li><a href="/remcon-web/servlet/system/role/RolManager?MTM3MDQ3MDQzMjI4NA==">Definición de Roles</a></li>
 											<li><a href="/remcon-web/servlet/system/roleDef/RoleDef?MTM3MDQ3MDQzMjI4NA==">Permisos de roles</a></li>
 											<li><a href="/remcon-web/servlet/system/changepassword/SearchPassword?MTM3MDQ3MDQzMjI4NA==">Cambio de clave</a></li>
-											<li><a href="/remcon-web/servlet/system/changepassword/SearchPassword?MTM3MDQ3MDQzMjI4NA==">Configuración del sistema experto</a></li>
+											<li><a href="/remcon-web/servlet/system/changepassword/SearchPassword?MTM3MDQ3MDQzMjI4NA==">Configuración del
+													sistema experto</a></li>
 										</ul></li>
-										
-<!-- 										
-									<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Reportes</a>
-										<ul class="dropdown-menu">
-											<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Favoritos</a>
-												<ul class="dropdown-menu">
-													<li><a href="#">Favoritos 01</a></li>
-													<li>Favoritos 02</li>
-													<li>Favoritos 03</li>
-													<li>Favoritos 04 &gt;
-														<ul class="dropdown-menu">
-															<li>Informe 01</li>
-															<li>Informe 02</li>
-														</ul>
-													</li>
-												</ul>
-											</li>
-											<li>Informe Personalizado</li>
-											<li>Gráfico</li>
-											<li>Períodos</li>
-											<li>Estadísticas</li>
-											<li><a href="/remcon-web/servlet/news/MainNews?MTM3MDUzNTYyNzMzNw==">Noticias financieras</a></li>
-										</ul>
-									</li>
-	 -->									
-										
+
+									<li class='dropdown'><a href="#" class='dropdown-toggle' data-toggle='dropdown'>Sistema<b class='caret'></b></a>
+										<ul class='dropdown-menu'>
+											<li><a href='/remcon-web/servlet/system/user/UserManager?MTM3MDU0Njg4MzA1OA=='>Usuarios</a></li>
+											<li><a href='/remcon-web/servlet/system/role/RolManager?MTM3MDU0Njg4MzA1OA=='>Definición de Roles</a></li>
+											<li><a href='/remcon-web/servlet/system/roleDef/RoleDef?MTM3MDU0Njg4MzA1OA=='>Permisos de roles</a></li>
+											<li><a href='/remcon-web/servlet/system/changepassword/SearchPassword?MTM3MDU0Njg4MzA1OA=='>Cambio de clave</a></li>
+										</ul></li>
+
+
+
 								</ul>
-								
-								
-								
-								
+
+
+
+
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+ -->
 
 
-		</header>
-		<div>
-			<p>Note: Reduce browser window size to see dropdown navigation menu</p>
-		</div>
+			<div class="row-fluid">
+				<div class="span12">
+					<p>Note: Reduce browser window size to see dropdown navigation menu</p>
+				</div>
+			</div>
 </body>
 </html>
 

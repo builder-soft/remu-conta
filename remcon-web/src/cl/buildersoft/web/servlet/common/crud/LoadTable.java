@@ -49,7 +49,7 @@ public class LoadTable extends AbstractServletUtil {
 			session.setAttribute("BSTable", table);
 		}
 
-		request.getRequestDispatcher("/WEB-INF/jsp/table/main.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/table/main2.jsp").forward(request, response);
 	}
 
 }
