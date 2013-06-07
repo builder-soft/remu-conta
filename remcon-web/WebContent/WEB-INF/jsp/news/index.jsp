@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title>Responsive Menu - ProgrammingFree</title>
 <!-- Mobile viewport optimized -->
@@ -13,17 +13,30 @@
 
 </head>
 <body>
+<!-- HELP: http://www.anidocs.es/bootstrap/docs/scaffolding.php -->
 	<div class="container-fluid">
 
 		<div class="row-fluid">
-			<div class="span10">
-			<h2>
-				Menu
-				</h2>
-				<div class="span1">hola</div>
-				<div class="span1">mundo</div>
+<div class="span12"><img src="http://www.google.cl/images/srpr/logo4w.png" style="height:70px"/></div>
+</div>
+
+		<div class="row-fluid">
+
+			<div class="span6">
+				<h1 class="span12">Menu</h1>
 			</div>
-			<!-- 
+
+			<div class="span3">
+				Dominio:<select id="domain"><option>a</option></select>
+			</div>
+
+			<div class="span3">
+				<span>Usuario:</span> <strong>admin</strong>
+			</div>
+
+		</div>
+
+		<!-- 
 			<div class="row-fluid">
 				<div class="navbar navbar-inverse">
 					<div class="navbar-inner">
@@ -74,7 +87,7 @@
 			</div>
  -->
 
-			<!-- 
+		<!-- 
 			<div class="row-fluid">
 				<div class="navbar navbar-inverse">
 					<div class="navbar-inner">
@@ -120,14 +133,17 @@
 					</div>
 				</div>
 			</div>
- -->
+ 
 
 
-			<div class="row-fluid">
-				<div class="span12">
-					<p>Note: Reduce browser window size to see dropdown navigation menu</p>
-				</div>
+		<div class="row-fluid">
+			<div class="span12">
+				<p>Note: Reduce browser window size to see dropdown navigation menu</p>
 			</div>
+		</div>
+-->		
+		
+		</div>
 </body>
 </html>
 
