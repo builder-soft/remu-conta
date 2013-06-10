@@ -21,7 +21,7 @@
 		</div>
 		<div class="row-fluid">
 			<div class="span6">
-				<img src="http://www.google.cl/images/srpr/logo4w.png" style="height: 70px" />
+				<img src="${pageContext.request.contextPath}/img/logo.jpg" style="height: 70px" />
 			</div>
 			<div class="span3">
 				Dominio:<select id="domain"><option>a</option></select>
