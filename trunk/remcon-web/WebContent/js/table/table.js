@@ -1,4 +1,4 @@
-function swapAllCheck(obj) {
+function swapAllCheck(obj) { 
 	var elements = $('input:checkbox');
 	elements.each(swap);
 
@@ -11,7 +11,7 @@ function swapCheck(obj) {
 
 function verifyButtons() {
 	var elementsSelected = $("input:checked");
-
+	
 	if (elementsSelected.size() == 1
 			&& 'mainCheck' == elementsSelected.get(0).id) {
 		$("#MultirecordActions").fadeOut(speed);

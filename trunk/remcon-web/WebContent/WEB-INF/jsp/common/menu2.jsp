@@ -5,9 +5,10 @@
 <%@page import="cl.buildersoft.framework.util.BSWeb"%>
 
 <div class="row-fluid">
+<div class="span12">
 	<div class="navbar navbar-inverse">
 		<div class="navbar-inner">
-			<div class="container-fluid">
+			 
 				<!-- Boton para moviles -->
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-tasks icon-white" />
 				</a>
@@ -21,11 +22,9 @@
 						<li><a href="${pageContext.request.contextPath}/jsp/login/logout.jsp?<%=BSWeb.randomString()%>">Salir</a></li>
 					</ul>
 				</div>
-
-
-
-			</div>
+			 
 		</div>
+	</div>
 	</div>
 </div>
 </header>

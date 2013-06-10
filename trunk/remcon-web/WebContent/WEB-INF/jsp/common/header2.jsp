@@ -8,23 +8,29 @@
 <!-- Mobile viewport optimized -->
 <meta name="viewport" content="width=device-width">
 <!-- CSS -->
-<link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
-<link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.css?<%=Math.random() %>" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap-responsive.css?<%=Math.random() %>" rel="stylesheet"
+	type="text/css" />
+<script>
+	var contextPath = "${pageContext.request.contextPath}";
+	var speed = "fast";// "slow";
+</script>
 </head>
 <body>
 	<div class="container-fluid">
 
-		<div class="row-fluid"></div>
-		<div class="span6">
-			<img>
-		</div>
+		<div class="row-fluid">
+			<div class="span5">
+				<img src="${pageContext.request.contextPath}/img/logo.jpg" />
+			</div>
 
-		<div class="span3">
-			Dominio:<strong><%=getDomainName(session)%></strong>
-		</div>
-		|
-		<div class="span3">
-			Usuario:<strong><%=getUserName(session)%> - <%=getUserMail(session)%></strong>
+			<div class="span3">
+				Dominio:<strong><%=getDomainName(session)%></strong>
+			</div>
+			<div class="span1">|</div>
+			<div class="span3">
+				Usuario:<strong><%=getUserName(session)%> - <%=getUserMail(session)%></strong>
+			</div>
 		</div>
 	</div>
 
