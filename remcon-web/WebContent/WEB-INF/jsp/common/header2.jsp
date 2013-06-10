@@ -1,3 +1,5 @@
+<%@page import="cl.buildersoft.framework.beans.User"%>
+<%@page import="cl.buildersoft.framework.beans.Domain"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,11 +13,29 @@
 </head>
 <body>
 	<div class="container-fluid">
-		
-			<div class="span10">
-				<h1>Aqui va la imagne de la empresa</h1>
-			</div>
 
-			<div class="span1">Dominio:</div>
-			<div class="span1">Usuario:</div>
-			<header>
+		<div class="row-fluid"></div>
+		<div class="span6">
+			<img>
+		</div>
+
+		<div class="span3">
+			Dominio:<strong><%=getDomainName(session)%></strong>
+		</div>
+		|
+		<div class="span3">
+			Usuario:<strong><%=getUserName(session)%> - <%=getUserMail(session)%></strong>
+		</div>
+	</div>
+
+	<%!private String getDomainName(HttpSession session) {
+		return ((Domain) session.getAttribute("Domain")).getAlias();
+	}
+
+	private String getUserName(HttpSession session) {
+		return ((User) session.getAttribute("User")).getName();
+	}
+
+	private String getUserMail(HttpSession session) {
+		return ((User) session.getAttribute("User")).getMail();
+	}%>
