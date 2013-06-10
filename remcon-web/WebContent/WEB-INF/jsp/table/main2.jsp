@@ -77,11 +77,11 @@
 
 
 
-<%@ include file="/WEB-INF/jsp/table/search.jsp"%>
+<%@ include file="/WEB-INF/jsp/table/search2.jsp"%>
 
 <form method="post" action="${pageContext.request.contextPath}/servlet/common/crud/DeleteRecords" id='frm'>
 
-	<table class="cList" cellpadding="0" cellspacing="0">
+	<table class="table table-bordered table-striped">
 		<%
 			BSField[] fields = table.getFields();
 			String name = null;
@@ -89,11 +89,11 @@
 
 			int rowCount = 0;
 			Object[] values = null;
-			out.println("<tr>");
+			out.println("<thead><tr>");
 
 			if (selectorType > 0) {
 				String type = selectorType == 1 ? "radio" : "CHECKBOX";
-				out.print("<td  align='center' class='cHeadTD'>");
+				out.print("<td align='center'>");
 				if (selectorType >= 2) {
 					out.print("<input id='mainCheck' type='" + type + "' onclick='javascript:swapAllCheck(this);'>");
 				}
@@ -102,7 +102,7 @@
 
 			for (BSField field : fields) {
 				if (field.showField()) {
-					out.print("<td class='cHeadTD'");
+					out.print("<td");
 
 					out.print(getAlign(field));
 
@@ -112,14 +112,16 @@
 					pkName = field.getName();
 				}
 			}
-			out.println("</tr>");
+			out.println("</tr></thead>");
 
+			out.println("<tbody>");
 			while (rs.next()) {
 				values = values2Array(rs, pkName, fields);
 
 				out.println(writeValues(values, fields, rowCount, ctxPath, request, selectorType));
 				rowCount++;
 			}
+			out.println("</tbody>");
 
 			rs.close();
 			new BSmySQL().closeConnection(conn);
@@ -188,6 +190,7 @@
 		Object value = null;
 		int i = 1;
 		String color = rowCount % 2 != 0 ? "cDataTD" : "cDataTD_odd";
+color="";
 
 		if (selectorType > 0) {
 			String type = selectorType == 1 ? "radio" : "CHECKBOX";
@@ -211,7 +214,7 @@
 
 			value = field.isPK() ? values[0] : values[i++];
 			if (field.showField()) {
-				out += "<td class='" + color + "'";
+				out += "<td";
 				out += getAlign(field);
 				out += ">";
 
