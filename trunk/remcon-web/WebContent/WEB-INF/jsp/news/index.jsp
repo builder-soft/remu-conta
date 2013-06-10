@@ -13,30 +13,27 @@
 
 </head>
 <body>
-<!-- HELP: http://www.anidocs.es/bootstrap/docs/scaffolding.php -->
+	<!-- HELP: http://www.anidocs.es/bootstrap/docs/scaffolding.php -->
 	<div class="container-fluid">
 
 		<div class="row-fluid">
-<div class="span12"><img src="http://www.google.cl/images/srpr/logo4w.png" style="height:70px"/></div>
-</div>
-
+			<div class="span12">&nbsp;</div>
+		</div>
 		<div class="row-fluid">
-
 			<div class="span6">
-				<h1 class="span12">Menu</h1>
+				<img src="http://www.google.cl/images/srpr/logo4w.png" style="height: 70px" />
 			</div>
-
 			<div class="span3">
 				Dominio:<select id="domain"><option>a</option></select>
 			</div>
 
 			<div class="span3">
-				<span>Usuario:</span> <strong>admin</strong>
+				<span>Usuario:</span> <strong>Administrador - admin</strong>
 			</div>
-
 		</div>
+	</div>
 
-		<!-- 
+	<!-- 
 			<div class="row-fluid">
 				<div class="navbar navbar-inverse">
 					<div class="navbar-inner">
@@ -87,7 +84,7 @@
 			</div>
  -->
 
-		<!-- 
+	
 			<div class="row-fluid">
 				<div class="navbar navbar-inverse">
 					<div class="navbar-inner">
@@ -132,18 +129,18 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			 
  
 
-
+<!-- 
 		<div class="row-fluid">
 			<div class="span12">
 				<p>Note: Reduce browser window size to see dropdown navigation menu</p>
 			</div>
 		</div>
--->		
-		
-		</div>
+-->
+
+	</div>
 </body>
 </html>
 
