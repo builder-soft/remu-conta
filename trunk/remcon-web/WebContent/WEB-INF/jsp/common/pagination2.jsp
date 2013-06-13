@@ -1,7 +1,6 @@
 <%@page import="cl.buildersoft.framework.beans.BSTableConfig"%>
 <%@page import="cl.buildersoft.framework.util.BSPaging"%>
 
-
 <div class="row-fluid">
 	<div class="span12">
 		<div class="pagination pagination-centered"><%=write_pagination_jsp(request)%></div>
@@ -10,6 +9,7 @@
 
 <script type="text/javascript">
 	function keyPressPaging(o, search, path) {
+		alert(o + " " + search + " " + path);
 		var out = true;
 		var key = window.event.keyCode;
 		if (key >= 48 && key <= 57) {
