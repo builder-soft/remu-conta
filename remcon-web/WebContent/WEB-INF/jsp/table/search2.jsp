@@ -14,7 +14,7 @@
 
 		<script type="text/javascript">
 			function keyPressSearch(o, path, isButton) {
-				alert(o + ", " + path);
+				//alert(o + ", " + path);
 				var out = true;
 
 				if (isButton) {

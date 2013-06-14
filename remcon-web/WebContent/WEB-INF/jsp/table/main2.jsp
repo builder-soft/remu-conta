@@ -128,7 +128,7 @@
 		%>
 	</table>
 
-	<%@ include file="/WEB-INF/jsp/common/pagination.jsp"%>
+	<%@ include file="/WEB-INF/jsp/common/pagination2.jsp"%>
 
 	<%
 		out.print("<br>");
