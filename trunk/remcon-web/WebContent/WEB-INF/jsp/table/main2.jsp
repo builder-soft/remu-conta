@@ -131,13 +131,14 @@
 	<%@ include file="/WEB-INF/jsp/common/pagination2.jsp"%>
 
 	<%
-		out.print("<br>");
+	out.println("<br>");
+	
 
 		out.print("<div id='TableActions' style='float:left;'>");
 		for (BSAction action : tableActions) {
 			if (BSWeb.canUse(action.getCode(), request)) {
 				String id = capitalize(action.getCode());
-				out.print("<button type='button' ");
+				out.print("<button class='btn' type='button' ");
 				out.print("id='o" + id + "' ");
 				out.print(action.getDisabled() ? "disabled" : "");
 
@@ -152,7 +153,7 @@
 		for (BSAction action : multirecordActions) {
 			if (BSWeb.canUse(action.getCode(), request)) {
 				String id = capitalize(action.getDefaultCode());
-				out.print("<button type='button' ");
+				out.print("<button class='btn' type='button' ");
 				out.print("id='o" + id + "' ");
 				out.print(action.getDisabled() ? "disabled" : "");
 
@@ -167,7 +168,7 @@
 			if (BSWeb.canUse(action.getCode(), request)) {
 				String id = capitalize(action.getCode());
 				String method = action.getMethod() != null ? "&Method=" + action.getMethod() : "";
-				out.print("<button type='button' ");
+				out.print("<button class='btn' type='button' ");
 				out.print("id='o" + id + "' ");
 
 				out.print(action.getDisabled() ? "disabled" : "");
@@ -178,7 +179,11 @@
 				out.print(">" + action.getLabel() + "</button>");
 			}
 		}
-		out.print("</div>");
+		out.println("</div>");
+
+
+		
+		
 	%>
 </form>
 
