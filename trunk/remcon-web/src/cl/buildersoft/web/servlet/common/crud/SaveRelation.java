@@ -29,14 +29,11 @@ public class SaveRelation extends HttpServlet {
 
 	}
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/jsp/common/no-access.jsp")
-				.forward(request, response);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/jsp/common/no-access.jsp").forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Long id = Long.parseLong(request.getParameter("cId"));
 		String[] relations = request.getParameterValues("Relation");
@@ -56,10 +53,15 @@ public class SaveRelation extends HttpServlet {
 			mysql.setAutoCommit(conn, false);
 
 			removeRelation(conn, mysql, id, table, action);
-			setRelation(conn, mysql, id, relations, action);
+			if (relations != null) {
+				setRelation(conn, mysql, id, relations, action);
+			}
 			mysql.commit(conn);
 
 		} catch (Exception e) {
+			System.out.println("---------------------------------");
+			e.printStackTrace();
+			System.out.println("---------------------------------");
 			mysql.rollback(conn);
 			throw new BSDataBaseException("0300", e.getMessage());
 		} finally {
@@ -71,12 +73,10 @@ public class SaveRelation extends HttpServlet {
 
 	}
 
-	private void setRelation(Connection conn, BSmySQL mysql, Long id,
-			String[] relations, BSAction action) {
+	private void setRelation(Connection conn, BSmySQL mysql, Long id, String[] relations, BSAction action) {
 		String[] natInfo = action.getNatTable();
 		List<Object> prms = new ArrayList<Object>();
-		String sql = "INSERT INTO " + natInfo[0] + "." + natInfo[1]
-				+ " VALUES(?,?)";
+		String sql = "INSERT INTO " + natInfo[0] + "." + natInfo[1] + " VALUES(?,?)";
 
 		prms.add(id);
 
@@ -89,14 +89,12 @@ public class SaveRelation extends HttpServlet {
 
 	}
 
-	private void removeRelation(Connection conn, BSmySQL mysql, Long id,
-			BSTableConfig table, BSAction action) {
+	private void removeRelation(Connection conn, BSmySQL mysql, Long id, BSTableConfig table, BSAction action) {
 		String[] natInfo = action.getNatTable();
 		String tableName = natInfo[0] + "." + natInfo[1];
 
 		List<Object> prms = new ArrayList<Object>();
-		String sql = "DELETE FROM " + tableName + " WHERE "
-				+ table2Field(table.getTableName()) + "=?";
+		String sql = "DELETE FROM " + tableName + " WHERE " + table2Field(table.getTableName()) + "=?";
 
 		prms.add(id);
 

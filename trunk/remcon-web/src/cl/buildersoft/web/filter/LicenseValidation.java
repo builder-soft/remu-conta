@@ -40,31 +40,34 @@ public class LicenseValidation implements Filter {
 		BSmySQL mysql = new BSmySQL();
 		HttpServletRequest request = (HttpServletRequest) rq;
 		HttpServletResponse response = (HttpServletResponse) rs;
-		Connection conn = mysql.getConnection(request);
-		String license = config.getString(conn, "LICENSE");
-		Boolean success = true;
 
 		// String failUrl = request.getContextPath() +
 		// "/jsp/error/system-fail.jsp";
 		// String failUrl = "/jsp/error/system-fail.jsp";
 		String failUrl = "/jsp/login/logout.jsp";
 		// String failUrl = "/WEB-INF/jsp/common/no-access.jsp";
-
-		try {
-			license = new BSSecurity().decript3des(license);
-			String hostName = request.getLocalName();
-			if (!hostName.equalsIgnoreCase("localhost")) {
-				success = hostName.equalsIgnoreCase(license);
+		if (request.getSession(false) != null) {
+			Connection conn = mysql.getConnection(request);
+			String license = config.getString(conn, "LICENSE");
+			Boolean success = true;
+			try {
+				license = new BSSecurity().decript3des(license);
+				String hostName = request.getLocalName();
+				if (!hostName.equalsIgnoreCase("localhost")) {
+					success = hostName.equalsIgnoreCase(license);
+				}
+			} catch (Exception e) {
+				success = Boolean.FALSE;
 			}
-		} catch (Exception e) {
-			success = Boolean.FALSE;
-		}
 
-		if (success || validateLicense(license)) {
-			chain.doFilter(rq, rs);
+			if (success || validateLicense(license)) {
+				chain.doFilter(rq, rs);
+			} else {
+				request.getSession().invalidate();
+				// response.sendRedirect(failUrl);
+				request.getRequestDispatcher(failUrl).forward(request, response);
+			}
 		} else {
-			request.getSession().invalidate();
-			// response.sendRedirect(failUrl);
 			request.getRequestDispatcher(failUrl).forward(request, response);
 		}
 	}

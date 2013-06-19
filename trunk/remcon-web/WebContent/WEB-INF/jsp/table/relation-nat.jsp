@@ -6,11 +6,10 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="cl.buildersoft.framework.beans.BSTableConfig"%>
 <%@page import="java.sql.ResultSet"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ include file="/WEB-INF/jsp/common/head.jsp"%>
-<%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/header2.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/menu2.jsp"%>
 <%
 	String ctxPath = request.getContextPath();
 	ResultSet relation = (ResultSet) request.getAttribute("Relation");
@@ -26,40 +25,34 @@
 
 	List<Object[]> relationArray = mysql.resultSet2Matrix(relation);
 	relation.close();
-	
-	new BSmySQL().closeConnection(conn);
 
+	new BSmySQL().closeConnection(conn);
 %>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/table/relation.js?<%=Math.random()%>"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/table/relation.js?<%=Math.random()%>"></script>
 
 <h1 class="cTitle"><%=table.getTitle()%></h1>
 
 <!-- 
 <table>
-	<%for (BSField field : fields) {%>
+	< % for (BSField field : fields) { % >
 	<tr>
-		<td class="cLabel" valign='top'><%=field.getLabel()%>:</td>
-		<td class="cData"><%=field.getValue()%></td>
+		<td class="cLabel" valign='top'>< % =field.getLabel() % >:</td>
+		<td class="cData">< % =field.getValue() % ></td>
 	</tr>
-	<%}%>
+	< % } % > 
 </table>
  -->
 <!--
 action="${pageContext.request.contextPath}/servlet/ShowParameters"
 action="${pageContext.request.contextPath}/servlet/common/crud/SaveRelation"
   -->
-<form
-	action="${pageContext.request.contextPath}/servlet/common/crud/SaveRelation"
-	id="frm" method="post">
-	<input type="hidden" name="cId"
-		value="<%=request.getParameter("cId")%>"> <input type="hidden"
-		name="CodeAction" value="<%=request.getParameter("CodeAction")%>">
+<form action="${pageContext.request.contextPath}/servlet/common/crud/SaveRelation" id="frm" method="post">
+	<input type="hidden" name="cId" value="<%=request.getParameter("cId")%>"> <input type="hidden" name="CodeAction"
+		value="<%=request.getParameter("CodeAction")%>">
 
 	<table border="0" width="50%">
 		<tr>
-			<td style="width: 30%" align="center"><span class="cLabel">Disponibles</span><br>
-				<select SIZE="10" id="left" style="width: 100%">
+			<td style="width: 30%" align="center"><span>Disponibles</span><br> <select SIZE="10" id="left" style="width: 100%">
 					<%
 						for (Object[] row : listArray) {
 							if (!exists(row, relationArray)) {
@@ -71,15 +64,20 @@ action="${pageContext.request.contextPath}/servlet/common/crud/SaveRelation"
 					%>
 			</select></td>
 
-			<td style="width: 10%" align="center"><button type="button"
-					onclick="javascript:add();" style="width: 100%">-></button> <br>
-				<br> <br>
-				<button type="button" onclick="javascript:remove();"
-					style="width: 100%"><-</button></td>
+			<td style="width: 10%" align="center"><a class="btn" href="#" onclick="javascript:add();"><i
+					class="icon-chevron-right"></i></a> <!-- 
+			<button type="button"
+					onclick="javascript:add();" style="width: 100%">-></button>
+					 --> <br> <br> <br> <a class="btn" href="#" onclick="javascript:remove();"><i class="icon-chevron-left"></i></a>
 
-			<td style="width: 30%" align="center"><span class="cLabel"
-				align="center">Seleccionados</span><br> <select name="Relation"
-				SIZE="10" id="right" style="width: 100%">
+				<!-- 
+				<i class="icon-chevron-left" onclick="javascript:remove();"/>
+				<button type="button" onclick="javascript:remove();"
+					style="width: 100%"><-</button>
+					 --></td>
+
+			<td style="width: 30%" align="center"><span>Seleccionados</span><br> <select name="Relation" SIZE="10" id="right"
+				style="width: 100%">
 					<%
 						for (Object[] row : relationArray) {
 					%>
@@ -90,15 +88,13 @@ action="${pageContext.request.contextPath}/servlet/common/crud/SaveRelation"
 			</select></td>
 		</tr>
 		<tr>
-			<td align="center"><button type="button"
-					onclick="javascript:save();">Aceptar</button></td>
+			<td align="center"><button type="button" class="btn btn-primary" onclick="javascript:save();">Aceptar</button></td>
 			<td>&nbsp;</td>
-			<td align="center"><a class="cCancel"
-				href="<%=ctxPath + table.getUri()%>">Cancelar</a></td>
+			<td align="center"><a class="btn" href="<%=ctxPath + table.getUri()%>">Cancelar</a></td>
 		</tr>
 	</table>
 </form>
-<%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/footer2.jsp"%>
 
 <%!/**<code>
 	 private List<String[]> resultSet2Matrix(ResultSet rs) {
@@ -145,15 +141,16 @@ action="${pageContext.request.contextPath}/servlet/common/crud/SaveRelation"
 		return out;
 	}
 
-	private void showCompares(Object[] a, Object[] b) {
-		System.out.println(Arrays.toString(a) + " == " + Arrays.toString(b) + "->" + Arrays.equals(a, b));
-	}
+	/**
+	 private void showCompares(Object[] a, Object[] b) {
+	 System.out.println(Arrays.toString(a) + " == " + Arrays.toString(b) + "->" + Arrays.equals(a, b));
+	 }
 
-	private String showList(List<Object[]> l) {
-		String out = "";
+	 private String showList(List<Object[]> l) {
+	 String out = "";
 
-		for (Object[] e : l) {
-			out += Arrays.toString(e) + ", ";
-		}
-		return out;
-	}%>
+	 for (Object[] e : l) {
+	 out += Arrays.toString(e) + ", ";
+	 }
+	 return out;
+	 }*/%>
