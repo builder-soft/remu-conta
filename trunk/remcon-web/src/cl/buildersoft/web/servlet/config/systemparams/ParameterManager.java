@@ -25,6 +25,11 @@ public class ParameterManager extends HttpServletCRUD implements Servlet {
 		table.renameAction("EDIT", "MOD_PARAMS");
 		table.renameAction("DELETE", "DEL_PARAMS");
 
+		table.getField("cKey").setLabel("Llave");
+		table.getField("cLabel").setLabel("Descripción");
+		table.getField("cValue").setLabel("Valor");
+		table.getField("cDataType").setLabel("Tipo de dato");
+		
 		return table;
 	} 
 

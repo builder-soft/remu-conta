@@ -134,7 +134,7 @@
 	out.println("<br>");
 	
 
-		out.print("<div id='TableActions' style='float:left;'>");
+		out.println("<div id='TableActions' style='float:left;'>");
 		for (BSAction action : tableActions) {
 			if (BSWeb.canUse(action.getCode(), request)) {
 				String id = capitalize(action.getCode());
@@ -147,9 +147,9 @@
 			}
 
 		}
-		out.print("</div>");
+		out.println("</div>");
 
-		out.print("<div id='MultirecordActions' style='float:left;display:none;'>");
+		out.println("<div id='MultirecordActions' style='float:left;display:none;'>");
 		for (BSAction action : multirecordActions) {
 			if (BSWeb.canUse(action.getCode(), request)) {
 				String id = capitalize(action.getDefaultCode());
@@ -161,9 +161,9 @@
 				out.print(">" + action.getLabel() + "</button>");
 			}
 		}
-		out.print("</div>");
+		out.println("</div>");
 
-		out.print("<div id='RecordActions' style='float:left;display:none;'>");
+		out.println("<div id='RecordActions' style='float:left;display:none;'>");
 		for (BSAction action : recordActions) {
 			if (BSWeb.canUse(action.getCode(), request)) {
 				String id = capitalize(action.getCode());
@@ -180,9 +180,7 @@
 			}
 		}
 		out.println("</div>");
-
-
-		
+	
 		
 	%>
 </form>
@@ -198,7 +196,7 @@
 color="";
 
 		if (selectorType > 0) {
-			String type = selectorType == 1 ? "radio" : "CHECKBOX";
+			String type = selectorType == 1 ? "radio" : "checkbox";
 			out += "<td align='center' class='" + color + "'>";
 
 			out += "<input type='" + type + "' ";
