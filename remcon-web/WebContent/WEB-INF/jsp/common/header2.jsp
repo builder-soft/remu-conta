@@ -11,6 +11,26 @@
 <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.css?<%=Math.random() %>" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap-responsive.css?<%=Math.random() %>" rel="stylesheet"
 	type="text/css" />
+
+<style type="text/css">
+/*
+*      body {
+*        padding-top: 40px;
+*        padding-bottom: 40px;
+*       background-color: #f5f5f5;
+*      }
+*/
+.border {
+	border: 1px solid #e5e5e5;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
+</style>
+
 <script>
 	var contextPath = "${pageContext.request.contextPath}";
 	var speed = "fast";// "slow";
@@ -20,16 +40,13 @@
 	<div class="container-fluid">
 
 		<div class="row-fluid">
-			<div class="span5">
+			<div class="span6">
 				<img src="${pageContext.request.contextPath}/img/logo.jpg" />
 			</div>
 
-			<div class="span3">
-				Dominio:<strong><%=getDomainName(session)%></strong>
-			</div>
-			<div class="span1">|</div>
-			<div class="span3">
-				Usuario:<strong><%=getUserName(session)%> - <%=getUserMail(session)%></strong>
+			<div class="span6 text-right">
+				Dominio:&nbsp;<strong><%=getDomainName(session)%></strong>&nbsp;|&nbsp;Usuario:&nbsp;<strong><%=getUserName(session)%>
+					- <%=getUserMail(session)%></strong>
 			</div>
 		</div>
 	</div>

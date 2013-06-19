@@ -98,9 +98,9 @@ for (BSField field : fields) {
 		for (BSField field : fields) {
 	%>
 	<div class='row-fluid'>
-		<div class='span3'><%=field.getLabel()%>:
+		<div class='span2'><%=field.getLabel()%>:
 		</div>
-		<div class="span9"><%=writeHTMLField(field, request)%></div>
+		<div class="span10"><%=writeHTMLField(field, request)%></div>
 	</div>
 	<%
 		}

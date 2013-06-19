@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/servlet/ShowParameters")
 public class ShowParameters extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6514375742618981280L;
 
 	public ShowParameters() {
 		super();
@@ -23,15 +23,15 @@ public class ShowParameters extends HttpServlet {
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		request.getRequestDispatcher("/WEB-INF/jsp/common/head.jsp").include(request, response);
-		request.getRequestDispatcher("/WEB-INF/jsp/common/menu.jsp").include(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/common/header2.jsp").include(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/common/menu2.jsp").include(request, response);
 
 		PrintWriter out = response.getWriter();
 		showParameters(request, out);
 		out.println("<hr>");
 		showAttributes(request, out);
 
-		request.getRequestDispatcher("/WEB-INF/jsp/common/footer.jsp").include(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/common/footer2.jsp").include(request, response);
 
 		out.flush();
 	}
