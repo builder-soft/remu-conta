@@ -7,12 +7,15 @@
 %>
 
 <ul class="pager">
+<%=write_first_link_jsp(request)%>
 	<%=write_previous_link_jsp(request)%>
 	<li><%=write_info_pages_jsp(request)%></li>
 	<%=write_next_link_jsp(request)%>
+	<%=write_last_link_jsp(request)%>
+
 	<!-- 	
-			<li><a href="<%=write_previous_link_jsp(request)%>">Anterior</a></li>
-			<li><a href="<%=write_next_link_jsp(request)%>">Siguiente</a></li>
+			<li><a href="< % =write_previous_link_jsp(request) % >">Anterior</a></li>
+			<li><a href="< % =write_next_link_jsp(request) % >">Siguiente</a></li>
 			 -->
 </ul>
 
@@ -58,6 +61,29 @@
 		return out;
 	}
 
+	private String write_first_link_jsp(HttpServletRequest request) {
+		BSPaging paging = (BSPaging) request.getAttribute("Paging");
+		String cssClass = "";
+		Integer currentPage = paging.getCurrentPage();
+
+		if (currentPage == 1) {
+			cssClass = " disabled";
+		}
+		return write_link_jsp(request, 1, paging, cssClass, "Primera");
+	}
+
+	private String write_last_link_jsp(HttpServletRequest request) {
+		BSPaging paging = (BSPaging) request.getAttribute("Paging");
+		String cssClass = "";
+		Integer currentPage = paging.getCurrentPage();
+
+		if (currentPage == paging.getPageCount()) {
+			cssClass = " disabled";
+		}
+		return write_link_jsp(request, paging.getPageCount(), paging, cssClass, "Última");
+	}
+
+	
 	private String write_previous_link_jsp(HttpServletRequest request) {
 		BSPaging paging = (BSPaging) request.getAttribute("Paging");
 		String cssClass = "";
@@ -66,7 +92,7 @@
 		if (currentPage == 1) {
 			cssClass = " disabled";
 		}
-		return write_link_jsp(request, -1, paging, cssClass, "Anterior");
+		return write_link_jsp(request, paging.getCurrentPage() - 1, paging, cssClass, "Anterior");
 	}
 
 	private String write_next_link_jsp(HttpServletRequest request) {
@@ -78,15 +104,15 @@
 			cssClass = " disabled";
 		}
 
-		return write_link_jsp(request, 1, paging, cssClass, "Siguiente");
+		return write_link_jsp(request, paging.getCurrentPage() + 1, paging, cssClass, "Siguiente");
 	}
 
-	private String write_link_jsp(HttpServletRequest request, Integer count, BSPaging paging, String cssClass, String label) {
+	private String write_link_jsp(HttpServletRequest request, Integer page, BSPaging paging, String cssClass, String label) {
 		String ctxPath = request.getContextPath();
 		BSTableConfig table = (BSTableConfig) request.getSession().getAttribute("BSTable");
 		String uri = table.getUri();
 		String search = paging.getSearchValue(request);
-		uri = linkToPage2(ctxPath, paging.getCurrentPage() + count, uri, search);
+		uri = linkToPage2(ctxPath, page, uri, search);
 
 		String out = "<li class='" + cssClass + "'>";
 		if ("disabled".indexOf(cssClass) >= 0) {

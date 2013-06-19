@@ -8,36 +8,35 @@
 <%@page import="cl.buildersoft.framework.beans.BSField"%>
 <%@page import="cl.buildersoft.framework.beans.BSTableConfig"%>
 <%@page import="java.sql.ResultSet"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	BSTableConfig table = (BSTableConfig) session.getAttribute("BSTable");
 //Connection conn = (Connection) request.getAttribute("Conn");
 
 BSField[] fields = table.getFields();
 %>
-<%@ include file="/WEB-INF/jsp/common/head.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/header2.jsp"%>
 <%
 	BSHeadConfig head = (BSHeadConfig) session.getAttribute("BSHead");
 	if (head != null) {
 		BSScript script = head.getScript();
 		BSCss css = head.getCss();
 		for (String oneScript : script.getListScriptNames()) {
-			out.print("<script src='" + request.getContextPath() + script.getPath() + oneScript + ".js'></script>");
+	out.print("<script src='" + request.getContextPath() + script.getPath() + oneScript + ".js'></script>");
 		}
-
+/**
 		for (String oneCss : css.getListCssNames()) {
-			out.print("<LINK rel='stylesheet' type='text/css' src='" + request.getContextPath() + css.getPath() + oneCss
-					+ ".css'/>");
+	out.print("<LINK rel='stylesheet' type='text/css' src='" + request.getContextPath() + css.getPath() + oneCss
+	+ ".css'/>");
 		}
+*/
 	}
 %>
 <script type="text/javascript">
 <!--
-function sendForm(){
-	var msg = null;
-	<%
-	String fieldName=null;
+	function sendForm() {
+		var msg = null;
+<%String fieldName=null;
 	String html = "";
 	BSFieldType type=null;
 	for (BSField field : fields) {
@@ -59,30 +58,31 @@ function sendForm(){
 			html += "if (" + fieldName + " == null) {\n";
 			html += "   msg = 'El campo "+ field.getLabel() + " no es valido';\n";
 			html += "}\n";
-}
-%>
-	<%=html%>
-	<%}%>
-if (msg != null) {
-	alert(msg);
-} else {
-<%
-html = "";
+}%>
+	
+<%=html%>
+	
+<%}%>
+	if (msg != null) {
+			alert(msg);
+		} else {
+<%html = "";
 for (BSField field : fields) {
 		type = field.getType();
 		fieldName = field.getName();
 		if(type.equals(BSFieldType.Double)|| type.equals(BSFieldType.Integer)){
 			html += "document.getElementById('"+fieldName+"').value = "+fieldName+";\n";
+		}%>
+	
+<%}%>
+	
+<%=html%>
+	document.getElementById("editForm").submit();
 		}
-		%>	
-	<%}%>
-	<%=html%>
-		document.getElementById("editForm").submit();
 	}
-}
 </script>
-<%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
-<h1 class="cTitle">Detalle de información</h1>
+<%@ include file="/WEB-INF/jsp/common/menu2.jsp"%>
+<h1 class="cTitle">Detalle de informaciÃ³n</h1>
 <%
 	String nextServlet = (String) request.getAttribute("Action");
 	if ("insert".equalsIgnoreCase(nextServlet) || table.usingView()) {
@@ -92,28 +92,30 @@ for (BSField field : fields) {
 	}
 %>
 
-<form
-	action="${pageContext.request.contextPath}/servlet/common/crud/<%=nextServlet%>"
-	method="post" id="editForm">
-	<table>
-		<%
-			for (BSField field : fields) {
-		%>
-		<tr>
-			<td class="cLabel" valign='top'><%=field.getLabel()%>:</td>
-			<td><%=writeHTMLField(field, request)%></td>
-		</tr>
-		<%
-			}
-		%>
-	</table>
+<form action="${pageContext.request.contextPath}/servlet/common/crud/<%=nextServlet%>" method="post" id="editForm">
+
+	<%
+		for (BSField field : fields) {
+	%>
+	<div class='row-fluid'>
+		<div class='span3'><%=field.getLabel()%>:
+		</div>
+		<div class="span9"><%=writeHTMLField(field, request)%></div>
+	</div>
+	<%
+		}
+	%>
+
 </form>
-<button type="button" onclick="javascript:sendForm()">Aceptar</button>
-&nbsp;&nbsp;&nbsp;
-<a class="cCancel" href="${pageContext.request.contextPath}<%=LoadTable.URL%>">Cancelar</a>
 
+<div class='row-fluid'>
+	<div class='span12'>
+		<button type="button" class="btn btn-primary" onclick="javascript:sendForm()">Aceptar</button>
+		&nbsp;&nbsp;&nbsp; <a class="btn" href="${pageContext.request.contextPath}<%=LoadTable.URL%>">Cancelar</a>
+	</div>
+</div>
 
-<%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/footer2.jsp"%>
 
 <%!private static String NEW = "[Nuevo]";
 
@@ -166,23 +168,23 @@ for (BSField field : fields) {
 					afterInput = "(formato: " + format + ")";
 				} else if (type.equals(BSFieldType.Double)) {
 					maxlength = 15;
-//					format = BSWeb.getFormatDecimal(request);
-					value = BSWeb.formatDouble(request, (Double)value); // number2String(value, format);
+					//					format = BSWeb.getFormatDecimal(request);
+					value = BSWeb.formatDouble(request, (Double) value); // number2String(value, format);
 					size = maxlength;
 				} else if (type.equals(BSFieldType.Integer)) {
 					maxlength = 8;
-//					format = BSWeb.getFormatInteger(request);
-//					value = BSWeb.number2String(value, format);
-					value = BSWeb.formatInteger(request,(Integer) value);
+					//					format = BSWeb.getFormatInteger(request);
+					//					value = BSWeb.number2String(value, format);
+					value = BSWeb.formatInteger(request, (Integer) value);
 					size = maxlength;
 				} else if (type.equals(BSFieldType.Long)) {
 					maxlength = 10;
-//					format = BSWeb.getFormatInteger(request);
+					//					format = BSWeb.getFormatInteger(request);
 					if (isPk && value == null) {
 						value = NEW;
 						//isNew = Boolean.TRUE;
 					} else {
-						value = value == null ? "" : BSWeb.formatLong(request, (Long)value);  // BSWeb.number2String(value, format);
+						value = value == null ? "" : BSWeb.formatLong(request, (Long) value); // BSWeb.number2String(value, format);
 					}
 					size = maxlength;
 				}
@@ -212,7 +214,7 @@ for (BSField field : fields) {
 		String out = "";
 
 		if (isPk) {
-			out += "<span class='cData'>" + value + "</span>";
+			out += "<label>" + value + "</label>";
 			type = isPk ? "hidden" : type;
 		}
 
@@ -221,20 +223,20 @@ for (BSField field : fields) {
 		out += "' ";
 		out += "id='" + name + "' ";
 		out += "maxlength='" + maxlength + "' ";
-		out += isReadonly ? "READONLY " : "";
+		out += isReadonly ? "readonly " : "";
 		out += "value='" + (value.equals(NEW) ? "0" : value) + "' ";
 		out += "size='" + size + "px' ";
-		
-		out+=addScript(dataType);
-		
+
+		out += addScript(dataType);
+
 		if (!"".equals(validationOnBlur)) {
 			out += "onBlur='javascript:" + validationOnBlur + "(this)'";
 		}
-		
-		
-		out += ">&nbsp;<span class='cLabel'>" + afterInput+"</span>";
 
-		return out;}
+		out += ">&nbsp;<label>" + afterInput + "</label>";
+
+		return out;
+	}
 
 	private String addScript(BSFieldType dataType) {
 		String out = "";
@@ -244,7 +246,7 @@ for (BSField field : fields) {
 		} else if (dataType.equals(BSFieldType.Integer)) {
 			out = "onfocus='javascript:integerFocus(this);' ";
 			out += "onblur='javascript:integerBlur(this);' ";
-		}else if (dataType.equals(BSFieldType.Date)) {
+		} else if (dataType.equals(BSFieldType.Date)) {
 			out += "onblur='javascript:dateBlur(this);' ";
 		}
 		return out;
