@@ -15,13 +15,13 @@ import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 @WebServlet("/servlet/common/crud/NewRecord")
 public class NewRecord extends AbstractServletUtil {
 	private static final long serialVersionUID = 1L;
+	public static String URL = "/servlet/common/crud/NewRecord";
 
 	public NewRecord() {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		BSTableConfig table = null;
 		synchronized (session) {
@@ -32,8 +32,7 @@ public class NewRecord extends AbstractServletUtil {
 			f.setValue(null);
 		}
 		request.setAttribute("Action", "Insert");
-		request.getRequestDispatcher("/WEB-INF/jsp/table/data-form.jsp")
-				.forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/table/data-form.jsp").forward(request, response);
 	}
 
 }

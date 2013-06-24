@@ -44,9 +44,9 @@ public class ShowParameters extends HttpServlet {
 		while (names.hasMoreElements()) {
 			String name = (String) names.nextElement();
 
-			out.println("<li class='cLabel'>" + name);
+			out.println("<li>" + name);
 			Object value = request.getAttribute(name);
-			out.println("(" + value.getClass().getName() + ") = <span class='cData'>" + value.toString() + "</span>");
+			out.println("(" + value.getClass().getName() + ") = <span>" + value.toString() + "</span>");
 			out.println("</li>");
 		}
 		out.println("</ul>");
@@ -55,8 +55,8 @@ public class ShowParameters extends HttpServlet {
 	private void showParameters(HttpServletRequest request, PrintWriter out) {
 		Enumeration<String> names = request.getParameterNames();
 
-		out.print("<h2 class='cTitle2'>Parámetros</h2>");
-		out.print("<ul class='cLabel'>");
+		out.print("<h2>Parámetros</h2>");
+		out.print("<ul>");
 		while (names.hasMoreElements()) {
 			String name = (String) names.nextElement();
 
@@ -65,7 +65,7 @@ public class ShowParameters extends HttpServlet {
 
 			out.print("<ul>");
 			for (String value : values) {
-				out.println("<li class='cData'>" + value + "</li>");
+				out.println("<li>" + value + "</li>");
 			}
 			out.print("</ul></li>");
 
