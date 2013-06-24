@@ -23,7 +23,6 @@ public abstract class HttpServletCRUD extends HttpServlet {
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// BSHeadConfig head = getBSHeadConfig();
 		BSTableConfig table = getBSTableConfig(request);
 
 		String uri = request.getRequestURI().substring(request.getContextPath().length());
@@ -33,7 +32,6 @@ public abstract class HttpServletCRUD extends HttpServlet {
 		HttpSession session = request.getSession();
 		synchronized (session) {
 			session.setAttribute("BSTable", table);
-			// session.setAttribute("BSHead", head);
 		}
 
 		request.getRequestDispatcher(LoadTable.URL).forward(request, response);

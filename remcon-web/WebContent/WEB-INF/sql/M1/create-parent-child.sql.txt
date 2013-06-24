@@ -1,0 +1,72 @@
+/**
+Deberia ser un ciclo, por ejemplo las compras, partiendo desde la solicitud de compra, 
+hasta la recepción de los productos, pasando por la solicitud de pago, bodega, etc.
+
+Tablas (Facturas / Ordenes de compra)
+*/
+CREATE TABLE IF NOT EXISTS tParent (
+	cId				BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cDate			DATE	NOT NULL COMMENT '',
+	cCustomer		BIGINT	NULL COMMENT '',
+	cBranch			BIGINT	NULL COMMENT '',
+	cPaymentMethod	BIGINT	NULL COMMENT '',
+	cTax			DECIMAL(20,4)	COMMENT '',
+	cDiscount		DECIMAL(20,4)	COMMENT '',
+	cComment		LONGTEXT	NULL COMMENT ''
+) ENGINE=innoDB;
+
+CREATE TABLE IF NOT EXISTS tChild (
+	cId			BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cParent		BIGINT	NULL COMMENT '',
+	cProduct	BIGINT	NULL COMMENT '',
+	cAmount		DECIMAL(20,4)	COMMENT '',
+	cPrice		DECIMAL(20,4)	COMMENT ''
+) ENGINE=innoDB;
+
+ALTER TABLE tChild
+ADD INDEX Child_index_Parent (cParent ASC),
+ADD CONSTRAINT tChildToParent FOREIGN KEY (cParent) REFERENCES tParent(cId);
+
+/**
+tParent
+- cId
+- cDate
+- cCustomer
+- cBranch
+- cPaymentMethod
+- cTax
+- cDiscount
+- cComment
+
+tChild
+- cId
+- cParent
+- cProduct
+- cAmount
+- cPrice
+
+tProduct
+- cId
+- cName
+- cPrice
+- cStock
+
+tPaymentMethod
+- cId
+- cName
+
+tCustomer
+- cId
+- cName
+
+tBanch
+- cId
+- cCustomer
+- cAddress
+- cComuna
+- cPrimary	BIT
+
+tComuna
+- cId
+- cName
+*/

@@ -12,6 +12,7 @@ INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, @menuIdSystem);
 	INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, LAST_INSERT_ID());
 	INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('ROL', 'Definición de Roles', '/servlet/system/role/RolManager', @menuIdSystem, 2);
 	INSERT INTO tR_RolOption(cRol, cOption) VALUES(@rolId, LAST_INSERT_ID());
+	
 
 INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('CONFIG', 'Configuracion del Sistema', NULL, NULL, 2);
 SET @menuIdConfig = LAST_INSERT_ID();
@@ -95,6 +96,12 @@ SET @menuIdReport = LAST_INSERT_ID();
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('PERIODS_REPORT', 'Períodos', NULL, @menuIdReport);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('STATISTICS', 'Estadísticas', NULL, @menuIdReport);
 		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('FINANCIAL_NEWS', 'Noticias financieras', '/servlet/news/MainNews', @menuIdReport);
+
+
+INSERT INTO tOption(cKey, cLabel, cUrl, cParent, cOrder) VALUES('OTHER', 'Otros', NULL, NULL, 5);
+SET @menuIdOther = LAST_INSERT_ID();
+		INSERT INTO tOption(cKey, cLabel, cUrl, cParent) VALUES('INVOICE', 'Facturas', '/servlet/invoice/InvoiceManager', @menuIdOther);
+
 
 /** Creacion de usuario contador del sistema, con las opciones desarrolladas 
 hasta ahora */
