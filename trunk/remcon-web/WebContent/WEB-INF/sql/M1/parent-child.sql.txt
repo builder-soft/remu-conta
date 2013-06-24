@@ -12,12 +12,13 @@ tParent
 - cPaymentMethod
 - cTax
 - cDiscount
+- cComment
 
 tChild
 - cId
 - cParent
-- cAmount
 - cProduct
+- cAmount
 - cPrice
 
 tProduct
@@ -44,4 +45,5 @@ tBanch
 tComuna
 - cId
 - cName
+
 */
