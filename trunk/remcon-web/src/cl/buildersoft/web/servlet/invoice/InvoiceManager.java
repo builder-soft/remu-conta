@@ -11,7 +11,7 @@ public class InvoiceManager extends HttpServletParentChild {
 	private static final long serialVersionUID = -3816227256019074321L;
 
 	@Override
-	protected BSParentChild getBSParentChildConfig(HttpServletRequest request) {
+	protected BSParentChild getBSParentChild(HttpServletRequest request) {
 		BSParentChild invoice = new BSParentChild("remcon", "tParent", "tChild");
 
 		invoice.setTitle("Factura");
