@@ -10,7 +10,7 @@ import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.type.BSActionType;
 
 public interface BSParentChildService {
-	public BSParentChild init(Connection conn, String dataBase, String parentTable, String childName);
+	public void init(Connection conn, BSParentChild parentChild);
 
 	public List<BSField> listParentFields(BSParentChild parentChild);
 
@@ -23,11 +23,11 @@ public interface BSParentChildService {
 	public void addChildAction(BSParentChild parentChild, BSAction action);
 
 	public void addChildField(BSParentChild parentChild, BSField field);
-
+/*
 	public void configParentFields(Connection conn, BSParentChild parentChild, BSmySQL mysql);
 
 	public void configChildFields(Connection conn, BSParentChild parentChild, BSmySQL mysql);
-
+*/
 	public List<BSField> removeIdField(BSParentChild parentChild);
 
 	public List<BSAction> getParentActionsByType(BSParentChild parentChild, BSActionType type);
