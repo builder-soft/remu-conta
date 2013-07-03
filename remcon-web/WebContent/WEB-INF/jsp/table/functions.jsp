@@ -1,17 +1,15 @@
+
 <%@page import="cl.buildersoft.framework.dataType.BSDataTypeUtil"%>
 <%@page import="cl.buildersoft.framework.dataType.BSBoolean"%>
 <%@page import="cl.buildersoft.framework.dataType.BSCalendar"%>
 <%@page import="cl.buildersoft.framework.dataType.BSDataType"%>
+<%@page import="cl.buildersoft.framework.util.crud.BSField"%>
 <%@page import="java.util.List"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="cl.buildersoft.framework.beans.BSCss"%>
 <%@page import="cl.buildersoft.framework.beans.BSScript"%>
 <%@page import="cl.buildersoft.framework.beans.BSHeadConfig"%>
-<%@page import="cl.buildersoft.framework.util.crud.BSActionType"%>
-<%@page import="cl.buildersoft.framework.util.crud.BSAction"%>
-<%@page import="cl.buildersoft.framework.util.crud.BSTableConfig"%>
 <%@page import="cl.buildersoft.framework.type.BSFieldType"%>
-<%@page import="cl.buildersoft.framework.util.crud.BSField"%>
 <%!private String getAlign(BSField field) {
 		String out = " align='left' ";
 		BSDataType type = field.getType();

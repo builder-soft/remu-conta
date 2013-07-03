@@ -1,9 +1,11 @@
+<%@page import="cl.buildersoft.framework.util.crud.BSField"%>
+<%@page import="cl.buildersoft.framework.util.crud.BSTableConfig"%>
 <%@page import="cl.buildersoft.web.servlet.common.crud.LoadTable"%>
 <%@page import="cl.buildersoft.business.beans.Health,cl.buildersoft.business.beans.ExBoxSystem,cl.buildersoft.business.beans.PFM"%>
 <%@page import="cl.buildersoft.business.beans.RagreementAPV,cl.buildersoft.business.beans.Currency,cl.buildersoft.business.beans.APV"%>
 <%@page import="cl.buildersoft.business.beans.Employee,cl.buildersoft.business.beans.Agreement,cl.buildersoft.framework.beans.BSCss"%>
 <%@page import="cl.buildersoft.framework.beans.BSScript,cl.buildersoft.framework.beans.BSHeadConfig,cl.buildersoft.framework.util.BSWeb"%>
-<%@page import="cl.buildersoft.framework.type.BSFieldType,cl.buildersoft.framework.util.crud.BSField,cl.buildersoft.framework.util.crud.BSTableConfig"%>
+<%@page import="cl.buildersoft.framework.type.BSFieldType"%>
 <%@page import="java.sql.ResultSet, cl.buildersoft.business.beans.FamilyAssignmentStretch"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>

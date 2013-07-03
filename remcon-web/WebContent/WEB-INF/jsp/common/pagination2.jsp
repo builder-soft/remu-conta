@@ -1,7 +1,5 @@
 <%@page import="cl.buildersoft.framework.util.crud.BSTableConfig"%>
 <%@page import="cl.buildersoft.framework.util.crud.BSPaging"%>
-
-
 <%
 	if (paginationRequerid(request)) {
 %>
