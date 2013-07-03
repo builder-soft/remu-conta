@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cl.buildersoft.framework.beans.BSField;
-import cl.buildersoft.framework.beans.BSTableConfig;
+import cl.buildersoft.framework.dataType.BSDataType;
+import cl.buildersoft.framework.dataType.BSDataTypeUtil;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
-import cl.buildersoft.framework.type.BSFieldDataType;
-import cl.buildersoft.framework.type.BSTypeFactory;
 import cl.buildersoft.framework.util.BSConfig;
+import cl.buildersoft.framework.util.crud.BSField;
+import cl.buildersoft.framework.util.crud.BSTableConfig;
 
 /**
  * Servlet implementation class DownloadFile
@@ -61,7 +61,7 @@ public abstract class DownloadCSVServlet extends HttpServlet {
 			while (rs.next()) {
 				for (BSField field : fields) {
 					value = rs.getObject(field.getName());
-					BSFieldDataType type = BSTypeFactory.create(field);
+					BSDataType type = BSDataTypeUtil.create(field.toString());
 					value = type.format(conn, value);
 					csv.write(value.toString());
 				}

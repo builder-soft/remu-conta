@@ -1,27 +1,27 @@
 package cl.buildersoft.framework.service.impl;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import cl.buildersoft.framework.beans.BSAction;
-import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.parentChild.BSParentChild;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.framework.service.BSParentChildService;
-import cl.buildersoft.framework.type.BSActionType;
-import cl.buildersoft.framework.util.BSFactory;
+import cl.buildersoft.framework.util.BSGenericModelUtils;
 import cl.buildersoft.framework.util.BSUtils;
+import cl.buildersoft.framework.util.crud.BSAction;
+import cl.buildersoft.framework.util.crud.BSActionType;
+import cl.buildersoft.framework.util.crud.BSField;
 
-public class BSParentChildServiceImpl implements BSParentChildService {
+public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSParentChildService {
 	@Override
 	public void init(Connection conn, BSParentChild parentChild) {
-
 		configParentFields(conn, parentChild);
 
 	}
@@ -46,7 +46,7 @@ public class BSParentChildServiceImpl implements BSParentChildService {
 
 		String name = null;
 
-		if (fields.length == 0) {
+		if (fields == null || fields.length == 0) {
 			Integer n;
 			try {
 				n = metaData.getColumnCount();
@@ -64,9 +64,9 @@ public class BSParentChildServiceImpl implements BSParentChildService {
 					throw new BSDataBaseException("300", e.getMessage());
 				}
 				field = new BSField(name, name.substring(1));
-				addParentField(parentChild, field);
+				this.addParentField(parentChild, field);
 				// addField(parentChild, field);
-//				configField(conn, metaData, name, i, field);
+				configField(conn, parentChild, metaData, name, i, field);
 				if (field.isPK() && !hasPK) {
 					hasPK = Boolean.TRUE;
 				}
@@ -77,33 +77,73 @@ public class BSParentChildServiceImpl implements BSParentChildService {
 			}
 		} else {
 			Integer i = 1;
-			/**<code>
-			for (BSField field : fields) {
-				name = field.getName();
 
-				configField(conn, metaData, name, i, field);
+			for (String field : fields) {
+				configField(conn, parentChild, metaData, name, i, this.getParentField(parentChild, field));
 
 				i++;
 			}
-			</code>*/
+			/**
+			 * <code>
+			</code>
+			 */
 		}
 	}
 
-	/**
-	 * public void addField(BSParentChild parentChild, BSField field) {
-	 * parentChild.getpa this.fieldsMap.put(field.getName(), field);
-	 * 
-	 * String[] target = new String[this.fields.length + 1];
-	 * System.arraycopy(this.fields, 0, target, 0, this.fields.length);
-	 * target[target.length - 1] = field.getName(); this.fields = target; }
-	 */
+	protected void configField(Connection conn, BSParentChild parentChild, ResultSetMetaData metaData, String name, Integer i,
+			BSField field) {
+		try {
+			if (field.getType() == null) {
+				this.setRealType(metaData, i, field);
+			}
+			if (field.isPK() == null) {
+				BSField pk = getPKField(conn, parentChild);
+
+				if (pk != null) {
+					field.setPK(pk.getName().equals(name));
+				} else {
+					field.setPK(Boolean.FALSE);
+				}
+			}
+			if (field.getLength() == null) {
+				field.setLength(metaData.getColumnDisplaySize(i));
+			}
+		} catch (SQLException e) {
+			throw new BSDataBaseException(e);
+		}
+
+	}
+
+	private BSField getPKField(Connection conn, BSParentChild parentChild) {
+		String fieldName = null;
+		BSField out = parentChild.getParentPK();
+		if (out == null) {
+			DatabaseMetaData dbmd;
+			try {
+				dbmd = (DatabaseMetaData) conn.getMetaData();
+
+				ResultSet rs = dbmd.getPrimaryKeys(parentChild.getDataBase(), null, parentChild.getParentTable());
+				while (rs.next()) {
+					fieldName = rs.getString("COLUMN_NAME");
+				}
+				rs.close();
+			} catch (SQLException e) {
+				throw new BSDataBaseException(e);
+			}
+			out = getParentField(parentChild, fieldName);
+			parentChild.setParentPK(out);
+		}
+
+		return out;
+	}
+
 	private String getSQLForReadStruct(BSParentChild parentChild) {
 		String out = "SELECT ";
 
-//		BSField[] fields = parentChild.getParentFields();
+		// BSField[] fields = parentChild.getParentFields();
 		String[] names = parentChild.getParentFields();
 
-		if (names.length == 0) {
+		if (names == null || names.length == 0) {
 			out += "*";
 		} else {
 			out += BSUtils.unSplitString(names, ",");
@@ -114,6 +154,8 @@ public class BSParentChildServiceImpl implements BSParentChildService {
 		return out;
 	}
 
+	/**
+	 * <code>
 	private String[] fieldsToNames(BSField[] fields) {
 		String[] out = new String[fields.length];
 		int i = 0;
@@ -123,7 +165,8 @@ public class BSParentChildServiceImpl implements BSParentChildService {
 		}
 		return out;
 	}
-
+</code>
+	 */
 	@Override
 	public List<BSField> listParentFields(BSParentChild parentChild) {
 
@@ -193,8 +236,7 @@ public class BSParentChildServiceImpl implements BSParentChildService {
 
 	@Override
 	public BSField getParentField(BSParentChild parentChild, String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return parentChild.getParentFieldsMap().get(name);
 	}
 
 	@Override

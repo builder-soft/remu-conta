@@ -3,9 +3,9 @@ package cl.buildersoft.web.servlet.config.enterprise;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
-import cl.buildersoft.framework.beans.BSAction;
-import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.framework.type.BSActionType;
+import cl.buildersoft.framework.util.crud.BSAction;
+import cl.buildersoft.framework.util.crud.BSActionType;
+import cl.buildersoft.framework.util.crud.BSTableConfig;
 import cl.buildersoft.web.servlet.common.crud.HttpServletCRUD;
 
 /**
@@ -15,7 +15,7 @@ import cl.buildersoft.web.servlet.common.crud.HttpServletCRUD;
 public class EnterpriseManager extends HttpServletCRUD {
 	private static final long serialVersionUID = 1L;
 
-	@Override
+	@Override 
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
 		BSTableConfig table = initTable(request, "tEnterprise");
 
@@ -30,10 +30,9 @@ public class EnterpriseManager extends HttpServletCRUD {
 		table.getField("cMutualFactor").setLabel("Factor Mutual");
 		table.getField("cCompensationFund").setLabel("Caja de compensación");
 
-		hideFields(table, "cRutLegalRep", "cMutual", "cMutualFactor",
-				"cCompensationFund");
-		
-		BSAction enterpriseConfig = new BSAction("Configuration",BSActionType.Record);
+		hideFields(table, "cRutLegalRep", "cMutual", "cMutualFactor", "cCompensationFund");
+
+		BSAction enterpriseConfig = new BSAction("Configuration", BSActionType.Record);
 		enterpriseConfig.setLabel("Configuracion de empresa");
 		enterpriseConfig.setUrl("/servlet/config/enterprise/EnterpriseConfigServlet");
 		table.addAction(enterpriseConfig);

@@ -1,3 +1,5 @@
+<%@page import="cl.buildersoft.framework.dataType.BSDataType"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page import="cl.buildersoft.framework.util.BSDateTimeUtil"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="cl.buildersoft.framework.database.BSmySQL"%>
@@ -7,12 +9,8 @@
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.Format"%>
-<%@page import="cl.buildersoft.framework.type.BSFieldType"%>
-<%@page import="cl.buildersoft.framework.beans.BSField"%>
-<%@page import="cl.buildersoft.framework.beans.BSTableConfig"%>
-<%@page import="java.sql.ResultSet"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%
 	ResultSet rs = (ResultSet) request.getAttribute("Data");
 	Connection conn = (Connection) request.getAttribute("Conn");
@@ -72,7 +70,7 @@
 	<%=table.getTitle()%>
 </h1>
 
-<%@ include file="/WEB-INF/jsp/table/search.jsp"%>
+<%@ include file="/WEB-INF/jsp/table/search2.jsp"%>
 <form method="post"
 	action="${pageContext.request.contextPath}/servlet/common/crud/DeleteRecords"
 	id='frm'>
@@ -201,7 +199,7 @@
 
 			out += "</td>";
 		}
-		BSFieldType type = null;
+		BSDataType type = null;
 		for (BSField field : fields) {
 			type = field.getType();
 

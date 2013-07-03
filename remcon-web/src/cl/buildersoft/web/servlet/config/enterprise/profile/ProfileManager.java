@@ -3,7 +3,7 @@ package cl.buildersoft.web.servlet.config.enterprise.profile;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
-import cl.buildersoft.framework.beans.BSTableConfig;
+import cl.buildersoft.framework.util.crud.BSTableConfig;
 import cl.buildersoft.web.servlet.common.crud.HttpServletCRUD;
 
 /**
@@ -16,14 +16,12 @@ public class ProfileManager extends HttpServletCRUD {
 	@Override
 	protected BSTableConfig getBSTableConfig(HttpServletRequest request) {
 		BSTableConfig table = initTable(request, "tProfile");
-table.setTitle("Perfiles");
-		
-table.getField("cName").setLabel("Nombre");
-table.getField("cCostCenter").setLabel("Centro de Costo");
-table.getField("cCompanyCost").setLabel("Costo Empresa");
-return table;
+		table.setTitle("Perfiles");
+
+		table.getField("cName").setLabel("Nombre");
+		table.getField("cCostCenter").setLabel("Centro de Costo");
+		table.getField("cCompanyCost").setLabel("Costo Empresa");
+		return table;
 	}
-	 
-   
 
 }

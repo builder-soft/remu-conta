@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cl.buildersoft.framework.beans.BSField;
-import cl.buildersoft.framework.beans.BSTableConfig;
+import cl.buildersoft.framework.dataType.BSDataType;
+import cl.buildersoft.framework.dataType.BSDataTypeUtil;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.type.BSData;
 import cl.buildersoft.framework.type.BSFieldDataType;
 import cl.buildersoft.framework.type.BSTypeFactory;
+import cl.buildersoft.framework.util.crud.BSField;
+import cl.buildersoft.framework.util.crud.BSTableConfig;
 import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 
 @WebServlet("/servlet/csv/ConfirmCSV")
@@ -133,8 +135,8 @@ public class ConfirmCSV extends AbstractServletUtil {
 		BSData data = null;
 		for (BSField field : table.deleteId()) {
 			data = row.get(field.getName());
-
-			BSFieldDataType type = BSTypeFactory.create(field);
+ 
+			BSDataType type = BSDataTypeUtil.create(field.toString());
 			Object value = type.parse(conn, data.getValue());
 
 			out.add(value);
@@ -149,7 +151,7 @@ public class ConfirmCSV extends AbstractServletUtil {
 		for (BSField field : table.deleteId()) {
 			// value = new String(field.getValue().toString());
 			valueString = row.get(field.getName()).getValue();
-			BSFieldDataType type = BSTypeFactory.create(field);
+			BSDataType type = BSDataTypeUtil.create(field.toString());
 
 			value = type.parse(conn, valueString);
 

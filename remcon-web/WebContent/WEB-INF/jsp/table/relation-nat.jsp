@@ -1,10 +1,10 @@
 <%@page import="java.sql.Connection"%>
 <%@page import="cl.buildersoft.framework.database.BSmySQL"%>
-<%@page import="cl.buildersoft.framework.beans.BSField"%>
+<%@page import="cl.buildersoft.framework.util.crud.BSField"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.sql.ResultSetMetaData"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="cl.buildersoft.framework.beans.BSTableConfig"%>
+<%@page import="cl.buildersoft.framework.util.crud.BSTableConfig"%>
 <%@page import="java.sql.ResultSet"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 

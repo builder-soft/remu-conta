@@ -17,9 +17,10 @@
 </div>
 
 <div class="row-fluid">
+	<div class="text-center span1 btn">son <%=parentChild.getParentFields().length %></div>
 	<div class="text-center span2 btn">Hola</div>
 	<div class="span1 btn"></div>
-	<div class="text-center span9 btn">Mundo</div>
+	<div class="text-center span8 btn">Mundo</div>
 </div>
 
 

@@ -1,25 +1,28 @@
+<%@page import="cl.buildersoft.framework.dataType.BSDataTypeUtil"%>
+<%@page import="cl.buildersoft.framework.dataType.BSBoolean"%>
+<%@page import="cl.buildersoft.framework.dataType.BSCalendar"%>
+<%@page import="cl.buildersoft.framework.dataType.BSDataType"%>
 <%@page import="java.util.List"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="cl.buildersoft.framework.beans.BSCss"%>
 <%@page import="cl.buildersoft.framework.beans.BSScript"%>
 <%@page import="cl.buildersoft.framework.beans.BSHeadConfig"%>
-<%@page import="cl.buildersoft.framework.type.BSActionType"%>
-<%@page import="cl.buildersoft.framework.beans.BSAction"%>
-<%@page import="cl.buildersoft.framework.beans.BSTableConfig"%>
+<%@page import="cl.buildersoft.framework.util.crud.BSActionType"%>
+<%@page import="cl.buildersoft.framework.util.crud.BSAction"%>
+<%@page import="cl.buildersoft.framework.util.crud.BSTableConfig"%>
 <%@page import="cl.buildersoft.framework.type.BSFieldType"%>
-<%@page import="cl.buildersoft.framework.beans.BSField"%>
+<%@page import="cl.buildersoft.framework.util.crud.BSField"%>
 <%!private String getAlign(BSField field) {
 		String out = " align='left' ";
-		if (field.isTime() || field.getType().equals(BSFieldType.Boolean)
-				|| field.isFK()) {
+		BSDataType type = field.getType();
+		if (type instanceof BSCalendar || type instanceof BSBoolean || field.isFK()) {
 			out = " align='center' ";
-		} else if (field.isNumber()) {
+		} else if (BSDataTypeUtil.isNumber(type)) {
 			out = " align='right' ";
 		}
 		return out;
 	}
 
-	
 	private String capitalize(String s) {
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
 	}

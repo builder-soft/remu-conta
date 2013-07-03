@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
-<%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/menu2.jsp"%>
 
 <h1 class="cTitle">Reporte de reloj control</h1>
 

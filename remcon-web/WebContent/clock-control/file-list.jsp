@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
-<%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/menu2.jsp"%>
 
 <h1 class="cTitle">Lista de archivos</h1>
 <!-- 
@@ -15,7 +15,7 @@ value="<%=BSWeb.formatDouble(request, 1234.567)%>">
 	<tr>
 		<td class='cHeadTD'>Archivo</td>
 		<td class='cHeadTD'>Fecha de carga</td>
-		<td class='cHeadTD'>Tamaño</td>
+		<td class='cHeadTD'>TamaÃ±o</td>
 		<td class='cHeadTD'>Acciones</td>
 	</tr>
 	

@@ -16,8 +16,8 @@ import javax.servlet.http.HttpSession;
 
 import cl.buildersoft.business.service.AgreementService;
 import cl.buildersoft.business.service.impl.AgreementServiceImpl;
-import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
+import cl.buildersoft.framework.util.crud.BSTableConfig;
 
 @WebFilter(urlPatterns = { "/servlet/common/crud/InsertRecord" }, dispatcherTypes = { DispatcherType.REQUEST })
 public class SaveEmployeeFilter implements Filter {

@@ -11,10 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cl.buildersoft.framework.beans.BSField;
-import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.database.BSmySQL;
+import cl.buildersoft.framework.util.BSUtils;
 import cl.buildersoft.framework.util.BSWeb;
+import cl.buildersoft.framework.util.crud.BSField;
+import cl.buildersoft.framework.util.crud.BSTableConfig;
 import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 
 @WebServlet("/servlet/common/crud/InsertRecord")
@@ -62,8 +63,8 @@ public class InsertRecord extends AbstractServletUtil {
 	}
 
 	private String getSQL(BSTableConfig table, BSField[] fields, HttpServletRequest request) {
-		String sql = "INSERT INTO " + table.getDatabase() + "." + table.getTableName();
-		sql += "(" + unSplit(fields, ",") + ") ";
+				String sql = "INSERT INTO " + table.getDatabase() + "." + table.getTableName();
+		sql += "(" + BSUtils.unSplitField(fields, ",") + ") ";
 		sql += " VALUES (" + getCommas(fields) + ")";
 
 		return sql;
