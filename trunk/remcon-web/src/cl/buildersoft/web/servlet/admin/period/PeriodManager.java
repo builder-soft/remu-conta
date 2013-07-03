@@ -4,9 +4,9 @@ import javax.servlet.Servlet;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
-import cl.buildersoft.framework.beans.BSAction;
-import cl.buildersoft.framework.beans.BSTableConfig;
-import cl.buildersoft.framework.type.BSActionType;
+import cl.buildersoft.framework.util.crud.BSAction;
+import cl.buildersoft.framework.util.crud.BSActionType;
+import cl.buildersoft.framework.util.crud.BSTableConfig;
 import cl.buildersoft.web.servlet.common.crud.HttpServletCRUD;
 
 @WebServlet("/servlet/admin/period/PeriodManager")
@@ -24,7 +24,7 @@ public class PeriodManager extends HttpServletCRUD implements Servlet {
 		table.removeAction("DELETE");
 		table.getAction("EDIT").setUrl("/servlet/admin/period/UpdatePeriod");
 		table.addAction(newAction("DUPLICATE", "Duplicar", "/servlet/admin/period/ReadPeriod"));
-//		table.addAction(newAction("DUPLICATE", "Duplicar", "/servlet/ShowParameters"));
+
 		table.addAction(newAction("OPEN", "Abrir", "/servlet/admin/period/OpenPeriod"));
 		table.addAction(newAction("CLOSE", "Cerrar", "/servlet/admin/period/ClosePeriod"));
 

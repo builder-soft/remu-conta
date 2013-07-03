@@ -1,13 +1,13 @@
 
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.Map"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <%@ include file="/WEB-INF/jsp/common/head.jsp"%>
-<%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/menu2.jsp"%>
 
-<h1 class="cTitle">Lista de parámetros</h1>
+<h1 class="cTitle">Lista de parÃ¡metros</h1>
 
 <%
 	Map<Long, Map<String, Object>> data = (Map<Long, Map<String, Object>>) request

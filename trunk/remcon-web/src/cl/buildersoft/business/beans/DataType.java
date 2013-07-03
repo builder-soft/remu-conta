@@ -3,10 +3,6 @@ package cl.buildersoft.business.beans;
 import cl.buildersoft.framework.beans.BSBean;
 
 public class DataType extends BSBean {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -800013110824424952L;
 	private String TABLE="tDataType";
 	private String key = null;

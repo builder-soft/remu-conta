@@ -1,22 +1,25 @@
 package cl.buildersoft.framework.beans.parentChild;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import cl.buildersoft.framework.beans.BSAction;
-import cl.buildersoft.framework.beans.BSField;
+import cl.buildersoft.framework.util.crud.BSAction;
+import cl.buildersoft.framework.util.crud.BSField;
 
 public class BSParentChild {
 	private String dataBase = null;
 	private String parentTable = null;
 	private String childTable = null;
-	private String[] parentFields = null;
-	private Map<String, BSField> parentFieldsMap = null;
-	private String[] childFields = null;
-	private Map<String, BSField> childFieldsMap = null;
+	private String[] parentFields = new String[0];
+	private Map<String, BSField> parentFieldsMap = new HashMap<String, BSField>();
+	private String[] childFields = new String[0];
+	private Map<String, BSField> childFieldsMap = new HashMap<String, BSField>();
 	private String title = null;
 	private String uri = null;
-	private BSAction[] parentActions = null;
-	private BSAction[] childActions = null;
+	private BSAction[] parentActions = new BSAction[0];
+	private BSAction[] childActions = new BSAction[0];
+	private BSField parentPK = null;
+	private BSField childPK = null;
 
 	public BSParentChild(String dataBase, String parentTable, String childTable) {
 		super();
@@ -113,5 +116,20 @@ public class BSParentChild {
 		this.childFields = childFields;
 	}
 
- 
+	public BSField getParentPK() {
+		return parentPK;
+	}
+
+	public void setParentPK(BSField parentPK) {
+		this.parentPK = parentPK;
+	}
+
+	public BSField getChildPK() {
+		return childPK;
+	}
+
+	public void setChildPK(BSField childPK) {
+		this.childPK = childPK;
+	}
+
 }

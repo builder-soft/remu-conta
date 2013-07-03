@@ -3,11 +3,10 @@ package cl.buildersoft.framework.service;
 import java.sql.Connection;
 import java.util.List;
 
-import cl.buildersoft.framework.beans.BSAction;
-import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.parentChild.BSParentChild;
-import cl.buildersoft.framework.database.BSmySQL;
-import cl.buildersoft.framework.type.BSActionType;
+import cl.buildersoft.framework.util.crud.BSAction;
+import cl.buildersoft.framework.util.crud.BSActionType;
+import cl.buildersoft.framework.util.crud.BSField;
 
 public interface BSParentChildService {
 	public void init(Connection conn, BSParentChild parentChild);

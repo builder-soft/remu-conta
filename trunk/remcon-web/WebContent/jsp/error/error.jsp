@@ -1,16 +1,13 @@
 <%@page import="cl.buildersoft.framework.exception.BSSystemException"%>
-<%@page
-	import="cl.buildersoft.framework.exception.BSProgrammerException"%>
+<%@page import="cl.buildersoft.framework.exception.BSProgrammerException"%>
 <%@page import="cl.buildersoft.framework.exception.BSDataBaseException"%>
-<%@page
-	import="cl.buildersoft.framework.exception.BSConfigurationException"%>
+<%@page import="cl.buildersoft.framework.exception.BSConfigurationException"%>
 <%@page import="cl.buildersoft.framework.exception.BSUserException"%>
-<%@page import="cl.buildersoft.framework.exception.BSException"%>
 <%@page import="java.util.Properties"%>
 <%@page import="java.io.InputStream"%>
 <%@page import="java.net.URL"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ page isErrorPage="true" import="java.io.PrintWriter"%>
 
 <%
@@ -31,7 +28,7 @@
 		}
 	} else if (exception instanceof BSConfigurationException) {
 		BSConfigurationException e = (BSConfigurationException) exception;
-		title = "Error de Configuración";
+		title = "Error de ConfiguraciÃ³n";
 		desc = properties.getProperty(e.getCode());
 		if (desc == null) {
 	desc = e.getMessage();
@@ -47,7 +44,7 @@
 
 	} else if (exception instanceof BSProgrammerException) {
 		BSProgrammerException e = (BSProgrammerException) exception;
-		title = "Error de programación";
+		title = "Error de programaciÃ³n";
 		desc = properties.getProperty(e.getCode());
 		if (desc == null) {
 	desc = e.getMessage();
@@ -73,8 +70,8 @@
 	}
 %>
 
-<%@ include file="/WEB-INF/jsp/common/head.jsp"%>
-<%@ include file="/WEB-INF/jsp/common/menu.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/header2.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/menu2.jsp"%>
 <script>
 	var showed = false;
 	function showHideInfo(o) {
@@ -105,4 +102,4 @@
 </div>
 
 
-<%@ include file="/WEB-INF/jsp/common/footer.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/footer2.jsp"%>
