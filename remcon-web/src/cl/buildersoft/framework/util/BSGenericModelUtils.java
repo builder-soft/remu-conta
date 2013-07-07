@@ -38,6 +38,8 @@ public abstract class BSGenericModelUtils {
 			field.setType(BSDataTypeUtil.create(BSDataType.TIMESTAMP));
 		} else if (typeName.equals("DOUBLE")) {
 			field.setType(BSDataTypeUtil.create(BSDataType.DOUBLE));
+		}else if (typeName.equals("DECIMAL")){
+			field.setType(BSDataTypeUtil.create(BSDataType.DECIMAL));
 		} else if (typeName.equals("BIT")) {
 			field.setType(BSDataTypeUtil.create(BSDataType.BOOLEAN));
 		} else if (typeName.equals("INT")) {
