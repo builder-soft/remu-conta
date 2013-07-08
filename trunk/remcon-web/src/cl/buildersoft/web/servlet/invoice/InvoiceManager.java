@@ -14,7 +14,9 @@ public class InvoiceManager extends HttpServletParentChild {
 	protected BSParentChild getBSParentChild(HttpServletRequest request) {
 		BSParentChild invoice = new BSParentChild("remcon", "tParent", "tChild");
 
+		
 		invoice.setTitle("Factura");
+		
 
 		return invoice;
 	}

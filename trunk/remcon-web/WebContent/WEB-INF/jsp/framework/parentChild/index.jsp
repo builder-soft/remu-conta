@@ -10,6 +10,7 @@
 	BSParentChildService service = BSFactory.getParentChildService();
 
 	String[] parentFieldNames = parentChild.getParentFields();
+	String[] childFieldNames = parentChild.getChildFields();
 %>
 
 <%@ include file="/WEB-INF/jsp/common/header2.jsp"%>
@@ -40,8 +41,9 @@
 
 				if (parentName != null) {
 	%>
-	<div class="text-left span4"><label><%=field.getLabel()%>
-	 xxx</label></div>
+	<div class="text-left span4">
+		<label><%=field.getLabel()%>&nbsp;: <%=getFieldInput(field)%></label>
+	</div>
 	<%
 		}
 			}
@@ -50,12 +52,18 @@
 <%
 	}
 %>
-
+<hr>
 <table class="table table-bordered table-striped">
 	<thead>
 		<tr>
 			<td align="center"><input type="CHECKBOX" onclick="javascript:swapAllCheck(this);" id="mainCheck"></td>
-			<td align="left">Llave</td>
+			<%
+				for (i = 0; i < childFieldNames.length; i++) {
+			%>
+			<td align="left"><%=parentChild.getChildFieldsMap().get(childFieldNames[i]).getLabel()%></td>
+			<%
+				}
+			%>
 		</tr>
 	</thead>
 	<tbody>
@@ -68,3 +76,13 @@
 
 <%@ include file="/WEB-INF/jsp/common/footer2.jsp"%>
 
+<%!private String getFieldInput(BSField field) {
+		String out = "<input value='";
+
+		Object value = field.getValue();
+
+		out += value == null ? "" : value.toString();
+		out += "'>";
+
+		return out;
+	}%>

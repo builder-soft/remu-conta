@@ -23,20 +23,31 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 	@Override
 	public void init(Connection conn, BSParentChild parentChild) {
 		configParentFields(conn, parentChild);
+		configChildFields(conn, parentChild);
+	}
 
+	private void configChildFields(Connection conn, BSParentChild parentChild) {
+		String sql = getSQLForReadStruct(parentChild, parentChild.getChildFields());
+		BSmySQL mysql = new BSmySQL();
+		ResultSet resultSet = mysql.queryResultSet(conn, sql, null);
+		configBasic(conn, parentChild, parentChild.getChildFields(), mysql, resultSet, false);
+		mysql.closeSQL(resultSet);
 	}
 
 	private void configParentFields(Connection conn, BSParentChild parentChild) {
-		String sql = getSQLForReadStruct(parentChild);
+		String sql = getSQLForReadStruct(parentChild, parentChild.getParentFields());
 		BSmySQL mysql = new BSmySQL();
 		ResultSet resultSet = mysql.queryResultSet(conn, sql, null);
-		configBasic(conn, parentChild, mysql, resultSet);
-
+		configBasic(conn, parentChild, parentChild.getParentFields(), mysql, resultSet, true);
+		mysql.closeSQL(resultSet);
 	}
 
 	protected void configBasic(Connection conn, BSParentChild parentChild, BSmySQL mysql, ResultSet resultSet) {
-		String[] fields = parentChild.getParentFields();
+		configBasic(conn, parentChild, parentChild.getParentFields(), mysql, resultSet, true);
+	}
 
+	protected void configBasic(Connection conn, BSParentChild parentChild, String[] names, BSmySQL mysql, ResultSet resultSet,
+			Boolean isParent) {
 		ResultSetMetaData metaData;
 		try {
 			metaData = resultSet.getMetaData();
@@ -45,8 +56,7 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 		}
 
 		String name = null;
-
-		if (fields == null || fields.length == 0) {
+		if (names == null || names.length == 0) {
 			Integer n;
 			try {
 				n = metaData.getColumnCount();
@@ -55,18 +65,23 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 			}
 
 			BSField field = null;
-			Boolean hasPK = Boolean.FALSE;
+			Boolean hasPK = false;
 			n++;
 			for (Integer i = 1; i < n; i++) {
 				try {
 					name = metaData.getColumnName(i);
 				} catch (SQLException e) {
-					throw new BSDataBaseException("300", e.getMessage());
+					throw new BSDataBaseException(e);
 				}
 				field = new BSField(name, name.substring(1));
-				this.addParentField(parentChild, field);
-				// addField(parentChild, field);
+				if (isParent) {
+					this.addParentField(parentChild, field);
+				} else {
+					this.addChildField(parentChild, field);
+				}
+
 				configField(conn, parentChild, metaData, name, i, field);
+
 				if (field.isPK() && !hasPK) {
 					hasPK = Boolean.TRUE;
 				}
@@ -78,15 +93,11 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 		} else {
 			Integer i = 1;
 
-			for (String field : fields) {
+			for (String field : names) {
 				configField(conn, parentChild, metaData, name, i, this.getParentField(parentChild, field));
 
 				i++;
 			}
-			/**
-			 * <code>
-			</code>
-			 */
 		}
 	}
 
@@ -137,11 +148,8 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 		return out;
 	}
 
-	private String getSQLForReadStruct(BSParentChild parentChild) {
+	private String getSQLForReadStruct(BSParentChild parentChild, String[] names) {
 		String out = "SELECT ";
-
-		// BSField[] fields = parentChild.getParentFields();
-		String[] names = parentChild.getParentFields();
 
 		if (names == null || names.length == 0) {
 			out += "*";
@@ -188,11 +196,7 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 	public void addParentField(BSParentChild parentChild, BSField field) {
 		Map<String, BSField> parentFieldsMap = parentChild.getParentFieldsMap();
 		String[] parentFields = parentChild.getParentFields();
-		parentFieldsMap.put(field.getName(), field);
-
-		String[] target = new String[parentFields.length + 1];
-		System.arraycopy(parentFields, 0, target, 0, parentFields.length);
-		target[target.length - 1] = field.getName();
+		String[] target = addFieldToArray(field, parentFieldsMap, parentFields);
 		parentChild.setParentFields(target);
 
 	}
@@ -205,8 +209,19 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 
 	@Override
 	public void addChildField(BSParentChild parentChild, BSField field) {
-		// TODO Auto-generated method stub
+		Map<String, BSField> parentFieldsMap = parentChild.getParentFieldsMap();
+		String[] parentFields = parentChild.getParentFields();
+		String[] target = addFieldToArray(field, parentFieldsMap, parentFields);
+		parentChild.setParentFields(target);
 
+	}
+
+	private String[] addFieldToArray(BSField field, Map<String, BSField> fieldsMap, String[] fields) {
+		fieldsMap.put(field.getName(), field);
+		String[] target = new String[fields.length + 1];
+		System.arraycopy(fields, 0, target, 0, fields.length);
+		target[target.length - 1] = field.getName();
+		return target;
 	}
 
 	/*
