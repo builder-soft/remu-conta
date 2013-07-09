@@ -56,7 +56,7 @@
 <table class="table table-bordered table-striped">
 	<thead>
 		<tr>
-			<td align="center"><input type="CHECKBOX" onclick="javascript:swapAllCheck(this);" id="mainCheck"></td>
+			<td align="center"><input type="CHECKBOX"></td>
 			<%
 				for (i = 0; i < childFieldNames.length; i++) {
 			%>
@@ -66,12 +66,14 @@
 			%>
 		</tr>
 	</thead>
+	<!-- 
 	<tbody>
 		<tr>
 			<td align="center" class=""><input type="checkbox" onclick="javascript:swapCheck(this);" value="1" name="cId"></td>
 			<td align="left">Dato</td>
 		</tr>
 	</tbody>
+	 -->
 </table>
 
 <%@ include file="/WEB-INF/jsp/common/footer2.jsp"%>

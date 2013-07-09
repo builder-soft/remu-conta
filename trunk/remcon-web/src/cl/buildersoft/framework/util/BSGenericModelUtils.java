@@ -49,4 +49,17 @@ public abstract class BSGenericModelUtils {
 					+ getClass().getName() + ".setRealType()");
 		}
 	}
+	protected String getSQLForReadStruct(String databaseName, String[] names, String tableName) {
+		String out = "SELECT ";
+
+		if (names == null || names.length == 0) {
+			out += "*";
+		} else {
+			out += BSUtils.unSplitString(names, ",");
+		}
+
+		out += " FROM " + databaseName + "." + tableName;// parentChild.getParentTable();
+		out += " LIMIT 0,1";
+		return out;
+	}
 }
