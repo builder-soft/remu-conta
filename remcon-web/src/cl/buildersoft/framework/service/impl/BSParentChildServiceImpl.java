@@ -14,7 +14,6 @@ import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.framework.service.BSParentChildService;
 import cl.buildersoft.framework.util.BSGenericModelUtils;
-import cl.buildersoft.framework.util.BSUtils;
 import cl.buildersoft.framework.util.crud.BSAction;
 import cl.buildersoft.framework.util.crud.BSActionType;
 import cl.buildersoft.framework.util.crud.BSField;
@@ -27,7 +26,7 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 	}
 
 	private void configChildFields(Connection conn, BSParentChild parentChild) {
-		String sql = getSQLForReadStruct(parentChild, parentChild.getChildFields());
+		String sql = getSQLForReadStruct(parentChild.getDataBase(), parentChild.getChildFields(), parentChild.getChildTable());
 		BSmySQL mysql = new BSmySQL();
 		ResultSet resultSet = mysql.queryResultSet(conn, sql, null);
 		configBasic(conn, parentChild, parentChild.getChildFields(), mysql, resultSet, false);
@@ -35,7 +34,7 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 	}
 
 	private void configParentFields(Connection conn, BSParentChild parentChild) {
-		String sql = getSQLForReadStruct(parentChild, parentChild.getParentFields());
+		String sql = getSQLForReadStruct(parentChild.getDataBase(), parentChild.getParentFields(), parentChild.getParentTable());
 		BSmySQL mysql = new BSmySQL();
 		ResultSet resultSet = mysql.queryResultSet(conn, sql, null);
 		configBasic(conn, parentChild, parentChild.getParentFields(), mysql, resultSet, true);
@@ -80,7 +79,7 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 					this.addChildField(parentChild, field);
 				}
 
-				configField(conn, parentChild, metaData, name, i, field);
+				configField(conn, parentChild, metaData, name, i, field, isParent);
 
 				if (field.isPK() && !hasPK) {
 					hasPK = Boolean.TRUE;
@@ -94,7 +93,7 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 			Integer i = 1;
 
 			for (String field : names) {
-				configField(conn, parentChild, metaData, name, i, this.getParentField(parentChild, field));
+				configField(conn, parentChild, metaData, name, i, this.getParentField(parentChild, field), isParent);
 
 				i++;
 			}
@@ -102,13 +101,13 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 	}
 
 	protected void configField(Connection conn, BSParentChild parentChild, ResultSetMetaData metaData, String name, Integer i,
-			BSField field) {
+			BSField field, Boolean isParent) {
 		try {
 			if (field.getType() == null) {
 				this.setRealType(metaData, i, field);
 			}
 			if (field.isPK() == null) {
-				BSField pk = getPKField(conn, parentChild);
+				BSField pk = getPKField(conn, parentChild, isParent);
 
 				if (pk != null) {
 					field.setPK(pk.getName().equals(name));
@@ -125,15 +124,16 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 
 	}
 
-	private BSField getPKField(Connection conn, BSParentChild parentChild) {
+	private BSField getPKField(Connection conn, BSParentChild parentChild, Boolean isParent) {
 		String fieldName = null;
-		BSField out = parentChild.getParentPK();
+		BSField out = isParent ? parentChild.getParentPK() : parentChild.getChildPK();
 		if (out == null) {
 			DatabaseMetaData dbmd;
 			try {
 				dbmd = (DatabaseMetaData) conn.getMetaData();
 
-				ResultSet rs = dbmd.getPrimaryKeys(parentChild.getDataBase(), null, parentChild.getParentTable());
+				ResultSet rs = dbmd.getPrimaryKeys(parentChild.getDataBase(), null, isParent ? parentChild.getParentTable()
+						: parentChild.getChildTable());
 				while (rs.next()) {
 					fieldName = rs.getString("COLUMN_NAME");
 				}
@@ -141,26 +141,25 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 			} catch (SQLException e) {
 				throw new BSDataBaseException(e);
 			}
-			out = getParentField(parentChild, fieldName);
-			parentChild.setParentPK(out);
+
+			if (isParent) {
+				out = getParentField(parentChild, fieldName);
+				parentChild.setParentPK(out);
+
+			} else {
+				out = getChildField(parentChild, fieldName);
+				parentChild.setChildPK(out);
+			}
 		}
 
 		return out;
 	}
 
-	private String getSQLForReadStruct(BSParentChild parentChild, String[] names) {
-		String out = "SELECT ";
-
-		if (names == null || names.length == 0) {
-			out += "*";
-		} else {
-			out += BSUtils.unSplitString(names, ",");
-		}
-
-		out += " FROM " + parentChild.getDataBase() + "." + parentChild.getParentTable();
-		out += " LIMIT 0,1";
-		return out;
+	private BSField getChildField(BSParentChild parentChild, String fieldName) {
+		return parentChild.getChildFieldsMap().get(fieldName);
 	}
+
+	
 
 	/**
 	 * <code>
@@ -209,10 +208,10 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 
 	@Override
 	public void addChildField(BSParentChild parentChild, BSField field) {
-		Map<String, BSField> parentFieldsMap = parentChild.getParentFieldsMap();
-		String[] parentFields = parentChild.getParentFields();
-		String[] target = addFieldToArray(field, parentFieldsMap, parentFields);
-		parentChild.setParentFields(target);
+		Map<String, BSField> childFieldsMap = parentChild.getChildFieldsMap();
+		String[] childFields = parentChild.getChildFields();
+		String[] target = addFieldToArray(field, childFieldsMap, childFields);
+		parentChild.setChildFields(target);
 
 	}
 
