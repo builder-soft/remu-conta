@@ -23,6 +23,16 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 	public void init(Connection conn, BSParentChild parentChild) {
 		configParentFields(conn, parentChild);
 		configChildFields(conn, parentChild);
+		
+		BSAction action = new BSAction("NEW", BSActionType.Table);
+		action.setLabel("Nuevo");
+		addParentAction(parentChild, action);
+		
+		
+		action = new BSAction("SEARCH", BSActionType.Table);
+		action.setLabel("Buscar");
+		addParentAction(parentChild, action);
+		
 	}
 
 	private void configChildFields(Connection conn, BSParentChild parentChild) {
@@ -159,8 +169,6 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 		return parentChild.getChildFieldsMap().get(fieldName);
 	}
 
-	
-
 	/**
 	 * <code>
 	private String[] fieldsToNames(BSField[] fields) {
@@ -188,7 +196,22 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 
 	@Override
 	public void addParentAction(BSParentChild parentChild, BSAction action) {
+		BSAction[] actions = parentChild.getParentActions();
+		actions = addActionToArray(actions, action);
+		parentChild.setParentActions(actions);
+	}
 
+	@Override
+	public void addChildAction(BSParentChild parentChild, BSAction action) {
+
+	}
+
+	private BSAction[] addActionToArray(BSAction[] actions, BSAction action) {
+		BSAction[] target = new BSAction[actions.length + 1];
+		System.arraycopy(actions, 0, target, 0, actions.length);
+		target[target.length - 1] = action;
+//		actions = target;
+		return target;
 	}
 
 	@Override
@@ -197,13 +220,6 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 		String[] parentFields = parentChild.getParentFields();
 		String[] target = addFieldToArray(field, parentFieldsMap, parentFields);
 		parentChild.setParentFields(target);
-
-	}
-
-	@Override
-	public void addChildAction(BSParentChild parentChild, BSAction action) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -223,22 +239,24 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 		return target;
 	}
 
-	/*
+	/**
 	 * @Override public void configParentFields(Connection conn, BSParentChild
-	 * parentChild, BSmySQL mysql) { // TODO Auto-generated method stub }
+	 *           parentChild, BSmySQL mysql) { // TODO Auto-generated method
+	 *           stub }
 	 * 
 	 * @Override public void configChildFields(Connection conn, BSParentChild
-	 * parentChild, BSmySQL mysql) { // TODO Auto-generated method stub }
+	 *           parentChild, BSmySQL mysql) { // TODO Auto-generated method
+	 *           stub }
 	 */
 	@Override
 	public List<BSField> removeIdField(BSParentChild parentChild) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public List<BSAction> getParentActionsByType(BSParentChild parentChild, BSActionType type) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 

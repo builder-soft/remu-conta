@@ -1,3 +1,4 @@
+<%@page import="cl.buildersoft.framework.util.crud.BSAction"%>
 <%@page import="cl.buildersoft.framework.util.BSFactory"%>
 <%@page import="cl.buildersoft.framework.service.BSParentChildService"%>
 <%@page import="cl.buildersoft.framework.util.crud.BSField"%>
@@ -11,6 +12,7 @@
 
 	String[] parentFieldNames = parentChild.getParentFields();
 	String[] childFieldNames = parentChild.getChildFields();
+	BSAction[] parentActions = parentChild.getParentActions();
 %>
 
 <%@ include file="/WEB-INF/jsp/common/header2.jsp"%>
@@ -52,7 +54,22 @@
 <%
 	}
 %>
+
+<div class="row-fluid">
+	<%
+		int spanLen = (int) Math.ceil(6 / parentActions.length);
+		for (BSAction action : parentActions) {
+	%>
+	<div class="span<%=spanLen%>">
+		<button type="button" class="btn btn-block">
+			<%=action.getLabel()%></button>
+	</div>
+	<%
+		}
+	%>
+</div>
 <hr>
+
 <table class="table table-bordered table-striped">
 	<thead>
 		<tr>
