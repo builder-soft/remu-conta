@@ -33,6 +33,8 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 		action.setLabel("Buscar");
 		addParentAction(parentChild, action);
 		
+Map<String, BSField> fields = parentChild.getParentFieldsMap();
+		
 	}
 
 	private void configChildFields(Connection conn, BSParentChild parentChild) {
