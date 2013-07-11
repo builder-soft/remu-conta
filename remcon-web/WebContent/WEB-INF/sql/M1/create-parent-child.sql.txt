@@ -4,12 +4,15 @@ hasta la recepción de los productos, pasando por la solicitud de pago, bodega, 
 
 Tablas (Facturas / Ordenes de compra)
 */
-CREATE TABLE IF NOT EXISTS tParent (
+DROP TABLE IF EXISTS tChild;
+DROP TABLE IF EXISTS tParent;
+
+CREATE TABLE tParent (
 	cId				BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	cDate			DATE	NOT NULL COMMENT '',
 	cCustomer		BIGINT	NULL COMMENT '',
 	cBranch			BIGINT	NULL COMMENT '',
-	cPaymentMethod	BIGINT	NULL COMMENT '',
+	cPaymentType	BIGINT	NULL COMMENT '',
 	cTax			DECIMAL(20,4)	COMMENT '',
 	cDiscount		DECIMAL(20,4)	COMMENT '',
 	cComment		LONGTEXT	NULL COMMENT ''
@@ -26,6 +29,11 @@ CREATE TABLE IF NOT EXISTS tChild (
 ALTER TABLE tChild
 ADD INDEX Child_index_Parent (cParent ASC),
 ADD CONSTRAINT tChildToParent FOREIGN KEY (cParent) REFERENCES tParent(cId);
+
+ALTER TABLE tParent
+ADD INDEX parent_index_PaymentType (cPaymentType ASC),
+ADD CONSTRAINT tParentToPaymentType FOREIGN KEY (cPaymentType) REFERENCES tPaymentType(cId);
+
 
 /**
 tParent
