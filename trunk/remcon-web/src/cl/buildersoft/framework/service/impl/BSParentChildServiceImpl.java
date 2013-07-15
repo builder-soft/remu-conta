@@ -26,6 +26,7 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 		
 		BSAction action = new BSAction("NEW", BSActionType.Table);
 		action.setLabel("Nuevo");
+		action.setFunction("newParent");
 		addParentAction(parentChild, action);
 		
 		

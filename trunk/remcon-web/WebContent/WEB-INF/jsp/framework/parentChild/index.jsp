@@ -1,3 +1,5 @@
+<%@page import="cl.buildersoft.framework.dataType.BSDataTypeUtil"%>
+<%@page import="cl.buildersoft.framework.dataType.BSDataType"%>
 <%@page import="cl.buildersoft.framework.util.crud.BSAction"%>
 <%@page import="cl.buildersoft.framework.util.BSFactory"%>
 <%@page import="cl.buildersoft.framework.service.BSParentChildService"%>
@@ -24,7 +26,6 @@
 		<h1><%=parentChild.getTitle()%></h1>
 	</div>
 </div>
-
 
 <%
 	int n = (int) Math.ceil(parentFieldNames.length / 3.0);
@@ -55,13 +56,16 @@
 	}
 %>
 
+
+
 <div class="row-fluid">
 	<%
 		int spanLen = (int) Math.ceil(6 / parentActions.length);
 		for (BSAction action : parentActions) {
 	%>
 	<div class="span<%=spanLen%>">
-		<button type="button" class="btn btn-block">
+		<button type="button" class="btn btn-block" <%if (action.getFunction() != null) {%>
+			onclick="javascript:try{<%=action.getFunction()%>();}catch(e){alert(e);}" <%}%>>
 			<%=action.getLabel()%></button>
 	</div>
 	<%
@@ -69,21 +73,32 @@
 	%>
 </div>
 <hr>
+<!-- CHILD TABLE FROM HERE -->
 
-<table class="table table-bordered table-striped">
-	<thead>
-		<tr>
-			<td align="center"><input type="CHECKBOX"></td>
-			<%
-				for (i = 0; i < childFieldNames.length; i++) {
-			%>
-			<td align="left"><%=parentChild.getChildFieldsMap().get(childFieldNames[i]).getLabel()%></td>
-			<%
-				}
-			%>
-		</tr>
-	</thead>
-	<!-- 
+
+<div class="row-fluid">
+	<div class="span12">
+		<h2><%=parentChild.getTitleChild()%></h2>
+	</div>
+</div>
+
+
+<div class="row-fluid">
+	<div class="span12">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<td align="center"><input type="CHECKBOX"></td>
+					<%
+						for (i = 0; i < childFieldNames.length; i++) {
+					%>
+					<td align="left"><%=parentChild.getChildFieldsMap().get(childFieldNames[i]).getLabel()%></td>
+					<%
+						}
+					%>
+				</tr>
+			</thead>
+			<!-- 
 	<tbody>
 		<tr>
 			<td align="center" class=""><input type="checkbox" onclick="javascript:swapCheck(this);" value="1" name="cId"></td>
@@ -91,17 +106,36 @@
 		</tr>
 	</tbody>
 	 -->
-</table>
-
+		</table>
+	</div>
+</div>
 <%@ include file="/WEB-INF/jsp/common/footer2.jsp"%>
 
+<script src="${pageContext.request.contextPath}/js/framework/parent-child/index.js?<%=Math.random() %>"></script>
+
+
 <%!private String getFieldInput(BSField field) {
-		String out = "<input value='";
+		//BSDataType type = field.getType();
+		String out = "";
+		if (field.getFKInfo() == null) {
+			out = "<input " + getNameInput(field) + " value='";
 
-		Object value = field.getValue();
+			Object value = field.getValue();
 
-		out += value == null ? "" : value.toString();
-		out += "'>";
-
+			out += value == null ? "" : value.toString();
+			out += "'>";
+		} else {
+			out += "<select " + getNameInput(field) + ">";
+			List<Object[]> dataList = field.getFKData();
+			out += "<option vaue=''>- Seleccione opción -</option>";
+			for (Object[] dataRow : dataList) {
+				out += "<option vaue='" + dataRow[0] + "'>" + dataRow[1] + "</option>";
+			}
+			out += "</select>";
+		}
 		return out;
+	}
+
+	private String getNameInput(BSField field) {
+		return " id='" + field.getName() + "' name='" + field.getName() + "' ";
 	}%>

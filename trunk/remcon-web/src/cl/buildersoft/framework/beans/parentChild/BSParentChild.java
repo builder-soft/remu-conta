@@ -15,6 +15,7 @@ public class BSParentChild {
 	private String[] childFields = new String[0];
 	private Map<String, BSField> childFieldsMap = new HashMap<String, BSField>();
 	private String title = null;
+	private String titleChild = "Items";
 	private String uri = null;
 	private BSAction[] parentActions = new BSAction[0];
 	private BSAction[] childActions = new BSAction[0];
@@ -130,6 +131,14 @@ public class BSParentChild {
 
 	public void setChildPK(BSField childPK) {
 		this.childPK = childPK;
+	}
+
+	public String getTitleChild() {
+		return titleChild;
+	}
+
+	public void setTitleChild(String titleChild) {
+		this.titleChild = titleChild;
 	}
 
 }
