@@ -33,7 +33,7 @@
 
 <script>
 	var contextPath = "${pageContext.request.contextPath}";
-	var speed = "fast";// "slow";
+	var speed = "slow";// "slow", "fast";
 </script>
 </head>
 <body>

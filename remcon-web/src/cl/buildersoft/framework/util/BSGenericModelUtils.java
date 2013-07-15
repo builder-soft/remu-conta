@@ -99,7 +99,6 @@ public abstract class BSGenericModelUtils {
 					field.setFkData(mysql.resultSet2Matrix(mysql.queryResultSet(conn, sql, null)));
 				}
 			}
-
 		}
 		/**
 		 * <code>
@@ -167,7 +166,6 @@ public abstract class BSGenericModelUtils {
 				throw new BSDataBaseException(e);
 			}
 		}
-
 		return out;
 	}
 
@@ -176,7 +174,7 @@ public abstract class BSGenericModelUtils {
 		String table = "t" + fieldName.substring(1);
 		String view = "";
 		Set<String> set = listTableNames(conn, database);
-		if (!set.contains(table)) {
+		if (!set.contains(table.toLowerCase())) {
 			view = "v" + fieldName.substring(1);
 
 			if (set.contains(view)) {
