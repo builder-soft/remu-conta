@@ -259,6 +259,7 @@ for (BSField field : fields) {
 		return out;
 	}
 
+	@Deprecated
 	private String getFKSelect(BSField field) {
 		String name = field.getName();
 		Object value = field.getValue();
@@ -275,4 +276,6 @@ for (BSField field : fields) {
 		}
 		out += "</select>";
 		return out;
-	}%>
+	}
+
+	%>

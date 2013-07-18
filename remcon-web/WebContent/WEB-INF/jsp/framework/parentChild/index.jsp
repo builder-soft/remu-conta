@@ -20,6 +20,8 @@
 <%@ include file="/WEB-INF/jsp/common/header2.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu2.jsp"%>
 
+<%@ include file="/WEB-INF/jsp/framework/functions.jsp"%>
+
 
 <div class="row-fluid">
 	<div class="span12">
@@ -45,7 +47,7 @@
 				if (parentName != null) {
 	%>
 	<div class="text-left span4">
-		<label><%=field.getLabel()%>&nbsp;: <%=getFieldInput(field)%></label>
+		<label><%=field.getLabel()%>&nbsp;: <%=getFieldInput(field, request)%></label>
 	</div>
 	<%
 		}
@@ -114,17 +116,21 @@
 <script src="${pageContext.request.contextPath}/js/framework/parent-child/index.js?<%=Math.random() %>"></script>
 
 
-<%!private String getFieldInput(BSField field) {
+<%!private String getFieldInput(BSField field, HttpServletRequest request) {
 		//BSDataType type = field.getType();
 		String out = "";
 		if (field.getFKInfo() == null) {
+			out = writeHTMLField(field, request);
+			
+			/**
 			out = "<input " + getNameInput(field) + " value='";
-
-			Object value = field.getValue();
-
+			Object value = field.toString();
 			out += value == null ? "" : value.toString();
 			out += "'>";
+			*/
 		} else {
+			out += getFKSelect(field, true);
+/**			
 			out += "<select " + getNameInput(field) + ">";
 			List<Object[]> dataList = field.getFKData();
 			out += "<option vaue=''>- Seleccione opción -</option>";
@@ -132,6 +138,7 @@
 				out += "<option vaue='" + dataRow[0] + "'>" + dataRow[1] + "</option>";
 			}
 			out += "</select>";
+			*/
 		}
 		return out;
 	}
