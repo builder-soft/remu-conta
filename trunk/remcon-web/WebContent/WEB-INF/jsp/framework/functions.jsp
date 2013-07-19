@@ -76,6 +76,7 @@
 				value = BSDateTimeUtil.date2String(value, format);
 				size = maxlength;
 				afterInput = "(" + format + ")";
+				htmlType = "date";
 
 			} else if (type instanceof BSTimestamp) {
 				maxlength = 16;
@@ -83,6 +84,8 @@
 				value = BSDateTimeUtil.date2String(value, format);
 				size = maxlength;
 				afterInput = "(" + format + ")";
+				htmlType = "datetime";
+				
 			} else if (type instanceof BSDouble || type instanceof BSDecimal) {
 				maxlength = 15;
 				//					format = BSWeb.getFormatDecimal(request);

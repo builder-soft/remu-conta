@@ -20,6 +20,8 @@
 <%@ include file="/WEB-INF/jsp/common/header2.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu2.jsp"%>
 
+
+
 <%@ include file="/WEB-INF/jsp/framework/functions.jsp"%>
 
 
