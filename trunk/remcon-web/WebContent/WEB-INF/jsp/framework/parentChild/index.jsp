@@ -31,6 +31,7 @@
 	</div>
 </div>
 
+<form id='parentForm'>
 <%
 	int n = (int) Math.ceil(parentFieldNames.length / 3.0);
 	int i = 0;
@@ -59,7 +60,7 @@
 <%
 	}
 %>
-
+</form>
 
 
 <div class="row-fluid">
