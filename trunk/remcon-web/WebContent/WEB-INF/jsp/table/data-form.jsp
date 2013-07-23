@@ -221,7 +221,7 @@ for (BSField field : fields) {
 		String out = "";
 
 		if (isPk) {
-			out += "<label>" + value + "</label>";
+			out += value;
 			type = isPk ? "hidden" : type;
 		}
 
@@ -240,7 +240,7 @@ for (BSField field : fields) {
 			out += "onBlur='javascript:" + validationOnBlur + "(this)'";
 		}
 
-		out += ">&nbsp;<label>" + afterInput + "</label>";
+		out += ">&nbsp;" + afterInput;
 
 		return out;
 	}
