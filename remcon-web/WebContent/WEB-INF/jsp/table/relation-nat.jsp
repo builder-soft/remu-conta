@@ -70,7 +70,7 @@ action="${pageContext.request.contextPath}/servlet/table/SaveRelation"
 			<td style="width: 10%" align="center"><button type="button"
 				 onclick="javascript:add();" style="width: 100%">-></button><br>
 				<br> <br> <button type="button" 
-				onclick="javascript:remove();" style="width: 100%"><-</button></td>
+				onclick="javascript:remove_option();" style="width: 100%"><-</button></td>
 
 			<td style="width: 30%" align="center"><span class="cLabel"
 				align="center">Seleccionados</span><br> <select name="Relation"
