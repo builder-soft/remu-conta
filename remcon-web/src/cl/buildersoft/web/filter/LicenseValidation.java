@@ -52,7 +52,13 @@ public class LicenseValidation implements Filter {
 			Boolean success = true;
 			try {
 				license = new BSSecurity().decript3des(license);
-				String hostName = request.getLocalName();
+
+				String hostName = request.getRequestURL().toString();
+//				hostName = "http://localhost/asinomaslacosa";
+				hostName = getServerName(hostName); // request.getLocalName();
+//				System.out.println(hostName);
+
+				// System.out.println(request.getRequestURL());
 				if (!hostName.equalsIgnoreCase("localhost")) {
 					success = hostName.equalsIgnoreCase(license);
 				}
@@ -70,6 +76,21 @@ public class LicenseValidation implements Filter {
 		} else {
 			request.getRequestDispatcher(failUrl).forward(request, response);
 		}
+	}
+
+	private String getServerName(String url) {
+		// https://localhost:8080/remcon-web/...
+		Integer start = url.indexOf("//");
+		Integer twoPoints = url.indexOf(":", start + 2);
+		Integer slash = url.indexOf("/", start + 2);
+		String out = null;
+
+		if (twoPoints < 0) {
+			out = url.substring(start + 2, slash);
+		} else {
+			out = url.substring(start + 2, twoPoints);
+		}
+		return out;
 	}
 
 	private boolean validateLicense(String license) {

@@ -68,7 +68,7 @@ action="${pageContext.request.contextPath}/servlet/common/crud/SaveRelation"
 					class="icon-chevron-right"></i></a> <!-- 
 			<button type="button"
 					onclick="javascript:add();" style="width: 100%">-></button>
-					 --> <br> <br> <br> <a class="btn" href="#" onclick="javascript:remove();"><i class="icon-chevron-left"></i></a>
+					 --> <br> <br> <br> <a class="btn" href="#" onclick="javascript:remove_option();"><i class="icon-chevron-left"></i></a>
 
 				<!-- 
 				<i class="icon-chevron-left" onclick="javascript:remove();"/>
