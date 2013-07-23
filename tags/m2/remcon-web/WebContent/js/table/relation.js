@@ -3,7 +3,7 @@ function add() {
 	return;
 }
 
-function remove() {
+function remove_option() {
 	moveElement("right", "left");
 	return;
 }
