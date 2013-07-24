@@ -20,7 +20,11 @@
 <%@ include file="/WEB-INF/jsp/common/header2.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/menu2.jsp"%>
 
-
+<script type="text/javascript">
+<!--
+var parentFieldNames = {};
+//-->
+</script>
 
 <%@ include file="/WEB-INF/jsp/framework/functions.jsp"%>
 
@@ -35,6 +39,7 @@
 <%
 	int n = (int) Math.ceil(parentFieldNames.length / 3.0);
 	int i = 0;
+	int index=0;
 	for (int row = 0; row < n; row++) {
 %>
 <div class="row-fluid">
@@ -51,6 +56,7 @@
 	%>
 	<div class="text-left span4">
 		<label><%=field.getLabel()%>&nbsp;: <%=getFieldInput(field, request)%></label>
+		<script type="text/javascript">parentFieldNames[<%=index++%>] = "<%=field.getName()%>";</script>
 	</div>
 	<%
 		}
