@@ -18,7 +18,7 @@
 		Object value = field.getValue();
 
 		String out = "<select name='";
-		out += name + "'>";
+		out += name + "' id='" + name + "'>";
 		List<Object[]> data = field.getFKData();
 		if (addEmptyOpction) {
 			out += "<option vaue=''>- Seleccione alternativa -</option>";
@@ -85,7 +85,7 @@
 				size = maxlength;
 				afterInput = "(" + format + ")";
 				htmlType = "datetime";
-				
+
 			} else if (type instanceof BSDouble || type instanceof BSDecimal) {
 				maxlength = 15;
 				//					format = BSWeb.getFormatDecimal(request);
