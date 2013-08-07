@@ -29,7 +29,7 @@ BSField[] fields = table.getFields();
 		BSScript script = head.getScript();
 		BSCss css = head.getCss();
 		for (String oneScript : script.getListScriptNames()) {
-	out.print("<script src='" + request.getContextPath() + script.getPath() + oneScript + ".js'></script>");
+			out.print("<script src='" + request.getContextPath() + script.getPath() + oneScript + ".js'></script>");
 		}
 /**
 		for (String oneCss : css.getListCssNames()) {
