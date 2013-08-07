@@ -131,7 +131,7 @@ function severalValidationsAndSubmit(elements, formId) {
 	var type = null;
 	var value = null;
 	var isValid = true;
-	for ( var i in elements) {
+	for (var i in elements) {
 		name = elements[i].name;
 		type = elements[i].type;
 
