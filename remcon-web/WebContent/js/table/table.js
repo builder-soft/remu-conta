@@ -1,4 +1,4 @@
-function swapAllCheck(obj) { 
+function swapAllCheck(obj) {
 	var elements = $('input:checkbox');
 	elements.each(swap);
 
@@ -11,9 +11,8 @@ function swapCheck(obj) {
 
 function verifyButtons() {
 	var elementsSelected = $("input:checked");
-	
-	if (elementsSelected.size() == 1
-			&& 'mainCheck' == elementsSelected.get(0).id) {
+
+	if (elementsSelected.size() == 1 && 'mainCheck' == elementsSelected.get(0).id) {
 		$("#MultirecordActions").fadeOut(speed);
 		$("#RecordActions").fadeOut(speed);
 	} else {
@@ -44,8 +43,7 @@ function fDelete() {
 	var count = elements.size();
 
 	var elementoString = elements.size() == 1 ? ' elemento' : ' elementos';
-	if (confirm('¿Esta seguro de querer borrar ' + elements.size()
-			+ elementoString + '?')) {
+	if (confirm('¿Esta seguro de querer borrar ' + elements.size() + elementoString + '?')) {
 		$('#frm').submit();
 	}
 }
