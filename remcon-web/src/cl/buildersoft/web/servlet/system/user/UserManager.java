@@ -4,12 +4,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import cl.buildersoft.framework.beans.BSAction;
+import cl.buildersoft.framework.beans.BSField;
+import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.beans.Domain;
 import cl.buildersoft.framework.beans.User;
-import cl.buildersoft.framework.util.crud.BSAction;
-import cl.buildersoft.framework.util.crud.BSActionType;
-import cl.buildersoft.framework.util.crud.BSField;
-import cl.buildersoft.framework.util.crud.BSTableConfig;
+import cl.buildersoft.framework.type.BSActionType;
 import cl.buildersoft.web.servlet.common.crud.HttpServletCRUD;
 
 /**

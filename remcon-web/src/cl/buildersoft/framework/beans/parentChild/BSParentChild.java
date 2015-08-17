@@ -3,8 +3,9 @@ package cl.buildersoft.framework.beans.parentChild;
 import java.util.HashMap;
 import java.util.Map;
 
-import cl.buildersoft.framework.util.crud.BSAction;
-import cl.buildersoft.framework.util.crud.BSField;
+import cl.buildersoft.framework.beans.BSAction;
+import cl.buildersoft.framework.beans.BSField;
+ 
 
 public class BSParentChild {
 	private String dataBase = null;

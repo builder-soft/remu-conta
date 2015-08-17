@@ -10,12 +10,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.dataType.BSDataType;
 import cl.buildersoft.framework.dataType.BSDataTypeUtil;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.exception.BSProgrammerException;
-import cl.buildersoft.framework.util.crud.BSField;
 
 public abstract class BSGenericModelUtils {
 	protected void setRealType(ResultSetMetaData metaData, Integer i, BSField field) {

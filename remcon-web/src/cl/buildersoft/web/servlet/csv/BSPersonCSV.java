@@ -2,7 +2,7 @@ package cl.buildersoft.web.servlet.csv;
 
 import javax.servlet.annotation.WebServlet;
 
-import cl.buildersoft.framework.util.crud.BSTableConfig;
+import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.web.servlet.BSCSVServlet;
 
 @WebServlet("/servlet/csv/Upload")

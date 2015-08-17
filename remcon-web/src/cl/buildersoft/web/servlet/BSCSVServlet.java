@@ -20,15 +20,15 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import cl.buildersoft.framework.beans.BSField;
+import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.framework.dataType.BSDataType;
 import cl.buildersoft.framework.dataType.BSDataTypeUtil;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSSystemException;
 import cl.buildersoft.framework.exception.BSUserException;
-import cl.buildersoft.framework.type.BSData;  
+import cl.buildersoft.framework.type.BSData;
 import cl.buildersoft.framework.util.BSConfig;
-import cl.buildersoft.framework.util.crud.BSField;
-import cl.buildersoft.framework.util.crud.BSTableConfig;
 import cl.buildersoft.web.servlet.common.AbstractServletUtil;
 import cl.buildersoft.web.servlet.csv.CsvReader;
 
@@ -93,7 +93,7 @@ public abstract class BSCSVServlet extends AbstractServletUtil {
 
 				Integer rightCount = compareDataType(conn, table.deleteIdMap(), allData);
 				mysql.closeConnection(conn);
-				
+
 				HttpSession session = request.getSession();
 				request.setAttribute("Headers", headers);
 				request.setAttribute("RightCount", rightCount);

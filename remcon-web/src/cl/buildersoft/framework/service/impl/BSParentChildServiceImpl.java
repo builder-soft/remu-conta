@@ -8,15 +8,15 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import cl.buildersoft.framework.beans.BSAction;
+import cl.buildersoft.framework.beans.BSField;
 import cl.buildersoft.framework.beans.parentChild.BSParentChild;
 import cl.buildersoft.framework.database.BSmySQL;
 import cl.buildersoft.framework.exception.BSDataBaseException;
 import cl.buildersoft.framework.exception.BSProgrammerException;
 import cl.buildersoft.framework.service.BSParentChildService;
+import cl.buildersoft.framework.type.BSActionType;
 import cl.buildersoft.framework.util.BSGenericModelUtils;
-import cl.buildersoft.framework.util.crud.BSAction;
-import cl.buildersoft.framework.util.crud.BSActionType;
-import cl.buildersoft.framework.util.crud.BSField;
 
 public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSParentChildService {
 	@Override
@@ -26,7 +26,7 @@ public class BSParentChildServiceImpl extends BSGenericModelUtils implements BSP
 		
 		BSAction action = new BSAction("NEW", BSActionType.Table);
 		action.setLabel("Nuevo");
-		action.setFunction("newParent");
+//		action.setFunction("newParent");
 		addParentAction(parentChild, action);
 		
 		

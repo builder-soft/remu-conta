@@ -3,7 +3,7 @@ package cl.buildersoft.web.servlet.remu;
 import javax.servlet.Servlet;
 import javax.servlet.annotation.WebServlet;
 
-import cl.buildersoft.framework.util.crud.BSTableConfig;
+import cl.buildersoft.framework.beans.BSTableConfig;
 import cl.buildersoft.web.servlet.csv.DownloadCSVServlet;
 
 @WebServlet("/servlet/admin/PersonCSV")
